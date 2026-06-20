@@ -835,7 +835,9 @@ function SettlementsScreen(p: any) {
   const toggle = (id: string) => setSelected(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
+  const [settledAmount, setSettledAmount] = useState(0);
   const confirm = () => {
+    setSettledAmount(net);
     p.setInvoices((arr: Invoice[]) => arr.map(i => {
       if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
         const collectedAmt = i.collectedByCourier ?? 0;
@@ -852,9 +854,9 @@ function SettlementsScreen(p: any) {
         <TopBar title="تسوية" onBack={() => { setDone(false); p.back(); }} />
         <div className="p-6 flex flex-col items-center text-center gap-3">
           <div className="w-16 h-16 rounded-full bg-success-soft flex items-center justify-center"><CheckCircle2 className="w-8 h-8 text-success" /></div>
-          <div className="text-lg font-bold">تمت التسوية</div>
-          <div className="text-sm text-muted-foreground">دخل <Money v={net} className="text-success font-bold" /> إلى المحصّل فعلًا</div>
-          <button onClick={() => { setDone(false); p.back(); }} className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">تم</button>
+          <div className="text-lg font-bold">✓ تمت التسوية</div>
+          <div className="text-sm text-muted-foreground">دخل <Money v={settledAmount} className="text-success font-bold" /> إلى المحصّل فعلًا</div>
+          <button onClick={() => { setDone(false); setSettledAmount(0); p.back(); }} className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">تم</button>
         </div>
       </>
     );
@@ -1057,6 +1059,7 @@ type CartItem = { productId: string; qty: number };
 function SaleScreen(p: any) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [q, setQ] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [paySheet, setPaySheet] = useState(false);
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
 
@@ -1083,18 +1086,33 @@ function SaleScreen(p: any) {
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <TopBar title="فاتورة جديدة" onBack={p.back} right={
-        <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
-      } />
-      <div className="px-4 pt-3 pb-3 sticky top-[57px] bg-background z-20">
+    <div className="min-h-[100dvh] bg-background flex flex-col">
+      {!searchFocused && (
+        <TopBar title="فاتورة جديدة" onBack={p.back} right={
+          <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
+        } />
+      )}
+      <div className={`px-4 pt-3 pb-3 sticky bg-background z-20 ${searchFocused ? "top-0" : "top-[57px]"}`}>
         <div className="relative">
           <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث عن منتج" className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm" />
+          <input
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            placeholder="ابحث عن منتج"
+            className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm"
+          />
+          {searchFocused && q && (
+            <button onMouseDown={(e) => { e.preventDefault(); setQ(""); }} className="absolute left-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-muted">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="px-4 grid grid-cols-2 gap-2 flex-1">
+
+      <div className={`px-4 grid grid-cols-2 gap-2 flex-1 ${searchFocused ? "pb-80" : "pb-4"}`}>
         {filtered.map((pr: Product) => {
           const out = pr.stock === 0;
           return (
@@ -1189,6 +1207,7 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
   const [method, setMethod] = useState<"cash" | "transfer">("cash");
   const [pickCustomer, setPickCustomer] = useState(false);
   const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
 
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
@@ -1197,7 +1216,14 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
   const needsCourier = delivery === "courier";
   const canSave = subtotal > 0 && !overpaid && (!needsCustomer || !!customerId) && (!needsCourier || !!courierId);
 
-  const dup = customers.find((c: Customer) => c.name === newName);
+  const trimmedName = newName.trim();
+  const trimmedPhone = newPhone.trim();
+  const dup = (trimmedName || trimmedPhone)
+    ? customers.find((c: Customer) =>
+        (trimmedName && c.name.trim() === trimmedName) ||
+        (trimmedPhone && c.phone && c.phone.trim() === trimmedPhone)
+      )
+    : undefined;
 
   return (
     <Sheet onClose={onClose} title="الدفع">
@@ -1268,20 +1294,21 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
           </div>
         </div>
 
-        <button disabled={!canSave} onClick={() => onSave({ paid, customerId, delivery, courierId, method })} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
+        <button disabled={!canSave} onClick={() => { if (!canSave || overpaid || paid > subtotal) return; onSave({ paid, customerId, delivery, courierId, method }); }} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
       </div>
 
       {pickCustomer && (
         <Sheet onClose={() => setPickCustomer(false)} title="اختر عميلًا">
           <div className="space-y-3">
             <div>
-              <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="إضافة سريعة باسم العميل" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
-              {dup && <div className="text-[11px] text-warn mt-1">⚠ يوجد عميل بنفس الاسم</div>}
-              {newName && (
+              <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="اسم العميل (إلزامي)" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
+              <input value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="رقم الهاتف (اختياري)" inputMode="tel" className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" />
+              {dup && <div className="text-[11px] text-warn mt-1">⚠ يوجد عميل بنفس {dup.name.trim() === trimmedName ? "الاسم" : "الرقم"}: {dup.name}</div>}
+              {trimmedName && (
                 <button onClick={() => {
                   const id = "c" + Date.now();
-                  setCustomers((arr: Customer[]) => [...arr, { id, name: newName }]);
-                  setCustomerId(id); setNewName(""); setPickCustomer(false);
+                  setCustomers((arr: Customer[]) => [...arr, { id, name: trimmedName, phone: trimmedPhone || undefined }]);
+                  setCustomerId(id); setNewName(""); setNewPhone(""); setPickCustomer(false);
                 }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">إضافة وحفظ</button>
               )}
             </div>

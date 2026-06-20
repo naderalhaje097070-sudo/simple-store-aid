@@ -39,6 +39,17 @@ type Invoice = {
   time: string;
 };
 type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+type Payment = {
+  id: string;
+  kind: "sale" | "debt_collection" | "settlement";
+  method: "cash" | "transfer" | "settlement";
+  amount: number;
+  invoiceId?: string;
+  invoiceNumber?: string;
+  customerId?: string;
+  courierId?: string;
+  time: string;
+};
 
 const seedProducts: Product[] = [
   { id: "p1", name: "زيت زيتون 1 لتر", price: 25, cost: 18, stock: 24, lowAt: 5 },
@@ -80,6 +91,13 @@ const seedExpenses: Expense[] = [
   { id: "e2", type: "إنترنت", amount: 20, method: "transfer", time: "09:00" },
 ];
 
+const seedPayments: Payment[] = [
+  // matches i1 — direct full sale, cash
+  { id: "pay1", kind: "sale", method: "cash", amount: 50, invoiceId: "i1", invoiceNumber: "1041", time: "09:14" },
+  // matches i2 — direct partial sale, transfer
+  { id: "pay2", kind: "sale", method: "transfer", amount: 20, invoiceId: "i2", invoiceNumber: "1042", customerId: "c1", time: "10:30" },
+];
+
 /* ============================== HELPERS ============================== */
 
 const fmt = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Math.round(n));
@@ -101,6 +119,7 @@ function MongezzApp() {
   const [couriers] = useState<Courier[]>(seedCouriers);
   const [invoices, setInvoices] = useState<Invoice[]>(seedInvoices);
   const [expenses, setExpenses] = useState<Expense[]>(seedExpenses);
+  const [payments, setPayments] = useState<Payment[]>(seedPayments);
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);
@@ -152,7 +171,7 @@ function MongezzApp() {
   const outStock = products.filter(p => p.stock === 0).length;
 
   const ctx = {
-    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses,
+    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
     totals, lowStock, outStock,
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId,
     setLastSaleSummary, lastSaleSummary, setScreen,
@@ -437,12 +456,23 @@ function InvoiceDetailScreen(p: any) {
 
   const [collectOpen, setCollectOpen] = useState(false);
   const [collectAmt, setCollectAmt] = useState("");
+  const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
 
   const submitCollect = () => {
     const a = Number(collectAmt);
     if (!a || a <= 0 || a > remaining) return;
     p.setInvoices((arr: Invoice[]) => arr.map(i => i.id === inv.id ? { ...i, paid: i.paid + a, status: (i.paid + a) >= i.total ? "paid" : "partial" } : i));
-    setCollectOpen(false); setCollectAmt("");
+    p.setPayments((arr: Payment[]) => [...arr, {
+      id: "pay" + Date.now(),
+      kind: "debt_collection",
+      method: collectMethod,
+      amount: a,
+      invoiceId: inv.id,
+      invoiceNumber: inv.number,
+      customerId: inv.customerId,
+      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+    }]);
+    setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
   };
 
   return (
@@ -498,6 +528,13 @@ function InvoiceDetailScreen(p: any) {
             <div className="text-sm text-muted-foreground">المتبقي: <Money v={remaining} className="text-debt" /></div>
             <input value={collectAmt} onChange={e => setCollectAmt(e.target.value)} inputMode="decimal" placeholder="المبلغ" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
             {Number(collectAmt) > remaining && <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>}
+            <div>
+              <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
+              <div className="mt-1 grid grid-cols-2 gap-2">
+                <button onClick={() => setCollectMethod("cash")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>نقدي</button>
+                <button onClick={() => setCollectMethod("transfer")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>تحويل</button>
+              </div>
+            </div>
             <button disabled={!Number(collectAmt) || Number(collectAmt) > remaining} onClick={submitCollect} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تأكيد التحصيل</button>
           </div>
         </Sheet>
@@ -630,8 +667,23 @@ function ProfitScreen(p: any) {
 
 /* --------------- COLLECTED --------------- */
 function CollectedScreen(p: any) {
-  const cash = p.invoices.filter((i: Invoice) => i.delivery === "direct").reduce((s: number, i: Invoice) => s + i.paid, 0) * 0.7;
-  const transfer = p.totals.collected - cash;
+  const payments: Payment[] = p.payments;
+  const cash = payments.filter(pm => pm.method === "cash").reduce((s, pm) => s + pm.amount, 0);
+  const transfer = payments.filter(pm => pm.method === "transfer").reduce((s, pm) => s + pm.amount, 0);
+  const settlement = payments.filter(pm => pm.method === "settlement").reduce((s, pm) => s + pm.amount, 0);
+  const sum = cash + transfer + settlement;
+
+  const customerName = (id?: string) => p.customers.find((c: Customer) => c.id === id)?.name;
+  const courierName = (id?: string) => p.couriers.find((c: Courier) => c.id === id)?.name;
+
+  const label = (pm: Payment) => {
+    if (pm.kind === "sale") return `بيع ${pm.method === "cash" ? "نقدي" : "تحويل"}${pm.invoiceNumber ? " #" + pm.invoiceNumber : ""}`;
+    if (pm.kind === "debt_collection") return `تحصيل دين ${pm.method === "cash" ? "نقدي" : "تحويل"}${customerName(pm.customerId) ? " · " + customerName(pm.customerId) : ""}`;
+    return `تسوية مندوب${courierName(pm.courierId) ? " · " + courierName(pm.courierId) : ""}${pm.invoiceNumber ? " · #" + pm.invoiceNumber : ""}`;
+  };
+
+  const sorted = [...payments].sort((a, b) => (a.time < b.time ? 1 : a.time > b.time ? -1 : 0));
+
   return (
     <>
       <TopBar title="المحصّل فعليًا" onBack={p.back} />
@@ -645,20 +697,33 @@ function CollectedScreen(p: any) {
           <div className="rounded-2xl bg-card border border-border p-4"><div className="text-xs text-muted-foreground">نقدي</div><Money v={cash} className="text-base mt-1" /></div>
           <div className="rounded-2xl bg-card border border-border p-4"><div className="text-xs text-muted-foreground">تحويل</div><Money v={transfer} className="text-base mt-1" /></div>
         </div>
+        {settlement > 0 && (
+          <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
+            <div>
+              <div className="text-xs text-muted-foreground">تسويات مندوب</div>
+              <div className="text-[11px] text-muted-foreground">مبالغ سُلّمت لك من المندوب</div>
+            </div>
+            <Money v={settlement} className="text-base" />
+          </div>
+        )}
+        {Math.abs(sum - p.totals.collected) > 0.5 && (
+          <div className="rounded-xl bg-warn-soft text-warn text-[11px] p-2 flex gap-2"><Info className="w-3 h-3 mt-0.5 shrink-0" />فرق بسيط بين المجموع والتفصيل قد يظهر مع بيانات تجريبية.</div>
+        )}
         <div className="rounded-2xl bg-info-soft border border-info/20 p-3 text-xs text-info flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           <span>لا يشمل ديون العملاء، ولا عهدة المندوب غير المصفّاة. المصروفات لا تُنقص هذا الرقم.</span>
         </div>
         <div className="text-xs font-bold text-muted-foreground mt-2">الحركة</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
-          {[
-            { l: "بيع نقدي #1041", v: 50, k: "in" },
-            { l: "بيع جزئي #1042", v: 20, k: "in" },
-          ].map((m, i) => (
-            <div key={i} className="flex items-center gap-3 p-3">
-              <ArrowUpCircle className="w-5 h-5 text-success" />
-              <div className="flex-1 text-sm">{m.l}</div>
-              <Money v={m.v} className="text-sm text-success" />
+          {sorted.length === 0 && <div className="p-4 text-sm text-muted-foreground text-center">لا حركات بعد</div>}
+          {sorted.map((pm) => (
+            <div key={pm.id} className="flex items-center gap-3 p-3">
+              <ArrowUpCircle className={`w-5 h-5 ${pm.method === "settlement" ? "text-warn" : "text-success"}`} />
+              <div className="flex-1">
+                <div className="text-sm">{label(pm)}</div>
+                <div className="text-[11px] text-muted-foreground">{pm.time}</div>
+              </div>
+              <Money v={pm.amount} className={`text-sm ${pm.method === "settlement" ? "text-warn" : "text-success"}`} />
             </div>
           ))}
         </div>
@@ -838,6 +903,8 @@ function SettlementsScreen(p: any) {
   const [settledAmount, setSettledAmount] = useState(0);
   const confirm = () => {
     setSettledAmount(net);
+    const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));
+    const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
     p.setInvoices((arr: Invoice[]) => arr.map(i => {
       if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
         const collectedAmt = i.collectedByCourier ?? 0;
@@ -845,6 +912,20 @@ function SettlementsScreen(p: any) {
       }
       return i;
     }));
+    p.setPayments((arr: Payment[]) => [
+      ...arr,
+      ...settledInvoices.map((i: Invoice, idx: number) => ({
+        id: "pay" + Date.now() + "_" + idx,
+        kind: "settlement" as const,
+        method: "settlement" as const,
+        amount: i.collectedByCourier ?? 0,
+        invoiceId: i.id,
+        invoiceNumber: i.number,
+        customerId: i.customerId,
+        courierId: i.courierId,
+        time: now,
+      })),
+    ]);
     setDone(true);
   };
 
@@ -1189,6 +1270,18 @@ function SaleScreen(p: any) {
               time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
             };
             p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
+            if (d.delivery === "direct" && d.paid > 0) {
+              p.setPayments((arr: Payment[]) => [...arr, {
+                id: "pay" + Date.now(),
+                kind: "sale",
+                method: d.method,
+                amount: d.paid,
+                invoiceId: newInv.id,
+                invoiceNumber: newInv.number,
+                customerId: d.customerId,
+                time: newInv.time,
+              }]);
+            }
             p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
             p.setScreen("sale_success");
           }}

@@ -119,6 +119,7 @@ function MongezzApp() {
   const [couriers] = useState<Courier[]>(seedCouriers);
   const [invoices, setInvoices] = useState<Invoice[]>(seedInvoices);
   const [expenses, setExpenses] = useState<Expense[]>(seedExpenses);
+  const [payments, setPayments] = useState<Payment[]>(seedPayments);
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);

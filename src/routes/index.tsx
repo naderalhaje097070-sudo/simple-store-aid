@@ -1191,6 +1191,7 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
   const [method, setMethod] = useState<"cash" | "transfer">("cash");
   const [pickCustomer, setPickCustomer] = useState(false);
   const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
 
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
@@ -1199,7 +1200,14 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
   const needsCourier = delivery === "courier";
   const canSave = subtotal > 0 && !overpaid && (!needsCustomer || !!customerId) && (!needsCourier || !!courierId);
 
-  const dup = customers.find((c: Customer) => c.name === newName);
+  const trimmedName = newName.trim();
+  const trimmedPhone = newPhone.trim();
+  const dup = (trimmedName || trimmedPhone)
+    ? customers.find((c: Customer) =>
+        (trimmedName && c.name.trim() === trimmedName) ||
+        (trimmedPhone && c.phone && c.phone.trim() === trimmedPhone)
+      )
+    : undefined;
 
   return (
     <Sheet onClose={onClose} title="الدفع">

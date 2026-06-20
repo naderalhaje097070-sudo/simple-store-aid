@@ -1059,6 +1059,7 @@ type CartItem = { productId: string; qty: number };
 function SaleScreen(p: any) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [q, setQ] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
   const [paySheet, setPaySheet] = useState(false);
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
 
@@ -1085,16 +1086,31 @@ function SaleScreen(p: any) {
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <TopBar title="فاتورة جديدة" onBack={p.back} right={
-        <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
-      } />
-      <div className="px-4 pt-3 pb-3 sticky top-[57px] bg-background z-20">
+    <div className="min-h-[100dvh] bg-background flex flex-col">
+      {!searchFocused && (
+        <TopBar title="فاتورة جديدة" onBack={p.back} right={
+          <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
+        } />
+      )}
+      <div className={`px-4 pt-3 pb-3 sticky bg-background z-20 ${searchFocused ? "top-0" : "top-[57px]"}`}>
         <div className="relative">
           <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث عن منتج" className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm" />
+          <input
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            onFocus={() => setSearchFocused(true)}
+            onBlur={() => setSearchFocused(false)}
+            placeholder="ابحث عن منتج"
+            className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm"
+          />
+          {searchFocused && q && (
+            <button onMouseDown={(e) => { e.preventDefault(); setQ(""); }} className="absolute left-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-muted">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          )}
         </div>
       </div>
+
 
       <div className="px-4 grid grid-cols-2 gap-2 flex-1">
         {filtered.map((pr: Product) => {

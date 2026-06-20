@@ -39,6 +39,17 @@ type Invoice = {
   time: string;
 };
 type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+type Payment = {
+  id: string;
+  kind: "sale" | "debt_collection" | "settlement";
+  method: "cash" | "transfer" | "settlement";
+  amount: number;
+  invoiceId?: string;
+  invoiceNumber?: string;
+  customerId?: string;
+  courierId?: string;
+  time: string;
+};
 
 const seedProducts: Product[] = [
   { id: "p1", name: "زيت زيتون 1 لتر", price: 25, cost: 18, stock: 24, lowAt: 5 },

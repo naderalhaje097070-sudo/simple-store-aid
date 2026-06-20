@@ -1208,6 +1208,18 @@ function SaleScreen(p: any) {
               time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
             };
             p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
+            if (d.delivery === "direct" && d.paid > 0) {
+              p.setPayments((arr: Payment[]) => [...arr, {
+                id: "pay" + Date.now(),
+                kind: "sale",
+                method: d.method,
+                amount: d.paid,
+                invoiceId: newInv.id,
+                invoiceNumber: newInv.number,
+                customerId: d.customerId,
+                time: newInv.time,
+              }]);
+            }
             p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
             p.setScreen("sale_success");
           }}

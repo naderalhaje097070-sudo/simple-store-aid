@@ -1285,13 +1285,14 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
         <Sheet onClose={() => setPickCustomer(false)} title="اختر عميلًا">
           <div className="space-y-3">
             <div>
-              <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="إضافة سريعة باسم العميل" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
-              {dup && <div className="text-[11px] text-warn mt-1">⚠ يوجد عميل بنفس الاسم</div>}
-              {newName && (
+              <input value={newName} onChange={e => setNewName(e.target.value)} placeholder="اسم العميل (إلزامي)" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" />
+              <input value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="رقم الهاتف (اختياري)" inputMode="tel" className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" />
+              {dup && <div className="text-[11px] text-warn mt-1">⚠ يوجد عميل بنفس {dup.name.trim() === trimmedName ? "الاسم" : "الرقم"}: {dup.name}</div>}
+              {trimmedName && (
                 <button onClick={() => {
                   const id = "c" + Date.now();
-                  setCustomers((arr: Customer[]) => [...arr, { id, name: newName }]);
-                  setCustomerId(id); setNewName(""); setPickCustomer(false);
+                  setCustomers((arr: Customer[]) => [...arr, { id, name: trimmedName, phone: trimmedPhone || undefined }]);
+                  setCustomerId(id); setNewName(""); setNewPhone(""); setPickCustomer(false);
                 }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">إضافة وحفظ</button>
               )}
             </div>

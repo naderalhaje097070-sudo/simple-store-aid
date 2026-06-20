@@ -1112,7 +1112,7 @@ function SaleScreen(p: any) {
       </div>
 
 
-      <div className="px-4 grid grid-cols-2 gap-2 flex-1">
+      <div className={`px-4 grid grid-cols-2 gap-2 flex-1 ${searchFocused ? "pb-80" : "pb-4"}`}>
         {filtered.map((pr: Product) => {
           const out = pr.stock === 0;
           return (

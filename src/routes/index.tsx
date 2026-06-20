@@ -91,6 +91,13 @@ const seedExpenses: Expense[] = [
   { id: "e2", type: "إنترنت", amount: 20, method: "transfer", time: "09:00" },
 ];
 
+const seedPayments: Payment[] = [
+  // matches i1 — direct full sale, cash
+  { id: "pay1", kind: "sale", method: "cash", amount: 50, invoiceId: "i1", invoiceNumber: "1041", time: "09:14" },
+  // matches i2 — direct partial sale, transfer
+  { id: "pay2", kind: "sale", method: "transfer", amount: 20, invoiceId: "i2", invoiceNumber: "1042", customerId: "c1", time: "10:30" },
+];
+
 /* ============================== HELPERS ============================== */
 
 const fmt = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Math.round(n));

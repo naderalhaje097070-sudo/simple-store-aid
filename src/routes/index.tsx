@@ -171,7 +171,7 @@ function MongezzApp() {
   const outStock = products.filter(p => p.stock === 0).length;
 
   const ctx = {
-    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses,
+    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
     totals, lowStock, outStock,
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId,
     setLastSaleSummary, lastSaleSummary, setScreen,

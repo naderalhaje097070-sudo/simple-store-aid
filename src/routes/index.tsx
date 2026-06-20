@@ -1270,7 +1270,7 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
           </div>
         </div>
 
-        <button disabled={!canSave} onClick={() => onSave({ paid, customerId, delivery, courierId, method })} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
+        <button disabled={!canSave} onClick={() => { if (!canSave || overpaid || paid > subtotal) return; onSave({ paid, customerId, delivery, courierId, method }); }} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
       </div>
 
       {pickCustomer && (

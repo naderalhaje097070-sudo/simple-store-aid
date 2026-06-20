@@ -1150,7 +1150,7 @@ function SaleScreen(p: any) {
           setCustomers={p.setCustomers}
           couriers={p.couriers}
           onClose={() => setPaySheet(false)}
-          onSave={(d) => {
+          onSave={(d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {
             const items: InvoiceItem[] = cart.map(c => {
               const pr = p.products.find((x: Product) => x.id === c.productId)!;
               return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };

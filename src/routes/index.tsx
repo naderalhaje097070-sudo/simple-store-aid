@@ -752,9 +752,9 @@ function CourierCustodyScreen(p: any) {
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
   const customerDebtOrders = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_none");
 
-  const pendingV = pending.reduce((s, i) => s + i.total, 0);
-  const custodyV = collected.reduce((s, i) => s + (i.collectedByCourier ?? 0), 0);
-  const debtV = customerDebtOrders.reduce((s, i) => {
+  const pendingV = pending.reduce((s: number, i: Invoice) => s + i.total, 0);
+  const custodyV = collected.reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
+  const debtV = customerDebtOrders.reduce((s: number, i: Invoice) => {
     if (i.courierState === "delivered_none") return s + i.total;
     if (i.courierState === "delivered_partial") return s + (i.total - (i.collectedByCourier ?? 0));
     return s;

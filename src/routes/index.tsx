@@ -835,7 +835,9 @@ function SettlementsScreen(p: any) {
   const toggle = (id: string) => setSelected(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
+  const [settledAmount, setSettledAmount] = useState(0);
   const confirm = () => {
+    setSettledAmount(net);
     p.setInvoices((arr: Invoice[]) => arr.map(i => {
       if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
         const collectedAmt = i.collectedByCourier ?? 0;

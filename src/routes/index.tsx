@@ -875,6 +875,8 @@ function SettlementsScreen(p: any) {
   const [settledAmount, setSettledAmount] = useState(0);
   const confirm = () => {
     setSettledAmount(net);
+    const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));
+    const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
     p.setInvoices((arr: Invoice[]) => arr.map(i => {
       if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
         const collectedAmt = i.collectedByCourier ?? 0;
@@ -882,6 +884,20 @@ function SettlementsScreen(p: any) {
       }
       return i;
     }));
+    p.setPayments((arr: Payment[]) => [
+      ...arr,
+      ...settledInvoices.map((i: Invoice, idx: number) => ({
+        id: "pay" + Date.now() + "_" + idx,
+        kind: "settlement" as const,
+        method: "settlement" as const,
+        amount: i.collectedByCourier ?? 0,
+        invoiceId: i.id,
+        invoiceNumber: i.number,
+        customerId: i.customerId,
+        courierId: i.courierId,
+        time: now,
+      })),
+    ]);
     setDone(true);
   };
 

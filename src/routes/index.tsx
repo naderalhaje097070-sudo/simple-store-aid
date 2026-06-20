@@ -854,9 +854,9 @@ function SettlementsScreen(p: any) {
         <TopBar title="تسوية" onBack={() => { setDone(false); p.back(); }} />
         <div className="p-6 flex flex-col items-center text-center gap-3">
           <div className="w-16 h-16 rounded-full bg-success-soft flex items-center justify-center"><CheckCircle2 className="w-8 h-8 text-success" /></div>
-          <div className="text-lg font-bold">تمت التسوية</div>
-          <div className="text-sm text-muted-foreground">دخل <Money v={net} className="text-success font-bold" /> إلى المحصّل فعلًا</div>
-          <button onClick={() => { setDone(false); p.back(); }} className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">تم</button>
+          <div className="text-lg font-bold">✓ تمت التسوية</div>
+          <div className="text-sm text-muted-foreground">دخل <Money v={settledAmount} className="text-success font-bold" /> إلى المحصّل فعلًا</div>
+          <button onClick={() => { setDone(false); setSettledAmount(0); p.back(); }} className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">تم</button>
         </div>
       </>
     );

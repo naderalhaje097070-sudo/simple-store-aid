@@ -293,6 +293,13 @@ function HomeScreen(p: any) {
         </div>
       </div>
 
+      {/* Period chips */}
+      <div className="px-4 pb-3 flex gap-2">
+        {["اليوم", "الأسبوع", "الشهر"].map((x, i) => (
+          <button key={x} className={`px-4 py-1.5 rounded-full text-xs font-bold ${i === 0 ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x}</button>
+        ))}
+      </div>
+
       {/* Today card */}
       <div className="px-4">
         <div className="rounded-2xl bg-gradient-to-br from-primary to-primary/85 text-primary-foreground p-5 shadow-md">
@@ -301,21 +308,29 @@ function HomeScreen(p: any) {
             <div>
               <div className="text-xs opacity-80">بعت اليوم</div>
               <div className="mt-1"><Money v={totals.sales} className="text-2xl" /></div>
+              <div className="text-[10px] opacity-75 mt-0.5">قيمة الفواتير (شامل الدين)</div>
             </div>
             <div>
               <div className="text-xs opacity-80">دخل فعلًا</div>
               <div className="mt-1"><Money v={totals.collected} className="text-2xl" /></div>
+              <div className="text-[10px] opacity-75 mt-0.5">المال الداخل فعلًا للصندوق</div>
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/20">
-            <div className="flex items-center gap-1.5 text-xs opacity-90">
-              <TrendingUp className="w-3.5 h-3.5" /> ربح من المحصّل
+          <div className="mt-4 pt-3 border-t border-white/20 grid grid-cols-2 gap-3">
+            <div>
+              <div className="flex items-center gap-1.5 text-[11px] opacity-90">
+                <TrendingUp className="w-3.5 h-3.5" /> ربح من المحصّل
+              </div>
+              <Money v={totals.realizedProfit} className="text-base mt-1" />
+              <div className="text-[10px] opacity-75 mt-0.5">من المال المقبوض فعلًا</div>
             </div>
-            <div className="mt-1 flex items-baseline gap-2">
-              <Money v={totals.realizedProfit} className="text-lg" />
-              <span className="text-[11px] opacity-80">من المال اللي قبضته فعلًا</span>
+            <div>
+              <div className="flex items-center gap-1.5 text-[11px] opacity-90">
+                <Info className="w-3.5 h-3.5" /> ربح تقديري كامل
+              </div>
+              <Money v={totals.netProfit} className="text-base mt-1" />
+              <div className="text-[10px] opacity-75 mt-0.5">قد يشمل فواتير لم تُحصّل بالكامل</div>
             </div>
-            <div className="text-[11px] opacity-75 mt-1">لو حُصِّلت كل الديون: <span className="num">{fmt(totals.netProfit)}</span> د.ل</div>
           </div>
         </div>
       </div>
@@ -642,24 +657,10 @@ function ShopHubScreen(p: any) {
   ];
   return (
     <>
-      <TopBar title="المحل" />
+      <TopBar title="أقسام المحل" />
       <div className="px-4 pt-3">
-        <div className="flex gap-2 mb-3">
-          {["اليوم", "الأسبوع", "الشهر"].map((x, i) => (
-            <button key={x} className={`px-4 py-1.5 rounded-full text-xs font-bold ${i === 0 ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x}</button>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {cards.map(c => (
-            <button key={c.id} onClick={() => p.go(c.id as Screen)} className={`text-right rounded-2xl ${c.soft} p-4 active:scale-[0.98] transition`}>
-              <div className={`flex items-center gap-2 ${c.color} text-xs font-bold`}><c.Icon className="w-4 h-4" />{c.l}</div>
-              <div className="mt-2"><Money v={c.v} className={`text-lg ${c.color}`} /></div>
-              {c.hint && <div className="text-[11px] text-muted-foreground mt-1">{c.hint}</div>}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-5 text-xs font-bold text-muted-foreground mb-2">الأقسام</div>
+        <div className="text-xs text-muted-foreground mb-2">الأرقام اليومية في تبويب «الرئيسية». هنا تنقُّل بين أقسام المحل.</div>
+        <div className="text-xs font-bold text-muted-foreground mb-2">الأقسام</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
           {sections.map(s => (
             <button key={s.id} onClick={() => p.go(s.id as Screen)} className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-muted active:bg-muted">

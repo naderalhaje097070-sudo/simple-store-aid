@@ -111,7 +111,9 @@ type Screen =
   | "home" | "invoices" | "invoice_detail" | "inventory" | "shop"
   | "profit" | "collected" | "debts" | "debt_customer"
   | "courier_custody" | "settlements" | "expenses" | "customers" | "couriers" | "settings"
-  | "sale" | "sale_success";
+  | "sale" | "sale_quick" | "sale_success" | "day_close";
+
+type Period = "day" | "week" | "month";
 
 function MongezzApp() {
   const [products] = useState<Product[]>(seedProducts);
@@ -129,6 +131,15 @@ function MongezzApp() {
   const [lastCreatedInvoiceId, setLastCreatedInvoiceId] = useState<string | null>(null);
   const [lastSaleSummary, setLastSaleSummary] = useState<{ total: number; paid: number; profit: number } | null>(null);
 
+  const [period, setPeriod] = useState<Period>("day");
+  const [saleMenuOpen, setSaleMenuOpen] = useState(false);
+  const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
+  const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
+  const [closedToday, setClosedToday] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (t: string) => { setToast(t); setTimeout(() => setToast(null), 2000); };
+
   const go = (s: Screen) => { setStack(prev => [...prev, screen]); setScreen(s); };
   const back = () => { setStack(prev => { const c = [...prev]; const p = c.pop(); if (p) setScreen(p); return c; }); };
 
@@ -137,20 +148,14 @@ function MongezzApp() {
     const sales = invoices.reduce((s, i) => s + i.total, 0);
     const cogs = invoices.reduce((s, i) => s + i.items.reduce((a, it) => a + it.cost * it.qty, 0), 0);
     const expenseTotal = expenses.reduce((s, e) => s + e.amount, 0);
-    // Single source of truth: collected === sum of all payment records
-    // (direct sale cash/transfer + debt collection + courier settlement)
     const collected = payments.reduce((s, pm) => s + pm.amount, 0);
-
-    // expected profit (if all debts settled) — clearly labeled تقديري
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
-
-    // realized profit (only from money actually collected)
     const realizedRatio = sales > 0 ? collected / sales : 0;
     const realizedCogs = cogs * realizedRatio;
     const realizedProfit = collected - realizedCogs - expenseTotal;
+    const cashToday = collected - expenseTotal;
 
-    // customer debts: remaining on partial/debt direct invoices + remaining customer debt portion of courier orders
     const directDebt = invoices.filter(i => i.delivery === "direct").reduce((s, i) => s + (i.total - i.paid), 0);
     const courierCustomerDebt = invoices
       .filter(i => i.delivery === "courier")
@@ -163,29 +168,67 @@ function MongezzApp() {
       }, 0);
     const customerDebts = directDebt + courierCustomerDebt;
 
-    // unsettled courier custody = sum of collectedByCourier for delivered_partial/full
     const unsettledCustody = invoices
       .filter(i => i.delivery === "courier" && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"))
       .reduce((s, i) => s + (i.collectedByCourier ?? 0), 0);
 
-    // in-transit value
     const inTransit = invoices
       .filter(i => i.delivery === "courier" && (i.courierState === "pending" || !i.courierState))
       .reduce((s, i) => s + i.total, 0);
 
-    return { sales, cogs, collected, expenseTotal, grossProfit, netProfit, realizedProfit, realizedCogs, customerDebts, unsettledCustody, inTransit };
+    const openOnYou = customerDebts + unsettledCustody;
+
+    return { sales, cogs, collected, expenseTotal, grossProfit, netProfit, realizedProfit, realizedCogs, customerDebts, unsettledCustody, inTransit, cashToday, openOnYou };
   }, [invoices, expenses, payments]);
+
+  // Period multiplier (prototype only — visual scaling for اليوم/الأسبوع/الشهر)
+  const scaledTotals = useMemo(() => {
+    const m = period === "day" ? 1 : period === "week" ? 6.5 : 27;
+    const flow = (n: number) => Math.round(n * m);
+    return {
+      ...totals,
+      sales: flow(totals.sales),
+      cogs: flow(totals.cogs),
+      collected: flow(totals.collected),
+      expenseTotal: flow(totals.expenseTotal),
+      grossProfit: flow(totals.grossProfit),
+      netProfit: flow(totals.netProfit),
+      realizedProfit: flow(totals.realizedProfit),
+      realizedCogs: flow(totals.realizedCogs),
+      cashToday: flow(totals.cashToday),
+      // stocks (debts, custody) stay constant — they're current balances
+    };
+  }, [totals, period]);
 
   const lowStock = products.filter(p => p.stock > 0 && p.stock <= p.lowAt).length;
   const outStock = products.filter(p => p.stock === 0).length;
 
+  // Smart alerts (computed from current data — stocks not period)
+  const alerts = useMemo(() => {
+    const list: { id: string; tone: "warn" | "debt" | "info"; icon: any; text: string; onClick: () => void }[] = [];
+    if (lowStock > 0) list.push({ id: "low", tone: "warn", icon: AlertTriangle, text: `${lowStock} منتجات قاربت النفاد`, onClick: () => go("inventory") });
+    if (outStock > 0) list.push({ id: "out", tone: "debt", icon: PackageX, text: `${outStock} منتجات نفدت — أوقف عرضها`, onClick: () => go("inventory") });
+    if (totals.unsettledCustody > 0) list.push({ id: "custody", tone: "warn", icon: Truck, text: `عهدة عند المندوب ${fmt(totals.unsettledCustody)} د.ل لم تُصفَّ`, onClick: () => go("settlements") });
+    const oldDebtCount = invoices.filter(i => i.delivery === "direct" && (i.status === "debt" || i.status === "partial")).length;
+    if (oldDebtCount > 0) list.push({ id: "olddebt", tone: "debt", icon: CircleDollarSign, text: `${oldDebtCount} فواتير دين بحاجة تحصيل`, onClick: () => go("debts") });
+    const pendingCourier = invoices.filter(i => i.delivery === "courier" && (i.courierState === "pending" || i.courierState === "delivered_partial")).length;
+    if (pendingCourier > 0) list.push({ id: "pending", tone: "info", icon: Clock, text: `${pendingCourier} طلبات توصيل غير مكتملة`, onClick: () => go("courier_custody") });
+    if (totals.collected > 0 && totals.expenseTotal / totals.collected > 0.3) list.push({ id: "exp", tone: "warn", icon: ArrowDownCircle, text: "مصروفات اليوم مرتفعة نسبيًا", onClick: () => go("expenses") });
+    return list;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
+
   const ctx = {
     products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
-    totals, lowStock, outStock,
+    totals: scaledTotals, rawTotals: totals, lowStock, outStock,
+    period, setPeriod, alerts, closedToday, setClosedToday,
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
+    setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
   };
+
+  const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);
 
   return (
     <div className="min-h-screen bg-background text-foreground" dir="rtl">
@@ -206,9 +249,50 @@ function MongezzApp() {
         {screen === "couriers" && <CouriersScreen {...ctx} />}
         {screen === "settings" && <SettingsScreen {...ctx} />}
         {screen === "sale" && <SaleScreen {...ctx} />}
+        {screen === "sale_quick" && <SaleQuickScreen {...ctx} />}
         {screen === "sale_success" && <SaleSuccessScreen {...ctx} />}
+        {screen === "day_close" && <DayCloseScreen {...ctx} />}
 
-        {!["sale", "sale_success"].includes(screen) && <BottomNav screen={screen} setScreen={(s) => { setStack([]); setScreen(s); }} onSale={() => go("sale")} />}
+        {!hideNav && <BottomNav screen={screen} setScreen={(s) => { setStack([]); setScreen(s); }} onSale={() => setSaleMenuOpen(true)} />}
+
+        {saleMenuOpen && (
+          <Sheet onClose={() => setSaleMenuOpen(false)} title="نوع البيع">
+            <div className="space-y-2">
+              <button onClick={() => { setSaleMenuOpen(false); go("sale_quick"); }} className="w-full text-right rounded-2xl bg-primary text-primary-foreground p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"><Plus className="w-5 h-5" /></div>
+                <div className="flex-1">
+                  <div className="font-bold">بيع سريع</div>
+                  <div className="text-xs opacity-90">نقدي · مدفوع كامل · بدون عميل</div>
+                </div>
+              </button>
+              <button onClick={() => { setSaleMenuOpen(false); go("sale"); }} className="w-full text-right rounded-2xl bg-card border border-border p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center"><ReceiptText className="w-5 h-5" /></div>
+                <div className="flex-1">
+                  <div className="font-bold">بيع متقدم</div>
+                  <div className="text-xs text-muted-foreground">دين · توصيل · مندوب · خصم · جزئي</div>
+                </div>
+              </button>
+            </div>
+          </Sheet>
+        )}
+
+        {quickExpenseOpen && (
+          <QuickExpenseSheet
+            onClose={() => setQuickExpenseOpen(false)}
+            onSave={(amount, type, method) => {
+              setExpenses(arr => [...arr, {
+                id: "e" + Date.now(), type, amount, method,
+                time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
+              }]);
+              setQuickExpenseOpen(false);
+              showToast("تم تسجيل المصروف");
+            }}
+          />
+        )}
+
+        {moneyDetailsOpen && <MoneyDetailsSheet totals={scaledTotals} period={period} onClose={() => setMoneyDetailsOpen(false)} onOpenProfit={() => { setMoneyDetailsOpen(false); go("profit"); }} />}
+
+        {toast && <Toast text={toast} kind="success" />}
       </div>
     </div>
   );
@@ -282,8 +366,22 @@ function BottomNav({ screen, setScreen, onSale }: { screen: Screen; setScreen: (
 /* ============================== SCREENS ============================== */
 
 function HomeScreen(p: any) {
-  const { totals, lowStock, invoices, go, setOpenInvoiceId } = p;
-  const today = invoices.slice(-4).reverse();
+  const { totals, alerts, period, setPeriod, invoices, go, setOpenInvoiceId, setQuickExpenseOpen, setMoneyDetailsOpen, closedToday } = p;
+  const recent = invoices.slice(-3).reverse();
+
+  // Status: needs attention if there are debt/custody alerts, otherwise ok
+  const status: "good" | "ok" | "attention" =
+    alerts.some((a: any) => a.tone === "debt") ? "attention"
+      : alerts.length >= 2 ? "ok"
+        : "good";
+  const statusMeta = {
+    good: { l: "وضعك اليوم: جيد", color: "text-success", bg: "bg-success-soft", emoji: "👍" },
+    ok: { l: "وضعك اليوم: مقبول", color: "text-warn", bg: "bg-warn-soft", emoji: "🟡" },
+    attention: { l: "وضعك اليوم: يحتاج انتباه", color: "text-debt", bg: "bg-debt-soft", emoji: "⚠️" },
+  }[status];
+
+  const periodLabel = period === "day" ? "اليوم" : period === "week" ? "هذا الأسبوع" : "هذا الشهر";
+
   return (
     <>
       <div className="px-4 pt-4 pb-3 flex items-center justify-between">
@@ -291,114 +389,104 @@ function HomeScreen(p: any) {
           <div className="text-2xl font-extrabold text-primary leading-none">منجز</div>
           <div className="text-xs text-muted-foreground mt-1">دفتر محلك الذكي</div>
         </div>
+        {closedToday && <span className="px-3 py-1 rounded-full bg-success-soft text-success text-[11px] font-bold">تم الإقفال</span>}
       </div>
 
-      {/* Period chips */}
+      {/* Period switcher */}
       <div className="px-4 pb-3 flex gap-2">
-        {["اليوم", "الأسبوع", "الشهر"].map((x, i) => (
-          <button key={x} className={`px-4 py-1.5 rounded-full text-xs font-bold ${i === 0 ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x}</button>
+        {[{ id: "day", l: "اليوم" }, { id: "week", l: "الأسبوع" }, { id: "month", l: "الشهر" }].map(x => (
+          <button key={x.id} onClick={() => setPeriod(x.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold ${period === x.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x.l}</button>
         ))}
       </div>
 
-      {/* Today card */}
+      {/* Status / answer card — calm 3-line summary */}
       <div className="px-4">
-        <div className="rounded-2xl bg-gradient-to-br from-primary to-primary/85 text-primary-foreground p-5 shadow-md">
-          <div className="text-sm opacity-90">بطاقة اليوم</div>
-          <div className="mt-3 grid grid-cols-2 gap-4">
+        <div className={`rounded-2xl ${statusMeta.bg} p-5 border border-border/50`}>
+          <div className={`text-sm font-bold ${statusMeta.color} flex items-center gap-2`}>
+            <span>{statusMeta.emoji}</span>
+            <span>{statusMeta.l}</span>
+            <span className="text-[10px] font-normal text-muted-foreground mr-auto">{periodLabel}</span>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3">
             <div>
-              <div className="text-xs opacity-80">بعت اليوم</div>
-              <div className="mt-1"><Money v={totals.sales} className="text-2xl" /></div>
-              <div className="text-[10px] opacity-75 mt-0.5">قيمة الفواتير (شامل الدين)</div>
+              <div className="text-[11px] text-muted-foreground">صافي الكاش</div>
+              <Money v={totals.cashToday} className={`text-2xl ${totals.cashToday < 0 ? "text-debt" : "text-foreground"}`} />
+              <div className="text-[10px] text-muted-foreground mt-0.5">المحصّل − المصروفات</div>
             </div>
             <div>
-              <div className="text-xs opacity-80">دخل فعلًا</div>
-              <div className="mt-1"><Money v={totals.collected} className="text-2xl" /></div>
-              <div className="text-[10px] opacity-75 mt-0.5">المال الداخل فعلًا للصندوق</div>
+              <div className="text-[11px] text-muted-foreground">مفتوح عليك</div>
+              <Money v={totals.openOnYou} className="text-2xl text-foreground" />
+              <div className="text-[10px] text-muted-foreground mt-0.5">ديون + عند المندوب</div>
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/20 grid grid-cols-2 gap-3">
-            <div>
-              <div className="flex items-center gap-1.5 text-[11px] opacity-90">
-                <TrendingUp className="w-3.5 h-3.5" /> ربح من المحصّل
-              </div>
-              <Money v={totals.realizedProfit} className="text-base mt-1" />
-              <div className="text-[10px] opacity-75 mt-0.5">من المال المقبوض فعلًا</div>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 text-[11px] opacity-90">
-                <Info className="w-3.5 h-3.5" /> ربح تقديري كامل
-              </div>
-              <Money v={totals.netProfit} className="text-base mt-1" />
-              <div className="text-[10px] opacity-75 mt-0.5">قد يشمل فواتير لم تُحصّل بالكامل</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Outside collected */}
-      <div className="px-4 mt-5">
-        <div className="text-xs font-bold text-muted-foreground mb-2">مستحقات (خارج المحصّل)</div>
-        <div className="grid grid-cols-2 gap-3">
-          <button onClick={() => go("debts")} className="text-right rounded-2xl bg-card border border-border p-4 active:scale-[0.98] transition">
-            <div className="flex items-center gap-2 text-debt"><CircleDollarSign className="w-4 h-4" /><span className="text-xs font-medium">ديون مستحقة</span></div>
-            <div className="mt-2"><Money v={totals.customerDebts} className="text-lg text-debt" /></div>
-            <div className="text-[11px] text-muted-foreground mt-1">على العملاء</div>
-          </button>
-          <button onClick={() => go("courier_custody")} className="text-right rounded-2xl bg-card border border-border p-4 active:scale-[0.98] transition">
-            <div className="flex items-center gap-2 text-warn"><Truck className="w-4 h-4" /><span className="text-xs font-medium">عند المندوب</span></div>
-            <div className="mt-2"><Money v={totals.unsettledCustody} className="text-lg text-warn" /></div>
-            <div className="text-[11px] text-muted-foreground mt-1">عهدة غير مصفّاة فقط</div>
+          <button onClick={() => setMoneyDetailsOpen(true)} className="mt-4 w-full text-center text-xs font-bold text-primary py-2 border-t border-border/50">
+            عرض التفاصيل المالية
           </button>
         </div>
       </div>
 
-      {/* Expenses */}
+      {/* Quick actions 2×2 */}
       <div className="px-4 mt-4">
-        <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
-          <div>
-            <div className="text-xs text-muted-foreground">مصروفات اليوم</div>
-            <div className="mt-1 text-sm">صرفت اليوم <Money v={totals.expenseTotal} className="text-base font-bold" /></div>
-          </div>
-          <button onClick={() => go("expenses")} className="px-3 py-2 rounded-full bg-primary-soft text-primary text-sm font-bold">+ مصروف</button>
-        </div>
-      </div>
-
-      {/* Alerts */}
-      {lowStock > 0 && (
-        <div className="px-4 mt-3">
-          <button onClick={() => go("inventory")} className="w-full text-right rounded-2xl bg-warn-soft border border-warn/20 p-3 flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-warn" />
-            <div className="flex-1 text-sm text-warn font-medium">{lowStock} منتجات قاربت النفاد</div>
-            <ChevronLeft className="w-4 h-4 text-warn" />
-          </button>
-        </div>
-      )}
-
-      {/* Quick actions */}
-      <div className="px-4 mt-4">
-        <div className="grid grid-cols-3 gap-2">
+        <div className="text-xs font-bold text-muted-foreground mb-2">إجراءات سريعة</div>
+        <div className="grid grid-cols-2 gap-2.5">
           {[
-            { l: "فاتورة", i: Plus, on: () => go("sale") },
-            { l: "تحصيل دين", i: Wallet, on: () => go("debts") },
-            { l: "مصروف", i: ArrowDownCircle, on: () => go("expenses") },
+            { l: "بيع سريع", i: Plus, soft: "bg-primary-soft", color: "text-primary", on: () => go("sale_quick") },
+            { l: "تحصيل دين", i: Wallet, soft: "bg-debt-soft", color: "text-debt", on: () => go("debts") },
+            { l: "تسوية مندوب", i: Truck, soft: "bg-warn-soft", color: "text-warn", on: () => go("settlements") },
+            { l: "إضافة مصروف", i: ArrowDownCircle, soft: "bg-info-soft", color: "text-info", on: () => setQuickExpenseOpen(true) },
           ].map((a, idx) => (
-            <button key={idx} onClick={a.on} className="rounded-2xl bg-card border border-border p-3 flex flex-col items-center gap-1 active:scale-95 transition">
-              <a.i className="w-5 h-5 text-primary" />
-              <span className="text-xs font-medium">{a.l}</span>
+            <button key={idx} onClick={a.on} className={`rounded-2xl ${a.soft} p-4 flex items-center gap-3 active:scale-[0.97] transition`}>
+              <div className={`w-10 h-10 rounded-full bg-card flex items-center justify-center ${a.color}`}>
+                <a.i className="w-5 h-5" />
+              </div>
+              <span className={`text-sm font-bold ${a.color}`}>{a.l}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Last invoices */}
+      {/* Smart alerts */}
+      {alerts.length > 0 && (
+        <div className="px-4 mt-5">
+          <div className="text-xs font-bold text-muted-foreground mb-2 flex items-center gap-1">
+            <AlertTriangle className="w-3.5 h-3.5 text-warn" /> يحتاج انتباهك
+          </div>
+          <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
+            {alerts.map((a: any) => {
+              const tone = a.tone === "debt" ? "text-debt" : a.tone === "warn" ? "text-warn" : "text-info";
+              return (
+                <button key={a.id} onClick={a.onClick} className="w-full text-right px-4 py-3 flex items-center gap-3 hover:bg-muted active:bg-muted">
+                  <a.icon className={`w-4 h-4 ${tone}`} />
+                  <span className="flex-1 text-sm">{a.text}</span>
+                  <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Day close CTA */}
+      <div className="px-4 mt-5">
+        <button onClick={() => go("day_close")} className="w-full rounded-2xl bg-card border-2 border-dashed border-primary/40 p-4 flex items-center gap-3 active:scale-[0.99] transition">
+          <div className="w-10 h-10 rounded-full bg-primary-soft text-primary flex items-center justify-center"><Banknote className="w-5 h-5" /></div>
+          <div className="flex-1 text-right">
+            <div className="text-sm font-bold">إقفال اليوم</div>
+            <div className="text-[11px] text-muted-foreground">ملخص: كاش، مصروفات، ديون، عهدة، مخزون</div>
+          </div>
+          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+        </button>
+      </div>
+
+      {/* Recent invoices */}
       <div className="px-4 mt-5">
         <div className="flex items-center justify-between mb-2">
           <div className="text-xs font-bold text-muted-foreground">آخر الفواتير</div>
           <button onClick={() => go("invoices")} className="text-xs text-primary font-bold">عرض الكل</button>
         </div>
         <div className="space-y-2">
-          {today.length === 0 && <div className="rounded-2xl bg-card border border-border p-6 text-center text-sm text-muted-foreground">ابدأ يومك — لا مبيعات بعد</div>}
-          {today.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { setOpenInvoiceId(id); go("invoice_detail"); }} />)}
+          {recent.length === 0 && <EmptyState text="ابدأ يومك — لا مبيعات بعد" />}
+          {recent.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { setOpenInvoiceId(id); go("invoice_detail"); }} />)}
         </div>
       </div>
     </>
@@ -638,38 +726,47 @@ function EmptyState({ text }: { text: string }) {
 
 /* --------------- SHOP HUB --------------- */
 function ShopHubScreen(p: any) {
-  const cards = [
-    { id: "collected", l: "المحصّل فعليًا", v: p.totals.collected, color: "text-primary", soft: "bg-primary-soft", Icon: Wallet },
-    { id: "profit", l: "ربح تقديري", v: p.totals.netProfit, color: "text-profit", soft: "bg-profit-soft", Icon: TrendingUp, hint: "تقريبًا" },
-    { id: "debts", l: "ديون مستحقة", v: p.totals.customerDebts, color: "text-debt", soft: "bg-debt-soft", Icon: CircleDollarSign },
-    { id: "courier_custody", l: "عند المندوب", v: p.totals.unsettledCustody, color: "text-warn", soft: "bg-warn-soft", Icon: Truck, hint: "عهدة غير مصفّاة" },
-  ];
-  const sections = [
-    { id: "profit", l: "الربح التقديري", Icon: TrendingUp },
-    { id: "collected", l: "المحصّل فعليًا", Icon: Wallet },
-    { id: "debts", l: "الديون", Icon: CircleDollarSign },
-    { id: "courier_custody", l: "عهدة المندوب", Icon: Truck },
-    { id: "settlements", l: "التسويات", Icon: Banknote },
-    { id: "expenses", l: "المصروفات", Icon: ArrowDownCircle },
-    { id: "customers", l: "العملاء", Icon: Users },
-    { id: "couriers", l: "المندوبون", Icon: Truck },
-    { id: "settings", l: "الإعدادات", Icon: SettingsIcon },
+  const groups: { title: string; items: { id: Screen; l: string; Icon: any; hint?: string }[] }[] = [
+    {
+      title: "يومي",
+      items: [
+        { id: "expenses", l: "المصروفات", Icon: ArrowDownCircle },
+        { id: "debts", l: "تحصيل دين", Icon: CircleDollarSign, hint: "ديون العملاء" },
+        { id: "settlements", l: "تسوية مندوب", Icon: Banknote, hint: "تصفية العهدة" },
+        { id: "collected", l: "المحصّل فعليًا", Icon: Wallet },
+        { id: "profit", l: "الربح التقديري", Icon: TrendingUp, hint: "قد يشمل ديون" },
+      ],
+    },
+    {
+      title: "إدارة",
+      items: [
+        { id: "customers", l: "العملاء", Icon: Users },
+        { id: "inventory", l: "المنتجات", Icon: Boxes },
+        { id: "couriers", l: "المندوبون", Icon: Truck },
+        { id: "settings", l: "إعدادات المحل", Icon: SettingsIcon },
+      ],
+    },
   ];
   return (
     <>
       <TopBar title="أقسام المحل" />
       <div className="px-4 pt-3">
-        <div className="text-xs text-muted-foreground mb-2">الأرقام اليومية في تبويب «الرئيسية». هنا تنقُّل بين أقسام المحل.</div>
-        <div className="text-xs font-bold text-muted-foreground mb-2">الأقسام</div>
-        <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
-          {sections.map(s => (
-            <button key={s.id} onClick={() => p.go(s.id as Screen)} className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-muted active:bg-muted">
-              <s.Icon className="w-5 h-5 text-primary" />
-              <span className="flex-1 text-sm font-medium">{s.l}</span>
-              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-            </button>
-          ))}
-        </div>
+        <div className="text-xs text-muted-foreground mb-3">الأرقام اليومية في «الرئيسية». هنا التنقّل بين أقسام المحل.</div>
+        {groups.map(g => (
+          <div key={g.title} className="mb-4">
+            <div className="text-xs font-bold text-muted-foreground mb-2 px-1">{g.title}</div>
+            <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
+              {g.items.map(s => (
+                <button key={s.id} onClick={() => p.go(s.id)} className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-muted active:bg-muted">
+                  <s.Icon className="w-5 h-5 text-primary" />
+                  <span className="flex-1 text-sm font-medium">{s.l}</span>
+                  {s.hint && <span className="text-[10px] text-muted-foreground">{s.hint}</span>}
+                  <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );
@@ -1572,6 +1669,274 @@ function SaleSuccessScreen(p: any) {
         <button onClick={() => p.setScreen("home")} className="w-full rounded-2xl bg-card border border-border py-3 font-bold">عودة للرئيسية</button>
       </div>
     </div>
+  );
+}
+
+/* --------------- SALE QUICK (cash, full-paid, no customer) --------------- */
+function SaleQuickScreen(p: any) {
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [q, setQ] = useState("");
+  const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
+
+  const subtotal = cart.reduce((s, c) => s + (p.products.find((pr: Product) => pr.id === c.productId)?.price ?? 0) * c.qty, 0);
+  const add = (pr: Product) => {
+    if (pr.stock === 0) return;
+    setCart(c => {
+      const ex = c.find(x => x.productId === pr.id);
+      if (ex) {
+        if (ex.qty + 1 > pr.stock) { setOverStockMsg("المطلوب أكبر من المتوفر"); setTimeout(() => setOverStockMsg(null), 1800); return c; }
+        return c.map(x => x.productId === pr.id ? { ...x, qty: x.qty + 1 } : x);
+      }
+      return [...c, { productId: pr.id, qty: 1 }];
+    });
+  };
+  const setQty = (pid: string, qty: number) => {
+    const pr = p.products.find((x: Product) => x.id === pid)!;
+    if (qty > pr.stock) { setOverStockMsg("المطلوب أكبر من المتوفر"); setTimeout(() => setOverStockMsg(null), 1800); return; }
+    if (qty <= 0) setCart(c => c.filter(x => x.productId !== pid));
+    else setCart(c => c.map(x => x.productId === pid ? { ...x, qty } : x));
+  };
+  const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
+
+  const save = () => {
+    if (cart.length === 0 || subtotal <= 0) return;
+    const items: InvoiceItem[] = cart.map(c => {
+      const pr = p.products.find((x: Product) => x.id === c.productId)!;
+      return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
+    });
+    const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
+    const number = String(1040 + p.invoices.length + 1);
+    const time = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+    const newInv: Invoice = {
+      id: "i" + Date.now(), number, items, total: subtotal, paid: subtotal,
+      delivery: "direct", status: "paid", time,
+    };
+    p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
+    p.setPayments((arr: Payment[]) => [...arr, {
+      id: "pay" + Date.now(), kind: "sale", method: "cash", amount: subtotal,
+      invoiceId: newInv.id, invoiceNumber: newInv.number, time,
+    }]);
+    p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs });
+    p.setLastCreatedInvoiceId(newInv.id);
+    p.setScreen("sale_success");
+  };
+
+  return (
+    <div className="min-h-[100dvh] bg-background flex flex-col">
+      <TopBar title="بيع سريع" onBack={p.back} right={
+        <span className="px-2 py-1 rounded-full bg-success-soft text-success text-[10px] font-bold">نقدي · كامل</span>
+      } />
+      <div className="px-4 pt-3 pb-3 sticky top-[57px] bg-background z-20">
+        <div className="relative">
+          <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+          <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث عن منتج" className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm" />
+        </div>
+        <div className="text-[11px] text-muted-foreground mt-2 flex items-center gap-1">
+          <Info className="w-3 h-3" />
+          ضغطة على المنتج = إضافة. اضغط «حفظ» لإتمام البيع كنقدي مدفوع كامل.
+        </div>
+      </div>
+      <div className="px-4 flex-1 pb-4">
+        {filtered.length === 0 ? (
+          <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">
+            <PackageX className="w-8 h-8 mx-auto mb-2 opacity-50" />لا منتج بهذا الاسم
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            {filtered.map((pr: Product) => {
+              const out = pr.stock === 0;
+              return (
+                <button key={pr.id} disabled={out} onClick={() => add(pr)} className={`text-right rounded-2xl border p-3 transition active:scale-[0.97] ${out ? "bg-muted border-border opacity-60" : "bg-card border-border"}`}>
+                  <div className="font-bold text-sm leading-tight">{pr.name}</div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <Money v={pr.price} className="text-sm" />
+                    {out ? <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>
+                      : pr.stock <= pr.lowAt ? <StatusChip kind="warn">منخفض <span className="num">{pr.stock}</span></StatusChip>
+                        : <span className="text-[11px] text-muted-foreground">متوفر <span className="num">{pr.stock}</span></span>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      {overStockMsg && <Toast text={overStockMsg} kind="warn" />}
+      {cart.length > 0 && (
+        <div className="sticky bottom-0 bg-card border-t border-border p-3">
+          <div className="max-h-32 overflow-y-auto space-y-1.5 mb-2">
+            {cart.map(ci => {
+              const pr = p.products.find((x: Product) => x.id === ci.productId)!;
+              return (
+                <div key={ci.productId} className="flex items-center gap-2">
+                  <button onClick={() => setQty(ci.productId, 0)} className="p-1 text-debt"><Trash2 className="w-4 h-4" /></button>
+                  <div className="flex-1 text-sm truncate">{pr.name}</div>
+                  <div className="flex items-center gap-1">
+                    <button onClick={() => setQty(ci.productId, ci.qty - 1)} className="w-6 h-6 rounded-full bg-muted flex items-center justify-center"><Minus className="w-3 h-3" /></button>
+                    <span className="w-6 text-center text-xs font-bold num">{ci.qty}</span>
+                    <button onClick={() => setQty(ci.productId, ci.qty + 1)} className="w-6 h-6 rounded-full bg-muted flex items-center justify-center"><Plus className="w-3 h-3" /></button>
+                  </div>
+                  <Money v={pr.price * ci.qty} className="text-xs w-14 text-left" />
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex-1">
+              <div className="text-[11px] text-muted-foreground">الإجمالي · نقدي</div>
+              <Money v={subtotal} className="text-lg" />
+            </div>
+            <button onClick={() => p.setScreen("sale")} className="rounded-2xl bg-card border border-border px-3 py-3 text-xs font-bold">متقدم</button>
+            <button onClick={save} className="rounded-2xl bg-primary text-primary-foreground px-6 py-3 font-bold">حفظ</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* --------------- DAY CLOSE --------------- */
+function DayCloseScreen(p: any) {
+  const t = p.totals;
+  const Row = ({ label, v, color, hint }: { label: string; v: number; color?: string; hint?: string }) => (
+    <div className="flex items-start justify-between py-3">
+      <div>
+        <div className="text-sm font-medium">{label}</div>
+        {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
+      </div>
+      <Money v={v} className={`text-base font-bold ${color ?? ""}`} />
+    </div>
+  );
+  return (
+    <div className="min-h-[100dvh] bg-background">
+      <TopBar title="إقفال اليوم" onBack={p.back} />
+      <div className="px-4 pt-3 space-y-3 pb-32">
+        <div className="rounded-2xl bg-primary-soft border border-primary/20 p-4 text-xs text-primary flex gap-2">
+          <Info className="w-4 h-4 shrink-0 mt-0.5" />
+          <span>ملخص نهاية اليوم. الأرقام مأخوذة من نفس النموذج المالي — بدون أي تأثير على البيانات.</span>
+        </div>
+
+        <div className="rounded-2xl bg-card border border-border px-4 divide-y divide-border">
+          <Row label="دخل فعلًا اليوم" v={t.collected} color="text-success" hint="مجموع المقبوض من بيع وتحصيل وتسوية" />
+          <Row label="مصروفات اليوم" v={t.expenseTotal} color="text-debt" hint="نقل، إنترنت، إلخ" />
+          <Row label="ديون لم تُحصّل" v={t.customerDebts} color="text-debt" hint="على العملاء" />
+          <Row label="عند المندوب (لم تُسوَّ)" v={t.unsettledCustody} color="text-warn" hint="عهدة جاهزة للتسوية" />
+        </div>
+
+        <div className="rounded-2xl bg-card border border-border p-4">
+          <div className="text-xs font-bold text-muted-foreground mb-2">المخزون</div>
+          {p.lowStock + p.outStock === 0 ? (
+            <div className="text-sm text-success flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> لا منتجات تحتاج تجديد</div>
+          ) : (
+            <div className="space-y-1.5 text-sm">
+              {p.lowStock > 0 && <div className="text-warn flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> <span className="num">{p.lowStock}</span> منتجات قاربت النفاد</div>}
+              {p.outStock > 0 && <div className="text-debt flex items-center gap-2"><PackageX className="w-4 h-4" /> <span className="num">{p.outStock}</span> منتجات نفدت بالكامل</div>}
+            </div>
+          )}
+        </div>
+
+        <div className="rounded-2xl bg-success-soft border border-success/20 p-4">
+          <div className="text-xs text-muted-foreground">صافي الكاش اليوم</div>
+          <Money v={t.cashToday} className={`text-3xl mt-1 ${t.cashToday < 0 ? "text-debt" : "text-success"}`} />
+          <div className="text-[11px] text-muted-foreground mt-1">المحصّل − المصروفات</div>
+        </div>
+      </div>
+
+      <div className="fixed bottom-0 inset-x-0 z-30">
+        <div className="mx-auto max-w-md bg-card border-t border-border p-3 pb-[max(env(safe-area-inset-bottom),12px)]">
+          <button
+            onClick={() => { p.setClosedToday(true); p.showToast("تم تسجيل إقفال اليوم"); p.back(); }}
+            className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
+          >تأكيد الإقفال</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* --------------- QUICK EXPENSE SHEET --------------- */
+function QuickExpenseSheet({ onClose, onSave }: { onClose: () => void; onSave: (amount: number, type: string, method: "cash" | "transfer") => void }) {
+  const [amt, setAmt] = useState("");
+  const [type, setType] = useState("");
+  const [method, setMethod] = useState<"cash" | "transfer">("cash");
+  const presets = ["نقل", "إنترنت", "كهرباء", "إيجار", "أجور", "أخرى"];
+  const valid = Number(amt) > 0 && type.trim().length > 0;
+  return (
+    <Sheet onClose={onClose} title="إضافة مصروف سريع">
+      <div className="space-y-3">
+        <div>
+          <label className="text-xs font-bold text-muted-foreground">المبلغ</label>
+          <input value={amt} onChange={e => setAmt(e.target.value)} inputMode="decimal" placeholder="0" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
+        </div>
+        <div>
+          <label className="text-xs font-bold text-muted-foreground">السبب</label>
+          <input value={type} onChange={e => setType(e.target.value)} placeholder="مثال: نقل" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm text-right" />
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {presets.map(pr => (
+              <button key={pr} onClick={() => setType(pr)} className={`px-3 py-1 rounded-full text-xs font-bold ${type === pr ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{pr}</button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
+          <div className="mt-1 grid grid-cols-2 gap-2">
+            <button onClick={() => setMethod("cash")} className={`py-2 rounded-xl text-sm font-bold ${method === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>نقدي</button>
+            <button onClick={() => setMethod("transfer")} className={`py-2 rounded-xl text-sm font-bold ${method === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>تحويل</button>
+          </div>
+        </div>
+        <button disabled={!valid} onClick={() => onSave(Number(amt), type.trim(), method)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ المصروف</button>
+      </div>
+    </Sheet>
+  );
+}
+
+/* --------------- MONEY DETAILS SHEET --------------- */
+function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: any; period: Period; onClose: () => void; onOpenProfit: () => void }) {
+  const periodLabel = period === "day" ? "اليوم" : period === "week" ? "الأسبوع" : "الشهر";
+  const Row = ({ label, v, color, hint }: { label: string; v: number; color?: string; hint?: string }) => (
+    <div className="flex items-start justify-between py-2.5">
+      <div>
+        <div className="text-sm">{label}</div>
+        {hint && <div className="text-[11px] text-muted-foreground mt-0.5">{hint}</div>}
+      </div>
+      <Money v={v} className={color ?? ""} />
+    </div>
+  );
+  return (
+    <Sheet onClose={onClose} title={`التفاصيل المالية · ${periodLabel}`}>
+      <div className="space-y-3">
+        <div className="rounded-xl bg-muted p-3 text-[11px] text-muted-foreground">
+          الفصل المالي: <b>بعت</b> = قيمة الفواتير. <b>محصّل</b> = ما دخل فعلًا. <b>دين</b> = على العميل. <b>عهدة</b> = عند المندوب.
+        </div>
+
+        <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
+          <Row label="بعت (قيمة الفواتير)" v={totals.sales} hint="شامل الديون — ليس كاش" />
+          <Row label="المحصّل فعلًا" v={totals.collected} color="text-success" hint="من بيع + تحصيل + تسوية" />
+          <Row label="المصروفات" v={totals.expenseTotal} color="text-debt" />
+          <Row label="صافي الكاش" v={totals.cashToday} color={totals.cashToday < 0 ? "text-debt font-bold" : "text-success font-bold"} hint="المحصّل − المصروفات" />
+        </div>
+
+        <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
+          <Row label="ديون على العملاء" v={totals.customerDebts} color="text-debt" />
+          <Row label="عند المندوب (غير مصفّاة)" v={totals.unsettledCustody} color="text-warn" />
+        </div>
+
+        <div className="rounded-xl bg-profit-soft border border-profit/20 p-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs text-profit font-bold">ربح من المحصّل</div>
+              <Money v={totals.realizedProfit} className="text-base text-profit" />
+              <div className="text-[10px] text-muted-foreground mt-0.5">من المال المقبوض فعلًا فقط</div>
+            </div>
+            <div className="text-left">
+              <div className="text-xs text-muted-foreground font-bold">ربح تقديري</div>
+              <Money v={totals.netProfit} className="text-base" />
+              <div className="text-[10px] text-warn mt-0.5">قد يشمل ديون</div>
+            </div>
+          </div>
+          <button onClick={onOpenProfit} className="mt-3 w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-primary">رؤية شاشة الربح الكاملة</button>
+        </div>
+      </div>
+    </Sheet>
   );
 }
 

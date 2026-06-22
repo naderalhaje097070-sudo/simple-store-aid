@@ -414,9 +414,9 @@ function HomeScreen(p: any) {
               <div className="text-[10px] text-muted-foreground mt-0.5">المحصّل − المصروفات</div>
             </div>
             <div>
-              <div className="text-[11px] text-muted-foreground">مفتوح عليك</div>
+              <div className="text-[11px] text-muted-foreground">مبالغ لم تدخل بعد</div>
               <Money v={totals.openOnYou} className="text-2xl text-foreground" />
-              <div className="text-[10px] text-muted-foreground mt-0.5">ديون + عند المندوب</div>
+              <div className="text-[10px] text-muted-foreground mt-0.5">ديون عملاء + عند المندوب</div>
             </div>
           </div>
           <button onClick={() => setMoneyDetailsOpen(true)} className="mt-4 w-full text-center text-xs font-bold text-primary py-2 border-t border-border/50">
@@ -709,7 +709,10 @@ function InventoryScreen(p: any) {
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
               {pr.stock === 0 && (
-                <button className="mt-2 w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض حتى يُجدّد المخزون</button>
+                <div className="mt-2">
+                  <button className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
+                  <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
+                </div>
               )}
             </div>
           ))}
@@ -792,10 +795,13 @@ function ProfitScreen(p: any) {
         <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">
           <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح من المحصّل (الفعلي)</div>
           <Money v={realizedProfit} className="text-2xl text-profit mt-1" />
-          <div className="text-[11px] text-muted-foreground mt-1">من المال اللي قبضته فعلًا فقط</div>
+          <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
+            ربح من المحصّل = المحصّل فعليًا − تكلفة البضاعة المرتبطة بالمحصّل − المصروفات.
+            <br />لا تُحسب تكلفة المبيعات غير المحصّلة هنا.
+          </div>
           <div className="mt-3 pt-3 border-t border-profit/20 space-y-1.5 text-xs">
-            <div className="flex justify-between"><span className="text-muted-foreground">المحصّل</span><Money v={collected} /></div>
-            <div className="flex justify-between"><span className="text-muted-foreground">− تكلفة بضاعة مُحصّلة</span><Money v={realizedCogs} /></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">المحصّل فعليًا</span><Money v={collected} /></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">− تكلفة البضاعة المرتبطة بالمحصّل</span><Money v={realizedCogs} /></div>
             <div className="flex justify-between"><span className="text-muted-foreground">− مصروفات</span><Money v={expenseTotal} /></div>
           </div>
         </div>
@@ -1841,12 +1847,17 @@ function DayCloseScreen(p: any) {
         </div>
       </div>
 
+      <div className="px-4 mt-3">
+        <div className="rounded-2xl bg-muted/40 border border-border p-3 text-[11px] text-muted-foreground text-center leading-relaxed">
+          هذه الشاشة ملخّص يومي فقط — لا تُقفل البيانات ولا تُعدّل أي أرقام مالية.
+        </div>
+      </div>
       <div className="fixed bottom-0 inset-x-0 z-30">
         <div className="mx-auto max-w-md bg-card border-t border-border p-3 pb-[max(env(safe-area-inset-bottom),12px)]">
           <button
-            onClick={() => { p.setClosedToday(true); p.showToast("تم تسجيل إقفال اليوم"); p.back(); }}
+            onClick={() => { p.showToast("تمت مراجعة ملخّص اليوم"); p.back(); }}
             className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
-          >تأكيد الإقفال</button>
+          >تم — رجوع</button>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   Home, ReceiptText, Plus, Boxes, Store, Bell, Menu,
   Search, X, Minus, ChevronLeft, AlertTriangle, CheckCircle2,
@@ -125,6 +125,8 @@ function MongezzApp() {
   const [stack, setStack] = useState<Screen[]>([]);
   const [openInvoiceId, setOpenInvoiceId] = useState<string | null>(null);
   const [openCustomerId, setOpenCustomerId] = useState<string | null>(null);
+  const [openCourierId, setOpenCourierId] = useState<string | null>(null);
+  const [lastCreatedInvoiceId, setLastCreatedInvoiceId] = useState<string | null>(null);
   const [lastSaleSummary, setLastSaleSummary] = useState<{ total: number; paid: number; profit: number } | null>(null);
 
   const go = (s: Screen) => { setStack(prev => [...prev, screen]); setScreen(s); };
@@ -134,14 +136,21 @@ function MongezzApp() {
   const totals = useMemo(() => {
     const sales = invoices.reduce((s, i) => s + i.total, 0);
     const cogs = invoices.reduce((s, i) => s + i.items.reduce((a, it) => a + it.cost * it.qty, 0), 0);
-    // collected: direct paid amounts (delivery=direct paid) + courier settlements (we don't track settled, so just direct)
-    const directCollected = invoices.filter(i => i.delivery === "direct").reduce((s, i) => s + i.paid, 0);
     const expenseTotal = expenses.reduce((s, e) => s + e.amount, 0);
-    const collected = directCollected; // courier custody enters only after settlement
+    // Single source of truth: collected === sum of all payment records
+    // (direct sale cash/transfer + debt collection + courier settlement)
+    const collected = payments.reduce((s, pm) => s + pm.amount, 0);
+
+    // expected profit (if all debts settled) — clearly labeled تقديري
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
 
-    // customer debts: remaining on partial/debt direct invoices + remaining customer debt portion of courier orders (total - collectedByCourier where delivered)
+    // realized profit (only from money actually collected)
+    const realizedRatio = sales > 0 ? collected / sales : 0;
+    const realizedCogs = cogs * realizedRatio;
+    const realizedProfit = collected - realizedCogs - expenseTotal;
+
+    // customer debts: remaining on partial/debt direct invoices + remaining customer debt portion of courier orders
     const directDebt = invoices.filter(i => i.delivery === "direct").reduce((s, i) => s + (i.total - i.paid), 0);
     const courierCustomerDebt = invoices
       .filter(i => i.delivery === "courier")
@@ -164,8 +173,8 @@ function MongezzApp() {
       .filter(i => i.delivery === "courier" && (i.courierState === "pending" || !i.courierState))
       .reduce((s, i) => s + i.total, 0);
 
-    return { sales, cogs, collected, expenseTotal, grossProfit, netProfit, customerDebts, unsettledCustody, inTransit };
-  }, [invoices, expenses]);
+    return { sales, cogs, collected, expenseTotal, grossProfit, netProfit, realizedProfit, realizedCogs, customerDebts, unsettledCustody, inTransit };
+  }, [invoices, expenses, payments]);
 
   const lowStock = products.filter(p => p.stock > 0 && p.stock <= p.lowAt).length;
   const outStock = products.filter(p => p.stock === 0).length;
@@ -173,8 +182,9 @@ function MongezzApp() {
   const ctx = {
     products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
     totals, lowStock, outStock,
-    go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId,
+    go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
+    lastCreatedInvoiceId, setLastCreatedInvoiceId,
   };
 
   return (
@@ -281,13 +291,6 @@ function HomeScreen(p: any) {
           <div className="text-2xl font-extrabold text-primary leading-none">منجز</div>
           <div className="text-xs text-muted-foreground mt-1">دفتر محلك الذكي</div>
         </div>
-        <div className="flex items-center gap-1">
-          <button className="p-2 rounded-full hover:bg-muted relative">
-            <Bell className="w-5 h-5" />
-            {lowStock > 0 && <span className="absolute top-1 left-1 w-2 h-2 bg-debt rounded-full" />}
-          </button>
-          <button className="p-2 rounded-full hover:bg-muted"><Menu className="w-5 h-5" /></button>
-        </div>
       </div>
 
       {/* Today card */}
@@ -297,22 +300,22 @@ function HomeScreen(p: any) {
           <div className="mt-3 grid grid-cols-2 gap-4">
             <div>
               <div className="text-xs opacity-80">بعت اليوم</div>
-              <div className="mt-1"><Money v={totals.sales} className="text-xl" /></div>
+              <div className="mt-1"><Money v={totals.sales} className="text-2xl" /></div>
             </div>
             <div>
               <div className="text-xs opacity-80">دخل فعلًا</div>
-              <div className="mt-1"><Money v={totals.collected} className="text-xl" /></div>
+              <div className="mt-1"><Money v={totals.collected} className="text-2xl" /></div>
             </div>
           </div>
           <div className="mt-4 pt-3 border-t border-white/20">
             <div className="flex items-center gap-1.5 text-xs opacity-90">
-              <TrendingUp className="w-3.5 h-3.5" /> ربح تقديري
+              <TrendingUp className="w-3.5 h-3.5" /> ربح من المحصّل
             </div>
             <div className="mt-1 flex items-baseline gap-2">
-              <Money v={totals.netProfit} className="text-lg" />
-              <span className="text-[11px] opacity-80">تقريبًا</span>
+              <Money v={totals.realizedProfit} className="text-lg" />
+              <span className="text-[11px] opacity-80">من المال اللي قبضته فعلًا</span>
             </div>
-            <div className="text-[11px] opacity-75 mt-1">قد يشمل فواتير لم تُحصّل بالكامل</div>
+            <div className="text-[11px] opacity-75 mt-1">لو حُصِّلت كل الديون: <span className="num">{fmt(totals.netProfit)}</span> د.ل</div>
           </div>
         </div>
       </div>
@@ -424,7 +427,8 @@ function InvoicesScreen(p: any) {
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
           <div>
-            <div className="text-xs text-muted-foreground">إجمالي المبيعات (ليس المحصّل)</div>
+            <div className="text-xs text-muted-foreground">قيمة الفواتير <span className="text-[10px]">(ليست المحصّل)</span></div>
+            <div className="text-[11px] text-muted-foreground mb-1">المبالغ بالـ د.ل</div>
             <Money v={total} className="text-lg" />
           </div>
           <Info className="w-4 h-4 text-muted-foreground" />
@@ -516,6 +520,35 @@ function InvoiceDetailScreen(p: any) {
           <div className="text-[11px] text-muted-foreground mt-1">التكلفة وقت البيع: <span className="num">{fmt(cogs)}</span> د.ل</div>
         </div>
 
+        {/* Payment timeline */}
+        {(() => {
+          const invPayments = (p.payments as Payment[]).filter(pm => pm.invoiceId === inv.id).sort((a, b) => a.time < b.time ? -1 : 1);
+          if (invPayments.length === 0 && remaining === inv.total) return null;
+          return (
+            <div className="rounded-2xl bg-card border border-border p-4">
+              <div className="text-xs font-bold text-muted-foreground mb-2">سجل الدفعات</div>
+              <div className="space-y-1.5">
+                {invPayments.map(pm => (
+                  <div key={pm.id} className="flex items-center justify-between text-xs">
+                    <span className="text-muted-foreground">
+                      {pm.kind === "sale" ? "بيع" : pm.kind === "debt_collection" ? "تحصيل دفعة" : "تسوية مندوب"}
+                      {" · "}{pm.method === "cash" ? "نقدي" : pm.method === "transfer" ? "تحويل" : "تسوية"}
+                      {" · "}{pm.time}
+                    </span>
+                    <Money v={pm.amount} className="text-success font-bold" />
+                  </div>
+                ))}
+                {remaining > 0 && (
+                  <div className="flex items-center justify-between text-xs pt-2 border-t border-border mt-2">
+                    <span className="text-debt">المتبقي على العميل</span>
+                    <Money v={remaining} className="text-debt font-bold" />
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })()}
+
         <div className="grid grid-cols-2 gap-2">
           <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>
           <button className="rounded-2xl bg-card border border-border py-3 font-bold">مشاركة</button>
@@ -560,16 +593,21 @@ function InventoryScreen(p: any) {
           {list.length === 0 && filter === "out" && <EmptyState text="لا منتجات نافدة — جيد 👍" />}
           {list.length === 0 && filter !== "out" && <EmptyState text="لا منتجات بهذا التصنيف" />}
           {list.map((pr: Product) => (
-            <div key={pr.id} className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
-              <div>
-                <div className="font-bold text-sm">{pr.name}</div>
-                <div className="mt-1 flex items-center gap-2">
-                  {pr.stock === 0 && <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>}
-                  {pr.stock > 0 && pr.stock <= pr.lowAt && <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>منخفض <span className="num">{pr.stock}</span></StatusChip>}
-                  {pr.stock > pr.lowAt && <StatusChip kind="info">متوفر <span className="num">{pr.stock}</span></StatusChip>}
+            <div key={pr.id} className={`rounded-2xl border p-3 ${pr.stock === 0 ? "bg-debt-soft/40 border-debt/20" : "bg-card border-border"}`}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-bold text-sm">{pr.name}</div>
+                  <div className="mt-1 flex items-center gap-2">
+                    {pr.stock === 0 && <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>}
+                    {pr.stock > 0 && pr.stock <= pr.lowAt && <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>منخفض <span className="num">{pr.stock}</span></StatusChip>}
+                    {pr.stock > pr.lowAt && <StatusChip kind="info">متوفر <span className="num">{pr.stock}</span></StatusChip>}
+                  </div>
                 </div>
+                <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
+              {pr.stock === 0 && (
+                <button className="mt-2 w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض حتى يُجدّد المخزون</button>
+              )}
             </div>
           ))}
         </div>
@@ -638,7 +676,7 @@ function ShopHubScreen(p: any) {
 
 /* --------------- PROFIT --------------- */
 function ProfitScreen(p: any) {
-  const { sales, cogs, grossProfit, expenseTotal, netProfit } = p.totals;
+  const { sales, cogs, grossProfit, expenseTotal, netProfit, collected, realizedCogs, realizedProfit, customerDebts, unsettledCustody } = p.totals;
   const Row = ({ label, v, op, color }: { label: string; v: number; op?: string; color?: string }) => (
     <div className="flex items-center justify-between py-2">
       <div className="flex items-center gap-2">
@@ -650,16 +688,34 @@ function ProfitScreen(p: any) {
   );
   return (
     <>
-      <TopBar title="الربح التقديري" onBack={p.back} />
+      <TopBar title="الربح" onBack={p.back} />
       <div className="px-4 pt-3 space-y-3">
-        <div className="rounded-2xl bg-card border border-border p-4 divide-y divide-border">
-          <Row label="المبيعات" v={sales} />
-          <Row label="تكلفة البضاعة المباعة" v={cogs} op="−" />
-          <Row label="الربح الإجمالي" v={grossProfit} op="=" color="text-profit font-bold" />
-          <Row label="المصروفات" v={expenseTotal} op="−" />
-          <Row label="صافي الربح التقديري" v={netProfit} op="=" color="text-profit font-bold text-lg" />
+        {/* Realized profit — primary */}
+        <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">
+          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح من المحصّل (الفعلي)</div>
+          <Money v={realizedProfit} className="text-2xl text-profit mt-1" />
+          <div className="text-[11px] text-muted-foreground mt-1">من المال اللي قبضته فعلًا فقط</div>
+          <div className="mt-3 pt-3 border-t border-profit/20 space-y-1.5 text-xs">
+            <div className="flex justify-between"><span className="text-muted-foreground">المحصّل</span><Money v={collected} /></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">− تكلفة بضاعة مُحصّلة</span><Money v={realizedCogs} /></div>
+            <div className="flex justify-between"><span className="text-muted-foreground">− مصروفات</span><Money v={expenseTotal} /></div>
+          </div>
         </div>
-        <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex gap-2"><Info className="w-4 h-4 shrink-0 mt-0.5" /><span>تقديري — قد يشمل فواتير لم تُحصّل بالكامل. الربح ليس نقدًا بيدك.</span></div>
+
+        {/* Expected profit — secondary */}
+        <div className="rounded-2xl bg-card border border-border p-4">
+          <div className="flex items-center gap-2 text-muted-foreground text-xs font-bold"><Info className="w-4 h-4" /> ربح متوقع لو حُصِّلت كل الديون</div>
+          <Money v={netProfit} className="text-lg mt-1" />
+          <div className="mt-3 divide-y divide-border">
+            <Row label="المبيعات" v={sales} />
+            <Row label="تكلفة البضاعة المباعة" v={cogs} op="−" />
+            <Row label="الربح الإجمالي" v={grossProfit} op="=" color="text-profit font-bold" />
+            <Row label="المصروفات" v={expenseTotal} op="−" />
+            <Row label="صافي الربح المتوقع" v={netProfit} op="=" color="text-profit font-bold" />
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex gap-2"><Info className="w-4 h-4 shrink-0 mt-0.5" /><span>الفرق بين الرقمين = ديون <span className="num">{fmt(customerDebts)}</span> + عهدة <span className="num">{fmt(unsettledCustody)}</span> د.ل لم تدخل جيبك بعد.</span></div>
       </div>
     </>
   );
@@ -811,7 +867,7 @@ function DebtCustomerScreen(p: any) {
 
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
-  const [courierId, setCourierId] = useState<string>(p.couriers[0]?.id);
+  const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id);
   const list = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courierId);
   const pending = list.filter((i: Invoice) => (i.courierState ?? "pending") === "pending");
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
@@ -825,9 +881,11 @@ function CourierCustodyScreen(p: any) {
     return s;
   }, 0);
 
+  const goSettlements = () => { p.setOpenCourierId(courierId); p.go("settlements"); };
+
   return (
     <>
-      <TopBar title="عهدة المندوب" onBack={p.back} right={<button onClick={() => p.go("settlements")} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
+      <TopBar title="عهدة المندوب" onBack={p.back} right={<button onClick={goSettlements} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
       <div className="px-4 pt-3 space-y-3">
         <div className="flex gap-2 overflow-x-auto">
           {p.couriers.map((c: Courier) => (
@@ -870,7 +928,11 @@ function CourierCustodyScreen(p: any) {
         <div className="rounded-2xl bg-debt-soft border border-debt/20 p-4">
           <div className="flex items-center gap-2 text-debt text-xs font-bold"><CircleDollarSign className="w-4 h-4" />ديون عملاء من طلبات التوصيل</div>
           <Money v={debtV} className="text-lg mt-1 text-debt" />
-          <div className="text-[11px] text-muted-foreground mt-1">هذه ديون عملاء — ليست عهدة. تظهر أيضًا في إجمالي الديون.</div>
+          <div className="rounded-lg bg-card border border-debt/20 p-2 mt-2 text-[11px] text-muted-foreground flex items-start gap-2">
+            <Info className="w-3.5 h-3.5 text-debt shrink-0 mt-0.5" />
+            <span>هذه <b>ديون عملاء</b> — ليست عهدة على المندوب. مُحتسبة <b>مرة واحدة</b> ضمن إجمالي الديون.</span>
+          </div>
+          <button onClick={() => p.go("debts")} className="mt-2 w-full rounded-xl bg-card border border-debt/20 text-debt text-xs font-bold py-2">عرض في الديون ←</button>
           <div className="mt-2 space-y-1.5">
             {customerDebtOrders.map((i: Invoice) => {
               const d = i.courierState === "delivered_none" ? i.total : (i.total - (i.collectedByCourier ?? 0));
@@ -891,7 +953,7 @@ function CourierCustodyScreen(p: any) {
 
 /* --------------- SETTLEMENTS --------------- */
 function SettlementsScreen(p: any) {
-  const courier = p.couriers[0];
+  const courier = p.couriers.find((c: Courier) => c.id === p.openCourierId) ?? p.couriers[0];
   const collected = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"));
   const pending = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState ?? "pending") === "pending");
   const [selected, setSelected] = useState<Set<string>>(new Set(collected.map((i: Invoice) => i.id)));
@@ -1065,22 +1127,52 @@ function ExpensesScreen(p: any) {
 
 /* --------------- CUSTOMERS / COURIERS / SETTINGS --------------- */
 function CustomersScreen(p: any) {
+  const [filter, setFilter] = useState<"all" | "debt" | "clear">("all");
+  const [q, setQ] = useState("");
   const debtMap = new Map<string, number>();
-  p.invoices.forEach((i: Invoice) => { if (i.customerId && i.total - i.paid > 0 && i.delivery === "direct") debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + (i.total - i.paid)); });
+  p.invoices.forEach((i: Invoice) => {
+    if (!i.customerId) return;
+    if (i.delivery === "direct" && i.total - i.paid > 0) {
+      debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + (i.total - i.paid));
+    }
+    if (i.delivery === "courier") {
+      const cs = i.courierState ?? "pending";
+      let d = 0;
+      if (cs === "delivered_none") d = i.total;
+      if (cs === "delivered_partial") d = i.total - (i.collectedByCourier ?? 0);
+      if (d > 0) debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + d);
+    }
+  });
+  const list = p.customers.filter((c: Customer) => {
+    if (q && !c.name.includes(q) && !(c.phone ?? "").includes(q)) return false;
+    const has = !!debtMap.get(c.id);
+    if (filter === "debt") return has;
+    if (filter === "clear") return !has;
+    return true;
+  });
   return (
     <>
       <TopBar title="العملاء" onBack={p.back} />
-      <div className="px-4 pt-3 space-y-2">
-        {p.customers.map((c: Customer) => (
-          <div key={c.id} className="rounded-2xl bg-card border border-border p-3 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-primary-soft text-primary flex items-center justify-center font-bold">{c.name[0]}</div>
-            <div className="flex-1">
-              <div className="font-bold text-sm">{c.name}</div>
-              <div className="text-xs text-muted-foreground">{c.phone ?? "بدون رقم"}</div>
+      <div className="px-4 pt-3 space-y-3">
+        <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث بالاسم أو الرقم" className="w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm" />
+        <div className="flex gap-2 overflow-x-auto">
+          {[{ id: "all", l: "الكل" }, { id: "debt", l: "عليه دين" }, { id: "clear", l: "لا دين" }].map(f => (
+            <button key={f.id} onClick={() => setFilter(f.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{f.l}</button>
+          ))}
+        </div>
+        {list.length === 0 && <EmptyState text={q ? "لا عميل بهذا الاسم" : "لا عملاء بهذا التصنيف"} />}
+        <div className="space-y-2">
+          {list.map((c: Customer) => (
+            <div key={c.id} className="rounded-2xl bg-card border border-border p-3 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-primary-soft text-primary flex items-center justify-center font-bold">{c.name[0]}</div>
+              <div className="flex-1">
+                <div className="font-bold text-sm">{c.name}</div>
+                <div className="text-xs text-muted-foreground">{c.phone ?? "بدون رقم"}</div>
+              </div>
+              {debtMap.get(c.id) ? <Money v={debtMap.get(c.id)!} className="text-debt font-bold text-sm" /> : <span className="text-[11px] text-success">لا دين</span>}
             </div>
-            {debtMap.get(c.id) ? <Money v={debtMap.get(c.id)!} className="text-debt font-bold text-sm" /> : <span className="text-[11px] text-success">لا دين</span>}
-          </div>
-        ))}
+          ))}
+        </div>
         <button className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة عميل</button>
       </div>
     </>
@@ -1193,21 +1285,31 @@ function SaleScreen(p: any) {
       </div>
 
 
-      <div className={`px-4 grid grid-cols-2 gap-2 flex-1 ${searchFocused ? "pb-80" : "pb-4"}`}>
-        {filtered.map((pr: Product) => {
-          const out = pr.stock === 0;
-          return (
-            <button key={pr.id} disabled={out} onClick={() => add(pr)} className={`text-right rounded-2xl border p-3 transition active:scale-[0.97] ${out ? "bg-muted border-border opacity-60" : "bg-card border-border"}`}>
-              <div className="font-bold text-sm leading-tight">{pr.name}</div>
-              <div className="mt-2 flex items-center justify-between">
-                <Money v={pr.price} className="text-sm" />
-                {out ? <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>
-                  : pr.stock <= pr.lowAt ? <StatusChip kind="warn">منخفض <span className="num">{pr.stock}</span></StatusChip>
-                    : <span className="text-[11px] text-muted-foreground">متوفر <span className="num">{pr.stock}</span></span>}
-              </div>
-            </button>
-          );
-        })}
+      <div className={`px-4 flex-1 ${searchFocused ? "pb-80" : "pb-4"}`}>
+        {filtered.length === 0 ? (
+          <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground col-span-2">
+            <PackageX className="w-8 h-8 mx-auto mb-2 opacity-50" />
+            لا منتج بهذا الاسم
+            {q && <button onClick={() => setQ("")} className="block mx-auto mt-2 text-primary text-xs font-bold">مسح البحث</button>}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-2">
+            {filtered.map((pr: Product) => {
+              const out = pr.stock === 0;
+              return (
+                <button key={pr.id} disabled={out} onClick={() => add(pr)} className={`text-right rounded-2xl border p-3 transition active:scale-[0.97] ${out ? "bg-muted border-border opacity-60" : "bg-card border-border"}`}>
+                  <div className="font-bold text-sm leading-tight">{pr.name}</div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <Money v={pr.price} className="text-sm" />
+                    {out ? <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>
+                      : pr.stock <= pr.lowAt ? <StatusChip kind="warn">منخفض <span className="num">{pr.stock}</span></StatusChip>
+                        : <span className="text-[11px] text-muted-foreground">متوفر <span className="num">{pr.stock}</span></span>}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {overStockMsg && <Toast text={overStockMsg} kind="warn" />}
@@ -1283,6 +1385,7 @@ function SaleScreen(p: any) {
               }]);
             }
             p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
+            p.setLastCreatedInvoiceId(newInv.id);
             p.setScreen("sale_success");
           }}
         />
@@ -1364,7 +1467,11 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
           <button onClick={() => setPickCustomer(true)} className={`mt-1 w-full text-right rounded-xl border px-3 py-3 text-sm ${needsCustomer && !customerId ? "border-debt bg-debt-soft text-debt" : "border-border bg-background"}`}>
             {customerId ? customers.find((c: Customer) => c.id === customerId)?.name : (needsCustomer ? "اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل" : "بدون عميل")}
           </button>
+          {status === "paid" && delivery === "direct" && !customerId && (
+            <div className="mt-1 rounded-lg bg-success-soft text-success text-[11px] p-2 flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5" />مدفوعة كاملة — لا حاجة لاختيار عميل</div>
+          )}
         </div>
+
 
         {/* Courier */}
         {delivery === "courier" && (
@@ -1423,6 +1530,29 @@ function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, on
 
 function SaleSuccessScreen(p: any) {
   const s = p.lastSaleSummary;
+  const [secondsLeft, setSecondsLeft] = useState(5);
+  const [undone, setUndone] = useState(false);
+  useEffect(() => {
+    if (secondsLeft <= 0 || undone) return;
+    const t = setTimeout(() => setSecondsLeft(n => n - 1), 1000);
+    return () => clearTimeout(t);
+  }, [secondsLeft, undone]);
+  const undo = () => {
+    if (!p.lastCreatedInvoiceId) return;
+    p.setInvoices((arr: Invoice[]) => arr.filter(i => i.id !== p.lastCreatedInvoiceId));
+    p.setPayments((arr: Payment[]) => arr.filter(pm => pm.invoiceId !== p.lastCreatedInvoiceId));
+    p.setLastCreatedInvoiceId(null);
+    setUndone(true);
+    setTimeout(() => p.setScreen("home"), 600);
+  };
+  if (undone) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center gap-3">
+        <div className="text-lg font-bold">تم التراجع عن الفاتورة</div>
+        <div className="text-sm text-muted-foreground">جاري العودة للرئيسية…</div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center gap-4">
       <div className="w-20 h-20 rounded-full bg-success-soft flex items-center justify-center"><CheckCircle2 className="w-10 h-10 text-success" /></div>
@@ -1433,7 +1563,10 @@ function SaleSuccessScreen(p: any) {
           <div className="mt-2 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-profit-soft text-profit text-xs"><TrendingUp className="w-3 h-3" />ربح تقديري <span className="num font-bold">{fmt(s.profit)}</span> د.ل</div>
         </div>
       )}
-      <div className="w-full max-w-xs space-y-2 mt-4">
+      {secondsLeft > 0 && p.lastCreatedInvoiceId && (
+        <button onClick={undo} className="text-xs text-debt font-bold underline">تراجع عن هذه الفاتورة ({secondsLeft})</button>
+      )}
+      <div className="w-full max-w-xs space-y-2 mt-2">
         <button onClick={() => p.setScreen("sale")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">فاتورة جديدة</button>
         <button onClick={() => p.setScreen("home")} className="w-full rounded-2xl bg-card border border-border py-3 font-bold">عودة للرئيسية</button>
       </div>

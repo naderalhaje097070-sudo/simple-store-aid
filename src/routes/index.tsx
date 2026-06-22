@@ -657,24 +657,10 @@ function ShopHubScreen(p: any) {
   ];
   return (
     <>
-      <TopBar title="المحل" />
+      <TopBar title="أقسام المحل" />
       <div className="px-4 pt-3">
-        <div className="flex gap-2 mb-3">
-          {["اليوم", "الأسبوع", "الشهر"].map((x, i) => (
-            <button key={x} className={`px-4 py-1.5 rounded-full text-xs font-bold ${i === 0 ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x}</button>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          {cards.map(c => (
-            <button key={c.id} onClick={() => p.go(c.id as Screen)} className={`text-right rounded-2xl ${c.soft} p-4 active:scale-[0.98] transition`}>
-              <div className={`flex items-center gap-2 ${c.color} text-xs font-bold`}><c.Icon className="w-4 h-4" />{c.l}</div>
-              <div className="mt-2"><Money v={c.v} className={`text-lg ${c.color}`} /></div>
-              {c.hint && <div className="text-[11px] text-muted-foreground mt-1">{c.hint}</div>}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-5 text-xs font-bold text-muted-foreground mb-2">الأقسام</div>
+        <div className="text-xs text-muted-foreground mb-2">الأرقام اليومية في تبويب «الرئيسية». هنا تنقُّل بين أقسام المحل.</div>
+        <div className="text-xs font-bold text-muted-foreground mb-2">الأقسام</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
           {sections.map(s => (
             <button key={s.id} onClick={() => p.go(s.id as Screen)} className="w-full flex items-center gap-3 px-4 py-3 text-right hover:bg-muted active:bg-muted">

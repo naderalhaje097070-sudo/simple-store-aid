@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import {
   Home, ReceiptText, Plus, Boxes, Store, Bell, Menu,
   Search, X, Minus, ChevronLeft, AlertTriangle, CheckCircle2,

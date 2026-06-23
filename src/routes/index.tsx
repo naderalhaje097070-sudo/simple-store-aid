@@ -1662,25 +1662,82 @@ function SaleQuickScreen(p: any) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [q, setQ] = useState("");
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
+  const [bumpMsg, setBumpMsg] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const startedAt = useRef<number>(performance.now());
+  const lastAddedRef = useRef<string | null>(null);
+  const pressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pressFired = useRef(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => inputRef.current?.focus(), 60);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Recently sold products (from invoices), latest first, unique, in-stock
+  const recentProducts: Product[] = useMemo(() => {
+    const seen = new Set<string>();
+    const out: Product[] = [];
+    for (let i = p.invoices.length - 1; i >= 0 && out.length < 6; i--) {
+      for (const it of (p.invoices[i] as Invoice).items) {
+        if (seen.has(it.productId)) continue;
+        seen.add(it.productId);
+        const pr = p.products.find((x: Product) => x.id === it.productId);
+        if (pr && pr.stock > 0) out.push(pr);
+        if (out.length >= 6) break;
+      }
+    }
+    return out;
+  }, [p.invoices, p.products]);
 
   const subtotal = cart.reduce((s, c) => s + (p.products.find((pr: Product) => pr.id === c.productId)?.price ?? 0) * c.qty, 0);
-  const add = (pr: Product) => {
+  const totalQty = cart.reduce((s, c) => s + c.qty, 0);
+
+  const flashOver = (m: string) => { setOverStockMsg(m); setTimeout(() => setOverStockMsg(null), 1500); };
+  const flashBump = (m: string) => { setBumpMsg(m); setTimeout(() => setBumpMsg(null), 1200); };
+
+  const addN = (pr: Product, n: number) => {
     if (pr.stock === 0) return;
     setCart(c => {
       const ex = c.find(x => x.productId === pr.id);
-      if (ex) {
-        if (ex.qty + 1 > pr.stock) { setOverStockMsg("المطلوب أكبر من المتوفر"); setTimeout(() => setOverStockMsg(null), 1800); return c; }
-        return c.map(x => x.productId === pr.id ? { ...x, qty: x.qty + 1 } : x);
-      }
-      return [...c, { productId: pr.id, qty: 1 }];
+      const cur = ex?.qty ?? 0;
+      const next = Math.min(cur + n, pr.stock);
+      if (next === cur) { flashOver("المطلوب أكبر من المتوفر"); return c; }
+      if (next < cur + n) flashOver("توقفنا عند الحد المتوفر");
+      lastAddedRef.current = pr.id;
+      return ex
+        ? c.map(x => x.productId === pr.id ? { ...x, qty: next } : x)
+        : [...c, { productId: pr.id, qty: next }];
     });
   };
+  const add = (pr: Product) => addN(pr, 1);
+  const addFive = (pr: Product) => { addN(pr, 5); flashBump("أُضيف ×5"); };
+
   const setQty = (pid: string, qty: number) => {
     const pr = p.products.find((x: Product) => x.id === pid)!;
-    if (qty > pr.stock) { setOverStockMsg("المطلوب أكبر من المتوفر"); setTimeout(() => setOverStockMsg(null), 1800); return; }
+    if (qty > pr.stock) { flashOver("المطلوب أكبر من المتوفر"); return; }
     if (qty <= 0) setCart(c => c.filter(x => x.productId !== pid));
     else setCart(c => c.map(x => x.productId === pid ? { ...x, qty } : x));
   };
+
+  const bumpLast = () => {
+    const id = lastAddedRef.current;
+    if (!id) return;
+    const pr = p.products.find((x: Product) => x.id === id);
+    if (pr) addN(pr, 1);
+  };
+
+  // Long-press handlers (350ms) → addFive; otherwise normal add on release.
+  const onPressStart = (pr: Product) => {
+    pressFired.current = false;
+    pressTimer.current = setTimeout(() => { pressFired.current = true; addFive(pr); }, 350);
+  };
+  const onPressEnd = (pr: Product) => {
+    if (pressTimer.current) clearTimeout(pressTimer.current);
+    if (!pressFired.current) add(pr);
+  };
+  const onPressCancel = () => { if (pressTimer.current) clearTimeout(pressTimer.current); };
+
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   const save = () => {
@@ -1701,43 +1758,83 @@ function SaleQuickScreen(p: any) {
       id: "pay" + Date.now(), kind: "sale", method: "cash", amount: subtotal,
       invoiceId: newInv.id, invoiceNumber: newInv.number, time,
     }]);
-    p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs });
+    const elapsedMs = Math.round(performance.now() - startedAt.current);
+    p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
     p.setLastCreatedInvoiceId(newInv.id);
     p.setScreen("sale_success");
   };
 
   return (
-    <div className="min-h-[100dvh] bg-background flex flex-col">
+    <div className="min-h-[100dvh] bg-background flex flex-col" dir="rtl">
       <TopBar title="بيع سريع" onBack={p.back} right={
         <span className="px-2 py-1 rounded-full bg-success-soft text-success text-[10px] font-bold">نقدي · كامل</span>
       } />
-      <div className="px-4 pt-3 pb-3 sticky top-[57px] bg-background z-20">
+
+      <div className="px-4 pt-3 pb-2 sticky top-[57px] bg-background z-20">
         <div className="relative">
-          <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث عن منتج" className="w-full rounded-xl border border-border bg-card pr-9 pl-3 py-3 text-sm" />
+          <Search className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+          <input
+            ref={inputRef}
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            placeholder="ابحث عن منتج"
+            dir="rtl"
+            inputMode="search"
+            autoComplete="off"
+            className="w-full rounded-xl border border-border bg-card pr-9 pl-9 py-3 text-[16px] text-right"
+          />
+          {q && (
+            <button onClick={() => { setQ(""); inputRef.current?.focus(); }} className="absolute left-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-muted" aria-label="مسح">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          )}
         </div>
-        <div className="text-[11px] text-muted-foreground mt-2 flex items-center gap-1">
-          <Info className="w-3 h-3" />
-          ضغطة على المنتج = إضافة. اضغط «حفظ» لإتمام البيع كنقدي مدفوع كامل.
-        </div>
+
+        {recentProducts.length > 0 && !q && (
+          <div className="mt-2 -mx-4 px-4 flex gap-2 overflow-x-auto no-scrollbar" style={{ scrollbarWidth: "none" }}>
+            {recentProducts.map(pr => (
+              <button
+                key={pr.id}
+                onClick={() => add(pr)}
+                className="shrink-0 rounded-full bg-primary-soft text-primary px-3 py-2 text-xs font-bold flex items-center gap-1 active:scale-95 transition"
+              >
+                <Plus className="w-3 h-3" />
+                <span className="max-w-[110px] truncate">{pr.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
-      <div className="px-4 flex-1 pb-4">
+
+      <div className="px-4 flex-1 pb-4" style={{ overscrollBehavior: "contain" }}>
         {filtered.length === 0 ? (
           <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">
             <PackageX className="w-8 h-8 mx-auto mb-2 opacity-50" />لا منتج بهذا الاسم
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {filtered.map((pr: Product) => {
               const out = pr.stock === 0;
+              const inCart = cart.find(c => c.productId === pr.id)?.qty ?? 0;
               return (
-                <button key={pr.id} disabled={out} onClick={() => add(pr)} className={`text-right rounded-2xl border p-3 transition active:scale-[0.97] ${out ? "bg-muted border-border opacity-60" : "bg-card border-border"}`}>
-                  <div className="font-bold text-sm leading-tight">{pr.name}</div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <Money v={pr.price} className="text-sm" />
-                    {out ? <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>
-                      : pr.stock <= pr.lowAt ? <StatusChip kind="warn">منخفض <span className="num">{pr.stock}</span></StatusChip>
-                        : <span className="text-[11px] text-muted-foreground">متوفر <span className="num">{pr.stock}</span></span>}
+                <button
+                  key={pr.id}
+                  disabled={out}
+                  onPointerDown={() => !out && onPressStart(pr)}
+                  onPointerUp={() => !out && onPressEnd(pr)}
+                  onPointerLeave={onPressCancel}
+                  onPointerCancel={onPressCancel}
+                  className={`relative text-right rounded-2xl border p-2 min-h-[76px] transition active:scale-[0.96] touch-manipulation select-none ${out ? "bg-muted border-border opacity-60" : inCart > 0 ? "bg-primary-soft border-primary/40" : "bg-card border-border"}`}
+                >
+                  {inCart > 0 && (
+                    <span className="absolute top-1 left-1 min-w-[20px] h-5 px-1 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center num">{inCart}</span>
+                  )}
+                  <div className="font-bold text-[12px] leading-tight line-clamp-2 min-h-[28px]">{pr.name}</div>
+                  <div className="mt-1 flex items-center justify-between gap-1">
+                    <Money v={pr.price} className="text-[11px]" />
+                    {out ? <span className="text-[9px] text-debt font-bold">نفد</span>
+                      : pr.stock <= pr.lowAt ? <span className="text-[9px] text-warn font-bold num">{pr.stock}</span>
+                        : null}
                   </div>
                 </button>
               );
@@ -1745,39 +1842,62 @@ function SaleQuickScreen(p: any) {
           </div>
         )}
       </div>
+
       {overStockMsg && <Toast text={overStockMsg} kind="warn" />}
+      {bumpMsg && !overStockMsg && <Toast text={bumpMsg} kind="success" />}
+
       {cart.length > 0 && (
-        <div className="sticky bottom-0 bg-card border-t border-border p-3">
-          <div className="max-h-32 overflow-y-auto space-y-1.5 mb-2">
+        <div className="sticky bottom-0 bg-card border-t border-border px-3 pt-2 pb-[max(env(safe-area-inset-bottom),10px)] z-20">
+          <div className="max-h-28 overflow-y-auto space-y-1 mb-2">
             {cart.map(ci => {
               const pr = p.products.find((x: Product) => x.id === ci.productId)!;
               return (
                 <div key={ci.productId} className="flex items-center gap-2">
-                  <button onClick={() => setQty(ci.productId, 0)} className="p-1 text-debt"><Trash2 className="w-4 h-4" /></button>
-                  <div className="flex-1 text-sm truncate">{pr.name}</div>
-                  <div className="flex items-center gap-1">
-                    <button onClick={() => setQty(ci.productId, ci.qty - 1)} className="w-6 h-6 rounded-full bg-muted flex items-center justify-center"><Minus className="w-3 h-3" /></button>
+                  <button onClick={() => setQty(ci.productId, 0)} className="p-1 text-debt shrink-0" aria-label="حذف"><Trash2 className="w-4 h-4" /></button>
+                  <div className="flex-1 text-sm truncate min-w-0">{pr.name}</div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button onClick={() => setQty(ci.productId, ci.qty - 1)} className="w-7 h-7 rounded-full bg-muted flex items-center justify-center" aria-label="نقص"><Minus className="w-3 h-3" /></button>
                     <span className="w-6 text-center text-xs font-bold num">{ci.qty}</span>
-                    <button onClick={() => setQty(ci.productId, ci.qty + 1)} className="w-6 h-6 rounded-full bg-muted flex items-center justify-center"><Plus className="w-3 h-3" /></button>
+                    <button onClick={() => setQty(ci.productId, ci.qty + 1)} className="w-7 h-7 rounded-full bg-muted flex items-center justify-center" aria-label="زيادة"><Plus className="w-3 h-3" /></button>
                   </div>
-                  <Money v={pr.price * ci.qty} className="text-xs w-14 text-left" />
+                  <Money v={pr.price * ci.qty} className="text-xs w-14 text-left shrink-0 num" />
                 </div>
               );
             })}
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1">
-              <div className="text-[11px] text-muted-foreground">الإجمالي · نقدي</div>
-              <Money v={subtotal} className="text-lg" />
-            </div>
-            <button onClick={() => p.setScreen("sale")} className="rounded-2xl bg-card border border-border px-3 py-3 text-xs font-bold">متقدم</button>
-            <button onClick={save} className="rounded-2xl bg-primary text-primary-foreground px-6 py-3 font-bold">حفظ</button>
+
+          <div className="grid grid-cols-[auto_1fr] items-stretch gap-2">
+            <button
+              onClick={() => p.setScreen("sale")}
+              className="rounded-2xl bg-card border border-border px-3 text-[11px] font-bold text-muted-foreground"
+              aria-label="بيع متقدم"
+            >متقدّم</button>
+            <button
+              onClick={save}
+              className="rounded-2xl bg-primary text-primary-foreground py-3.5 font-bold flex items-center justify-between px-4 active:scale-[0.98] transition min-h-[56px]"
+            >
+              <span className="text-sm">إصدار الفاتورة</span>
+              <span className="flex items-center gap-2 text-[12px] opacity-95">
+                <span className="num">{totalQty}</span>
+                <span className="opacity-60">قطعة ·</span>
+                <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
+                <span className="text-[10px] opacity-80">د.ل</span>
+              </span>
+            </button>
           </div>
+
+          {lastAddedRef.current && (
+            <button onClick={bumpLast} className="mt-2 w-full text-[11px] text-primary font-bold py-1 flex items-center justify-center gap-1">
+              <Plus className="w-3 h-3" /> تكرار آخر منتج
+            </button>
+          )}
         </div>
       )}
     </div>
   );
 }
+
+
 
 /* --------------- DAY CLOSE --------------- */
 function DayCloseScreen(p: any) {

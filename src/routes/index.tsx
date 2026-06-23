@@ -132,7 +132,7 @@ function MongezzApp() {
   const [lastSaleSummary, setLastSaleSummary] = useState<{ total: number; paid: number; profit: number; elapsedMs?: number } | null>(null);
 
   const [period, setPeriod] = useState<Period>("day");
-  const [saleMenuOpen, setSaleMenuOpen] = useState(false);
+  
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
   const [closedToday, setClosedToday] = useState(false);

@@ -1644,13 +1644,16 @@ function SaleSuccessScreen(p: any) {
         <div className="text-sm text-muted-foreground">
           الإجمالي <span className="num font-bold text-foreground">{fmt(s.total)}</span> · مدفوع <span className="num font-bold text-success">{fmt(s.paid)}</span>
           <div className="mt-2 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-profit-soft text-profit text-xs"><TrendingUp className="w-3 h-3" />ربح تقديري <span className="num font-bold">{fmt(s.profit)}</span> د.ل</div>
+          {typeof s.elapsedMs === "number" && (
+            <div className="mt-2 text-[11px] text-muted-foreground">⚡ تمّ خلال <span className="num font-bold text-foreground">{(s.elapsedMs / 1000).toFixed(1)}</span> ثانية</div>
+          )}
         </div>
       )}
       {secondsLeft > 0 && p.lastCreatedInvoiceId && (
         <button onClick={undo} className="text-xs text-debt font-bold underline">تراجع عن هذه الفاتورة ({secondsLeft})</button>
       )}
       <div className="w-full max-w-xs space-y-2 mt-2">
-        <button onClick={() => p.setScreen("sale")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">فاتورة جديدة</button>
+        <button onClick={() => p.setScreen("sale_quick")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">بيع جديد</button>
         <button onClick={() => p.setScreen("home")} className="w-full rounded-2xl bg-card border border-border py-3 font-bold">عودة للرئيسية</button>
       </div>
     </div>

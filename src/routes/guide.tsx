@@ -45,20 +45,39 @@ function Row({ k, v, note }: { k: string; v: string; note?: string }) {
 
 function GuidePage() {
   return (
-    <div className="min-h-screen bg-background" dir="rtl">
+    <div className="min-h-screen bg-background guide-root" dir="rtl">
+      <style>{`
+        @media print {
+          @page { size: A4; margin: 14mm; }
+          html, body { background: #fff !important; }
+          .no-print { display: none !important; }
+          .guide-root { background: #fff !important; }
+          .guide-root * { color: #000 !important; border-color: #999 !important; }
+          .guide-root a { text-decoration: none !important; }
+          section { break-inside: avoid; page-break-inside: avoid; }
+          h2, h3 { break-after: avoid; page-break-after: avoid; }
+        }
+      `}</style>
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border no-print">
+        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-2">
           <div>
             <div className="text-xs text-muted-foreground">منجز · دليل المرجع</div>
             <h1 className="text-base font-bold text-foreground">نسخة المرجع النهائي</h1>
           </div>
-          <Link
-            to="/"
-            className="text-xs font-medium text-primary hover:underline"
-          >
-            ← العودة للتطبيق
-          </Link>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="text-xs font-medium px-3 py-1.5 rounded-md bg-primary text-primary-foreground hover:opacity-90"
+              aria-label="تصدير الدليل إلى PDF عبر الطباعة"
+            >
+              تصدير PDF / طباعة
+            </button>
+            <Link to="/" className="text-xs font-medium text-primary hover:underline">
+              ← العودة
+            </Link>
+          </div>
         </div>
       </header>
 

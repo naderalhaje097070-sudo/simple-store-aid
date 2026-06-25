@@ -196,7 +196,96 @@ function GuidePage() {
           </ul>
         </Section>
 
+        <Section id="review" title="ملاحظات المراجع (تُعبّأ يدويًا على النسخة المطبوعة)">
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <div className="font-medium mb-1">اسم المراجع</div>
+                <div className="h-8 border-b border-foreground/40" />
+              </div>
+              <div>
+                <div className="font-medium mb-1">التاريخ</div>
+                <div className="h-8 border-b border-foreground/40" />
+              </div>
+            </div>
+
+            <div>
+              <div className="font-medium mb-2 text-sm">النتيجة العامة</div>
+              <div className="flex flex-wrap gap-6 text-sm">
+                <label className="inline-flex items-center gap-2">
+                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  Passed — جاهزة كمرجع
+                </label>
+                <label className="inline-flex items-center gap-2">
+                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  Needs Change — تعديلات قبل الاعتماد
+                </label>
+                <label className="inline-flex items-center gap-2">
+                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  Failed — لا تصلح كمرجع
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <div className="font-medium mb-2 text-sm">تقييم لكل قسم</div>
+              <div className="rounded-lg border border-border overflow-hidden text-sm">
+                {[
+                  "الغرض",
+                  "الرحلات الأساسية",
+                  "الحدود المالية",
+                  "كلمات الواجهة",
+                  "التنبيهات",
+                  "قيود لا تُكسر",
+                ].map((label) => (
+                  <div
+                    key={label}
+                    className="grid grid-cols-[1fr_auto] items-center gap-3 px-3 py-2 border-b border-border/50 last:border-0"
+                  >
+                    <div>{label}</div>
+                    <div className="flex gap-4 text-xs">
+                      <label className="inline-flex items-center gap-1.5">
+                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        Pass
+                      </label>
+                      <label className="inline-flex items-center gap-1.5">
+                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        Needs Change
+                      </label>
+                      <label className="inline-flex items-center gap-1.5">
+                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        Fail
+                      </label>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="font-medium mb-2 text-sm">ملاحظات / تعديلات مقترحة</div>
+              <div className="rounded-md border border-foreground/40 p-2 space-y-6">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="border-b border-foreground/30 last:border-0 h-6" />
+                ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-sm pt-2">
+              <div>
+                <div className="font-medium mb-1">التوقيع</div>
+                <div className="h-10 border-b border-foreground/40" />
+              </div>
+              <div>
+                <div className="font-medium mb-1">جلسة / مرجع الاختبار</div>
+                <div className="h-10 border-b border-foreground/40" />
+              </div>
+            </div>
+          </div>
+        </Section>
+
         <footer className="mt-10 pt-6 border-t border-border text-xs text-muted-foreground">
+
           هذه الصفحة هي المرجع الوحيد المعتمد لنقل النسخة إلى منجز الحقيقي
           عبر PRs صغيرة ومستقلة.
         </footer>

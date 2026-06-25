@@ -92,8 +92,10 @@ function GuidePage() {
             <li><a href="#words" className="hover:underline">كلمات الواجهة</a></li>
             <li><a href="#alerts" className="hover:underline">التنبيهات</a></li>
             <li><a href="#constraints" className="hover:underline">قيود لا تُكسر</a></li>
+            <li><a href="#review" className="hover:underline">ملاحظات المراجع</a></li>
           </ul>
         </nav>
+
 
         <Section id="purpose" title="الغرض">
           <p>

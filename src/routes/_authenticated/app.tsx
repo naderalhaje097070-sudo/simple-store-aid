@@ -276,6 +276,7 @@ function MongezzApp() {
         <DesktopSidebar
           screen={screen}
           setScreen={navTo}
+          myRole={myRole ?? undefined}
           onSale={() => go("sale_quick")}
           onDayClose={() => go("day_close")}
           onQuickExpense={() => setQuickExpenseOpen(true)}

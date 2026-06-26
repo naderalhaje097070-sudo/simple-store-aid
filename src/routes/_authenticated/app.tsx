@@ -1853,27 +1853,20 @@ function SaleQuickScreen(p: any) {
 
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
-  const save = () => {
+  const save = async () => {
     if (cart.length === 0 || subtotal <= 0) return;
     const items: InvoiceItem[] = cart.map(c => {
       const pr = p.products.find((x: Product) => x.id === c.productId)!;
       return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
     });
     const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-    const number = String(1040 + p.invoices.length + 1);
-    const time = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-    const newInv: Invoice = {
-      id: "i" + Date.now(), number, items, total: subtotal, paid: subtotal,
-      delivery: "direct", status: "paid", time,
-    };
-    p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
-    p.setPayments((arr: Payment[]) => [...arr, {
-      id: "pay" + Date.now(), kind: "sale", method: "cash", amount: subtotal,
-      invoiceId: newInv.id, invoiceNumber: newInv.number, time,
-    }]);
+    const created = await p.createSaleAsync({
+      items, total: subtotal, paid: subtotal,
+      delivery: "direct" as const, method: "cash" as const,
+    });
     const elapsedMs = Math.round(performance.now() - startedAt.current);
     p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
-    p.setLastCreatedInvoiceId(newInv.id);
+    p.setLastCreatedInvoiceId(created.orderId);
     p.setScreen("sale_success");
   };
 

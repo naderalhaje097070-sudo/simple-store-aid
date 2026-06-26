@@ -473,11 +473,7 @@ export function useDayCloses(tenantId: string | null | undefined) {
 export function useCloseDay(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: {
-      sales?: number; collected?: number; expenses?: number;
-      realizedProfit?: number; customerDebts?: number; unsettledCustody?: number;
-      note?: string;
-    }) => {
+    mutationFn: async (input: { note?: string }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.rpc("close_day" as any, { p_note: input.note ?? null });
       if (error) throw new Error(rpcMessage(error));

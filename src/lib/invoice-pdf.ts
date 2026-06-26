@@ -151,47 +151,42 @@ function buildHtml(d: InvoicePdfData): string {
     </div>
 
     <!-- Items -->
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden;table-layout:fixed">
-      <colgroup>
-        <col style="width:26px">
-        <col>
-        <col style="width:50px">
-        <col style="width:72px">
-        <col style="width:86px">
-      </colgroup>
+    <table data-pdf="items" style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden">
       <thead>
         <tr style="background:#111;color:#fff">
-          <th style="padding:7px 5px;text-align:center">#</th>
+          <th style="padding:7px 4px;text-align:center;width:22px">#</th>
           <th style="padding:7px 5px;text-align:right">الصنف</th>
-          <th style="padding:7px 5px;text-align:center">الكمية</th>
-          <th style="padding:7px 5px;text-align:center">السعر</th>
-          <th style="padding:7px 5px;text-align:center">الإجمالي</th>
+          <th style="padding:7px 4px;text-align:center;white-space:nowrap">الكمية</th>
+          <th style="padding:7px 6px;text-align:center;white-space:nowrap">السعر</th>
+          <th style="padding:7px 6px;text-align:center;white-space:nowrap">الإجمالي</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>
 
-    <!-- Summary -->
-    <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
-        <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+    <!-- Summary (kept together with footer) -->
+    <div data-pdf="summary">
+      <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
+          <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
+          <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
+        </div>
+        ${custodyLine}
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
+          <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
+          <span>طريقة الدفع</span><span>${methodLabel}</span>
+        </div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
-        <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
-      </div>
-      ${custodyLine}
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
-        <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
-        <span>طريقة الدفع</span><span>${methodLabel}</span>
-      </div>
-    </div>
 
-    <!-- Footer -->
-    <div style="text-align:center;font-size:11.5px;color:#555;margin-top:18px;border-top:1px dashed #ccc;padding-top:12px">
-      شكراً لتعاملكم مع <b>${escape(d.shopName || "محلنا")}</b> 🌿
-      <div style="margin-top:4px;font-size:10px;color:#999">تم إصدار هذه الفاتورة عبر تطبيق منجز</div>
+      <!-- Footer -->
+      <div style="text-align:center;font-size:11.5px;color:#555;margin-top:14px;border-top:1px dashed #ccc;padding-top:10px">
+        شكراً لتعاملكم مع <b>${escape(d.shopName || "محلنا")}</b>
+        <div style="margin-top:4px;font-size:10px;color:#999">تم إصدار هذه الفاتورة عبر تطبيق منجز</div>
+      </div>
     </div>
   </div>`;
 }

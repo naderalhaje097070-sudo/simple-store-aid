@@ -197,10 +197,11 @@ function escape(s: string): string {
   );
 }
 
-async function renderToCanvas(d: InvoicePdfData) {
+type RenderResult = { canvas: HTMLCanvasElement; breakPoints: number[] };
+
+async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
   await ensureFont();
-  // Render inside an isolated iframe so app-wide oklch theme tokens don't leak
-  // into html2canvas (which doesn't parse oklch()).
+  // Isolated iframe so the app's oklch CSS tokens don't reach html2canvas.
   const iframe = document.createElement("iframe");
   iframe.style.position = "fixed";
   iframe.style.top = "-10000px";
@@ -218,41 +219,72 @@ async function renderToCanvas(d: InvoicePdfData) {
       <style>html,body{margin:0;padding:0;background:#fff;color:#111;font-family:${FONT_STACK}}</style>
       </head><body>${buildHtml(d)}</body></html>`);
     doc.close();
-    // Wait for fonts inside iframe
     // @ts-ignore
     if (doc.fonts && doc.fonts.ready) { try { await doc.fonts.ready; } catch {} }
     await new Promise((r) => setTimeout(r, 120));
-    const node = doc.body.firstElementChild as HTMLElement;
-    const canvas = await html2canvas(node, {
+    const root = doc.body.firstElementChild as HTMLElement;
+    const rootRect = root.getBoundingClientRect();
+
+    // Collect break-safe Y boundaries (CSS px, relative to root top):
+    //  - top of every <tr> in items table (except the first, which is the header inside thead — kept on first occurrence so summary fits)
+    //  - top of the summary block (so summary+footer stay together)
+    const breaks = new Set<number>();
+    breaks.add(0);
+    root.querySelectorAll('table[data-pdf="items"] tbody tr').forEach((tr) => {
+      const top = (tr as HTMLElement).getBoundingClientRect().top - rootRect.top;
+      breaks.add(Math.round(top));
+    });
+    const summary = root.querySelector('[data-pdf="summary"]') as HTMLElement | null;
+    if (summary) {
+      const top = summary.getBoundingClientRect().top - rootRect.top;
+      breaks.add(Math.round(top));
+    }
+    breaks.add(Math.round(root.scrollHeight));
+
+    const canvas = await html2canvas(root, {
       scale: 2,
       backgroundColor: "#ffffff",
       windowWidth: 600,
-      windowHeight: Math.max(1200, node.scrollHeight + 40),
+      windowHeight: Math.max(1200, root.scrollHeight + 40),
     });
-    return canvas;
+    // Scale break points from CSS px → canvas px (html2canvas scale=2)
+    const scaleY = canvas.height / root.scrollHeight;
+    const breakPoints = Array.from(breaks)
+      .map((y) => Math.round(y * scaleY))
+      .sort((a, b) => a - b);
+    return { canvas, breakPoints };
   } finally {
     document.body.removeChild(iframe);
   }
 }
 
 export async function downloadInvoicePdf(d: InvoicePdfData) {
-  const canvas = await renderToCanvas(d);
-  const img = canvas.toDataURL("image/png");
+  const { canvas, breakPoints } = await renderToCanvas(d);
   const pdf = new jsPDF({ unit: "mm", format: "a5", orientation: "portrait" });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 10;
-  const w = pageW - margin * 2;
-  const h = (canvas.height * w) / canvas.width;
-  if (h <= pageH - margin * 2) {
-    pdf.addImage(img, "PNG", margin, margin, w, h);
+  const wMm = pageW - margin * 2;
+  const pageContentHMm = pageH - margin * 2;
+  const pxPerMm = canvas.width / wMm;
+  const maxSlicePx = Math.floor(pageContentHMm * pxPerMm);
+
+  // Single page fast path
+  if (canvas.height <= maxSlicePx) {
+    const img = canvas.toDataURL("image/png");
+    pdf.addImage(img, "PNG", margin, margin, wMm, canvas.height / pxPerMm);
   } else {
-    const pageContentH = pageH - margin * 2;
-    const pxPerMm = canvas.width / w;
-    const sliceHeightPx = pageContentH * pxPerMm;
     let y = 0;
+    let first = true;
     while (y < canvas.height) {
-      const sliceH = Math.min(sliceHeightPx, canvas.height - y);
+      // Find the largest break point > y and within (y + maxSlicePx]
+      let cut = -1;
+      for (const bp of breakPoints) {
+        if (bp > y && bp - y <= maxSlicePx) cut = bp;
+      }
+      // If no safe break fits (a single row taller than a page), hard-cut.
+      if (cut === -1) cut = Math.min(y + maxSlicePx, canvas.height);
+      const sliceH = cut - y;
       const c2 = document.createElement("canvas");
       c2.width = canvas.width;
       c2.height = sliceH;
@@ -260,12 +292,13 @@ export async function downloadInvoicePdf(d: InvoicePdfData) {
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, c2.width, c2.height);
       ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
-      const partImg = c2.toDataURL("image/png");
-      if (y > 0) pdf.addPage();
-      pdf.addImage(partImg, "PNG", margin, margin, w, sliceH / pxPerMm);
-      y += sliceH;
+      if (!first) pdf.addPage();
+      first = false;
+      pdf.addImage(c2.toDataURL("image/png"), "PNG", margin, margin, wMm, sliceH / pxPerMm);
+      y = cut;
     }
   }
+
   const invNo = formatInvoiceNumber(d.number);
   const safeShop = (d.shopName || "mongezz").replace(/[^\w\u0600-\u06FF-]+/g, "_");
   pdf.save(`${safeShop}-invoice-${invNo}.pdf`);

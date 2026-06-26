@@ -341,9 +341,9 @@ function MongezzApp() {
 }
 
 function DesktopSidebar({
-  screen, setScreen, onSale, onDayClose, onQuickExpense,
+  screen, setScreen, myRole, onSale, onDayClose, onQuickExpense,
 }: {
-  screen: Screen; setScreen: (s: Screen) => void;
+  screen: Screen; setScreen: (s: Screen) => void; myRole?: string;
   onSale: () => void; onDayClose: () => void; onQuickExpense: () => void;
 }) {
   const Item = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {

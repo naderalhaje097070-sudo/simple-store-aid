@@ -51,52 +51,13 @@ type Payment = {
   time: string;
 };
 
-const seedProducts: Product[] = [
-  { id: "p1", name: "زيت زيتون 1 لتر", price: 25, cost: 18, stock: 24, lowAt: 5 },
-  { id: "p2", name: "أرز بسمتي 5 كغ", price: 60, cost: 48, stock: 3, lowAt: 5 },
-  { id: "p3", name: "سكر 1 كغ", price: 4, cost: 3, stock: 0, lowAt: 10 },
-  { id: "p4", name: "شاي أحمر 500غ", price: 15, cost: 10, stock: 40, lowAt: 8 },
-  { id: "p5", name: "معكرونة 500غ", price: 3, cost: 2, stock: 18, lowAt: 6 },
-  { id: "p6", name: "حليب مبخّر", price: 5, cost: 3.5, stock: 30, lowAt: 10 },
-];
-
-const seedCustomers: Customer[] = [
-  { id: "c1", name: "أحمد علي", phone: "0912345678" },
-  { id: "c2", name: "محمود سالم", phone: "0911223344" },
-  { id: "c3", name: "سامي عبدالله" },
-];
-
-const seedCouriers: Courier[] = [
-  { id: "k1", name: "علي", phone: "0918887766" },
-  { id: "k2", name: "خالد", phone: "0915556677" },
-];
-
-const seedInvoices: Invoice[] = [
-  // paid invoice without customer
-  { id: "i1", number: "1041", items: [{ productId: "p1", name: "زيت زيتون 1 لتر", qty: 2, price: 25, cost: 18 }], total: 50, paid: 50, status: "paid", delivery: "direct", time: "09:14" },
-  // partial invoice with customer
-  { id: "i2", number: "1042", items: [{ productId: "p4", name: "شاي أحمر 500غ", qty: 4, price: 15, cost: 10 }], total: 60, paid: 20, customerId: "c1", status: "partial", delivery: "direct", time: "10:30" },
-  // debt invoice with customer
-  { id: "i3", number: "1043", items: [{ productId: "p2", name: "أرز بسمتي 5 كغ", qty: 1, price: 60, cost: 48 }], total: 60, paid: 0, customerId: "c2", status: "debt", delivery: "direct", time: "11:05" },
-  // courier in-transit
-  { id: "i4", number: "1044", items: [{ productId: "p1", name: "زيت زيتون 1 لتر", qty: 5, price: 25, cost: 18 }], total: 125, paid: 0, customerId: "c3", delivery: "courier", courierId: "k1", status: "debt", courierState: "pending", time: "11:40" },
-  // courier partial collected
-  { id: "i5", number: "1045", items: [{ productId: "p2", name: "أرز بسمتي 5 كغ", qty: 1, price: 60, cost: 48 }, { productId: "p6", name: "حليب مبخّر", qty: 8, price: 5, cost: 3.5 }], total: 100, paid: 0, customerId: "c1", delivery: "courier", courierId: "k1", status: "debt", courierState: "delivered_partial", collectedByCourier: 40, time: "12:10" },
-  // courier full collected, unsettled
-  { id: "i6", number: "1046", items: [{ productId: "p4", name: "شاي أحمر 500غ", qty: 2, price: 15, cost: 10 }, { productId: "p6", name: "حليب مبخّر", qty: 34, price: 5, cost: 3.5 }], total: 200, paid: 0, customerId: "c2", delivery: "courier", courierId: "k1", status: "debt", courierState: "delivered_full", collectedByCourier: 200, time: "12:40" },
-];
-
-const seedExpenses: Expense[] = [
-  { id: "e1", type: "نقل", amount: 40, method: "cash", time: "08:30" },
-  { id: "e2", type: "إنترنت", amount: 20, method: "transfer", time: "09:00" },
-];
-
-const seedPayments: Payment[] = [
-  // matches i1 — direct full sale, cash
-  { id: "pay1", kind: "sale", method: "cash", amount: 50, invoiceId: "i1", invoiceNumber: "1041", time: "09:14" },
-  // matches i2 — direct partial sale, transfer
-  { id: "pay2", kind: "sale", method: "transfer", amount: 20, invoiceId: "i2", invoiceNumber: "1042", customerId: "c1", time: "10:30" },
-];
+// Phase 1: قوائم فاضية — Phase 2 ستربطها بقاعدة بيانات المحل الفعلية
+const seedProducts: Product[] = [];
+const seedCustomers: Customer[] = [];
+const seedCouriers: Courier[] = [];
+const seedInvoices: Invoice[] = [];
+const seedExpenses: Expense[] = [];
+const seedPayments: Payment[] = [];
 
 /* ============================== HELPERS ============================== */
 

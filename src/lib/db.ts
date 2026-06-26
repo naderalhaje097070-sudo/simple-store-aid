@@ -220,7 +220,7 @@ export type DBInvoice = {
 };
 
 const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+  new Date(iso).toLocaleTimeString("ar-LY", { hour: "2-digit", minute: "2-digit", hour12: false });
 
 export function useInvoices(tenantId: string | null | undefined) {
   return useQuery({
@@ -230,7 +230,7 @@ export function useInvoices(tenantId: string | null | undefined) {
       const { data, error } = await supabase
         .from("orders")
         .select("id,number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
         id: r.id, number: String(r.number),
@@ -330,13 +330,7 @@ export function useAddExpense(tenantId: string | null | undefined) {
 }
 
 /* ---------- sales / debt / settlement / undo ---------- */
-async function nextOrderNumber(tenantId: string): Promise<number> {
-  const { data, error } = await supabase
-    .from("orders").select("number").eq("tenant_id", tenantId)
-    .order("number", { ascending: false }).limit(1).maybeSingle();
-  if (error) throw error;
-  return (data?.number ?? 1040) + 1;
-}
+
 
 export type CreateSaleInput = {
   items: { productId: string; name: string; qty: number; price: number; cost: number }[];
@@ -376,17 +370,8 @@ export function useDeleteInvoice(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (orderId: string) => {
-      // restore stock
-      const { data: items } = await supabase.from("order_items").select("product_id,qty").eq("order_id", orderId);
-      for (const it of items ?? []) {
-        if (!it.product_id) continue;
-        const { data: prow } = await supabase.from("products").select("stock").eq("id", it.product_id).maybeSingle();
-        if (prow) await supabase.from("products").update({ stock: Number(prow.stock) + Number(it.qty) }).eq("id", it.product_id);
-      }
-      await supabase.from("payments").delete().eq("order_id", orderId);
-      await supabase.from("order_items").delete().eq("order_id", orderId);
-      const { error } = await supabase.from("orders").delete().eq("id", orderId);
-      if (error) throw error;
+      const { error } = await supabase.rpc("delete_order_with_restore_stock" as any, { p_order_id: orderId });
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
@@ -442,26 +427,12 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
       collected?: number;
     }) => {
       if (!tenantId) throw new Error("no tenant");
-
-      // Returned orders go through an RPC that restores stock atomically.
-      if (input.state === "returned") {
-        const { error } = await supabase.rpc("return_courier_order" as any, { p_order_id: input.orderId });
-        if (error) throw new Error(rpcMessage(error));
-        return;
-      }
-
-      const { data: row } = await supabase.from("orders").select("total").eq("id", input.orderId).maybeSingle();
-      if (!row) throw new Error("order not found");
-      const total = Number(row.total);
-      let collected = 0;
-      if (input.state === "delivered_full") collected = total;
-      else if (input.state === "delivered_partial") collected = Math.max(0, Math.min(total, input.collected ?? 0));
-      else collected = 0;
-      const { error } = await supabase.from("orders").update({
-        courier_state: input.state,
-        collected_by_courier: collected,
-      }).eq("id", input.orderId);
-      if (error) throw error;
+      const { error } = await supabase.rpc("update_courier_order_state" as any, {
+        p_order_id: input.orderId,
+        p_state: input.state,
+        p_collected: input.collected ?? null,
+      });
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
@@ -502,11 +473,7 @@ export function useDayCloses(tenantId: string | null | undefined) {
 export function useCloseDay(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: {
-      sales?: number; collected?: number; expenses?: number;
-      realizedProfit?: number; customerDebts?: number; unsettledCustody?: number;
-      note?: string;
-    }) => {
+    mutationFn: async (input: { note?: string }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.rpc("close_day" as any, { p_note: input.note ?? null });
       if (error) throw new Error(rpcMessage(error));

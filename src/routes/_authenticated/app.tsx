@@ -177,9 +177,17 @@ function MongezzApp() {
     const collected = payP.reduce((s, pm) => s + pm.amount, 0);
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
-    const realizedRatio = sales > 0 ? Math.min(1, collected / sales) : 0;
-    const realizedCogs = cogs * realizedRatio;
-    const realizedProfit = collected - realizedCogs - expenseTotal;
+    // Realized profit per-order (matches close_day RPC formula):
+    // for each invoice take (price-cost)*qty * min(paid/total, 1)
+    const realizedCogs = invP.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.items.reduce((a, it) => a + it.cost * it.qty * ratio, 0);
+    }, 0);
+    const realizedRevenue = invP.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.total * ratio;
+    }, 0);
+    const realizedProfit = realizedRevenue - realizedCogs - expenseTotal;
     const cashToday = collected - expenseTotal;
 
     // Stocks — current balances across ALL invoices (not period-bound)
@@ -878,12 +886,12 @@ function InventoryScreen(p: any) {
               </div>
               {pr.stock === 0 && pr.is_active !== false && (
                 <div className="mt-2">
-                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { alert(e?.message); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
                   <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
                 </div>
               )}
               {pr.is_active === false && (
-                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { alert(e?.message); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
+                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
               )}
             </div>
           ))}
@@ -1239,7 +1247,12 @@ function DebtsScreen(p: any) {
 
 function DebtCustomerScreen(p: any) {
   const cust: Customer | undefined = p.customers.find((c: Customer) => c.id === p.openCustomerId);
-  const invs = p.invoices.filter((i: Invoice) => i.customerId === cust?.id && (i.total - i.paid) > 0);
+  // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
+  const invs = p.invoices.filter((i: Invoice) =>
+    i.customerId === cust?.id &&
+    (i.total - i.paid) > 0 &&
+    !(i.delivery === "courier" && (i.courierState ?? "pending") === "pending")
+  );
   const total = invs.reduce((s: number, i: Invoice) => s + (i.total - i.paid), 0);
   return (
     <>
@@ -1659,9 +1672,45 @@ function CustomersScreen(p: any) {
             </div>
           ))}
         </div>
-        <button className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة عميل</button>
+        <AddCustomerInline addCustomerAsync={p.addCustomerAsync} customers={p.customers} showToast={p.showToast} />
       </div>
     </>
+  );
+}
+
+function AddCustomerInline({ addCustomerAsync, customers, showToast }: { addCustomerAsync: (i: { name: string; phone?: string }) => Promise<any>; customers: Customer[]; showToast: (s: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const trimmedName = name.trim();
+  const trimmedPhone = phone.trim();
+  const dup = customers.find(c => c.name.trim() === trimmedName || (!!trimmedPhone && (c.phone ?? "").trim() === trimmedPhone));
+  const submit = async () => {
+    if (!trimmedName) return;
+    try {
+      await addCustomerAsync({ name: trimmedName, phone: trimmedPhone || undefined });
+      setName(""); setPhone(""); setOpen(false);
+      showToast("تم إضافة العميل");
+    } catch (e: any) {
+      showToast(e?.message ?? "تعذّر الإضافة");
+    }
+  };
+  if (!open) {
+    return (
+      <button onClick={() => setOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة عميل</button>
+    );
+  }
+  return (
+    <div className="rounded-2xl bg-card border border-border p-3 space-y-2">
+      <div className="font-bold text-sm">إضافة عميل جديد</div>
+      <input value={name} onChange={e => setName(e.target.value)} placeholder="اسم العميل (إلزامي)" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm" />
+      <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="رقم الهاتف (اختياري)" inputMode="tel" className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm num text-right" />
+      {dup && <div className="text-[11px] text-warn">⚠ يوجد عميل بنفس {dup.name.trim() === trimmedName ? "الاسم" : "الرقم"}: {dup.name}</div>}
+      <div className="flex gap-2">
+        <button onClick={() => { setOpen(false); setName(""); setPhone(""); }} className="flex-1 rounded-xl bg-muted py-2.5 text-sm font-bold">إلغاء</button>
+        <button disabled={!trimmedName} onClick={submit} className="flex-1 rounded-xl bg-primary text-primary-foreground py-2.5 text-sm font-bold disabled:opacity-40">حفظ</button>
+      </div>
+    </div>
   );
 }
 
@@ -2058,7 +2107,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
                     const created = await addCustomerAsync({ name: trimmedName, phone: trimmedPhone || undefined });
                     setCustomerId(created.id); setNewName(""); setNewPhone(""); setPickCustomer(false);
                   } catch (err: any) {
-                    alert(err?.message ?? "تعذّر إضافة العميل");
+                    console.warn(err?.message);
                   }
                 }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">إضافة وحفظ</button>
               )}
@@ -2364,7 +2413,26 @@ function SaleQuickScreen(p: any) {
 
 /* --------------- DAY CLOSE --------------- */
 function DayCloseScreen(p: any) {
-  const t = p.totals;
+  // Day close always reflects TODAY only — independent of dashboard period filter.
+  // This matches the close_day RPC which computes today's snapshot server-side.
+  const t = useMemo(() => {
+    const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+    const invs: Invoice[] = (p.invoices ?? []).filter((i: Invoice) => isToday(i.createdAt));
+    const pays: Payment[] = (p.payments ?? []).filter((pm: Payment) => isToday(pm.createdAt));
+    const exps: Expense[] = (p.expenses ?? []).filter((e: Expense) => isToday(e.createdAt));
+    const sales = invs.reduce((s, i) => s + i.total, 0);
+    const collected = pays.reduce((s, pm) => s + pm.amount, 0);
+    const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);
+    const realizedProfit = invs.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.items.reduce((a, it) => a + (it.price - it.cost) * it.qty * ratio, 0);
+    }, 0) - expenseTotal;
+    // open stocks across ALL invoices (not just today)
+    const customerDebts: number = p.rawTotals?.customerDebts ?? p.totals.customerDebts;
+    const unsettledCustody: number = p.rawTotals?.unsettledCustody ?? p.totals.unsettledCustody;
+    const cashToday = collected - expenseTotal;
+    return { sales, collected, expenseTotal, realizedProfit, customerDebts, unsettledCustody, cashToday };
+  }, [p.invoices, p.payments, p.expenses, p.rawTotals, p.totals]);
   const Row = ({ label, v, color, hint }: { label: string; v: number; color?: string; hint?: string }) => (
     <div className="flex items-start justify-between py-3">
       <div>
@@ -2424,11 +2492,7 @@ function DayCloseScreen(p: any) {
             <button
               onClick={async () => {
                 try {
-                  await p.closeDayAsync({
-                    sales: t.sales, collected: t.collected, expenses: t.expenseTotal,
-                    realizedProfit: t.realizedProfit, customerDebts: t.customerDebts,
-                    unsettledCustody: t.unsettledCustody,
-                  });
+                  await p.closeDayAsync({});
                   p.showToast("تم حفظ إقفال اليوم");
                   p.back();
                 } catch (e: any) {
@@ -2566,7 +2630,7 @@ function PilotScreen(p: any) {
   const dayCloses: { closedFor: string }[] = p.dayCloses ?? [];
   const role: string | null = p.myRole ?? null;
 
-  if (role && role !== "owner") {
+  if (role !== "owner") {
     return (
       <>
         <TopBar title="صحة النظام" onBack={p.back} />

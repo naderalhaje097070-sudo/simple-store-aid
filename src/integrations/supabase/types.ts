@@ -608,6 +608,10 @@ export type Database = {
         Returns: Json
       }
       current_tenant_id: { Args: never; Returns: string }
+      delete_order_with_restore_stock: {
+        Args: { p_order_id: string }
+        Returns: Json
+      }
       get_platform_admin_audit_log: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {
@@ -702,6 +706,10 @@ export type Database = {
       return_courier_order: { Args: { p_order_id: string }; Returns: Json }
       settle_courier_orders: {
         Args: { p_courier_id: string; p_orders: Json }
+        Returns: Json
+      }
+      update_courier_order_state: {
+        Args: { p_collected?: number; p_order_id: string; p_state: string }
         Returns: Json
       }
     }

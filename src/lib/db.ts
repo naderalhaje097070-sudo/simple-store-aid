@@ -47,7 +47,8 @@ export function useUpdateTenantName(tenantId: string | null | undefined) {
 }
 
 /* ---------- my role ---------- */
-export type AppRole = "owner" | "manager" | "cashier" | "viewer";
+// Aligned with database enum public.app_role
+export type AppRole = "owner" | "staff";
 export function useMyRole(tenantId: string | null | undefined) {
   return useQuery({
     queryKey: ["my_role", tenantId],
@@ -64,6 +65,35 @@ export function useMyRole(tenantId: string | null | undefined) {
     staleTime: 60_000,
   });
 }
+
+/* ---------- friendly RPC error mapper ---------- */
+function rpcMessage(err: any): string {
+  const raw = String(err?.message ?? err ?? "");
+  const map: Record<string, string> = {
+    forbidden_tenant: "ليست لديك صلاحية على هذا المتجر",
+    forbidden_role: "ليست لديك صلاحية لتنفيذ هذه العملية",
+    empty_items: "يجب إضافة صنف واحد على الأقل",
+    invalid_paid: "المبلغ المدفوع غير صحيح",
+    invalid_amount: "المبلغ غير صحيح",
+    paid_exceeds_total: "المدفوع أكبر من الإجمالي",
+    customer_required_for_debt: "يجب اختيار عميل لأن هناك مبلغًا متبقّيًا",
+    courier_requires_customer_and_courier: "توصيل المندوب يتطلّب عميلًا ومندوبًا",
+    insufficient_stock: "الكمية المتاحة في المخزون غير كافية",
+    product_inactive: "أحد المنتجات موقوف عن البيع",
+    product_not_found: "لم يتم العثور على المنتج",
+    amount_exceeds_remaining: "المبلغ أكبر من المتبقّي على الفاتورة",
+    courier_not_found: "المندوب غير موجود",
+    order_not_in_courier_custody: "هذه الفاتورة ليست ضمن عهدة المندوب",
+    collected_exceeds_remaining: "المحصّل أكبر من المتبقّي على الفاتورة",
+    not_a_courier_order: "هذه الفاتورة ليست توصيلًا بمندوب",
+    cannot_return_partially_paid_order: "لا يمكن إرجاع فاتورة تم تحصيل جزء منها",
+  };
+  for (const key of Object.keys(map)) {
+    if (raw.includes(key)) return map[key];
+  }
+  return "تعذّر إتمام العملية";
+}
+
 
 /* ---------- products ---------- */
 export type DBProduct = {

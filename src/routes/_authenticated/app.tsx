@@ -643,16 +643,19 @@ function InvoiceRow({ inv, customers, onOpen }: { inv: Invoice; customers: Custo
 /* --------------- INVOICES LIST --------------- */
 function InvoicesScreen(p: any) {
   const [filter, setFilter] = useState<"all" | "paid" | "partial" | "debt">("all");
-  const list = p.invoices.filter((i: Invoice) => filter === "all" ? true : i.status === filter);
+  const { range, setRange } = useDateRange("today");
+  const dated = p.invoices.filter((i: Invoice) => inRange(i.createdAt, range));
+  const list = dated.filter((i: Invoice) => filter === "all" ? true : i.status === filter);
   const total = list.reduce((s: number, i: Invoice) => s + i.total, 0);
   return (
     <>
       <TopBar title="الفواتير" />
       <div className="px-4 pt-3 space-y-3">
+        <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
           <div>
-            <div className="text-xs text-muted-foreground">قيمة الفواتير <span className="text-[10px]">(ليست المحصّل)</span></div>
-            <div className="text-[11px] text-muted-foreground mb-1">المبالغ بالـ د.ل</div>
+            <div className="text-xs text-muted-foreground">قيمة الفواتير · {range.label} <span className="text-[10px]">(ليست المحصّل)</span></div>
+            <div className="text-[11px] text-muted-foreground mb-1">{list.length} فاتورة · بالـ د.ل</div>
             <Money v={total} className="text-lg" />
           </div>
           <Info className="w-4 h-4 text-muted-foreground" />
@@ -665,7 +668,7 @@ function InvoicesScreen(p: any) {
           ))}
         </div>
         <div className="space-y-2">
-          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا فواتير بهذه الحالة</div>}
+          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا توجد فواتير في هذا النطاق</div>}
           {list.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { p.setOpenInvoiceId(id); p.go("invoice_detail"); }} />)}
         </div>
       </div>

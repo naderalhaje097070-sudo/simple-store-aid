@@ -203,7 +203,7 @@ function MongezzApp() {
   }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
 
   const ctx = {
-    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
+    products, customers, setCustomers, couriers, invoices, expenses, payments,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday,
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
@@ -213,6 +213,12 @@ function MongezzApp() {
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
     addProductAsync: (input: { name: string; price: number; cost: number; stock: number }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
+    addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
+    addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
+    createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
+    deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
+    collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
+    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
   };
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);

@@ -330,13 +330,7 @@ export function useAddExpense(tenantId: string | null | undefined) {
 }
 
 /* ---------- sales / debt / settlement / undo ---------- */
-async function nextOrderNumber(tenantId: string): Promise<number> {
-  const { data, error } = await supabase
-    .from("orders").select("number").eq("tenant_id", tenantId)
-    .order("number", { ascending: false }).limit(1).maybeSingle();
-  if (error) throw error;
-  return (data?.number ?? 1040) + 1;
-}
+
 
 export type CreateSaleInput = {
   items: { productId: string; name: string; qty: number; price: number; cost: number }[];

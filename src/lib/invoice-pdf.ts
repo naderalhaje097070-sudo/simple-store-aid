@@ -119,7 +119,7 @@ function buildHtml(d: InvoicePdfData): string {
       : "";
   const custodyLine =
     (d.collectedByCourier ?? 0) > 0
-      ? `<div style="display:flex;justify-content:space-between;padding:6px 0;color:#b45309"><span>بيد المندوب (عهدة)</span><span dir="ltr">${money(d.collectedByCourier ?? 0)} د.ل</span></div>`
+      ? `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#b45309"><span>بيد المندوب (عهدة)</span><span dir="ltr" style="white-space:nowrap">${money(d.collectedByCourier ?? 0)} د.ل</span></div>`
       : "";
 
   return `

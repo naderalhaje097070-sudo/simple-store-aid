@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as GuideRouteImport } from './routes/guide'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 
 const GuideRoute = GuideRouteImport.update({
   id: '/guide',
   path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
@@ -24,27 +30,31 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/guide': typeof GuideRoute
   '/app': typeof AuthenticatedAppRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/guide': typeof GuideRoute
   '/app': typeof AuthenticatedAppRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/guide': typeof GuideRoute
   '/_authenticated/app': typeof AuthenticatedAppRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/guide' | '/app'
+  fullPaths: '/' | '/guide' | '/app'
   fileRoutesByTo: FileRoutesByTo
-  to: '/guide' | '/app'
-  id: '__root__' | '/guide' | '/_authenticated/app'
+  to: '/' | '/guide' | '/app'
+  id: '__root__' | '/' | '/guide' | '/_authenticated/app'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   GuideRoute: typeof GuideRoute
   AuthenticatedAppRoute: typeof AuthenticatedAppRoute
 }
@@ -58,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuideRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/app': {
       id: '/_authenticated/app'
       path: '/app'
@@ -69,6 +86,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   GuideRoute: GuideRoute,
   AuthenticatedAppRoute: AuthenticatedAppRoute,
 }

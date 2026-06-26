@@ -25,7 +25,8 @@ function PlatformAdminPage() {
 
   useEffect(() => {
     (async () => {
-      const { data, error } = await supabase.rpc("is_platform_admin");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase.rpc as any)("is_platform_admin");
       setAllowed(!error && data === true);
       setChecking(false);
     })();

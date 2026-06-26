@@ -1842,16 +1842,23 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
 
         {status === "partial" && (
           <div>
-            <label className="text-xs font-bold text-muted-foreground">المدفوع</label>
+            <label className="text-xs font-bold text-muted-foreground">{delivery === "courier" ? "قبضه المندوب الآن" : "المدفوع"}</label>
             <input value={paidStr} onChange={e => setPaidStr(e.target.value)} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
           </div>
         )}
 
         {overpaid && <div className="rounded-xl bg-debt-soft text-debt text-xs p-3 flex items-center gap-2"><AlertTriangle className="w-4 h-4" />المبلغ المدفوع أكبر من الإجمالي</div>}
 
+        {delivery === "courier" && paid > 0 && !overpaid && (
+          <div className="rounded-xl bg-warn-soft text-warn text-[11px] p-3 flex items-start gap-2">
+            <Info className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>هذا المبلغ يُسجَّل <b>عهدة بيد المندوب</b> — لا يدخل صندوق المحل إلا بعد التسوية معه.</span>
+          </div>
+        )}
+
         {(status === "partial" || status === "debt") && (
           <div className="rounded-xl bg-debt-soft p-3 flex items-center justify-between">
-            <div><div className="text-xs text-debt">المتبقي</div><Money v={Math.max(0, remaining)} className="text-debt font-bold" /></div>
+            <div><div className="text-xs text-debt">المتبقي {delivery === "courier" ? "(على العميل بعد التسوية)" : ""}</div><Money v={Math.max(0, remaining)} className="text-debt font-bold" /></div>
           </div>
         )}
 

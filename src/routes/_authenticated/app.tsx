@@ -196,6 +196,9 @@ function MongezzApp() {
     setLastSaleSummary, lastSaleSummary, setScreen,
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
     setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
+    addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
+    addProductAsync: (input: { name: string; price: number; cost: number; stock: number }) => addProductMut.mutateAsync(input),
+    toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
   };
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);

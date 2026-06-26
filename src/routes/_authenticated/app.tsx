@@ -1247,7 +1247,12 @@ function DebtsScreen(p: any) {
 
 function DebtCustomerScreen(p: any) {
   const cust: Customer | undefined = p.customers.find((c: Customer) => c.id === p.openCustomerId);
-  const invs = p.invoices.filter((i: Invoice) => i.customerId === cust?.id && (i.total - i.paid) > 0);
+  // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
+  const invs = p.invoices.filter((i: Invoice) =>
+    i.customerId === cust?.id &&
+    (i.total - i.paid) > 0 &&
+    !(i.delivery === "courier" && (i.courierState ?? "pending") === "pending")
+  );
   const total = invs.reduce((s: number, i: Invoice) => s + (i.total - i.paid), 0);
   return (
     <>

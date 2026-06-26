@@ -888,42 +888,125 @@ function InventoryScreen(p: any) {
         <button onClick={() => setAddOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة منتج</button>
       </div>
 
-      {addOpen && <AddProductSheet onClose={() => setAddOpen(false)} onSave={async (data) => {
+      {addOpen && <AddProductSheet existingNames={(p.products ?? []).map((x: any) => String(x.name || "").trim().toLowerCase())} onClose={() => setAddOpen(false)} onSave={async (data) => {
         try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
-        catch (e: any) { alert(e?.message ?? "تعذّر الحفظ"); }
+        catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
       }} />}
     </>
   );
 }
 
-function AddProductSheet({ onClose, onSave }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number }) => void | Promise<void> }) {
+function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number }) => void | Promise<void>; existingNames?: string[] }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [cost, setCost] = useState("");
   const [stock, setStock] = useState("");
-  const valid = name.trim().length > 0 && Number(price) >= 0;
+  const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>({});
+  const [submitting, setSubmitting] = useState(false);
+
+  const trimmedName = name.trim();
+  const priceN = Number(price);
+  const costN = Number(cost);
+  const stockN = Number(stock);
+
+  const errors: { name?: string; price?: string; stock?: string; cost?: string } = {};
+  if (!trimmedName) errors.name = "اسم المنتج مطلوب";
+  else if (trimmedName.length < 2) errors.name = "الاسم قصير جداً (حرفان على الأقل)";
+  else if (trimmedName.length > 60) errors.name = "الاسم طويل (60 حرفاً كحد أقصى)";
+
+  if (price === "" ) errors.price = "سعر البيع مطلوب";
+  else if (!isFinite(priceN) || priceN <= 0) errors.price = "أدخل سعراً أكبر من صفر";
+
+  if (stock === "") errors.stock = "أدخل كمية المخزون (يمكن أن تكون 0)";
+  else if (!isFinite(stockN) || stockN < 0) errors.stock = "الكمية غير صحيحة";
+  else if (stockN > 100000) errors.stock = "الكمية كبيرة جداً";
+
+  if (cost !== "" && (!isFinite(costN) || costN < 0)) errors.cost = "تكلفة غير صحيحة";
+
+  const warnings: { cost?: string; name?: string } = {};
+  if (!errors.cost && !errors.price && cost !== "" && costN > priceN) warnings.cost = "التكلفة أعلى من سعر البيع — ستبيع بخسارة";
+  if (!errors.name && trimmedName && existingNames.includes(trimmedName.toLowerCase())) warnings.name = "يوجد منتج بنفس الاسم — تأكد قبل الحفظ";
+
+  const valid = Object.keys(errors).length === 0;
+
+  const handleSave = async () => {
+    if (!valid) {
+      setTouched({ name: true, price: true, cost: true, stock: true });
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await onSave({ name: trimmedName, price: priceN, cost: costN || 0, stock: stockN });
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const showErr = (k: keyof typeof errors) => touched[k as keyof typeof touched] && errors[k];
+  const inputCls = (k: keyof typeof errors) => `mt-1 w-full rounded-xl border bg-background px-3 py-3 text-sm ${showErr(k) ? "border-destructive" : "border-border"}`;
+
   return (
     <Sheet onClose={onClose} title="إضافة منتج">
       <div className="space-y-3">
         <div>
-          <label className="text-xs font-bold text-muted-foreground">اسم المنتج</label>
-          <input autoFocus value={name} onChange={e => setName(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" placeholder="مثال: ماء 1.5 لتر" />
+          <label className="text-xs font-bold text-muted-foreground">اسم المنتج <span className="text-destructive">*</span></label>
+          <input
+            autoFocus value={name}
+            onChange={e => setName(e.target.value)}
+            onBlur={() => setTouched(t => ({ ...t, name: true }))}
+            className={inputCls("name")}
+            placeholder="مثال: ماء 1.5 لتر"
+            maxLength={60}
+          />
+          {showErr("name") && <div className="mt-1 text-xs text-destructive">{errors.name}</div>}
+          {!showErr("name") && warnings.name && <div className="mt-1 text-xs text-amber-600 dark:text-amber-500">⚠ {warnings.name}</div>}
         </div>
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs font-bold text-muted-foreground">سعر البيع</label>
-            <input value={price} onChange={e => setPrice(e.target.value.replace(/[^\d.]/g, ""))} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+            <label className="text-xs font-bold text-muted-foreground">سعر البيع <span className="text-destructive">*</span></label>
+            <input
+              value={price}
+              onChange={e => setPrice(e.target.value.replace(/[^\d.]/g, ""))}
+              onBlur={() => setTouched(t => ({ ...t, price: true }))}
+              inputMode="decimal"
+              className={`${inputCls("price")} num text-right`}
+              placeholder="0"
+            />
+            {showErr("price") && <div className="mt-1 text-xs text-destructive">{errors.price}</div>}
           </div>
           <div>
             <label className="text-xs font-bold text-muted-foreground">سعر التكلفة</label>
-            <input value={cost} onChange={e => setCost(e.target.value.replace(/[^\d.]/g, ""))} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+            <input
+              value={cost}
+              onChange={e => setCost(e.target.value.replace(/[^\d.]/g, ""))}
+              onBlur={() => setTouched(t => ({ ...t, cost: true }))}
+              inputMode="decimal"
+              className={`${inputCls("cost")} num text-right`}
+              placeholder="0"
+            />
+            {showErr("cost") && <div className="mt-1 text-xs text-destructive">{errors.cost}</div>}
+            {!showErr("cost") && warnings.cost && <div className="mt-1 text-xs text-amber-600 dark:text-amber-500">⚠ {warnings.cost}</div>}
           </div>
         </div>
         <div>
-          <label className="text-xs font-bold text-muted-foreground">المخزون الحالي</label>
-          <input value={stock} onChange={e => setStock(e.target.value.replace(/\D/g, ""))} inputMode="numeric" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+          <label className="text-xs font-bold text-muted-foreground">المخزون الحالي <span className="text-destructive">*</span></label>
+          <input
+            value={stock}
+            onChange={e => setStock(e.target.value.replace(/\D/g, ""))}
+            onBlur={() => setTouched(t => ({ ...t, stock: true }))}
+            inputMode="numeric"
+            className={`${inputCls("stock")} num text-right`}
+            placeholder="0"
+          />
+          {showErr("stock") && <div className="mt-1 text-xs text-destructive">{errors.stock}</div>}
         </div>
-        <button disabled={!valid} onClick={() => onSave({ name: name.trim(), price: Number(price) || 0, cost: Number(cost) || 0, stock: Number(stock) || 0 })} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ المنتج</button>
+        <button
+          disabled={submitting}
+          onClick={handleSave}
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
+        >
+          {submitting ? "جاري الحفظ…" : "حفظ المنتج"}
+        </button>
       </div>
     </Sheet>
   );

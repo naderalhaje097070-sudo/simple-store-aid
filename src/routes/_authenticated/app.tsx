@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
-  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
+  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive, useUpdateProduct,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
@@ -111,6 +111,7 @@ function MongezzApp() {
   const addCustomerMut = useAddCustomer(tenantId);
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
+  const updateProductMut = useUpdateProduct(tenantId);
   const addCourierMut = useAddCourier(tenantId);
   const addExpenseMut = useAddExpense(tenantId);
   const createSaleMut = useCreateSale(tenantId);
@@ -257,6 +258,7 @@ function MongezzApp() {
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
     addProductAsync: (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
+    updateProductAsync: (input: { id: string; name: string; price: number; cost: number; stock: number; is_discount: boolean }) => updateProductMut.mutateAsync(input),
     addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
     addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
@@ -851,6 +853,7 @@ function InvoiceDetailScreen(p: any) {
 /* --------------- INVENTORY --------------- */
 function InventoryScreen(p: any) {
   const [filter, setFilter] = useState<"all" | "low" | "out">("all");
+  const [editing, setEditing] = useState<any>(null);
   const [addOpen, setAddOpen] = useState(false);
   const list = p.products.filter((pr: any) => {
     if (filter === "low") return pr.stock > 0 && pr.stock <= pr.lowAt;
@@ -884,15 +887,15 @@ function InventoryScreen(p: any) {
                 </div>
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              {pr.stock === 0 && pr.is_active !== false && (
-                <div className="mt-2">
-                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
-                  <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
-                </div>
-              )}
-              {pr.is_active === false && (
-                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
-              )}
+              <div className="mt-2 flex gap-2">
+                <button onClick={() => setEditing(pr)} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">تعديل</button>
+                {pr.stock === 0 && pr.is_active !== false && (
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض</button>
+                )}
+                {pr.is_active === false && (
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
+                )}
+              </div>
             </div>
           ))}
         </div>
@@ -903,17 +906,27 @@ function InventoryScreen(p: any) {
         try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
         catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
       }} />}
+      {editing && <AddProductSheet
+        mode="edit"
+        initial={{ name: editing.name, price: editing.price, cost: editing.cost ?? 0, stock: editing.stock, is_discount: !!editing.is_discount }}
+        existingNames={(p.products ?? []).filter((x: any) => x.id !== editing.id).map((x: any) => String(x.name || "").trim().toLowerCase())}
+        onClose={() => setEditing(null)}
+        onSave={async (data) => {
+          try { await p.updateProductAsync({ id: editing.id, ...data }); setEditing(null); p.showToast("تم تحديث المنتج"); }
+          catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
+        }}
+      />}
     </>
   );
 }
 
-function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[] }) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [cost, setCost] = useState("");
-  const [stock, setStock] = useState("");
-  const [isDiscount, setIsDiscount] = useState(false);
-  const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>({});
+function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode = "add", initial }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[]; mode?: "add" | "edit"; initial?: { name: string; price: number; cost: number; stock: number; is_discount: boolean } }) {
+  const [name, setName] = useState(initial?.name ?? "");
+  const [price, setPrice] = useState(initial ? String(initial.price) : "");
+  const [cost, setCost] = useState(initial ? String(initial.cost ?? "") : "");
+  const [stock, setStock] = useState(initial ? String(initial.stock) : "");
+  const [isDiscount, setIsDiscount] = useState(initial?.is_discount ?? false);
+  const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>(initial ? { name: true, price: true, cost: true, stock: true } : {});
   const [submitting, setSubmitting] = useState(false);
 
   const trimmedName = name.trim();
@@ -959,7 +972,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
   const inputCls = (k: keyof typeof errors) => `mt-1 w-full rounded-xl border bg-background px-3 py-3 text-sm ${showErr(k) ? "border-destructive" : "border-border"}`;
 
   return (
-    <Sheet onClose={onClose} title="إضافة منتج">
+    <Sheet onClose={onClose} title={mode === "edit" ? "تعديل المنتج" : "إضافة منتج"}>
       <div className="space-y-3">
         <div>
           <label className="text-xs font-bold text-muted-foreground">اسم المنتج <span className="text-destructive">*</span></label>
@@ -1022,7 +1035,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
           onClick={handleSave}
           className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
         >
-          {submitting ? "جاري الحفظ…" : "حفظ المنتج"}
+          {submitting ? "جاري الحفظ…" : mode === "edit" ? "حفظ التعديلات" : "حفظ المنتج"}
         </button>
       </div>
     </Sheet>

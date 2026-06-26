@@ -145,6 +145,19 @@ export function useUpdateProductActive(tenantId: string | null | undefined) {
   });
 }
 
+export function useUpdateProduct(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: { id: string; name: string; price: number; cost: number; stock: number; is_discount: boolean }) => {
+      const { error } = await supabase.from("products").update({
+        name: input.name, price: input.price, cost: input.cost, stock: input.stock, is_discount: input.is_discount,
+      }).eq("id", input.id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["products", tenantId] }),
+  });
+}
+
 /* ---------- customers ---------- */
 export type DBCustomer = { id: string; name: string; phone?: string };
 

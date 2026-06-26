@@ -782,6 +782,7 @@ function InvoiceDetailScreen(p: any) {
           const data: InvoicePdfData = {
             shopName: tenant?.name ?? "محلي",
             number: String(inv.number),
+            issuedAt: createdAt,
             dateText, timeText: inv.time,
             customerName: cust?.name,
             courierName,

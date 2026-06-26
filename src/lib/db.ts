@@ -370,17 +370,8 @@ export function useDeleteInvoice(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (orderId: string) => {
-      // restore stock
-      const { data: items } = await supabase.from("order_items").select("product_id,qty").eq("order_id", orderId);
-      for (const it of items ?? []) {
-        if (!it.product_id) continue;
-        const { data: prow } = await supabase.from("products").select("stock").eq("id", it.product_id).maybeSingle();
-        if (prow) await supabase.from("products").update({ stock: Number(prow.stock) + Number(it.qty) }).eq("id", it.product_id);
-      }
-      await supabase.from("payments").delete().eq("order_id", orderId);
-      await supabase.from("order_items").delete().eq("order_id", orderId);
-      const { error } = await supabase.from("orders").delete().eq("id", orderId);
-      if (error) throw error;
+      const { error } = await supabase.rpc("delete_order_with_restore_stock" as any, { p_order_id: orderId });
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });

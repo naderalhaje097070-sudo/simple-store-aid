@@ -530,3 +530,84 @@ function AlertsTab() {
     </div>
   );
 }
+
+type AuditRow = {
+  id: string;
+  user_id: string;
+  user_email: string | null;
+  action: string;
+  details: Record<string, unknown> | null;
+  created_at: string;
+};
+
+const ACTION_LABELS: Record<string, string> = {
+  view_overview: "فتح نظرة عامة",
+  view_tenants: "عرض المتاجر",
+  view_financial_health: "عرض الصحة المالية",
+  view_financial_health_rows: "عرض صفوف فحص مالي",
+  view_system_health: "عرض صحة النظام",
+  view_day_close_health: "عرض إغلاق اليوم",
+  view_courier_custody_health: "عرض عهدة المناديب",
+};
+
+function AuditTab() {
+  const [limit, setLimit] = useState(100);
+  const { data, err, loading } = useRpc<AuditRow[]>("get_platform_admin_audit_log", { p_limit: limit, p_offset: 0 });
+  if (loading) return <p className="text-sm text-muted-foreground">جاري التحميل…</p>;
+  if (err) return <p className="text-sm text-red-600">خطأ: {err}</p>;
+  const rows = data ?? [];
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-xs text-muted-foreground">
+          سجل كل عملية وصول للوحة مشرف المنصة (المستخدم، الإجراء، الوقت).
+        </p>
+        <select
+          value={limit}
+          onChange={(e) => setLimit(Number(e.target.value))}
+          className="text-xs border rounded px-2 py-1 bg-card"
+        >
+          <option value={50}>آخر 50</option>
+          <option value={100}>آخر 100</option>
+          <option value={250}>آخر 250</option>
+          <option value={500}>آخر 500</option>
+        </select>
+      </div>
+      {rows.length === 0 ? (
+        <p className="text-sm text-muted-foreground">لا توجد سجلات بعد.</p>
+      ) : (
+        <div className="overflow-x-auto border rounded-lg bg-card">
+          <table className="w-full text-xs">
+            <thead className="bg-muted/50">
+              <tr className="text-right">
+                <th className="p-2">الوقت</th>
+                <th className="p-2">المشرف</th>
+                <th className="p-2">معرف المستخدم</th>
+                <th className="p-2">الإجراء</th>
+                <th className="p-2">التفاصيل</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((r) => (
+                <tr key={r.id} className="border-t align-top">
+                  <td className="p-2 whitespace-nowrap">{dt(r.created_at)}</td>
+                  <td className="p-2">{r.user_email ?? "—"}</td>
+                  <td className="p-2 font-mono">{short(r.user_id)}</td>
+                  <td className="p-2">
+                    <span className="px-2 py-0.5 rounded bg-primary/10 text-primary text-[11px]">
+                      {ACTION_LABELS[r.action] ?? r.action}
+                    </span>
+                    <div className="text-[10px] text-muted-foreground font-mono mt-0.5">{r.action}</div>
+                  </td>
+                  <td className="p-2 font-mono text-[10px] text-muted-foreground max-w-[280px] truncate">
+                    {r.details && Object.keys(r.details).length > 0 ? JSON.stringify(r.details) : "—"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}

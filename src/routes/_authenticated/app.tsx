@@ -1087,12 +1087,15 @@ function DebtCustomerScreen(p: any) {
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
   const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id);
+  const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
+  const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
+  const [markAmount, setMarkAmount] = useState("");
   const list = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courierId);
   const pending = list.filter((i: Invoice) => (i.courierState ?? "pending") === "pending");
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
   const customerDebtOrders = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_none");
 
-  const pendingV = pending.reduce((s: number, i: Invoice) => s + i.total, 0);
+  const pendingV = pending.reduce((s: number, i: Invoke) => s + i.total, 0);
   const custodyV = collected.reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
   const debtV = customerDebtOrders.reduce((s: number, i: Invoice) => {
     if (i.courierState === "delivered_none") return s + i.total;
@@ -1101,6 +1104,21 @@ function CourierCustodyScreen(p: any) {
   }, 0);
 
   const goSettlements = () => { p.setOpenCourierId(courierId); p.go("settlements"); };
+
+  const confirmMark = async () => {
+    if (!markOrder || !markMode) return;
+    const total = markOrder.total;
+    const amt = markMode === "delivered_full" ? total : markMode === "delivered_partial" ? Number(markAmount) : 0;
+    if (markMode === "delivered_partial" && (!amt || amt <= 0 || amt >= total)) return;
+    await p.updateCourierStateAsync({ orderId: markOrder.id, state: markMode, collected: amt });
+    setMarkOrder(null); setMarkMode(null); setMarkAmount("");
+    p.showToast(
+      markMode === "delivered_full" ? "✓ سُلِّمت كاملة — دخلت العهدة" :
+      markMode === "delivered_partial" ? "✓ سُلِّمت جزئيًا — الباقي دين على العميل" :
+      markMode === "delivered_none" ? "✓ لم تُسلَّم — دين كامل على العميل" :
+      "✓ أُرجعت — لا دين ولا عهدة"
+    );
+  };
 
   return (
     <>
@@ -1119,14 +1137,18 @@ function CourierCustodyScreen(p: any) {
           <div className="text-[11px] text-muted-foreground mt-1">قيمة متوقعة — غير مؤكدة. لا تدخل في "عند المندوب".</div>
           <div className="mt-2 space-y-1.5">
             {pending.map((i: Invoice) => (
-              <div key={i.id} className="text-xs flex justify-between bg-card rounded-lg px-3 py-2">
-                <span>#{i.number} · {p.customers.find((c: Customer) => c.id === i.customerId)?.name}</span>
-                <Money v={i.total} />
+              <div key={i.id} className="bg-card rounded-lg px-3 py-2 space-y-1.5">
+                <div className="text-xs flex justify-between">
+                  <span>#{i.number} · {p.customers.find((c: Customer) => c.id === i.customerId)?.name}</span>
+                  <Money v={i.total} />
+                </div>
+                <button onClick={() => { setMarkOrder(i); setMarkMode(null); setMarkAmount(""); }} className="w-full text-[11px] font-bold py-1.5 rounded-md bg-primary-soft text-primary">تحديث حالة التسليم ←</button>
               </div>
             ))}
             {pending.length === 0 && <div className="text-xs text-muted-foreground">لا طلبات قيد التنفيذ</div>}
           </div>
         </div>
+
 
         {/* Block 2 */}
         <div className="rounded-2xl bg-warn-soft border-2 border-warn/30 p-4">

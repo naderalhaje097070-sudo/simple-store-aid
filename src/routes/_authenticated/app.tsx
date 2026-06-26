@@ -1295,6 +1295,21 @@ function SettlementsScreen(p: any) {
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
   const [settledAmount, setSettledAmount] = useState(0);
+
+  if (!courier) {
+    return (
+      <>
+        <TopBar title="التسويات" onBack={p.back} />
+        <div className="px-4 pt-10 text-center space-y-4">
+          <div className="text-5xl">🧾</div>
+          <div className="font-bold">لا يوجد مندوبون لتسويتهم</div>
+          <div className="text-xs text-muted-foreground">أضف مندوبًا أولًا، ثم سجّل طلبات توصيل لتظهر هنا.</div>
+          <button onClick={() => p.go("couriers")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold text-sm">+ إضافة مندوب</button>
+        </div>
+      </>
+    );
+  }
+
   const confirm = async () => {
     setSettledAmount(net);
     const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));

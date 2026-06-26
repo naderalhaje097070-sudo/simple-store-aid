@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useMemo, useState, useEffect, useRef } from "react";
 import {
   Home, ReceiptText, Plus, Boxes, Store, Bell, Menu,
@@ -14,6 +14,24 @@ import {
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
 } from "@/lib/db";
 
+function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
+  const router = useRouter();
+  console.error("[Mongezz /app error]", error);
+  return (
+    <div dir="rtl" className="min-h-screen flex items-center justify-center bg-background text-foreground p-6">
+      <div className="max-w-sm w-full bg-card border border-border rounded-2xl p-5 text-center space-y-3">
+        <div className="text-2xl">⚠️</div>
+        <div className="font-bold text-base">حدث خطأ غير متوقع</div>
+        <div className="text-xs text-muted-foreground">حدِّث الصفحة أو اضغط إعادة المحاولة.</div>
+        <button
+          onClick={() => { router.invalidate(); reset(); }}
+          className="w-full rounded-xl bg-primary text-primary-foreground py-3 text-sm font-bold"
+        >إعادة المحاولة</button>
+      </div>
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
     meta: [
@@ -22,6 +40,7 @@ export const Route = createFileRoute("/_authenticated/app")({
     ],
   }),
   component: MongezzApp,
+  errorComponent: AppErrorBoundary,
 });
 
 /* ============================== MOCK DATA ============================== */
@@ -197,7 +216,7 @@ function MongezzApp() {
     const list: { id: string; tone: "warn" | "debt" | "info"; icon: any; text: string; onClick: () => void }[] = [];
     if (lowStock > 0) list.push({ id: "low", tone: "warn", icon: AlertTriangle, text: `${lowStock} منتجات قاربت النفاد`, onClick: () => go("inventory") });
     if (outStock > 0) list.push({ id: "out", tone: "debt", icon: PackageX, text: `${outStock} منتجات نفدت — أوقف عرضها`, onClick: () => go("inventory") });
-    if (totals.unsettledCustody > 0) list.push({ id: "custody", tone: "warn", icon: Truck, text: `عهدة عند المندوب ${fmt(totals.unsettledCustody)} د.ل لم تُصفَّ`, onClick: () => go("settlements") });
+    if (totals.unsettledCustody > 0 && couriers.length > 0) list.push({ id: "custody", tone: "warn", icon: Truck, text: `عهدة عند المندوب ${fmt(totals.unsettledCustody)} د.ل لم تُصفَّ`, onClick: () => go("settlements") });
     const oldDebts = invoices.filter(i =>
       i.delivery === "direct" &&
       (i.status === "debt" || i.status === "partial") &&
@@ -1104,10 +1123,23 @@ function DebtCustomerScreen(p: any) {
 
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
-  const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id);
+  const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id ?? "");
   const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
   const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
   const [markAmount, setMarkAmount] = useState("");
+  if (!p.couriers || p.couriers.length === 0) {
+    return (
+      <>
+        <TopBar title="عهدة المندوب" onBack={p.back} />
+        <div className="px-4 pt-10 text-center space-y-4">
+          <div className="text-5xl">🛵</div>
+          <div className="font-bold">لا يوجد مندوبون بعد</div>
+          <div className="text-xs text-muted-foreground">أضف مندوبًا أولًا لمتابعة طلبات التوصيل والعهدة.</div>
+          <button onClick={() => p.go("couriers")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold text-sm">+ إضافة مندوب</button>
+        </div>
+      </>
+    );
+  }
   const list = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courierId);
   const pending = list.filter((i: Invoice) => (i.courierState ?? "pending") === "pending");
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
@@ -1250,8 +1282,12 @@ function CourierCustodyScreen(p: any) {
 /* --------------- SETTLEMENTS --------------- */
 function SettlementsScreen(p: any) {
   const courier = p.couriers.find((c: Courier) => c.id === p.openCourierId) ?? p.couriers[0];
-  const collected = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"));
-  const pending = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState ?? "pending") === "pending");
+  const collected = courier
+    ? p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"))
+    : [];
+  const pending = courier
+    ? p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState ?? "pending") === "pending")
+    : [];
   const [selected, setSelected] = useState<Set<string>>(new Set(collected.map((i: Invoice) => i.id)));
   const [done, setDone] = useState(false);
 
@@ -1259,6 +1295,21 @@ function SettlementsScreen(p: any) {
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
   const [settledAmount, setSettledAmount] = useState(0);
+
+  if (!courier) {
+    return (
+      <>
+        <TopBar title="التسويات" onBack={p.back} />
+        <div className="px-4 pt-10 text-center space-y-4">
+          <div className="text-5xl">🧾</div>
+          <div className="font-bold">لا يوجد مندوبون لتسويتهم</div>
+          <div className="text-xs text-muted-foreground">أضف مندوبًا أولًا، ثم سجّل طلبات توصيل لتظهر هنا.</div>
+          <button onClick={() => p.go("couriers")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold text-sm">+ إضافة مندوب</button>
+        </div>
+      </>
+    );
+  }
+
   const confirm = async () => {
     setSettledAmount(net);
     const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));

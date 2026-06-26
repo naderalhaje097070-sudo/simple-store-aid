@@ -747,7 +747,12 @@ function InvoiceDetailScreen(p: any) {
 /* --------------- INVENTORY --------------- */
 function InventoryScreen(p: any) {
   const [filter, setFilter] = useState<"all" | "low" | "out">("all");
-  const list = p.products.filter((pr: Product) => filter === "all" ? true : filter === "low" ? (pr.stock > 0 && pr.stock <= pr.lowAt) : pr.stock === 0);
+  const [addOpen, setAddOpen] = useState(false);
+  const list = p.products.filter((pr: any) => {
+    if (filter === "low") return pr.stock > 0 && pr.stock <= pr.lowAt;
+    if (filter === "out") return pr.stock === 0;
+    return true;
+  });
   return (
     <>
       <TopBar title="المخزون" />
@@ -759,13 +764,14 @@ function InventoryScreen(p: any) {
         </div>
         <div className="space-y-2">
           {list.length === 0 && filter === "out" && <EmptyState text="لا منتجات نافدة — جيد 👍" />}
-          {list.length === 0 && filter !== "out" && <EmptyState text="لا منتجات بهذا التصنيف" />}
-          {list.map((pr: Product) => (
-            <div key={pr.id} className={`rounded-2xl border p-3 ${pr.stock === 0 ? "bg-debt-soft/40 border-debt/20" : "bg-card border-border"}`}>
+          {list.length === 0 && filter !== "out" && <EmptyState text="لا منتجات بهذا التصنيف — أضف منتجاً جديداً" />}
+          {list.map((pr: any) => (
+            <div key={pr.id} className={`rounded-2xl border p-3 ${pr.stock === 0 ? "bg-debt-soft/40 border-debt/20" : "bg-card border-border"} ${pr.is_active === false ? "opacity-60" : ""}`}>
               <div className="flex items-center justify-between">
                 <div>
                   <div className="font-bold text-sm">{pr.name}</div>
                   <div className="mt-1 flex items-center gap-2">
+                    {pr.is_active === false && <StatusChip kind="warn">موقوف</StatusChip>}
                     {pr.stock === 0 && <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>}
                     {pr.stock > 0 && pr.stock <= pr.lowAt && <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>منخفض <span className="num">{pr.stock}</span></StatusChip>}
                     {pr.stock > pr.lowAt && <StatusChip kind="info">متوفر <span className="num">{pr.stock}</span></StatusChip>}
@@ -773,18 +779,59 @@ function InventoryScreen(p: any) {
                 </div>
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              {pr.stock === 0 && (
+              {pr.stock === 0 && pr.is_active !== false && (
                 <div className="mt-2">
-                  <button className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { alert(e?.message); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
                   <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
                 </div>
+              )}
+              {pr.is_active === false && (
+                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { alert(e?.message); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
               )}
             </div>
           ))}
         </div>
-        <button className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة منتج</button>
+        <button onClick={() => setAddOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة منتج</button>
       </div>
+
+      {addOpen && <AddProductSheet onClose={() => setAddOpen(false)} onSave={async (data) => {
+        try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
+        catch (e: any) { alert(e?.message ?? "تعذّر الحفظ"); }
+      }} />}
     </>
+  );
+}
+
+function AddProductSheet({ onClose, onSave }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number }) => void | Promise<void> }) {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [cost, setCost] = useState("");
+  const [stock, setStock] = useState("");
+  const valid = name.trim().length > 0 && Number(price) >= 0;
+  return (
+    <Sheet onClose={onClose} title="إضافة منتج">
+      <div className="space-y-3">
+        <div>
+          <label className="text-xs font-bold text-muted-foreground">اسم المنتج</label>
+          <input autoFocus value={name} onChange={e => setName(e.target.value)} className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm" placeholder="مثال: ماء 1.5 لتر" />
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="text-xs font-bold text-muted-foreground">سعر البيع</label>
+            <input value={price} onChange={e => setPrice(e.target.value.replace(/[^\d.]/g, ""))} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+          </div>
+          <div>
+            <label className="text-xs font-bold text-muted-foreground">سعر التكلفة</label>
+            <input value={cost} onChange={e => setCost(e.target.value.replace(/[^\d.]/g, ""))} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+          </div>
+        </div>
+        <div>
+          <label className="text-xs font-bold text-muted-foreground">المخزون الحالي</label>
+          <input value={stock} onChange={e => setStock(e.target.value.replace(/\D/g, ""))} inputMode="numeric" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" placeholder="0" />
+        </div>
+        <button disabled={!valid} onClick={() => onSave({ name: name.trim(), price: Number(price) || 0, cost: Number(cost) || 0, stock: Number(stock) || 0 })} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ المنتج</button>
+      </div>
+    </Sheet>
   );
 }
 

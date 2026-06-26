@@ -901,6 +901,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
   const [price, setPrice] = useState("");
   const [cost, setCost] = useState("");
   const [stock, setStock] = useState("");
+  const [isDiscount, setIsDiscount] = useState(false);
   const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>({});
   const [submitting, setSubmitting] = useState(false);
 

@@ -214,6 +214,7 @@ function MongezzApp() {
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
     collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
     settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
+    updateCourierStateAsync: (input: { orderId: string; state: "delivered_full" | "delivered_partial" | "delivered_none" | "returned" | "pending"; collected?: number }) => updateCourierStateMut.mutateAsync(input),
   };
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);

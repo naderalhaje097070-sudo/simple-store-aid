@@ -8,7 +8,7 @@ import {
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
   Activity, ShieldCheck, FileDown, Printer,
 } from "lucide-react";
-import { downloadInvoicePdf, printInvoice, type InvoicePdfData } from "@/lib/invoice-pdf";
+import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
@@ -683,6 +683,7 @@ function InvoiceDetailScreen(p: any) {
   const { data: tenant } = useTenant(tenantId);
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   const [pdfBusy, setPdfBusy] = useState(false);
+  useEffect(() => { ensureInvoiceFont(); }, []);
   if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const remaining = inv.total - inv.paid;
@@ -785,6 +786,7 @@ function InvoiceDetailScreen(p: any) {
             issuedAt: createdAt,
             dateText, timeText: inv.time,
             customerName: cust?.name,
+            customerPhone: (cust as any)?.phone,
             courierName,
             delivery: inv.delivery,
             items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),

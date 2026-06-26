@@ -1,14 +1,18 @@
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import QRCode from "qrcode";
 
 export type InvoicePdfData = {
   shopName: string;
+  shopPhone?: string;
+  shopAddress?: string;
   number: string;
   /** ISO string or Date. If omitted, falls back to dateText/timeText. */
   issuedAt?: string | Date;
   dateText?: string;
   timeText?: string;
   customerName?: string;
+  customerPhone?: string;
   courierName?: string;
   delivery: "direct" | "courier";
   items: { name: string; qty: number; price: number }[];
@@ -27,10 +31,8 @@ const money = (n: number) =>
     maximumFractionDigits: 2,
   });
 
-// Integer qty
 const qty = (n: number) => n.toLocaleString("en-US");
 
-// Date: dd/MM/yyyy - HH:mm (LTR)
 function formatDateTime(d: InvoicePdfData): { date: string; time: string } {
   let dt: Date | null = null;
   if (d.issuedAt) dt = d.issuedAt instanceof Date ? d.issuedAt : new Date(d.issuedAt);
@@ -43,13 +45,69 @@ function formatDateTime(d: InvoicePdfData): { date: string; time: string } {
   return { date: d.dateText ?? "", time: d.timeText ?? "" };
 }
 
-// Pad invoice number to a clean fixed width when numeric
 function formatInvoiceNumber(raw: string): string {
   const s = String(raw ?? "").trim();
   if (/^\d+$/.test(s)) return s.padStart(5, "0");
   return s;
 }
 
+/* ============ Arabic number → words (Libyan Dinar) ============ */
+const ONES = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
+  "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
+const TENS = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
+const HUNDREDS = ["", "مئة", "مئتان", "ثلاثمئة", "أربعمئة", "خمسمئة", "ستمئة", "سبعمئة", "ثمانمئة", "تسعمئة"];
+
+function under1000(n: number): string {
+  if (n === 0) return "";
+  const parts: string[] = [];
+  const h = Math.floor(n / 100);
+  const r = n % 100;
+  if (h) parts.push(HUNDREDS[h]);
+  if (r) {
+    if (r < 20) parts.push(ONES[r]);
+    else {
+      const t = Math.floor(r / 10);
+      const u = r % 10;
+      if (u) parts.push(`${ONES[u]} و${TENS[t]}`);
+      else parts.push(TENS[t]);
+    }
+  }
+  return parts.join(" و");
+}
+
+function intToArabic(n: number): string {
+  if (n === 0) return "صفر";
+  if (n < 0) return `سالب ${intToArabic(-n)}`;
+  const parts: string[] = [];
+  const millions = Math.floor(n / 1_000_000);
+  const thousands = Math.floor((n % 1_000_000) / 1000);
+  const rest = n % 1000;
+  if (millions) {
+    if (millions === 1) parts.push("مليون");
+    else if (millions === 2) parts.push("مليونان");
+    else if (millions <= 10) parts.push(`${ONES[millions]} ملايين`);
+    else parts.push(`${under1000(millions)} مليون`);
+  }
+  if (thousands) {
+    if (thousands === 1) parts.push("ألف");
+    else if (thousands === 2) parts.push("ألفان");
+    else if (thousands <= 10) parts.push(`${ONES[thousands]} آلاف`);
+    else parts.push(`${under1000(thousands)} ألف`);
+  }
+  if (rest) parts.push(under1000(rest));
+  return parts.join(" و");
+}
+
+function amountInWords(amount: number): string {
+  const rounded = Math.round((amount + Number.EPSILON) * 100) / 100;
+  const dinars = Math.floor(rounded);
+  const dirhams = Math.round((rounded - dinars) * 100);
+  const dinarPart = `${intToArabic(dinars)} دينار${dinars === 1 ? "" : "ًا ليبيًا"}`;
+  if (dirhams === 0) return `فقط: ${dinarPart} لا غير`;
+  return `فقط: ${dinarPart} و${intToArabic(dirhams)} درهمًا لا غير`;
+}
+
+/* ============ Font loading ============ */
 const FONT_HREF =
   "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap";
 
@@ -57,9 +115,11 @@ const FONT_STACK =
   "'Cairo', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
 
 let fontLoaded: Promise<void> | null = null;
-function ensureFont(): Promise<void> {
+export function ensureFont(): Promise<void> {
   if (fontLoaded) return fontLoaded;
   fontLoaded = new Promise<void>((resolve) => {
+    let done = false;
+    const finish = () => { if (!done) { done = true; resolve(); } };
     try {
       if (!document.querySelector('link[data-invoice-font="cairo"]')) {
         const link = document.createElement("link");
@@ -68,7 +128,6 @@ function ensureFont(): Promise<void> {
         link.setAttribute("data-invoice-font", "cairo");
         document.head.appendChild(link);
       }
-      const done = () => resolve();
       // @ts-ignore
       if (document.fonts && document.fonts.load) {
         Promise.all([
@@ -76,20 +135,24 @@ function ensureFont(): Promise<void> {
           document.fonts.load('700 16px "Cairo"'),
           // @ts-ignore
           document.fonts.load('400 14px "Cairo"'),
-        ])
-          .then(done)
-          .catch(done);
+        ]).then(finish).catch(finish);
       } else {
-        setTimeout(done, 400);
+        setTimeout(finish, 400);
       }
+      // Hard timeout — never block export beyond 2.5s
+      setTimeout(() => {
+        if (!done) console.warn("[invoice-pdf] font load timed out, using fallback");
+        finish();
+      }, 2500);
     } catch {
-      resolve();
+      finish();
     }
   });
   return fontLoaded;
 }
 
-function buildHtml(d: InvoicePdfData): string {
+/* ============ HTML builder ============ */
+function buildHtml(d: InvoicePdfData, qrDataUrl: string | null): string {
   const statusLabel =
     d.status === "paid" ? "مدفوعة" : d.status === "partial" ? "مدفوعة جزئياً" : "آجلة (دين)";
   const statusColor =
@@ -113,14 +176,28 @@ function buildHtml(d: InvoicePdfData): string {
     )
     .join("");
 
+  const shopMetaLine = [d.shopPhone, d.shopAddress].filter(Boolean).join(" • ");
+  const shopMetaHtml = shopMetaLine
+    ? `<div style="font-size:10.5px;color:#666;margin-top:3px" dir="auto">${escape(shopMetaLine)}</div>`
+    : "";
+
+  const customerLine = d.customerPhone
+    ? `<div><b>العميل:</b> ${escape(d.customerName ?? "بدون عميل")} <span style="color:#666" dir="ltr">— ${escape(d.customerPhone)}</span></div>`
+    : `<div><b>العميل:</b> ${escape(d.customerName ?? "بدون عميل")}</div>`;
+
   const courierLine =
     d.delivery === "courier"
       ? `<div style="margin-top:4px"><b>المندوب:</b> ${escape(d.courierName ?? "—")}</div>`
       : "";
+
   const custodyLine =
     (d.collectedByCourier ?? 0) > 0
       ? `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#b45309"><span>بيد المندوب (عهدة)</span><span dir="ltr" style="white-space:nowrap">${money(d.collectedByCourier ?? 0)} د.ل</span></div>`
       : "";
+
+  const qrHtml = qrDataUrl
+    ? `<img src="${qrDataUrl}" alt="QR" style="width:72px;height:72px;display:block" />`
+    : "";
 
   return `
   <div dir="rtl" style="font-family:${FONT_STACK};color:#111;padding:4px 6px;width:540px;background:#fff;line-height:1.55;box-sizing:border-box">
@@ -129,7 +206,8 @@ function buildHtml(d: InvoicePdfData): string {
       <div style="text-align:right;min-width:0;flex:1">
         <div style="font-size:12px;color:#666;font-weight:600;letter-spacing:1px">منجز</div>
         <div style="font-size:20px;font-weight:800;margin-top:2px;word-break:break-word">${escape(d.shopName || "محلي")}</div>
-        <div style="font-size:10.5px;color:#777;margin-top:2px">فاتورة بيع غير ضريبية</div>
+        ${shopMetaHtml}
+        <div style="font-size:10.5px;color:#777;margin-top:3px">فاتورة بيع غير ضريبية</div>
       </div>
       <div style="text-align:left;background:#111;color:#fff;padding:8px 12px;border-radius:8px;min-width:120px;flex-shrink:0">
         <div style="font-size:9.5px;opacity:.8;font-weight:600">رقم الفاتورة</div>
@@ -146,7 +224,7 @@ function buildHtml(d: InvoicePdfData): string {
 
     <!-- Parties -->
     <div style="font-size:12.5px;background:#f7f7f7;padding:10px 12px;border-radius:8px;margin-bottom:12px;border:1px solid #eee">
-      <div><b>العميل:</b> ${escape(d.customerName ?? "بدون عميل")}</div>
+      ${customerLine}
       ${courierLine}
     </div>
 
@@ -166,24 +244,32 @@ function buildHtml(d: InvoicePdfData): string {
 
     <!-- Summary (kept together with footer) -->
     <div data-pdf="summary">
-      <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
-          <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+      <div style="display:flex;gap:10px;align-items:stretch">
+        <div style="flex:1;font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
+            <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
+            <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
+          </div>
+          ${custodyLine}
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
+            <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
+            <span>طريقة الدفع</span><span>${methodLabel}</span>
+          </div>
         </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
-          <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
-        </div>
-        ${custodyLine}
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
-          <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
-          <span>طريقة الدفع</span><span>${methodLabel}</span>
-        </div>
+        ${qrHtml ? `<div style="flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #ddd;border-radius:8px;padding:6px 8px;background:#fff">${qrHtml}<div style="font-size:9px;color:#999;margin-top:3px">تحقّق</div></div>` : ""}
+      </div>
+
+      <!-- Amount in words -->
+      <div style="font-size:11.5px;color:#333;margin-top:8px;padding:6px 10px;background:#fafafa;border-right:3px solid #111;border-radius:4px" dir="rtl">
+        ${escape(amountInWords(d.total))}
       </div>
 
       <!-- Footer -->
-      <div style="text-align:center;font-size:11.5px;color:#555;margin-top:14px;border-top:1px dashed #ccc;padding-top:10px">
+      <div style="text-align:center;font-size:11.5px;color:#555;margin-top:12px;border-top:1px dashed #ccc;padding-top:10px">
         شكراً لتعاملكم مع <b>${escape(d.shopName || "محلنا")}</b>
         <div style="margin-top:4px;font-size:10px;color:#999">تم إصدار هذه الفاتورة عبر تطبيق منجز</div>
       </div>
@@ -197,11 +283,35 @@ function escape(s: string): string {
   );
 }
 
+/* ============ QR ============ */
+async function buildQr(d: InvoicePdfData): Promise<string | null> {
+  try {
+    const { date, time } = formatDateTime(d);
+    const payload = [
+      "منجز",
+      `#${formatInvoiceNumber(d.number)}`,
+      `${date} ${time}`.trim(),
+      `${money(d.total)} د.ل`,
+      d.shopName || "",
+    ].filter(Boolean).join(" | ");
+    return await QRCode.toDataURL(payload, {
+      errorCorrectionLevel: "M",
+      margin: 1,
+      width: 220,
+      color: { dark: "#111111", light: "#ffffff" },
+    });
+  } catch (e) {
+    console.warn("[invoice-pdf] QR failed:", e);
+    return null;
+  }
+}
+
+/* ============ Render ============ */
 type RenderResult = { canvas: HTMLCanvasElement; breakPoints: number[] };
 
 async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
   await ensureFont();
-  // Isolated iframe so the app's oklch CSS tokens don't reach html2canvas.
+  const qrDataUrl = await buildQr(d);
   const iframe = document.createElement("iframe");
   iframe.style.position = "fixed";
   iframe.style.top = "-10000px";
@@ -217,7 +327,7 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
     doc.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
       <link rel="stylesheet" href="${FONT_HREF}">
       <style>html,body{margin:0;padding:0;background:#fff;color:#111;font-family:${FONT_STACK}}</style>
-      </head><body>${buildHtml(d)}</body></html>`);
+      </head><body>${buildHtml(d, qrDataUrl)}</body></html>`);
     doc.close();
     // @ts-ignore
     if (doc.fonts && doc.fonts.ready) { try { await doc.fonts.ready; } catch {} }
@@ -225,9 +335,6 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
     const root = doc.body.firstElementChild as HTMLElement;
     const rootRect = root.getBoundingClientRect();
 
-    // Collect break-safe Y boundaries (CSS px, relative to root top):
-    //  - top of every <tr> in items table (except the first, which is the header inside thead — kept on first occurrence so summary fits)
-    //  - top of the summary block (so summary+footer stay together)
     const breaks = new Set<number>();
     breaks.add(0);
     root.querySelectorAll('table[data-pdf="items"] tbody tr').forEach((tr) => {
@@ -241,13 +348,13 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
     }
     breaks.add(Math.round(root.scrollHeight));
 
+    const scale = Math.min(3, Math.max(2, Math.round((window.devicePixelRatio || 1) * 2)));
     const canvas = await html2canvas(root, {
-      scale: 2,
+      scale,
       backgroundColor: "#ffffff",
       windowWidth: 600,
       windowHeight: Math.max(1200, root.scrollHeight + 40),
     });
-    // Scale break points from CSS px → canvas px (html2canvas scale=2)
     const scaleY = canvas.height / root.scrollHeight;
     const breakPoints = Array.from(breaks)
       .map((y) => Math.round(y * scaleY))
@@ -258,64 +365,91 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
   }
 }
 
+function safeFilename(shop: string, invNo: string): string {
+  // Keep latin letters/digits/hyphens only — Arabic chars often break Save dialogs.
+  const ascii = shop
+    .normalize("NFKD")
+    .replace(/[\u0600-\u06FF]/g, "")
+    .replace(/[^A-Za-z0-9-]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .toLowerCase();
+  const base = ascii || "mongezz";
+  return `${base}-invoice-${invNo}.pdf`;
+}
+
 export async function downloadInvoicePdf(d: InvoicePdfData) {
   const { canvas, breakPoints } = await renderToCanvas(d);
-  const pdf = new jsPDF({ unit: "mm", format: "a5", orientation: "portrait" });
+  const pdf = new jsPDF({ unit: "mm", format: "a5", orientation: "portrait", compress: true });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 10;
   const wMm = pageW - margin * 2;
-  const pageContentHMm = pageH - margin * 2;
+  const pageContentHMm = pageH - margin * 2 - 6; // reserve 6mm for page number footer
   const pxPerMm = canvas.width / wMm;
   const maxSlicePx = Math.floor(pageContentHMm * pxPerMm);
 
-  // Single page fast path
+  const addSlice = (y: number, sliceH: number) => {
+    const c2 = document.createElement("canvas");
+    c2.width = canvas.width;
+    c2.height = sliceH;
+    const ctx = c2.getContext("2d")!;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, c2.width, c2.height);
+    ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+    pdf.addImage(c2.toDataURL("image/jpeg", 0.92), "JPEG", margin, margin, wMm, sliceH / pxPerMm);
+  };
+
   if (canvas.height <= maxSlicePx) {
-    const img = canvas.toDataURL("image/png");
-    pdf.addImage(img, "PNG", margin, margin, wMm, canvas.height / pxPerMm);
+    addSlice(0, canvas.height);
   } else {
     let y = 0;
     let first = true;
     while (y < canvas.height) {
-      // Find the largest break point > y and within (y + maxSlicePx]
       let cut = -1;
       for (const bp of breakPoints) {
         if (bp > y && bp - y <= maxSlicePx) cut = bp;
       }
-      // If no safe break fits (a single row taller than a page), hard-cut.
       if (cut === -1) cut = Math.min(y + maxSlicePx, canvas.height);
       const sliceH = cut - y;
-      const c2 = document.createElement("canvas");
-      c2.width = canvas.width;
-      c2.height = sliceH;
-      const ctx = c2.getContext("2d")!;
-      ctx.fillStyle = "#fff";
-      ctx.fillRect(0, 0, c2.width, c2.height);
-      ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
       if (!first) pdf.addPage();
       first = false;
-      pdf.addImage(c2.toDataURL("image/png"), "PNG", margin, margin, wMm, sliceH / pxPerMm);
+      addSlice(y, sliceH);
       y = cut;
     }
   }
 
+  // Page numbers (LTR — jsPDF default font is latin-only)
+  const total = pdf.getNumberOfPages();
+  if (total > 1) {
+    for (let i = 1; i <= total; i++) {
+      pdf.setPage(i);
+      pdf.setFontSize(8);
+      pdf.setTextColor(140);
+      pdf.text(`Page ${i} / ${total}`, pageW / 2, pageH - 4, { align: "center" });
+    }
+  }
+
   const invNo = formatInvoiceNumber(d.number);
-  const safeShop = (d.shopName || "mongezz").replace(/[^\w\u0600-\u06FF-]+/g, "_");
-  pdf.save(`${safeShop}-invoice-${invNo}.pdf`);
+  pdf.save(safeFilename(d.shopName || "mongezz", invNo));
 }
 
 export function printInvoice(d: InvoicePdfData) {
-  const html = buildHtml(d);
   const w = window.open("", "_blank", "width=600,height=800");
   if (!w) return;
   const invNo = formatInvoiceNumber(d.number);
-  w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-    <title>فاتورة #${invNo} — ${escape(d.shopName || "منجز")}</title>
-    <link rel="stylesheet" href="${FONT_HREF}">
-    <style>
-      @page { size: A5; margin: 8mm; }
-      body { margin:0; font-family: ${FONT_STACK}; }
-    </style>
-    </head><body>${html}<script>window.onload=()=>{setTimeout(()=>{window.print();},400);};</script></body></html>`);
-  w.document.close();
+  // Build with a transient QR to keep print parity with PDF
+  buildQr(d).then((qrDataUrl) => {
+    const html = buildHtml(d, qrDataUrl);
+    w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+      <title>فاتورة #${invNo} — ${escape(d.shopName || "منجز")}</title>
+      <link rel="stylesheet" href="${FONT_HREF}">
+      <style>
+        @page { size: A5; margin: 8mm; }
+        html, body { margin:0; font-family: ${FONT_STACK}; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        [data-pdf="summary"] { page-break-inside: avoid; break-inside: avoid; }
+        table[data-pdf="items"] tr { page-break-inside: avoid; break-inside: avoid; }
+      </style>
+      </head><body>${html}<script>window.onload=()=>{setTimeout(()=>{window.print();},500);};</script></body></html>`);
+    w.document.close();
+  });
 }

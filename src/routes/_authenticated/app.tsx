@@ -1365,7 +1365,12 @@ function CouriersScreen(p: any) {
 }
 
 function SettingsScreen(p: any) {
-  const rows = ["بيانات المحل", "العملة وصيغة الأرقام", "حد التنبيه الافتراضي", "نسخ احتياطي ومزامنة", "تسجيل الخروج"];
+  const rows = ["بيانات المحل", "العملة وصيغة الأرقام", "حد التنبيه الافتراضي", "نسخ احتياطي ومزامنة"];
+  const signOut = async () => {
+    const { supabase } = await import("@/integrations/supabase/client");
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
+  };
   return (
     <>
       <TopBar title="الإعدادات" onBack={p.back} />
@@ -1377,8 +1382,10 @@ function SettingsScreen(p: any) {
               <ChevronLeft className="w-4 h-4 text-muted-foreground" />
             </div>
           ))}
+          <button onClick={signOut} className="w-full flex items-center gap-3 px-4 py-3 text-right text-destructive font-semibold">
+            <span className="flex-1">تسجيل الخروج</span>
+          </button>
         </div>
-        <div className="mt-4 text-[11px] text-muted-foreground text-center">آخر مزامنة منذ 5 دقائق</div>
       </div>
     </>
   );

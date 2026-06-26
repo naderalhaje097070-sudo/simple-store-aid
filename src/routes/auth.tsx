@@ -131,6 +131,8 @@ function AuthPage() {
           <Link to="/guide" className="underline">دليل التطبيق</Link>
         </p>
       </div>
+      </>
+      )}
     </div>
   );
 }

@@ -903,7 +903,7 @@ function ShopHubScreen(p: any) {
         { id: "customers", l: "العملاء", Icon: Users },
         { id: "inventory", l: "المنتجات", Icon: Boxes },
         { id: "couriers", l: "المندوبون", Icon: Truck },
-        { id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" },
+        ...(p.myRole === "owner" ? [{ id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" }] : []),
         { id: "settings", l: "إعدادات المحل", Icon: SettingsIcon },
       ],
     },

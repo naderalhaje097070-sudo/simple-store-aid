@@ -228,7 +228,7 @@ export async function downloadInvoicePdf(d: InvoicePdfData) {
   const pdf = new jsPDF({ unit: "mm", format: "a5", orientation: "portrait" });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
-  const margin = 8;
+  const margin = 10;
   const w = pageW - margin * 2;
   const h = (canvas.height * w) / canvas.width;
   if (h <= pageH - margin * 2) {

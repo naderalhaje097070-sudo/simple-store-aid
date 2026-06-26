@@ -177,9 +177,17 @@ function MongezzApp() {
     const collected = payP.reduce((s, pm) => s + pm.amount, 0);
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
-    const realizedRatio = sales > 0 ? Math.min(1, collected / sales) : 0;
-    const realizedCogs = cogs * realizedRatio;
-    const realizedProfit = collected - realizedCogs - expenseTotal;
+    // Realized profit per-order (matches close_day RPC formula):
+    // for each invoice take (price-cost)*qty * min(paid/total, 1)
+    const realizedCogs = invP.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.items.reduce((a, it) => a + it.cost * it.qty * ratio, 0);
+    }, 0);
+    const realizedRevenue = invP.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.total * ratio;
+    }, 0);
+    const realizedProfit = realizedRevenue - realizedCogs - expenseTotal;
     const cashToday = collected - expenseTotal;
 
     // Stocks — current balances across ALL invoices (not period-bound)

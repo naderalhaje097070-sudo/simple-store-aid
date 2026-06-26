@@ -165,7 +165,7 @@ function HeroMockup() {
               className="text-2xl font-bold text-primary mt-0.5"
               style={{ direction: "ltr" }}
             >
-              1,240 ر.س
+              1,240 د.ل
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2 mb-3">

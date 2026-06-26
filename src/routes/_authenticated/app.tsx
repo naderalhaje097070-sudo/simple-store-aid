@@ -938,7 +938,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
     }
     setSubmitting(true);
     try {
-      await onSave({ name: trimmedName, price: priceN, cost: costN || 0, stock: stockN });
+      await onSave({ name: trimmedName, price: priceN, cost: costN || 0, stock: stockN, is_discount: isDiscount });
     } finally {
       setSubmitting(false);
     }
@@ -1002,6 +1002,10 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
           />
           {showErr("stock") && <div className="mt-1 text-xs text-destructive">{errors.stock}</div>}
         </div>
+        <label className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 cursor-pointer">
+          <input type="checkbox" checked={isDiscount} onChange={e => setIsDiscount(e.target.checked)} className="w-4 h-4 accent-primary" />
+          <span className="text-xs font-bold">منتج على تخفيض (تكلفة > بيع)</span>
+        </label>
         <button
           disabled={submitting}
           onClick={handleSave}

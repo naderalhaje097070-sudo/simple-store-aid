@@ -887,15 +887,15 @@ function InventoryScreen(p: any) {
                 </div>
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              {pr.stock === 0 && pr.is_active !== false && (
-                <div className="mt-2">
-                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
-                  <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
-                </div>
-              )}
-              {pr.is_active === false && (
-                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
-              )}
+              <div className="mt-2 flex gap-2">
+                <button onClick={() => setEditing(pr)} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">تعديل</button>
+                {pr.stock === 0 && pr.is_active !== false && (
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض</button>
+                )}
+                {pr.is_active === false && (
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
+                )}
+              </div>
             </div>
           ))}
         </div>

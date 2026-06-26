@@ -1395,9 +1395,11 @@ function ExpensesScreen(p: any) {
   const [type, setType] = useState("");
   const [method, setMethod] = useState<"cash" | "transfer" | "">("");
   const [success, setSuccess] = useState(false);
+  const { range, setRange } = useDateRange("today");
 
-  const total = p.expenses.reduce((s: number, e: Expense) => s + e.amount, 0);
-  const cashT = p.expenses.filter((e: Expense) => e.method === "cash").reduce((s: number, e: Expense) => s + e.amount, 0);
+  const filtered = (p.expenses as Expense[]).filter(e => inRange(e.createdAt, range));
+  const total = filtered.reduce((s: number, e: Expense) => s + e.amount, 0);
+  const cashT = filtered.filter(e => e.method === "cash").reduce((s: number, e: Expense) => s + e.amount, 0);
   const transferT = total - cashT;
 
   const canSave = Number(amount) > 0 && !!method && !!type;
@@ -1413,17 +1415,19 @@ function ExpensesScreen(p: any) {
     <>
       <TopBar title="المصروفات" onBack={p.back} />
       <div className="px-4 pt-3 space-y-3">
+        <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-4">
-          <div className="text-xs text-muted-foreground">إجمالي المصروفات اليوم</div>
+          <div className="text-xs text-muted-foreground">إجمالي المصروفات · {range.label}</div>
           <Money v={total} className="text-2xl mt-1" />
-          <div className="mt-2 text-xs text-muted-foreground">نقدي <span className="num">{fmt(cashT)}</span> · تحويل <span className="num">{fmt(transferT)}</span></div>
+          <div className="mt-2 text-xs text-muted-foreground">{filtered.length} عملية · نقدي <span className="num">{fmt(cashT)}</span> · تحويل <span className="num">{fmt(transferT)}</span></div>
         </div>
         <div className="rounded-2xl bg-info-soft border border-info/20 p-3 text-xs text-info flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           <span>المصروفات تنقص <b>الربح التقديري</b> فقط. لا تنقص المحصّل فعلًا.</span>
         </div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
-          {p.expenses.map((e: Expense) => (
+          {filtered.length === 0 && <div className="p-8 text-center text-sm text-muted-foreground">لا توجد مصروفات في هذا النطاق</div>}
+          {filtered.map((e: Expense) => (
             <div key={e.id} className="flex items-center gap-3 p-3">
               <ArrowDownCircle className="w-5 h-5 text-debt" />
               <div className="flex-1">
@@ -1436,6 +1440,7 @@ function ExpensesScreen(p: any) {
         </div>
         <button onClick={() => setOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ تسجيل مصروف</button>
       </div>
+
 
       {success && <Toast text="تم تسجيل المصروف" />}
 

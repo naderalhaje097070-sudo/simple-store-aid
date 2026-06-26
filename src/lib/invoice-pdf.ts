@@ -204,21 +204,39 @@ function escape(s: string): string {
 
 async function renderToCanvas(d: InvoicePdfData) {
   await ensureFont();
-  const host = document.createElement("div");
-  host.style.position = "fixed";
-  host.style.top = "-10000px";
-  host.style.left = "0";
-  host.style.zIndex = "-1";
-  host.innerHTML = buildHtml(d);
-  document.body.appendChild(host);
+  // Render inside an isolated iframe so app-wide oklch theme tokens don't leak
+  // into html2canvas (which doesn't parse oklch()).
+  const iframe = document.createElement("iframe");
+  iframe.style.position = "fixed";
+  iframe.style.top = "-10000px";
+  iframe.style.left = "0";
+  iframe.style.width = "600px";
+  iframe.style.height = "1200px";
+  iframe.style.border = "0";
+  iframe.style.zIndex = "-1";
+  document.body.appendChild(iframe);
   try {
-    const node = host.firstElementChild as HTMLElement;
-    // Small delay to ensure webfont applied to nodes
-    await new Promise((r) => setTimeout(r, 60));
-    const canvas = await html2canvas(node, { scale: 2, backgroundColor: "#ffffff" });
+    const doc = iframe.contentDocument!;
+    doc.open();
+    doc.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+      <link rel="stylesheet" href="${FONT_HREF}">
+      <style>html,body{margin:0;padding:0;background:#fff;color:#111;font-family:${FONT_STACK}}</style>
+      </head><body>${buildHtml(d)}</body></html>`);
+    doc.close();
+    // Wait for fonts inside iframe
+    // @ts-ignore
+    if (doc.fonts && doc.fonts.ready) { try { await doc.fonts.ready; } catch {} }
+    await new Promise((r) => setTimeout(r, 120));
+    const node = doc.body.firstElementChild as HTMLElement;
+    const canvas = await html2canvas(node, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+      windowWidth: 600,
+      windowHeight: Math.max(1200, node.scrollHeight + 40),
+    });
     return canvas;
   } finally {
-    document.body.removeChild(host);
+    document.body.removeChild(iframe);
   }
 }
 

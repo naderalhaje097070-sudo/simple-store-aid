@@ -94,7 +94,7 @@ type Screen =
   | "home" | "invoices" | "invoice_detail" | "inventory" | "shop"
   | "profit" | "collected" | "debts" | "debt_customer"
   | "courier_custody" | "settlements" | "expenses" | "customers" | "couriers" | "settings"
-  | "sale" | "sale_quick" | "sale_success" | "day_close";
+  | "sale" | "sale_quick" | "sale_success" | "day_close" | "pilot";
 
 type Period = "day" | "week" | "month";
 

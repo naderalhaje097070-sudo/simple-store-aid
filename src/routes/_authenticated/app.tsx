@@ -276,6 +276,7 @@ function MongezzApp() {
         <DesktopSidebar
           screen={screen}
           setScreen={navTo}
+          myRole={myRole ?? undefined}
           onSale={() => go("sale_quick")}
           onDayClose={() => go("day_close")}
           onQuickExpense={() => setQuickExpenseOpen(true)}
@@ -340,9 +341,9 @@ function MongezzApp() {
 }
 
 function DesktopSidebar({
-  screen, setScreen, onSale, onDayClose, onQuickExpense,
+  screen, setScreen, myRole, onSale, onDayClose, onQuickExpense,
 }: {
-  screen: Screen; setScreen: (s: Screen) => void;
+  screen: Screen; setScreen: (s: Screen) => void; myRole?: string;
   onSale: () => void; onDayClose: () => void; onQuickExpense: () => void;
 }) {
   const Item = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {
@@ -406,7 +407,7 @@ function DesktopSidebar({
           <Item id="couriers" label="المندوبون" Icon={Truck} />
           <Item id="shop" label="أقسام المحل" Icon={Store} />
           <Item id="settings" label="الإعدادات" Icon={SettingsIcon} />
-          <Item id="pilot" label="صحة النظام" Icon={Activity} />
+          {myRole === "owner" && <Item id="pilot" label="صحة النظام" Icon={Activity} />}
         </Group>
       </nav>
 
@@ -885,6 +886,15 @@ function EmptyState({ text }: { text: string }) {
 
 /* --------------- SHOP HUB --------------- */
 function ShopHubScreen(p: any) {
+  const mgmtItems: { id: Screen; l: string; Icon: any; hint?: string }[] = [
+    { id: "customers", l: "العملاء", Icon: Users },
+    { id: "inventory", l: "المنتجات", Icon: Boxes },
+    { id: "couriers", l: "المندوبون", Icon: Truck },
+  ];
+  if (p.myRole === "owner") {
+    mgmtItems.push({ id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" });
+  }
+  mgmtItems.push({ id: "settings", l: "إعدادات المحل", Icon: SettingsIcon });
   const groups: { title: string; items: { id: Screen; l: string; Icon: any; hint?: string }[] }[] = [
     {
       title: "يومي",
@@ -898,13 +908,7 @@ function ShopHubScreen(p: any) {
     },
     {
       title: "إدارة",
-      items: [
-        { id: "customers", l: "العملاء", Icon: Users },
-        { id: "inventory", l: "المنتجات", Icon: Boxes },
-        { id: "couriers", l: "المندوبون", Icon: Truck },
-        { id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" },
-        { id: "settings", l: "إعدادات المحل", Icon: SettingsIcon },
-      ],
+      items: mgmtItems,
     },
   ];
   return (

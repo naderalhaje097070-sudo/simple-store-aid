@@ -853,6 +853,7 @@ function InvoiceDetailScreen(p: any) {
 /* --------------- INVENTORY --------------- */
 function InventoryScreen(p: any) {
   const [filter, setFilter] = useState<"all" | "low" | "out">("all");
+  const [editing, setEditing] = useState<any>(null);
   const [addOpen, setAddOpen] = useState(false);
   const list = p.products.filter((pr: any) => {
     if (filter === "low") return pr.stock > 0 && pr.stock <= pr.lowAt;

@@ -123,17 +123,17 @@ function buildHtml(d: InvoicePdfData): string {
       : "";
 
   return `
-  <div dir="rtl" style="font-family:${FONT_STACK};color:#111;padding:20px;width:560px;background:#fff;line-height:1.6">
+  <div dir="rtl" style="font-family:${FONT_STACK};color:#111;padding:4px 6px;width:540px;background:#fff;line-height:1.55;box-sizing:border-box">
     <!-- Header -->
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px double #111;padding-bottom:12px;margin-bottom:14px">
-      <div style="text-align:right">
-        <div style="font-size:13px;color:#666;font-weight:600;letter-spacing:1px">منجز</div>
-        <div style="font-size:22px;font-weight:800;margin-top:2px">${escape(d.shopName || "محلي")}</div>
-        <div style="font-size:11px;color:#777;margin-top:2px">فاتورة بيع غير ضريبية</div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px double #111;padding-bottom:10px;margin-bottom:12px;gap:10px">
+      <div style="text-align:right;min-width:0;flex:1">
+        <div style="font-size:12px;color:#666;font-weight:600;letter-spacing:1px">منجز</div>
+        <div style="font-size:20px;font-weight:800;margin-top:2px;word-break:break-word">${escape(d.shopName || "محلي")}</div>
+        <div style="font-size:10.5px;color:#777;margin-top:2px">فاتورة بيع غير ضريبية</div>
       </div>
-      <div style="text-align:left;background:#111;color:#fff;padding:10px 14px;border-radius:8px;min-width:130px">
-        <div style="font-size:10px;opacity:.8;font-weight:600">رقم الفاتورة</div>
-        <div style="font-size:18px;font-weight:800;margin-top:2px" dir="ltr">#${escape(invNo)}</div>
+      <div style="text-align:left;background:#111;color:#fff;padding:8px 12px;border-radius:8px;min-width:120px;flex-shrink:0">
+        <div style="font-size:9.5px;opacity:.8;font-weight:600">رقم الفاتورة</div>
+        <div style="font-size:17px;font-weight:800;margin-top:2px;white-space:nowrap" dir="ltr">#${escape(invNo)}</div>
       </div>
     </div>
 

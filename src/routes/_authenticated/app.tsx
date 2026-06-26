@@ -886,12 +886,12 @@ function InventoryScreen(p: any) {
               </div>
               {pr.stock === 0 && pr.is_active !== false && (
                 <div className="mt-2">
-                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { alert(e?.message); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
+                  <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="w-full rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض مؤقتًا</button>
                   <div className="text-[10px] text-muted-foreground mt-1 text-center">حتى يتم تجديد المخزون</div>
                 </div>
               )}
               {pr.is_active === false && (
-                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { alert(e?.message); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
+                <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="mt-2 w-full rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
               )}
             </div>
           ))}
@@ -2107,7 +2107,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
                     const created = await addCustomerAsync({ name: trimmedName, phone: trimmedPhone || undefined });
                     setCustomerId(created.id); setNewName(""); setNewPhone(""); setPickCustomer(false);
                   } catch (err: any) {
-                    alert(err?.message ?? "تعذّر إضافة العميل");
+                    console.warn(err?.message);
                   }
                 }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">إضافة وحفظ</button>
               )}

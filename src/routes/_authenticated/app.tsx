@@ -1035,7 +1035,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
           onClick={handleSave}
           className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
         >
-          {submitting ? "جاري الحفظ…" : "حفظ المنتج"}
+          {submitting ? "جاري الحفظ…" : mode === "edit" ? "حفظ التعديلات" : "حفظ المنتج"}
         </button>
       </div>
     </Sheet>

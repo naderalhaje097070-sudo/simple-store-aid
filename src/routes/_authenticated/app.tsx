@@ -1524,7 +1524,7 @@ function SaleScreen(p: any) {
         <PaymentSheet
           subtotal={subtotal}
           customers={p.customers}
-          setCustomers={p.setCustomers}
+          addCustomerAsync={p.addCustomerAsync}
           couriers={p.couriers}
           onClose={() => setPaySheet(false)}
           onSave={(d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {

@@ -151,47 +151,42 @@ function buildHtml(d: InvoicePdfData): string {
     </div>
 
     <!-- Items -->
-    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden;table-layout:fixed">
-      <colgroup>
-        <col style="width:26px">
-        <col>
-        <col style="width:50px">
-        <col style="width:72px">
-        <col style="width:86px">
-      </colgroup>
+    <table data-pdf="items" style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden">
       <thead>
         <tr style="background:#111;color:#fff">
-          <th style="padding:7px 5px;text-align:center">#</th>
+          <th style="padding:7px 4px;text-align:center;width:22px">#</th>
           <th style="padding:7px 5px;text-align:right">الصنف</th>
-          <th style="padding:7px 5px;text-align:center">الكمية</th>
-          <th style="padding:7px 5px;text-align:center">السعر</th>
-          <th style="padding:7px 5px;text-align:center">الإجمالي</th>
+          <th style="padding:7px 4px;text-align:center;white-space:nowrap">الكمية</th>
+          <th style="padding:7px 6px;text-align:center;white-space:nowrap">السعر</th>
+          <th style="padding:7px 6px;text-align:center;white-space:nowrap">الإجمالي</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>
 
-    <!-- Summary -->
-    <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
-        <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+    <!-- Summary (kept together with footer) -->
+    <div data-pdf="summary">
+      <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
+          <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
+          <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
+        </div>
+        ${custodyLine}
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
+          <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
+          <span>طريقة الدفع</span><span>${methodLabel}</span>
+        </div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
-        <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
-      </div>
-      ${custodyLine}
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
-        <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
-        <span>طريقة الدفع</span><span>${methodLabel}</span>
-      </div>
-    </div>
 
-    <!-- Footer -->
-    <div style="text-align:center;font-size:11.5px;color:#555;margin-top:18px;border-top:1px dashed #ccc;padding-top:12px">
-      شكراً لتعاملكم مع <b>${escape(d.shopName || "محلنا")}</b> 🌿
-      <div style="margin-top:4px;font-size:10px;color:#999">تم إصدار هذه الفاتورة عبر تطبيق منجز</div>
+      <!-- Footer -->
+      <div style="text-align:center;font-size:11.5px;color:#555;margin-top:14px;border-top:1px dashed #ccc;padding-top:10px">
+        شكراً لتعاملكم مع <b>${escape(d.shopName || "محلنا")}</b>
+        <div style="margin-top:4px;font-size:10px;color:#999">تم إصدار هذه الفاتورة عبر تطبيق منجز</div>
+      </div>
     </div>
   </div>`;
 }
@@ -202,44 +197,94 @@ function escape(s: string): string {
   );
 }
 
-async function renderToCanvas(d: InvoicePdfData) {
+type RenderResult = { canvas: HTMLCanvasElement; breakPoints: number[] };
+
+async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
   await ensureFont();
-  const host = document.createElement("div");
-  host.style.position = "fixed";
-  host.style.top = "-10000px";
-  host.style.left = "0";
-  host.style.zIndex = "-1";
-  host.innerHTML = buildHtml(d);
-  document.body.appendChild(host);
+  // Isolated iframe so the app's oklch CSS tokens don't reach html2canvas.
+  const iframe = document.createElement("iframe");
+  iframe.style.position = "fixed";
+  iframe.style.top = "-10000px";
+  iframe.style.left = "0";
+  iframe.style.width = "600px";
+  iframe.style.height = "1200px";
+  iframe.style.border = "0";
+  iframe.style.zIndex = "-1";
+  document.body.appendChild(iframe);
   try {
-    const node = host.firstElementChild as HTMLElement;
-    // Small delay to ensure webfont applied to nodes
-    await new Promise((r) => setTimeout(r, 60));
-    const canvas = await html2canvas(node, { scale: 2, backgroundColor: "#ffffff" });
-    return canvas;
+    const doc = iframe.contentDocument!;
+    doc.open();
+    doc.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+      <link rel="stylesheet" href="${FONT_HREF}">
+      <style>html,body{margin:0;padding:0;background:#fff;color:#111;font-family:${FONT_STACK}}</style>
+      </head><body>${buildHtml(d)}</body></html>`);
+    doc.close();
+    // @ts-ignore
+    if (doc.fonts && doc.fonts.ready) { try { await doc.fonts.ready; } catch {} }
+    await new Promise((r) => setTimeout(r, 120));
+    const root = doc.body.firstElementChild as HTMLElement;
+    const rootRect = root.getBoundingClientRect();
+
+    // Collect break-safe Y boundaries (CSS px, relative to root top):
+    //  - top of every <tr> in items table (except the first, which is the header inside thead — kept on first occurrence so summary fits)
+    //  - top of the summary block (so summary+footer stay together)
+    const breaks = new Set<number>();
+    breaks.add(0);
+    root.querySelectorAll('table[data-pdf="items"] tbody tr').forEach((tr) => {
+      const top = (tr as HTMLElement).getBoundingClientRect().top - rootRect.top;
+      breaks.add(Math.round(top));
+    });
+    const summary = root.querySelector('[data-pdf="summary"]') as HTMLElement | null;
+    if (summary) {
+      const top = summary.getBoundingClientRect().top - rootRect.top;
+      breaks.add(Math.round(top));
+    }
+    breaks.add(Math.round(root.scrollHeight));
+
+    const canvas = await html2canvas(root, {
+      scale: 2,
+      backgroundColor: "#ffffff",
+      windowWidth: 600,
+      windowHeight: Math.max(1200, root.scrollHeight + 40),
+    });
+    // Scale break points from CSS px → canvas px (html2canvas scale=2)
+    const scaleY = canvas.height / root.scrollHeight;
+    const breakPoints = Array.from(breaks)
+      .map((y) => Math.round(y * scaleY))
+      .sort((a, b) => a - b);
+    return { canvas, breakPoints };
   } finally {
-    document.body.removeChild(host);
+    document.body.removeChild(iframe);
   }
 }
 
 export async function downloadInvoicePdf(d: InvoicePdfData) {
-  const canvas = await renderToCanvas(d);
-  const img = canvas.toDataURL("image/png");
+  const { canvas, breakPoints } = await renderToCanvas(d);
   const pdf = new jsPDF({ unit: "mm", format: "a5", orientation: "portrait" });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();
   const margin = 10;
-  const w = pageW - margin * 2;
-  const h = (canvas.height * w) / canvas.width;
-  if (h <= pageH - margin * 2) {
-    pdf.addImage(img, "PNG", margin, margin, w, h);
+  const wMm = pageW - margin * 2;
+  const pageContentHMm = pageH - margin * 2;
+  const pxPerMm = canvas.width / wMm;
+  const maxSlicePx = Math.floor(pageContentHMm * pxPerMm);
+
+  // Single page fast path
+  if (canvas.height <= maxSlicePx) {
+    const img = canvas.toDataURL("image/png");
+    pdf.addImage(img, "PNG", margin, margin, wMm, canvas.height / pxPerMm);
   } else {
-    const pageContentH = pageH - margin * 2;
-    const pxPerMm = canvas.width / w;
-    const sliceHeightPx = pageContentH * pxPerMm;
     let y = 0;
+    let first = true;
     while (y < canvas.height) {
-      const sliceH = Math.min(sliceHeightPx, canvas.height - y);
+      // Find the largest break point > y and within (y + maxSlicePx]
+      let cut = -1;
+      for (const bp of breakPoints) {
+        if (bp > y && bp - y <= maxSlicePx) cut = bp;
+      }
+      // If no safe break fits (a single row taller than a page), hard-cut.
+      if (cut === -1) cut = Math.min(y + maxSlicePx, canvas.height);
+      const sliceH = cut - y;
       const c2 = document.createElement("canvas");
       c2.width = canvas.width;
       c2.height = sliceH;
@@ -247,12 +292,13 @@ export async function downloadInvoicePdf(d: InvoicePdfData) {
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 0, c2.width, c2.height);
       ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
-      const partImg = c2.toDataURL("image/png");
-      if (y > 0) pdf.addPage();
-      pdf.addImage(partImg, "PNG", margin, margin, w, sliceH / pxPerMm);
-      y += sliceH;
+      if (!first) pdf.addPage();
+      first = false;
+      pdf.addImage(c2.toDataURL("image/png"), "PNG", margin, margin, wMm, sliceH / pxPerMm);
+      y = cut;
     }
   }
+
   const invNo = formatInvoiceNumber(d.number);
   const safeShop = (d.shopName || "mongezz").replace(/[^\w\u0600-\u06FF-]+/g, "_");
   pdf.save(`${safeShop}-invoice-${invNo}.pdf`);

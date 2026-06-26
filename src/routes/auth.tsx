@@ -77,7 +77,10 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-5 py-10">
+    <div className="min-h-screen bg-background flex flex-col items-center px-5 py-10" suppressHydrationWarning>
+      {!hydrated ? null : (
+      <>
+
       <div className="w-full max-w-sm">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-extrabold">منجز</h1>

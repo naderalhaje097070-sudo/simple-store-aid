@@ -48,7 +48,7 @@ export const Route = createFileRoute("/_authenticated/app")({
 
 /* ============================== MOCK DATA ============================== */
 
-type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number };
+type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean };
 type Customer = { id: string; name: string; phone?: string };
 type Courier = { id: string; name: string; phone?: string };
 type InvoiceItem = { productId: string; name: string; qty: number; price: number; cost: number };
@@ -247,7 +247,7 @@ function MongezzApp() {
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
     setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
-    addProductAsync: (input: { name: string; price: number; cost: number; stock: number }) => addProductMut.mutateAsync(input),
+    addProductAsync: (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
     addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
     addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
@@ -896,7 +896,7 @@ function InventoryScreen(p: any) {
   );
 }
 
-function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number }) => void | Promise<void>; existingNames?: string[] }) {
+function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[] }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [cost, setCost] = useState("");

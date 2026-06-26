@@ -230,7 +230,7 @@ export function useInvoices(tenantId: string | null | undefined) {
       const { data, error } = await supabase
         .from("orders")
         .select("id,number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
         id: r.id, number: String(r.number),

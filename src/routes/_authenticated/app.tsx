@@ -1004,7 +1004,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
         </div>
         <label className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 cursor-pointer">
           <input type="checkbox" checked={isDiscount} onChange={e => setIsDiscount(e.target.checked)} className="w-4 h-4 accent-primary" />
-          <span className="text-xs font-bold">منتج على تخفيض (تكلفة > بيع)</span>
+          <span className="text-xs font-bold">منتج على تخفيض (تكلفة &gt; بيع)</span>
         </label>
         <button
           disabled={submitting}

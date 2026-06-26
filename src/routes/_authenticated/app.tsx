@@ -1124,6 +1124,9 @@ function DebtCustomerScreen(p: any) {
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
   const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id ?? "");
+  const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
+  const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
+  const [markAmount, setMarkAmount] = useState("");
   if (!p.couriers || p.couriers.length === 0) {
     return (
       <>
@@ -1137,9 +1140,6 @@ function CourierCustodyScreen(p: any) {
       </>
     );
   }
-  const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
-  const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
-  const [markAmount, setMarkAmount] = useState("");
   const list = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courierId);
   const pending = list.filter((i: Invoice) => (i.courierState ?? "pending") === "pending");
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");

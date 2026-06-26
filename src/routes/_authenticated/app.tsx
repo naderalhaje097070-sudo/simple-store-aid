@@ -886,6 +886,15 @@ function EmptyState({ text }: { text: string }) {
 
 /* --------------- SHOP HUB --------------- */
 function ShopHubScreen(p: any) {
+  const mgmtItems: { id: Screen; l: string; Icon: any; hint?: string }[] = [
+    { id: "customers", l: "العملاء", Icon: Users },
+    { id: "inventory", l: "المنتجات", Icon: Boxes },
+    { id: "couriers", l: "المندوبون", Icon: Truck },
+  ];
+  if (p.myRole === "owner") {
+    mgmtItems.push({ id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" });
+  }
+  mgmtItems.push({ id: "settings", l: "إعدادات المحل", Icon: SettingsIcon });
   const groups: { title: string; items: { id: Screen; l: string; Icon: any; hint?: string }[] }[] = [
     {
       title: "يومي",
@@ -899,13 +908,7 @@ function ShopHubScreen(p: any) {
     },
     {
       title: "إدارة",
-      items: [
-        { id: "customers", l: "العملاء", Icon: Users },
-        { id: "inventory", l: "المنتجات", Icon: Boxes },
-        { id: "couriers", l: "المندوبون", Icon: Truck },
-        ...(p.myRole === "owner" ? [{ id: "pilot", l: "صحة النظام", Icon: Activity, hint: "أخطاء ومقاييس" }] : []),
-        { id: "settings", l: "إعدادات المحل", Icon: SettingsIcon },
-      ],
+      items: mgmtItems,
     },
   ];
   return (

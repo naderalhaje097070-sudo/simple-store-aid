@@ -1264,8 +1264,8 @@ function ExpensesScreen(p: any) {
   const transferT = total - cashT;
 
   const canSave = Number(amount) > 0 && !!method && !!type;
-  const save = () => {
-    p.setExpenses((arr: Expense[]) => [...arr, { id: "e" + Date.now(), type, amount: Number(amount), method: method as any, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }) }]);
+  const save = async () => {
+    await p.addExpenseAsync({ type, amount: Number(amount), method: method as "cash" | "transfer" });
     setAmount(""); setType(""); setMethod(""); setOpen(false); setSuccess(true);
     setTimeout(() => setSuccess(false), 1800);
   };

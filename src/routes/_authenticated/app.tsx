@@ -7,6 +7,7 @@ import {
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
 } from "lucide-react";
+import { useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({

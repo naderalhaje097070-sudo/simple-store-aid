@@ -7,7 +7,11 @@ import {
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
 } from "lucide-react";
-import { useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive } from "@/lib/db";
+import {
+  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
+  useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
+  useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier,
+} from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
@@ -52,13 +56,7 @@ type Payment = {
   time: string;
 };
 
-// Phase 1: قوائم فاضية — Phase 2 ستربطها بقاعدة بيانات المحل الفعلية
-const seedProducts: Product[] = [];
-const seedCustomers: Customer[] = [];
-const seedCouriers: Courier[] = [];
-const seedInvoices: Invoice[] = [];
-const seedExpenses: Expense[] = [];
-const seedPayments: Payment[] = [];
+// Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
 /* ============================== HELPERS ============================== */
 
@@ -81,17 +79,27 @@ function MongezzApp() {
   const { data: tenantId } = useTenantId();
   const { data: dbProducts } = useProducts(tenantId);
   const { data: dbCustomers } = useCustomers(tenantId);
+  const { data: dbCouriers } = useCouriers(tenantId);
+  const { data: dbInvoices } = useInvoices(tenantId);
+  const { data: dbPayments } = usePayments(tenantId);
+  const { data: dbExpenses } = useExpenses(tenantId);
   const addCustomerMut = useAddCustomer(tenantId);
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
+  const addCourierMut = useAddCourier(tenantId);
+  const addExpenseMut = useAddExpense(tenantId);
+  const createSaleMut = useCreateSale(tenantId);
+  const deleteInvoiceMut = useDeleteInvoice(tenantId);
+  const collectDebtMut = useCollectDebt(tenantId);
+  const settleCourierMut = useSettleCourier(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
-  const setCustomers = (_: any) => { /* DB-managed: use addCustomerMut */ };
-  const [couriers] = useState<Courier[]>(seedCouriers);
-  const [invoices, setInvoices] = useState<Invoice[]>(seedInvoices);
-  const [expenses, setExpenses] = useState<Expense[]>(seedExpenses);
-  const [payments, setPayments] = useState<Payment[]>(seedPayments);
+  const couriers = (dbCouriers ?? []) as Courier[];
+  const invoices = (dbInvoices ?? []) as unknown as Invoice[];
+  const payments = (dbPayments ?? []) as unknown as Payment[];
+  const expenses = (dbExpenses ?? []) as Expense[];
+  const setCustomers = (_: any) => {};
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);
@@ -189,7 +197,7 @@ function MongezzApp() {
   }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
 
   const ctx = {
-    products, customers, setCustomers, couriers, invoices, setInvoices, expenses, setExpenses, payments, setPayments,
+    products, customers, setCustomers, couriers, invoices, expenses, payments,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday,
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
@@ -199,6 +207,12 @@ function MongezzApp() {
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
     addProductAsync: (input: { name: string; price: number; cost: number; stock: number }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
+    addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
+    addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
+    createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
+    deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
+    collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
+    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
   };
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);
@@ -265,11 +279,8 @@ function MongezzApp() {
             {quickExpenseOpen && (
               <QuickExpenseSheet
                 onClose={() => setQuickExpenseOpen(false)}
-                onSave={(amount, type, method) => {
-                  setExpenses(arr => [...arr, {
-                    id: "e" + Date.now(), type, amount, method,
-                    time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-                  }]);
+                onSave={async (amount: number, type: string, method: "cash" | "transfer") => {
+                  await addExpenseMut.mutateAsync({ type, amount, method });
                   setQuickExpenseOpen(false);
                   showToast("تم تسجيل المصروف");
                 }}
@@ -630,20 +641,10 @@ function InvoiceDetailScreen(p: any) {
   const [collectAmt, setCollectAmt] = useState("");
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
 
-  const submitCollect = () => {
+  const submitCollect = async () => {
     const a = Number(collectAmt);
     if (!a || a <= 0 || a > remaining) return;
-    p.setInvoices((arr: Invoice[]) => arr.map(i => i.id === inv.id ? { ...i, paid: i.paid + a, status: (i.paid + a) >= i.total ? "paid" : "partial" } : i));
-    p.setPayments((arr: Payment[]) => [...arr, {
-      id: "pay" + Date.now(),
-      kind: "debt_collection",
-      method: collectMethod,
-      amount: a,
-      invoiceId: inv.id,
-      invoiceNumber: inv.number,
-      customerId: inv.customerId,
-      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-    }]);
+    await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
     setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
   };
 
@@ -1179,31 +1180,15 @@ function SettlementsScreen(p: any) {
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
   const [settledAmount, setSettledAmount] = useState(0);
-  const confirm = () => {
+  const confirm = async () => {
     setSettledAmount(net);
     const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));
-    const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-    p.setInvoices((arr: Invoice[]) => arr.map(i => {
-      if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
-        const collectedAmt = i.collectedByCourier ?? 0;
-        return { ...i, delivery: "direct" as const, paid: i.paid + collectedAmt, collectedByCourier: 0, status: (i.paid + collectedAmt) >= i.total ? "paid" as const : "partial" as const };
-      }
-      return i;
-    }));
-    p.setPayments((arr: Payment[]) => [
-      ...arr,
-      ...settledInvoices.map((i: Invoice, idx: number) => ({
-        id: "pay" + Date.now() + "_" + idx,
-        kind: "settlement" as const,
-        method: "settlement" as const,
-        amount: i.collectedByCourier ?? 0,
-        invoiceId: i.id,
-        invoiceNumber: i.number,
-        customerId: i.customerId,
-        courierId: i.courierId,
-        time: now,
+    await p.settleCourierAsync({
+      courierId: courier.id,
+      orders: settledInvoices.map((i: Invoice) => ({
+        id: i.id, customerId: i.customerId, collected: i.collectedByCourier ?? 0,
       })),
-    ]);
+    });
     setDone(true);
   };
 
@@ -1273,8 +1258,8 @@ function ExpensesScreen(p: any) {
   const transferT = total - cashT;
 
   const canSave = Number(amount) > 0 && !!method && !!type;
-  const save = () => {
-    p.setExpenses((arr: Expense[]) => [...arr, { id: "e" + Date.now(), type, amount: Number(amount), method: method as any, time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }) }]);
+  const save = async () => {
+    await p.addExpenseAsync({ type, amount: Number(amount), method: method as "cash" | "transfer" });
     setAmount(""); setType(""); setMethod(""); setOpen(false); setSuccess(true);
     setTimeout(() => setSuccess(false), 1800);
   };
@@ -1396,6 +1381,15 @@ function CustomersScreen(p: any) {
 }
 
 function CouriersScreen(p: any) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const submit = async () => {
+    if (!name.trim()) return;
+    await p.addCourierAsync({ name: name.trim(), phone: phone.trim() || undefined });
+    setName(""); setPhone(""); setOpen(false);
+    p.showToast("تم إضافة المندوب");
+  };
   return (
     <>
       <TopBar title="المندوبون" onBack={p.back} />
@@ -1404,7 +1398,7 @@ function CouriersScreen(p: any) {
           const list = p.invoices.filter((i: Invoice) => i.courierId === c.id);
           const custody = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full").reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
           return (
-            <button key={c.id} onClick={() => p.go("courier_custody")} className="w-full text-right rounded-2xl bg-card border border-border p-3 flex items-center gap-3">
+            <button key={c.id} onClick={() => { p.setOpenCourierId(c.id); p.go("courier_custody"); }} className="w-full text-right rounded-2xl bg-card border border-border p-3 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-warn-soft text-warn flex items-center justify-center font-bold">{c.name[0]}</div>
               <div className="flex-1">
                 <div className="font-bold text-sm">{c.name}</div>
@@ -1417,8 +1411,27 @@ function CouriersScreen(p: any) {
             </button>
           );
         })}
-        <button className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة مندوب</button>
+        {p.couriers.length === 0 && (
+          <div className="rounded-2xl bg-muted/40 border border-border p-6 text-center text-sm text-muted-foreground">
+            لا يوجد مندوبون بعد. أضف أول مندوب توصيل.
+          </div>
+        )}
+        <button onClick={() => setOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة مندوب</button>
       </div>
+
+      {open && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-end" onClick={() => setOpen(false)}>
+          <div className="w-full bg-card rounded-t-3xl p-4 space-y-3" onClick={e => e.stopPropagation()}>
+            <div className="font-bold">إضافة مندوب</div>
+            <input value={name} onChange={e => setName(e.target.value)} placeholder="اسم المندوب" className="w-full rounded-xl bg-muted px-3 py-3 text-sm" />
+            <input value={phone} onChange={e => setPhone(e.target.value)} placeholder="رقم الهاتف (اختياري)" inputMode="tel" className="w-full rounded-xl bg-muted px-3 py-3 text-sm" />
+            <div className="flex gap-2">
+              <button onClick={() => setOpen(false)} className="flex-1 rounded-xl bg-muted py-3 text-sm font-bold">إلغاء</button>
+              <button onClick={submit} disabled={!name.trim()} className="flex-1 rounded-xl bg-primary text-primary-foreground py-3 text-sm font-bold disabled:opacity-40">حفظ</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
@@ -1574,41 +1587,18 @@ function SaleScreen(p: any) {
           addCustomerAsync={p.addCustomerAsync}
           couriers={p.couriers}
           onClose={() => setPaySheet(false)}
-          onSave={(d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {
+          onSave={async (d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {
             const items: InvoiceItem[] = cart.map(c => {
               const pr = p.products.find((x: Product) => x.id === c.productId)!;
               return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
             });
             const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-            const number = String(1040 + p.invoices.length + 1);
-            const newInv: Invoice = {
-              id: "i" + Date.now(),
-              number,
-              items,
-              total: subtotal,
-              paid: d.paid,
-              customerId: d.customerId,
-              delivery: d.delivery,
-              courierId: d.courierId,
-              status: d.paid >= subtotal ? "paid" : d.paid > 0 ? "partial" : "debt",
-              courierState: d.delivery === "courier" ? "pending" : undefined,
-              time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-            };
-            p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
-            if (d.delivery === "direct" && d.paid > 0) {
-              p.setPayments((arr: Payment[]) => [...arr, {
-                id: "pay" + Date.now(),
-                kind: "sale",
-                method: d.method,
-                amount: d.paid,
-                invoiceId: newInv.id,
-                invoiceNumber: newInv.number,
-                customerId: d.customerId,
-                time: newInv.time,
-              }]);
-            }
+            const created = await p.createSaleAsync({
+              items, total: subtotal, paid: d.paid,
+              customerId: d.customerId, delivery: d.delivery, courierId: d.courierId, method: d.method,
+            });
             p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
-            p.setLastCreatedInvoiceId(newInv.id);
+            p.setLastCreatedInvoiceId(created.orderId);
             p.setScreen("sale_success");
           }}
         />
@@ -1763,10 +1753,9 @@ function SaleSuccessScreen(p: any) {
     const t = setTimeout(() => setSecondsLeft(n => n - 1), 1000);
     return () => clearTimeout(t);
   }, [secondsLeft, undone]);
-  const undo = () => {
+  const undo = async () => {
     if (!p.lastCreatedInvoiceId) return;
-    p.setInvoices((arr: Invoice[]) => arr.filter(i => i.id !== p.lastCreatedInvoiceId));
-    p.setPayments((arr: Payment[]) => arr.filter(pm => pm.invoiceId !== p.lastCreatedInvoiceId));
+    await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
     p.setLastCreatedInvoiceId(null);
     setUndone(true);
     setTimeout(() => p.setScreen("home"), 600);
@@ -1886,27 +1875,20 @@ function SaleQuickScreen(p: any) {
 
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
-  const save = () => {
+  const save = async () => {
     if (cart.length === 0 || subtotal <= 0) return;
     const items: InvoiceItem[] = cart.map(c => {
       const pr = p.products.find((x: Product) => x.id === c.productId)!;
       return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
     });
     const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-    const number = String(1040 + p.invoices.length + 1);
-    const time = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-    const newInv: Invoice = {
-      id: "i" + Date.now(), number, items, total: subtotal, paid: subtotal,
-      delivery: "direct", status: "paid", time,
-    };
-    p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
-    p.setPayments((arr: Payment[]) => [...arr, {
-      id: "pay" + Date.now(), kind: "sale", method: "cash", amount: subtotal,
-      invoiceId: newInv.id, invoiceNumber: newInv.number, time,
-    }]);
+    const created = await p.createSaleAsync({
+      items, total: subtotal, paid: subtotal,
+      delivery: "direct" as const, method: "cash" as const,
+    });
     const elapsedMs = Math.round(performance.now() - startedAt.current);
     p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
-    p.setLastCreatedInvoiceId(newInv.id);
+    p.setLastCreatedInvoiceId(created.orderId);
     p.setScreen("sale_success");
   };
 

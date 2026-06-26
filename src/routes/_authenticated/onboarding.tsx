@@ -32,23 +32,15 @@ function Onboarding() {
       const uid = userRes.user?.id;
       if (!uid) throw new Error("جلسة منتهية، أعد الدخول");
 
+      // Owner role + profile linkage are assigned automatically by a
+      // SECURITY DEFINER trigger on `tenants` — do not insert into
+      // `user_roles` from the client.
       const { data: tenant, error: tErr } = await supabase
         .from("tenants")
         .insert({ name: name.trim(), owner_user_id: uid })
         .select("id")
         .single();
       if (tErr || !tenant) throw tErr ?? new Error("تعذّر إنشاء المحل");
-
-      const { error: pErr } = await supabase
-        .from("profiles")
-        .update({ tenant_id: tenant.id })
-        .eq("id", uid);
-      if (pErr) throw pErr;
-
-      const { error: rErr } = await supabase
-        .from("user_roles")
-        .insert({ user_id: uid, tenant_id: tenant.id, role: "owner" });
-      if (rErr) throw rErr;
 
       navigate({ to: "/app" });
     } catch (err) {

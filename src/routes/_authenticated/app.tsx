@@ -8,7 +8,7 @@ import {
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
   Activity, ShieldCheck, FileDown, Printer,
 } from "lucide-react";
-import { downloadInvoicePdf, printInvoice, type InvoicePdfData } from "@/lib/invoice-pdf";
+import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,

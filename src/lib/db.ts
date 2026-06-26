@@ -427,26 +427,12 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
       collected?: number;
     }) => {
       if (!tenantId) throw new Error("no tenant");
-
-      // Returned orders go through an RPC that restores stock atomically.
-      if (input.state === "returned") {
-        const { error } = await supabase.rpc("return_courier_order" as any, { p_order_id: input.orderId });
-        if (error) throw new Error(rpcMessage(error));
-        return;
-      }
-
-      const { data: row } = await supabase.from("orders").select("total").eq("id", input.orderId).maybeSingle();
-      if (!row) throw new Error("order not found");
-      const total = Number(row.total);
-      let collected = 0;
-      if (input.state === "delivered_full") collected = total;
-      else if (input.state === "delivered_partial") collected = Math.max(0, Math.min(total, input.collected ?? 0));
-      else collected = 0;
-      const { error } = await supabase.from("orders").update({
-        courier_state: input.state,
-        collected_by_courier: collected,
-      }).eq("id", input.orderId);
-      if (error) throw error;
+      const { error } = await supabase.rpc("update_courier_order_state" as any, {
+        p_order_id: input.orderId,
+        p_state: input.state,
+        p_collected: input.collected ?? null,
+      });
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });

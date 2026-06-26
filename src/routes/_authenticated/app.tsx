@@ -56,13 +56,7 @@ type Payment = {
   time: string;
 };
 
-// Phase 1: قوائم فاضية — Phase 2 ستربطها بقاعدة بيانات المحل الفعلية
-const seedProducts: Product[] = [];
-const seedCustomers: Customer[] = [];
-const seedCouriers: Courier[] = [];
-const seedInvoices: Invoice[] = [];
-const seedExpenses: Expense[] = [];
-const seedPayments: Payment[] = [];
+// Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
 /* ============================== HELPERS ============================== */
 

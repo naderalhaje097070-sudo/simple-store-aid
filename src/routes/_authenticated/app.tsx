@@ -923,9 +923,10 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
   else if (stockN > 100000) errors.stock = "الكمية كبيرة جداً";
 
   if (cost !== "" && (!isFinite(costN) || costN < 0)) errors.cost = "تكلفة غير صحيحة";
+  if (!errors.cost && !errors.price && cost !== "" && costN > priceN && !isDiscount) errors.cost = "التكلفة أعلى من سعر البيع — فعّل خيار التخفيض أو صحّح السعر";
 
   const warnings: { cost?: string; name?: string } = {};
-  if (!errors.cost && !errors.price && cost !== "" && costN > priceN) warnings.cost = "التكلفة أعلى من سعر البيع — ستبيع بخسارة";
+  if (!errors.cost && !errors.price && cost !== "" && costN > priceN && isDiscount) warnings.cost = "منتج على تخفيض (التكلفة أعلى من سعر البيع)";
   if (!errors.name && trimmedName && existingNames.includes(trimmedName.toLowerCase())) warnings.name = "يوجد منتج بنفس الاسم — تأكد قبل الحفظ";
 
   const valid = Object.keys(errors).length === 0;

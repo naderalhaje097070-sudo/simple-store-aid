@@ -99,7 +99,7 @@ function rpcMessage(err: any): string {
 export type DBProduct = {
   id: string; name: string; price: number; cost: number;
   stock: number; lowAt: number; sku: string | null;
-  category: string | null; is_active: boolean;
+  category: string | null; is_active: boolean; is_discount: boolean;
 };
 
 export function useProducts(tenantId: string | null | undefined) {

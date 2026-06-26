@@ -1186,31 +1186,15 @@ function SettlementsScreen(p: any) {
   const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
 
   const [settledAmount, setSettledAmount] = useState(0);
-  const confirm = () => {
+  const confirm = async () => {
     setSettledAmount(net);
     const settledInvoices = collected.filter((i: Invoice) => selected.has(i.id));
-    const now = new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
-    p.setInvoices((arr: Invoice[]) => arr.map(i => {
-      if (selected.has(i.id) && (i.courierState === "delivered_partial" || i.courierState === "delivered_full")) {
-        const collectedAmt = i.collectedByCourier ?? 0;
-        return { ...i, delivery: "direct" as const, paid: i.paid + collectedAmt, collectedByCourier: 0, status: (i.paid + collectedAmt) >= i.total ? "paid" as const : "partial" as const };
-      }
-      return i;
-    }));
-    p.setPayments((arr: Payment[]) => [
-      ...arr,
-      ...settledInvoices.map((i: Invoice, idx: number) => ({
-        id: "pay" + Date.now() + "_" + idx,
-        kind: "settlement" as const,
-        method: "settlement" as const,
-        amount: i.collectedByCourier ?? 0,
-        invoiceId: i.id,
-        invoiceNumber: i.number,
-        customerId: i.customerId,
-        courierId: i.courierId,
-        time: now,
+    await p.settleCourierAsync({
+      courierId: courier.id,
+      orders: settledInvoices.map((i: Invoice) => ({
+        id: i.id, customerId: i.customerId, collected: i.collectedByCourier ?? 0,
       })),
-    ]);
+    });
     setDone(true);
   };
 

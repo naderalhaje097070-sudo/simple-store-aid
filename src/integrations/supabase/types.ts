@@ -553,6 +553,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _assert_owner: { Args: { _tid: string }; Returns: undefined }
       _assert_platform_admin: { Args: never; Returns: undefined }
       _assert_staff: { Args: { _tid: string }; Returns: undefined }
       close_day: { Args: { p_note: string }; Returns: Json }

@@ -1570,7 +1570,7 @@ function SaleScreen(p: any) {
   );
 }
 
-function PaymentSheet({ subtotal, customers, setCustomers, couriers, onClose, onSave }: any) {
+function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose, onSave }: any) {
   const [status, setStatus] = useState<"paid" | "partial" | "debt">("paid");
   const [paidStr, setPaidStr] = useState(String(subtotal));
   const [customerId, setCustomerId] = useState<string | undefined>(undefined);

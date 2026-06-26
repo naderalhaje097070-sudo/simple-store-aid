@@ -785,6 +785,7 @@ function InvoiceDetailScreen(p: any) {
             issuedAt: createdAt,
             dateText, timeText: inv.time,
             customerName: cust?.name,
+            customerPhone: (cust as any)?.phone,
             courierName,
             delivery: inv.delivery,
             items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),

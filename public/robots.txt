@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /app
+Disallow: /auth
+Disallow: /onboarding
+Disallow: /platform-admin
+Disallow: /forbidden
+
+Sitemap: https://simple-store-aid.lovable.app/sitemap.xml

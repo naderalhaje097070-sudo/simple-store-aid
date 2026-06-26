@@ -68,10 +68,12 @@ function LandingPage() {
   return (
     <div dir="rtl" className="min-h-screen bg-background text-foreground">
       <NavBar />
-      <Hero />
-      <Features />
-      <HowItWorks />
-      <FAQ />
+      <main>
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <FAQ />
+      </main>
       <Footer />
     </div>
   );

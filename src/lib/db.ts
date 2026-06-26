@@ -220,7 +220,7 @@ export type DBInvoice = {
 };
 
 const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false });
+  new Date(iso).toLocaleTimeString("ar-LY", { hour: "2-digit", minute: "2-digit", hour12: false });
 
 export function useInvoices(tenantId: string | null | undefined) {
   return useQuery({

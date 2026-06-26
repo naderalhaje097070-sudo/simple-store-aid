@@ -14,6 +14,24 @@ import {
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
 } from "@/lib/db";
 
+function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
+  const router = useRouter();
+  console.error("[Mongezz /app error]", error);
+  return (
+    <div dir="rtl" className="min-h-screen flex items-center justify-center bg-background text-foreground p-6">
+      <div className="max-w-sm w-full bg-card border border-border rounded-2xl p-5 text-center space-y-3">
+        <div className="text-2xl">⚠️</div>
+        <div className="font-bold text-base">حدث خطأ غير متوقع</div>
+        <div className="text-xs text-muted-foreground">حدِّث الصفحة أو اضغط إعادة المحاولة.</div>
+        <button
+          onClick={() => { router.invalidate(); reset(); }}
+          className="w-full rounded-xl bg-primary text-primary-foreground py-3 text-sm font-bold"
+        >إعادة المحاولة</button>
+      </div>
+    </div>
+  );
+}
+
 export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
     meta: [
@@ -22,6 +40,7 @@ export const Route = createFileRoute("/_authenticated/app")({
     ],
   }),
   component: MongezzApp,
+  errorComponent: AppErrorBoundary,
 });
 
 /* ============================== MOCK DATA ============================== */

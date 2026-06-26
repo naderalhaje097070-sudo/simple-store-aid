@@ -151,32 +151,39 @@ function buildHtml(d: InvoicePdfData): string {
     </div>
 
     <!-- Items -->
-    <table style="width:100%;border-collapse:collapse;font-size:12.5px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden">
+    <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;border:1px solid #111;border-radius:6px;overflow:hidden;table-layout:fixed">
+      <colgroup>
+        <col style="width:26px">
+        <col>
+        <col style="width:50px">
+        <col style="width:72px">
+        <col style="width:86px">
+      </colgroup>
       <thead>
         <tr style="background:#111;color:#fff">
-          <th style="padding:8px 6px;text-align:center;width:30px">#</th>
-          <th style="padding:8px 6px;text-align:right">الصنف</th>
-          <th style="padding:8px 6px;text-align:center;width:60px">الكمية</th>
-          <th style="padding:8px 6px;text-align:center;width:80px">السعر</th>
-          <th style="padding:8px 6px;text-align:center;width:90px">الإجمالي</th>
+          <th style="padding:7px 5px;text-align:center">#</th>
+          <th style="padding:7px 5px;text-align:right">الصنف</th>
+          <th style="padding:7px 5px;text-align:center">الكمية</th>
+          <th style="padding:7px 5px;text-align:center">السعر</th>
+          <th style="padding:7px 5px;text-align:center">الإجمالي</th>
         </tr>
       </thead>
       <tbody>${rows}</tbody>
     </table>
 
     <!-- Summary -->
-    <div style="font-size:13px;border:1px solid #111;border-radius:8px;padding:10px 12px;background:#fcfcfc">
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:800;font-size:15px;border-bottom:1px solid #ddd;margin-bottom:4px">
-        <span>الإجمالي</span><span dir="ltr">${money(d.total)} د.ل</span>
+    <div style="font-size:12.5px;border:1px solid #111;border-radius:8px;padding:8px 12px;background:#fcfcfc">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:800;font-size:14.5px;border-bottom:1px solid #ddd;margin-bottom:2px">
+        <span>الإجمالي</span><span dir="ltr" style="white-space:nowrap">${money(d.total)} د.ل</span>
       </div>
-      <div style="display:flex;justify-content:space-between;padding:6px 0;color:#15803d">
-        <span>المدفوع للصندوق</span><span dir="ltr">${money(d.paid)} د.ل</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;color:#15803d">
+        <span>المدفوع للصندوق</span><span dir="ltr" style="white-space:nowrap">${money(d.paid)} د.ل</span>
       </div>
       ${custodyLine}
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
-        <span>المتبقي على العميل</span><span dir="ltr">${money(d.remaining)} د.ل</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-weight:700;color:${d.remaining > 0 ? "#b91c1c" : "#111"}">
+        <span>المتبقي على العميل</span><span dir="ltr" style="white-space:nowrap">${money(d.remaining)} د.ل</span>
       </div>
-      <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px;color:#666;border-top:1px dashed #ddd;margin-top:4px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 0;font-size:11.5px;color:#666;border-top:1px dashed #ddd;margin-top:2px">
         <span>طريقة الدفع</span><span>${methodLabel}</span>
       </div>
     </div>

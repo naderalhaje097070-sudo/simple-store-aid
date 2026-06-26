@@ -14,6 +14,7 @@ import {
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
 } from "@/lib/db";
+import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
 
 function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
@@ -642,16 +643,19 @@ function InvoiceRow({ inv, customers, onOpen }: { inv: Invoice; customers: Custo
 /* --------------- INVOICES LIST --------------- */
 function InvoicesScreen(p: any) {
   const [filter, setFilter] = useState<"all" | "paid" | "partial" | "debt">("all");
-  const list = p.invoices.filter((i: Invoice) => filter === "all" ? true : i.status === filter);
+  const { range, setRange } = useDateRange("today");
+  const dated = p.invoices.filter((i: Invoice) => inRange(i.createdAt, range));
+  const list = dated.filter((i: Invoice) => filter === "all" ? true : i.status === filter);
   const total = list.reduce((s: number, i: Invoice) => s + i.total, 0);
   return (
     <>
       <TopBar title="الفواتير" />
       <div className="px-4 pt-3 space-y-3">
+        <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
           <div>
-            <div className="text-xs text-muted-foreground">قيمة الفواتير <span className="text-[10px]">(ليست المحصّل)</span></div>
-            <div className="text-[11px] text-muted-foreground mb-1">المبالغ بالـ د.ل</div>
+            <div className="text-xs text-muted-foreground">قيمة الفواتير · {range.label} <span className="text-[10px]">(ليست المحصّل)</span></div>
+            <div className="text-[11px] text-muted-foreground mb-1">{list.length} فاتورة · بالـ د.ل</div>
             <Money v={total} className="text-lg" />
           </div>
           <Info className="w-4 h-4 text-muted-foreground" />
@@ -664,7 +668,7 @@ function InvoicesScreen(p: any) {
           ))}
         </div>
         <div className="space-y-2">
-          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا فواتير بهذه الحالة</div>}
+          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا توجد فواتير في هذا النطاق</div>}
           {list.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { p.setOpenInvoiceId(id); p.go("invoice_detail"); }} />)}
         </div>
       </div>
@@ -988,7 +992,9 @@ function ProfitScreen(p: any) {
 
 /* --------------- COLLECTED --------------- */
 function CollectedScreen(p: any) {
-  const payments: Payment[] = p.payments;
+  const allPayments: Payment[] = p.payments;
+  const { range, setRange } = useDateRange("today");
+  const payments = allPayments.filter(pm => inRange(pm.createdAt, range));
   const cash = payments.filter(pm => pm.method === "cash").reduce((s, pm) => s + pm.amount, 0);
   const transfer = payments.filter(pm => pm.method === "transfer").reduce((s, pm) => s + pm.amount, 0);
   const settlement = payments.filter(pm => pm.method === "settlement").reduce((s, pm) => s + pm.amount, 0);
@@ -1003,16 +1009,17 @@ function CollectedScreen(p: any) {
     return `تسوية مندوب${courierName(pm.courierId) ? " · " + courierName(pm.courierId) : ""}${pm.invoiceNumber ? " · #" + pm.invoiceNumber : ""}`;
   };
 
-  const sorted = [...payments].sort((a, b) => (a.time < b.time ? 1 : a.time > b.time ? -1 : 0));
+  const sorted = [...payments].sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
 
   return (
     <>
       <TopBar title="المحصّل فعليًا" onBack={p.back} />
       <div className="px-4 pt-3 space-y-3">
+        <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-primary text-primary-foreground p-5">
-          <div className="text-xs opacity-90">المدفوع المحصّل</div>
-          <Money v={p.totals.collected} className="text-2xl mt-1" />
-          <div className="text-[11px] opacity-80 mt-2">ما دخل فعلًا لجيبك حتى الآن</div>
+          <div className="text-xs opacity-90">المدفوع المحصّل · {range.label}</div>
+          <Money v={sum} className="text-2xl mt-1" />
+          <div className="text-[11px] opacity-80 mt-2">ما دخل فعلًا لجيبك في هذا النطاق</div>
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-card border border-border p-4"><div className="text-xs text-muted-foreground">نقدي</div><Money v={cash} className="text-base mt-1" /></div>
@@ -1027,16 +1034,13 @@ function CollectedScreen(p: any) {
             <Money v={settlement} className="text-base" />
           </div>
         )}
-        {Math.abs(sum - p.totals.collected) > 0.5 && (
-          <div className="rounded-xl bg-warn-soft text-warn text-[11px] p-2 flex gap-2"><Info className="w-3 h-3 mt-0.5 shrink-0" />فرق بسيط بين المجموع والتفصيل قد يظهر مع بيانات تجريبية.</div>
-        )}
         <div className="rounded-2xl bg-info-soft border border-info/20 p-3 text-xs text-info flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           <span>لا يشمل ديون العملاء، ولا عهدة المندوب غير المصفّاة. المصروفات لا تُنقص هذا الرقم.</span>
         </div>
-        <div className="text-xs font-bold text-muted-foreground mt-2">الحركة</div>
+        <div className="text-xs font-bold text-muted-foreground mt-2">الحركة ({sorted.length})</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
-          {sorted.length === 0 && <div className="p-4 text-sm text-muted-foreground text-center">لا حركات بعد</div>}
+          {sorted.length === 0 && <div className="p-4 text-sm text-muted-foreground text-center">لا حركات في هذا النطاق</div>}
           {sorted.map((pm) => (
             <div key={pm.id} className="flex items-center gap-3 p-3">
               <ArrowUpCircle className={`w-5 h-5 ${pm.method === "settlement" ? "text-warn" : "text-success"}`} />
@@ -1391,9 +1395,11 @@ function ExpensesScreen(p: any) {
   const [type, setType] = useState("");
   const [method, setMethod] = useState<"cash" | "transfer" | "">("");
   const [success, setSuccess] = useState(false);
+  const { range, setRange } = useDateRange("today");
 
-  const total = p.expenses.reduce((s: number, e: Expense) => s + e.amount, 0);
-  const cashT = p.expenses.filter((e: Expense) => e.method === "cash").reduce((s: number, e: Expense) => s + e.amount, 0);
+  const filtered = (p.expenses as Expense[]).filter(e => inRange(e.createdAt, range));
+  const total = filtered.reduce((s: number, e: Expense) => s + e.amount, 0);
+  const cashT = filtered.filter(e => e.method === "cash").reduce((s: number, e: Expense) => s + e.amount, 0);
   const transferT = total - cashT;
 
   const canSave = Number(amount) > 0 && !!method && !!type;
@@ -1409,17 +1415,19 @@ function ExpensesScreen(p: any) {
     <>
       <TopBar title="المصروفات" onBack={p.back} />
       <div className="px-4 pt-3 space-y-3">
+        <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-4">
-          <div className="text-xs text-muted-foreground">إجمالي المصروفات اليوم</div>
+          <div className="text-xs text-muted-foreground">إجمالي المصروفات · {range.label}</div>
           <Money v={total} className="text-2xl mt-1" />
-          <div className="mt-2 text-xs text-muted-foreground">نقدي <span className="num">{fmt(cashT)}</span> · تحويل <span className="num">{fmt(transferT)}</span></div>
+          <div className="mt-2 text-xs text-muted-foreground">{filtered.length} عملية · نقدي <span className="num">{fmt(cashT)}</span> · تحويل <span className="num">{fmt(transferT)}</span></div>
         </div>
         <div className="rounded-2xl bg-info-soft border border-info/20 p-3 text-xs text-info flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           <span>المصروفات تنقص <b>الربح التقديري</b> فقط. لا تنقص المحصّل فعلًا.</span>
         </div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
-          {p.expenses.map((e: Expense) => (
+          {filtered.length === 0 && <div className="p-8 text-center text-sm text-muted-foreground">لا توجد مصروفات في هذا النطاق</div>}
+          {filtered.map((e: Expense) => (
             <div key={e.id} className="flex items-center gap-3 p-3">
               <ArrowDownCircle className="w-5 h-5 text-debt" />
               <div className="flex-1">
@@ -1432,6 +1440,7 @@ function ExpensesScreen(p: any) {
         </div>
         <button onClick={() => setOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ تسجيل مصروف</button>
       </div>
+
 
       {success && <Toast text="تم تسجيل المصروف" />}
 

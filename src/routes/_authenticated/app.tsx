@@ -727,8 +727,11 @@ function InvoiceDetailScreen(p: any) {
 
         <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
           <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع</span><Money v={inv.paid} className="text-success" /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي</span><Money v={remaining} className={remaining > 0 ? "text-debt" : ""} /></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
+          {inv.delivery === "courier" && (inv.collectedByCourier ?? 0) > 0 && (
+            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={inv.collectedByCourier ?? 0} className="text-warn" /></div>
+          )}
+          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={remaining} className={remaining > 0 ? "text-debt" : ""} /></div>
         </div>
 
         <div className="rounded-2xl bg-profit-soft border border-profit/20 p-4">

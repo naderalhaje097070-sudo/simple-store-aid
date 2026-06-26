@@ -85,17 +85,27 @@ function MongezzApp() {
   const { data: tenantId } = useTenantId();
   const { data: dbProducts } = useProducts(tenantId);
   const { data: dbCustomers } = useCustomers(tenantId);
+  const { data: dbCouriers } = useCouriers(tenantId);
+  const { data: dbInvoices } = useInvoices(tenantId);
+  const { data: dbPayments } = usePayments(tenantId);
+  const { data: dbExpenses } = useExpenses(tenantId);
   const addCustomerMut = useAddCustomer(tenantId);
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
+  const addCourierMut = useAddCourier(tenantId);
+  const addExpenseMut = useAddExpense(tenantId);
+  const createSaleMut = useCreateSale(tenantId);
+  const deleteInvoiceMut = useDeleteInvoice(tenantId);
+  const collectDebtMut = useCollectDebt(tenantId);
+  const settleCourierMut = useSettleCourier(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
-  const setCustomers = (_: any) => { /* DB-managed: use addCustomerMut */ };
-  const [couriers] = useState<Courier[]>(seedCouriers);
-  const [invoices, setInvoices] = useState<Invoice[]>(seedInvoices);
-  const [expenses, setExpenses] = useState<Expense[]>(seedExpenses);
-  const [payments, setPayments] = useState<Payment[]>(seedPayments);
+  const couriers = (dbCouriers ?? []) as Courier[];
+  const invoices = (dbInvoices ?? []) as unknown as Invoice[];
+  const payments = (dbPayments ?? []) as unknown as Payment[];
+  const expenses = (dbExpenses ?? []) as Expense[];
+  const setCustomers = (_: any) => {};
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);

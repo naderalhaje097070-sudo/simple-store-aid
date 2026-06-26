@@ -285,11 +285,8 @@ function MongezzApp() {
             {quickExpenseOpen && (
               <QuickExpenseSheet
                 onClose={() => setQuickExpenseOpen(false)}
-                onSave={(amount, type, method) => {
-                  setExpenses(arr => [...arr, {
-                    id: "e" + Date.now(), type, amount, method,
-                    time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-                  }]);
+                onSave={async (amount: number, type: string, method: "cash" | "transfer") => {
+                  await addExpenseMut.mutateAsync({ type, amount, method });
                   setQuickExpenseOpen(false);
                   showToast("تم تسجيل المصروف");
                 }}

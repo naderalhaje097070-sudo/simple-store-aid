@@ -6,8 +6,9 @@ import {
   Wallet, Banknote, Truck, Users, Settings as SettingsIcon,
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
-  Activity, ShieldCheck,
+  Activity, ShieldCheck, FileDown, Printer,
 } from "lucide-react";
+import { downloadInvoicePdf, printInvoice, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,

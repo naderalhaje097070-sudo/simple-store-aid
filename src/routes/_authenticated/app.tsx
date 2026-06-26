@@ -1710,8 +1710,7 @@ function AddCustomerInline({ addCustomerAsync, customers, showToast }: { addCust
         <button onClick={() => { setOpen(false); setName(""); setPhone(""); }} className="flex-1 rounded-xl bg-muted py-2.5 text-sm font-bold">إلغاء</button>
         <button disabled={!trimmedName} onClick={submit} className="flex-1 rounded-xl bg-primary text-primary-foreground py-2.5 text-sm font-bold disabled:opacity-40">حفظ</button>
       </div>
-      </div>
-    </>
+    </div>
   );
 }
 

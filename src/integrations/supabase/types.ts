@@ -90,6 +90,59 @@ export type Database = {
           },
         ]
       }
+      day_closes: {
+        Row: {
+          closed_for: string
+          collected: number
+          created_at: string
+          created_by: string | null
+          customer_debts: number
+          expenses: number
+          id: string
+          note: string | null
+          realized_profit: number
+          sales: number
+          tenant_id: string
+          unsettled_custody: number
+        }
+        Insert: {
+          closed_for: string
+          collected?: number
+          created_at?: string
+          created_by?: string | null
+          customer_debts?: number
+          expenses?: number
+          id?: string
+          note?: string | null
+          realized_profit?: number
+          sales?: number
+          tenant_id: string
+          unsettled_custody?: number
+        }
+        Update: {
+          closed_for?: string
+          collected?: number
+          created_at?: string
+          created_by?: string | null
+          customer_debts?: number
+          expenses?: number
+          id?: string
+          note?: string | null
+          realized_profit?: number
+          sales?: number
+          tenant_id?: string
+          unsettled_custody?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "day_closes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       expenses: {
         Row: {
           amount: number

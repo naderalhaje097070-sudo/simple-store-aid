@@ -11,6 +11,7 @@ import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
+  useDayCloses, useCloseDay,
 } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -40,10 +41,11 @@ type Invoice = {
   courierId?: string;
   status: "paid" | "partial" | "debt";
   courierState?: "pending" | "delivered_none" | "delivered_partial" | "delivered_full" | "returned";
-  collectedByCourier?: number; // amount currently in courier custody from this order, unsettled
+  collectedByCourier?: number;
   time: string;
+  createdAt: string;
 };
-type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
 type Payment = {
   id: string;
   kind: "sale" | "debt_collection" | "settlement";
@@ -54,6 +56,7 @@ type Payment = {
   customerId?: string;
   courierId?: string;
   time: string;
+  createdAt: string;
 };
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
@@ -93,6 +96,8 @@ function MongezzApp() {
   const collectDebtMut = useCollectDebt(tenantId);
   const settleCourierMut = useSettleCourier(tenantId);
   const updateCourierStateMut = useUpdateCourierState(tenantId);
+  const { data: dbDayCloses } = useDayCloses(tenantId);
+  const closeDayMut = useCloseDay(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
@@ -114,7 +119,10 @@ function MongezzApp() {
   
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
-  const [closedToday, setClosedToday] = useState(false);
+  const todayKey = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; })();
+  const dayCloses = dbDayCloses ?? [];
+  const closedToday = dayCloses.some(d => d.closedFor === todayKey);
+  const setClosedToday = (_: boolean) => {};
   const [toast, setToast] = useState<string | null>(null);
 
   const showToast = (t: string) => { setToast(t); setTimeout(() => setToast(null), 2000); };
@@ -122,19 +130,36 @@ function MongezzApp() {
   const go = (s: Screen) => { setStack(prev => [...prev, screen]); setScreen(s); };
   const back = () => { setStack(prev => { const c = [...prev]; const p = c.pop(); if (p) setScreen(p); return c; }); };
 
-  /* Derived totals */
+  /* Period window — actual date filtering against DB rows */
+  const periodStart = useMemo(() => {
+    const d = new Date();
+    if (period === "day") { d.setHours(0, 0, 0, 0); return d.getTime(); }
+    const days = period === "week" ? 7 : 30;
+    d.setDate(d.getDate() - days + 1);
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  }, [period]);
+
+  const inPeriod = (iso?: string) => !!iso && new Date(iso).getTime() >= periodStart;
+
+  /* Derived totals — flows filtered by period, stocks reflect current balances */
   const totals = useMemo(() => {
-    const sales = invoices.reduce((s, i) => s + i.total, 0);
-    const cogs = invoices.reduce((s, i) => s + i.items.reduce((a, it) => a + it.cost * it.qty, 0), 0);
-    const expenseTotal = expenses.reduce((s, e) => s + e.amount, 0);
-    const collected = payments.reduce((s, pm) => s + pm.amount, 0);
+    const invP = invoices.filter(i => inPeriod(i.createdAt));
+    const payP = payments.filter(p => inPeriod(p.createdAt));
+    const expP = expenses.filter(e => inPeriod(e.createdAt));
+
+    const sales = invP.reduce((s, i) => s + i.total, 0);
+    const cogs = invP.reduce((s, i) => s + i.items.reduce((a, it) => a + it.cost * it.qty, 0), 0);
+    const expenseTotal = expP.reduce((s, e) => s + e.amount, 0);
+    const collected = payP.reduce((s, pm) => s + pm.amount, 0);
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
-    const realizedRatio = sales > 0 ? collected / sales : 0;
+    const realizedRatio = sales > 0 ? Math.min(1, collected / sales) : 0;
     const realizedCogs = cogs * realizedRatio;
     const realizedProfit = collected - realizedCogs - expenseTotal;
     const cashToday = collected - expenseTotal;
 
+    // Stocks — current balances across ALL invoices (not period-bound)
     const directDebt = invoices.filter(i => i.delivery === "direct").reduce((s, i) => s + (i.total - i.paid), 0);
     const courierCustomerDebt = invoices
       .filter(i => i.delivery === "courier")
@@ -142,7 +167,6 @@ function MongezzApp() {
         const cs = i.courierState ?? "pending";
         if (cs === "delivered_none") return s + i.total;
         if (cs === "delivered_partial") return s + (i.total - (i.collectedByCourier ?? 0));
-        if (cs === "delivered_full" || cs === "returned" || cs === "pending") return s;
         return s;
       }, 0);
     const customerDebts = directDebt + courierCustomerDebt;
@@ -158,49 +182,43 @@ function MongezzApp() {
     const openOnYou = customerDebts + unsettledCustody;
 
     return { sales, cogs, collected, expenseTotal, grossProfit, netProfit, realizedProfit, realizedCogs, customerDebts, unsettledCustody, inTransit, cashToday, openOnYou };
-  }, [invoices, expenses, payments]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invoices, expenses, payments, periodStart]);
 
-  // Period multiplier (prototype only — visual scaling for اليوم/الأسبوع/الشهر)
-  const scaledTotals = useMemo(() => {
-    const m = period === "day" ? 1 : period === "week" ? 6.5 : 27;
-    const flow = (n: number) => Math.round(n * m);
-    return {
-      ...totals,
-      sales: flow(totals.sales),
-      cogs: flow(totals.cogs),
-      collected: flow(totals.collected),
-      expenseTotal: flow(totals.expenseTotal),
-      grossProfit: flow(totals.grossProfit),
-      netProfit: flow(totals.netProfit),
-      realizedProfit: flow(totals.realizedProfit),
-      realizedCogs: flow(totals.realizedCogs),
-      cashToday: flow(totals.cashToday),
-      // stocks (debts, custody) stay constant — they're current balances
-    };
-  }, [totals, period]);
+  const scaledTotals = totals; // backward-compat alias; period filtering is now real
 
   const lowStock = products.filter(p => p.stock > 0 && p.stock <= p.lowAt).length;
   const outStock = products.filter(p => p.stock === 0).length;
 
-  // Smart alerts (computed from current data — stocks not period)
+  // Smart alerts
+  const now = Date.now();
+  const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
   const alerts = useMemo(() => {
     const list: { id: string; tone: "warn" | "debt" | "info"; icon: any; text: string; onClick: () => void }[] = [];
     if (lowStock > 0) list.push({ id: "low", tone: "warn", icon: AlertTriangle, text: `${lowStock} منتجات قاربت النفاد`, onClick: () => go("inventory") });
     if (outStock > 0) list.push({ id: "out", tone: "debt", icon: PackageX, text: `${outStock} منتجات نفدت — أوقف عرضها`, onClick: () => go("inventory") });
     if (totals.unsettledCustody > 0) list.push({ id: "custody", tone: "warn", icon: Truck, text: `عهدة عند المندوب ${fmt(totals.unsettledCustody)} د.ل لم تُصفَّ`, onClick: () => go("settlements") });
-    const oldDebtCount = invoices.filter(i => i.delivery === "direct" && (i.status === "debt" || i.status === "partial")).length;
-    if (oldDebtCount > 0) list.push({ id: "olddebt", tone: "debt", icon: CircleDollarSign, text: `${oldDebtCount} فواتير دين بحاجة تحصيل`, onClick: () => go("debts") });
+    const oldDebts = invoices.filter(i =>
+      i.delivery === "direct" &&
+      (i.status === "debt" || i.status === "partial") &&
+      now - new Date(i.createdAt).getTime() > THIRTY_DAYS
+    ).length;
+    const allDebts = invoices.filter(i => i.delivery === "direct" && (i.status === "debt" || i.status === "partial")).length;
+    if (oldDebts > 0) list.push({ id: "olddebt", tone: "debt", icon: CircleDollarSign, text: `${oldDebts} فواتير دين أقدم من ٣٠ يوم`, onClick: () => go("debts") });
+    else if (allDebts > 0) list.push({ id: "debt", tone: "debt", icon: CircleDollarSign, text: `${allDebts} فواتير دين بحاجة تحصيل`, onClick: () => go("debts") });
     const pendingCourier = invoices.filter(i => i.delivery === "courier" && (i.courierState === "pending" || i.courierState === "delivered_partial")).length;
     if (pendingCourier > 0) list.push({ id: "pending", tone: "info", icon: Clock, text: `${pendingCourier} طلبات توصيل غير مكتملة`, onClick: () => go("courier_custody") });
-    if (totals.collected > 0 && totals.expenseTotal / totals.collected > 0.3) list.push({ id: "exp", tone: "warn", icon: ArrowDownCircle, text: "مصروفات اليوم مرتفعة نسبيًا", onClick: () => go("expenses") });
+    if (totals.collected > 0 && totals.expenseTotal / totals.collected > 0.3) list.push({ id: "exp", tone: "warn", icon: ArrowDownCircle, text: "مصروفات الفترة مرتفعة نسبيًا", onClick: () => go("expenses") });
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
 
+
   const ctx = {
     products, customers, setCustomers, couriers, invoices, expenses, payments,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
-    period, setPeriod, alerts, closedToday, setClosedToday,
+    period, setPeriod, alerts, closedToday, setClosedToday, dayCloses,
+    closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => closeDayMut.mutateAsync(input),
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
@@ -2142,10 +2160,28 @@ function DayCloseScreen(p: any) {
       </div>
       <div className="fixed bottom-0 inset-x-0 z-30">
         <div className="mx-auto max-w-md bg-card border-t border-border p-3 pb-[max(env(safe-area-inset-bottom),12px)]">
-          <button
-            onClick={() => { p.showToast("تمت مراجعة ملخّص اليوم"); p.back(); }}
-            className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
-          >تم — رجوع</button>
+          {p.closedToday ? (
+            <button onClick={() => p.back()} className="w-full rounded-2xl bg-muted text-foreground py-3 font-bold">
+              ✓ تم إقفال اليوم مسبقًا — رجوع
+            </button>
+          ) : (
+            <button
+              onClick={async () => {
+                try {
+                  await p.closeDayAsync({
+                    sales: t.sales, collected: t.collected, expenses: t.expenseTotal,
+                    realizedProfit: t.realizedProfit, customerDebts: t.customerDebts,
+                    unsettledCustody: t.unsettledCustody,
+                  });
+                  p.showToast("تم حفظ إقفال اليوم");
+                  p.back();
+                } catch (e: any) {
+                  p.showToast("تعذّر الحفظ");
+                }
+              }}
+              className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
+            >تثبيت إقفال اليوم</button>
+          )}
         </div>
       </div>
     </div>

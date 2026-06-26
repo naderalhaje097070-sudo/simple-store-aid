@@ -188,6 +188,7 @@ export type DBPayment = {
   customerId?: string;
   courierId?: string;
   time: string;
+  createdAt: string;
 };
 
 export function usePayments(tenantId: string | null | undefined) {
@@ -211,6 +212,7 @@ export function usePayments(tenantId: string | null | undefined) {
           customerId: r.customer_id ?? undefined,
           courierId: r.courier_id ?? undefined,
           time: fmtTime(r.created_at),
+          createdAt: r.created_at,
         };
       });
     },
@@ -218,7 +220,7 @@ export function usePayments(tenantId: string | null | undefined) {
 }
 
 /* ---------- expenses ---------- */
-export type DBExpense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+export type DBExpense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
 
 export function useExpenses(tenantId: string | null | undefined) {
   return useQuery({
@@ -228,11 +230,13 @@ export function useExpenses(tenantId: string | null | undefined) {
       const { data, error } = await supabase.from("expenses").select("id,type,amount,method,note,created_at").order("created_at", { ascending: true });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
-        id: r.id, type: r.type, amount: Number(r.amount), method: r.method, note: r.note ?? undefined, time: fmtTime(r.created_at),
+        id: r.id, type: r.type, amount: Number(r.amount), method: r.method, note: r.note ?? undefined,
+        time: fmtTime(r.created_at), createdAt: r.created_at,
       }));
     },
   });
 }
+
 
 export function useAddExpense(tenantId: string | null | undefined) {
   const qc = useQueryClient();
@@ -422,3 +426,58 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
     },
   });
 }
+
+/* ---------- day close snapshots ---------- */
+export type DBDayClose = {
+  id: string; closedFor: string; sales: number; collected: number;
+  expenses: number; realizedProfit: number; customerDebts: number;
+  unsettledCustody: number; note?: string; createdAt: string;
+};
+
+export function useDayCloses(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["day_closes", tenantId],
+    enabled: !!tenantId,
+    queryFn: async (): Promise<DBDayClose[]> => {
+      const { data, error } = await supabase
+        .from("day_closes")
+        .select("id,closed_for,sales,collected,expenses,realized_profit,customer_debts,unsettled_custody,note,created_at")
+        .order("closed_for", { ascending: false })
+        .limit(30);
+      if (error) throw error;
+      return (data ?? []).map((r: any) => ({
+        id: r.id, closedFor: r.closed_for,
+        sales: Number(r.sales), collected: Number(r.collected),
+        expenses: Number(r.expenses), realizedProfit: Number(r.realized_profit),
+        customerDebts: Number(r.customer_debts), unsettledCustody: Number(r.unsettled_custody),
+        note: r.note ?? undefined, createdAt: r.created_at,
+      }));
+    },
+  });
+}
+
+export function useCloseDay(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (input: {
+      sales: number; collected: number; expenses: number;
+      realizedProfit: number; customerDebts: number; unsettledCustody: number;
+      note?: string;
+    }) => {
+      if (!tenantId) throw new Error("no tenant");
+      const { data: u } = await supabase.auth.getUser();
+      const today = new Date();
+      const closedFor = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+      const { error } = await supabase.from("day_closes").upsert({
+        tenant_id: tenantId, closed_for: closedFor,
+        sales: input.sales, collected: input.collected, expenses: input.expenses,
+        realized_profit: input.realizedProfit, customer_debts: input.customerDebts,
+        unsettled_custody: input.unsettledCustody, note: input.note ?? null,
+        created_by: u.user?.id ?? null,
+      }, { onConflict: "tenant_id,closed_for" });
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["day_closes", tenantId] }),
+  });
+}
+

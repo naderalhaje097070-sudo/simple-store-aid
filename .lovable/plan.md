@@ -1,32 +1,66 @@
-# Plan: Prevent cost > price except for discount products
 
-## Problem
-Currently a user can add a product where cost > selling price with no warning or block. Business rule: this should only be allowed for products that are explicitly on discount/sale.
+## الوضع الحالي
 
-## Solution
-1. Database schema change
-   - Add `is_discount` boolean column to `public.products` (default false).
-   - Add a CHECK constraint: `cost <= price OR is_discount = true`.
-   - Keep existing RLS/policies; no new table needed.
+تصدير الفاتورة في `src/lib/invoice-pdf.ts` يبني HTML بـ RTL ثم يصوّره عبر `html2canvas` ويضعه كصورة داخل `jsPDF` بصيغة A5، مع Pagination ذكي عبر `data-pdf="items"` و`data-pdf="summary"`. الخط Cairo يُحمَّل من Google Fonts داخل iframe معزول.
 
-2. Frontend - Add Product form
-   - Add a checkbox labelled "✅ منتج على تخفيض" to the Add Product sheet.
-   - Client-side validation: if `cost > price` and checkbox is unchecked, block save with inline error under the cost field.
-   - Include `is_discount` in the insert payload sent to Supabase.
+## المشاكل الملاحظة
 
-3. Frontend - Product listing
-   - Show a "تخفيض" badge next to product name when `is_discount = true`.
+1. **اعتماد على الإنترنت**: خط Cairo يُحمَّل من CDN وقت التصدير؛ إذا تأخّر/فشل → يظهر الخط fallback (Tahoma) ويبدو الـ PDF رديئاً.
+2. **النص غير قابل للنسخ/البحث**: الإخراج صورة PNG كاملة → ملف ثقيل (>500KB لفاتورة عادية) ولا يمكن نسخ رقم الفاتورة أو المبلغ.
+3. **جودة الطباعة**: `scale: 2` كافٍ للشاشة لكن قد يبدو ضبابياً عند طباعة A5 على ليزر 300dpi.
+4. **معلومات ناقصة في الترويسة**: لا يوجد رقم هاتف المحل/العنوان، ولا "المبلغ كتابةً" (مهم محاسبياً في ليبيا).
+5. **بدون ترقيم صفحات** عند تعدد الصفحات (فاتورة طويلة → صفحات بدون "صفحة 1 من 2").
+6. **اسم الملف**: الأحرف العربية في `safeShop` قد تسبب مشاكل تنزيل على بعض المتصفحات.
+7. **لا يوجد QR** للتحقق السريع (رقم الفاتورة + الإجمالي + التاريخ).
 
-4. Type + API layer
-   - Update `DBProduct` type and `useProducts`/`useAddProduct` in `src/lib/db.ts` to include `is_discount`.
+## خطة التحسين
 
-## Files to change
-- `supabase/migrations/` (new migration for schema)
-- `src/lib/db.ts` (types + hooks)
-- `src/routes/_authenticated/app.tsx` (AddProductSheet UI + validation + badge)
+### 1) ضمان تحميل الخط قبل الرسم (موثوقية)
+- إضافة timeout صريح (~2.5s) لـ `ensureFont`؛ إذا فشل الإنترنت نستخدم fallback مع تحذير console بدل تعليق التصدير.
+- preload للخط مرة واحدة عند فتح شاشة الفاتورة (وليس عند الضغط على "تصدير") عبر hook بسيط.
 
-## Acceptance criteria
-- Adding a product with cost > price without checking "تخفيض" is blocked both by UI validation and database constraint.
-- Adding a product with cost > price **with** "تخفيض" checked succeeds.
-- Products marked as discount show a visible badge in the inventory grid.
-- Existing products remain valid (default `is_discount = false`).
+### 2) تحسين الجودة البصرية
+- رفع `scale` إلى `3` (أو `Math.min(3, window.devicePixelRatio * 2)`).
+- استخدام `image/jpeg` بضغط `0.92` بدل PNG لتقليل حجم الملف ~60% مع جودة شبه مماثلة للنص العربي على خلفية بيضاء.
+- زيادة `letter-spacing` خفيفاً للأرقام LTR لتحسين القراءة.
+
+### 3) إثراء محتوى الفاتورة
+- **ترويسة المحل**: إضافة حقول اختيارية `shopPhone`, `shopAddress` في `InvoicePdfData` تظهر تحت اسم المحل إن وُجدت.
+- **المبلغ كتابةً**: إضافة سطر "فقط: ألف ومئتان وخمسون ديناراً ليبياً لا غير" تحت ملخص الإجمالي (محوّل أرقام→كلمات عربية).
+- **QR Code**: مربع 70×70px أسفل الملخص يحتوي نص مختصر:
+  ```
+  منجز | #00042 | 2026-06-26 | 1,250.00 د.ل | محل النور
+  ```
+  باستخدام `qrcode` npm package (خفيف ~20KB).
+
+### 4) ترقيم الصفحات
+- بعد بناء الصفحات في `downloadInvoicePdf`، نمر على كل صفحة ونضيف نصاً صغيراً أسفل المنتصف: `صفحة X من Y` باستخدام `pdf.text()` مع خط لاتيني (لأن jsPDF الافتراضي لا يدعم العربية بدون vfs embed، فنكتفي بـ `Page X of Y` LTR).
+
+### 5) اسم الملف الآمن
+- استبدال العربي بـ transliteration بسيط أو استخدام `mongezz-invoice-{num}.pdf` افتراضياً، مع الإبقاء على شكل قابل للقراءة.
+
+### 6) تحسين شاشة الطباعة (`printInvoice`)
+- إضافة `@media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }` لضمان طباعة الألوان والخلفيات السوداء للترويسة.
+- ضبط هوامش A5 إلى 8mm فقط، وإضافة `page-break-inside: avoid` على الملخص.
+
+### 7) QA بصري
+- توليد 3 فواتير تجريبية (1 صنف، 15 صنف، 40 صنف) ومعاينة الـ PDF لكل منها بـ `pdftoppm` للتأكد من:
+  - الخط العربي يظهر بـ Cairo (ليس مربعات أو Tahoma).
+  - الأرقام LTR محاذية صح.
+  - الـ QR قابل للمسح.
+  - ترقيم الصفحات صحيح.
+  - لا يوجد قطع صفوف.
+
+## الملفات المتأثرة
+
+- `src/lib/invoice-pdf.ts` — المحرّك الأساسي للتحسينات (1-7).
+- `src/routes/_authenticated/app.tsx` — تمرير `shopPhone` من بيانات المتجر، و preload للخط عند فتح تفاصيل الفاتورة.
+- `package.json` — إضافة `qrcode` و `@types/qrcode`.
+
+## غير مشمول (خارج النطاق)
+
+- تغيير صيغة الورق من A5 إلى A4 أو حراري 80mm (يحتاج طلب صريح).
+- إضافة شعار/لوغو المحل (يحتاج رفع صورة في الإعدادات أولاً).
+- توقيع رقمي أو فاتورة ضريبية معتمدة من مصلحة الضرائب الليبية.
+
+هل أعتمد هذه الخطة وأبدأ التنفيذ؟

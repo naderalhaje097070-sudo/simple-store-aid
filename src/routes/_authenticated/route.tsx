@@ -36,11 +36,13 @@ function AuthenticatedLayout() {
       const ok = !!profile?.tenant_id;
       setHasTenant(ok);
       setChecking(false);
+      const path = window.location.pathname;
+      const isPlatformAdminRoute = path.startsWith("/platform-admin");
       // Route-level redirect to onboarding if no tenant and not already there
-      if (!ok && window.location.pathname !== "/onboarding") {
+      if (!ok && !isPlatformAdminRoute && path !== "/onboarding") {
         navigate({ to: "/onboarding" });
       }
-      if (ok && window.location.pathname === "/onboarding") {
+      if (ok && path === "/onboarding") {
         navigate({ to: "/app" });
       }
     })();

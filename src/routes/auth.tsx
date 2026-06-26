@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link, useHydrated } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -16,7 +16,6 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
-  const hydrated = useHydrated();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,10 +83,7 @@ function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center px-5 py-10" suppressHydrationWarning>
-      {!hydrated ? null : (
-      <>
-
+    <div className="min-h-screen bg-background flex flex-col items-center px-5 py-10">
       <div className="w-full max-w-sm">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-extrabold">منجز</h1>
@@ -138,8 +134,6 @@ function AuthPage() {
           <Link to="/guide" className="underline">دليل التطبيق</Link>
         </p>
       </div>
-      </>
-      )}
     </div>
   );
 }

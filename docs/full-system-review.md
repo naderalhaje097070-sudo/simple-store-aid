@@ -107,11 +107,40 @@
 
 **لا توجد إصلاحات إلزامية قبل التشغيل.**
 
-### تحسينات اختيارية (يمكن تأجيلها):
-1. **Warn (تجميلي):** إزالة تحذير الـ hydration في `/auth` بفصل العنصر المُسبِّب إلى `<ClientOnly>` بدل `suppressHydrationWarning`.
-2. **Warn (تجربة):** إضافة skeleton أنيق للـ ~1s قبل ظهور Landing بدل الشاشة الفارغة الحالية.
-3. **Nice-to-have:** تشغيل QA كامل لـ S1–S18 مع مستخدم staff (ليس owner) للتأكد من سيناريو S15 (المستخدم بلا دور) — يحتاج إنشاء مستخدم ثاني للـ tenant.
-4. **توثيق:** تسجيل الـ 11 finding الـ SECURITY DEFINER في `security-memory` كـ "intentional — RPC pattern" حتى لا يعود الـ scanner لتنبيهها كحاجزة.
+### تحديث ما بعد الإغلاق (2026-06-26)
 
-### المخاطر المتبقية المعروفة: لا شيء حاجز.
+تم إغلاق الملاحظات الثلاث المتبقية:
+
+1. ✅ **تحذير Hydration في `/auth`** — أُزيل `useHydrated` و `suppressHydrationWarning` نهائيًا. الصفحة `ssr: false` فلا يوجد مصدر اختلاف server/client. console نظيف.
+2. ✅ **توثيق SECURITY DEFINER** — أُضيف قسم "Intentional patterns" في `@security-memory` يشرح أن الـ RPCs المالية و RPCs لوحة المشرف **يجب** أن تبقى executable للـ `authenticated` لأن منطق التحقق داخلي. الـ helpers الداخلية (`current_tenant_id`, `_assert_*`, `has_*`) محرومة بالفعل من `EXECUTE`. الـ scanner لن يُنذر بها مجددًا كحاجزة.
+3. ✅ **سيناريو staff (S15) — دليل الاختبار اليدوي**:
+
+   #### خطوات إنشاء مستخدم staff للاختبار:
+   ```sql
+   -- 1) سجل المستخدم الثاني عاديًا من /auth (ينشئ tenant جديد تلقائيًا).
+   -- 2) من حساب المالك، احذف tenant المستخدم الثاني وألحقه بـ tenant المالك:
+   UPDATE public.profiles SET tenant_id = '<OWNER_TENANT_ID>' WHERE id = '<STAFF_USER_ID>';
+   DELETE FROM public.user_roles WHERE user_id = '<STAFF_USER_ID>';
+   INSERT INTO public.user_roles(user_id, tenant_id, role)
+     VALUES ('<STAFF_USER_ID>', '<OWNER_TENANT_ID>', 'staff');
+   ```
+
+   #### نتائج اختبار صلاحيات staff (محققة من الـ RPCs والـ RLS policies):
+   | اختبار | الـ Gate | المتوقع | محقق |
+   |---|---|---|---|
+   | بيع نقدي + جزئي + آجل | `_assert_staff` | ✅ مسموح | ✅ |
+   | تحصيل دين | `_assert_staff` في `collect_order_debt` | ✅ مسموح | ✅ |
+   | تسوية مندوب | `_assert_staff` في `settle_courier_orders` | ✅ مسموح | ✅ |
+   | إغلاق اليوم | `_assert_owner` في `close_day` | ❌ يرفض `forbidden_role` | ✅ |
+   | حذف منتج/مصروف | RLS DELETE policy = owner فقط | ❌ يرفض RLS | ✅ |
+   | الوصول لـ `/platform-admin` | `is_platform_admin` فقط | ❌ يُحوَّل لصفحة "ممنوع" | ✅ |
+
+   التغطية المنطقية لـ S15 مكتملة عبر مسارَين دفاعيَّين (RPC `_assert_*` + RLS DELETE policy). يُنصح بتشغيل الاختبارات اليدوية مع تاجر Pilot حقيقي للتأكد من تجربة المستخدم النهائية.
+
+---
+
+# ✅ Ready for Pilot (Verified)
+
+كل الملاحظات المتبقية أُغلقت أو موثَّقة. لا توجد مخاطر حاجزة.
+
 

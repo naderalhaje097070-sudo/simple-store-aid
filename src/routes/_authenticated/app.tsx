@@ -920,13 +920,13 @@ function InventoryScreen(p: any) {
   );
 }
 
-function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[] }) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [cost, setCost] = useState("");
-  const [stock, setStock] = useState("");
-  const [isDiscount, setIsDiscount] = useState(false);
-  const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>({});
+function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode = "add", initial }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[]; mode?: "add" | "edit"; initial?: { name: string; price: number; cost: number; stock: number; is_discount: boolean } }) {
+  const [name, setName] = useState(initial?.name ?? "");
+  const [price, setPrice] = useState(initial ? String(initial.price) : "");
+  const [cost, setCost] = useState(initial ? String(initial.cost ?? "") : "");
+  const [stock, setStock] = useState(initial ? String(initial.stock) : "");
+  const [isDiscount, setIsDiscount] = useState(initial?.is_discount ?? false);
+  const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>(initial ? { name: true, price: true, cost: true, stock: true } : {});
   const [submitting, setSubmitting] = useState(false);
 
   const trimmedName = name.trim();

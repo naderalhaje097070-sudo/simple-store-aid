@@ -188,6 +188,7 @@ export type DBPayment = {
   customerId?: string;
   courierId?: string;
   time: string;
+  createdAt: string;
 };
 
 export function usePayments(tenantId: string | null | undefined) {
@@ -211,6 +212,7 @@ export function usePayments(tenantId: string | null | undefined) {
           customerId: r.customer_id ?? undefined,
           courierId: r.courier_id ?? undefined,
           time: fmtTime(r.created_at),
+          createdAt: r.created_at,
         };
       });
     },
@@ -218,7 +220,7 @@ export function usePayments(tenantId: string | null | undefined) {
 }
 
 /* ---------- expenses ---------- */
-export type DBExpense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+export type DBExpense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
 
 export function useExpenses(tenantId: string | null | undefined) {
   return useQuery({
@@ -228,11 +230,13 @@ export function useExpenses(tenantId: string | null | undefined) {
       const { data, error } = await supabase.from("expenses").select("id,type,amount,method,note,created_at").order("created_at", { ascending: true });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
-        id: r.id, type: r.type, amount: Number(r.amount), method: r.method, note: r.note ?? undefined, time: fmtTime(r.created_at),
+        id: r.id, type: r.type, amount: Number(r.amount), method: r.method, note: r.note ?? undefined,
+        time: fmtTime(r.created_at), createdAt: r.created_at,
       }));
     },
   });
 }
+
 
 export function useAddExpense(tenantId: string | null | undefined) {
   const qc = useQueryClient();

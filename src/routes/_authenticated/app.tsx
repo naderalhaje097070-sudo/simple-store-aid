@@ -92,6 +92,7 @@ function MongezzApp() {
   const deleteInvoiceMut = useDeleteInvoice(tenantId);
   const collectDebtMut = useCollectDebt(tenantId);
   const settleCourierMut = useSettleCourier(tenantId);
+  const updateCourierStateMut = useUpdateCourierState(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];

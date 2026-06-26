@@ -96,6 +96,8 @@ function MongezzApp() {
   const collectDebtMut = useCollectDebt(tenantId);
   const settleCourierMut = useSettleCourier(tenantId);
   const updateCourierStateMut = useUpdateCourierState(tenantId);
+  const { data: dbDayCloses } = useDayCloses(tenantId);
+  const closeDayMut = useCloseDay(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];

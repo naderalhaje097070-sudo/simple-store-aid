@@ -407,7 +407,7 @@ function DesktopSidebar({
       </nav>
 
       <div className="px-4 py-3 border-t border-border text-[10px] text-muted-foreground text-center">
-        نسخة بروتوتايب — بيانات تجريبية
+        نسخة تجريبية مغلقة
       </div>
     </aside>
   );
@@ -1261,7 +1261,7 @@ function CourierCustodyScreen(p: any) {
               <div className="text-[11px] text-muted-foreground rounded-lg bg-muted px-3 py-2">
                 {markMode === "delivered_full" && "كامل المبلغ سيدخل عهدة المندوب وينتظر التسوية."}
                 {markMode === "delivered_none" && "كامل المبلغ يصبح دينًا على العميل، لا عهدة على المندوب."}
-                {markMode === "returned" && "الطلب مُلغى — لا دين ولا عهدة. (المخزون لن يُعاد تلقائيًا في هذه النسخة)"}
+                {markMode === "returned" && "الطلب مُلغى — يُعاد المخزون تلقائيًا. (لا يمكن إرجاع فاتورة حُصِّل منها مبلغ)"}
               </div>
             )}
             <div className="flex gap-2">
@@ -1589,7 +1589,7 @@ function SettingsScreen(p: any) {
     setTimeout(() => setSavedFlash(false), 1500);
   };
 
-  const roleLabel = role === "owner" ? "صاحب المحل" : role === "manager" ? "مدير" : role === "cashier" ? "كاشير" : role === "viewer" ? "مشاهد" : "—";
+  const roleLabel = role === "owner" ? "صاحب المحل" : role === "staff" ? "موظّف" : "—";
 
   return (
     <>

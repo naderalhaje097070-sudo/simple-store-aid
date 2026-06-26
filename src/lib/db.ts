@@ -352,41 +352,17 @@ export function useCreateSale(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: CreateSaleInput): Promise<{ orderId: string; number: string }> => {
       if (!tenantId) throw new Error("no tenant");
-      const { data: u } = await supabase.auth.getUser();
-      const number = await nextOrderNumber(tenantId);
-      const status: "paid" | "partial" | "debt" = input.paid >= input.total ? "paid" : input.paid > 0 ? "partial" : "debt";
-      const { data: order, error } = await supabase.from("orders").insert({
-        tenant_id: tenantId, number, total: input.total, paid: input.paid,
-        customer_id: input.customerId ?? null, status,
-        delivery: input.delivery, courier_id: input.courierId ?? null,
-        courier_state: input.delivery === "courier" ? "pending" : null,
-        collected_by_courier: 0, created_by: u.user?.id ?? null,
-      }).select("id,number").single();
-      if (error) throw error;
-
-      const itemsRows = input.items.map(it => ({
-        tenant_id: tenantId, order_id: order.id, product_id: it.productId,
-        name: it.name, qty: it.qty, unit_price: it.price, unit_cost: it.cost,
-      }));
-      const { error: itemsErr } = await supabase.from("order_items").insert(itemsRows);
-      if (itemsErr) throw itemsErr;
-
-      // decrement stock
-      for (const it of input.items) {
-        const { data: prow } = await supabase.from("products").select("stock").eq("id", it.productId).maybeSingle();
-        if (prow) {
-          await supabase.from("products").update({ stock: Math.max(0, Number(prow.stock) - it.qty) }).eq("id", it.productId);
-        }
-      }
-
-      if (input.delivery === "direct" && input.paid > 0) {
-        const { error: payErr } = await supabase.from("payments").insert({
-          tenant_id: tenantId, kind: "sale", method: input.method, amount: input.paid,
-          order_id: order.id, customer_id: input.customerId ?? null, created_by: u.user?.id ?? null,
-        });
-        if (payErr) throw payErr;
-      }
-      return { orderId: order.id, number: String(order.number) };
+      const { data, error } = await supabase.rpc("create_sale_with_items" as any, {
+        p_customer_id: input.customerId ?? null,
+        p_delivery: input.delivery,
+        p_courier_id: input.courierId ?? null,
+        p_paid: input.paid,
+        p_method: input.method,
+        p_items: input.items.map(it => ({ productId: it.productId, qty: it.qty })),
+      });
+      if (error) throw new Error(rpcMessage(error));
+      const out = data as any;
+      return { orderId: out.order_id, number: String(out.number) };
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
@@ -425,17 +401,12 @@ export function useCollectDebt(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => {
       if (!tenantId) throw new Error("no tenant");
-      const { data: u } = await supabase.auth.getUser();
-      const { data: order } = await supabase.from("orders").select("total,paid").eq("id", input.orderId).maybeSingle();
-      if (!order) throw new Error("order not found");
-      const newPaid = Math.min(Number(order.total), Number(order.paid) + input.amount);
-      const status: "paid" | "partial" | "debt" = newPaid >= Number(order.total) ? "paid" : newPaid > 0 ? "partial" : "debt";
-      await supabase.from("orders").update({ paid: newPaid, status }).eq("id", input.orderId);
-      const { error } = await supabase.from("payments").insert({
-        tenant_id: tenantId, kind: "debt_collection", method: input.method, amount: input.amount,
-        order_id: input.orderId, customer_id: input.customerId ?? null, created_by: u.user?.id ?? null,
+      const { error } = await supabase.rpc("collect_order_debt" as any, {
+        p_order_id: input.orderId,
+        p_amount: input.amount,
+        p_method: input.method,
       });
-      if (error) throw error;
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
@@ -449,23 +420,11 @@ export function useSettleCourier(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => {
       if (!tenantId) throw new Error("no tenant");
-      const { data: u } = await supabase.auth.getUser();
-      for (const o of input.orders) {
-        if (o.collected <= 0) continue;
-        const { data: row } = await supabase.from("orders").select("total,paid").eq("id", o.id).maybeSingle();
-        if (!row) continue;
-        const newPaid = Math.min(Number(row.total), Number(row.paid) + o.collected);
-        const status: "paid" | "partial" | "debt" = newPaid >= Number(row.total) ? "paid" : newPaid > 0 ? "partial" : "debt";
-        await supabase.from("orders").update({
-          paid: newPaid, status, delivery: "direct", courier_id: null,
-          courier_state: null, collected_by_courier: 0,
-        }).eq("id", o.id);
-        await supabase.from("payments").insert({
-          tenant_id: tenantId, kind: "courier_settlement", method: "cash",
-          amount: o.collected, order_id: o.id, customer_id: o.customerId ?? null,
-          courier_id: input.courierId, created_by: u.user?.id ?? null,
-        });
-      }
+      const { error } = await supabase.rpc("settle_courier_orders" as any, {
+        p_courier_id: input.courierId,
+        p_orders: input.orders.map(o => ({ order_id: o.id, collected: o.collected })),
+      });
+      if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
@@ -483,6 +442,14 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
       collected?: number;
     }) => {
       if (!tenantId) throw new Error("no tenant");
+
+      // Returned orders go through an RPC that restores stock atomically.
+      if (input.state === "returned") {
+        const { error } = await supabase.rpc("return_courier_order" as any, { p_order_id: input.orderId });
+        if (error) throw new Error(rpcMessage(error));
+        return;
+      }
+
       const { data: row } = await supabase.from("orders").select("total").eq("id", input.orderId).maybeSingle();
       if (!row) throw new Error("order not found");
       const total = Number(row.total);
@@ -498,6 +465,7 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
+      qc.invalidateQueries({ queryKey: ["products", tenantId] });
     },
   });
 }
@@ -510,6 +478,27 @@ export type DBDayClose = {
 };
 
 export function useDayCloses(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["day_closes", tenantId],
+    enabled: !!tenantId,
+    queryFn: async (): Promise<DBDayClose[]> => {
+      const { data, error } = await supabase
+        .from("day_closes")
+        .select("id,closed_for,sales,collected,expenses,realized_profit,customer_debts,unsettled_custody,note,created_at")
+        .order("closed_for", { ascending: false })
+        .limit(30);
+      if (error) throw error;
+      return (data ?? []).map((r: any) => ({
+        id: r.id, closedFor: r.closed_for,
+        sales: Number(r.sales), collected: Number(r.collected),
+        expenses: Number(r.expenses), realizedProfit: Number(r.realized_profit),
+        customerDebts: Number(r.customer_debts), unsettledCustody: Number(r.unsettled_custody),
+        note: r.note ?? undefined, createdAt: r.created_at,
+      }));
+    },
+  });
+}
+
   return useQuery({
     queryKey: ["day_closes", tenantId],
     enabled: !!tenantId,

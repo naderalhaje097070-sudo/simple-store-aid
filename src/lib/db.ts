@@ -99,7 +99,7 @@ function rpcMessage(err: any): string {
 export type DBProduct = {
   id: string; name: string; price: number; cost: number;
   stock: number; lowAt: number; sku: string | null;
-  category: string | null; is_active: boolean;
+  category: string | null; is_active: boolean; is_discount: boolean;
 };
 
 export function useProducts(tenantId: string | null | undefined) {
@@ -109,12 +109,12 @@ export function useProducts(tenantId: string | null | undefined) {
     queryFn: async (): Promise<DBProduct[]> => {
       const { data, error } = await supabase
         .from("products")
-        .select("id,name,price,cost,stock,sku,category,is_active")
+        .select("id,name,price,cost,stock,sku,category,is_active,is_discount")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
         id: r.id, name: r.name, price: Number(r.price), cost: Number(r.cost),
-        stock: Number(r.stock), lowAt: 3, sku: r.sku, category: r.category, is_active: r.is_active,
+        stock: Number(r.stock), lowAt: 3, sku: r.sku, category: r.category, is_active: r.is_active, is_discount: !!r.is_discount,
       }));
     },
   });
@@ -123,10 +123,10 @@ export function useProducts(tenantId: string | null | undefined) {
 export function useAddProduct(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { name: string; price: number; cost: number; stock: number }) => {
+    mutationFn: async (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.from("products").insert({
-        tenant_id: tenantId, name: input.name, price: input.price, cost: input.cost, stock: input.stock,
+        tenant_id: tenantId, name: input.name, price: input.price, cost: input.cost, stock: input.stock, is_discount: input.is_discount,
       });
       if (error) throw error;
     },

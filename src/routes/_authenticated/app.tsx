@@ -48,7 +48,7 @@ export const Route = createFileRoute("/_authenticated/app")({
 
 /* ============================== MOCK DATA ============================== */
 
-type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number };
+type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean };
 type Customer = { id: string; name: string; phone?: string };
 type Courier = { id: string; name: string; phone?: string };
 type InvoiceItem = { productId: string; name: string; qty: number; price: number; cost: number };
@@ -247,7 +247,7 @@ function MongezzApp() {
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
     setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
-    addProductAsync: (input: { name: string; price: number; cost: number; stock: number }) => addProductMut.mutateAsync(input),
+    addProductAsync: (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
     addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
     addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
@@ -866,6 +866,7 @@ function InventoryScreen(p: any) {
                   <div className="font-bold text-sm">{pr.name}</div>
                   <div className="mt-1 flex items-center gap-2">
                     {pr.is_active === false && <StatusChip kind="warn">موقوف</StatusChip>}
+                    {pr.is_discount && <StatusChip kind="info">تخفيض</StatusChip>}
                     {pr.stock === 0 && <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>}
                     {pr.stock > 0 && pr.stock <= pr.lowAt && <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>منخفض <span className="num">{pr.stock}</span></StatusChip>}
                     {pr.stock > pr.lowAt && <StatusChip kind="info">متوفر <span className="num">{pr.stock}</span></StatusChip>}
@@ -896,11 +897,12 @@ function InventoryScreen(p: any) {
   );
 }
 
-function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number }) => void | Promise<void>; existingNames?: string[] }) {
+function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[] }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [cost, setCost] = useState("");
   const [stock, setStock] = useState("");
+  const [isDiscount, setIsDiscount] = useState(false);
   const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -922,9 +924,10 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
   else if (stockN > 100000) errors.stock = "الكمية كبيرة جداً";
 
   if (cost !== "" && (!isFinite(costN) || costN < 0)) errors.cost = "تكلفة غير صحيحة";
+  if (!errors.cost && !errors.price && cost !== "" && costN > priceN && !isDiscount) errors.cost = "التكلفة أعلى من سعر البيع — فعّل خيار التخفيض أو صحّح السعر";
 
   const warnings: { cost?: string; name?: string } = {};
-  if (!errors.cost && !errors.price && cost !== "" && costN > priceN) warnings.cost = "التكلفة أعلى من سعر البيع — ستبيع بخسارة";
+  if (!errors.cost && !errors.price && cost !== "" && costN > priceN && isDiscount) warnings.cost = "منتج على تخفيض (التكلفة أعلى من سعر البيع)";
   if (!errors.name && trimmedName && existingNames.includes(trimmedName.toLowerCase())) warnings.name = "يوجد منتج بنفس الاسم — تأكد قبل الحفظ";
 
   const valid = Object.keys(errors).length === 0;
@@ -936,7 +939,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
     }
     setSubmitting(true);
     try {
-      await onSave({ name: trimmedName, price: priceN, cost: costN || 0, stock: stockN });
+      await onSave({ name: trimmedName, price: priceN, cost: costN || 0, stock: stockN, is_discount: isDiscount });
     } finally {
       setSubmitting(false);
     }
@@ -1000,6 +1003,10 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[] }: { 
           />
           {showErr("stock") && <div className="mt-1 text-xs text-destructive">{errors.stock}</div>}
         </div>
+        <label className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2 cursor-pointer">
+          <input type="checkbox" checked={isDiscount} onChange={e => setIsDiscount(e.target.checked)} className="w-4 h-4 accent-primary" />
+          <span className="text-xs font-bold">منتج على تخفيض (تكلفة &gt; بيع)</span>
+        </label>
         <button
           disabled={submitting}
           onClick={handleSave}

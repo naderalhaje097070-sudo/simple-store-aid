@@ -1123,7 +1123,20 @@ function DebtCustomerScreen(p: any) {
 
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
-  const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id);
+  const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id ?? "");
+  if (!p.couriers || p.couriers.length === 0) {
+    return (
+      <>
+        <TopBar title="عهدة المندوب" onBack={p.back} />
+        <div className="px-4 pt-10 text-center space-y-4">
+          <div className="text-5xl">🛵</div>
+          <div className="font-bold">لا يوجد مندوبون بعد</div>
+          <div className="text-xs text-muted-foreground">أضف مندوبًا أولًا لمتابعة طلبات التوصيل والعهدة.</div>
+          <button onClick={() => p.go("couriers")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold text-sm">+ إضافة مندوب</button>
+        </div>
+      </>
+    );
+  }
   const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
   const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
   const [markAmount, setMarkAmount] = useState("");

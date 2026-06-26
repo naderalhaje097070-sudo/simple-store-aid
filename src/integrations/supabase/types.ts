@@ -389,6 +389,30 @@ export type Database = {
           },
         ]
       }
+      platform_admin_audit_log: {
+        Row: {
+          action: string
+          created_at: string
+          details: Json
+          id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          details?: Json
+          id?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       platform_admins: {
         Row: {
           created_at: string
@@ -556,6 +580,10 @@ export type Database = {
       _assert_owner: { Args: { _tid: string }; Returns: undefined }
       _assert_platform_admin: { Args: never; Returns: undefined }
       _assert_staff: { Args: { _tid: string }; Returns: undefined }
+      _log_platform_admin_action: {
+        Args: { p_action: string; p_details?: Json }
+        Returns: undefined
+      }
       close_day: { Args: { p_note: string }; Returns: Json }
       collect_order_debt: {
         Args: {
@@ -577,6 +605,17 @@ export type Database = {
         Returns: Json
       }
       current_tenant_id: { Args: never; Returns: string }
+      get_platform_admin_audit_log: {
+        Args: { p_limit?: number; p_offset?: number }
+        Returns: {
+          action: string
+          created_at: string
+          details: Json
+          id: string
+          user_email: string
+          user_id: string
+        }[]
+      }
       get_platform_admin_overview: { Args: never; Returns: Json }
       get_platform_courier_custody_health: {
         Args: never

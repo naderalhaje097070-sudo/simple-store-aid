@@ -1565,41 +1565,18 @@ function SaleScreen(p: any) {
           addCustomerAsync={p.addCustomerAsync}
           couriers={p.couriers}
           onClose={() => setPaySheet(false)}
-          onSave={(d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {
+          onSave={async (d: { paid: number; customerId?: string; delivery: "direct" | "courier"; courierId?: string; method: "cash" | "transfer" }) => {
             const items: InvoiceItem[] = cart.map(c => {
               const pr = p.products.find((x: Product) => x.id === c.productId)!;
               return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
             });
             const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-            const number = String(1040 + p.invoices.length + 1);
-            const newInv: Invoice = {
-              id: "i" + Date.now(),
-              number,
-              items,
-              total: subtotal,
-              paid: d.paid,
-              customerId: d.customerId,
-              delivery: d.delivery,
-              courierId: d.courierId,
-              status: d.paid >= subtotal ? "paid" : d.paid > 0 ? "partial" : "debt",
-              courierState: d.delivery === "courier" ? "pending" : undefined,
-              time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-            };
-            p.setInvoices((arr: Invoice[]) => [...arr, newInv]);
-            if (d.delivery === "direct" && d.paid > 0) {
-              p.setPayments((arr: Payment[]) => [...arr, {
-                id: "pay" + Date.now(),
-                kind: "sale",
-                method: d.method,
-                amount: d.paid,
-                invoiceId: newInv.id,
-                invoiceNumber: newInv.number,
-                customerId: d.customerId,
-                time: newInv.time,
-              }]);
-            }
+            const created = await p.createSaleAsync({
+              items, total: subtotal, paid: d.paid,
+              customerId: d.customerId, delivery: d.delivery, courierId: d.courierId, method: d.method,
+            });
             p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
-            p.setLastCreatedInvoiceId(newInv.id);
+            p.setLastCreatedInvoiceId(created.orderId);
             p.setScreen("sale_success");
           }}
         />

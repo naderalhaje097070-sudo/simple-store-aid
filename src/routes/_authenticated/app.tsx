@@ -2630,7 +2630,7 @@ function PilotScreen(p: any) {
   const dayCloses: { closedFor: string }[] = p.dayCloses ?? [];
   const role: string | null = p.myRole ?? null;
 
-  if (role && role !== "owner") {
+  if (role !== "owner") {
     return (
       <>
         <TopBar title="صحة النظام" onBack={p.back} />

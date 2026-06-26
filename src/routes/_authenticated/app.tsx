@@ -2413,7 +2413,26 @@ function SaleQuickScreen(p: any) {
 
 /* --------------- DAY CLOSE --------------- */
 function DayCloseScreen(p: any) {
-  const t = p.totals;
+  // Day close always reflects TODAY only — independent of dashboard period filter.
+  // This matches the close_day RPC which computes today's snapshot server-side.
+  const t = useMemo(() => {
+    const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+    const invs: Invoice[] = (p.invoices ?? []).filter((i: Invoice) => isToday(i.createdAt));
+    const pays: Payment[] = (p.payments ?? []).filter((pm: Payment) => isToday(pm.createdAt));
+    const exps: Expense[] = (p.expenses ?? []).filter((e: Expense) => isToday(e.createdAt));
+    const sales = invs.reduce((s, i) => s + i.total, 0);
+    const collected = pays.reduce((s, pm) => s + pm.amount, 0);
+    const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);
+    const realizedProfit = invs.reduce((s, i) => {
+      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
+      return s + i.items.reduce((a, it) => a + (it.price - it.cost) * it.qty * ratio, 0);
+    }, 0) - expenseTotal;
+    // open stocks across ALL invoices (not just today)
+    const customerDebts: number = p.rawTotals?.customerDebts ?? p.totals.customerDebts;
+    const unsettledCustody: number = p.rawTotals?.unsettledCustody ?? p.totals.unsettledCustody;
+    const cashToday = collected - expenseTotal;
+    return { sales, collected, expenseTotal, realizedProfit, customerDebts, unsettledCustody, cashToday };
+  }, [p.invoices, p.payments, p.expenses, p.rawTotals, p.totals]);
   const Row = ({ label, v, color, hint }: { label: string; v: number; color?: string; hint?: string }) => (
     <div className="flex items-start justify-between py-3">
       <div>

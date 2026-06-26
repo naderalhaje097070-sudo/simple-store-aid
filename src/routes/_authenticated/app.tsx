@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
-  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
+  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive, useUpdateProduct,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,

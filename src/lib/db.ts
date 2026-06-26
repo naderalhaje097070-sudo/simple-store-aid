@@ -324,6 +324,7 @@ export function useDeleteInvoice(tenantId: string | null | undefined) {
       // restore stock
       const { data: items } = await supabase.from("order_items").select("product_id,qty").eq("order_id", orderId);
       for (const it of items ?? []) {
+        if (!it.product_id) continue;
         const { data: prow } = await supabase.from("products").select("stock").eq("id", it.product_id).maybeSingle();
         if (prow) await supabase.from("products").update({ stock: Number(prow.stock) + Number(it.qty) }).eq("id", it.product_id);
       }

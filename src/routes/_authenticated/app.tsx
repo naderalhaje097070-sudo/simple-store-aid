@@ -40,10 +40,11 @@ type Invoice = {
   courierId?: string;
   status: "paid" | "partial" | "debt";
   courierState?: "pending" | "delivered_none" | "delivered_partial" | "delivered_full" | "returned";
-  collectedByCourier?: number; // amount currently in courier custody from this order, unsettled
+  collectedByCourier?: number;
   time: string;
+  createdAt: string;
 };
-type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; note?: string };
+type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
 type Payment = {
   id: string;
   kind: "sale" | "debt_collection" | "settlement";
@@ -54,6 +55,7 @@ type Payment = {
   customerId?: string;
   courierId?: string;
   time: string;
+  createdAt: string;
 };
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts

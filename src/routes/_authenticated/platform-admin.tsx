@@ -74,6 +74,7 @@ function PlatformAdminPage() {
         {tab === "dayclose" && <DayCloseTab />}
         {tab === "custody" && <CustodyTab />}
         {tab === "alerts" && <AlertsTab />}
+        {tab === "audit" && <AuditTab />}
       </main>
     </div>
   );

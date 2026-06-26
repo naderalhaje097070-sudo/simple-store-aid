@@ -2492,11 +2492,7 @@ function DayCloseScreen(p: any) {
             <button
               onClick={async () => {
                 try {
-                  await p.closeDayAsync({
-                    sales: t.sales, collected: t.collected, expenses: t.expenseTotal,
-                    realizedProfit: t.realizedProfit, customerDebts: t.customerDebts,
-                    unsettledCustody: t.unsettledCustody,
-                  });
+                  await p.closeDayAsync({});
                   p.showToast("تم حفظ إقفال اليوم");
                   p.back();
                 } catch (e: any) {

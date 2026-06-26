@@ -111,6 +111,7 @@ function MongezzApp() {
   const addCustomerMut = useAddCustomer(tenantId);
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
+  const updateProductMut = useUpdateProduct(tenantId);
   const addCourierMut = useAddCourier(tenantId);
   const addExpenseMut = useAddExpense(tenantId);
   const createSaleMut = useCreateSale(tenantId);

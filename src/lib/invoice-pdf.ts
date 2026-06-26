@@ -104,11 +104,11 @@ function buildHtml(d: InvoicePdfData): string {
     .map(
       (it, i) => `
       <tr style="background:${i % 2 ? "#fafafa" : "#fff"}">
-        <td style="padding:8px 6px;border-bottom:1px solid #eee;text-align:center;color:#666;font-size:11px" dir="ltr">${i + 1}</td>
-        <td style="padding:8px 6px;border-bottom:1px solid #eee;text-align:right">${escape(it.name)}</td>
-        <td style="padding:8px 6px;border-bottom:1px solid #eee;text-align:center" dir="ltr">${qty(it.qty)}</td>
-        <td style="padding:8px 6px;border-bottom:1px solid #eee;text-align:center" dir="ltr">${money(it.price)}</td>
-        <td style="padding:8px 6px;border-bottom:1px solid #eee;text-align:center;font-weight:600" dir="ltr">${money(it.qty * it.price)}</td>
+        <td style="padding:7px 5px;border-bottom:1px solid #eee;text-align:center;color:#666;font-size:11px;white-space:nowrap" dir="ltr">${i + 1}</td>
+        <td style="padding:7px 5px;border-bottom:1px solid #eee;text-align:right;word-break:break-word">${escape(it.name)}</td>
+        <td style="padding:7px 5px;border-bottom:1px solid #eee;text-align:center;white-space:nowrap" dir="ltr">${qty(it.qty)}</td>
+        <td style="padding:7px 5px;border-bottom:1px solid #eee;text-align:center;white-space:nowrap" dir="ltr">${money(it.price)}</td>
+        <td style="padding:7px 5px;border-bottom:1px solid #eee;text-align:center;font-weight:600;white-space:nowrap" dir="ltr">${money(it.qty * it.price)}</td>
       </tr>`,
     )
     .join("");

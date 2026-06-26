@@ -6,6 +6,7 @@ import {
   Wallet, Banknote, Truck, Users, Settings as SettingsIcon,
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
+  Activity, ShieldCheck,
 } from "lucide-react";
 import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,

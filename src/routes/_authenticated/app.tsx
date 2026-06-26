@@ -683,6 +683,7 @@ function InvoiceDetailScreen(p: any) {
   const { data: tenant } = useTenant(tenantId);
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   const [pdfBusy, setPdfBusy] = useState(false);
+  useEffect(() => { ensureInvoiceFont(); }, []);
   if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const remaining = inv.total - inv.paid;

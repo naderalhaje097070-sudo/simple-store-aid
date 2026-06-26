@@ -647,20 +647,10 @@ function InvoiceDetailScreen(p: any) {
   const [collectAmt, setCollectAmt] = useState("");
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
 
-  const submitCollect = () => {
+  const submitCollect = async () => {
     const a = Number(collectAmt);
     if (!a || a <= 0 || a > remaining) return;
-    p.setInvoices((arr: Invoice[]) => arr.map(i => i.id === inv.id ? { ...i, paid: i.paid + a, status: (i.paid + a) >= i.total ? "paid" : "partial" } : i));
-    p.setPayments((arr: Payment[]) => [...arr, {
-      id: "pay" + Date.now(),
-      kind: "debt_collection",
-      method: collectMethod,
-      amount: a,
-      invoiceId: inv.id,
-      invoiceNumber: inv.number,
-      customerId: inv.customerId,
-      time: new Date().toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }),
-    }]);
+    await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
     setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
   };
 

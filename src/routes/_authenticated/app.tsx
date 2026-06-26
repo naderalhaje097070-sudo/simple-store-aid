@@ -78,8 +78,16 @@ type Screen =
 type Period = "day" | "week" | "month";
 
 function MongezzApp() {
-  const [products] = useState<Product[]>(seedProducts);
-  const [customers, setCustomers] = useState<Customer[]>(seedCustomers);
+  const { data: tenantId } = useTenantId();
+  const { data: dbProducts } = useProducts(tenantId);
+  const { data: dbCustomers } = useCustomers(tenantId);
+  const addCustomerMut = useAddCustomer(tenantId);
+  const addProductMut = useAddProduct(tenantId);
+  const toggleActiveMut = useUpdateProductActive(tenantId);
+
+  const products = (dbProducts ?? []) as unknown as Product[];
+  const customers = (dbCustomers ?? []) as Customer[];
+  const setCustomers = (_: any) => { /* DB-managed: use addCustomerMut */ };
   const [couriers] = useState<Courier[]>(seedCouriers);
   const [invoices, setInvoices] = useState<Invoice[]>(seedInvoices);
   const [expenses, setExpenses] = useState<Expense[]>(seedExpenses);

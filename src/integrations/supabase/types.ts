@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      couriers: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          name: string
+          phone: string | null
+          tenant_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name: string
+          phone?: string | null
+          tenant_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          name?: string
+          phone?: string | null
+          tenant_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "couriers_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       customers: {
         Row: {
           created_at: string
@@ -45,6 +83,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "customers_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          id: string
+          method: Database["public"]["Enums"]["payment_method"]
+          note: string | null
+          tenant_id: string
+          type: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"]
+          note?: string | null
+          tenant_id: string
+          type: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          method?: Database["public"]["Enums"]["payment_method"]
+          note?: string | null
+          tenant_id?: string
+          type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "expenses_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -112,9 +191,13 @@ export type Database = {
       }
       orders: {
         Row: {
+          collected_by_courier: number
+          courier_id: string | null
+          courier_state: Database["public"]["Enums"]["courier_state"] | null
           created_at: string
           created_by: string | null
           customer_id: string | null
+          delivery: Database["public"]["Enums"]["delivery_kind"]
           id: string
           notes: string | null
           number: number
@@ -125,9 +208,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          collected_by_courier?: number
+          courier_id?: string | null
+          courier_state?: Database["public"]["Enums"]["courier_state"] | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
+          delivery?: Database["public"]["Enums"]["delivery_kind"]
           id?: string
           notes?: string | null
           number?: number
@@ -138,9 +225,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          collected_by_courier?: number
+          courier_id?: string | null
+          courier_state?: Database["public"]["Enums"]["courier_state"] | null
           created_at?: string
           created_by?: string | null
           customer_id?: string | null
+          delivery?: Database["public"]["Enums"]["delivery_kind"]
           id?: string
           notes?: string | null
           number?: number
@@ -152,6 +243,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "orders_courier_id_fkey"
+            columns: ["courier_id"]
+            isOneToOne: false
+            referencedRelation: "couriers"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "orders_customer_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
@@ -160,6 +258,77 @@ export type Database = {
           },
           {
             foreignKeyName: "orders_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          courier_id: string | null
+          created_at: string
+          created_by: string | null
+          customer_id: string | null
+          id: string
+          kind: Database["public"]["Enums"]["payment_kind"]
+          method: Database["public"]["Enums"]["payment_method"]
+          note: string | null
+          order_id: string | null
+          tenant_id: string
+        }
+        Insert: {
+          amount: number
+          courier_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          id?: string
+          kind: Database["public"]["Enums"]["payment_kind"]
+          method: Database["public"]["Enums"]["payment_method"]
+          note?: string | null
+          order_id?: string | null
+          tenant_id: string
+        }
+        Update: {
+          amount?: number
+          courier_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          customer_id?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["payment_kind"]
+          method?: Database["public"]["Enums"]["payment_method"]
+          note?: string | null
+          order_id?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_courier_id_fkey"
+            columns: ["courier_id"]
+            isOneToOne: false
+            referencedRelation: "couriers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_tenant_id_fkey"
             columns: ["tenant_id"]
             isOneToOne: false
             referencedRelation: "tenants"
@@ -325,7 +494,16 @@ export type Database = {
     }
     Enums: {
       app_role: "owner" | "staff"
+      courier_state:
+        | "pending"
+        | "delivered_full"
+        | "delivered_partial"
+        | "delivered_none"
+        | "returned"
+      delivery_kind: "direct" | "courier"
       order_status: "paid" | "partial" | "debt"
+      payment_kind: "sale" | "debt_collection" | "courier_settlement"
+      payment_method: "cash" | "transfer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -454,7 +632,17 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["owner", "staff"],
+      courier_state: [
+        "pending",
+        "delivered_full",
+        "delivered_partial",
+        "delivered_none",
+        "returned",
+      ],
+      delivery_kind: ["direct", "courier"],
       order_status: ["paid", "partial", "debt"],
+      payment_kind: ["sale", "debt_collection", "courier_settlement"],
+      payment_method: ["cash", "transfer"],
     },
   },
 } as const

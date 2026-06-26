@@ -265,7 +265,7 @@ function MongezzApp() {
     courier_custody: "عهدة المندوب", settlements: "التسويات", expenses: "المصروفات",
     customers: "العملاء", couriers: "المندوبون", settings: "الإعدادات",
     sale: "فاتورة جديدة", sale_quick: "بيع سريع", sale_success: "تمت العملية",
-    day_close: "إقفال اليوم",
+    day_close: "إقفال اليوم", pilot: "صحة النظام",
   };
 
   const navTo = (s: Screen) => { setStack([]); setScreen(s); };

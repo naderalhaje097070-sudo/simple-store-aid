@@ -773,10 +773,47 @@ function InvoiceDetailScreen(p: any) {
           );
         })()}
 
-        <div className="grid grid-cols-2 gap-2">
-          <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>
-          <button className="rounded-2xl bg-card border border-border py-3 font-bold">مشاركة</button>
-        </div>
+        {(() => {
+          const courierName = inv.courierId ? p.couriers.find((c: Courier) => c.id === inv.courierId)?.name : undefined;
+          const salePm = (p.payments as Payment[]).find(pm => pm.invoiceId === inv.id && pm.kind === "sale");
+          const method = (salePm?.method ?? "cash") as "cash" | "transfer";
+          const createdAt = (inv as any).createdAt ? new Date((inv as any).createdAt) : new Date();
+          const dateText = createdAt.toLocaleDateString("en-GB");
+          const data: InvoicePdfData = {
+            shopName: tenant?.name ?? "محلي",
+            number: String(inv.number),
+            dateText, timeText: inv.time,
+            customerName: cust?.name,
+            courierName,
+            delivery: inv.delivery,
+            items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),
+            total: inv.total,
+            paid: inv.paid,
+            collectedByCourier: inv.collectedByCourier,
+            remaining,
+            method,
+            status: inv.status,
+          };
+          const handlePdf = async () => {
+            setPdfBusy(true);
+            try { await downloadInvoicePdf(data); p.showToast?.("تم تحميل الفاتورة"); }
+            catch (e) { console.error(e); p.showToast?.("تعذّر إنشاء PDF"); }
+            finally { setPdfBusy(false); }
+          };
+          return (
+            <>
+              <div className="grid grid-cols-2 gap-2">
+                <button disabled={pdfBusy} onClick={handlePdf} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5 disabled:opacity-50">
+                  <FileDown className="w-4 h-4" />{pdfBusy ? "..." : "تحميل PDF"}
+                </button>
+                <button onClick={() => printInvoice(data)} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5">
+                  <Printer className="w-4 h-4" />طباعة
+                </button>
+              </div>
+              <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>
+            </>
+          );
+        })()}
       </div>
 
       {collectOpen && (

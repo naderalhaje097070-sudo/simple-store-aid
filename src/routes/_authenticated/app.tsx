@@ -1731,10 +1731,9 @@ function SaleSuccessScreen(p: any) {
     const t = setTimeout(() => setSecondsLeft(n => n - 1), 1000);
     return () => clearTimeout(t);
   }, [secondsLeft, undone]);
-  const undo = () => {
+  const undo = async () => {
     if (!p.lastCreatedInvoiceId) return;
-    p.setInvoices((arr: Invoice[]) => arr.filter(i => i.id !== p.lastCreatedInvoiceId));
-    p.setPayments((arr: Payment[]) => arr.filter(pm => pm.invoiceId !== p.lastCreatedInvoiceId));
+    await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
     p.setLastCreatedInvoiceId(null);
     setUndone(true);
     setTimeout(() => p.setScreen("home"), 600);

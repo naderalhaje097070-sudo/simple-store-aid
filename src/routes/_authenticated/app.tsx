@@ -1681,10 +1681,13 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
               <input value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="رقم الهاتف (اختياري)" inputMode="tel" className="mt-2 w-full rounded-xl border border-border bg-background px-3 py-3 text-sm num text-right" />
               {dup && <div className="text-[11px] text-warn mt-1">⚠ يوجد عميل بنفس {dup.name.trim() === trimmedName ? "الاسم" : "الرقم"}: {dup.name}</div>}
               {trimmedName && (
-                <button onClick={() => {
-                  const id = "c" + Date.now();
-                  setCustomers((arr: Customer[]) => [...arr, { id, name: trimmedName, phone: trimmedPhone || undefined }]);
-                  setCustomerId(id); setNewName(""); setNewPhone(""); setPickCustomer(false);
+                <button onClick={async () => {
+                  try {
+                    const created = await addCustomerAsync({ name: trimmedName, phone: trimmedPhone || undefined });
+                    setCustomerId(created.id); setNewName(""); setNewPhone(""); setPickCustomer(false);
+                  } catch (err: any) {
+                    alert(err?.message ?? "تعذّر إضافة العميل");
+                  }
                 }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">إضافة وحفظ</button>
               )}
             </div>

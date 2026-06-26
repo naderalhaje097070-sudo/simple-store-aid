@@ -535,6 +535,27 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _assert_staff: { Args: { _tid: string }; Returns: undefined }
+      close_day: { Args: { p_note: string }; Returns: Json }
+      collect_order_debt: {
+        Args: {
+          p_amount: number
+          p_method: Database["public"]["Enums"]["payment_method"]
+          p_order_id: string
+        }
+        Returns: Json
+      }
+      create_sale_with_items: {
+        Args: {
+          p_courier_id: string
+          p_customer_id: string
+          p_delivery: Database["public"]["Enums"]["delivery_kind"]
+          p_items: Json
+          p_method: Database["public"]["Enums"]["payment_method"]
+          p_paid: number
+        }
+        Returns: Json
+      }
       current_tenant_id: { Args: never; Returns: string }
       has_owner_role: { Args: { _tid: string; _uid: string }; Returns: boolean }
       has_role: {
@@ -548,6 +569,11 @@ export type Database = {
       has_staff_or_owner_role: {
         Args: { _tid: string; _uid: string }
         Returns: boolean
+      }
+      return_courier_order: { Args: { p_order_id: string }; Returns: Json }
+      settle_courier_orders: {
+        Args: { p_courier_id: string; p_orders: Json }
+        Returns: Json
       }
     }
     Enums: {

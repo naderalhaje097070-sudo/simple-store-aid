@@ -32,6 +32,23 @@ function Onboarding() {
       const uid = userRes.user?.id;
       if (!uid) throw new Error("جلسة منتهية، أعد الدخول");
 
+      // Idempotency: if this user already has a tenant (from a previous
+      // attempt or from the trigger), don't create a duplicate.
+      const { data: existingProfile } = await supabase
+        .from("profiles").select("tenant_id").eq("id", uid).maybeSingle();
+      if (existingProfile?.tenant_id) {
+        navigate({ to: "/app" });
+        return;
+      }
+      const { data: existingTenant } = await supabase
+        .from("tenants").select("id").eq("owner_user_id", uid)
+        .order("created_at", { ascending: true }).limit(1).maybeSingle();
+      if (existingTenant?.id) {
+        await supabase.from("profiles").update({ tenant_id: existingTenant.id }).eq("id", uid);
+        navigate({ to: "/app" });
+        return;
+      }
+
       // Owner role + profile linkage are assigned automatically by a
       // SECURITY DEFINER trigger on `tenants` — do not insert into
       // `user_roles` from the client.

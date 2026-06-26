@@ -6,7 +6,7 @@ export const Route = createFileRoute("/_authenticated/platform-admin")({
   component: PlatformAdminPage,
 });
 
-type TabKey = "overview" | "tenants" | "financial" | "system" | "dayclose" | "custody" | "alerts";
+type TabKey = "overview" | "tenants" | "financial" | "system" | "dayclose" | "custody" | "alerts" | "audit";
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "overview", label: "نظرة عامة" },
@@ -16,6 +16,7 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: "dayclose", label: "إغلاق اليوم" },
   { key: "custody", label: "عهدة المناديب" },
   { key: "alerts", label: "التنبيهات" },
+  { key: "audit", label: "سجل التدقيق" },
 ];
 
 function PlatformAdminPage() {

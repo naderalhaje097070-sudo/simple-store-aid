@@ -1282,8 +1282,12 @@ function CourierCustodyScreen(p: any) {
 /* --------------- SETTLEMENTS --------------- */
 function SettlementsScreen(p: any) {
   const courier = p.couriers.find((c: Courier) => c.id === p.openCourierId) ?? p.couriers[0];
-  const collected = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"));
-  const pending = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState ?? "pending") === "pending");
+  const collected = courier
+    ? p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"))
+    : [];
+  const pending = courier
+    ? p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courier.id && (i.courierState ?? "pending") === "pending")
+    : [];
   const [selected, setSelected] = useState<Set<string>>(new Set(collected.map((i: Invoice) => i.id)));
   const [done, setDone] = useState(false);
 

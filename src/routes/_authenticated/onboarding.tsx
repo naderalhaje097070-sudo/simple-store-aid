@@ -51,8 +51,9 @@ function Onboarding() {
       if (rErr) throw rErr;
 
       navigate({ to: "/app" });
-    } catch (err: any) {
-      setError(String(err?.message ?? "حدث خطأ، حاول مرة أخرى"));
+    } catch (err) {
+      console.error("onboarding error:", err);
+      setError("حدث خطأ، حاول مرة أخرى");
     } finally {
       setLoading(false);
     }

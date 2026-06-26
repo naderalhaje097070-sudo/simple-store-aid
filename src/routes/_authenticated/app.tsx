@@ -11,7 +11,7 @@ import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
-  useDayCloses, useCloseDay,
+  useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
 } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({

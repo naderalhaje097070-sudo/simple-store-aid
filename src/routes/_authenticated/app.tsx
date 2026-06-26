@@ -1589,7 +1589,7 @@ function SettingsScreen(p: any) {
     setTimeout(() => setSavedFlash(false), 1500);
   };
 
-  const roleLabel = role === "owner" ? "صاحب المحل" : role === "manager" ? "مدير" : role === "cashier" ? "كاشير" : role === "viewer" ? "مشاهد" : "—";
+  const roleLabel = role === "owner" ? "صاحب المحل" : role === "staff" ? "موظّف" : "—";
 
   return (
     <>

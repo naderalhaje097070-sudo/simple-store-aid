@@ -54,10 +54,17 @@ function AuthPage() {
       navigate({ to: "/app" });
     } catch (err: any) {
       const msg = String(err?.message ?? err);
-      if (msg.includes("Invalid login")) setError("بيانات الدخول غير صحيحة");
-      else if (msg.includes("already registered")) setError("هذا الحساب موجود مسبقاً، سجّل دخول");
-      else if (msg.includes("Password should")) setError("كلمة المرور قصيرة جداً (6 أحرف على الأقل)");
-      else setError(msg || "حدث خطأ، حاول مرة أخرى");
+      console.error("auth error:", err);
+      if (mode === "signup") {
+        // Generic message to avoid email enumeration / raw error leakage.
+        setError("إذا كان البريد جديداً فقد تم إنشاء حسابك، تحقق من بريدك الإلكتروني.");
+      } else if (msg.includes("Invalid login")) {
+        setError("بيانات الدخول غير صحيحة");
+      } else if (msg.includes("Password should")) {
+        setError("كلمة المرور قصيرة جداً (6 أحرف على الأقل)");
+      } else {
+        setError("حدث خطأ، حاول مرة أخرى");
+      }
     } finally {
       setLoading(false);
     }

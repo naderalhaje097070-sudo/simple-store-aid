@@ -972,7 +972,7 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
   const inputCls = (k: keyof typeof errors) => `mt-1 w-full rounded-xl border bg-background px-3 py-3 text-sm ${showErr(k) ? "border-destructive" : "border-border"}`;
 
   return (
-    <Sheet onClose={onClose} title="إضافة منتج">
+    <Sheet onClose={onClose} title={mode === "edit" ? "تعديل المنتج" : "إضافة منتج"}>
       <div className="space-y-3">
         <div>
           <label className="text-xs font-bold text-muted-foreground">اسم المنتج <span className="text-destructive">*</span></label>

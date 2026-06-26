@@ -866,6 +866,7 @@ function InventoryScreen(p: any) {
                   <div className="font-bold text-sm">{pr.name}</div>
                   <div className="mt-1 flex items-center gap-2">
                     {pr.is_active === false && <StatusChip kind="warn">موقوف</StatusChip>}
+                    {pr.is_discount && <StatusChip kind="info">تخفيض</StatusChip>}
                     {pr.stock === 0 && <StatusChip kind="debt" icon={<PackageX className="w-3 h-3" />}>نفد</StatusChip>}
                     {pr.stock > 0 && pr.stock <= pr.lowAt && <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>منخفض <span className="num">{pr.stock}</span></StatusChip>}
                     {pr.stock > pr.lowAt && <StatusChip kind="info">متوفر <span className="num">{pr.stock}</span></StatusChip>}

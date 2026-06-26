@@ -407,7 +407,7 @@ function DesktopSidebar({
           <Item id="couriers" label="المندوبون" Icon={Truck} />
           <Item id="shop" label="أقسام المحل" Icon={Store} />
           <Item id="settings" label="الإعدادات" Icon={SettingsIcon} />
-          <Item id="pilot" label="صحة النظام" Icon={Activity} />
+          {myRole === "owner" && <Item id="pilot" label="صحة النظام" Icon={Activity} />}
         </Group>
       </nav>
 

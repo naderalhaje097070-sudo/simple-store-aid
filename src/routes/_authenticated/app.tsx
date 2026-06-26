@@ -727,8 +727,11 @@ function InvoiceDetailScreen(p: any) {
 
         <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
           <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع</span><Money v={inv.paid} className="text-success" /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي</span><Money v={remaining} className={remaining > 0 ? "text-debt" : ""} /></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
+          {inv.delivery === "courier" && (inv.collectedByCourier ?? 0) > 0 && (
+            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={inv.collectedByCourier ?? 0} className="text-warn" /></div>
+          )}
+          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={remaining} className={remaining > 0 ? "text-debt" : ""} /></div>
         </div>
 
         <div className="rounded-2xl bg-profit-soft border border-profit/20 p-4">
@@ -1842,16 +1845,23 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
 
         {status === "partial" && (
           <div>
-            <label className="text-xs font-bold text-muted-foreground">المدفوع</label>
+            <label className="text-xs font-bold text-muted-foreground">{delivery === "courier" ? "قبضه المندوب الآن" : "المدفوع"}</label>
             <input value={paidStr} onChange={e => setPaidStr(e.target.value)} inputMode="decimal" className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
           </div>
         )}
 
         {overpaid && <div className="rounded-xl bg-debt-soft text-debt text-xs p-3 flex items-center gap-2"><AlertTriangle className="w-4 h-4" />المبلغ المدفوع أكبر من الإجمالي</div>}
 
+        {delivery === "courier" && paid > 0 && !overpaid && (
+          <div className="rounded-xl bg-warn-soft text-warn text-[11px] p-3 flex items-start gap-2">
+            <Info className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>هذا المبلغ يُسجَّل <b>عهدة بيد المندوب</b> — لا يدخل صندوق المحل إلا بعد التسوية معه.</span>
+          </div>
+        )}
+
         {(status === "partial" || status === "debt") && (
           <div className="rounded-xl bg-debt-soft p-3 flex items-center justify-between">
-            <div><div className="text-xs text-debt">المتبقي</div><Money v={Math.max(0, remaining)} className="text-debt font-bold" /></div>
+            <div><div className="text-xs text-debt">المتبقي {delivery === "courier" ? "(على العميل بعد التسوية)" : ""}</div><Money v={Math.max(0, remaining)} className="text-debt font-bold" /></div>
           </div>
         )}
 

@@ -10,7 +10,7 @@ import {
 import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
-  useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier,
+  useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
 } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -92,6 +92,7 @@ function MongezzApp() {
   const deleteInvoiceMut = useDeleteInvoice(tenantId);
   const collectDebtMut = useCollectDebt(tenantId);
   const settleCourierMut = useSettleCourier(tenantId);
+  const updateCourierStateMut = useUpdateCourierState(tenantId);
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
@@ -213,6 +214,7 @@ function MongezzApp() {
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
     collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
     settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
+    updateCourierStateAsync: (input: { orderId: string; state: "delivered_full" | "delivered_partial" | "delivered_none" | "returned" | "pending"; collected?: number }) => updateCourierStateMut.mutateAsync(input),
   };
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);
@@ -1085,6 +1087,9 @@ function DebtCustomerScreen(p: any) {
 /* --------------- COURIER CUSTODY --------------- */
 function CourierCustodyScreen(p: any) {
   const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id);
+  const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
+  const [markMode, setMarkMode] = useState<"delivered_full" | "delivered_partial" | "delivered_none" | "returned" | null>(null);
+  const [markAmount, setMarkAmount] = useState("");
   const list = p.invoices.filter((i: Invoice) => i.delivery === "courier" && i.courierId === courierId);
   const pending = list.filter((i: Invoice) => (i.courierState ?? "pending") === "pending");
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
@@ -1099,6 +1104,21 @@ function CourierCustodyScreen(p: any) {
   }, 0);
 
   const goSettlements = () => { p.setOpenCourierId(courierId); p.go("settlements"); };
+
+  const confirmMark = async () => {
+    if (!markOrder || !markMode) return;
+    const total = markOrder.total;
+    const amt = markMode === "delivered_full" ? total : markMode === "delivered_partial" ? Number(markAmount) : 0;
+    if (markMode === "delivered_partial" && (!amt || amt <= 0 || amt >= total)) return;
+    await p.updateCourierStateAsync({ orderId: markOrder.id, state: markMode, collected: amt });
+    setMarkOrder(null); setMarkMode(null); setMarkAmount("");
+    p.showToast(
+      markMode === "delivered_full" ? "✓ سُلِّمت كاملة — دخلت العهدة" :
+      markMode === "delivered_partial" ? "✓ سُلِّمت جزئيًا — الباقي دين على العميل" :
+      markMode === "delivered_none" ? "✓ لم تُسلَّم — دين كامل على العميل" :
+      "✓ أُرجعت — لا دين ولا عهدة"
+    );
+  };
 
   return (
     <>
@@ -1117,14 +1137,18 @@ function CourierCustodyScreen(p: any) {
           <div className="text-[11px] text-muted-foreground mt-1">قيمة متوقعة — غير مؤكدة. لا تدخل في "عند المندوب".</div>
           <div className="mt-2 space-y-1.5">
             {pending.map((i: Invoice) => (
-              <div key={i.id} className="text-xs flex justify-between bg-card rounded-lg px-3 py-2">
-                <span>#{i.number} · {p.customers.find((c: Customer) => c.id === i.customerId)?.name}</span>
-                <Money v={i.total} />
+              <div key={i.id} className="bg-card rounded-lg px-3 py-2 space-y-1.5">
+                <div className="text-xs flex justify-between">
+                  <span>#{i.number} · {p.customers.find((c: Customer) => c.id === i.customerId)?.name}</span>
+                  <Money v={i.total} />
+                </div>
+                <button onClick={() => { setMarkOrder(i); setMarkMode(null); setMarkAmount(""); }} className="w-full text-[11px] font-bold py-1.5 rounded-md bg-primary-soft text-primary">تحديث حالة التسليم ←</button>
               </div>
             ))}
             {pending.length === 0 && <div className="text-xs text-muted-foreground">لا طلبات قيد التنفيذ</div>}
           </div>
         </div>
+
 
         {/* Block 2 */}
         <div className="rounded-2xl bg-warn-soft border-2 border-warn/30 p-4">
@@ -1164,6 +1188,43 @@ function CourierCustodyScreen(p: any) {
           </div>
         </div>
       </div>
+
+      {markOrder && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-end" onClick={() => setMarkOrder(null)}>
+          <div className="w-full bg-card rounded-t-3xl p-4 space-y-3" onClick={e => e.stopPropagation()}>
+            <div className="font-bold">تحديث حالة التسليم · #{markOrder.number}</div>
+            <div className="text-xs text-muted-foreground">قيمة الطلب: <Money v={markOrder.total} className="num font-bold text-foreground" /></div>
+            <div className="grid grid-cols-2 gap-2">
+              <button onClick={() => setMarkMode("delivered_full")} className={`py-3 rounded-xl text-sm font-bold ${markMode === "delivered_full" ? "bg-success text-success-foreground" : "bg-muted"}`}>سُلِّمت كاملة</button>
+              <button onClick={() => setMarkMode("delivered_partial")} className={`py-3 rounded-xl text-sm font-bold ${markMode === "delivered_partial" ? "bg-warn text-warn-foreground" : "bg-muted"}`}>سُلِّمت جزئيًا</button>
+              <button onClick={() => setMarkMode("delivered_none")} className={`py-3 rounded-xl text-sm font-bold ${markMode === "delivered_none" ? "bg-debt text-destructive-foreground" : "bg-muted"}`}>لم تُسلَّم (دين)</button>
+              <button onClick={() => setMarkMode("returned")} className={`py-3 rounded-xl text-sm font-bold ${markMode === "returned" ? "bg-foreground text-background" : "bg-muted"}`}>أُرجعت</button>
+            </div>
+            {markMode === "delivered_partial" && (
+              <div className="space-y-1">
+                <div className="text-xs text-muted-foreground">المبلغ المقبوض فعلًا</div>
+                <input value={markAmount} onChange={e => setMarkAmount(e.target.value)} placeholder="0" inputMode="decimal" className="w-full rounded-xl bg-muted px-3 py-3 text-sm num" />
+                <div className="text-[11px] text-muted-foreground">الباقي يصبح دينًا على العميل.</div>
+              </div>
+            )}
+            {markMode && markMode !== "delivered_partial" && (
+              <div className="text-[11px] text-muted-foreground rounded-lg bg-muted px-3 py-2">
+                {markMode === "delivered_full" && "كامل المبلغ سيدخل عهدة المندوب وينتظر التسوية."}
+                {markMode === "delivered_none" && "كامل المبلغ يصبح دينًا على العميل، لا عهدة على المندوب."}
+                {markMode === "returned" && "الطلب مُلغى — لا دين ولا عهدة. (المخزون لن يُعاد تلقائيًا في هذه النسخة)"}
+              </div>
+            )}
+            <div className="flex gap-2">
+              <button onClick={() => setMarkOrder(null)} className="flex-1 rounded-xl bg-muted py-3 text-sm font-bold">إلغاء</button>
+              <button
+                onClick={confirmMark}
+                disabled={!markMode || (markMode === "delivered_partial" && (!Number(markAmount) || Number(markAmount) >= markOrder.total))}
+                className="flex-1 rounded-xl bg-primary text-primary-foreground py-3 text-sm font-bold disabled:opacity-40"
+              >تأكيد</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

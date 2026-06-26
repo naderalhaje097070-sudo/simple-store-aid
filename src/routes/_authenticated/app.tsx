@@ -8,7 +8,7 @@ import {
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
 } from "lucide-react";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/_authenticated/app")({
   head: () => ({
     meta: [
       { title: "منجز — دفتر المحل الذكي" },

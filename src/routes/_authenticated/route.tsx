@@ -57,7 +57,7 @@ function AuthenticatedLayout() {
     );
   }
 
-  if (hasTenant === false && window.location.pathname !== "/onboarding") {
+  if (hasTenant === false && !window.location.pathname.startsWith("/platform-admin") && window.location.pathname !== "/onboarding") {
     return null;
   }
 

@@ -906,6 +906,16 @@ function InventoryScreen(p: any) {
         try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
         catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
       }} />}
+      {editing && <AddProductSheet
+        mode="edit"
+        initial={{ name: editing.name, price: editing.price, cost: editing.cost ?? 0, stock: editing.stock, is_discount: !!editing.is_discount }}
+        existingNames={(p.products ?? []).filter((x: any) => x.id !== editing.id).map((x: any) => String(x.name || "").trim().toLowerCase())}
+        onClose={() => setEditing(null)}
+        onSave={async (data) => {
+          try { await p.updateProductAsync({ id: editing.id, ...data }); setEditing(null); p.showToast("تم تحديث المنتج"); }
+          catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
+        }}
+      />}
     </>
   );
 }

@@ -389,6 +389,24 @@ export type Database = {
           },
         ]
       }
+      platform_admins: {
+        Row: {
+          created_at: string
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: string | null
@@ -535,6 +553,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      _assert_platform_admin: { Args: never; Returns: undefined }
       _assert_staff: { Args: { _tid: string }; Returns: undefined }
       close_day: { Args: { p_note: string }; Returns: Json }
       collect_order_debt: {
@@ -557,6 +576,72 @@ export type Database = {
         Returns: Json
       }
       current_tenant_id: { Args: never; Returns: string }
+      get_platform_admin_overview: { Args: never; Returns: Json }
+      get_platform_courier_custody_health: {
+        Args: never
+        Returns: {
+          courier_id: string
+          courier_name: string
+          oldest_age_days: number
+          orders_count: number
+          risk: string
+          tenant_id: string
+          tenant_name: string
+          unsettled_amount: number
+        }[]
+      }
+      get_platform_day_close_health: {
+        Args: { p_limit?: number }
+        Returns: {
+          closed_for: string
+          collected: number
+          collected_diff: number
+          created_at: string
+          customer_debts: number
+          expenses: number
+          expenses_diff: number
+          id: string
+          realized_profit: number
+          sales: number
+          sales_diff: number
+          status: string
+          tenant_id: string
+          tenant_name: string
+          unsettled_custody: number
+        }[]
+      }
+      get_platform_financial_health: {
+        Args: never
+        Returns: {
+          affected_count: number
+          check_key: string
+          explanation_ar: string
+          status: string
+        }[]
+      }
+      get_platform_financial_health_rows: {
+        Args: { p_check_key: string; p_limit?: number }
+        Returns: Json
+      }
+      get_platform_system_health: { Args: never; Returns: Json }
+      get_platform_tenants_health: {
+        Args: never
+        Returns: {
+          created_at: string
+          customers_count: number
+          health: string
+          last_activity: string
+          open_debts: number
+          orders_count: number
+          owner_user_id: string
+          products_count: number
+          tenant_id: string
+          tenant_name: string
+          total_collected: number
+          total_sales: number
+          unsettled_custody: number
+        }[]
+      }
       has_owner_role: { Args: { _tid: string; _uid: string }; Returns: boolean }
       has_role: {
         Args: {
@@ -570,6 +655,7 @@ export type Database = {
         Args: { _tid: string; _uid: string }
         Returns: boolean
       }
+      is_platform_admin: { Args: never; Returns: boolean }
       return_courier_order: { Args: { p_order_id: string }; Returns: Json }
       settle_courier_orders: {
         Args: { p_courier_id: string; p_orders: Json }

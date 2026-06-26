@@ -407,7 +407,7 @@ function DesktopSidebar({
       </nav>
 
       <div className="px-4 py-3 border-t border-border text-[10px] text-muted-foreground text-center">
-        نسخة بروتوتايب — بيانات تجريبية
+        نسخة تجريبية مغلقة
       </div>
     </aside>
   );

@@ -20,6 +20,51 @@ export function useTenantId() {
   });
 }
 
+/* ---------- tenant settings ---------- */
+export function useTenant(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["tenant", tenantId],
+    enabled: !!tenantId,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tenants").select("id,name").eq("id", tenantId!).maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useUpdateTenantName(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (name: string) => {
+      if (!tenantId) throw new Error("no tenant");
+      const { error } = await supabase.from("tenants").update({ name }).eq("id", tenantId);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),
+  });
+}
+
+/* ---------- my role ---------- */
+export type AppRole = "owner" | "manager" | "cashier" | "viewer";
+export function useMyRole(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["my_role", tenantId],
+    enabled: !!tenantId,
+    queryFn: async (): Promise<AppRole | null> => {
+      const { data: u } = await supabase.auth.getUser();
+      if (!u.user) return null;
+      const { data, error } = await supabase
+        .from("user_roles").select("role")
+        .eq("tenant_id", tenantId!).eq("user_id", u.user.id).maybeSingle();
+      if (error) throw error;
+      return (data?.role as AppRole) ?? null;
+    },
+    staleTime: 60_000,
+  });
+}
+
 /* ---------- products ---------- */
 export type DBProduct = {
   id: string; name: string; price: number; cost: number;

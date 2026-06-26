@@ -11,7 +11,7 @@ import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
-  useDayCloses, useCloseDay,
+  useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
 } from "@/lib/db";
 
 export const Route = createFileRoute("/_authenticated/app")({
@@ -1516,27 +1516,70 @@ function CouriersScreen(p: any) {
 }
 
 function SettingsScreen(p: any) {
-  const rows = ["بيانات المحل", "العملة وصيغة الأرقام", "حد التنبيه الافتراضي", "نسخ احتياطي ومزامنة"];
+  const { data: tenantId } = useTenantId();
+  const { data: tenant } = useTenant(tenantId);
+  const { data: role } = useMyRole(tenantId);
+  const updateNameMut = useUpdateTenantName(tenantId);
+  const [name, setName] = useState("");
+  const [savedFlash, setSavedFlash] = useState(false);
+  useEffect(() => { if (tenant?.name) setName(tenant.name); }, [tenant?.name]);
+
   const signOut = async () => {
     const { supabase } = await import("@/integrations/supabase/client");
     await supabase.auth.signOut();
     window.location.href = "/auth";
   };
+
+  const save = async () => {
+    const v = name.trim();
+    if (!v || v === tenant?.name) return;
+    await updateNameMut.mutateAsync(v);
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 1500);
+  };
+
+  const roleLabel = role === "owner" ? "صاحب المحل" : role === "manager" ? "مدير" : role === "cashier" ? "كاشير" : role === "viewer" ? "مشاهد" : "—";
+
   return (
     <>
       <TopBar title="الإعدادات" onBack={p.back} />
-      <div className="px-4 pt-3">
+      <div className="px-4 pt-3 space-y-3">
+        <div className="rounded-2xl bg-card border border-border p-4">
+          <label className="block text-xs text-muted-foreground mb-1">اسم المحل</label>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            maxLength={60}
+            className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
+            placeholder="مثال: بقالة الأمين"
+          />
+          <button
+            onClick={save}
+            disabled={updateNameMut.isPending || !name.trim() || name.trim() === tenant?.name}
+            className="mt-3 w-full h-10 rounded-xl bg-primary text-primary-foreground text-sm font-semibold disabled:opacity-50"
+          >
+            {updateNameMut.isPending ? "..." : savedFlash ? "تم الحفظ ✓" : "حفظ"}
+          </button>
+        </div>
+
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
-          {rows.map(r => (
-            <div key={r} className="flex items-center gap-3 px-4 py-3">
-              <span className="flex-1 text-sm">{r}</span>
-              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-            </div>
-          ))}
+          <div className="flex items-center gap-3 px-4 py-3">
+            <span className="flex-1 text-sm text-muted-foreground">دورك في المحل</span>
+            <span className="text-sm font-semibold">{roleLabel}</span>
+          </div>
+          <div className="flex items-center gap-3 px-4 py-3">
+            <span className="flex-1 text-sm text-muted-foreground">رقم المحل</span>
+            <span className="text-[11px] font-mono text-muted-foreground" dir="ltr">{tenantId?.slice(0, 8) ?? "—"}</span>
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-card border border-border overflow-hidden">
           <button onClick={signOut} className="w-full flex items-center gap-3 px-4 py-3 text-right text-destructive font-semibold">
             <span className="flex-1">تسجيل الخروج</span>
           </button>
         </div>
+
+        <p className="text-[11px] text-muted-foreground text-center pt-2">منجز — دفتر محلك الذكي</p>
       </div>
     </>
   );

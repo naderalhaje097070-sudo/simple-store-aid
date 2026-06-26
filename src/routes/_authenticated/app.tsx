@@ -2160,10 +2160,28 @@ function DayCloseScreen(p: any) {
       </div>
       <div className="fixed bottom-0 inset-x-0 z-30">
         <div className="mx-auto max-w-md bg-card border-t border-border p-3 pb-[max(env(safe-area-inset-bottom),12px)]">
-          <button
-            onClick={() => { p.showToast("تمت مراجعة ملخّص اليوم"); p.back(); }}
-            className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
-          >تم — رجوع</button>
+          {p.closedToday ? (
+            <button onClick={() => p.back()} className="w-full rounded-2xl bg-muted text-foreground py-3 font-bold">
+              ✓ تم إقفال اليوم مسبقًا — رجوع
+            </button>
+          ) : (
+            <button
+              onClick={async () => {
+                try {
+                  await p.closeDayAsync({
+                    sales: t.sales, collected: t.collected, expenses: t.expenseTotal,
+                    realizedProfit: t.realizedProfit, customerDebts: t.customerDebts,
+                    unsettledCustody: t.unsettledCustody,
+                  });
+                  p.showToast("تم حفظ إقفال اليوم");
+                  p.back();
+                } catch (e: any) {
+                  p.showToast("تعذّر الحفظ");
+                }
+              }}
+              className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold"
+            >تثبيت إقفال اليوم</button>
+          )}
         </div>
       </div>
     </div>

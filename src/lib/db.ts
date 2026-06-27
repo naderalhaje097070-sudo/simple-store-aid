@@ -333,17 +333,18 @@ export function usePayments(tenantId: string | null | undefined) {
     queryFn: async (): Promise<DBPayment[]> => {
       const { data, error } = await supabase
         .from("payments")
-        .select("id,kind,method,amount,order_id,customer_id,courier_id,created_at,orders(number)")
+        .select("id,kind,method,amount,order_id,customer_id,courier_id,created_at,orders(number,tenant_number)")
         .order("created_at", { ascending: true });
       if (error) throw error;
       return (data ?? []).map((r: any) => {
         const kind = r.kind === "courier_settlement" ? "settlement" : r.kind;
         const method = r.kind === "courier_settlement" ? "settlement" : r.method;
+        const tnum = r.orders?.tenant_number ?? r.orders?.number;
         return {
           id: r.id, kind, method,
           amount: Number(r.amount),
           invoiceId: r.order_id ?? undefined,
-          invoiceNumber: r.orders?.number != null ? String(r.orders.number) : undefined,
+          invoiceNumber: tnum != null ? String(tnum) : undefined,
           customerId: r.customer_id ?? undefined,
           courierId: r.courier_id ?? undefined,
           time: fmtTime(r.created_at),

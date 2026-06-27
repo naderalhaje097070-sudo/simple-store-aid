@@ -253,6 +253,7 @@ function MongezzApp() {
     products, customers, setCustomers, couriers, invoices, expenses, payments, myRole,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday, dayCloses,
+    tenantId, tenantTz, tenantSettings,
     closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => closeDayMut.mutateAsync(input),
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,

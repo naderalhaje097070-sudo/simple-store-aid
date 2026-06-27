@@ -268,7 +268,7 @@ function MongezzApp() {
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
     collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
-    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
+    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected?: number }[] }) => settleCourierMut.mutateAsync(input),
     updateCourierStateAsync: (input: { orderId: string; state: "delivered_full" | "delivered_partial" | "delivered_none" | "returned" | "pending"; collected?: number }) => updateCourierStateMut.mutateAsync(input),
   };
 

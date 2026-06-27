@@ -677,6 +677,7 @@ export type Database = {
       }
       tenants: {
         Row: {
+          business_type: string | null
           created_at: string
           id: string
           name: string
@@ -685,6 +686,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          business_type?: string | null
           created_at?: string
           id?: string
           name: string
@@ -693,6 +695,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          business_type?: string | null
           created_at?: string
           id?: string
           name?: string

@@ -21,17 +21,22 @@ export function useTenantId() {
 }
 
 /* ---------- tenant settings ---------- */
-export type TenantSettings = { id: string; name: string; timezone: string };
+export type TenantSettings = { id: string; name: string; timezone: string; business_type: string | null };
 export function useTenant(tenantId: string | null | undefined) {
   return useQuery({
     queryKey: ["tenant", tenantId],
     enabled: !!tenantId,
     queryFn: async (): Promise<TenantSettings | null> => {
       const { data, error } = await supabase
-        .from("tenants").select("id,name,timezone").eq("id", tenantId!).maybeSingle();
+        .from("tenants").select("id,name,timezone,business_type").eq("id", tenantId!).maybeSingle();
       if (error) throw error;
       if (!data) return null;
-      return { id: data.id, name: data.name, timezone: (data as any).timezone ?? "Africa/Tripoli" };
+      return {
+        id: data.id,
+        name: data.name,
+        timezone: (data as any).timezone ?? "Africa/Tripoli",
+        business_type: (data as any).business_type ?? null,
+      };
     },
   });
 }
@@ -42,6 +47,18 @@ export function useUpdateTenantName(tenantId: string | null | undefined) {
     mutationFn: async (name: string) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.from("tenants").update({ name }).eq("id", tenantId);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),
+  });
+}
+
+export function useUpdateTenantBusinessType(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (business_type: string | null) => {
+      if (!tenantId) throw new Error("no tenant");
+      const { error } = await supabase.from("tenants").update({ business_type } as any).eq("id", tenantId);
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),

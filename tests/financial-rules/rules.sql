@@ -8,7 +8,7 @@
 -- Or use tests/financial-rules/run.sh which auto-picks the first tenant.
 
 \set QUIET on
-SET client_min_messages TO WARNING;
+SET client_min_messages TO NOTICE;
 
 BEGIN;
 

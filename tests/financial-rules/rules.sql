@@ -18,12 +18,12 @@ SELECT set_config(
   json_build_object('sub', :uid, 'role','authenticated')::text,
   true
 );
+SELECT set_config('mongezz.test_tid', :tid, true);
 
 -- ---- Seed isolated test fixtures (rolled back) ----
 DO $seed$
-DECLARE v_tid uuid := :tid;
+DECLARE v_tid uuid := current_setting('mongezz.test_tid')::uuid;
 BEGIN
-  -- Three products: full stock so each test has its own
   INSERT INTO products(id, tenant_id, name, price, cost, stock, is_active) VALUES
     ('aaaa1111-0000-0000-0000-000000000001', v_tid, 'TEST-P1', 100, 60, 50, true),
     ('aaaa1111-0000-0000-0000-000000000002', v_tid, 'TEST-P2', 200, 120, 50, true),

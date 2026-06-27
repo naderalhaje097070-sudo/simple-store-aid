@@ -146,7 +146,7 @@ function MongezzApp() {
   
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
-  const todayKey = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; })();
+  const todayKey = tenantTodayKey(tenantTz);
   const dayCloses = dbDayCloses ?? [];
   const closedToday = dayCloses.some(d => d.closedFor === todayKey);
   const setClosedToday = (_: boolean) => {};

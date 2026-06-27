@@ -2676,8 +2676,9 @@ function PilotScreen(p: any) {
 
   const now = Date.now();
   const DAY = 24 * 60 * 60 * 1000;
-  const todayKey = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; })();
-  const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+  const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
+  const todayKey = tenantTodayKey(tenantTz);
+  const isToday = (iso?: string) => !!iso && tenantTodayKey(tenantTz) === new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso));
 
   /* ---- broken rules (must be 0) ---- */
   const paidOverTotal = invoices.filter(i => i.paid > i.total + 0.001).length;

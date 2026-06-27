@@ -1,0 +1,18 @@
+{
+  "name": "منجز — Mongezz",
+  "short_name": "منجز",
+  "description": "دفتر محلك الذكي — بيع، تحصيل، ديون، وعهدة المندوب.",
+  "lang": "ar",
+  "dir": "rtl",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/app",
+  "scope": "/",
+  "theme_color": "#0E7C66",
+  "background_color": "#F7F7F2",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

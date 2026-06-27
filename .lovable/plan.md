@@ -1,99 +1,91 @@
-## نطاق محدود — 3 RPCs/migrations + تغيير تسمية واحد في الواجهة
+# خطة: تحويل منجز إلى PWA خفيف وآمن
 
-### 1) H3 — Migration: `platform_admin_audit_log` (idempotent)
+نطاق صارم: تثبيت على الموبايل + Service Worker يخزّن static assets فقط. لا offline sales، لا queue، لا تخزين لأي طلب Supabase، لا تغيير في RPCs/RLS/قاعدة البيانات.
 
-ملف migration واحد:
+## 1) Manifest + Icons
 
-```sql
-CREATE TABLE IF NOT EXISTS public.platform_admin_audit_log (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
-  action text NOT NULL,
-  details jsonb NOT NULL DEFAULT '{}'::jsonb,
-  created_at timestamptz NOT NULL DEFAULT now()
-);
+- إنشاء `public/manifest.webmanifest`:
+  - `name: "منجز — Mongezz"`, `short_name: "منجز"`
+  - `display: "standalone"`, `start_url: "/app"`, `scope: "/"`
+  - `dir: "rtl"`, `lang: "ar"`
+  - `theme_color` و `background_color` من design tokens الحالية (أخضر/كريمي الهوية)
+  - `icons`: 192, 512, و maskable 512
+- توليد الأيقونات عبر `imagegen` (شعار "منجز" أخضر على خلفية فاتحة) وحفظها في `public/icons/`.
 
-GRANT SELECT ON public.platform_admin_audit_log TO authenticated;
-GRANT ALL ON public.platform_admin_audit_log TO service_role;
-REVOKE ALL ON public.platform_admin_audit_log FROM anon, PUBLIC;
+## 2) Head meta
 
-ALTER TABLE public.platform_admin_audit_log ENABLE ROW LEVEL SECURITY;
+تحديث `src/routes/__root.tsx` لإضافة (دون لمس باقي الـ meta):
+- `<link rel="manifest" href="/manifest.webmanifest">`
+- `<meta name="theme-color" content="<token>">`
+- `<meta name="mobile-web-app-capable" content="yes">`
+- `<meta name="apple-mobile-web-app-capable" content="yes">`
+- `<meta name="apple-mobile-web-app-status-bar-style" content="default">`
+- `<meta name="apple-mobile-web-app-title" content="منجز">`
+- `<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">`
 
--- DROP IF EXISTS ثم CREATE حتى يكون idempotent
-DROP POLICY IF EXISTS "platform_admins_read_audit" ON public.platform_admin_audit_log;
-CREATE POLICY "platform_admins_read_audit"
-  ON public.platform_admin_audit_log FOR SELECT
-  TO authenticated
-  USING (public.is_platform_admin());
+## 3) Service Worker عبر vite-plugin-pwa (generateSW)
 
-CREATE INDEX IF NOT EXISTS idx_pa_audit_created_at
-  ON public.platform_admin_audit_log (created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_pa_audit_user_id
-  ON public.platform_admin_audit_log (user_id);
-```
+نتبع PWA skill — لا نكتب SW يدويًا.
 
-ملاحظة: `_log_platform_admin_action` يُدرج عبر SECURITY DEFINER فلا يحتاج INSERT policy.
+- `bun add -D vite-plugin-pwa`
+- تعديل `vite.config.ts` لإضافة `VitePWA({ ... })` بـ:
+  - `registerType: "autoUpdate"`
+  - `injectRegister: null` (التسجيل من wrapper فقط)
+  - `devOptions: { enabled: false }`
+  - `filename: "sw.js"`
+  - `workbox`:
+    - `navigateFallback: "/offline.html"` مع `navigateFallbackDenylist: [/^\/api\//, /supabase\.co/]`
+    - `runtimeCaching`:
+      - Navigations (`request.mode === 'navigate'`): **NetworkFirst**، fallback إلى `/offline.html` عند فشل الشبكة.
+      - Same-origin hashed assets (`/assets/`): **CacheFirst**.
+      - Google Fonts: **CacheFirst** بـ expiration.
+    - **لا قاعدة caching تطابق `*.supabase.co` أو `/rest/v1` أو `/auth/v1` أو `/storage/v1` أو `/functions/v1`** — هذه الطلبات cross-origin لـ Supabase ولن يلتقطها أي handler، فتمر مباشرة عبر الشبكة بدون cache. نضيف تعليق صريح يوثّق ذلك.
+    - `globPatterns` للـ precache: JS/CSS/woff2/png/svg/ico فقط من `dist/` (لا HTML للـ app routes).
 
-### 2) H2 — تحديث `close_day` لتعريف موحّد للديون
+## 4) Offline page
 
-نفس توقيع الدالة، نغيّر فقط حساب `v_customer_debts`:
+- إنشاء `public/offline.html` ثابتة (RTL، عربية، تستخدم inline styles):
+  - عنوان: "تحتاج اتصال إنترنت"
+  - نص: "منجز يحتاج إنترنت لحفظ العمليات المالية. تحقق من اتصالك وأعد المحاولة."
+  - زر "إعادة المحاولة" → `location.reload()`.
 
-```sql
-SELECT COALESCE(SUM(
-  CASE
-    WHEN delivery = 'direct' OR courier_id IS NULL
-      THEN GREATEST(total - paid, 0)
-    WHEN delivery = 'courier' AND courier_state = 'delivered_none'
-      THEN total
-    WHEN delivery = 'courier' AND courier_state = 'delivered_partial'
-      THEN GREATEST(total - collected_by_courier, 0)
-    ELSE 0  -- pending / delivered_full / returned: لا يُحتسب هنا
-  END
-), 0) INTO v_customer_debts
-FROM public.orders
-WHERE tenant_id = v_tenant
-  AND status IN ('partial','debt');
-```
+## 5) Registration wrapper مع حراسات Lovable
 
-`unsettled_custody` و `collected` يبقيان كما هما. لا double count لأن المبلغ في يد المندوب يُحسب في custody فقط، والمبلغ على العميل يُحسب في debts فقط.
+إنشاء `src/lib/pwa-register.ts` يستدعى مرة واحدة من `src/routes/__root.tsx` داخل `useEffect`:
 
-### 3) H4 — حارس في `collect_order_debt` لطلبات المندوب
+يرفض التسجيل (ويلغي أي تسجيل قديم لـ `/sw.js`) عندما:
+- `!import.meta.env.PROD`
+- داخل iframe (`window !== window.top`)
+- hostname يبدأ بـ `id-preview--` أو `preview--`
+- hostname يساوي أو ينتهي بـ `lovableproject.com` / `lovableproject-dev.com` / `beta.lovable.dev`
+- URL يحوي `?sw=off` (kill switch)
 
-داخل نفس الدالة، بعد `SELECT ... INTO v_order` و قبل التحقق من remaining:
+غير ذلك: يستدعي `registerSW({ immediate: true })` من `virtual:pwa-register`.
 
-```sql
-IF v_order.delivery = 'courier' AND v_order.courier_id IS NOT NULL THEN
-  IF COALESCE(v_order.collected_by_courier, 0) > 0
-     OR v_order.courier_state IN ('pending','delivered_partial','delivered_full') THEN
-    RAISE EXCEPTION 'settle_courier_first';
-  END IF;
-  -- مسموح فقط: delivered_none بدون عهدة (نادر لكن منطقي)
-END IF;
-```
+## 6) لا تغيير في تجربة البيع
 
-في `src/lib/db.ts` داخل `rpcMessage`، أضف:
-```ts
-settle_courier_first: 'سوِّ عهدة المندوب أولًا قبل تحصيل هذه الفاتورة',
-```
+- لا lifecycle hooks تعترض fetch لطلبات Supabase.
+- لا local queue، لا IndexedDB للعمليات.
+- في حال انقطاع الشبكة، العملية تفشل طبيعيًا عبر استجابة Supabase fetch، وتُعرض رسالة الخطأ الحالية من `rpcMessage`. لا نضيف منطق "احفظ محليًا".
+- اختياريًا (UI فقط، بدون تغيير منطق): شارة صغيرة "لا يوجد إنترنت" أعلى الشاشة عند `navigator.onLine === false` داخل `/_authenticated/app.tsx`. يمكن إسقاطها إذا فضّلت عدم لمس الشاشة.
 
-### 4) H1 — التسمية فقط (الخيار الآمن)
+## 7) QA
 
-في `src/routes/_authenticated/app.tsx` شاشة الأرباح / إغلاق اليوم: تغيير عرض `realized_profit` من "الربح المحقق" إلى **"ربح تقديري"** مع تلميح صغير: "حساب نهائي يتم بعد توحيد منطق الأرباح". لا تغيير في DB أو الحساب.
+- Build production محليًا.
+- فحص `dist/sw.js` للتأكد أن لا قاعدة تستهدف `supabase.co`.
+- اختبار Playwright على preview المنشور:
+  - Lighthouse / `BeforeInstallPromptEvent` للتحقق من installability.
+  - فتح `/app` ثم go offline → التنقل يعرض `offline.html`، ومحاولة إصدار فاتورة تفشل برسالة شبكة.
+  - `?sw=off` يلغي التسجيل.
+- توثيق screenshots تحت `/tmp/browser/pwa/`.
 
-### QA يدوي بعد الـ migrations
+## التقرير النهائي
 
-سأشغّل عبر `supabase--read_query` للتحقق:
-- `SELECT * FROM platform_admin_audit_log LIMIT 1` — لا خطأ.
-- إنشاء طلب courier تجريبي ثم محاولة `collect_order_debt` → يجب أن يرفع `settle_courier_first`.
-- تشغيل `close_day` على tenant Pilot ومقارنة `customer_debts` مع تعريف الواجهة.
-- Regression: بيع مباشر كامل/جزئي/دين، تحصيل دين direct، تسوية مندوب، إرجاع قبل/بعد تحصيل.
+سيتضمّن: files changed، manifest path، sw path (`/sw.js` بعد البناء)، caching strategy، تأكيد denylist لـ Supabase، نتائج installability، و final decision.
 
-### Files changed
+## ملاحظات تقنية
 
-1. `supabase/migrations/<ts>_pilot_hardening.sql` — جديد (يحوي H3 + H2 + H4 معًا).
-2. `src/lib/db.ts` — سطر واحد في `rpcMessage`.
-3. `src/routes/_authenticated/app.tsx` — تغيير نص تسمية `realized_profit` فقط.
-
-### المخرجات النهائية
-
-تقرير مختصر: الملفات، اسم الـ migration، ملخص SQL، نتائج QA، والقرار النهائي.
+- الاعتماد على `vite-plugin-pwa` المتوافق مع TanStack Start (Vite 7) بدلًا من كتابة `public/sw.js` يدويًا — يلتزم بـ PWA skill ويتجنب stale precache بعد كل deploy.
+- لا تغيير في `vite.config.ts` خارج إضافة plugin واحد.
+- لا تغيير في `src/integrations/supabase/*` أو `src/lib/db.ts` أو أي RPC.
+- ملفات تتغير: `vite.config.ts`, `src/routes/__root.tsx`, `src/lib/pwa-register.ts` (جديد), `public/manifest.webmanifest` (جديد), `public/offline.html` (جديد), `public/icons/*` (جديد), `package.json` (+`vite-plugin-pwa` dev).

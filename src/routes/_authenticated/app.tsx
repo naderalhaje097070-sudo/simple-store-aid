@@ -921,6 +921,7 @@ function InventoryScreen(p: any) {
 }
 
 function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode = "add", initial }: { onClose: () => void; onSave: (d: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => void | Promise<void>; existingNames?: string[]; mode?: "add" | "edit"; initial?: { name: string; price: number; cost: number; stock: number; is_discount: boolean } }) {
+  const nameRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(initial?.name ?? "");
   const [price, setPrice] = useState(initial ? String(initial.price) : "");
   const [cost, setCost] = useState(initial ? String(initial.cost ?? "") : "");
@@ -928,6 +929,22 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
   const [isDiscount, setIsDiscount] = useState(initial?.is_discount ?? false);
   const [touched, setTouched] = useState<{ name?: boolean; price?: boolean; cost?: boolean; stock?: boolean }>(initial ? { name: true, price: true, cost: true, stock: true } : {});
   const [submitting, setSubmitting] = useState(false);
+
+  // Sync form values whenever initial product changes (edit mode switching between products)
+  useEffect(() => {
+    setName(initial?.name ?? "");
+    setPrice(initial ? String(initial.price) : "");
+    setCost(initial ? String(initial.cost ?? "") : "");
+    setStock(initial ? String(initial.stock) : "");
+    setIsDiscount(initial?.is_discount ?? false);
+    setTouched(initial ? { name: true, price: true, cost: true, stock: true } : {});
+  }, [initial?.name, initial?.price, initial?.cost, initial?.stock, initial?.is_discount]);
+
+  // Auto-focus name field whenever the sheet opens (both add and edit)
+  useEffect(() => {
+    const id = setTimeout(() => nameRef.current?.focus(), 50);
+    return () => clearTimeout(id);
+  }, [mode, initial?.name]);
 
   const trimmedName = name.trim();
   const priceN = Number(price);
@@ -977,7 +994,8 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
         <div>
           <label className="text-xs font-bold text-muted-foreground">اسم المنتج <span className="text-destructive">*</span></label>
           <input
-            autoFocus value={name}
+            ref={nameRef}
+            value={name}
             onChange={e => setName(e.target.value)}
             onBlur={() => setTouched(t => ({ ...t, name: true }))}
             className={inputCls("name")}

@@ -184,6 +184,50 @@ export type Database = {
           },
         ]
       }
+      financial_audit_log: {
+        Row: {
+          action: string
+          after: Json | null
+          before: Json | null
+          created_at: string
+          entity_id: string | null
+          entity_type: string
+          id: string
+          tenant_id: string
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type: string
+          id?: string
+          tenant_id: string
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          after?: Json | null
+          before?: Json | null
+          created_at?: string
+          entity_id?: string | null
+          entity_type?: string
+          id?: string
+          tenant_id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "financial_audit_log_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
@@ -257,6 +301,7 @@ export type Database = {
           paid: number
           status: Database["public"]["Enums"]["order_status"]
           tenant_id: string
+          tenant_number: number | null
           total: number
           updated_at: string
         }
@@ -274,6 +319,7 @@ export type Database = {
           paid?: number
           status?: Database["public"]["Enums"]["order_status"]
           tenant_id: string
+          tenant_number?: number | null
           total?: number
           updated_at?: string
         }
@@ -291,6 +337,7 @@ export type Database = {
           paid?: number
           status?: Database["public"]["Enums"]["order_status"]
           tenant_id?: string
+          tenant_number?: number | null
           total?: number
           updated_at?: string
         }
@@ -519,12 +566,36 @@ export type Database = {
           },
         ]
       }
+      tenant_counters: {
+        Row: {
+          last_order_number: number
+          tenant_id: string
+        }
+        Insert: {
+          last_order_number?: number
+          tenant_id: string
+        }
+        Update: {
+          last_order_number?: number
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tenant_counters_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenants: {
         Row: {
           created_at: string
           id: string
           name: string
           owner_user_id: string
+          timezone: string
           updated_at: string
         }
         Insert: {
@@ -532,6 +603,7 @@ export type Database = {
           id?: string
           name: string
           owner_user_id: string
+          timezone?: string
           updated_at?: string
         }
         Update: {
@@ -539,6 +611,7 @@ export type Database = {
           id?: string
           name?: string
           owner_user_id?: string
+          timezone?: string
           updated_at?: string
         }
         Relationships: []
@@ -608,6 +681,7 @@ export type Database = {
         Returns: Json
       }
       current_tenant_id: { Args: never; Returns: string }
+      current_tenant_timezone: { Args: never; Returns: string }
       delete_order_with_restore_stock: {
         Args: { p_order_id: string }
         Returns: Json
@@ -689,6 +763,7 @@ export type Database = {
           unsettled_custody: number
         }[]
       }
+      get_tenant_today_estimate: { Args: never; Returns: Json }
       has_owner_role: { Args: { _tid: string; _uid: string }; Returns: boolean }
       has_role: {
         Args: {
@@ -703,11 +778,13 @@ export type Database = {
         Returns: boolean
       }
       is_platform_admin: { Args: never; Returns: boolean }
+      next_order_number: { Args: { _tid: string }; Returns: number }
       return_courier_order: { Args: { p_order_id: string }; Returns: Json }
       settle_courier_orders: {
-        Args: { p_courier_id: string; p_orders: Json }
+        Args: { p_courier_id: string; p_order_ids: string[] }
         Returns: Json
       }
+      tenant_today: { Args: { _tid: string }; Returns: string }
       update_courier_order_state: {
         Args: { p_collected?: number; p_order_id: string; p_state: string }
         Returns: Json

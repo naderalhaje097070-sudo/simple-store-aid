@@ -464,17 +464,21 @@ export function useCollectDebt(tenantId: string | null | undefined) {
 export function useSettleCourier(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => {
+    // Input keeps `orders[]` for backwards compatibility with current callers,
+    // but only order ids are sent to the RPC. The settled amount is derived
+    // server-side from each order's stored collected_by_courier.
+    mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected?: number }[] }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.rpc("settle_courier_orders" as any, {
         p_courier_id: input.courierId,
-        p_orders: input.orders.map(o => ({ order_id: o.id, collected: o.collected })),
+        p_order_ids: input.orders.map(o => o.id),
       });
       if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
       qc.invalidateQueries({ queryKey: ["payments", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
     },
   });
 }

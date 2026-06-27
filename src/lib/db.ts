@@ -21,15 +21,17 @@ export function useTenantId() {
 }
 
 /* ---------- tenant settings ---------- */
+export type TenantSettings = { id: string; name: string; timezone: string };
 export function useTenant(tenantId: string | null | undefined) {
   return useQuery({
     queryKey: ["tenant", tenantId],
     enabled: !!tenantId,
-    queryFn: async () => {
+    queryFn: async (): Promise<TenantSettings | null> => {
       const { data, error } = await supabase
-        .from("tenants").select("id,name").eq("id", tenantId!).maybeSingle();
+        .from("tenants").select("id,name,timezone").eq("id", tenantId!).maybeSingle();
       if (error) throw error;
-      return data;
+      if (!data) return null;
+      return { id: data.id, name: data.name, timezone: (data as any).timezone ?? "Africa/Tripoli" };
     },
   });
 }
@@ -45,6 +47,50 @@ export function useUpdateTenantName(tenantId: string | null | undefined) {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),
   });
 }
+
+export function useUpdateTenantTimezone(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (timezone: string) => {
+      if (!tenantId) throw new Error("no tenant");
+      const { error } = await supabase.from("tenants").update({ timezone } as any).eq("id", tenantId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["tenant", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
+    },
+  });
+}
+
+/* ---------- today helpers (tenant timezone) ---------- */
+export function tenantTodayKey(timezone: string | null | undefined): string {
+  const tz = timezone || "Africa/Tripoli";
+  // en-CA returns YYYY-MM-DD
+  return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+}
+
+export function useTenantTodayEstimate(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["today_estimate", tenantId],
+    enabled: !!tenantId,
+    refetchInterval: 30_000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_tenant_today_estimate" as any);
+      if (error) throw error;
+      const d = data as any;
+      return {
+        today: String(d.today),
+        timezone: String(d.timezone),
+        sales: Number(d.sales ?? 0),
+        collected: Number(d.collected ?? 0),
+        expenses: Number(d.expenses ?? 0),
+        realizedProfit: Number(d.realized_profit ?? 0),
+      };
+    },
+  });
+}
+
 
 /* ---------- my role ---------- */
 // Aligned with database enum public.app_role

@@ -28,8 +28,18 @@ COST = Decimal("60")
 STOCK = 10
 
 def psql(sql: str) -> str:
-    r = subprocess.run(["psql", "-At", "-F", "|", "-c", sql], capture_output=True, text=True, check=True)
-    return r.stdout.strip()
+    r = subprocess.run(
+        ["psql", "-At", "-q", "-F", "|", "-v", "ON_ERROR_STOP=1", "-c", sql],
+        capture_output=True, text=True,
+    )
+    if r.returncode != 0:
+        raise RuntimeError(f"psql failed ({r.returncode}): {r.stderr.strip()}\nSQL: {sql}")
+    # Strip psql command tags (INSERT/UPDATE/DELETE/SELECT N) that occasionally
+    # follow RETURNING output, even with -At.
+    lines = [ln for ln in r.stdout.strip().splitlines()
+             if not (ln and ln.split(' ', 1)[0] in ("INSERT", "UPDATE", "DELETE", "SELECT") and ln.split()[-1].isdigit())]
+    return "\n".join(lines).strip()
+
 
 def fail(msg: str):
     print(f"❌ FAIL: {msg}"); sys.exit(1)

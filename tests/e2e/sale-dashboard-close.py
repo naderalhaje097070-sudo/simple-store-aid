@@ -193,15 +193,18 @@ async def main():
     finally:
         # Cleanup via REST (RLS as owner)
         try:
-            psql_one(f"SELECT 1") # noop sanity
-            # remove day_close snapshot
             api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
             if order_id:
-                api.rpc("delete_order_with_restore_stock", {"p_order_id": order_id})
+                # Paid orders are protected from the RPC by design — use direct REST
+                # DELETE (RLS allows owner). Cascade removes order_items + payments.
+                api.delete(f"/rest/v1/payments?order_id=eq.{order_id}")
+                api.delete(f"/rest/v1/order_items?order_id=eq.{order_id}")
+                api.delete(f"/rest/v1/orders?id=eq.{order_id}")
             api.delete(f"/rest/v1/products?id=eq.{pid}")
             print(f"🧹 cleanup ok (product, order, day_close removed)")
         except Exception as e:
             print(f"⚠ cleanup error: {e}")
+
 
     print("\n🎉 E2E PASSED — sale → dashboard → day_close all verified.")
 

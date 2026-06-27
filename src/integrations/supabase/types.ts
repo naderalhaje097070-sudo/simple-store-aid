@@ -566,6 +566,92 @@ export type Database = {
           },
         ]
       }
+      security_scan_findings: {
+        Row: {
+          detail: string | null
+          fingerprint: string
+          first_seen_at: string
+          id: string
+          last_run_id: string | null
+          last_seen_at: string
+          level: string
+          metadata: Json
+          name: string
+          resolved_at: string | null
+          scanner: string
+          title: string
+        }
+        Insert: {
+          detail?: string | null
+          fingerprint: string
+          first_seen_at?: string
+          id?: string
+          last_run_id?: string | null
+          last_seen_at?: string
+          level: string
+          metadata?: Json
+          name: string
+          resolved_at?: string | null
+          scanner: string
+          title: string
+        }
+        Update: {
+          detail?: string | null
+          fingerprint?: string
+          first_seen_at?: string
+          id?: string
+          last_run_id?: string | null
+          last_seen_at?: string
+          level?: string
+          metadata?: Json
+          name?: string
+          resolved_at?: string | null
+          scanner?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "security_scan_findings_last_run_id_fkey"
+            columns: ["last_run_id"]
+            isOneToOne: false
+            referencedRelation: "security_scan_runs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      security_scan_runs: {
+        Row: {
+          error: string | null
+          finished_at: string | null
+          id: string
+          new_count: number
+          started_at: string
+          status: string
+          total_count: number
+          triggered_by: string
+        }
+        Insert: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          new_count?: number
+          started_at?: string
+          status?: string
+          total_count?: number
+          triggered_by?: string
+        }
+        Update: {
+          error?: string | null
+          finished_at?: string | null
+          id?: string
+          new_count?: number
+          started_at?: string
+          status?: string
+          total_count?: number
+          triggered_by?: string
+        }
+        Relationships: []
+      }
       tenant_counters: {
         Row: {
           last_order_number: number
@@ -780,6 +866,7 @@ export type Database = {
       is_platform_admin: { Args: never; Returns: boolean }
       next_order_number: { Args: { _tid: string }; Returns: number }
       return_courier_order: { Args: { p_order_id: string }; Returns: Json }
+      run_security_scan: { Args: { p_triggered_by?: string }; Returns: Json }
       settle_courier_orders: {
         Args: { p_courier_id: string; p_order_ids: string[] }
         Returns: Json

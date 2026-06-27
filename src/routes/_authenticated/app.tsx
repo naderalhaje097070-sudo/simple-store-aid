@@ -1134,11 +1134,10 @@ function ProfitScreen(p: any) {
       <div className="px-4 pt-3 space-y-3">
         {/* Realized profit — primary */}
         <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">
-          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح من المحصّل (الفعلي)</div>
+          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح تقديري</div>
           <Money v={realizedProfit} className="text-2xl text-profit mt-1" />
           <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
-            ربح من المحصّل = المحصّل فعليًا − تكلفة البضاعة المرتبطة بالمحصّل − المصروفات.
-            <br />لا تُحسب تكلفة المبيعات غير المحصّلة هنا.
+            تقدير مبني على نسبة الدفع لفواتير الفترة. الحساب النهائي يُوحَّد لاحقًا على أساس المدفوعات الفعلية.
           </div>
           <div className="mt-3 pt-3 border-t border-profit/20 space-y-1.5 text-xs">
             <div className="flex justify-between"><span className="text-muted-foreground">المحصّل فعليًا</span><Money v={collected} /></div>
@@ -2609,9 +2608,9 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
         <div className="rounded-xl bg-profit-soft border border-profit/20 p-3">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-xs text-profit font-bold">ربح من المحصّل</div>
+              <div className="text-xs text-profit font-bold">ربح تقديري</div>
               <Money v={totals.realizedProfit} className="text-base text-profit" />
-              <div className="text-[10px] text-muted-foreground mt-0.5">من المال المقبوض فعلًا فقط</div>
+              <div className="text-[10px] text-muted-foreground mt-0.5">يُوحَّد لاحقًا على أساس المدفوعات</div>
             </div>
             <div className="text-left">
               <div className="text-xs text-muted-foreground font-bold">ربح تقديري</div>

@@ -1,64 +1,99 @@
+## نطاق محدود — 3 RPCs/migrations + تغيير تسمية واحد في الواجهة
 
-## ملخص الفحص
+### 1) H3 — Migration: `platform_admin_audit_log` (idempotent)
 
-المشروع جيد عمومًا (RLS مفعّل، RPCs محمية، locks على المعاملات الحرجة)، لكن الفحص الشامل كشف **3 مشاكل Critical**، **4 High**، **8 Medium**، **7 Low**. التقرير الكامل أعلاه يحتوي كل التفاصيل مع file:line.
+ملف migration واحد:
 
----
+```sql
+CREATE TABLE IF NOT EXISTS public.platform_admin_audit_log (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  action text NOT NULL,
+  details jsonb NOT NULL DEFAULT '{}'::jsonb,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
 
-## خطة الإصلاح المُقترحة (موجة واحدة)
+GRANT SELECT ON public.platform_admin_audit_log TO authenticated;
+GRANT ALL ON public.platform_admin_audit_log TO service_role;
+REVOKE ALL ON public.platform_admin_audit_log FROM anon, PUBLIC;
 
-### المرحلة 1 — الإصلاحات الحرجة (Backend RPCs)
+ALTER TABLE public.platform_admin_audit_log ENABLE ROW LEVEL SECURITY;
 
-**migration واحدة** تحتوي:
+-- DROP IF EXISTS ثم CREATE حتى يكون idempotent
+DROP POLICY IF EXISTS "platform_admins_read_audit" ON public.platform_admin_audit_log;
+CREATE POLICY "platform_admins_read_audit"
+  ON public.platform_admin_audit_log FOR SELECT
+  TO authenticated
+  USING (public.is_platform_admin());
 
-1. **[C1] `delete_order_with_restore_stock(p_order_id uuid)`**
-   - يتحقق `_assert_owner`
-   - يمنع حذف طلبات courier التي لها `collected_by_courier > 0`
-   - يستعيد المخزون لكل بند داخل transaction
-   - يحذف payments → order_items → order
+CREATE INDEX IF NOT EXISTS idx_pa_audit_created_at
+  ON public.platform_admin_audit_log (created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_pa_audit_user_id
+  ON public.platform_admin_audit_log (user_id);
+```
 
-2. **[C2] `update_courier_order_state(p_order_id, p_state, p_collected)`**
-   - يتحقق `_assert_staff` و `p_collected ≤ total`
-   - يحدّث `courier_state`, `collected_by_courier`, `paid`, `status` ذرّيًا
-   - يسجّل payment إذا زاد المحصّل
+ملاحظة: `_log_platform_admin_action` يُدرج عبر SECURITY DEFINER فلا يحتاج INSERT policy.
 
-3. **[M8] تحسين `return_courier_order`** — بعد الإرجاع: `delivery='direct'`, `courier_state='returned'` لإخراج الطلب من قوائم العهدة.
+### 2) H2 — تحديث `close_day` لتعريف موحّد للديون
 
-4. **[M6] index مركّب**: `CREATE INDEX orders_tenant_created_idx ON orders(tenant_id, created_at DESC)`.
+نفس توقيع الدالة، نغيّر فقط حساب `v_customer_debts`:
 
-5. **[M3] `VALIDATE CONSTRAINT`** على القيود الموجودة كـ `NOT VALID` (يفشل بأمان إن كانت هناك بيانات مخالفة، ونعرف نُبلّغك).
+```sql
+SELECT COALESCE(SUM(
+  CASE
+    WHEN delivery = 'direct' OR courier_id IS NULL
+      THEN GREATEST(total - paid, 0)
+    WHEN delivery = 'courier' AND courier_state = 'delivered_none'
+      THEN total
+    WHEN delivery = 'courier' AND courier_state = 'delivered_partial'
+      THEN GREATEST(total - collected_by_courier, 0)
+    ELSE 0  -- pending / delivered_full / returned: لا يُحتسب هنا
+  END
+), 0) INTO v_customer_debts
+FROM public.orders
+WHERE tenant_id = v_tenant
+  AND status IN ('partial','debt');
+```
 
-> **C3 (أرقام فواتير per-tenant)** يحتاج migration أكبر (إعادة ترقيم وتعديل عمود `number`). أقترح تأجيلها لموجة ثانية لأنها قد تربك مراجعة الفواتير القديمة عند المستخدمين الحاليين.
+`unsettled_custody` و `collected` يبقيان كما هما. لا double count لأن المبلغ في يد المندوب يُحسب في custody فقط، والمبلغ على العميل يُحسب في debts فقط.
 
-### المرحلة 2 — إصلاحات الواجهة (`src/lib/db.ts` + `src/routes/_authenticated/app.tsx`)
+### 3) H4 — حارس في `collect_order_debt` لطلبات المندوب
 
-6. **[C1+C2]** إعادة كتابة `useDeleteInvoice` و `useUpdateCourierState` لاستدعاء RPCs الجديدة.
-7. **[H1]** إضافة Sheet لإضافة عميل في `CustomersScreen` (نسخ نمط `CouriersScreen`).
-8. **[H2+M7]** قَصْر `DayCloseScreen` على بيانات "اليوم" فقط بصرف النظر عن فلتر الرئيسية، وتنظيف input غير المُستخدم في `useCloseDay`.
-9. **[H3]** توحيد منطق `realizedProfit` في الواجهة مع منطق `close_day` (نسبة per-order وليس إجمالية).
-10. **[H4]** استثناء طلبات `courierState = "pending"` من حسابات ديون العميل في `DebtCustomerScreen`.
-11. **[M2]** إصلاح guard `PilotScreen` ليشمل `role === null` وإضافة حالة تحميل.
-12. **[M4]** ترتيب `useInvoices` تنازليًا (`ascending: false`) وتقليل `slice` على الـ DB إن أمكن.
-13. **[M5]** استبدال `alert()` بـ `showToast` المستخدم في الباقي.
-14. **[L7]** تغيير `fmtTime` إلى `ar` locale.
+داخل نفس الدالة، بعد `SELECT ... INTO v_order` و قبل التحقق من remaining:
 
-### المرحلة 3 — تنظيف (سريع)
+```sql
+IF v_order.delivery = 'courier' AND v_order.courier_id IS NOT NULL THEN
+  IF COALESCE(v_order.collected_by_courier, 0) > 0
+     OR v_order.courier_state IN ('pending','delivered_partial','delivered_full') THEN
+    RAISE EXCEPTION 'settle_courier_first';
+  END IF;
+  -- مسموح فقط: delivered_none بدون عهدة (نادر لكن منطقي)
+END IF;
+```
 
-15. **[M1+L2+L3+L5]** حذف `nextOrderNumber`، الـ stubs الفارغة، و `console.error` المتسرّبة في onboarding.
-16. **[L4]** إضافة تعريف `AppContext` موحّد بدل `any` (إن كان الوقت يسمح — وإلا تأجيل).
+في `src/lib/db.ts` داخل `rpcMessage`، أضف:
+```ts
+settle_courier_first: 'سوِّ عهدة المندوب أولًا قبل تحصيل هذه الفاتورة',
+```
 
----
+### 4) H1 — التسمية فقط (الخيار الآمن)
 
-## ما هو خارج النطاق الآن
+في `src/routes/_authenticated/app.tsx` شاشة الأرباح / إغلاق اليوم: تغيير عرض `realized_profit` من "الربح المحقق" إلى **"ربح تقديري"** مع تلميح صغير: "حساب نهائي يتم بعد توحيد منطق الأرباح". لا تغيير في DB أو الحساب.
 
-- C3 (per-tenant invoice numbering) — موجة ثانية مستقلة.
-- L4 الكامل (إعادة كتابة كل props إلى types) — تحسين تدريجي.
-- مراقبة الأخطاء عبر خدمة خارجية (Sentry) — قرار منتج.
+### QA يدوي بعد الـ migrations
 
----
+سأشغّل عبر `supabase--read_query` للتحقق:
+- `SELECT * FROM platform_admin_audit_log LIMIT 1` — لا خطأ.
+- إنشاء طلب courier تجريبي ثم محاولة `collect_order_debt` → يجب أن يرفع `settle_courier_first`.
+- تشغيل `close_day` على tenant Pilot ومقارنة `customer_debts` مع تعريف الواجهة.
+- Regression: بيع مباشر كامل/جزئي/دين، تحصيل دين direct، تسوية مندوب، إرجاع قبل/بعد تحصيل.
 
-## النتيجة المتوقعة
+### Files changed
 
-بعد هذه الموجة: لا يبقى أي finding بمستوى Critical أو High، والـ Medium يصبح ≤ 2 (C3 + L4 المُؤجَّلَين). جاهز تمامًا للـ Pilot الموسّع.
+1. `supabase/migrations/<ts>_pilot_hardening.sql` — جديد (يحوي H3 + H2 + H4 معًا).
+2. `src/lib/db.ts` — سطر واحد في `rpcMessage`.
+3. `src/routes/_authenticated/app.tsx` — تغيير نص تسمية `realized_profit` فقط.
 
-هل أبدأ بالتنفيذ بالكامل، أم تريد الاقتصار على Critical + High فقط في هذه الموجة؟
+### المخرجات النهائية
+
+تقرير مختصر: الملفات، اسم الـ migration، ملخص SQL، نتائج QA، والقرار النهائي.

@@ -21,15 +21,17 @@ export function useTenantId() {
 }
 
 /* ---------- tenant settings ---------- */
+export type TenantSettings = { id: string; name: string; timezone: string };
 export function useTenant(tenantId: string | null | undefined) {
   return useQuery({
     queryKey: ["tenant", tenantId],
     enabled: !!tenantId,
-    queryFn: async () => {
+    queryFn: async (): Promise<TenantSettings | null> => {
       const { data, error } = await supabase
-        .from("tenants").select("id,name").eq("id", tenantId!).maybeSingle();
+        .from("tenants").select("id,name,timezone").eq("id", tenantId!).maybeSingle();
       if (error) throw error;
-      return data;
+      if (!data) return null;
+      return { id: data.id, name: data.name, timezone: (data as any).timezone ?? "Africa/Tripoli" };
     },
   });
 }
@@ -45,6 +47,50 @@ export function useUpdateTenantName(tenantId: string | null | undefined) {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),
   });
 }
+
+export function useUpdateTenantTimezone(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (timezone: string) => {
+      if (!tenantId) throw new Error("no tenant");
+      const { error } = await supabase.from("tenants").update({ timezone } as any).eq("id", tenantId);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["tenant", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
+    },
+  });
+}
+
+/* ---------- today helpers (tenant timezone) ---------- */
+export function tenantTodayKey(timezone: string | null | undefined): string {
+  const tz = timezone || "Africa/Tripoli";
+  // en-CA returns YYYY-MM-DD
+  return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+}
+
+export function useTenantTodayEstimate(tenantId: string | null | undefined) {
+  return useQuery({
+    queryKey: ["today_estimate", tenantId],
+    enabled: !!tenantId,
+    refetchInterval: 30_000,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_tenant_today_estimate" as any);
+      if (error) throw error;
+      const d = data as any;
+      return {
+        today: String(d.today),
+        timezone: String(d.timezone),
+        sales: Number(d.sales ?? 0),
+        collected: Number(d.collected ?? 0),
+        expenses: Number(d.expenses ?? 0),
+        realizedProfit: Number(d.realized_profit ?? 0),
+      };
+    },
+  });
+}
+
 
 /* ---------- my role ---------- */
 // Aligned with database enum public.app_role
@@ -243,11 +289,11 @@ export function useInvoices(tenantId: string | null | undefined) {
     queryFn: async (): Promise<DBInvoice[]> => {
       const { data, error } = await supabase
         .from("orders")
-        .select("id,number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
+        .select("id,number,tenant_number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
-        id: r.id, number: String(r.number),
+        id: r.id, number: String(r.tenant_number ?? r.number),
         total: Number(r.total), paid: Number(r.paid),
         customerId: r.customer_id ?? undefined,
         delivery: r.delivery,
@@ -287,17 +333,18 @@ export function usePayments(tenantId: string | null | undefined) {
     queryFn: async (): Promise<DBPayment[]> => {
       const { data, error } = await supabase
         .from("payments")
-        .select("id,kind,method,amount,order_id,customer_id,courier_id,created_at,orders(number)")
+        .select("id,kind,method,amount,order_id,customer_id,courier_id,created_at,orders(number,tenant_number)")
         .order("created_at", { ascending: true });
       if (error) throw error;
       return (data ?? []).map((r: any) => {
         const kind = r.kind === "courier_settlement" ? "settlement" : r.kind;
         const method = r.kind === "courier_settlement" ? "settlement" : r.method;
+        const tnum = r.orders?.tenant_number ?? r.orders?.number;
         return {
           id: r.id, kind, method,
           amount: Number(r.amount),
           invoiceId: r.order_id ?? undefined,
-          invoiceNumber: r.orders?.number != null ? String(r.orders.number) : undefined,
+          invoiceNumber: tnum != null ? String(tnum) : undefined,
           customerId: r.customer_id ?? undefined,
           courierId: r.courier_id ?? undefined,
           time: fmtTime(r.created_at),
@@ -417,17 +464,21 @@ export function useCollectDebt(tenantId: string | null | undefined) {
 export function useSettleCourier(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => {
+    // Input keeps `orders[]` for backwards compatibility with current callers,
+    // but only order ids are sent to the RPC. The settled amount is derived
+    // server-side from each order's stored collected_by_courier.
+    mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected?: number }[] }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.rpc("settle_courier_orders" as any, {
         p_courier_id: input.courierId,
-        p_orders: input.orders.map(o => ({ order_id: o.id, collected: o.collected })),
+        p_order_ids: input.orders.map(o => o.id),
       });
       if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });
       qc.invalidateQueries({ queryKey: ["payments", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
     },
   });
 }
@@ -492,8 +543,45 @@ export function useCloseDay(tenantId: string | null | undefined) {
       const { error } = await supabase.rpc("close_day" as any, { p_note: input.note ?? null });
       if (error) throw new Error(rpcMessage(error));
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["day_closes", tenantId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["day_closes", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
+    },
   });
 }
+
+/* ---------- financial audit log (owner only) ---------- */
+export type DBAuditEntry = {
+  id: string;
+  action: "INSERT" | "UPDATE" | "DELETE" | string;
+  entityType: string;
+  entityId: string | null;
+  before: any;
+  after: any;
+  userId: string | null;
+  createdAt: string;
+};
+
+export function useFinancialAuditLog(tenantId: string | null | undefined, limit = 100) {
+  return useQuery({
+    queryKey: ["fin_audit", tenantId, limit],
+    enabled: !!tenantId,
+    queryFn: async (): Promise<DBAuditEntry[]> => {
+      const { data, error } = await supabase
+        .from("financial_audit_log")
+        .select("id,action,entity_type,entity_id,before,after,user_id,created_at")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+      if (error) throw error;
+      return (data ?? []).map((r: any) => ({
+        id: r.id, action: r.action,
+        entityType: r.entity_type, entityId: r.entity_id,
+        before: r.before, after: r.after,
+        userId: r.user_id, createdAt: r.created_at,
+      }));
+    },
+  });
+}
+
 
 

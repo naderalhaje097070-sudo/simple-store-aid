@@ -14,6 +14,7 @@ import {
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
+  tenantTodayKey,
 } from "@/lib/db";
 import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
 
@@ -122,6 +123,8 @@ function MongezzApp() {
   const { data: dbDayCloses } = useDayCloses(tenantId);
   const closeDayMut = useCloseDay(tenantId);
   const { data: myRole } = useMyRole(tenantId);
+  const { data: tenantSettings } = useTenant(tenantId);
+  const tenantTz = tenantSettings?.timezone ?? "Africa/Tripoli";
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
@@ -143,7 +146,7 @@ function MongezzApp() {
   
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
-  const todayKey = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; })();
+  const todayKey = tenantTodayKey(tenantTz);
   const dayCloses = dbDayCloses ?? [];
   const closedToday = dayCloses.some(d => d.closedFor === todayKey);
   const setClosedToday = (_: boolean) => {};
@@ -250,6 +253,7 @@ function MongezzApp() {
     products, customers, setCustomers, couriers, invoices, expenses, payments, myRole,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday, dayCloses,
+    tenantId, tenantTz, tenantSettings,
     closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => closeDayMut.mutateAsync(input),
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
@@ -264,7 +268,7 @@ function MongezzApp() {
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
     collectDebtAsync: (input: { orderId: string; customerId?: string; amount: number; method: "cash" | "transfer" }) => collectDebtMut.mutateAsync(input),
-    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected: number }[] }) => settleCourierMut.mutateAsync(input),
+    settleCourierAsync: (input: { courierId: string; orders: { id: string; customerId?: string; collected?: number }[] }) => settleCourierMut.mutateAsync(input),
     updateCourierStateAsync: (input: { orderId: string; state: "delivered_full" | "delivered_partial" | "delivered_none" | "returned" | "pending"; collected?: number }) => updateCourierStateMut.mutateAsync(input),
   };
 
@@ -2673,8 +2677,9 @@ function PilotScreen(p: any) {
 
   const now = Date.now();
   const DAY = 24 * 60 * 60 * 1000;
-  const todayKey = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`; })();
-  const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+  const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
+  const todayKey = tenantTodayKey(tenantTz);
+  const isToday = (iso?: string) => !!iso && tenantTodayKey(tenantTz) === new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso));
 
   /* ---- broken rules (must be 0) ---- */
   const paidOverTotal = invoices.filter(i => i.paid > i.total + 0.001).length;

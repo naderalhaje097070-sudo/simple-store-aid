@@ -1,48 +1,48 @@
-# Scheduled Security Scans
+## الهدف
+إضافة حقل **"نوع النشاط"** (business_type) لكل متجر بدون أي مساس بالمنطق المالي أو حسابات الأرباح/الديون/المخزون. الحقل **اختياري** ويُستخدم للعرض فقط.
 
-Set up a recurring job that runs the Supabase database linter + a lightweight RLS/permissions check on the Mongezz database, stores results, and notifies the team when new issues appear.
+## النطاق
+- **يضاف**: عمود واحد في جدول `tenants` + قائمة منسدلة في صفحة الإعدادات.
+- **لا يُغيَّر**: أي RPC مالي، أي policy، أي حساب، أي شاشة بيع أو فاتورة أو لوحة تحكم.
 
-## Approach
+## التغييرات
 
-1. **New table `security_scan_findings`** (platform-admin only)
-   - `id`, `scan_run_id`, `scanner` (`supabase_linter` | `internal_rls_check`), `level` (`error`/`warn`/`info`), `name`, `title`, `detail`, `metadata jsonb`, `fingerprint` (hash of scanner+name+metadata), `first_seen_at`, `last_seen_at`, `resolved_at`.
-   - RLS: only `platform_admin` role can `SELECT`; writes via service role only.
-   - GRANTs per project rules.
+### 1. قاعدة البيانات (Migration واحد فقط)
+```sql
+ALTER TABLE public.tenants
+  ADD COLUMN business_type text NULL;
+-- لا CHECK constraint، لا NOT NULL، لا default
+-- المتاجر الحالية تبقى NULL ولا شيء ينكسر
+```
+لا حاجة لتعديل أي RPC أو policy — السياسات الحالية على `tenants` تغطي UPDATE من المالك.
 
-2. **New table `security_scan_runs`**
-   - `id`, `started_at`, `finished_at`, `status`, `new_count`, `total_count`, `error text`.
+### 2. الواجهة (ملف واحد فقط)
+في صفحة إعدادات المتجر (`src/routes/_authenticated/settings.tsx` أو ما يقابلها):
+- إضافة `<Select>` بعنوان **"نوع النشاط"** بالخيارات الأربعة + خيار "أخرى" + "غير محدد".
+- ثابت في `src/lib/business-types.ts`:
+  ```ts
+  export const BUSINESS_TYPES = [
+    { value: 'grocery',     label: 'بقالة / سوبر ماركت' },
+    { value: 'clothing',    label: 'ملابس وأقمشة' },
+    { value: 'electronics', label: 'إلكترونيات وموبايلات' },
+    { value: 'cosmetics',   label: 'مستحضرات تجميل وعطور' },
+    { value: 'jewelry',     label: 'مجوهرات' },
+    { value: 'other',       label: 'أخرى' },
+  ];
+  ```
+- زر "حفظ" يُحدّث `tenants.business_type` فقط (update عادي عبر supabase client، نفس النمط المستخدم لتحديث اسم المتجر).
 
-3. **Server route `src/routes/api/public/hooks/security-scan.ts`** (POST)
-   - Verifies `apikey` header against `VITE_SUPABASE_PUBLISHABLE_KEY` (per project cron pattern).
-   - Uses `supabaseAdmin` to:
-     a. Run Supabase linter via `supabase--linter` equivalent: query `pg_catalog` + the documented `lint` views (`SELECT * FROM pg_catalog.pg_policies` etc.) — actually call the Supabase Management API linter endpoint when available; fall back to a curated SQL probe set (tables without RLS, public functions executable by `anon`, missing GRANTs, SECURITY DEFINER funcs callable by anon).
-     b. Compute a `fingerprint` for each finding; upsert into `security_scan_findings` (new row → `first_seen_at = now()`; existing → bump `last_seen_at`; missing this run → set `resolved_at`).
-     c. Insert a `security_scan_runs` row with totals.
-     d. If `new_count > 0`, send an alert email via Resend (if connected) or log a `console.error` summary that surfaces in server logs.
+### 3. لا تغييرات إضافية
+- لا تعديل على الفاتورة PDF.
+- لا تعديل على Onboarding.
+- لا تعديل على لوحة المشرف.
+- لا تعديل على types.ts يدويًا (يُعاد توليده بعد الـ migration).
 
-4. **pg_cron schedule** — weekly, Sunday 03:00 Africa/Tripoli (01:00 UTC):
-   ```sql
-   select cron.schedule(
-     'mongezz-weekly-security-scan',
-     '0 1 * * 0',
-     $$ select net.http_post(
-       url := 'https://project--1c38f21a-8f36-4a0b-8350-ee4be6901b8d.lovable.app/api/public/hooks/security-scan',
-       headers := '{"Content-Type":"application/json","apikey":"<anon>"}'::jsonb,
-       body := '{}'::jsonb
-     ) $$
-   );
-   ```
+## ضمانات عدم الكسر
+- العمود `NULL` بالكامل → المتاجر القائمة لا تتأثر.
+- لا constraint ولا trigger → لا فشل في الإدخال.
+- لا RPC جديد → سطح الهجوم لم يتغير.
+- خطوة واحدة قابلة للتراجع: `ALTER TABLE tenants DROP COLUMN business_type;`
 
-5. **Platform-admin UI section** in `src/routes/_authenticated/platform-admin.tsx`:
-   - "Security Scans" card: latest run timestamp/status, count of open findings by level, table of open findings (name, level, first seen, detail), button "Run scan now" (calls the same route).
-
-6. **Docs** — append a `docs/security-scans.md` covering schedule, how to read findings, how to mark resolved (delete row or set `resolved_at`), and how to change cadence.
-
-## Out of scope
-- No changes to financial RPCs, RLS on business tables, or PWA config.
-- No third-party SAST; this is database-surface scanning only.
-- Email delivery only if a Resend connection already exists; otherwise log-only alerts (you can add email later).
-
-## Questions before I build
-1. **Cadence** — weekly Sunday 03:00 store-time OK, or do you want daily?
-2. **Alerts** — log-only for now, or wire it to an email/Slack channel? If email, which address?
+## ما بعد التنفيذ
+الحقل جاهز للاستخدام لاحقًا في: تخصيص لوحة التحكم حسب النشاط، إحصائيات المنصة، أو قوالب منتجات مقترحة — لكن **ليس الآن**.

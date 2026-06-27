@@ -543,8 +543,45 @@ export function useCloseDay(tenantId: string | null | undefined) {
       const { error } = await supabase.rpc("close_day" as any, { p_note: input.note ?? null });
       if (error) throw new Error(rpcMessage(error));
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ["day_closes", tenantId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["day_closes", tenantId] });
+      qc.invalidateQueries({ queryKey: ["today_estimate", tenantId] });
+    },
   });
 }
+
+/* ---------- financial audit log (owner only) ---------- */
+export type DBAuditEntry = {
+  id: string;
+  action: "INSERT" | "UPDATE" | "DELETE" | string;
+  entityType: string;
+  entityId: string | null;
+  before: any;
+  after: any;
+  userId: string | null;
+  createdAt: string;
+};
+
+export function useFinancialAuditLog(tenantId: string | null | undefined, limit = 100) {
+  return useQuery({
+    queryKey: ["fin_audit", tenantId, limit],
+    enabled: !!tenantId,
+    queryFn: async (): Promise<DBAuditEntry[]> => {
+      const { data, error } = await supabase
+        .from("financial_audit_log")
+        .select("id,action,entity_type,entity_id,before,after,user_id,created_at")
+        .order("created_at", { ascending: false })
+        .limit(limit);
+      if (error) throw error;
+      return (data ?? []).map((r: any) => ({
+        id: r.id, action: r.action,
+        entityType: r.entity_type, entityId: r.entity_id,
+        before: r.before, after: r.after,
+        userId: r.user_id, createdAt: r.created_at,
+      }));
+    },
+  });
+}
+
 
 

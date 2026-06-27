@@ -123,6 +123,8 @@ function MongezzApp() {
   const { data: dbDayCloses } = useDayCloses(tenantId);
   const closeDayMut = useCloseDay(tenantId);
   const { data: myRole } = useMyRole(tenantId);
+  const { data: tenantSettings } = useTenant(tenantId);
+  const tenantTz = tenantSettings?.timezone ?? "Africa/Tripoli";
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];

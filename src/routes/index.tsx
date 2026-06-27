@@ -123,8 +123,8 @@ function Hero() {
             لمحلك الصغير
           </h1>
           <p className="mt-4 text-base md:text-lg text-muted-foreground leading-relaxed">
-            بِع، حصّل، تابع ديون عملائك وعهدة المندوب — كل شي في مكان
-            واحد، بدون تعقيد ERP.
+            بِع بسرعة، وفي نهاية اليوم اعرف فلوسك وين: محصّل، ديون عملاء،
+            وعهدة مندوب.
           </p>
           <div className="mt-6 flex flex-wrap gap-3 justify-center md:justify-start">
             <Link

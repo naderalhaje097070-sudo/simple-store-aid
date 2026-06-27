@@ -524,9 +524,26 @@ function HomeScreen(p: any) {
       <div className="px-4 pt-4 pb-3 flex items-center justify-between">
         <div>
           <div className="text-2xl font-extrabold text-primary leading-none">منجز</div>
-          <div className="text-xs text-muted-foreground mt-1">دفتر محلك الذكي</div>
+          <div className="text-xs text-muted-foreground mt-1">بِع بسرعة — واعرف نهاية اليوم فلوسك وين</div>
         </div>
         {closedToday && <span className="px-3 py-1 rounded-full bg-success-soft text-success text-[11px] font-bold">تم الإقفال</span>}
+      </div>
+
+      {/* Primary CTA — sales is the main daily action */}
+      <div className="px-4 pb-3">
+        <button
+          onClick={() => go("sale_quick")}
+          className="w-full rounded-2xl bg-primary text-primary-foreground p-4 flex items-center gap-3 shadow-md shadow-primary/20 active:scale-[0.99] transition"
+        >
+          <div className="w-11 h-11 rounded-full bg-primary-foreground/15 flex items-center justify-center">
+            <Plus className="w-6 h-6" />
+          </div>
+          <div className="flex-1 text-right">
+            <div className="text-base font-extrabold">فاتورة جديدة</div>
+            <div className="text-[11px] opacity-90">ابدأ البيع — أسرع طريق</div>
+          </div>
+          <ChevronLeft className="w-5 h-5 opacity-90" />
+        </button>
       </div>
 
       {/* Period switcher */}
@@ -536,7 +553,7 @@ function HomeScreen(p: any) {
         ))}
       </div>
 
-      {/* Status / answer card — calm 3-line summary */}
+      {/* Status / answer card — 3 separated numbers: collected / customer debts / courier custody */}
       <div className="px-4">
         <div className={`rounded-2xl ${statusMeta.bg} p-5 border border-border/50`}>
           <div className={`text-sm font-bold ${statusMeta.color} flex items-center gap-2`}>
@@ -544,39 +561,45 @@ function HomeScreen(p: any) {
             <span>{statusMeta.l}</span>
             <span className="text-[10px] font-normal text-muted-foreground mr-auto">{periodLabel}</span>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div>
-              <div className="text-[11px] text-muted-foreground">صافي الكاش</div>
-              <Money v={totals.cashToday} className={`text-2xl ${totals.cashToday < 0 ? "text-debt" : "text-foreground"}`} />
-              <div className="text-[10px] text-muted-foreground mt-0.5">المحصّل − المصروفات</div>
+          <div className="mt-4 space-y-3">
+            <div className="rounded-xl bg-card/60 p-3">
+              <div className="text-[11px] text-muted-foreground">المحصّل فعليًا</div>
+              <Money v={totals.collected} className="text-2xl text-success font-bold" />
+              <div className="text-[10px] text-muted-foreground mt-0.5">دخل جيبك فعلًا</div>
             </div>
-            <div>
-              <div className="text-[11px] text-muted-foreground">مبالغ لم تدخل بعد</div>
-              <Money v={totals.openOnYou} className="text-2xl text-foreground" />
-              <div className="text-[10px] text-muted-foreground mt-0.5">ديون عملاء + عند المندوب</div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-card/60 p-3">
+                <div className="text-[11px] text-muted-foreground">ديون العملاء</div>
+                <Money v={totals.customerDebts} className="text-lg text-debt font-bold" />
+                <div className="text-[10px] text-muted-foreground mt-0.5">لم تدخل بعد</div>
+              </div>
+              <div className="rounded-xl bg-card/60 p-3">
+                <div className="text-[11px] text-muted-foreground">عهدة المندوب</div>
+                <Money v={totals.unsettledCustody} className="text-lg text-warn font-bold" />
+                <div className="text-[10px] text-muted-foreground mt-0.5">قيد التسوية</div>
+              </div>
             </div>
           </div>
           <button onClick={() => setMoneyDetailsOpen(true)} className="mt-4 w-full text-center text-xs font-bold text-primary py-2 border-t border-border/50">
-            عرض التفاصيل المالية
+            عرض التفاصيل المالية (صافي الكاش، الربح…)
           </button>
         </div>
       </div>
 
-      {/* Quick actions 2×2 */}
+      {/* Secondary quick actions */}
       <div className="px-4 mt-4">
         <div className="text-xs font-bold text-muted-foreground mb-2">إجراءات سريعة</div>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-3 gap-2.5">
           {[
-            { l: "بيع سريع", i: Plus, soft: "bg-primary-soft", color: "text-primary", on: () => go("sale_quick") },
             { l: "تحصيل دين", i: Wallet, soft: "bg-debt-soft", color: "text-debt", on: () => go("debts") },
             { l: "تسوية مندوب", i: Truck, soft: "bg-warn-soft", color: "text-warn", on: () => go("settlements") },
             { l: "إضافة مصروف", i: ArrowDownCircle, soft: "bg-info-soft", color: "text-info", on: () => setQuickExpenseOpen(true) },
           ].map((a, idx) => (
-            <button key={idx} onClick={a.on} className={`rounded-2xl ${a.soft} p-4 flex items-center gap-3 active:scale-[0.97] transition`}>
-              <div className={`w-10 h-10 rounded-full bg-card flex items-center justify-center ${a.color}`}>
-                <a.i className="w-5 h-5" />
+            <button key={idx} onClick={a.on} className={`rounded-2xl ${a.soft} p-3 flex flex-col items-center gap-1.5 active:scale-[0.97] transition`}>
+              <div className={`w-9 h-9 rounded-full bg-card flex items-center justify-center ${a.color}`}>
+                <a.i className="w-4 h-4" />
               </div>
-              <span className={`text-sm font-bold ${a.color}`}>{a.l}</span>
+              <span className={`text-[11px] font-bold ${a.color}`}>{a.l}</span>
             </button>
           ))}
         </div>
@@ -603,13 +626,13 @@ function HomeScreen(p: any) {
         </div>
       )}
 
-      {/* Day close CTA */}
+      {/* Day close — verification step, not a replacement for selling */}
       <div className="px-4 mt-5">
         <button onClick={() => go("day_close")} className="w-full rounded-2xl bg-card border-2 border-dashed border-primary/40 p-4 flex items-center gap-3 active:scale-[0.99] transition">
           <div className="w-10 h-10 rounded-full bg-primary-soft text-primary flex items-center justify-center"><Banknote className="w-5 h-5" /></div>
           <div className="flex-1 text-right">
             <div className="text-sm font-bold">إقفال اليوم</div>
-            <div className="text-[11px] text-muted-foreground">ملخص: كاش، مصروفات، ديون، عهدة، مخزون</div>
+            <div className="text-[11px] text-muted-foreground">تحقّق نهاية اليوم — تأكيد أن الأرقام صحيحة</div>
           </div>
           <ChevronLeft className="w-4 h-4 text-muted-foreground" />
         </button>

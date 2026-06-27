@@ -1,91 +1,123 @@
-# خطة: تحويل منجز إلى PWA خفيف وآمن
 
-نطاق صارم: تثبيت على الموبايل + Service Worker يخزّن static assets فقط. لا offline sales، لا queue، لا تخزين لأي طلب Supabase، لا تغيير في RPCs/RLS/قاعدة البيانات.
+# خطة شاملة: تصليب Mongezz V2 قبل التوسّع
 
-## 1) Manifest + Icons
+تنفيذ كل توصيات تقرير المراجعة في 4 مراحل متسلسلة على نفس الـ branch. لا تغييرات في تجربة المستخدم الأساسية للبيع — التغييرات في طبقة البيانات/المنطق + توضيحات صغيرة في الواجهة.
 
-- إنشاء `public/manifest.webmanifest`:
-  - `name: "منجز — Mongezz"`, `short_name: "منجز"`
-  - `display: "standalone"`, `start_url: "/app"`, `scope: "/"`
-  - `dir: "rtl"`, `lang: "ar"`
-  - `theme_color` و `background_color` من design tokens الحالية (أخضر/كريمي الهوية)
-  - `icons`: 192, 512, و maskable 512
-- توليد الأيقونات عبر `imagegen` (شعار "منجز" أخضر على خلفية فاتحة) وحفظها في `public/icons/`.
+## المرحلة 1 — إصلاحات Pilot Blockers (الأهم)
 
-## 2) Head meta
+### 1.1 منطقة زمنية لكل مستأجر (Risk #1)
 
-تحديث `src/routes/__root.tsx` لإضافة (دون لمس باقي الـ meta):
-- `<link rel="manifest" href="/manifest.webmanifest">`
-- `<meta name="theme-color" content="<token>">`
-- `<meta name="mobile-web-app-capable" content="yes">`
-- `<meta name="apple-mobile-web-app-capable" content="yes">`
-- `<meta name="apple-mobile-web-app-status-bar-style" content="default">`
-- `<meta name="apple-mobile-web-app-title" content="منجز">`
-- `<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">`
+migration واحد:
+- إضافة عمود `tenants.timezone TEXT NOT NULL DEFAULT 'Africa/Tripoli'` (IANA).
+- دالة `current_tenant_timezone()` security definer ترجع timezone المستأجر الحالي.
+- دالة `tenant_today(_tid uuid)` ترجع `(now() AT TIME ZONE current_tenant_timezone())::date`.
+- تحديث `close_day` و `get_platform_admin_overview` و `get_platform_day_close_health` لاستخدام `tenant_today` بدلاً من `(now() AT TIME ZONE 'UTC')::date`.
+- استبدال كل فحوصات `created_at::date = v_today` بـ `(created_at AT TIME ZONE current_tenant_timezone())::date = v_today` داخل `close_day`.
 
-## 3) Service Worker عبر vite-plugin-pwa (generateSW)
+في الواجهة (`src/routes/_authenticated/app.tsx`):
+- جلب `timezone` من `tenants` مرة واحدة عند تحميل التطبيق وحفظها في `p` context.
+- استبدال كل `new Date().toLocaleDateString` و `today()` بدالة موحّدة `todayInTenantTZ(tz)` باستخدام `Intl.DateTimeFormat('en-CA', { timeZone: tz })`.
+- شاشة إعدادات المستأجر (owner فقط): قائمة منسدلة بأشهر المناطق الزمنية العربية + IANA.
 
-نتبع PWA skill — لا نكتب SW يدويًا.
+### 1.2 إصلاح ترتيب migration الخاص بـ `platform_admin_audit_log` (Risk #3)
 
-- `bun add -D vite-plugin-pwa`
-- تعديل `vite.config.ts` لإضافة `VitePWA({ ... })` بـ:
-  - `registerType: "autoUpdate"`
-  - `injectRegister: null` (التسجيل من wrapper فقط)
-  - `devOptions: { enabled: false }`
-  - `filename: "sw.js"`
-  - `workbox`:
-    - `navigateFallback: "/offline.html"` مع `navigateFallbackDenylist: [/^\/api\//, /supabase\.co/]`
-    - `runtimeCaching`:
-      - Navigations (`request.mode === 'navigate'`): **NetworkFirst**، fallback إلى `/offline.html` عند فشل الشبكة.
-      - Same-origin hashed assets (`/assets/`): **CacheFirst**.
-      - Google Fonts: **CacheFirst** بـ expiration.
-    - **لا قاعدة caching تطابق `*.supabase.co` أو `/rest/v1` أو `/auth/v1` أو `/storage/v1` أو `/functions/v1`** — هذه الطلبات cross-origin لـ Supabase ولن يلتقطها أي handler، فتمر مباشرة عبر الشبكة بدون cache. نضيف تعليق صريح يوثّق ذلك.
-    - `globPatterns` للـ precache: JS/CSS/woff2/png/svg/ico فقط من `dist/` (لا HTML للـ app routes).
+migration جديد فقط (لا يلمس القديم) يضمن:
+- وجود الجدول قبل أي SELECT/POLICY/INDEX يشير له.
+- إعادة إنشاء `CREATE TABLE IF NOT EXISTS` + الـ GRANTs + RLS + POLICY في نفس الملف.
+- اختبار rebuild محلي عبر `supabase db reset` (يدوي بعد التطبيق).
 
-## 4) Offline page
+## المرحلة 2 — توضيح الربح (Risk #2, #10)
 
-- إنشاء `public/offline.html` ثابتة (RTL، عربية، تستخدم inline styles):
-  - عنوان: "تحتاج اتصال إنترنت"
-  - نص: "منجز يحتاج إنترنت لحفظ العمليات المالية. تحقق من اتصالك وأعد المحاولة."
-  - زر "إعادة المحاولة" → `location.reload()`.
+### 2.1 إعادة تعريف `realized_profit` على أساس نقدي
 
-## 5) Registration wrapper مع حراسات Lovable
+تعديل `close_day`:
+- حساب الربح من `payments` لليوم الحالي (basis = مبلغ التحصيل / إجمالي الفاتورة × ربح البنود)، لا من تاريخ إنشاء الفاتورة.
+- يحل تلقائيًا Risk #10 (طلب مندوب يُسوّى لاحقًا = ربحه يدخل يوم التسوية).
+- توحيد ما إذا كانت المصاريف تُطرح: القرار = **لا تُطرح** من `realized_profit` (تبقى مفصولة في عمود `expenses`)، وتُسمّى في كل مكان "ربح تقديري قبل المصاريف".
 
-إنشاء `src/lib/pwa-register.ts` يستدعى مرة واحدة من `src/routes/__root.tsx` داخل `useEffect`:
+### 2.2 توحيد العرض في الواجهة
 
-يرفض التسجيل (ويلغي أي تسجيل قديم لـ `/sw.js`) عندما:
-- `!import.meta.env.PROD`
-- داخل iframe (`window !== window.top`)
-- hostname يبدأ بـ `id-preview--` أو `preview--`
-- hostname يساوي أو ينتهي بـ `lovableproject.com` / `lovableproject-dev.com` / `beta.lovable.dev`
-- URL يحوي `?sw=off` (kill switch)
+- إزالة الاحتساب المحلي للربح من `app.tsx` (الأسطر ~191, 2459).
+- قراءة الرقم من `close_day` فقط أو RPC قراءة جديدة `get_tenant_today_estimate()` تستخدم نفس صيغة `close_day`.
+- إزالة الازدواج البصري في app.tsx:2611-2617 (عرض رقم واحد بتسمية "ربح تقديري قبل المصاريف" + tooltip شرح).
 
-غير ذلك: يستدعي `registerSW({ immediate: true })` من `virtual:pwa-register`.
+## المرحلة 3 — تصليب مالي قبل الإطلاق العام
 
-## 6) لا تغيير في تجربة البيع
+### 3.1 حصر الكتابة المالية في الـ RPCs فقط (Risk #4)
 
-- لا lifecycle hooks تعترض fetch لطلبات Supabase.
-- لا local queue، لا IndexedDB للعمليات.
-- في حال انقطاع الشبكة، العملية تفشل طبيعيًا عبر استجابة Supabase fetch، وتُعرض رسالة الخطأ الحالية من `rpcMessage`. لا نضيف منطق "احفظ محليًا".
-- اختياريًا (UI فقط، بدون تغيير منطق): شارة صغيرة "لا يوجد إنترنت" أعلى الشاشة عند `navigator.onLine === false` داخل `/_authenticated/app.tsx`. يمكن إسقاطها إذا فضّلت عدم لمس الشاشة.
+migration:
+- سحب `INSERT, UPDATE` المباشر عن `authenticated` على: `orders`, `payments`, `order_items`.
+- إبقاء `SELECT` فقط للقراءة عبر RLS.
+- `DELETE` يبقى محصورًا (الموجود حاليًا).
+- التأكد أن جميع مسارات الواجهة في `db.ts` تمر عبر RPCs (مراجعة + إضافة RPCs ناقصة إن وُجدت لعمليات edit بسيطة).
 
-## 7) QA
+### 3.2 اشتقاق مبلغ التسوية من المخزّن (Risk #5)
 
-- Build production محليًا.
-- فحص `dist/sw.js` للتأكد أن لا قاعدة تستهدف `supabase.co`.
-- اختبار Playwright على preview المنشور:
-  - Lighthouse / `BeforeInstallPromptEvent` للتحقق من installability.
-  - فتح `/app` ثم go offline → التنقل يعرض `offline.html`، ومحاولة إصدار فاتورة تفشل برسالة شبكة.
-  - `?sw=off` يلغي التسجيل.
-- توثيق screenshots تحت `/tmp/browser/pwa/`.
+تعديل `settle_courier_orders`:
+- تجاهل `collected` القادم من العميل تمامًا.
+- استخدام `v_order.collected_by_courier` كمصدر الحقيقة الوحيد.
+- تغيير شكل `p_orders` إلى مصفوفة `uuid[]` فقط (order_ids).
+- تحديث الواجهة (`SettlementsScreen`) لإرسال order_ids بدون مبالغ.
 
-## التقرير النهائي
+### 3.3 ترقيم فواتير لكل مستأجر (Risk #6)
 
-سيتضمّن: files changed، manifest path، sw path (`/sw.js` بعد البناء)، caching strategy، تأكيد denylist لـ Supabase، نتائج installability، و final decision.
+migration:
+- إضافة عمود `orders.tenant_number INT`.
+- جدول `tenant_counters(tenant_id, last_order_number)` + دالة `next_order_number(_tid)` ذرّية (`UPDATE ... RETURNING`).
+- backfill: ترقيم تنازلي حسب `created_at` لكل مستأجر.
+- تعديل `create_sale_with_items` لاستخدام `next_order_number`.
+- الواجهة: عرض `tenant_number` بدل `number` العام في كل الفواتير والـ PDF.
+- إبقاء `number` العام للأغراض الداخلية (لا يُعرض).
+
+### 3.4 Audit log للعمليات المالية (Risk #9)
+
+migration:
+- جدول `financial_audit_log(id, tenant_id, user_id, action, entity_type, entity_id, before, after, created_at)`.
+- triggers على `orders` (UPDATE/DELETE) و `payments` (INSERT/DELETE) و `day_closes` (INSERT) تكتب snapshot.
+- RLS: قراءة فقط للـ owner لمتجره.
+- شاشة "سجل العمليات" بسيطة في إعدادات owner (جدول صفحات).
+
+## المرحلة 4 — جودة الكود والاختبارات
+
+### 4.1 اختبارات آلية + CI
+
+- إضافة `vitest` + `tests/financial.spec.ts`:
+  - اختبارات وحدة للثوابت (helpers مالية).
+  - اختبارات RPC integration عبر psql ضد قاعدة test schema (الـ 12 سيناريو الموجود فعلًا في `tests/financial-rules/rules.sql` تُحوّل إلى vitest).
+- إضافة script في `package.json`: `"test": "vitest run"`.
+- ملاحظة: لا CI داخل Lovable — تترك .github/workflows للمستخدم لاحقًا.
+
+### 4.2 تقسيم `app.tsx` (refactor خفيف، آمن)
+
+- استخراج كل شاشة إلى `src/components/screens/<Name>.tsx`.
+- استخراج types إلى `src/lib/types.ts`.
+- إبقاء `p: any` كما هو الآن (تأجيل typing كامل لما بعد).
+- لا تغيير منطق — نقل ملفات فقط.
 
 ## ملاحظات تقنية
 
-- الاعتماد على `vite-plugin-pwa` المتوافق مع TanStack Start (Vite 7) بدلًا من كتابة `public/sw.js` يدويًا — يلتزم بـ PWA skill ويتجنب stale precache بعد كل deploy.
-- لا تغيير في `vite.config.ts` خارج إضافة plugin واحد.
-- لا تغيير في `src/integrations/supabase/*` أو `src/lib/db.ts` أو أي RPC.
-- ملفات تتغير: `vite.config.ts`, `src/routes/__root.tsx`, `src/lib/pwa-register.ts` (جديد), `public/manifest.webmanifest` (جديد), `public/offline.html` (جديد), `public/icons/*` (جديد), `package.json` (+`vite-plugin-pwa` dev).
+- ترتيب التطبيق: migrations المرحلة 1 → 2 → 3.1 → 3.2 → 3.3 → 3.4، ثم تعديلات `app.tsx` و `db.ts` بعد كل migration.
+- كل migration يحوي GRANTs الصحيحة (`authenticated` فقط للجداول، `service_role` ALL).
+- الـ RPCs الجديدة/المعدّلة: `EXECUTE TO authenticated` فقط، `REVOKE FROM PUBLIC, anon`.
+- `tenants.timezone` يحتاج RLS update policy للـ owner فقط.
+- تغييرات `settle_courier_orders` و `tenant_number` breaking changes للواجهة — تُنفّذ في نفس الـ commit مع تحديث `db.ts`.
+- PWA الحالي لا يتأثر؛ كل التغييرات server-side أو في صفحات محمية online-only.
+
+## التحقق بعد كل مرحلة
+
+- المرحلة 1: تشغيل بيع في 1:30 صباحًا (تعديل وقت الجهاز) → التأكد أنه يُحسب لليوم الصحيح في `close_day` وفي Dashboard.
+- المرحلة 2: إقفال يوم فيه تحصيل دين قديم → الربح يظهر في يوم التحصيل لا يوم الفاتورة.
+- المرحلة 3.1: محاولة `supabase.from('orders').update(...)` من الواجهة → ترفض بـ permission denied.
+- المرحلة 3.2: استدعاء settle بمبلغ مزوّر في الـ payload → يُتجاهل ويُستخدم المخزّن.
+- المرحلة 3.3: متجران مختلفان → أرقام فواتير متتابعة 1,2,3 في كل واحد بشكل مستقل.
+- المرحلة 3.4: حذف/تعديل فاتورة → سطر في `financial_audit_log`.
+- المرحلة 4: `bun test` يمر، نقل ملفات لا يكسر شيئًا.
+
+## ما لن يتغير
+
+- تجربة البيع السريع (نفس الـ flow، نفس الـ UI).
+- لغة الواجهة (المصطلحات العربية البسيطة كما هي).
+- PWA / Service Worker (آمن online-only).
+- RLS عزل المستأجرين (يُشدَّد فقط، لا يُضعَّف).
+- شاشات platform-admin (تتلقى تحديث `tenant_today` فقط).
+

@@ -11,16 +11,16 @@ if [[ -z "${PGHOST:-}" ]]; then
   exit 1
 fi
 
-read -r TID UID < <(psql -At -F' ' -c \
+read -r TID OWNER < <(psql -At -F' ' -c \
   "SELECT id::text, owner_user_id::text FROM public.tenants WHERE owner_user_id IS NOT NULL ORDER BY created_at ASC LIMIT 1;")
 
-if [[ -z "${TID:-}" || -z "${UID:-}" ]]; then
+if [[ -z "${TID:-}" || -z "${OWNER:-}" ]]; then
   echo "No tenant with an owner found — seed one tenant before running tests." >&2
   exit 1
 fi
 
-echo "→ Using tenant=$TID owner=$UID"
+echo "→ Using tenant=$TID owner=$OWNER"
 psql -v ON_ERROR_STOP=1 \
   -v tid="'$TID'" \
-  -v uid="'$UID'" \
+  -v uid="'$OWNER'" \
   -f "$HERE/rules.sql"

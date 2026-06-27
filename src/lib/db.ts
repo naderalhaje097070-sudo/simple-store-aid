@@ -289,11 +289,11 @@ export function useInvoices(tenantId: string | null | undefined) {
     queryFn: async (): Promise<DBInvoice[]> => {
       const { data, error } = await supabase
         .from("orders")
-        .select("id,number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
+        .select("id,number,tenant_number,total,paid,customer_id,status,delivery,courier_id,courier_state,collected_by_courier,created_at,order_items(product_id,name,qty,unit_price,unit_cost)")
         .order("created_at", { ascending: false });
       if (error) throw error;
       return (data ?? []).map((r: any) => ({
-        id: r.id, number: String(r.number),
+        id: r.id, number: String(r.tenant_number ?? r.number),
         total: Number(r.total), paid: Number(r.paid),
         customerId: r.customer_id ?? undefined,
         delivery: r.delivery,

@@ -613,3 +613,180 @@ function AuditTab() {
     </div>
   );
 }
+
+// ────────────────────── Security scans ──────────────────────
+type SecRun = {
+  id: string;
+  started_at: string;
+  finished_at: string | null;
+  status: string;
+  triggered_by: string;
+  new_count: number;
+  total_count: number;
+  error: string | null;
+};
+type SecFinding = {
+  id: string;
+  scanner: string;
+  level: "error" | "warn" | "info";
+  name: string;
+  title: string;
+  detail: string | null;
+  metadata: Record<string, unknown>;
+  first_seen_at: string;
+  last_seen_at: string;
+  resolved_at: string | null;
+};
+
+function SecurityTab() {
+  const [runs, setRuns] = useState<SecRun[] | null>(null);
+  const [findings, setFindings] = useState<SecFinding[] | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [running, setRunning] = useState(false);
+  const [showResolved, setShowResolved] = useState(false);
+
+  const load = async () => {
+    setLoading(true);
+    setErr(null);
+    const [{ data: r, error: er }, { data: f, error: ef }] = await Promise.all([
+      supabase
+        .from("security_scan_runs")
+        .select("*")
+        .order("started_at", { ascending: false })
+        .limit(20),
+      supabase
+        .from("security_scan_findings")
+        .select("*")
+        .order("last_seen_at", { ascending: false })
+        .limit(200),
+    ]);
+    if (er || ef) setErr((er ?? ef)?.message ?? "خطأ");
+    setRuns((r as SecRun[] | null) ?? []);
+    setFindings((f as SecFinding[] | null) ?? []);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    void load();
+  }, []);
+
+  const runNow = async () => {
+    setRunning(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase.rpc as any)("run_security_scan", { p_triggered_by: "manual" });
+    if (error) setErr(error.message);
+    setRunning(false);
+    await load();
+  };
+
+  if (loading) return <p className="text-sm text-muted-foreground">جاري التحميل…</p>;
+
+  const open = (findings ?? []).filter((f) => !f.resolved_at);
+  const resolved = (findings ?? []).filter((f) => f.resolved_at);
+  const visible = showResolved ? findings ?? [] : open;
+  const byLevel = (lv: string) => open.filter((f) => f.level === lv).length;
+
+  const lvTone: Record<string, string> = {
+    error: "bg-red-100 text-red-800",
+    warn: "bg-amber-100 text-amber-800",
+    info: "bg-sky-100 text-sky-800",
+  };
+  const lvLabel: Record<string, string> = { error: "حرج", warn: "تحذير", info: "معلومة" };
+
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h2 className="text-sm font-semibold">فحوص الأمان الدورية</h2>
+          <p className="text-xs text-muted-foreground">
+            يعمل أسبوعيًا (الأحد 3:00 صباحًا توقيت ليبيا) ويبحث عن جداول بدون RLS أو دوال SECURITY DEFINER مكشوفة.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="text-xs flex items-center gap-1">
+            <input type="checkbox" checked={showResolved} onChange={(e) => setShowResolved(e.target.checked)} />
+            عرض المسوّاة
+          </label>
+          <button
+            onClick={runNow}
+            disabled={running}
+            className="text-xs px-3 py-1.5 rounded bg-primary text-primary-foreground disabled:opacity-50"
+          >
+            {running ? "جاري الفحص…" : "تشغيل فحص الآن"}
+          </button>
+        </div>
+      </div>
+
+      {err && <p className="text-sm text-red-600">خطأ: {err}</p>}
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <Card title="فحوص حرجة مفتوحة" value={fmt(byLevel("error"))} tone={byLevel("error") > 0 ? "crit" : "ok"} />
+        <Card title="تحذيرات مفتوحة" value={fmt(byLevel("warn"))} tone={byLevel("warn") > 0 ? "warn" : "ok"} />
+        <Card title="إجمالي مفتوح" value={fmt(open.length)} />
+        <Card title="تم تسويتها" value={fmt(resolved.length)} />
+      </div>
+
+      <section className="border rounded-lg bg-card">
+        <div className="p-3 border-b text-sm font-semibold">آخر عمليات الفحص</div>
+        {(runs ?? []).length === 0 ? (
+          <p className="p-3 text-xs text-muted-foreground">لا توجد عمليات فحص بعد. اضغط "تشغيل فحص الآن".</p>
+        ) : (
+          <table className="w-full text-xs">
+            <thead className="bg-muted/50">
+              <tr className="text-right">
+                <th className="p-2">الوقت</th>
+                <th className="p-2">المصدر</th>
+                <th className="p-2">الحالة</th>
+                <th className="p-2">جديد</th>
+                <th className="p-2">الإجمالي</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(runs ?? []).map((r) => (
+                <tr key={r.id} className="border-t">
+                  <td className="p-2 whitespace-nowrap">{dt(r.started_at)}</td>
+                  <td className="p-2">{r.triggered_by === "cron" ? "تلقائي" : "يدوي"}</td>
+                  <td className="p-2">
+                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}>
+                      {r.status === "success" ? "ناجح" : r.status}
+                    </span>
+                  </td>
+                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-red-600" : ""}`}>{fmt(r.new_count)}</td>
+                  <td className="p-2">{fmt(r.total_count)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
+
+      <section className="border rounded-lg bg-card">
+        <div className="p-3 border-b text-sm font-semibold">
+          النتائج {showResolved ? "(الكل)" : "(المفتوحة)"} — {visible.length}
+        </div>
+        {visible.length === 0 ? (
+          <p className="p-3 text-xs text-emerald-700">لا توجد ملاحظات. الوضع سليم.</p>
+        ) : (
+          <ul className="divide-y">
+            {visible.map((f) => (
+              <li key={f.id} className="p-3 flex items-start gap-3">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${lvTone[f.level]}`}>
+                  {lvLabel[f.level]}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium">{f.title}</div>
+                  {f.detail && <div className="text-xs text-muted-foreground mt-0.5">{f.detail}</div>}
+                  <div className="text-[10px] text-muted-foreground font-mono mt-1">
+                    {f.name} · أول ظهور {dt(f.first_seen_at)} · آخر ظهور {dt(f.last_seen_at)}
+                    {f.resolved_at && ` · سُوّيت ${dt(f.resolved_at)}`}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </div>
+  );
+}

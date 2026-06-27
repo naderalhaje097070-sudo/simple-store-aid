@@ -13,9 +13,10 @@ import {
   useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive, useUpdateProduct,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
-  useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useMyRole,
+  useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useUpdateTenantBusinessType, useMyRole,
   tenantTodayKey,
 } from "@/lib/db";
+import { BUSINESS_TYPES, businessTypeLabel } from "@/lib/business-types";
 import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
 
 function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {

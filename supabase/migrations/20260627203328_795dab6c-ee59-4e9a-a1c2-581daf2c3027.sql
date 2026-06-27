@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public._fin_audit_trigger() FROM PUBLIC, anon, authenticated;

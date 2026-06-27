@@ -87,6 +87,7 @@ function rpcMessage(err: any): string {
     collected_exceeds_remaining: "المحصّل أكبر من المتبقّي على الفاتورة",
     not_a_courier_order: "هذه الفاتورة ليست توصيلًا بمندوب",
     cannot_return_partially_paid_order: "لا يمكن إرجاع فاتورة تم تحصيل جزء منها",
+    settle_courier_first: "سوِّ عهدة المندوب أولًا قبل تحصيل هذه الفاتورة",
   };
   for (const key of Object.keys(map)) {
     if (raw.includes(key)) return map[key];

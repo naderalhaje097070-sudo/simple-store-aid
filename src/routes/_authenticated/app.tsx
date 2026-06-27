@@ -197,8 +197,8 @@ function MongezzApp() {
       .filter(i => i.delivery === "courier")
       .reduce((s, i) => {
         const cs = i.courierState ?? "pending";
-        if (cs === "delivered_none") return s + i.total;
-        if (cs === "delivered_partial") return s + (i.total - (i.collectedByCourier ?? 0));
+        if (cs === "delivered_none") return s + Math.max(0, i.total - i.paid);
+        if (cs === "delivered_partial") return s + Math.max(0, i.total - i.paid - (i.collectedByCourier ?? 0));
         return s;
       }, 0);
     const customerDebts = directDebt + courierCustomerDebt;
@@ -1134,11 +1134,11 @@ function ProfitScreen(p: any) {
       <div className="px-4 pt-3 space-y-3">
         {/* Realized profit — primary */}
         <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">
-          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح من المحصّل (الفعلي)</div>
+          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح تقديري من المحصّل</div>
           <Money v={realizedProfit} className="text-2xl text-profit mt-1" />
           <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
-            ربح من المحصّل = المحصّل فعليًا − تكلفة البضاعة المرتبطة بالمحصّل − المصروفات.
-            <br />لا تُحسب تكلفة المبيعات غير المحصّلة هنا.
+            تقدير = المحصّل فعليًا − تكلفة البضاعة المرتبطة بالمحصّل − المصروفات.
+            <br />رقم تقريبي للاسترشاد، وليس رقمًا محاسبيًا نهائيًا.
           </div>
           <div className="mt-3 pt-3 border-t border-profit/20 space-y-1.5 text-xs">
             <div className="flex justify-between"><span className="text-muted-foreground">المحصّل فعليًا</span><Money v={collected} /></div>
@@ -1243,8 +1243,8 @@ function DebtsScreen(p: any) {
     if (i.delivery === "courier") {
       const cs = i.courierState ?? "pending";
       let debt = 0;
-      if (cs === "delivered_none") debt = i.total;
-      if (cs === "delivered_partial") debt = i.total - (i.collectedByCourier ?? 0);
+      if (cs === "delivered_none") debt = Math.max(0, i.total - i.paid);
+      if (cs === "delivered_partial") debt = Math.max(0, i.total - i.paid - (i.collectedByCourier ?? 0));
       if (debt > 0 && i.customerId) map.set(i.customerId, (map.get(i.customerId) ?? 0) + debt);
     }
   });
@@ -1668,8 +1668,8 @@ function CustomersScreen(p: any) {
     if (i.delivery === "courier") {
       const cs = i.courierState ?? "pending";
       let d = 0;
-      if (cs === "delivered_none") d = i.total;
-      if (cs === "delivered_partial") d = i.total - (i.collectedByCourier ?? 0);
+      if (cs === "delivered_none") d = Math.max(0, i.total - i.paid);
+      if (cs === "delivered_partial") d = Math.max(0, i.total - i.paid - (i.collectedByCourier ?? 0));
       if (d > 0) debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + d);
     }
   });

@@ -1,4 +1,15 @@
 -- Idempotent guards for previously-created objects
+-- Ensure the audit-log table exists before the policy/index below reference it
+-- (it was originally created directly in production, outside version control).
+-- Full RLS/grants/policy are (re)asserted idempotently in a later migration.
+CREATE TABLE IF NOT EXISTS public.platform_admin_audit_log (
+  id         uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  action     text NOT NULL,
+  details    jsonb NOT NULL DEFAULT '{}'::jsonb,
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
 DO $$ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE schemaname='public' AND tablename='platform_admin_audit_log' AND policyname='platform admins read audit log') THEN
     EXECUTE 'CREATE POLICY "platform admins read audit log" ON public.platform_admin_audit_log FOR SELECT TO authenticated USING (public.is_platform_admin())';

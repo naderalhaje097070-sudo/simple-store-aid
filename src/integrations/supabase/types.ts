@@ -14,6 +14,32 @@ export type Database = {
   }
   public: {
     Tables: {
+      __test_allowed_tenants: {
+        Row: {
+          created_at: string
+          note: string | null
+          tenant_id: string
+        }
+        Insert: {
+          created_at?: string
+          note?: string | null
+          tenant_id: string
+        }
+        Update: {
+          created_at?: string
+          note?: string | null
+          tenant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "__test_allowed_tenants_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: true
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       couriers: {
         Row: {
           created_at: string

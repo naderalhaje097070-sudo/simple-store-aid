@@ -54,6 +54,7 @@ import { StatusChip } from "@/features/shared/StatusChip";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Sheet } from "@/features/shared/Sheet";
 import { Toast } from "@/features/shared/Toast";
+import type { AppCtx } from "@/features/shared/AppContext";
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
@@ -226,8 +227,15 @@ function MongezzApp() {
   }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
 
 
-  const ctx = {
-    products, customers, setCustomers, couriers, invoices, expenses, payments, myRole,
+  const ctx: AppCtx = {
+    products,
+    customers,
+    setCustomers,
+    couriers,
+    invoices,
+    expenses,
+    payments,
+    myRole,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday, dayCloses,
     tenantId, tenantTz, tenantSettings,

@@ -58,7 +58,6 @@ async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
   if (!(await verifyTenantOwnership(supabase, tenantId, userId))) return;
 
 
-  const supabase = getSupabase();
   await supabase.from("subscriptions").upsert(
     {
       tenant_id: tenantId,

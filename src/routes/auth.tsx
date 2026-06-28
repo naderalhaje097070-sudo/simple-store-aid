@@ -158,7 +158,13 @@ function AuthPage() {
               <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm" dir="ltr" placeholder="••••••" />
             </div>
 
+            {info && <div className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">{info}</div>}
             {error && <div className="text-xs text-destructive bg-destructive/10 rounded-lg px-3 py-2">{error}</div>}
+            {needsConfirm && (
+              <button type="button" onClick={onResendConfirm} disabled={resending} className="w-full text-xs underline text-primary disabled:opacity-60">
+                {resending ? "..." : "إعادة إرسال رسالة التفعيل"}
+              </button>
+            )}
 
             <button type="submit" disabled={loading} className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-60">
               {loading ? "..." : mode === "signin" ? "دخول" : "إنشاء حساب"}

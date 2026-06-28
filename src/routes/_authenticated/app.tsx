@@ -63,6 +63,11 @@ import { InventoryScreen } from "@/features/inventory/InventoryScreen";
 
 import { CustomersScreen } from "@/features/customers/CustomersScreen";
 import { SettingsScreen } from "@/features/settings/SettingsScreen";
+import { ShopHubScreen } from "@/features/shop/ShopHubScreen";
+import { ProfitScreen } from "@/features/reports/ProfitScreen";
+import { CollectedScreen } from "@/features/reports/CollectedScreen";
+import { PilotScreen } from "@/features/pilot/PilotScreen";
+
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 

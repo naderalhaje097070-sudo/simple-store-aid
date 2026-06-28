@@ -917,7 +917,7 @@ function InventoryScreen(p: any) {
                 </div>
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex gap-2 flex-wrap">
                 <button onClick={() => setEditing(pr)} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">تعديل</button>
                 {pr.stock === 0 && pr.is_active !== false && (
                   <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض</button>
@@ -925,6 +925,18 @@ function InventoryScreen(p: any) {
                 {pr.is_active === false && (
                   <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
                 )}
+                <button
+                  onClick={async () => {
+                    if (!window.confirm(`حذف المنتج "${pr.name}"؟\nإذا استُخدم في فواتير سابقة سيتم إيقافه فقط للحفاظ على السجلات.`)) return;
+                    try {
+                      const r = await p.deleteProductAsync(pr.id);
+                      if (r.deleted) p.showToast("تم حذف المنتج");
+                      else if (r.archived) p.showToast(`استُخدم في ${r.usedIn} فاتورة — تم إيقافه فقط`);
+                    } catch (e: any) { p.showToast(e?.message ?? "تعذّر الحذف"); }
+                  }}
+                  className="rounded-xl bg-card border border-debt/40 text-debt text-xs font-bold py-2 px-3"
+                  aria-label="حذف المنتج"
+                >حذف</button>
               </div>
             </div>
           ))}

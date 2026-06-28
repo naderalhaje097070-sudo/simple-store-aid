@@ -2731,29 +2731,8 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
   );
 }
 
-/* ============================== UTILITIES ============================== */
-function Sheet({ children, title, onClose }: { children: React.ReactNode; title: string; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} className="w-full max-w-md bg-card rounded-t-3xl p-4 pb-6 max-h-[90vh] overflow-y-auto" dir="rtl">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold">{title}</h3>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-muted"><X className="w-5 h-5" /></button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
+/* Sheet, Toast: moved to src/features/shared/ (R1) */
 
-function Toast({ text, kind = "info" }: { text: string; kind?: "info" | "warn" | "success" }) {
-  const colors = { info: "bg-foreground text-background", warn: "bg-warn text-white", success: "bg-success text-white" };
-  return (
-    <div className="fixed bottom-28 inset-x-0 z-50 flex justify-center pointer-events-none">
-      <div className={`px-4 py-2 rounded-full text-sm font-bold shadow-lg ${colors[kind]}`}>{text}</div>
-    </div>
-  );
-}
 
 /* --------------- PILOT HEALTH DASHBOARD --------------- */
 function PilotScreen(p: any) {

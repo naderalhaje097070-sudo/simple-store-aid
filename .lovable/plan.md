@@ -1,32 +1,47 @@
-# تقرير تحقق R4c — E2E + Financial Rules
+# تشخيص "This page didn't load" بعد دمج PR #2
 
-تم تشغيل الاختبارات داخل sandbox الحالي على فرع `claude/e2e-sale-dashboard-close-prmlvc` (بعد استخراج `HomeScreen` + `InvoiceRow`).
+## الخطأ الفعلي (من console)
+```
+Error: Missing Supabase environment variable(s):
+SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY.
+Connect Supabase in Lovable Cloud.
+   at src/integrations/supabase/client.ts (createSupabaseClient)
+```
+الـ Error Boundary في `__root.tsx` يلتقطه ويعرض شاشة "This page didn't load".
 
-## النتائج
+## نطاق العطل
 
-### 1) `tests/e2e/run.sh` — ✅ PASSED
-- tenant: `d7b86b73-…0365`، baseline: sales_today=200, cash_today=50
-- ✅ فتح شاشة البيع، إضافة منتج، إصدار فاتورة (100 د.ل cash)
-- ✅ DB order: total=100, paid=100, paid/direct
-- ✅ DB payment: sale/cash/100
-- ✅ stock decremented 10 → 9
-- ✅ dashboard updated (+100 sales, +100 cash)
-- ✅ day_close snapshot: sales=300, collected=200, profit≥40
-- ✅ cleanup: order/product/day_close removed (no leaks)
-- ⚠ تحذير React state غير حاسم (سابق الوجود، ليس من R4c) — لم يُسقط الاختبار
+| البيئة | HTTP | العنوان | الحالة |
+|---|---|---|---|
+| Preview `/`  (id-preview--…lovable.app) | 200 | "Internal Lovable project" (shell فارغ) | ❌ معطّل |
+| Preview `/app` | 200 (يعيد توجيه عبر `_authenticated`) | "Internal Lovable project" | ❌ نفس الخطأ |
+| Published `https://mongzz.lovable.app/` | 200 | "منجز — دفتر ذكي…" | ✅ يعمل |
 
-### 2) `tests/financial-rules/rules.sql` — ✅ ALL PASSED
-T1→T14 جميعها OK: direct full/partial، blocks debt-without-customer، blocks overpay، custody flow، settlement، return، delete-restore-stock، oversell block، settlement uses stored collected.
+الخلاصة: **كل الصفحات في Preview معطّلة، وليست homepage فقط**. السبب واحد لا يخص route معيّن.
 
-## الخلاصة
+## السبب الجذري
 
-R4c آمن من الناحية الوظيفية: لا regression مالي، لا تأثير على المخزون/التسويات/الإقفال. الكود + الـ DB سليمان.
+- الكراش يحدث في `src/integrations/supabase/client.ts` عند أول قراءة لـ `import.meta.env.VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`.
+- `.env` موجود محلياً ويحتوي على المفاتيح (3 أسطر `VITE_SUPABASE_*`).
+- لكن **build الـ Preview المنشور (static preview) تم بدون حقن متغيرات `VITE_*`**، لذا انضغطت `undefined` داخل bundle الـ client (`assets/index-DxQdmFzr.js`).
+- لذلك Published يعمل (build جديد بمفاتيح صحيحة)، Preview لا يعمل (build قديم/ناقص).
+- ليست مشكلة كود، ولا route، ولا منطق. هي مشكلة **build artifact للـ static preview** بعد merge PR #2.
 
-## الاقتراح التالي (يحتاج موافقتك قبل التنفيذ)
+## Build / Runtime
 
-لا تغييرات كود مطلوبة الآن. الخيارات:
-1. **اعتماد R4c للدمج** كما هو على الفرع.
-2. **المتابعة لـ R4d**: استخراج شاشة تالية من `app.tsx` (مثلاً Invoices/Reports/Expenses) بنفس النمط verbatim.
-3. **معالجة تحذير React state**: تتبّع مصدر "state update on unmounted component" وإصلاحه بشكل مستقل (لا علاقة لـ R4c).
+- Build: passed (bundle موجود ويُحمَّل، وProduction build يعمل من نفس الكود).
+- Runtime: خطأ متغير بيئة في init الـ Supabase client → React Error Boundary.
+- لا أخطاء TypeScript، لا فشل في الـ route tree، لا migrations أو RLS متعلقة بالموضوع.
 
-أيها تريد؟
+## هل يحتاج Rebuild / Refresh؟
+
+نعم. preview stale build. الحل (لاحقاً عند الموافقة، لا الآن):
+1. Hard refresh أولاً (احتمال SW يخدم نسخة قديمة — PWA مفعّلة).
+2. لو استمر، إعادة بناء preview (يكفي أي تعديل تافه أو إعادة تشغيل النشر/البناء) ليتم حقن `VITE_SUPABASE_*` في bundle جديد.
+3. لا حاجة لأي تعديل كود، UI، business logic، migrations، أو RLS.
+
+## ممنوع في هذا التشخيص (مُحترَم)
+- لا R4d، لا إصلاح كود، لا UI، لا منطق، لا migrations/RLS/RPC/Publish.
+
+## التالي
+انتظار قرارك: هل أكتفي بطلب Hard Refresh، أم نطلب Rebuild للـ preview؟

@@ -48,40 +48,12 @@ export const Route = createFileRoute("/_authenticated/app")({
   errorComponent: AppErrorBoundary,
 });
 
-/* ============================== MOCK DATA ============================== */
-
-type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean };
-type Customer = { id: string; name: string; phone?: string };
-type Courier = { id: string; name: string; phone?: string };
-type InvoiceItem = { productId: string; name: string; qty: number; price: number; cost: number };
-type Invoice = {
-  id: string;
-  number: string;
-  items: InvoiceItem[];
-  total: number;
-  paid: number;
-  customerId?: string;
-  delivery: "direct" | "courier";
-  courierId?: string;
-  status: "paid" | "partial" | "debt";
-  courierState?: "pending" | "delivered_none" | "delivered_partial" | "delivered_full" | "returned";
-  collectedByCourier?: number;
-  time: string;
-  createdAt: string;
-};
-type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
-type Payment = {
-  id: string;
-  kind: "sale" | "debt_collection" | "settlement";
-  method: "cash" | "transfer" | "settlement";
-  amount: number;
-  invoiceId?: string;
-  invoiceNumber?: string;
-  customerId?: string;
-  courierId?: string;
-  time: string;
-  createdAt: string;
-};
+/* Types & shared components moved to src/features/shared/ (R1) */
+import type { Product, Customer, Courier, InvoiceItem, Invoice, Expense, Payment, Screen, Period } from "@/features/shared/types";
+import { StatusChip } from "@/features/shared/StatusChip";
+import { EmptyState } from "@/features/shared/EmptyState";
+import { Sheet } from "@/features/shared/Sheet";
+import { Toast } from "@/features/shared/Toast";
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
@@ -94,13 +66,6 @@ const Money = ({ v, className = "" }: { v: number; className?: string }) => (
 
 /* ============================== MAIN APP ============================== */
 
-type Screen =
-  | "home" | "invoices" | "invoice_detail" | "inventory" | "shop"
-  | "profit" | "collected" | "debts" | "debt_customer"
-  | "courier_custody" | "settlements" | "expenses" | "customers" | "couriers" | "settings"
-  | "sale" | "sale_quick" | "sale_success" | "day_close" | "pilot";
-
-type Period = "day" | "week" | "month";
 
 function MongezzApp() {
   const { data: tenantId } = useTenantId();

@@ -205,8 +205,9 @@ BEGIN
   v_oid := (v_res->>'order_id')::uuid;
   PERFORM settle_courier_orders(
     'cccc3333-0000-0000-0000-000000000001'::uuid,
-    jsonb_build_array(jsonb_build_object('order_id', v_oid, 'collected', 100))
+    ARRAY[v_oid]::uuid[]
   );
+
   SELECT paid, collected_by_courier, courier_id, delivery::text
     INTO v_paid, v_cust, v_courier, v_delivery
     FROM orders WHERE id = v_oid;
@@ -334,8 +335,41 @@ BEGIN
 END $t13$;
 
 -- =====================================================================
+-- T14. settle_courier_orders uses orders.collected_by_courier as source of truth
+--      (no caller-supplied amount in new signature)
+-- =====================================================================
+DO $t14$
+DECLARE
+  v_res jsonb; v_oid uuid;
+  v_paid numeric; v_settle_amount numeric;
+BEGIN
+  -- Create courier order, total = 200, courier already collected 150 at door
+  v_res := create_sale_with_items(
+    'bbbb2222-0000-0000-0000-000000000001'::uuid,
+    'courier'::delivery_kind,
+    'cccc3333-0000-0000-0000-000000000001'::uuid,
+    150, 'cash'::payment_method,
+    '[{"productId":"aaaa1111-0000-0000-0000-000000000002","qty":1}]'::jsonb
+  );
+  v_oid := (v_res->>'order_id')::uuid;
+  -- Settle: must use stored collected (150), not anything else
+  PERFORM settle_courier_orders(
+    'cccc3333-0000-0000-0000-000000000001'::uuid,
+    ARRAY[v_oid]::uuid[]
+  );
+  SELECT paid INTO v_paid FROM orders WHERE id = v_oid;
+  SELECT COALESCE(SUM(amount),0) INTO v_settle_amount
+    FROM payments WHERE order_id = v_oid AND kind = 'courier_settlement';
+  IF v_paid <> 150 OR v_settle_amount <> 150 THEN
+    RAISE EXCEPTION 'T14 FAIL: stored custody not used (paid=% settled=%)', v_paid, v_settle_amount;
+  END IF;
+  RAISE NOTICE 'T14 OK: settlement uses stored collected_by_courier';
+END $t14$;
+
+-- =====================================================================
 -- All assertions passed
 -- =====================================================================
 DO $done$ BEGIN RAISE NOTICE '====== ALL FINANCIAL RULES TESTS PASSED ======'; END $done$;
 
 ROLLBACK;
+

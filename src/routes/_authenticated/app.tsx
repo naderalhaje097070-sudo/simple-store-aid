@@ -159,17 +159,27 @@ function MongezzApp() {
   const go = (s: Screen) => { setStack(prev => [...prev, screen]); setScreen(s); };
   const back = () => { setStack(prev => { const c = [...prev]; const p = c.pop(); if (p) setScreen(p); return c; }); };
 
-  /* Period window — actual date filtering against DB rows */
+  /* Period window — actual date filtering against DB rows.
+     For "day" we use the tenant's timezone so it matches close_day RPC.
+     For week/month we still use a rolling window from local midnight, which
+     is acceptable for trend cards (not used by close_day). */
+  const tzDateKey = (iso?: string) =>
+    iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
   const periodStart = useMemo(() => {
     const d = new Date();
-    if (period === "day") { d.setHours(0, 0, 0, 0); return d.getTime(); }
+    if (period === "day") return 0; // unused for day; filtering goes through tzDateKey
     const days = period === "week" ? 7 : 30;
     d.setDate(d.getDate() - days + 1);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   }, [period]);
 
-  const inPeriod = (iso?: string) => !!iso && new Date(iso).getTime() >= periodStart;
+  const inPeriod = (iso?: string) => {
+    if (!iso) return false;
+    if (period === "day") return tzDateKey(iso) === todayKey;
+    return new Date(iso).getTime() >= periodStart;
+  };
+
 
   /* Derived totals — flows filtered by period, stocks reflect current balances */
   const totals = useMemo(() => {
@@ -2538,18 +2548,31 @@ function SaleQuickScreen(p: any) {
 function DayCloseScreen(p: any) {
   // Day close always reflects TODAY only — independent of dashboard period filter.
   // This matches the close_day RPC which computes today's snapshot server-side.
+  const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
   const t = useMemo(() => {
-    const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+    const tzKey = (iso?: string) =>
+      iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
+    const todayKey = tenantTodayKey(tenantTz);
+    const isToday = (iso?: string) => !!iso && tzKey(iso) === todayKey;
     const invs: Invoice[] = (p.invoices ?? []).filter((i: Invoice) => isToday(i.createdAt));
     const pays: Payment[] = (p.payments ?? []).filter((pm: Payment) => isToday(pm.createdAt));
     const exps: Expense[] = (p.expenses ?? []).filter((e: Expense) => isToday(e.createdAt));
+
     const sales = invs.reduce((s, i) => s + i.total, 0);
     const collected = pays.reduce((s, pm) => s + pm.amount, 0);
     const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);
-    const realizedProfit = invs.reduce((s, i) => {
-      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
-      return s + i.items.reduce((a, it) => a + (it.price - it.cost) * it.qty * ratio, 0);
+    // Mirror close_day RPC: cash-basis profit allocated by today's payments.
+    // For each payment today linked to an order, take payment.amount/order.total
+    // multiplied by the order's item-margin sum, then subtract today's expenses.
+    const invById = new Map<string, Invoice>((p.invoices ?? []).map((i: Invoice) => [i.id, i]));
+    const realizedProfit = pays.reduce((s, pm) => {
+      if (!pm.invoiceId) return s;
+      const inv = invById.get(pm.invoiceId);
+      if (!inv || inv.total <= 0) return s;
+      const margin = inv.items.reduce((a, it) => a + (it.price - it.cost) * it.qty, 0);
+      return s + (pm.amount / inv.total) * margin;
     }, 0) - expenseTotal;
+
     // open stocks across ALL invoices (not just today)
     const customerDebts: number = p.rawTotals?.customerDebts ?? p.totals.customerDebts;
     const unsettledCustody: number = p.rawTotals?.unsettledCustody ?? p.totals.unsettledCustody;

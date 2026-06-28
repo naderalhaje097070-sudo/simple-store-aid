@@ -1,38 +1,32 @@
-# إصلاح إنشاء الحساب في `/auth`
+# تقرير تحقق R4c — E2E + Financial Rules
 
-## السبب الجذري
-سياسة Supabase Auth في هذا المشروع تتطلب **تأكيد البريد الإلكتروني** قبل تفعيل الجلسة. بناءً على سجلات الشبكة:
-- `POST /auth/v1/signup` → 200 (المستخدم أُنشئ، `confirmation_sent_at` موجود، لكن بدون session).
-- ثم محاولة الدخول → `email_not_confirmed`.
+تم تشغيل الاختبارات داخل sandbox الحالي على فرع `claude/e2e-sale-dashboard-close-prmlvc` (بعد استخراج `HomeScreen` + `InvoiceRow`).
 
-الكود الحالي في `src/routes/auth.tsx` يفترض أن `signUp` يعطي جلسة فوراً ويُنفّذ `navigate({ to: "/app" })`، فيحدث ارتداد صامت من حارس `_authenticated`.
+## النتائج
 
-ملاحظة جانبية: حدثت محاولة ثانية أعطت `429 over_email_send_rate_limit` — هذا يعني أن النموذج يُرسل مرتين بسرعة (نقر مزدوج أو re-render).
+### 1) `tests/e2e/run.sh` — ✅ PASSED
+- tenant: `d7b86b73-…0365`، baseline: sales_today=200, cash_today=50
+- ✅ فتح شاشة البيع، إضافة منتج، إصدار فاتورة (100 د.ل cash)
+- ✅ DB order: total=100, paid=100, paid/direct
+- ✅ DB payment: sale/cash/100
+- ✅ stock decremented 10 → 9
+- ✅ dashboard updated (+100 sales, +100 cash)
+- ✅ day_close snapshot: sales=300, collected=200, profit≥40
+- ✅ cleanup: order/product/day_close removed (no leaks)
+- ⚠ تحذير React state غير حاسم (سابق الوجود، ليس من R4c) — لم يُسقط الاختبار
 
-## التغييرات (ملف واحد فقط)
-**`src/routes/auth.tsx`** — تعديل UX فقط، بدون أي تغيير على المنطق المالي أو DB:
+### 2) `tests/financial-rules/rules.sql` — ✅ ALL PASSED
+T1→T14 جميعها OK: direct full/partial، blocks debt-without-customer، blocks overpay، custody flow، settlement، return، delete-restore-stock، oversell block، settlement uses stored collected.
 
-1. بعد نجاح `signUp`، نفحص `data.session`:
-   - إذا `session === null` → نعرض رسالة نجاح خضراء واضحة:
-     "تم إنشاء حسابك ✅ — تحقّق من بريدك (وصندوق الـ Spam) ثم اضغط الرابط لتفعيل الحساب، وارجع للدخول من هنا."
-   - نُعيد ضبط المود إلى `signin` تلقائياً ونملأ الإيميل لتسهيل الدخول لاحقاً.
-   - **لا** ننادي `navigate("/app")` في هذه الحالة.
-   - إذا `session` موجودة (في حال تم تعطيل التأكيد لاحقاً) → نُكمل الانتقال كالعادة.
-2. عند `signIn` ورجوع خطأ `email_not_confirmed` → رسالة عربية واضحة:
-   "بريدك لم يُؤكَّد بعد — افتح الرسالة وفعّل الحساب ثم حاول الدخول." مع زر صغير "إعادة إرسال رسالة التفعيل" يستدعي `supabase.auth.resend({ type: 'signup', email })`.
-3. عند `over_email_send_rate_limit` (429) → "تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة."
-4. حماية من النقر المزدوج: تعطيل الزر فعلياً عبر `loading` موجود بالفعل (تأكيد فقط، لا تغيير منطقي).
+## الخلاصة
 
-## ما لا يتغيّر
-- لا تعديل على إعدادات Supabase Auth (لن نُفعّل auto-confirm إلا إذا طلبت ذلك صراحةً).
-- لا تعديل على جداول، RLS، RPCs، migrations، أو منطق Onboarding.
-- لا تعديل على Google sign-in (يعمل أصلاً عبر broker).
-- لا تعديل على `_authenticated/route.tsx` (مُدار من الـ integration).
+R4c آمن من الناحية الوظيفية: لا regression مالي، لا تأثير على المخزون/التسويات/الإقفال. الكود + الـ DB سليمان.
 
-## بديل اختياري (إذا طلبت)
-تفعيل `auto_confirm_email` لتجاوز خطوة التأكيد كلياً (مناسب لمرحلة Pilot الداخلية). يحتاج موافقتك الصريحة لأنه يخفض حاجز الأمان.
+## الاقتراح التالي (يحتاج موافقتك قبل التنفيذ)
 
-## التحقق بعد التنفيذ
-- تجربة بإيميل جديد → ظهور رسالة "تحقق من بريدك" بدلاً من الارتداد.
-- تجربة دخول بحساب غير مؤكد → ظهور رسالة واضحة + زر إعادة الإرسال.
-- تجربة Google → لا تأثير (يعمل كما هو).
+لا تغييرات كود مطلوبة الآن. الخيارات:
+1. **اعتماد R4c للدمج** كما هو على الفرع.
+2. **المتابعة لـ R4d**: استخراج شاشة تالية من `app.tsx` (مثلاً Invoices/Reports/Expenses) بنفس النمط verbatim.
+3. **معالجة تحذير React state**: تتبّع مصدر "state update on unmounted component" وإصلاحه بشكل مستقل (لا علاقة لـ R4c).
+
+أيها تريد؟

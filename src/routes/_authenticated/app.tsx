@@ -2548,11 +2548,16 @@ function SaleQuickScreen(p: any) {
 function DayCloseScreen(p: any) {
   // Day close always reflects TODAY only — independent of dashboard period filter.
   // This matches the close_day RPC which computes today's snapshot server-side.
+  const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
   const t = useMemo(() => {
-    const isToday = (iso?: string) => !!iso && new Date(iso).toDateString() === new Date().toDateString();
+    const tzKey = (iso?: string) =>
+      iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
+    const todayKey = tenantTodayKey(tenantTz);
+    const isToday = (iso?: string) => !!iso && tzKey(iso) === todayKey;
     const invs: Invoice[] = (p.invoices ?? []).filter((i: Invoice) => isToday(i.createdAt));
     const pays: Payment[] = (p.payments ?? []).filter((pm: Payment) => isToday(pm.createdAt));
     const exps: Expense[] = (p.expenses ?? []).filter((e: Expense) => isToday(e.createdAt));
+
     const sales = invs.reduce((s, i) => s + i.total, 0);
     const collected = pays.reduce((s, pm) => s + pm.amount, 0);
     const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);

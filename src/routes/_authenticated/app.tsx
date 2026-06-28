@@ -265,6 +265,7 @@ function MongezzApp() {
     addProductAsync: (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
     updateProductAsync: (input: { id: string; name: string; price: number; cost: number; stock: number; is_discount: boolean }) => updateProductMut.mutateAsync(input),
+    deleteProductAsync: (productId: string) => deleteProductMut.mutateAsync(productId),
     addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
     addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),

@@ -45,6 +45,14 @@ def psql_one(sql: str) -> str:
         raise RuntimeError(f"psql failed: {r.stderr.strip()}")
     return r.stdout.strip().splitlines()[0] if r.stdout.strip() else ""
 
+def psql_exec(sql: str) -> None:
+    # Test-only privileged cleanup channel. Never used during the financial assertions —
+    # only inside the `finally:` block to wipe rows the RPCs intentionally cannot delete
+    # (e.g. fully paid orders). Wrapped in a single transaction scoped to TAG.
+    r = subprocess.run(["psql", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"psql exec failed: {r.stderr.strip()}")
+
 class API:
     def __init__(self, token: str):
         self.h = {

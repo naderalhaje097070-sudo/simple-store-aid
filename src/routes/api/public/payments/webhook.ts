@@ -13,6 +13,28 @@ function getSupabase(): SupabaseClient {
   return _supabase;
 }
 
+async function verifyTenantOwnership(
+  supabase: SupabaseClient,
+  tenantId: string,
+  userId: string,
+): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("tenants")
+    .select("id, owner_user_id")
+    .eq("id", tenantId)
+    .maybeSingle();
+  if (error || !data || data.owner_user_id !== userId) {
+    console.error("Invalid Paddle tenant/user mapping", {
+      tenantId,
+      userId,
+      foundOwner: data?.owner_user_id ?? null,
+      error: error?.message ?? null,
+    });
+    return false;
+  }
+  return true;
+}
+
 async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
   const { id, customerId, items, status, currentBillingPeriod, customData } = data;
   const userId = customData?.userId;
@@ -31,6 +53,10 @@ async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
     });
     return;
   }
+
+  const supabase = getSupabase();
+  if (!(await verifyTenantOwnership(supabase, tenantId, userId))) return;
+
 
   const supabase = getSupabase();
   await supabase.from("subscriptions").upsert(

@@ -775,6 +775,7 @@ export type Database = {
         Args: { p_order_id: string }
         Returns: Json
       }
+      delete_product_safe: { Args: { p_product_id: string }; Returns: Json }
       get_platform_admin_audit_log: {
         Args: { p_limit?: number; p_offset?: number }
         Returns: {

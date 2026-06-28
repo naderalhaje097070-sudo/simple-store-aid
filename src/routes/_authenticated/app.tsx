@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
-  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive, useUpdateProduct,
+  useTenantId, useProducts, useCustomers, useAddCustomer, useAddProduct, useUpdateProductActive, useUpdateProduct, useDeleteProduct,
   useCouriers, useAddCourier, useInvoices, usePayments, useExpenses,
   useAddExpense, useCreateSale, useDeleteInvoice, useCollectDebt, useSettleCourier, useUpdateCourierState,
   useDayCloses, useCloseDay, useTenant, useUpdateTenantName, useUpdateTenantBusinessType, useMyRole,
@@ -114,6 +114,7 @@ function MongezzApp() {
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
   const updateProductMut = useUpdateProduct(tenantId);
+  const deleteProductMut = useDeleteProduct(tenantId);
   const addCourierMut = useAddCourier(tenantId);
   const addExpenseMut = useAddExpense(tenantId);
   const createSaleMut = useCreateSale(tenantId);
@@ -264,6 +265,7 @@ function MongezzApp() {
     addProductAsync: (input: { name: string; price: number; cost: number; stock: number; is_discount: boolean }) => addProductMut.mutateAsync(input),
     toggleProductActiveAsync: (input: { id: string; is_active: boolean }) => toggleActiveMut.mutateAsync(input),
     updateProductAsync: (input: { id: string; name: string; price: number; cost: number; stock: number; is_discount: boolean }) => updateProductMut.mutateAsync(input),
+    deleteProductAsync: (productId: string) => deleteProductMut.mutateAsync(productId),
     addCourierAsync: (input: { name: string; phone?: string }) => addCourierMut.mutateAsync(input),
     addExpenseAsync: (input: { type: string; amount: number; method: "cash" | "transfer"; note?: string }) => addExpenseMut.mutateAsync(input),
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) => createSaleMut.mutateAsync(input),
@@ -915,7 +917,7 @@ function InventoryScreen(p: any) {
                 </div>
                 <div className="text-left"><Money v={pr.price} className="text-sm" /></div>
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-2 flex gap-2 flex-wrap">
                 <button onClick={() => setEditing(pr)} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">تعديل</button>
                 {pr.stock === 0 && pr.is_active !== false && (
                   <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: false }); p.showToast("تم إيقاف العرض"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-debt/30 text-debt text-xs font-bold py-2">إيقاف العرض</button>
@@ -923,6 +925,18 @@ function InventoryScreen(p: any) {
                 {pr.is_active === false && (
                   <button onClick={async () => { try { await p.toggleProductActiveAsync({ id: pr.id, is_active: true }); p.showToast("تم تفعيل المنتج"); } catch (e: any) { p.showToast(e?.message ?? "تعذّر"); } }} className="flex-1 rounded-xl bg-card border border-border text-xs font-bold py-2">إعادة العرض</button>
                 )}
+                <button
+                  onClick={async () => {
+                    if (!window.confirm(`حذف المنتج "${pr.name}"؟\nإذا استُخدم في فواتير سابقة سيتم إيقافه فقط للحفاظ على السجلات.`)) return;
+                    try {
+                      const r = await p.deleteProductAsync(pr.id);
+                      if (r.deleted) p.showToast("تم حذف المنتج");
+                      else if (r.archived) p.showToast(`استُخدم في ${r.usedIn} فاتورة — تم إيقافه فقط`);
+                    } catch (e: any) { p.showToast(e?.message ?? "تعذّر الحذف"); }
+                  }}
+                  className="rounded-xl bg-card border border-debt/40 text-debt text-xs font-bold py-2 px-3"
+                  aria-label="حذف المنتج"
+                >حذف</button>
               </div>
             </div>
           ))}

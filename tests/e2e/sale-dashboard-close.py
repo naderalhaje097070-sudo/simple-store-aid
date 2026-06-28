@@ -239,18 +239,17 @@ async def main():
 
             await browser.close()
     finally:
-        # Cleanup via REST only — RLS as owner + table-level GRANTs verified by preflight.
-        # No privileged psql fallback: if REST DELETE is not enough we'd rather fail loud
-        # than try a higher-privilege channel that doesn't exist in the sandbox.
-        # Order matters: children (payments, order_items) → orders → products → day_closes.
+        # Cleanup via the dedicated, tag-scoped RPC. The RPC validates tenant
+        # ownership, the E2E-<ts> tag, and 24h recency for both order + product
+        # before deleting payments → order_items → orders → product, plus any
+        # day_closes tagged with TAG. No blanket DELETE grants required.
         leaked = False
         try:
-            if order_id:
-                api.delete(f"/rest/v1/payments?order_id=eq.{order_id}")
-                api.delete(f"/rest/v1/order_items?order_id=eq.{order_id}")
-                api.delete(f"/rest/v1/orders?id=eq.{order_id}&tenant_id=eq.{tid}")
-            api.delete(f"/rest/v1/products?id=eq.{pid}&tenant_id=eq.{tid}")
-            api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
+            api.rpc("__test_force_delete_e2e_order", {
+                "p_order_id":   order_id,
+                "p_product_id": pid,
+                "p_tag":        TAG,
+            })
             left_o = psql_one(f"SELECT COUNT(*)::text FROM public.orders   WHERE id='{order_id or '00000000-0000-0000-0000-000000000000'}'")
             left_p = psql_one(f"SELECT COUNT(*)::text FROM public.products WHERE id='{pid}'")
             left_d = psql_one(f"SELECT COUNT(*)::text FROM public.day_closes WHERE tenant_id='{tid}' AND note='{TAG}'")
@@ -264,6 +263,7 @@ async def main():
             print(f"❌ cleanup error: {e}")
         if leaked:
             sys.exit(1)
+
 
 
     print("\n🎉 E2E PASSED — sale → dashboard → day_close all verified.")

@@ -1,6 +1,12 @@
 /* R2 — Shared AppCtx contract.
    Mirrors the `ctx` object literal built inside MongezzApp (src/routes/_authenticated/app.tsx).
-   No behavior, no UI, no logic — type-only. */
+   No behavior, no UI, no logic — type-only.
+
+   `any` is used in a handful of places to mirror the existing ctx exactly
+   (mutation inputs, lucide icon component, loose row passthroughs). Tightening
+   them is out of R2 scope. */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import type { Dispatch, SetStateAction } from "react";
 import type {

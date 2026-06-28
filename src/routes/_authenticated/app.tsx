@@ -227,7 +227,7 @@ function MongezzApp() {
   }, [invoices, totals.unsettledCustody, totals.collected, totals.expenseTotal, lowStock, outStock]);
 
 
-  const ctx = {
+  const ctx: AppCtx = {
     products, customers, setCustomers, couriers, invoices, expenses, payments, myRole,
     totals: scaledTotals, rawTotals: totals, lowStock, outStock,
     period, setPeriod, alerts, closedToday, setClosedToday, dayCloses,

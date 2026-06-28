@@ -222,6 +222,21 @@ export function useUpdateProduct(tenantId: string | null | undefined) {
   });
 }
 
+export function useDeleteProduct(tenantId: string | null | undefined) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (productId: string): Promise<{ deleted?: boolean; archived?: boolean; usedIn?: number }> => {
+      const { data, error } = await supabase.rpc("delete_product_safe" as any, { p_product_id: productId });
+      if (error) throw new Error(rpcMessage(error));
+      const d = data as any;
+      return { deleted: !!d?.deleted, archived: !!d?.archived, usedIn: Number(d?.used_in ?? 0) };
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["products", tenantId] });
+    },
+  });
+}
+
 /* ---------- customers ---------- */
 export type DBCustomer = { id: string; name: string; phone?: string };
 

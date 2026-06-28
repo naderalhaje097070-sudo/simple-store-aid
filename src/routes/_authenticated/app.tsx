@@ -2561,10 +2561,18 @@ function DayCloseScreen(p: any) {
     const sales = invs.reduce((s, i) => s + i.total, 0);
     const collected = pays.reduce((s, pm) => s + pm.amount, 0);
     const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);
-    const realizedProfit = invs.reduce((s, i) => {
-      const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
-      return s + i.items.reduce((a, it) => a + (it.price - it.cost) * it.qty * ratio, 0);
+    // Mirror close_day RPC: cash-basis profit allocated by today's payments.
+    // For each payment today linked to an order, take payment.amount/order.total
+    // multiplied by the order's item-margin sum, then subtract today's expenses.
+    const invById = new Map<string, Invoice>((p.invoices ?? []).map((i: Invoice) => [i.id, i]));
+    const realizedProfit = pays.reduce((s, pm) => {
+      if (!pm.invoiceId) return s;
+      const inv = invById.get(pm.invoiceId);
+      if (!inv || inv.total <= 0) return s;
+      const margin = inv.items.reduce((a, it) => a + (it.price - it.cost) * it.qty, 0);
+      return s + (pm.amount / inv.total) * margin;
     }, 0) - expenseTotal;
+
     // open stocks across ALL invoices (not just today)
     const customerDebts: number = p.rawTotals?.customerDebts ?? p.totals.customerDebts;
     const unsettledCustody: number = p.rawTotals?.unsettledCustody ?? p.totals.unsettledCustody;

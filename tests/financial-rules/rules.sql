@@ -205,8 +205,9 @@ BEGIN
   v_oid := (v_res->>'order_id')::uuid;
   PERFORM settle_courier_orders(
     'cccc3333-0000-0000-0000-000000000001'::uuid,
-    jsonb_build_array(jsonb_build_object('order_id', v_oid, 'collected', 100))
+    ARRAY[v_oid]::uuid[]
   );
+
   SELECT paid, collected_by_courier, courier_id, delivery::text
     INTO v_paid, v_cust, v_courier, v_delivery
     FROM orders WHERE id = v_oid;

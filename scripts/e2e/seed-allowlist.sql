@@ -1,0 +1,22 @@
+-- E2E / Sandbox-only seed for public.__test_allowed_tenants
+--
+-- DO NOT include this file in a public migration.
+--
+-- Purpose:
+--   The test cleanup RPC public.__test_force_delete_e2e_order is gated on a
+--   tenant being explicitly listed in public.__test_allowed_tenants.
+--   In Production this table MUST be empty so the RPC is inert even for the
+--   tenant's owner. The allowlist is populated only in sandbox/E2E
+--   environments, out-of-band, by an operator with service_role access.
+--
+-- How to run (sandbox only):
+--   Execute this SQL against the sandbox database using service_role
+--   credentials. Replace <SANDBOX_TENANT_UUID> with the tenant id used by
+--   the E2E suite.
+--
+-- INSERT INTO public.__test_allowed_tenants(tenant_id, note)
+-- VALUES ('<SANDBOX_TENANT_UUID>', 'sandbox-e2e')
+-- ON CONFLICT (tenant_id) DO NOTHING;
+--
+-- To revoke a sandbox tenant from the allowlist:
+--   DELETE FROM public.__test_allowed_tenants WHERE tenant_id = '<SANDBOX_TENANT_UUID>';

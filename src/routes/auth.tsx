@@ -38,10 +38,12 @@ function AuthPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setInfo(null);
+    setNeedsConfirm(false);
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email, password,
           options: {
             emailRedirectTo: window.location.origin,
@@ -49,6 +51,15 @@ function AuthPage() {
           },
         });
         if (error) throw error;
+        // No session => email confirmation required. Do NOT navigate (the
+        // protected gate would bounce the user back silently).
+        if (!data.session) {
+          setMode("signin");
+          setPassword("");
+          setInfo("تم إنشاء حسابك ✅ — تحقّق من بريدك (وصندوق الـ Spam) واضغط رابط التفعيل، ثم ارجع للدخول من هنا.");
+          setNeedsConfirm(true);
+          return;
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -56,9 +67,16 @@ function AuthPage() {
       navigate({ to: "/app" });
     } catch (err: any) {
       const msg = String(err?.message ?? err);
+      const code = String(err?.code ?? "");
       console.error("auth error:", err);
-      if (mode === "signup") {
-        // Generic message to avoid email enumeration / raw error leakage.
+      if (code === "email_not_confirmed" || msg.includes("Email not confirmed")) {
+        setNeedsConfirm(true);
+        setError("بريدك لم يُؤكَّد بعد — افتح رسالة التفعيل ثم حاول الدخول.");
+      } else if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
+        setError("تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة مرة أخرى.");
+      } else if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
+        setError("كلمة المرور ضعيفة جداً، استخدم كلمة أقوى (٨ أحرف+ مع أرقام ورموز).");
+      } else if (mode === "signup") {
         setError("إذا كان البريد جديداً فقد تم إنشاء حسابك، تحقق من بريدك الإلكتروني.");
       } else if (msg.includes("Invalid login")) {
         setError("بيانات الدخول غير صحيحة");
@@ -71,6 +89,31 @@ function AuthPage() {
       setLoading(false);
     }
   };
+
+  const onResendConfirm = async () => {
+    if (!email) { setError("اكتب بريدك الإلكتروني أولاً"); return; }
+    setError(null); setInfo(null); setResending(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
+        options: { emailRedirectTo: window.location.origin },
+      });
+      if (error) throw error;
+      setInfo("أرسلنا رسالة التفعيل من جديد، تحقّق من بريدك.");
+    } catch (err: any) {
+      const code = String(err?.code ?? "");
+      const msg = String(err?.message ?? err);
+      if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
+        setError("تم الإرسال مؤخراً، انتظر دقيقة قبل المحاولة.");
+      } else {
+        setError("تعذّر إعادة الإرسال، حاول لاحقاً.");
+      }
+    } finally {
+      setResending(false);
+    }
+  };
+
 
   const onGoogle = async () => {
     setError(null);

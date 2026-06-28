@@ -72,6 +72,36 @@ class API:
     def rpc(self, name, params):
         return self.post(f"/rest/v1/rpc/{name}", params)
 
+def preflight_cleanup_channel(api: "API", tid: str) -> None:
+    """
+    Verify the test can cleanly delete everything it is about to create BEFORE
+    seeding any row. Probes REST DELETE on each table the test writes to using
+    a non-existent UUID — PostgREST returns 2xx when the table-level GRANT +
+    RLS allow DELETE, and 403 (Postgres code 42501) when the GRANT is missing.
+
+    If any probe fails, abort with `Blocked: cleanup channel unavailable` and
+    do not create a product / order / payment / day_close. This prevents the
+    test from leaking rows it cannot remove (the failure mode that hit the
+    paid-order + product cleanup in the previous run).
+    """
+    nil = "00000000-0000-0000-0000-000000000000"
+    probes = [
+        ("payments",    f"/rest/v1/payments?order_id=eq.{nil}"),
+        ("order_items", f"/rest/v1/order_items?order_id=eq.{nil}"),
+        ("orders",      f"/rest/v1/orders?id=eq.{nil}&tenant_id=eq.{tid}"),
+        ("products",    f"/rest/v1/products?id=eq.{nil}&tenant_id=eq.{tid}"),
+        ("day_closes",  f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.__preflight__"),
+    ]
+    missing = []
+    for table, path in probes:
+        r = requests.delete(f"{SB_URL}{path}", headers=api.h, timeout=10)
+        if r.status_code == 403 or '"42501"' in r.text:
+            missing.append(table)
+    if missing:
+        print(f"⛔ Blocked: cleanup channel unavailable — missing DELETE grant on: {', '.join(missing)}")
+        print("   Refusing to seed test rows that could not be removed.")
+        sys.exit(2)
+
 async def main():
     if os.environ.get("LOVABLE_BROWSER_AUTH_STATUS") != "injected":
         fail("LOVABLE_BROWSER_AUTH_STATUS != injected — sign in via preview first.")
@@ -86,6 +116,10 @@ async def main():
     if not tid: fail("No tenant owned by injected user.")
     print(f"→ tenant={tid}  tag={TAG}")
 
+    # Preflight: refuse to seed anything we cannot later delete.
+    preflight_cleanup_channel(api, tid)
+    ok("preflight: cleanup channel available on all target tables")
+
     # Seed product via REST (RLS as owner)
     seeded = api.post("/rest/v1/products", {
         "tenant_id": tid, "name": f"{TAG} منتج",
@@ -94,6 +128,7 @@ async def main():
     })
     pid = seeded[0]["id"]
     ok(f"seeded product {pid}")
+
 
     # Baseline today
     # Today filter respects tenant timezone via public.tenant_today(tid) — never CURRENT_DATE.

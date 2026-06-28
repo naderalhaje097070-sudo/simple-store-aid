@@ -72,6 +72,36 @@ class API:
     def rpc(self, name, params):
         return self.post(f"/rest/v1/rpc/{name}", params)
 
+def preflight_cleanup_channel(api: "API", tid: str) -> None:
+    """
+    Verify the test can cleanly delete everything it is about to create BEFORE
+    seeding any row. Probes REST DELETE on each table the test writes to using
+    a non-existent UUID — PostgREST returns 2xx when the table-level GRANT +
+    RLS allow DELETE, and 403 (Postgres code 42501) when the GRANT is missing.
+
+    If any probe fails, abort with `Blocked: cleanup channel unavailable` and
+    do not create a product / order / payment / day_close. This prevents the
+    test from leaking rows it cannot remove (the failure mode that hit the
+    paid-order + product cleanup in the previous run).
+    """
+    nil = "00000000-0000-0000-0000-000000000000"
+    probes = [
+        ("payments",    f"/rest/v1/payments?order_id=eq.{nil}"),
+        ("order_items", f"/rest/v1/order_items?order_id=eq.{nil}"),
+        ("orders",      f"/rest/v1/orders?id=eq.{nil}&tenant_id=eq.{tid}"),
+        ("products",    f"/rest/v1/products?id=eq.{nil}&tenant_id=eq.{tid}"),
+        ("day_closes",  f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.__preflight__"),
+    ]
+    missing = []
+    for table, path in probes:
+        r = requests.delete(f"{SB_URL}{path}", headers=api.h, timeout=10)
+        if r.status_code == 403 or '"42501"' in r.text:
+            missing.append(table)
+    if missing:
+        print(f"⛔ Blocked: cleanup channel unavailable — missing DELETE grant on: {', '.join(missing)}")
+        print("   Refusing to seed test rows that could not be removed.")
+        sys.exit(2)
+
 async def main():
     if os.environ.get("LOVABLE_BROWSER_AUTH_STATUS") != "injected":
         fail("LOVABLE_BROWSER_AUTH_STATUS != injected — sign in via preview first.")
@@ -86,6 +116,10 @@ async def main():
     if not tid: fail("No tenant owned by injected user.")
     print(f"→ tenant={tid}  tag={TAG}")
 
+    # Preflight: refuse to seed anything we cannot later delete.
+    preflight_cleanup_channel(api, tid)
+    ok("preflight: cleanup channel available on all target tables")
+
     # Seed product via REST (RLS as owner)
     seeded = api.post("/rest/v1/products", {
         "tenant_id": tid, "name": f"{TAG} منتج",
@@ -94,6 +128,7 @@ async def main():
     })
     pid = seeded[0]["id"]
     ok(f"seeded product {pid}")
+
 
     # Baseline today
     # Today filter respects tenant timezone via public.tenant_today(tid) — never CURRENT_DATE.
@@ -202,52 +237,35 @@ async def main():
 
             await browser.close()
     finally:
-        # Cleanup via REST (RLS as owner)
-        # Cleanup: use atomic RPC for the order (restores stock, removes items + payments).
-        # Never delete from orders/order_items/payments directly — that bypasses financial guards.
-        # Cleanup strategy:
-        #  1) day_closes: REST DELETE scoped to this tenant + TAG.
-        #  2) order (paid → not deletable via RPC by design):
-        #     try public.delete_order_with_restore_stock first; if it rejects (paid order),
-        #     fall back to a single privileged psql transaction scoped strictly to order_id.
-        #     This is test-only and never touches rows outside the tagged order.
-        #  3) product: REST DELETE only after the order is gone, so no FK leftovers.
+        # Cleanup via REST only — RLS as owner + table-level GRANTs verified by preflight.
+        # No privileged psql fallback: if REST DELETE is not enough we'd rather fail loud
+        # than try a higher-privilege channel that doesn't exist in the sandbox.
+        # Order matters: children (payments, order_items) → orders → products → day_closes.
+        leaked = False
         try:
-            api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
             if order_id:
-                rpc_ok = False
-                try:
-                    api.rpc("delete_order_with_restore_stock", {"p_order_id": order_id})
-                    rpc_ok = True
-                except Exception:
-                    # Expected for paid orders — fall through to privileged cleanup.
-                    pass
-                if not rpc_ok:
-                    psql_exec(f"""
-                      BEGIN;
-                        UPDATE public.products p
-                           SET stock = p.stock + oi.qty
-                          FROM public.order_items oi
-                         WHERE oi.order_id = '{order_id}' AND oi.product_id = p.id;
-                        DELETE FROM public.payments    WHERE order_id = '{order_id}';
-                        DELETE FROM public.order_items WHERE order_id = '{order_id}';
-                        DELETE FROM public.orders      WHERE id       = '{order_id}' AND tenant_id = '{tid}';
-                      COMMIT;
-                    """)
-            api.delete(f"/rest/v1/products?id=eq.{pid}")
-            # Verify nothing leaked.
+                api.delete(f"/rest/v1/payments?order_id=eq.{order_id}")
+                api.delete(f"/rest/v1/order_items?order_id=eq.{order_id}")
+                api.delete(f"/rest/v1/orders?id=eq.{order_id}&tenant_id=eq.{tid}")
+            api.delete(f"/rest/v1/products?id=eq.{pid}&tenant_id=eq.{tid}")
+            api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
             left_o = psql_one(f"SELECT COUNT(*)::text FROM public.orders   WHERE id='{order_id or '00000000-0000-0000-0000-000000000000'}'")
             left_p = psql_one(f"SELECT COUNT(*)::text FROM public.products WHERE id='{pid}'")
             left_d = psql_one(f"SELECT COUNT(*)::text FROM public.day_closes WHERE tenant_id='{tid}' AND note='{TAG}'")
             if left_o != "0" or left_p != "0" or left_d != "0":
-                print(f"⚠ cleanup leftover: orders={left_o} products={left_p} day_closes={left_d}")
+                leaked = True
+                print(f"❌ cleanup leftover: orders={left_o} products={left_p} day_closes={left_d}")
             else:
-                print("🧹 cleanup ok (order, product, day_close removed; stock restored)")
+                print("🧹 cleanup ok (order, product, day_close removed)")
         except Exception as e:
-            print(f"⚠ cleanup error: {e}")
+            leaked = True
+            print(f"❌ cleanup error: {e}")
+        if leaked:
+            sys.exit(1)
 
 
     print("\n🎉 E2E PASSED — sale → dashboard → day_close all verified.")
 
 if __name__ == "__main__":
     asyncio.run(main())
+

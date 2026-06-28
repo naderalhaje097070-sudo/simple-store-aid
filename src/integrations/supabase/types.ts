@@ -652,6 +652,65 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean | null
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          environment: string
+          id: string
+          paddle_customer_id: string
+          paddle_subscription_id: string
+          price_id: string
+          product_id: string
+          status: string
+          tenant_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean | null
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          paddle_customer_id: string
+          paddle_subscription_id: string
+          price_id: string
+          product_id: string
+          status?: string
+          tenant_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean | null
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          environment?: string
+          id?: string
+          paddle_customer_id?: string
+          paddle_subscription_id?: string
+          price_id?: string
+          product_id?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tenant_counters: {
         Row: {
           last_order_number: number
@@ -682,7 +741,12 @@ export type Database = {
           id: string
           name: string
           owner_user_id: string
+          paddle_customer_id: string | null
+          paddle_subscription_id: string | null
+          subscription_plan: string | null
+          subscription_status: string | null
           timezone: string
+          trial_ends_at: string | null
           updated_at: string
         }
         Insert: {
@@ -691,7 +755,12 @@ export type Database = {
           id?: string
           name: string
           owner_user_id: string
+          paddle_customer_id?: string | null
+          paddle_subscription_id?: string | null
+          subscription_plan?: string | null
+          subscription_status?: string | null
           timezone?: string
+          trial_ends_at?: string | null
           updated_at?: string
         }
         Update: {
@@ -700,7 +769,12 @@ export type Database = {
           id?: string
           name?: string
           owner_user_id?: string
+          paddle_customer_id?: string | null
+          paddle_subscription_id?: string | null
+          subscription_plan?: string | null
+          subscription_status?: string | null
           timezone?: string
+          trial_ends_at?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -874,6 +948,10 @@ export type Database = {
       settle_courier_orders: {
         Args: { p_courier_id: string; p_order_ids: string[] }
         Returns: Json
+      }
+      tenant_has_active_subscription: {
+        Args: { _check_env?: string; _tenant_id: string }
+        Returns: boolean
       }
       tenant_today: { Args: { _tid: string }; Returns: string }
       update_courier_order_state: {

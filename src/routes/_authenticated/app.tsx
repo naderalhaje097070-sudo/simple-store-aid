@@ -60,7 +60,7 @@ import { BottomNav } from "@/features/layout/BottomNav";
 import { DesktopSidebar } from "@/features/layout/DesktopSidebar";
 import { Money, fmt } from "@/features/shared/Money";
 import { InventoryScreen } from "@/features/inventory/InventoryScreen";
-import { AddProductSheet } from "@/features/inventory/AddProductSheet";
+
 import { CustomersScreen } from "@/features/customers/CustomersScreen";
 import { SettingsScreen } from "@/features/settings/SettingsScreen";
 

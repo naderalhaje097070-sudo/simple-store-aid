@@ -159,17 +159,27 @@ function MongezzApp() {
   const go = (s: Screen) => { setStack(prev => [...prev, screen]); setScreen(s); };
   const back = () => { setStack(prev => { const c = [...prev]; const p = c.pop(); if (p) setScreen(p); return c; }); };
 
-  /* Period window — actual date filtering against DB rows */
+  /* Period window — actual date filtering against DB rows.
+     For "day" we use the tenant's timezone so it matches close_day RPC.
+     For week/month we still use a rolling window from local midnight, which
+     is acceptable for trend cards (not used by close_day). */
+  const tzDateKey = (iso?: string) =>
+    iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
   const periodStart = useMemo(() => {
     const d = new Date();
-    if (period === "day") { d.setHours(0, 0, 0, 0); return d.getTime(); }
+    if (period === "day") return 0; // unused for day; filtering goes through tzDateKey
     const days = period === "week" ? 7 : 30;
     d.setDate(d.getDate() - days + 1);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
   }, [period]);
 
-  const inPeriod = (iso?: string) => !!iso && new Date(iso).getTime() >= periodStart;
+  const inPeriod = (iso?: string) => {
+    if (!iso) return false;
+    if (period === "day") return tzDateKey(iso) === todayKey;
+    return new Date(iso).getTime() >= periodStart;
+  };
+
 
   /* Derived totals — flows filtered by period, stocks reflect current balances */
   const totals = useMemo(() => {

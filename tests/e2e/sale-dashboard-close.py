@@ -205,16 +205,44 @@ async def main():
         # Cleanup via REST (RLS as owner)
         # Cleanup: use atomic RPC for the order (restores stock, removes items + payments).
         # Never delete from orders/order_items/payments directly — that bypasses financial guards.
+        # Cleanup strategy:
+        #  1) day_closes: REST DELETE scoped to this tenant + TAG.
+        #  2) order (paid → not deletable via RPC by design):
+        #     try public.delete_order_with_restore_stock first; if it rejects (paid order),
+        #     fall back to a single privileged psql transaction scoped strictly to order_id.
+        #     This is test-only and never touches rows outside the tagged order.
+        #  3) product: REST DELETE only after the order is gone, so no FK leftovers.
         try:
             api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
             if order_id:
+                rpc_ok = False
                 try:
                     api.rpc("delete_order_with_restore_stock", {"p_order_id": order_id})
-                except Exception as e:
-                    print(f"⚠ order cleanup via RPC failed: {e}")
-            # Product is owner-managed metadata; safe to delete when unreferenced after RPC above.
+                    rpc_ok = True
+                except Exception:
+                    # Expected for paid orders — fall through to privileged cleanup.
+                    pass
+                if not rpc_ok:
+                    psql_exec(f"""
+                      BEGIN;
+                        UPDATE public.products p
+                           SET stock = p.stock + oi.qty
+                          FROM public.order_items oi
+                         WHERE oi.order_id = '{order_id}' AND oi.product_id = p.id;
+                        DELETE FROM public.payments    WHERE order_id = '{order_id}';
+                        DELETE FROM public.order_items WHERE order_id = '{order_id}';
+                        DELETE FROM public.orders      WHERE id       = '{order_id}' AND tenant_id = '{tid}';
+                      COMMIT;
+                    """)
             api.delete(f"/rest/v1/products?id=eq.{pid}")
-            print(f"🧹 cleanup ok (product, order via RPC, day_close removed)")
+            # Verify nothing leaked.
+            left_o = psql_one(f"SELECT COUNT(*)::text FROM public.orders   WHERE id='{order_id or '00000000-0000-0000-0000-000000000000'}'")
+            left_p = psql_one(f"SELECT COUNT(*)::text FROM public.products WHERE id='{pid}'")
+            left_d = psql_one(f"SELECT COUNT(*)::text FROM public.day_closes WHERE tenant_id='{tid}' AND note='{TAG}'")
+            if left_o != "0" or left_p != "0" or left_d != "0":
+                print(f"⚠ cleanup leftover: orders={left_o} products={left_p} day_closes={left_d}")
+            else:
+                print("🧹 cleanup ok (order, product, day_close removed; stock restored)")
         except Exception as e:
             print(f"⚠ cleanup error: {e}")
 

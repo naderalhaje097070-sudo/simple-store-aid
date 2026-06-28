@@ -1,13 +1,28 @@
 import { Home, ReceiptText, Plus, Boxes, Store } from "lucide-react";
 import type { Screen } from "@/features/shared/types";
 
-export function BottomNav({ screen, setScreen, onSale }: { screen: Screen; setScreen: (s: Screen) => void; onSale: () => void }) {
+export function BottomNav({
+  screen,
+  setScreen,
+  onSale,
+}: {
+  screen: Screen;
+  setScreen: (s: Screen) => void;
+  onSale: () => void;
+}) {
   const Tab = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {
     const active = screen === id;
     return (
-      <button onClick={() => setScreen(id)} className="flex-1 flex flex-col items-center gap-1 py-2">
+      <button
+        onClick={() => setScreen(id)}
+        className="flex-1 flex flex-col items-center gap-1 py-2"
+      >
         <Icon className={`w-5 h-5 ${active ? "text-primary" : "text-muted-foreground"}`} />
-        <span className={`text-[11px] ${active ? "text-primary font-bold" : "text-muted-foreground"}`}>{label}</span>
+        <span
+          className={`text-[11px] ${active ? "text-primary font-bold" : "text-muted-foreground"}`}
+        >
+          {label}
+        </span>
       </button>
     );
   };

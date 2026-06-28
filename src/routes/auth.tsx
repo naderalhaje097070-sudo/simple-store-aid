@@ -20,6 +20,9 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [info, setInfo] = useState<string | null>(null);
+  const [needsConfirm, setNeedsConfirm] = useState(false);
+  const [resending, setResending] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -35,10 +38,12 @@ function AuthPage() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setInfo(null);
+    setNeedsConfirm(false);
     setLoading(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email, password,
           options: {
             emailRedirectTo: window.location.origin,
@@ -46,6 +51,15 @@ function AuthPage() {
           },
         });
         if (error) throw error;
+        // No session => email confirmation required. Do NOT navigate (the
+        // protected gate would bounce the user back silently).
+        if (!data.session) {
+          setMode("signin");
+          setPassword("");
+          setInfo("تم إنشاء حسابك ✅ — تحقّق من بريدك (وصندوق الـ Spam) واضغط رابط التفعيل، ثم ارجع للدخول من هنا.");
+          setNeedsConfirm(true);
+          return;
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -53,9 +67,16 @@ function AuthPage() {
       navigate({ to: "/app" });
     } catch (err: any) {
       const msg = String(err?.message ?? err);
+      const code = String(err?.code ?? "");
       console.error("auth error:", err);
-      if (mode === "signup") {
-        // Generic message to avoid email enumeration / raw error leakage.
+      if (code === "email_not_confirmed" || msg.includes("Email not confirmed")) {
+        setNeedsConfirm(true);
+        setError("بريدك لم يُؤكَّد بعد — افتح رسالة التفعيل ثم حاول الدخول.");
+      } else if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
+        setError("تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة مرة أخرى.");
+      } else if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
+        setError("كلمة المرور ضعيفة جداً، استخدم كلمة أقوى (٨ أحرف+ مع أرقام ورموز).");
+      } else if (mode === "signup") {
         setError("إذا كان البريد جديداً فقد تم إنشاء حسابك، تحقق من بريدك الإلكتروني.");
       } else if (msg.includes("Invalid login")) {
         setError("بيانات الدخول غير صحيحة");
@@ -68,6 +89,31 @@ function AuthPage() {
       setLoading(false);
     }
   };
+
+  const onResendConfirm = async () => {
+    if (!email) { setError("اكتب بريدك الإلكتروني أولاً"); return; }
+    setError(null); setInfo(null); setResending(true);
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email,
+        options: { emailRedirectTo: window.location.origin },
+      });
+      if (error) throw error;
+      setInfo("أرسلنا رسالة التفعيل من جديد، تحقّق من بريدك.");
+    } catch (err: any) {
+      const code = String(err?.code ?? "");
+      const msg = String(err?.message ?? err);
+      if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
+        setError("تم الإرسال مؤخراً، انتظر دقيقة قبل المحاولة.");
+      } else {
+        setError("تعذّر إعادة الإرسال، حاول لاحقاً.");
+      }
+    } finally {
+      setResending(false);
+    }
+  };
+
 
   const onGoogle = async () => {
     setError(null);
@@ -112,7 +158,13 @@ function AuthPage() {
               <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm" dir="ltr" placeholder="••••••" />
             </div>
 
+            {info && <div className="text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">{info}</div>}
             {error && <div className="text-xs text-destructive bg-destructive/10 rounded-lg px-3 py-2">{error}</div>}
+            {needsConfirm && (
+              <button type="button" onClick={onResendConfirm} disabled={resending} className="w-full text-xs underline text-primary disabled:opacity-60">
+                {resending ? "..." : "إعادة إرسال رسالة التفعيل"}
+              </button>
+            )}
 
             <button type="submit" disabled={loading} className="w-full h-11 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-60">
               {loading ? "..." : mode === "signin" ? "دخول" : "إنشاء حساب"}

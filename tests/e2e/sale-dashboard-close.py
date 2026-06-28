@@ -118,8 +118,9 @@ async def main():
     print(f"→ tenant={tid}  tag={TAG}")
 
     # Preflight: refuse to seed anything we cannot later delete.
-    preflight_cleanup_channel(api, tid)
-    ok("preflight: cleanup channel available on all target tables")
+    preflight_cleanup_channel(api)
+    ok("preflight: E2E cleanup RPC reachable")
+
 
     # Seed product via REST (RLS as owner)
     seeded = api.post("/rest/v1/products", {

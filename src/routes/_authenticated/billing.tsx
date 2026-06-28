@@ -80,7 +80,8 @@ const PLANS: Plan[] = [
 ];
 
 function BillingPage() {
-  const tenantId = useTenantId();
+  const tenantQ = useTenantId();
+  const tenantId = tenantQ.data ?? null;
   const { data: tenant } = useTenant(tenantId);
   const env = getPaddleEnvironment();
   const { openCheckout, loading } = usePaddleCheckout();

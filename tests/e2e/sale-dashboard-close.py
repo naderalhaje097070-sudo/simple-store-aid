@@ -89,7 +89,9 @@ def preflight_cleanup_channel(api: "API") -> None:
     On block we exit BEFORE seeding so the test can never leak rows it
     cannot clean up.
     """
-    probe_tag = f"E2E-{int(time.time())}-preflight"
+    # Use a tag that passes the RPC's `^E2E-[0-9]+$` guard. With NULL ids the
+    # RPC only attempts a no-op day_closes delete scoped to this tag → 200/ok.
+    probe_tag = f"E2E-{int(time.time())}"
     r = requests.post(
         f"{SB_URL}/rest/v1/rpc/__test_force_delete_e2e_order",
         headers=api.h, timeout=10,
@@ -101,6 +103,7 @@ def preflight_cleanup_channel(api: "API") -> None:
           f"returned {r.status_code}: {r.text[:200]}")
     print("   Refusing to seed test rows that could not be removed.")
     sys.exit(2)
+
 
 
 async def main():

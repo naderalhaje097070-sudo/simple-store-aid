@@ -7,7 +7,6 @@
    them is out of R2 scope. */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 import type { Dispatch, SetStateAction } from "react";
 import type {
   Product,

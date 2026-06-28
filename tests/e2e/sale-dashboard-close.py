@@ -88,10 +88,13 @@ async def main():
     ok(f"seeded product {pid}")
 
     # Baseline today
+    # Today filter respects tenant timezone via public.tenant_today(tid) — never CURRENT_DATE.
+    tz_expr = f"COALESCE((SELECT timezone FROM public.tenants WHERE id='{tid}'),'UTC')"
+    today_expr = f"public.tenant_today('{tid}')"
     def agg_sales(): return Decimal(psql_one(
-        f"SELECT COALESCE(SUM(total),0)::text FROM public.orders WHERE tenant_id='{tid}' AND created_at::date=CURRENT_DATE"))
+        f"SELECT COALESCE(SUM(total),0)::text FROM public.orders WHERE tenant_id='{tid}' AND (created_at AT TIME ZONE {tz_expr})::date = {today_expr}"))
     def agg_cash(): return Decimal(psql_one(
-        f"SELECT COALESCE(SUM(amount),0)::text FROM public.payments WHERE tenant_id='{tid}' AND method='cash' AND created_at::date=CURRENT_DATE"))
+        f"SELECT COALESCE(SUM(amount),0)::text FROM public.payments WHERE tenant_id='{tid}' AND method='cash' AND (created_at AT TIME ZONE {tz_expr})::date = {today_expr}"))
     base_sales, base_cash = agg_sales(), agg_cash()
     print(f"  baseline: sales_today={base_sales}  cash_today={base_cash}")
 
@@ -192,16 +195,18 @@ async def main():
             await browser.close()
     finally:
         # Cleanup via REST (RLS as owner)
+        # Cleanup: use atomic RPC for the order (restores stock, removes items + payments).
+        # Never delete from orders/order_items/payments directly — that bypasses financial guards.
         try:
             api.delete(f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.{TAG}")
             if order_id:
-                # Paid orders are protected from the RPC by design — use direct REST
-                # DELETE (RLS allows owner). Cascade removes order_items + payments.
-                api.delete(f"/rest/v1/payments?order_id=eq.{order_id}")
-                api.delete(f"/rest/v1/order_items?order_id=eq.{order_id}")
-                api.delete(f"/rest/v1/orders?id=eq.{order_id}")
+                try:
+                    api.rpc("delete_order_with_restore_stock", {"p_order_id": order_id})
+                except Exception as e:
+                    print(f"⚠ order cleanup via RPC failed: {e}")
+            # Product is owner-managed metadata; safe to delete when unreferenced after RPC above.
             api.delete(f"/rest/v1/products?id=eq.{pid}")
-            print(f"🧹 cleanup ok (product, order, day_close removed)")
+            print(f"🧹 cleanup ok (product, order via RPC, day_close removed)")
         except Exception as e:
             print(f"⚠ cleanup error: {e}")
 

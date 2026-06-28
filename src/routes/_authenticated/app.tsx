@@ -6,7 +6,7 @@ import {
   Wallet, Banknote, Truck, Users, Settings as SettingsIcon,
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
-  Activity, ShieldCheck, FileDown, Printer,
+  Activity, ShieldCheck, FileDown, Printer, Crown,
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {

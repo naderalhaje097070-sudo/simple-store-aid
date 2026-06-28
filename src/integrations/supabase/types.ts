@@ -816,6 +816,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      __test_force_delete_e2e_order: {
+        Args: { p_order_id: string; p_product_id: string; p_tag: string }
+        Returns: Json
+      }
       _assert_owner: { Args: { _tid: string }; Returns: undefined }
       _assert_platform_admin: { Args: never; Returns: undefined }
       _assert_staff: { Args: { _tid: string }; Returns: undefined }

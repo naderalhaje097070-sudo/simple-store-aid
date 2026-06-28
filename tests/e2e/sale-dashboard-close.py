@@ -72,35 +72,36 @@ class API:
     def rpc(self, name, params):
         return self.post(f"/rest/v1/rpc/{name}", params)
 
-def preflight_cleanup_channel(api: "API", tid: str) -> None:
+def preflight_cleanup_channel(api: "API") -> None:
     """
-    Verify the test can cleanly delete everything it is about to create BEFORE
-    seeding any row. Probes REST DELETE on each table the test writes to using
-    a non-existent UUID — PostgREST returns 2xx when the table-level GRANT +
-    RLS allow DELETE, and 403 (Postgres code 42501) when the GRANT is missing.
+    Verify the dedicated E2E cleanup RPC is reachable BEFORE seeding any row.
 
-    If any probe fails, abort with `Blocked: cleanup channel unavailable` and
-    do not create a product / order / payment / day_close. This prevents the
-    test from leaking rows it cannot remove (the failure mode that hit the
-    paid-order + product cleanup in the previous run).
+    Channel: `public.__test_force_delete_e2e_order(uuid, uuid, text)` — locked
+    to authenticated owners, hard-guarded to only touch rows tagged
+    `E2E-<unix-ts>` and created in the last 24h. We do NOT rely on a blanket
+    DELETE grant on orders/order_items/payments (that would let any owner
+    bypass the financial RPC guards via REST).
+
+    Probe behaviour:
+      - Pass: RPC executes with NULL ids and a probe tag → returns 200 / `{ok:true}`.
+      - Block: RPC missing (404 / `PGRST202`) or execute denied (403 / `42501`).
+
+    On block we exit BEFORE seeding so the test can never leak rows it
+    cannot clean up.
     """
-    nil = "00000000-0000-0000-0000-000000000000"
-    probes = [
-        ("payments",    f"/rest/v1/payments?order_id=eq.{nil}"),
-        ("order_items", f"/rest/v1/order_items?order_id=eq.{nil}"),
-        ("orders",      f"/rest/v1/orders?id=eq.{nil}&tenant_id=eq.{tid}"),
-        ("products",    f"/rest/v1/products?id=eq.{nil}&tenant_id=eq.{tid}"),
-        ("day_closes",  f"/rest/v1/day_closes?tenant_id=eq.{tid}&note=eq.__preflight__"),
-    ]
-    missing = []
-    for table, path in probes:
-        r = requests.delete(f"{SB_URL}{path}", headers=api.h, timeout=10)
-        if r.status_code == 403 or '"42501"' in r.text:
-            missing.append(table)
-    if missing:
-        print(f"⛔ Blocked: cleanup channel unavailable — missing DELETE grant on: {', '.join(missing)}")
-        print("   Refusing to seed test rows that could not be removed.")
-        sys.exit(2)
+    probe_tag = f"E2E-{int(time.time())}-preflight"
+    r = requests.post(
+        f"{SB_URL}/rest/v1/rpc/__test_force_delete_e2e_order",
+        headers=api.h, timeout=10,
+        json={"p_order_id": None, "p_product_id": None, "p_tag": probe_tag},
+    )
+    if r.status_code == 200:
+        return
+    print(f"⛔ Blocked: cleanup channel unavailable — RPC __test_force_delete_e2e_order "
+          f"returned {r.status_code}: {r.text[:200]}")
+    print("   Refusing to seed test rows that could not be removed.")
+    sys.exit(2)
+
 
 async def main():
     if os.environ.get("LOVABLE_BROWSER_AUTH_STATUS") != "injected":

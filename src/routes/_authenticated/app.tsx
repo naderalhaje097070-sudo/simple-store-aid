@@ -48,40 +48,12 @@ export const Route = createFileRoute("/_authenticated/app")({
   errorComponent: AppErrorBoundary,
 });
 
-/* ============================== MOCK DATA ============================== */
-
-type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean };
-type Customer = { id: string; name: string; phone?: string };
-type Courier = { id: string; name: string; phone?: string };
-type InvoiceItem = { productId: string; name: string; qty: number; price: number; cost: number };
-type Invoice = {
-  id: string;
-  number: string;
-  items: InvoiceItem[];
-  total: number;
-  paid: number;
-  customerId?: string;
-  delivery: "direct" | "courier";
-  courierId?: string;
-  status: "paid" | "partial" | "debt";
-  courierState?: "pending" | "delivered_none" | "delivered_partial" | "delivered_full" | "returned";
-  collectedByCourier?: number;
-  time: string;
-  createdAt: string;
-};
-type Expense = { id: string; type: string; amount: number; method: "cash" | "transfer"; time: string; createdAt: string; note?: string };
-type Payment = {
-  id: string;
-  kind: "sale" | "debt_collection" | "settlement";
-  method: "cash" | "transfer" | "settlement";
-  amount: number;
-  invoiceId?: string;
-  invoiceNumber?: string;
-  customerId?: string;
-  courierId?: string;
-  time: string;
-  createdAt: string;
-};
+/* Types & shared components moved to src/features/shared/ (R1) */
+import type { Product, Customer, Courier, InvoiceItem, Invoice, Expense, Payment, Screen, Period } from "@/features/shared/types";
+import { StatusChip } from "@/features/shared/StatusChip";
+import { EmptyState } from "@/features/shared/EmptyState";
+import { Sheet } from "@/features/shared/Sheet";
+import { Toast } from "@/features/shared/Toast";
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
@@ -94,13 +66,6 @@ const Money = ({ v, className = "" }: { v: number; className?: string }) => (
 
 /* ============================== MAIN APP ============================== */
 
-type Screen =
-  | "home" | "invoices" | "invoice_detail" | "inventory" | "shop"
-  | "profit" | "collected" | "debts" | "debt_customer"
-  | "courier_custody" | "settlements" | "expenses" | "customers" | "couriers" | "settings"
-  | "sale" | "sale_quick" | "sale_success" | "day_close" | "pilot";
-
-type Period = "day" | "week" | "month";
 
 function MongezzApp() {
   const { data: tenantId } = useTenantId();
@@ -463,21 +428,8 @@ function TopBar({ title, onBack, right }: { title: string; onBack?: () => void; 
   );
 }
 
-function StatusChip({ kind, children, icon }: { kind: "paid" | "partial" | "debt" | "warn" | "info" | "profit"; children: React.ReactNode; icon?: React.ReactNode }) {
-  const styles: Record<string, string> = {
-    paid: "bg-success-soft text-success",
-    partial: "bg-warn-soft text-warn",
-    debt: "bg-debt-soft text-debt",
-    warn: "bg-warn-soft text-warn",
-    info: "bg-info-soft text-info",
-    profit: "bg-profit-soft text-profit",
-  };
-  return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${styles[kind]}`}>
-      {icon}{children}
-    </span>
-  );
-}
+/* StatusChip: moved to src/features/shared/StatusChip.tsx (R1) */
+
 
 function BottomNav({ screen, setScreen, onSale }: { screen: Screen; setScreen: (s: Screen) => void; onSale: () => void }) {
   const Tab = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {
@@ -1112,9 +1064,8 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
   );
 }
 
-function EmptyState({ text }: { text: string }) {
-  return <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">{text}</div>;
-}
+/* EmptyState: moved to src/features/shared/EmptyState.tsx (R1) */
+
 
 /* --------------- SHOP HUB --------------- */
 function ShopHubScreen(p: any) {
@@ -1148,17 +1099,7 @@ function ShopHubScreen(p: any) {
       <TopBar title="أقسام المحل" />
       <div className="px-4 pt-3">
         <div className="text-xs text-muted-foreground mb-3">الأرقام اليومية في «الرئيسية». هنا التنقّل بين أقسام المحل.</div>
-        <a
-          href="/billing"
-          className="mb-4 flex items-center gap-3 rounded-2xl border border-primary/40 bg-primary/5 px-4 py-3 hover:bg-primary/10"
-        >
-          <Crown className="w-5 h-5 text-primary" />
-          <div className="flex-1 text-right">
-            <div className="text-sm font-bold">الاشتراك والباقات</div>
-            <div className="text-[11px] text-muted-foreground">إدارة باقتك وتجديد الاشتراك</div>
-          </div>
-          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-        </a>
+        {/* Billing link hidden — Paddle integration kept in repo but not user-facing yet */}
         {groups.map(g => (
           <div key={g.title} className="mb-4">
             <div className="text-xs font-bold text-muted-foreground mb-2 px-1">{g.title}</div>
@@ -2741,29 +2682,8 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
   );
 }
 
-/* ============================== UTILITIES ============================== */
-function Sheet({ children, title, onClose }: { children: React.ReactNode; title: string; onClose: () => void }) {
-  return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40" onClick={onClose}>
-      <div onClick={e => e.stopPropagation()} className="w-full max-w-md bg-card rounded-t-3xl p-4 pb-6 max-h-[90vh] overflow-y-auto" dir="rtl">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="font-bold">{title}</h3>
-          <button onClick={onClose} className="p-2 rounded-full hover:bg-muted"><X className="w-5 h-5" /></button>
-        </div>
-        {children}
-      </div>
-    </div>
-  );
-}
+/* Sheet, Toast: moved to src/features/shared/ (R1) */
 
-function Toast({ text, kind = "info" }: { text: string; kind?: "info" | "warn" | "success" }) {
-  const colors = { info: "bg-foreground text-background", warn: "bg-warn text-white", success: "bg-success text-white" };
-  return (
-    <div className="fixed bottom-28 inset-x-0 z-50 flex justify-center pointer-events-none">
-      <div className={`px-4 py-2 rounded-full text-sm font-bold shadow-lg ${colors[kind]}`}>{text}</div>
-    </div>
-  );
-}
 
 /* --------------- PILOT HEALTH DASHBOARD --------------- */
 function PilotScreen(p: any) {

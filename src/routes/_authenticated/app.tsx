@@ -54,6 +54,7 @@ import { StatusChip } from "@/features/shared/StatusChip";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Sheet } from "@/features/shared/Sheet";
 import { Toast } from "@/features/shared/Toast";
+import type { AppCtx } from "@/features/shared/AppContext";
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 

@@ -463,21 +463,8 @@ function TopBar({ title, onBack, right }: { title: string; onBack?: () => void; 
   );
 }
 
-function StatusChip({ kind, children, icon }: { kind: "paid" | "partial" | "debt" | "warn" | "info" | "profit"; children: React.ReactNode; icon?: React.ReactNode }) {
-  const styles: Record<string, string> = {
-    paid: "bg-success-soft text-success",
-    partial: "bg-warn-soft text-warn",
-    debt: "bg-debt-soft text-debt",
-    warn: "bg-warn-soft text-warn",
-    info: "bg-info-soft text-info",
-    profit: "bg-profit-soft text-profit",
-  };
-  return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${styles[kind]}`}>
-      {icon}{children}
-    </span>
-  );
-}
+/* StatusChip: moved to src/features/shared/StatusChip.tsx (R1) */
+
 
 function BottomNav({ screen, setScreen, onSale }: { screen: Screen; setScreen: (s: Screen) => void; onSale: () => void }) {
   const Tab = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {

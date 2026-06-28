@@ -1112,9 +1112,8 @@ function AddProductSheet({ onClose, onSave, existingNames = [] as string[], mode
   );
 }
 
-function EmptyState({ text }: { text: string }) {
-  return <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">{text}</div>;
-}
+/* EmptyState: moved to src/features/shared/EmptyState.tsx (R1) */
+
 
 /* --------------- SHOP HUB --------------- */
 function ShopHubScreen(p: any) {

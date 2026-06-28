@@ -58,15 +58,15 @@ import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { BottomNav } from "@/features/layout/BottomNav";
 import { DesktopSidebar } from "@/features/layout/DesktopSidebar";
+import { Money, fmt } from "@/features/shared/Money";
+import { InventoryScreen } from "@/features/inventory/InventoryScreen";
+import { AddProductSheet } from "@/features/inventory/AddProductSheet";
+import { CustomersScreen } from "@/features/customers/CustomersScreen";
+import { SettingsScreen } from "@/features/settings/SettingsScreen";
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
-/* ============================== HELPERS ============================== */
-
-const fmt = (n: number) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(Math.round(n));
-const Money = ({ v, className = "" }: { v: number; className?: string }) => (
-  <span className={className}><span className="num font-semibold">{fmt(v)}</span> <span className="text-xs opacity-70">د.ل</span></span>
-);
+/* HELPERS: Money + fmt moved to src/features/shared/Money.tsx (R4a) */
 
 /* ============================== MAIN APP ============================== */
 

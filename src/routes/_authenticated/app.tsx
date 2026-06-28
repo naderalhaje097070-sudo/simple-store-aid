@@ -1138,6 +1138,17 @@ function ShopHubScreen(p: any) {
       <TopBar title="أقسام المحل" />
       <div className="px-4 pt-3">
         <div className="text-xs text-muted-foreground mb-3">الأرقام اليومية في «الرئيسية». هنا التنقّل بين أقسام المحل.</div>
+        <a
+          href="/billing"
+          className="mb-4 flex items-center gap-3 rounded-2xl border border-primary/40 bg-primary/5 px-4 py-3 hover:bg-primary/10"
+        >
+          <Crown className="w-5 h-5 text-primary" />
+          <div className="flex-1 text-right">
+            <div className="text-sm font-bold">الاشتراك والباقات</div>
+            <div className="text-[11px] text-muted-foreground">إدارة باقتك وتجديد الاشتراك</div>
+          </div>
+          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+        </a>
         {groups.map(g => (
           <div key={g.title} className="mb-4">
             <div className="text-xs font-bold text-muted-foreground mb-2 px-1">{g.title}</div>

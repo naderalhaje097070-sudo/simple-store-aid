@@ -1,10 +1,13 @@
+-- Clean, single migration for the E2E cleanup channel.
+-- Production posture: allowlist table is created EMPTY with no anon/authenticated
+-- grants and no policies, so the cleanup RPC is inert for every user (including
+-- tenant owners). Sandbox/E2E environments populate the allowlist out-of-band
+-- via service_role using scripts/e2e/seed-allowlist.sql — never via a migration.
 
--- Internal allowlist: NO grants to anon/authenticated. Only service_role and
--- SECURITY DEFINER functions can read it. Production stays empty → the E2E
--- cleanup RPC is inert in production for every user, including tenant owners.
+-- 1) Internal allowlist table. Service-role-only.
 CREATE TABLE IF NOT EXISTS public.__test_allowed_tenants (
-  tenant_id uuid PRIMARY KEY REFERENCES public.tenants(id) ON DELETE CASCADE,
-  note text,
+  tenant_id  uuid PRIMARY KEY REFERENCES public.tenants(id) ON DELETE CASCADE,
+  note       text,
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
@@ -14,11 +17,16 @@ REVOKE ALL ON public.__test_allowed_tenants FROM authenticated;
 GRANT  ALL ON public.__test_allowed_tenants TO service_role;
 
 ALTER TABLE public.__test_allowed_tenants ENABLE ROW LEVEL SECURITY;
--- No policies → no row is visible to anon/authenticated even if grants leak.
+-- Intentionally no policies: anon/authenticated cannot see or touch this table
+-- even if a stray grant ever leaks. Only SECURITY DEFINER functions (running
+-- as the function owner) and service_role can read it.
 
--- Harden the cleanup RPC: require tenant to be in the internal allowlist.
+-- 2) E2E cleanup RPC. Hardened from the first definition: owner-only,
+-- allowlist-gated, E2E-tag required, tenant-scoped, recent rows only.
 CREATE OR REPLACE FUNCTION public.__test_force_delete_e2e_order(
-  p_order_id uuid, p_product_id uuid, p_tag text
+  p_order_id   uuid,
+  p_product_id uuid,
+  p_tag        text
 ) RETURNS jsonb
 LANGUAGE plpgsql
 SECURITY DEFINER
@@ -85,12 +93,6 @@ BEGIN
 END
 $function$;
 
--- Seed sandbox tenant(s) into the allowlist so E2E can run here.
--- Production migration run will not have these tenant ids → no-op there.
-INSERT INTO public.__test_allowed_tenants(tenant_id, note)
-SELECT t.id, 'sandbox-e2e'
-FROM public.tenants t
-WHERE t.id IN (
-  SELECT DISTINCT tenant_id FROM public.profiles WHERE tenant_id IS NOT NULL
-)
-ON CONFLICT (tenant_id) DO NOTHING;
+REVOKE ALL ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) FROM anon;
+GRANT  EXECUTE ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) TO authenticated;

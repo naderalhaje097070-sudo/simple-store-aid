@@ -27,7 +27,7 @@ export function CollectedScreen(p: any) {
 
   return (
     <>
-      <TopBar title="المحصّل فعليًا" onBack={p.back} />
+      <TopBar title="المحصّل فعليًا" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-primary text-primary-foreground p-5">

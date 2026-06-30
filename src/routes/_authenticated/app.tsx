@@ -251,6 +251,7 @@ function MongezzApp() {
     closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => closeDayMut.mutateAsync(input),
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
+    goHome: () => { setStack([]); setScreen("home"); },
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
     setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),
@@ -364,7 +365,7 @@ function InvoicesScreen(p: any) {
   const total = list.reduce((s: number, i: Invoice) => s + i.total, 0);
   return (
     <>
-      <TopBar title="الفواتير" />
+      <TopBar title="الفواتير" onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
@@ -398,7 +399,7 @@ function InvoiceDetailScreen(p: any) {
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   const [pdfBusy, setPdfBusy] = useState(false);
   useEffect(() => { ensureInvoiceFont(); }, []);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
+  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const remaining = inv.total - inv.paid;
   const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
@@ -417,7 +418,7 @@ function InvoiceDetailScreen(p: any) {
 
   return (
     <>
-      <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} />
+      <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-4">
           <div className="flex items-center justify-between">
@@ -586,7 +587,7 @@ function DebtsScreen(p: any) {
   const total = rows.reduce((s, r) => s + r.v, 0);
   return (
     <>
-      <TopBar title="الديون" onBack={p.back} />
+      <TopBar title="الديون" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-debt-soft border border-debt/20 p-4">
           <div className="text-xs text-debt">إجمالي الديون المستحقة</div>
@@ -621,7 +622,7 @@ function DebtCustomerScreen(p: any) {
   const total = invs.reduce((s: number, i: Invoice) => s + (i.total - i.paid), 0);
   return (
     <>
-      <TopBar title={cust?.name ?? "عميل"} onBack={p.back} />
+      <TopBar title={cust?.name ?? "عميل"} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
           <div>
@@ -658,7 +659,7 @@ function CourierCustodyScreen(p: any) {
   if (!p.couriers || p.couriers.length === 0) {
     return (
       <>
-        <TopBar title="عهدة المندوب" onBack={p.back} />
+        <TopBar title="عهدة المندوب" onBack={p.back} onHome={p.goHome} />
         <div className="px-4 pt-10 text-center space-y-4">
           <div className="text-5xl">🛵</div>
           <div className="font-bold">لا يوجد مندوبون بعد</div>
@@ -700,7 +701,7 @@ function CourierCustodyScreen(p: any) {
 
   return (
     <>
-      <TopBar title="عهدة المندوب" onBack={p.back} right={<button onClick={goSettlements} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
+      <TopBar title="عهدة المندوب" onBack={p.back} onHome={p.goHome} right={<button onClick={goSettlements} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
       <div className="px-4 pt-3 space-y-3">
         <div className="flex gap-2 overflow-x-auto">
           {p.couriers.map((c: Courier) => (
@@ -827,7 +828,7 @@ function SettlementsScreen(p: any) {
   if (!courier) {
     return (
       <>
-        <TopBar title="التسويات" onBack={p.back} />
+        <TopBar title="التسويات" onBack={p.back} onHome={p.goHome} />
         <div className="px-4 pt-10 text-center space-y-4">
           <div className="text-5xl">🧾</div>
           <div className="font-bold">لا يوجد مندوبون لتسويتهم</div>
@@ -866,7 +867,7 @@ function SettlementsScreen(p: any) {
 
   return (
     <>
-      <TopBar title={`تسوية مع ${courier.name}`} onBack={p.back} />
+      <TopBar title={`تسوية مع ${courier.name}`} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3 pb-4">
         <div className="text-xs font-bold text-muted-foreground">المبالغ التي قبضها المندوب فعلًا</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
@@ -928,7 +929,7 @@ function ExpensesScreen(p: any) {
 
   return (
     <>
-      <TopBar title="المصروفات" onBack={p.back} />
+      <TopBar title="المصروفات" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-4">
@@ -1004,7 +1005,7 @@ function CouriersScreen(p: any) {
   };
   return (
     <>
-      <TopBar title="المندوبون" onBack={p.back} />
+      <TopBar title="المندوبون" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-2">
         {p.couriers.map((c: Courier) => {
           const list = p.invoices.filter((i: Invoice) => i.courierId === c.id);
@@ -1084,7 +1085,7 @@ function SaleScreen(p: any) {
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
       {!searchFocused && (
-        <TopBar title="فاتورة جديدة" onBack={p.back} right={
+        <TopBar title="فاتورة جديدة" onBack={p.back} onHome={p.goHome} right={
           <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
         } />
       )}
@@ -1208,7 +1209,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
   const overpaid = paid > subtotal;
-  const needsCustomer = remaining > 0 || delivery === "courier";
+  const needsCustomer = remaining > 0;
   const needsCourier = delivery === "courier";
   const canSave = subtotal > 0 && !overpaid && (!needsCustomer || !!customerId) && (!needsCourier || !!courierId);
 
@@ -1265,7 +1266,8 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
             <button onClick={() => setDelivery("direct")} className={`py-2 rounded-xl text-sm font-bold ${delivery === "direct" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>استلام مباشر</button>
             <button onClick={() => setDelivery("courier")} className={`py-2 rounded-xl text-sm font-bold ${delivery === "courier" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>عبر مندوب</button>
           </div>
-          {delivery === "courier" && <div className="mt-2 text-[11px] text-warn flex items-center gap-1"><Info className="w-3 h-3" />طلبات التوصيل تحتاج اسم العميل أو المستلم</div>}
+          {delivery === "courier" && remaining > 0 && <div className="mt-2 text-[11px] text-warn flex items-center gap-1"><Info className="w-3 h-3" />طلب توصيل بمتبقٍّ — اختر العميل لتسجيل دينه.</div>}
+          {delivery === "courier" && remaining === 0 && <div className="mt-2 text-[11px] text-muted-foreground flex items-center gap-1"><Info className="w-3 h-3" />مدفوعة كاملة — العميل اختياري، لكن اختيار مستلم يساعدك في التتبع.</div>}
         </div>
 
         {/* Customer */}
@@ -1274,7 +1276,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
           <button onClick={() => setPickCustomer(true)} className={`mt-1 w-full text-right rounded-xl border px-3 py-3 text-sm ${needsCustomer && !customerId ? "border-debt bg-debt-soft text-debt" : "border-border bg-background"}`}>
             {customerId ? customers.find((c: Customer) => c.id === customerId)?.name : (needsCustomer ? "اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل" : "بدون عميل")}
           </button>
-          {status === "paid" && delivery === "direct" && !customerId && (
+          {!needsCustomer && !customerId && (
             <div className="mt-1 rounded-lg bg-success-soft text-success text-[11px] p-2 flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5" />مدفوعة كاملة — لا حاجة لاختيار عميل</div>
           )}
         </div>
@@ -1488,7 +1490,7 @@ function SaleQuickScreen(p: any) {
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col" dir="rtl">
-      <TopBar title="بيع سريع" onBack={p.back} right={
+      <TopBar title="بيع سريع" onBack={p.back} onHome={p.goHome} right={
         <span className="px-2 py-1 rounded-full bg-success-soft text-success text-[10px] font-bold">نقدي · كامل</span>
       } />
 
@@ -1667,7 +1669,7 @@ function DayCloseScreen(p: any) {
   );
   return (
     <div className="min-h-[100dvh] bg-background">
-      <TopBar title="إقفال اليوم" onBack={p.back} />
+      <TopBar title="إقفال اليوم" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3 pb-32">
         <div className="rounded-2xl bg-primary-soft border border-primary/20 p-4 text-xs text-primary flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
@@ -1780,7 +1782,7 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
     </div>
   );
   return (
-    <Sheet onClose={onClose} title={`التفاصيل المالية · ${periodLabel}`}>
+    <Sheet onClose={onClose} title={`حركة ${periodLabel} المالية`}>
       <div className="space-y-3">
         <div className="rounded-xl bg-muted p-3 text-[11px] text-muted-foreground">
           الفصل المالي: <b>بعت</b> = قيمة الفواتير. <b>محصّل</b> = ما دخل فعلًا. <b>دين</b> = على العميل. <b>عهدة</b> = عند المندوب.
@@ -1798,21 +1800,9 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
           <Row label="عند المندوب (غير مصفّاة)" v={totals.unsettledCustody} color="text-warn" />
         </div>
 
-        <div className="rounded-xl bg-profit-soft border border-profit/20 p-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs text-profit font-bold">ربح تقديري</div>
-              <Money v={totals.realizedProfit} className="text-base text-profit" />
-              <div className="text-[10px] text-muted-foreground mt-0.5">يُوحَّد لاحقًا على أساس المدفوعات</div>
-            </div>
-            <div className="text-left">
-              <div className="text-xs text-muted-foreground font-bold">ربح تقديري</div>
-              <Money v={totals.netProfit} className="text-base" />
-              <div className="text-[10px] text-warn mt-0.5">قد يشمل ديون</div>
-            </div>
-          </div>
-          <button onClick={onOpenProfit} className="mt-3 w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-primary">رؤية شاشة الربح الكاملة</button>
-        </div>
+        <button onClick={onOpenProfit} className="w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-muted-foreground hover:text-primary">
+          الربح في شاشة مستقلة ←
+        </button>
       </div>
     </Sheet>
   );

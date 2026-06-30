@@ -16,7 +16,7 @@ export function ProfitScreen(p: any) {
   );
   return (
     <>
-      <TopBar title="الربح" onBack={p.back} />
+      <TopBar title="الربح" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         {/* Realized profit — primary */}
         <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">

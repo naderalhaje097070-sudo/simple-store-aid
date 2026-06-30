@@ -18,7 +18,7 @@ export function PilotScreen(p: any) {
   if (role !== "owner") {
     return (
       <>
-        <TopBar title="صحة النظام" onBack={p.back} />
+        <TopBar title="صحة النظام" onBack={p.back} onHome={p.goHome} />
         <div className="px-4 pt-6 text-center text-sm text-muted-foreground">
           هذه الصفحة متاحة لصاحب المحل فقط.
         </div>
@@ -102,7 +102,7 @@ export function PilotScreen(p: any) {
 
   return (
     <>
-      <TopBar title="صحة النظام" onBack={p.back} />
+      <TopBar title="صحة النظام" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 pb-8 space-y-4">
 
         {/* Overall health */}

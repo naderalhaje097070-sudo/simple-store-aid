@@ -32,7 +32,7 @@ export function CustomersScreen(p: any) {
   });
   return (
     <>
-      <TopBar title="العملاء" onBack={p.back} />
+      <TopBar title="العملاء" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث بالاسم أو الرقم" className="w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm" />
         <div className="flex gap-2 overflow-x-auto">

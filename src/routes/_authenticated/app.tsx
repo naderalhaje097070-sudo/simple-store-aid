@@ -1266,7 +1266,8 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
             <button onClick={() => setDelivery("direct")} className={`py-2 rounded-xl text-sm font-bold ${delivery === "direct" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>استلام مباشر</button>
             <button onClick={() => setDelivery("courier")} className={`py-2 rounded-xl text-sm font-bold ${delivery === "courier" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>عبر مندوب</button>
           </div>
-          {delivery === "courier" && <div className="mt-2 text-[11px] text-warn flex items-center gap-1"><Info className="w-3 h-3" />طلبات التوصيل تحتاج اسم العميل أو المستلم</div>}
+          {delivery === "courier" && remaining > 0 && <div className="mt-2 text-[11px] text-warn flex items-center gap-1"><Info className="w-3 h-3" />طلب توصيل بمتبقٍّ — اختر العميل لتسجيل دينه.</div>}
+          {delivery === "courier" && remaining === 0 && <div className="mt-2 text-[11px] text-muted-foreground flex items-center gap-1"><Info className="w-3 h-3" />مدفوعة كاملة — العميل اختياري، لكن اختيار مستلم يساعدك في التتبع.</div>}
         </div>
 
         {/* Customer */}

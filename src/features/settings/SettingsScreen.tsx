@@ -43,7 +43,7 @@ export function SettingsScreen(p: any) {
 
   return (
     <>
-      <TopBar title="الإعدادات" onBack={p.back} />
+      <TopBar title="الإعدادات" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-4">
           <label className="block text-xs text-muted-foreground mb-1">اسم المحل</label>

@@ -18,7 +18,7 @@ export function InventoryScreen(p: any) {
   });
   return (
     <>
-      <TopBar title="المخزون" />
+      <TopBar title="المخزون" onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="flex gap-2">
           {[{ id: "all", l: "الكل" }, { id: "low", l: "منخفض" }, { id: "out", l: "نفد" }].map(f => (

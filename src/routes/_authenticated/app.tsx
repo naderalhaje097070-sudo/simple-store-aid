@@ -1782,7 +1782,7 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
     </div>
   );
   return (
-    <Sheet onClose={onClose} title={`التفاصيل المالية · ${periodLabel}`}>
+    <Sheet onClose={onClose} title={`حركة ${periodLabel} المالية`}>
       <div className="space-y-3">
         <div className="rounded-xl bg-muted p-3 text-[11px] text-muted-foreground">
           الفصل المالي: <b>بعت</b> = قيمة الفواتير. <b>محصّل</b> = ما دخل فعلًا. <b>دين</b> = على العميل. <b>عهدة</b> = عند المندوب.
@@ -1800,21 +1800,9 @@ function MoneyDetailsSheet({ totals, period, onClose, onOpenProfit }: { totals: 
           <Row label="عند المندوب (غير مصفّاة)" v={totals.unsettledCustody} color="text-warn" />
         </div>
 
-        <div className="rounded-xl bg-profit-soft border border-profit/20 p-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs text-profit font-bold">ربح تقديري</div>
-              <Money v={totals.realizedProfit} className="text-base text-profit" />
-              <div className="text-[10px] text-muted-foreground mt-0.5">يُوحَّد لاحقًا على أساس المدفوعات</div>
-            </div>
-            <div className="text-left">
-              <div className="text-xs text-muted-foreground font-bold">ربح تقديري</div>
-              <Money v={totals.netProfit} className="text-base" />
-              <div className="text-[10px] text-warn mt-0.5">قد يشمل ديون</div>
-            </div>
-          </div>
-          <button onClick={onOpenProfit} className="mt-3 w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-primary">رؤية شاشة الربح الكاملة</button>
-        </div>
+        <button onClick={onOpenProfit} className="w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-muted-foreground hover:text-primary">
+          الربح في شاشة مستقلة ←
+        </button>
       </div>
     </Sheet>
   );

@@ -1209,7 +1209,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
   const overpaid = paid > subtotal;
-  const needsCustomer = remaining > 0 || delivery === "courier";
+  const needsCustomer = remaining > 0;
   const needsCourier = delivery === "courier";
   const canSave = subtotal > 0 && !overpaid && (!needsCustomer || !!customerId) && (!needsCourier || !!courierId);
 

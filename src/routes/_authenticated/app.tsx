@@ -1276,7 +1276,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
           <button onClick={() => setPickCustomer(true)} className={`mt-1 w-full text-right rounded-xl border px-3 py-3 text-sm ${needsCustomer && !customerId ? "border-debt bg-debt-soft text-debt" : "border-border bg-background"}`}>
             {customerId ? customers.find((c: Customer) => c.id === customerId)?.name : (needsCustomer ? "اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل" : "بدون عميل")}
           </button>
-          {status === "paid" && delivery === "direct" && !customerId && (
+          {!needsCustomer && !customerId && (
             <div className="mt-1 rounded-lg bg-success-soft text-success text-[11px] p-2 flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5" />مدفوعة كاملة — لا حاجة لاختيار عميل</div>
           )}
         </div>

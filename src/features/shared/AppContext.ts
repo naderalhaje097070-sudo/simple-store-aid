@@ -115,6 +115,7 @@ export interface AppCtx {
   /* Navigation / screen state */
   go: (s: Screen) => void;
   back: () => void;
+  goHome: () => void;
   setOpenInvoiceId: Dispatch<SetStateAction<string | null>>;
   openInvoiceId: string | null;
   setOpenCustomerId: Dispatch<SetStateAction<string | null>>;

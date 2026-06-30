@@ -86,7 +86,7 @@ export function HomeScreen(p: any) {
             </div>
           </div>
           <button onClick={() => setMoneyDetailsOpen(true)} className="mt-4 w-full text-center text-xs font-bold text-primary py-2 border-t border-border/50">
-            عرض التفاصيل المالية (صافي الكاش، الربح…)
+            عرض حركة اليوم المالية (الكاش، الديون، العهدة)
           </button>
         </div>
       </div>

@@ -251,6 +251,7 @@ function MongezzApp() {
     closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => closeDayMut.mutateAsync(input),
     go, back, setOpenInvoiceId, openInvoiceId, setOpenCustomerId, openCustomerId, setOpenCourierId, openCourierId,
     setLastSaleSummary, lastSaleSummary, setScreen,
+    goHome: () => { setStack([]); setScreen("home"); },
     lastCreatedInvoiceId, setLastCreatedInvoiceId,
     setQuickExpenseOpen, setMoneyDetailsOpen, showToast,
     addCustomerAsync: (input: { name: string; phone?: string }) => addCustomerMut.mutateAsync(input),

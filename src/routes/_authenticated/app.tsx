@@ -365,7 +365,7 @@ function InvoicesScreen(p: any) {
   const total = list.reduce((s: number, i: Invoice) => s + i.total, 0);
   return (
     <>
-      <TopBar title="الفواتير" />
+      <TopBar title="الفواتير" onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
@@ -399,7 +399,7 @@ function InvoiceDetailScreen(p: any) {
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   const [pdfBusy, setPdfBusy] = useState(false);
   useEffect(() => { ensureInvoiceFont(); }, []);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
+  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const remaining = inv.total - inv.paid;
   const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
@@ -418,7 +418,7 @@ function InvoiceDetailScreen(p: any) {
 
   return (
     <>
-      <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} />
+      <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-4">
           <div className="flex items-center justify-between">
@@ -587,7 +587,7 @@ function DebtsScreen(p: any) {
   const total = rows.reduce((s, r) => s + r.v, 0);
   return (
     <>
-      <TopBar title="الديون" onBack={p.back} />
+      <TopBar title="الديون" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-debt-soft border border-debt/20 p-4">
           <div className="text-xs text-debt">إجمالي الديون المستحقة</div>
@@ -622,7 +622,7 @@ function DebtCustomerScreen(p: any) {
   const total = invs.reduce((s: number, i: Invoice) => s + (i.total - i.paid), 0);
   return (
     <>
-      <TopBar title={cust?.name ?? "عميل"} onBack={p.back} />
+      <TopBar title={cust?.name ?? "عميل"} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
           <div>
@@ -659,7 +659,7 @@ function CourierCustodyScreen(p: any) {
   if (!p.couriers || p.couriers.length === 0) {
     return (
       <>
-        <TopBar title="عهدة المندوب" onBack={p.back} />
+        <TopBar title="عهدة المندوب" onBack={p.back} onHome={p.goHome} />
         <div className="px-4 pt-10 text-center space-y-4">
           <div className="text-5xl">🛵</div>
           <div className="font-bold">لا يوجد مندوبون بعد</div>
@@ -701,7 +701,7 @@ function CourierCustodyScreen(p: any) {
 
   return (
     <>
-      <TopBar title="عهدة المندوب" onBack={p.back} right={<button onClick={goSettlements} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
+      <TopBar title="عهدة المندوب" onBack={p.back} onHome={p.goHome} right={<button onClick={goSettlements} className="text-xs font-bold text-primary px-3 py-1.5 rounded-full bg-primary-soft">تسوية</button>} />
       <div className="px-4 pt-3 space-y-3">
         <div className="flex gap-2 overflow-x-auto">
           {p.couriers.map((c: Courier) => (
@@ -828,7 +828,7 @@ function SettlementsScreen(p: any) {
   if (!courier) {
     return (
       <>
-        <TopBar title="التسويات" onBack={p.back} />
+        <TopBar title="التسويات" onBack={p.back} onHome={p.goHome} />
         <div className="px-4 pt-10 text-center space-y-4">
           <div className="text-5xl">🧾</div>
           <div className="font-bold">لا يوجد مندوبون لتسويتهم</div>
@@ -867,7 +867,7 @@ function SettlementsScreen(p: any) {
 
   return (
     <>
-      <TopBar title={`تسوية مع ${courier.name}`} onBack={p.back} />
+      <TopBar title={`تسوية مع ${courier.name}`} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3 pb-4">
         <div className="text-xs font-bold text-muted-foreground">المبالغ التي قبضها المندوب فعلًا</div>
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
@@ -929,7 +929,7 @@ function ExpensesScreen(p: any) {
 
   return (
     <>
-      <TopBar title="المصروفات" onBack={p.back} />
+      <TopBar title="المصروفات" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
         <DateRangeFilter value={range} onChange={setRange} />
         <div className="rounded-2xl bg-card border border-border p-4">
@@ -1005,7 +1005,7 @@ function CouriersScreen(p: any) {
   };
   return (
     <>
-      <TopBar title="المندوبون" onBack={p.back} />
+      <TopBar title="المندوبون" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-2">
         {p.couriers.map((c: Courier) => {
           const list = p.invoices.filter((i: Invoice) => i.courierId === c.id);
@@ -1085,7 +1085,7 @@ function SaleScreen(p: any) {
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
       {!searchFocused && (
-        <TopBar title="فاتورة جديدة" onBack={p.back} right={
+        <TopBar title="فاتورة جديدة" onBack={p.back} onHome={p.goHome} right={
           <button className="px-3 py-1.5 rounded-full bg-muted text-xs font-bold flex items-center gap-1"><Users className="w-3.5 h-3.5" />بدون عميل</button>
         } />
       )}
@@ -1489,7 +1489,7 @@ function SaleQuickScreen(p: any) {
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col" dir="rtl">
-      <TopBar title="بيع سريع" onBack={p.back} right={
+      <TopBar title="بيع سريع" onBack={p.back} onHome={p.goHome} right={
         <span className="px-2 py-1 rounded-full bg-success-soft text-success text-[10px] font-bold">نقدي · كامل</span>
       } />
 
@@ -1668,7 +1668,7 @@ function DayCloseScreen(p: any) {
   );
   return (
     <div className="min-h-[100dvh] bg-background">
-      <TopBar title="إقفال اليوم" onBack={p.back} />
+      <TopBar title="إقفال اليوم" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3 pb-32">
         <div className="rounded-2xl bg-primary-soft border border-primary/20 p-4 text-xs text-primary flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />

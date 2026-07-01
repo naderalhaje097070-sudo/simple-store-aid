@@ -160,6 +160,23 @@ export function HomeScreen(p: any) {
           {recent.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { setOpenInvoiceId(id); go("invoice_detail"); }} />)}
         </div>
       </div>
+
+      {/* Clear sign-out from the main menu */}
+      <div className="px-4 mt-6 mb-6">
+        <button
+          onClick={signOut}
+          className="w-full rounded-2xl border border-destructive/30 bg-destructive/5 p-4 flex items-center gap-3 text-destructive active:scale-[0.99] transition"
+        >
+          <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center">
+            <LogOut className="w-5 h-5" />
+          </div>
+          <div className="flex-1 text-right">
+            <div className="text-sm font-bold">تسجيل الخروج</div>
+            <div className="text-[11px] opacity-80">اخرج من حسابك بأمان</div>
+          </div>
+          <ChevronLeft className="w-4 h-4 opacity-70" />
+        </button>
+      </div>
     </>
   );
 }

@@ -718,7 +718,7 @@ function SecurityTab() {
         </div>
       </div>
 
-      {err && <p className="text-sm text-red-600">خطأ: {err}</p>}
+      {err && <p className="text-sm text-debt">خطأ: {err}</p>}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card title="فحوص حرجة مفتوحة" value={fmt(byLevel("error"))} tone={byLevel("error") > 0 ? "crit" : "ok"} />

@@ -752,7 +752,7 @@ function SecurityTab() {
                       {r.status === "success" ? "ناجح" : r.status}
                     </span>
                   </td>
-                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-red-600" : ""}`}>{fmt(r.new_count)}</td>
+                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-debt" : ""}`}>{fmt(r.new_count)}</td>
                   <td className="p-2">{fmt(r.total_count)}</td>
                 </tr>
               ))}

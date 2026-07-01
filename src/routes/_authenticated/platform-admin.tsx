@@ -688,9 +688,9 @@ function SecurityTab() {
   const byLevel = (lv: string) => open.filter((f) => f.level === lv).length;
 
   const lvTone: Record<string, string> = {
-    error: "bg-red-100 text-red-800",
-    warn: "bg-amber-100 text-amber-800",
-    info: "bg-sky-100 text-sky-800",
+    error: "bg-debt-soft text-debt",
+    warn: "bg-warn-soft text-warn",
+    info: "bg-info-soft text-info",
   };
   const lvLabel: Record<string, string> = { error: "حرج", warn: "تحذير", info: "معلومة" };
 

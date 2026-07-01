@@ -1288,7 +1288,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
             <label className="text-xs font-bold text-muted-foreground">المندوب (إلزامي)</label>
             <div className="mt-1 flex flex-wrap gap-2">
               {couriers.map((c: Courier) => (
-                <button key={c.id} onClick={() => setCourierId(c.id)} className={`px-3 py-1.5 rounded-full text-xs font-bold ${courierId === c.id ? "bg-warn text-white" : "bg-muted"}`}>{c.name}</button>
+                <button key={c.id} onClick={() => setCourierId(c.id)} className={`px-3 py-1.5 rounded-full text-xs font-bold ${courierId === c.id ? "bg-warn text-background" : "bg-muted"}`}>{c.name}</button>
               ))}
             </div>
           </div>

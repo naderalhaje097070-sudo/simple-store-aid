@@ -49,7 +49,7 @@ export function PilotScreen(p: any) {
     now - new Date(i.createdAt).getTime() > 7 * DAY
   ).length;
   const oldDebts = invoices.filter(i =>
-    i.delivery === "direct" && (i.status === "debt" || i.status === "partial") &&
+    i.delivery === "direct" && i.courierState !== "returned" && (i.status === "debt" || i.status === "partial") &&
     now - new Date(i.createdAt).getTime() > 30 * DAY
   ).length;
   const customersNoPhone = customers.filter(c => !c.phone).length;

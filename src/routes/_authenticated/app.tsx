@@ -182,7 +182,7 @@ function MongezzApp() {
     const cashToday = collected - expenseTotal;
 
     // Stocks — current balances across ALL invoices (not period-bound)
-    const directDebt = invoices.filter(i => i.delivery === "direct").reduce((s, i) => s + (i.total - i.paid), 0);
+    const directDebt = invoices.filter(i => i.delivery === "direct" && i.courierState !== "returned").reduce((s, i) => s + (i.total - i.paid), 0);
     const courierCustomerDebt = invoices
       .filter(i => i.delivery === "courier")
       .reduce((s, i) => {
@@ -222,10 +222,11 @@ function MongezzApp() {
     if (totals.unsettledCustody > 0 && couriers.length > 0) list.push({ id: "custody", tone: "warn", icon: Truck, text: `عهدة عند المندوب ${fmt(totals.unsettledCustody)} د.ل لم تُصفَّ`, onClick: () => go("settlements") });
     const oldDebts = invoices.filter(i =>
       i.delivery === "direct" &&
+      i.courierState !== "returned" &&
       (i.status === "debt" || i.status === "partial") &&
       now - new Date(i.createdAt).getTime() > THIRTY_DAYS
     ).length;
-    const allDebts = invoices.filter(i => i.delivery === "direct" && (i.status === "debt" || i.status === "partial")).length;
+    const allDebts = invoices.filter(i => i.delivery === "direct" && i.courierState !== "returned" && (i.status === "debt" || i.status === "partial")).length;
     if (oldDebts > 0) list.push({ id: "olddebt", tone: "debt", icon: CircleDollarSign, text: `${oldDebts} فواتير دين أقدم من ٣٠ يوم`, onClick: () => go("debts") });
     else if (allDebts > 0) list.push({ id: "debt", tone: "debt", icon: CircleDollarSign, text: `${allDebts} فواتير دين بحاجة تحصيل`, onClick: () => go("debts") });
     const pendingCourier = invoices.filter(i => i.delivery === "courier" && (i.courierState === "pending" || i.courierState === "delivered_partial")).length;
@@ -395,39 +396,55 @@ function InvoicesScreen(p: any) {
 function InvoiceDetailScreen(p: any) {
   const { data: tenantId } = useTenantId();
   const { data: tenant } = useTenant(tenantId);
-  const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
+  // All hooks must run before any early return (react-hooks/rules-of-hooks).
   const [pdfBusy, setPdfBusy] = useState(false);
-  useEffect(() => { ensureInvoiceFont(); }, []);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
-  const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
-  const remaining = inv.total - inv.paid;
-  const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
-  const profit = inv.total - cogs;
-
   const [collectOpen, setCollectOpen] = useState(false);
   const [collectAmt, setCollectAmt] = useState("");
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
+  useEffect(() => { ensureInvoiceFont(); }, []);
+  const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
+  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
+  const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
+  const isReturned = inv.courierState === "returned";
+  const remaining = inv.total - inv.paid;
+  // A returned order has its stock restored and carries no customer debt,
+  // even though status stays 'debt' and delivery flips to 'direct'.
+  const customerRemaining = isReturned ? 0 : remaining;
+  const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
+  const profit = inv.total - cogs;
 
   const submitCollect = async () => {
     const a = Number(collectAmt);
-    if (!a || a <= 0 || a > remaining) return;
-    await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
-    setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
+    if (isReturned || !a || a <= 0 || a > remaining) return;
+    try {
+      await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
+      setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
+    } catch (e) {
+      p.showToast?.(e instanceof Error ? e.message : "تعذّر التحصيل");
+    }
   };
 
   return (
     <>
       <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} />
       <div className="px-4 pt-3 space-y-3">
+        {isReturned && (
+          <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex items-start gap-2">
+            <Info className="w-4 h-4 shrink-0 mt-0.5" />
+            <span>هذه الفاتورة <b>أُرجعت</b> — رجعت البضاعة للمخزون، ولا يوجد دين على العميل ولا عهدة على المندوب.</span>
+          </div>
+        )}
         <div className="rounded-2xl bg-card border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs text-muted-foreground">العميل</div>
               <div className="font-bold mt-0.5">{remaining > 0 ? (cust?.name ?? "—") : (cust?.name ?? "بدون عميل")}</div>
             </div>
-            {inv.status === "paid" && <StatusChip kind="paid" icon={<CheckCircle2 className="w-3 h-3" />}>مدفوع</StatusChip>}
-            {inv.status === "partial" && <StatusChip kind="partial" icon={<Clock className="w-3 h-3" />}>جزئي</StatusChip>}
-            {inv.status === "debt" && <StatusChip kind="debt" icon={<AlertTriangle className="w-3 h-3" />}>دين</StatusChip>}
+            {isReturned ? <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>أُرجعت</StatusChip> : <>
+              {inv.status === "paid" && <StatusChip kind="paid" icon={<CheckCircle2 className="w-3 h-3" />}>مدفوع</StatusChip>}
+              {inv.status === "partial" && <StatusChip kind="partial" icon={<Clock className="w-3 h-3" />}>جزئي</StatusChip>}
+              {inv.status === "debt" && <StatusChip kind="debt" icon={<AlertTriangle className="w-3 h-3" />}>دين</StatusChip>}
+            </>}
           </div>
           <div className="text-xs text-muted-foreground mt-2">{inv.time} {inv.delivery === "courier" && "· توصيل عبر مندوب"}</div>
         </div>
@@ -450,7 +467,7 @@ function InvoiceDetailScreen(p: any) {
           {inv.delivery === "courier" && (inv.collectedByCourier ?? 0) > 0 && (
             <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={inv.collectedByCourier ?? 0} className="text-warn" /></div>
           )}
-          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={remaining} className={remaining > 0 ? "text-debt" : ""} /></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} /></div>
         </div>
 
         <div className="rounded-2xl bg-profit-soft border border-profit/20 p-4">
@@ -527,7 +544,7 @@ function InvoiceDetailScreen(p: any) {
                   <Printer className="w-4 h-4" />طباعة
                 </button>
               </div>
-              <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>
+              {!isReturned && <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>}
             </>
           );
         })()}
@@ -571,7 +588,7 @@ function InvoiceDetailScreen(p: any) {
 function DebtsScreen(p: any) {
   const map = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
-    if (i.delivery === "direct" && i.total - i.paid > 0 && i.customerId) {
+    if (i.delivery === "direct" && i.courierState !== "returned" && i.total - i.paid > 0 && i.customerId) {
       map.set(i.customerId, (map.get(i.customerId) ?? 0) + (i.total - i.paid));
     }
     if (i.delivery === "courier") {
@@ -615,6 +632,7 @@ function DebtCustomerScreen(p: any) {
   // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
   const invs = p.invoices.filter((i: Invoice) =>
     i.customerId === cust?.id &&
+    i.courierState !== "returned" &&
     (i.total - i.paid) > 0 &&
     !(i.delivery === "courier" && (i.courierState ?? "pending") === "pending")
   );
@@ -1349,10 +1367,14 @@ function SaleSuccessScreen(p: any) {
   }, [secondsLeft, undone]);
   const undo = async () => {
     if (!p.lastCreatedInvoiceId) return;
-    await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
-    p.setLastCreatedInvoiceId(null);
-    setUndone(true);
-    setTimeout(() => p.setScreen("home"), 600);
+    try {
+      await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
+      p.setLastCreatedInvoiceId(null);
+      setUndone(true);
+      setTimeout(() => p.setScreen("home"), 600);
+    } catch (e) {
+      p.showToast?.(e instanceof Error ? e.message : "تعذّر التراجع عن الفاتورة");
+    }
   };
   if (undone) {
     return (
@@ -1375,7 +1397,8 @@ function SaleSuccessScreen(p: any) {
           )}
         </div>
       )}
-      {secondsLeft > 0 && p.lastCreatedInvoiceId && (
+      {/* Undo only works on deletable (unpaid) orders — the delete RPC rejects paid>0. */}
+      {secondsLeft > 0 && p.lastCreatedInvoiceId && s?.paid === 0 && (
         <button onClick={undo} className="text-xs text-debt font-bold underline">تراجع عن هذه الفاتورة ({secondsLeft})</button>
       )}
       <div className="w-full max-w-xs space-y-2 mt-2">

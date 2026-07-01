@@ -151,6 +151,9 @@ function rpcMessage(err: any): string {
     not_a_courier_order: "هذه الفاتورة ليست توصيلًا بمندوب",
     cannot_return_partially_paid_order: "لا يمكن إرجاع فاتورة تم تحصيل جزء منها",
     settle_courier_first: "سوِّ عهدة المندوب أولًا قبل تحصيل هذه الفاتورة",
+    cannot_collect_returned_order: "لا يمكن التحصيل على فاتورة مُرجَعة",
+    cannot_delete_paid_order: "لا يمكن التراجع عن فاتورة مدفوعة",
+    cannot_delete_courier_with_collected_money: "لا يمكن حذف طلب مندوب حُصِّل منه مبلغ",
   };
   for (const key of Object.keys(map)) {
     if (raw.includes(key)) return map[key];

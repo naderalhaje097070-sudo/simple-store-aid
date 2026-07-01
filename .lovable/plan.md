@@ -1,47 +1,48 @@
-# تشخيص "This page didn't load" بعد دمج PR #2
+## Plan: Add Dark Mode to Mongezz
 
-## الخطأ الفعلي (من console)
-```
-Error: Missing Supabase environment variable(s):
-SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY.
-Connect Supabase in Lovable Cloud.
-   at src/integrations/supabase/client.ts (createSupabaseClient)
-```
-الـ Error Boundary في `__root.tsx` يلتقطه ويعرض شاشة "This page didn't load".
+### Goal
+Add a fully functional dark mode with a manual toggle, persisted to `localStorage`, without changing any financial or business logic.
 
-## نطاق العطل
+---
 
-| البيئة | HTTP | العنوان | الحالة |
-|---|---|---|---|
-| Preview `/`  (id-preview--…lovable.app) | 200 | "Internal Lovable project" (shell فارغ) | ❌ معطّل |
-| Preview `/app` | 200 (يعيد توجيه عبر `_authenticated`) | "Internal Lovable project" | ❌ نفس الخطأ |
-| Published `https://mongzz.lovable.app/` | 200 | "منجز — دفتر ذكي…" | ✅ يعمل |
+### Step 1: Extend CSS tokens for dark mode
+In `src/styles.css`, add a `.dark` block that redefines all semantic color variables with dark-appropriate OKLCH values:
+- `--background`, `--foreground`, `--card`, `--muted`, `--border`, `--input`
+- `--primary`, `--primary-soft`, `--debt`, `--warn`, `--success`, `--info`, `--profit` (and their `-soft` variants)
+- Keep the same variable names so every component automatically adapts.
 
-الخلاصة: **كل الصفحات في Preview معطّلة، وليست homepage فقط**. السبب واحد لا يخص route معيّن.
+### Step 2: Create a theme hook
+Create `src/hooks/useTheme.ts`:
+- Reads `"mongezz-theme"` from `localStorage` (values: `"light" | "dark"`, default `"light"`).
+- On mount, applies `document.documentElement.classList.toggle("dark", isDark)`.
+- Exposes `theme`, `setTheme`, and `toggleTheme`.
+- Updates the `<meta name="theme-color">` tag dynamically.
 
-## السبب الجذري
+### Step 3: Wrap the app with the theme provider
+In `src/routes/__root.tsx` (or `src/routes/_authenticated/app.tsx`):
+- Call the theme hook so the `dark` class is applied before first paint.
+- For authenticated routes, initialize inside the app shell; for the landing page, initialize in `RootComponent` so the landing page also respects the saved preference.
 
-- الكراش يحدث في `src/integrations/supabase/client.ts` عند أول قراءة لـ `import.meta.env.VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`.
-- `.env` موجود محلياً ويحتوي على المفاتيح (3 أسطر `VITE_SUPABASE_*`).
-- لكن **build الـ Preview المنشور (static preview) تم بدون حقن متغيرات `VITE_*`**، لذا انضغطت `undefined` داخل bundle الـ client (`assets/index-DxQdmFzr.js`).
-- لذلك Published يعمل (build جديد بمفاتيح صحيحة)، Preview لا يعمل (build قديم/ناقص).
-- ليست مشكلة كود، ولا route، ولا منطق. هي مشكلة **build artifact للـ static preview** بعد merge PR #2.
+### Step 4: Add toggle in Settings
+In `src/features/settings/SettingsScreen.tsx`:
+- Add a new card/row with label "الوضع المظلم" and a switch/toggle button.
+- Use the `toggleTheme` / `setTheme` from the hook.
+- Show current state (مظلم / فاتح).
 
-## Build / Runtime
+### Step 5: Fix hardcoded colors that break dark mode
+Search and replace specific hardcoded classes that ignore semantic tokens:
+- `bg-warn text-white` → use a semantic warn foreground or a dark-aware class.
+- `bg-emerald-100 text-emerald-800` and `bg-amber-100 text-amber-800` in `platform-admin.tsx` → map to `--success-soft` / `--warn-soft` with corresponding foregrounds.
+- Verify `bg-black/40` and `bg-black/80` overlays look acceptable in dark mode (usually fine).
+- Verify `shadow-primary/20` still reads well on dark backgrounds.
 
-- Build: passed (bundle موجود ويُحمَّل، وProduction build يعمل من نفس الكود).
-- Runtime: خطأ متغير بيئة في init الـ Supabase client → React Error Boundary.
-- لا أخطاء TypeScript، لا فشل في الـ route tree، لا migrations أو RLS متعلقة بالموضوع.
+### Step 6: Smoke test
+- Toggle dark mode in Settings → verify the class is added to `<html>`.
+- Refresh the page → verify localStorage preference is restored.
+- Check key screens in dark mode: Dashboard, Sale Quick, Inventory, Settings, Auth, Landing page.
+- Verify no unreadable text or invisible borders.
 
-## هل يحتاج Rebuild / Refresh؟
-
-نعم. preview stale build. الحل (لاحقاً عند الموافقة، لا الآن):
-1. Hard refresh أولاً (احتمال SW يخدم نسخة قديمة — PWA مفعّلة).
-2. لو استمر، إعادة بناء preview (يكفي أي تعديل تافه أو إعادة تشغيل النشر/البناء) ليتم حقن `VITE_SUPABASE_*` في bundle جديد.
-3. لا حاجة لأي تعديل كود، UI، business logic، migrations، أو RLS.
-
-## ممنوع في هذا التشخيص (مُحترَم)
-- لا R4d، لا إصلاح كود، لا UI، لا منطق، لا migrations/RLS/RPC/Publish.
-
-## التالي
-انتظار قرارك: هل أكتفي بطلب Hard Refresh، أم نطلب Rebuild للـ preview؟
+### Out of scope
+- No DB migration or tenant profile field.
+- No system-preference auto-detection.
+- No financial logic changes.

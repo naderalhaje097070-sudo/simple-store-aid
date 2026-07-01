@@ -688,9 +688,9 @@ function SecurityTab() {
   const byLevel = (lv: string) => open.filter((f) => f.level === lv).length;
 
   const lvTone: Record<string, string> = {
-    error: "bg-red-100 text-red-800",
-    warn: "bg-amber-100 text-amber-800",
-    info: "bg-sky-100 text-sky-800",
+    error: "bg-debt-soft text-debt",
+    warn: "bg-warn-soft text-warn",
+    info: "bg-info-soft text-info",
   };
   const lvLabel: Record<string, string> = { error: "حرج", warn: "تحذير", info: "معلومة" };
 
@@ -718,7 +718,7 @@ function SecurityTab() {
         </div>
       </div>
 
-      {err && <p className="text-sm text-red-600">خطأ: {err}</p>}
+      {err && <p className="text-sm text-debt">خطأ: {err}</p>}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card title="فحوص حرجة مفتوحة" value={fmt(byLevel("error"))} tone={byLevel("error") > 0 ? "crit" : "ok"} />
@@ -748,11 +748,11 @@ function SecurityTab() {
                   <td className="p-2 whitespace-nowrap">{dt(r.started_at)}</td>
                   <td className="p-2">{r.triggered_by === "cron" ? "تلقائي" : "يدوي"}</td>
                   <td className="p-2">
-                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}>
+                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-success-soft text-success" : "bg-warn-soft text-warn"}`}>
                       {r.status === "success" ? "ناجح" : r.status}
                     </span>
                   </td>
-                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-red-600" : ""}`}>{fmt(r.new_count)}</td>
+                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-debt" : ""}`}>{fmt(r.new_count)}</td>
                   <td className="p-2">{fmt(r.total_count)}</td>
                 </tr>
               ))}
@@ -766,7 +766,7 @@ function SecurityTab() {
           النتائج {showResolved ? "(الكل)" : "(المفتوحة)"} — {visible.length}
         </div>
         {visible.length === 0 ? (
-          <p className="p-3 text-xs text-emerald-700">لا توجد ملاحظات. الوضع سليم.</p>
+          <p className="p-3 text-xs text-success">لا توجد ملاحظات. الوضع سليم.</p>
         ) : (
           <ul className="divide-y">
             {visible.map((f) => (

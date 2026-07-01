@@ -93,6 +93,43 @@
   --profit-soft: oklch(0.96 0.04 285);
 }
 
+.dark {
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.97 0.005 250);
+
+  --card: oklch(0.22 0.015 250);
+  --muted: oklch(0.28 0.01 250);
+  --muted-foreground: oklch(0.62 0.02 250);
+  --border: oklch(0.32 0.02 250);
+  --input: oklch(0.32 0.02 250);
+  --ring: oklch(0.65 0.12 175);
+
+  /* Primary stays teal but brightened for dark */
+  --primary: oklch(0.65 0.12 175);
+  --primary-foreground: oklch(0.12 0.01 250);
+  --primary-soft: oklch(0.28 0.04 175);
+
+  /* Debt softened but still readable */
+  --debt: oklch(0.68 0.18 25);
+  --debt-soft: oklch(0.28 0.04 25);
+
+  /* Warn brightened */
+  --warn: oklch(0.78 0.16 80);
+  --warn-soft: oklch(0.28 0.05 85);
+
+  /* Success brightened */
+  --success: oklch(0.68 0.17 155);
+  --success-soft: oklch(0.28 0.05 155);
+
+  /* Info brightened */
+  --info: oklch(0.68 0.18 255);
+  --info-soft: oklch(0.28 0.05 255);
+
+  /* Profit brightened */
+  --profit: oklch(0.65 0.14 285);
+  --profit-soft: oklch(0.28 0.04 285);
+}
+
 * {
   border-color: var(--border);
 }

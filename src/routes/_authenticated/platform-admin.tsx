@@ -766,7 +766,7 @@ function SecurityTab() {
           النتائج {showResolved ? "(الكل)" : "(المفتوحة)"} — {visible.length}
         </div>
         {visible.length === 0 ? (
-          <p className="p-3 text-xs text-emerald-700">لا توجد ملاحظات. الوضع سليم.</p>
+          <p className="p-3 text-xs text-success">لا توجد ملاحظات. الوضع سليم.</p>
         ) : (
           <ul className="divide-y">
             {visible.map((f) => (

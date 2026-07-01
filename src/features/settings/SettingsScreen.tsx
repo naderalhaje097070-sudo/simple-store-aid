@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
+import { Moon, Sun } from "lucide-react";
 import { TopBar } from "@/features/layout/TopBar";
+import { useTheme } from "@/hooks/useTheme";
 import { useTenantId, useTenant, useMyRole, useUpdateTenantName, useUpdateTenantBusinessType } from "@/lib/db";
 import { BUSINESS_TYPES, businessTypeLabel } from "@/lib/business-types";
 

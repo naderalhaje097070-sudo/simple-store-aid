@@ -12,6 +12,7 @@ export function SettingsScreen(p: any) {
   const { data: role } = useMyRole(tenantId);
   const updateNameMut = useUpdateTenantName(tenantId);
   const updateBizMut = useUpdateTenantBusinessType(tenantId);
+  const { theme, toggleTheme } = useTheme();
   const [name, setName] = useState("");
   const [bizType, setBizType] = useState<string>("");
   const [savedFlash, setSavedFlash] = useState(false);

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-  Plus, ChevronLeft, AlertTriangle, Banknote, Wallet, Truck, ArrowDownCircle, CheckCircle2, Clock,
+  Plus, ChevronLeft, AlertTriangle, Banknote, Wallet, Truck, ArrowDownCircle, CheckCircle2, Clock, LogOut,
 } from "lucide-react";
 import type { Customer, Invoice } from "@/features/shared/types";
 import { Money, fmt } from "@/features/shared/Money";

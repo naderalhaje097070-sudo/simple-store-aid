@@ -12,7 +12,7 @@ export function CustomersScreen(p: any) {
   const debtMap = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
     if (!i.customerId) return;
-    if (i.delivery === "direct" && i.total - i.paid > 0) {
+    if (i.delivery === "direct" && i.courierState !== "returned" && i.total - i.paid > 0) {
       debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + (i.total - i.paid));
     }
     if (i.delivery === "courier") {

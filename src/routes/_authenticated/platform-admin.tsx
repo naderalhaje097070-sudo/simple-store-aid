@@ -748,7 +748,7 @@ function SecurityTab() {
                   <td className="p-2 whitespace-nowrap">{dt(r.started_at)}</td>
                   <td className="p-2">{r.triggered_by === "cron" ? "تلقائي" : "يدوي"}</td>
                   <td className="p-2">
-                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}`}>
+                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-success-soft text-success" : "bg-warn-soft text-warn"}`}>
                       {r.status === "success" ? "ناجح" : r.status}
                     </span>
                   </td>

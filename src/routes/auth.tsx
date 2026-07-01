@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
@@ -131,6 +132,16 @@ function AuthPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col items-center px-5 py-10">
       <div className="w-full max-w-sm">
+        <div className="flex items-center justify-start mb-4">
+          <button
+            onClick={() => navigate({ to: "/" })}
+            aria-label="الرئيسية"
+            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 rotate-180" />
+            <span>الرئيسية</span>
+          </button>
+        </div>
         <div className="text-center mb-6">
           <h1 className="text-3xl font-extrabold">منجز</h1>
           <p className="text-sm text-muted-foreground mt-1">دفتر محلك الذكي</p>

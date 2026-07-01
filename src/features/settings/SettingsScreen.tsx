@@ -91,6 +91,14 @@ export function SettingsScreen(p: any) {
         </div>
 
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
+          <button
+            onClick={toggleTheme}
+            className="w-full flex items-center gap-3 px-4 py-3 text-right transition"
+          >
+            {theme === "dark" ? <Moon className="w-4 h-4 text-primary" /> : <Sun className="w-4 h-4 text-warn" />}
+            <span className="flex-1 text-sm text-muted-foreground">الوضع المظلم</span>
+            <span className="text-sm font-semibold">{theme === "dark" ? "مفعّل" : "معطّل"}</span>
+          </button>
           <div className="flex items-center gap-3 px-4 py-3">
             <span className="flex-1 text-sm text-muted-foreground">دورك في المحل</span>
             <span className="text-sm font-semibold">{roleLabel}</span>

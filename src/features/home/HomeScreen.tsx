@@ -9,6 +9,12 @@ import { StatusChip } from "@/features/shared/StatusChip";
 
 export function HomeScreen(p: any) {
   const { totals, alerts, period, setPeriod, invoices, go, setOpenInvoiceId, setQuickExpenseOpen, setMoneyDetailsOpen, closedToday } = p;
+
+  const signOut = async () => {
+    const { supabase } = await import("@/integrations/supabase/client");
+    await supabase.auth.signOut();
+    window.location.href = "/auth";
+  };
   const recent = invoices.slice(-3).reverse();
 
   // Status: needs attention if there are debt/custody alerts, otherwise ok

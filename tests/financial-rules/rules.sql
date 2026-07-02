@@ -367,6 +367,69 @@ BEGIN
 END $t14$;
 
 -- =====================================================================
+-- T15. A returned courier order is NOT customer debt and cannot be collected
+--      (P0-1 regression: return restores stock but leaves status='debt')
+-- =====================================================================
+DO $t15$
+DECLARE
+  v_res jsonb; v_oid uuid;
+  v_stock_before numeric; v_stock_after numeric;
+  v_order_debt numeric; v_custody numeric;
+  v_collect_blocked bool := false;
+BEGIN
+  SELECT stock INTO v_stock_before FROM products WHERE id = 'aaaa1111-0000-0000-0000-000000000001';
+  -- Courier order, full debt (paid=0), with customer + courier
+  v_res := create_sale_with_items(
+    'bbbb2222-0000-0000-0000-000000000001'::uuid,
+    'courier'::delivery_kind,
+    'cccc3333-0000-0000-0000-000000000001'::uuid,
+    0, 'cash'::payment_method,
+    '[{"productId":"aaaa1111-0000-0000-0000-000000000001","qty":2}]'::jsonb
+  );
+  v_oid := (v_res->>'order_id')::uuid;
+
+  PERFORM return_courier_order(v_oid);
+
+  -- 1) Stock restored
+  SELECT stock INTO v_stock_after FROM products WHERE id = 'aaaa1111-0000-0000-0000-000000000001';
+  IF v_stock_after <> v_stock_before THEN
+    RAISE EXCEPTION 'T15 FAIL: stock not restored (before=% after=%)', v_stock_before, v_stock_after;
+  END IF;
+
+  -- 2) close_day's customer_debts formula must yield 0 for this order
+  SELECT CASE
+      WHEN courier_state = 'returned' THEN 0
+      WHEN delivery = 'direct' OR courier_id IS NULL THEN GREATEST(total - paid, 0)
+      WHEN delivery = 'courier' AND courier_state = 'delivered_none' THEN total
+      WHEN delivery = 'courier' AND courier_state = 'delivered_partial' THEN GREATEST(total - collected_by_courier, 0)
+      ELSE 0
+    END
+    INTO v_order_debt
+    FROM orders WHERE id = v_oid;
+  IF v_order_debt <> 0 THEN
+    RAISE EXCEPTION 'T15 FAIL: returned order counted as customer debt (=%)', v_order_debt;
+  END IF;
+
+  -- 3) Courier custody must be 0
+  SELECT COALESCE(collected_by_courier, 0) INTO v_custody FROM orders WHERE id = v_oid;
+  IF v_custody <> 0 THEN
+    RAISE EXCEPTION 'T15 FAIL: returned order still in custody (=%)', v_custody;
+  END IF;
+
+  -- 4) collect_order_debt must reject a returned order
+  BEGIN
+    PERFORM collect_order_debt(v_oid, 10, 'cash'::payment_method);
+  EXCEPTION WHEN OTHERS THEN
+    IF SQLERRM LIKE '%cannot_collect_returned_order%' THEN v_collect_blocked := true; END IF;
+  END;
+  IF NOT v_collect_blocked THEN
+    RAISE EXCEPTION 'T15 FAIL: collection on returned order was allowed';
+  END IF;
+
+  RAISE NOTICE 'T15 OK: returned order is not customer debt and cannot be collected';
+END $t15$;
+
+-- =====================================================================
 -- All assertions passed
 -- =====================================================================
 DO $done$ BEGIN RAISE NOTICE '====== ALL FINANCIAL RULES TESTS PASSED ======'; END $done$;

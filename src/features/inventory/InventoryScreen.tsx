@@ -72,7 +72,7 @@ export function InventoryScreen(p: AppCtx) {
         <button onClick={() => setAddOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة منتج</button>
       </div>
 
-      {addOpen && <AddProductSheet existingNames={(p.products ?? []).map((x: any) => String(x.name || "").trim().toLowerCase())} onClose={() => setAddOpen(false)} onSave={async (data) => {
+      {addOpen && <AddProductSheet existingNames={(p.products ?? []).map((x: Product) => String(x.name || "").trim().toLowerCase())} onClose={() => setAddOpen(false)} onSave={async (data) => {
         try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
         catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
       }} />}

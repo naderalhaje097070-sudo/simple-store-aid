@@ -123,7 +123,7 @@ export function HomeScreen(p: AppCtx) {
             <AlertTriangle className="w-3.5 h-3.5 text-warn" /> يحتاج انتباهك
           </div>
           <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
-            {alerts.map((a: any) => {
+            {alerts.map((a: AppAlert) => {
               const tone = a.tone === "debt" ? "text-debt" : a.tone === "warn" ? "text-warn" : "text-info";
               return (
                 <button key={a.id} onClick={a.onClick} className="w-full text-right px-4 py-3 flex items-center gap-3 hover:bg-muted active:bg-muted">

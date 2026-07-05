@@ -62,7 +62,7 @@ export function PilotScreen(p: AppCtx) {
     : null;
 
   /* ---- usage metrics ---- */
-  const activeProducts = products.filter(p => (p as any).is_active !== false).length;
+  const activeProducts = products.filter(p => p.is_active !== false).length;
   const invoicesToday = invoices.filter(i => isToday(i.createdAt)).length;
   const paymentsToday = payments.filter(pm => isToday(pm.createdAt));
   const collectedToday = paymentsToday.reduce((s, pm) => s + pm.amount, 0);

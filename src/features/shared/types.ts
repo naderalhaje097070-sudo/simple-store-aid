@@ -1,6 +1,6 @@
 // Extracted from src/routes/_authenticated/app.tsx (R1) — no logic changes.
 
-export type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean };
+export type Product = { id: string; name: string; price: number; cost: number; stock: number; lowAt: number; is_discount?: boolean; is_active?: boolean };
 export type Customer = { id: string; name: string; phone?: string };
 export type Courier = { id: string; name: string; phone?: string };
 export type InvoiceItem = { productId: string; name: string; qty: number; price: number; cost: number };

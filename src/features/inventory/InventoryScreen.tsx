@@ -30,7 +30,7 @@ export function InventoryScreen(p: AppCtx) {
         <div className="space-y-2">
           {list.length === 0 && filter === "out" && <EmptyState text="لا منتجات نافدة — جيد 👍" />}
           {list.length === 0 && filter !== "out" && <EmptyState text="لا منتجات بهذا التصنيف — أضف منتجاً جديداً" />}
-          {list.map((pr: any) => (
+          {list.map((pr: Product) => (
             <div key={pr.id} className={`rounded-2xl border p-3 ${pr.stock === 0 ? "bg-debt-soft/40 border-debt/20" : "bg-card border-border"} ${pr.is_active === false ? "opacity-60" : ""}`}>
               <div className="flex items-center justify-between">
                 <div>

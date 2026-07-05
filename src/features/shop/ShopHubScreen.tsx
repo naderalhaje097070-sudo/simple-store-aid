@@ -4,9 +4,10 @@ import {
   ArrowDownCircle, CircleDollarSign, Banknote, Wallet, TrendingUp, ChevronLeft,
 } from "lucide-react";
 import type { Screen } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 
-export function ShopHubScreen(p: any) {
+export function ShopHubScreen(p: AppCtx) {
   const mgmtItems: { id: Screen; l: string; Icon: any; hint?: string }[] = [
     { id: "customers", l: "العملاء", Icon: Users },
     { id: "inventory", l: "المنتجات", Icon: Boxes },

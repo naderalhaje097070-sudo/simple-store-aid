@@ -60,7 +60,7 @@ export function HomeScreen(p: AppCtx) {
       {/* Period switcher */}
       <div className="px-4 pb-3 flex gap-2">
         {[{ id: "day", l: "اليوم" }, { id: "week", l: "الأسبوع" }, { id: "month", l: "الشهر" }].map(x => (
-          <button key={x.id} onClick={() => setPeriod(x.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold ${period === x.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x.l}</button>
+          <button key={x.id} onClick={() => setPeriod(x.id as Period)} className={`px-4 py-1.5 rounded-full text-xs font-bold ${period === x.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x.l}</button>
         ))}
       </div>
 

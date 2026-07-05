@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Plus, ChevronLeft, AlertTriangle, Banknote, Wallet, Truck, ArrowDownCircle, CheckCircle2, Clock, LogOut,
 } from "lucide-react";
-import type { Customer, Invoice } from "@/features/shared/types";
+import type { Customer, Invoice, Period } from "@/features/shared/types";
+import type { AppCtx, AppAlert } from "@/features/shared/AppContext";
 import { Money, fmt } from "@/features/shared/Money";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { StatusChip } from "@/features/shared/StatusChip";
 
-export function HomeScreen(p: any) {
+export function HomeScreen(p: AppCtx) {
   const { totals, alerts, period, setPeriod, invoices, go, setOpenInvoiceId, setQuickExpenseOpen, setMoneyDetailsOpen, closedToday } = p;
 
   const signOut = async () => {
@@ -19,7 +19,7 @@ export function HomeScreen(p: any) {
 
   // Status: needs attention if there are debt/custody alerts, otherwise ok
   const status: "good" | "ok" | "attention" =
-    alerts.some((a: any) => a.tone === "debt") ? "attention"
+    alerts.some((a: AppAlert) => a.tone === "debt") ? "attention"
       : alerts.length >= 2 ? "ok"
         : "good";
   const statusMeta = {

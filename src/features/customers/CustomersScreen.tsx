@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import type { Customer, Invoice } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Money } from "@/features/shared/Money";
 import { AddCustomerInline } from "./AddCustomerInline";
 
-export function CustomersScreen(p: any) {
-  const [filter, setFilter] = useState<"all" | "debt" | "clear">("all");
+type Filter = "all" | "debt" | "clear";
+
+export function CustomersScreen(p: AppCtx) {
+  const [filter, setFilter] = useState<Filter>("all");
   const [q, setQ] = useState("");
   const debtMap = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {

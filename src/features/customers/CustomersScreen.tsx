@@ -39,7 +39,7 @@ export function CustomersScreen(p: AppCtx) {
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث بالاسم أو الرقم" className="w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm" />
         <div className="flex gap-2 overflow-x-auto">
           {[{ id: "all", l: "الكل" }, { id: "debt", l: "عليه دين" }, { id: "clear", l: "لا دين" }].map(f => (
-            <button key={f.id} onClick={() => setFilter(f.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{f.l}</button>
+            <button key={f.id} onClick={() => setFilter(f.id as Filter)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{f.l}</button>
           ))}
         </div>
         {list.length === 0 && <EmptyState text={q ? "لا عميل بهذا الاسم" : "لا عملاء بهذا التصنيف"} />}

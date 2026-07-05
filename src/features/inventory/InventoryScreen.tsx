@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { AlertTriangle, PackageX } from "lucide-react";
+import type { Product } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { StatusChip } from "@/features/shared/StatusChip";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Money } from "@/features/shared/Money";
 import { AddProductSheet } from "./AddProductSheet";
 
-export function InventoryScreen(p: any) {
+export function InventoryScreen(p: AppCtx) {
   const [filter, setFilter] = useState<"all" | "low" | "out">("all");
-  const [editing, setEditing] = useState<any>(null);
+  const [editing, setEditing] = useState<Product | null>(null);
   const [addOpen, setAddOpen] = useState(false);
-  const list = p.products.filter((pr: any) => {
+  const list = p.products.filter((pr: Product) => {
     if (filter === "low") return pr.stock > 0 && pr.stock <= pr.lowAt;
     if (filter === "out") return pr.stock === 0;
     return true;

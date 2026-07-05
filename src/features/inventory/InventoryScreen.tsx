@@ -79,7 +79,7 @@ export function InventoryScreen(p: AppCtx) {
       {editing && <AddProductSheet
         mode="edit"
         initial={{ name: editing.name, price: editing.price, cost: editing.cost ?? 0, stock: editing.stock, is_discount: !!editing.is_discount }}
-        existingNames={(p.products ?? []).filter((x: any) => x.id !== editing.id).map((x: any) => String(x.name || "").trim().toLowerCase())}
+        existingNames={(p.products ?? []).filter((x: Product) => x.id !== editing.id).map((x: Product) => String(x.name || "").trim().toLowerCase())}
         onClose={() => setEditing(null)}
         onSave={async (data) => {
           try { await p.updateProductAsync({ id: editing.id, ...data }); setEditing(null); p.showToast("تم تحديث المنتج"); }

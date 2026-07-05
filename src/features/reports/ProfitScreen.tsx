@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { TrendingUp, Info } from "lucide-react";
 import { TopBar } from "@/features/layout/TopBar";
 import { Money, fmt } from "@/features/shared/Money";
+import type { AppCtx } from "@/features/shared/AppContext";
 
-export function ProfitScreen(p: any) {
+export function ProfitScreen(p: AppCtx) {
   const { sales, cogs, grossProfit, expenseTotal, netProfit, collected, realizedCogs, realizedProfit, customerDebts, unsettledCustody } = p.totals;
   const Row = ({ label, v, op, color }: { label: string; v: number; op?: string; color?: string }) => (
     <div className="flex items-center justify-between py-2">

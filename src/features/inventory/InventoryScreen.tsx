@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { AlertTriangle, PackageX } from "lucide-react";
+import type { Product } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { StatusChip } from "@/features/shared/StatusChip";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Money } from "@/features/shared/Money";
 import { AddProductSheet } from "./AddProductSheet";
 
-export function InventoryScreen(p: any) {
+export function InventoryScreen(p: AppCtx) {
   const [filter, setFilter] = useState<"all" | "low" | "out">("all");
-  const [editing, setEditing] = useState<any>(null);
+  const [editing, setEditing] = useState<Product | null>(null);
   const [addOpen, setAddOpen] = useState(false);
-  const list = p.products.filter((pr: any) => {
+  const list = p.products.filter((pr: Product) => {
     if (filter === "low") return pr.stock > 0 && pr.stock <= pr.lowAt;
     if (filter === "out") return pr.stock === 0;
     return true;
@@ -28,7 +30,7 @@ export function InventoryScreen(p: any) {
         <div className="space-y-2">
           {list.length === 0 && filter === "out" && <EmptyState text="لا منتجات نافدة — جيد 👍" />}
           {list.length === 0 && filter !== "out" && <EmptyState text="لا منتجات بهذا التصنيف — أضف منتجاً جديداً" />}
-          {list.map((pr: any) => (
+          {list.map((pr: Product) => (
             <div key={pr.id} className={`rounded-2xl border p-3 ${pr.stock === 0 ? "bg-debt-soft/40 border-debt/20" : "bg-card border-border"} ${pr.is_active === false ? "opacity-60" : ""}`}>
               <div className="flex items-center justify-between">
                 <div>
@@ -70,14 +72,14 @@ export function InventoryScreen(p: any) {
         <button onClick={() => setAddOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">＋ إضافة منتج</button>
       </div>
 
-      {addOpen && <AddProductSheet existingNames={(p.products ?? []).map((x: any) => String(x.name || "").trim().toLowerCase())} onClose={() => setAddOpen(false)} onSave={async (data) => {
+      {addOpen && <AddProductSheet existingNames={(p.products ?? []).map((x: Product) => String(x.name || "").trim().toLowerCase())} onClose={() => setAddOpen(false)} onSave={async (data) => {
         try { await p.addProductAsync(data); setAddOpen(false); p.showToast("تمت إضافة المنتج"); }
         catch (e: any) { p.showToast(e?.message ?? "تعذّر الحفظ"); }
       }} />}
       {editing && <AddProductSheet
         mode="edit"
         initial={{ name: editing.name, price: editing.price, cost: editing.cost ?? 0, stock: editing.stock, is_discount: !!editing.is_discount }}
-        existingNames={(p.products ?? []).filter((x: any) => x.id !== editing.id).map((x: any) => String(x.name || "").trim().toLowerCase())}
+        existingNames={(p.products ?? []).filter((x: Product) => x.id !== editing.id).map((x: Product) => String(x.name || "").trim().toLowerCase())}
         onClose={() => setEditing(null)}
         onSave={async (data) => {
           try { await p.updateProductAsync({ id: editing.id, ...data }); setEditing(null); p.showToast("تم تحديث المنتج"); }

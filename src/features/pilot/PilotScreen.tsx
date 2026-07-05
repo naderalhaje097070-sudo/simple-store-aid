@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Activity, ShieldCheck, AlertTriangle, Bell, CheckCircle2 } from "lucide-react";
 import type { Product, Customer, Courier, Invoice, Payment, Expense } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { Money, fmt } from "@/features/shared/Money";
 import { tenantTodayKey } from "@/lib/db";
 
-export function PilotScreen(p: any) {
+export function PilotScreen(p: AppCtx) {
   const products: Product[] = p.products ?? [];
   const customers: Customer[] = p.customers ?? [];
   const couriers: Courier[] = p.couriers ?? [];
@@ -62,7 +62,7 @@ export function PilotScreen(p: any) {
     : null;
 
   /* ---- usage metrics ---- */
-  const activeProducts = products.filter(p => (p as any).is_active !== false).length;
+  const activeProducts = products.filter(p => p.is_active !== false).length;
   const invoicesToday = invoices.filter(i => isToday(i.createdAt)).length;
   const paymentsToday = payments.filter(pm => isToday(pm.createdAt));
   const collectedToday = paymentsToday.reduce((s, pm) => s + pm.amount, 0);

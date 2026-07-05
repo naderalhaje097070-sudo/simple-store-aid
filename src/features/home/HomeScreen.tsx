@@ -1,13 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Plus, ChevronLeft, AlertTriangle, Banknote, Wallet, Truck, ArrowDownCircle, CheckCircle2, Clock, LogOut,
 } from "lucide-react";
-import type { Customer, Invoice } from "@/features/shared/types";
+import type { Customer, Invoice, Period } from "@/features/shared/types";
+import type { AppCtx, AppAlert } from "@/features/shared/AppContext";
 import { Money, fmt } from "@/features/shared/Money";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { StatusChip } from "@/features/shared/StatusChip";
 
-export function HomeScreen(p: any) {
+export function HomeScreen(p: AppCtx) {
   const { totals, alerts, period, setPeriod, invoices, go, setOpenInvoiceId, setQuickExpenseOpen, setMoneyDetailsOpen, closedToday } = p;
 
   const signOut = async () => {
@@ -19,7 +19,7 @@ export function HomeScreen(p: any) {
 
   // Status: needs attention if there are debt/custody alerts, otherwise ok
   const status: "good" | "ok" | "attention" =
-    alerts.some((a: any) => a.tone === "debt") ? "attention"
+    alerts.some((a: AppAlert) => a.tone === "debt") ? "attention"
       : alerts.length >= 2 ? "ok"
         : "good";
   const statusMeta = {
@@ -60,7 +60,7 @@ export function HomeScreen(p: any) {
       {/* Period switcher */}
       <div className="px-4 pb-3 flex gap-2">
         {[{ id: "day", l: "اليوم" }, { id: "week", l: "الأسبوع" }, { id: "month", l: "الشهر" }].map(x => (
-          <button key={x.id} onClick={() => setPeriod(x.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold ${period === x.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x.l}</button>
+          <button key={x.id} onClick={() => setPeriod(x.id as Period)} className={`px-4 py-1.5 rounded-full text-xs font-bold ${period === x.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{x.l}</button>
         ))}
       </div>
 
@@ -123,7 +123,7 @@ export function HomeScreen(p: any) {
             <AlertTriangle className="w-3.5 h-3.5 text-warn" /> يحتاج انتباهك
           </div>
           <div className="rounded-2xl bg-card border border-border divide-y divide-border overflow-hidden">
-            {alerts.map((a: any) => {
+            {alerts.map((a: AppAlert) => {
               const tone = a.tone === "debt" ? "text-debt" : a.tone === "warn" ? "text-warn" : "text-info";
               return (
                 <button key={a.id} onClick={a.onClick} className="w-full text-right px-4 py-3 flex items-center gap-3 hover:bg-muted active:bg-muted">

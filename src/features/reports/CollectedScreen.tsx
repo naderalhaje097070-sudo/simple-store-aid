@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Info, ArrowUpCircle } from "lucide-react";
 import type { Customer, Courier, Payment } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { Money } from "@/features/shared/Money";
 import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
 
-export function CollectedScreen(p: any) {
+export function CollectedScreen(p: AppCtx) {
   const allPayments: Payment[] = p.payments;
   const { range, setRange } = useDateRange("today");
   const payments = allPayments.filter(pm => inRange(pm.createdAt, range));

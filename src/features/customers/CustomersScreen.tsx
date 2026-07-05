@@ -1,13 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import type { Customer, Invoice } from "@/features/shared/types";
+import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Money } from "@/features/shared/Money";
 import { AddCustomerInline } from "./AddCustomerInline";
 
-export function CustomersScreen(p: any) {
-  const [filter, setFilter] = useState<"all" | "debt" | "clear">("all");
+type Filter = "all" | "debt" | "clear";
+
+export function CustomersScreen(p: AppCtx) {
+  const [filter, setFilter] = useState<Filter>("all");
   const [q, setQ] = useState("");
   const debtMap = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
@@ -37,7 +39,7 @@ export function CustomersScreen(p: any) {
         <input value={q} onChange={e => setQ(e.target.value)} placeholder="ابحث بالاسم أو الرقم" className="w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm" />
         <div className="flex gap-2 overflow-x-auto">
           {[{ id: "all", l: "الكل" }, { id: "debt", l: "عليه دين" }, { id: "clear", l: "لا دين" }].map(f => (
-            <button key={f.id} onClick={() => setFilter(f.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{f.l}</button>
+            <button key={f.id} onClick={() => setFilter(f.id as Filter)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}>{f.l}</button>
           ))}
         </div>
         {list.length === 0 && <EmptyState text={q ? "لا عميل بهذا الاسم" : "لا عملاء بهذا التصنيف"} />}

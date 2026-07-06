@@ -6,6 +6,9 @@ import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
+  validateSearch: (s: Record<string, unknown>) => ({
+    next: typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//") ? s.next : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "تسجيل الدخول — منجز" },
@@ -17,6 +20,8 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const postAuthTarget = next ?? "/app";
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,10 +36,10 @@ function AuthPage() {
   useEffect(() => {
     let mounted = true;
     supabase.auth.getSession().then(({ data }) => {
-      if (mounted && data.session) navigate({ to: "/app" });
+      if (mounted && data.session) navigate({ to: postAuthTarget });
     });
     return () => { mounted = false; };
-  }, [navigate]);
+  }, [navigate, postAuthTarget]);
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +49,13 @@ function AuthPage() {
     setLoading(true);
     try {
       if (mode === "signup") {
+        const signupRedirect = next
+          ? `${window.location.origin}/auth?next=${encodeURIComponent(next)}`
+          : window.location.origin;
         const { data, error } = await supabase.auth.signUp({
           email, password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: signupRedirect,
             data: { display_name: displayName || email.split("@")[0] },
           },
         });
@@ -65,7 +73,7 @@ function AuthPage() {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
       }
-      navigate({ to: "/app" });
+      navigate({ to: postAuthTarget });
     } catch (err: any) {
       const msg = String(err?.message ?? err);
       const code = String(err?.code ?? "");
@@ -118,15 +126,18 @@ function AuthPage() {
 
   const onGoogle = async () => {
     setError(null);
+    const googleRedirect = next
+      ? `${window.location.origin}/auth?next=${encodeURIComponent(next)}`
+      : window.location.origin;
     const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+      redirect_uri: googleRedirect,
     });
     if (result.error) {
       setError("تعذّر الدخول عبر Google");
       return;
     }
     if (result.redirected) return;
-    navigate({ to: "/app" });
+    navigate({ to: postAuthTarget });
   };
 
   return (

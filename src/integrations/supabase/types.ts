@@ -14,32 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      __test_allowed_tenants: {
-        Row: {
-          created_at: string
-          note: string | null
-          tenant_id: string
-        }
-        Insert: {
-          created_at?: string
-          note?: string | null
-          tenant_id: string
-        }
-        Update: {
-          created_at?: string
-          note?: string | null
-          tenant_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "__test_allowed_tenants_tenant_id_fkey"
-            columns: ["tenant_id"]
-            isOneToOne: true
-            referencedRelation: "tenants"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       couriers: {
         Row: {
           created_at: string
@@ -842,10 +816,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      __test_force_delete_e2e_order: {
-        Args: { p_order_id: string; p_product_id: string; p_tag: string }
-        Returns: Json
-      }
       _assert_owner: { Args: { _tid: string }; Returns: undefined }
       _assert_platform_admin: { Args: never; Returns: undefined }
       _assert_staff: { Args: { _tid: string }; Returns: undefined }

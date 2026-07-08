@@ -405,7 +405,14 @@ function InvoiceDetailScreen(p: any) {
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
   useEffect(() => { ensureInvoiceFont(); }, []);
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
+  if (!inv) {
+    return (
+      <>
+        <TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} />
+        <div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div>
+      </>
+    );
+  }
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const isReturned = inv.courierState === "returned";
   const remaining = inv.total - inv.paid;

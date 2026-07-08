@@ -1307,20 +1307,24 @@ function SaleSuccessScreen(p: any) {
   const s = p.lastSaleSummary;
   const [secondsLeft, setSecondsLeft] = useState(5);
   const [undone, setUndone] = useState(false);
+  const [undoBusy, setUndoBusy] = useState(false);
   useEffect(() => {
     if (secondsLeft <= 0 || undone) return;
     const t = setTimeout(() => setSecondsLeft(n => n - 1), 1000);
     return () => clearTimeout(t);
   }, [secondsLeft, undone]);
   const undo = async () => {
-    if (!p.lastCreatedInvoiceId) return;
+    if (!p.lastCreatedInvoiceId || undoBusy) return;
+    setUndoBusy(true);
     try {
       await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
       p.setLastCreatedInvoiceId(null);
       setUndone(true);
       setTimeout(() => p.setScreen("home"), 600);
     } catch (e) {
-      p.showToast?.(e instanceof Error ? e.message : "تعذّر التراجع عن الفاتورة");
+      p.showToast?.(e instanceof Error ? e.message : "تعذّر التراجع عن الفاتورة. إذا كانت مدفوعة فلا يمكن التراجع عنها.");
+    } finally {
+      setUndoBusy(false);
     }
   };
   if (undone) {
@@ -1346,7 +1350,7 @@ function SaleSuccessScreen(p: any) {
       )}
       {/* Undo only works on deletable (unpaid) orders — the delete RPC rejects paid>0. */}
       {secondsLeft > 0 && p.lastCreatedInvoiceId && s?.paid === 0 && (
-        <button onClick={undo} className="text-xs text-debt font-bold underline">تراجع عن هذه الفاتورة ({secondsLeft})</button>
+        <button onClick={undo} disabled={undoBusy} className="text-xs text-debt font-bold underline disabled:opacity-60">{undoBusy ? "جاري التراجع…" : `تراجع عن هذه الفاتورة (${secondsLeft})`}</button>
       )}
       <div className="w-full max-w-xs space-y-2 mt-2">
         <button onClick={() => p.setScreen("sale_quick")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">بيع جديد</button>

@@ -59,7 +59,7 @@ import { TopBar } from "@/features/layout/TopBar";
 import { BottomNav } from "@/features/layout/BottomNav";
 import { DesktopSidebar } from "@/features/layout/DesktopSidebar";
 import { Money, fmt } from "@/features/shared/Money";
-import { HomeScreen, InvoiceRow } from "@/features/home/HomeScreen";
+import { HomeScreen } from "@/features/home/HomeScreen";
 import { InventoryScreen } from "@/features/inventory/InventoryScreen";
 
 import { CustomersScreen } from "@/features/customers/CustomersScreen";
@@ -69,6 +69,8 @@ import { ProfitScreen } from "@/features/reports/ProfitScreen";
 import { CollectedScreen } from "@/features/reports/CollectedScreen";
 import { PilotScreen } from "@/features/pilot/PilotScreen";
 import { CouriersScreen } from "@/features/couriers/CouriersScreen";
+import { InvoiceDetailScreen } from "@/features/invoices/InvoiceDetailScreen";
+import { InvoicesScreen } from "@/features/invoices/InvoicesScreen";
 
 
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
@@ -358,220 +360,8 @@ function MongezzApp() {
 
 /* ============================== SCREENS ============================== */
 
-/* --------------- INVOICES LIST --------------- */
-function InvoicesScreen(p: any) {
-  const [filter, setFilter] = useState<"all" | "paid" | "partial" | "debt">("all");
-  const { range, setRange } = useDateRange("today");
-  const dated = p.invoices.filter((i: Invoice) => inRange(i.createdAt, range));
-  const list = dated.filter((i: Invoice) => filter === "all" ? true : i.status === filter);
-  const total = list.reduce((s: number, i: Invoice) => s + i.total, 0);
-  return (
-    <>
-      <TopBar title="الفواتير" onHome={p.goHome} />
-      <div className="px-4 pt-3 space-y-3">
-        <DateRangeFilter value={range} onChange={setRange} />
-        <div className="rounded-2xl bg-card border border-border p-3 flex items-center justify-between">
-          <div>
-            <div className="text-xs text-muted-foreground">قيمة الفواتير · {range.label} <span className="text-[10px]">(ليست المحصّل)</span></div>
-            <div className="text-[11px] text-muted-foreground mb-1">{list.length} فاتورة · بالـ د.ل</div>
-            <Money v={total} className="text-lg" />
-          </div>
-          <Info className="w-4 h-4 text-muted-foreground" />
-        </div>
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {[
-            { id: "all", l: "الكل" }, { id: "paid", l: "مدفوع" }, { id: "partial", l: "جزئي" }, { id: "debt", l: "دين" },
-          ].map(f => (
-            <button key={f.id} onClick={() => setFilter(f.id as any)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border text-foreground"}`}>{f.l}</button>
-          ))}
-        </div>
-        <div className="space-y-2">
-          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا توجد فواتير في هذا النطاق</div>}
-          {list.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { p.setOpenInvoiceId(id); p.go("invoice_detail"); }} />)}
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* --------------- INVOICE DETAIL --------------- */
-function InvoiceDetailScreen(p: any) {
-  const { data: tenantId } = useTenantId();
-  const { data: tenant } = useTenant(tenantId);
-  // All hooks must run before any early return (react-hooks/rules-of-hooks).
-  const [pdfBusy, setPdfBusy] = useState(false);
-  const [collectOpen, setCollectOpen] = useState(false);
-  const [collectAmt, setCollectAmt] = useState("");
-  const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
-  useEffect(() => { ensureInvoiceFont(); }, []);
-  const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
-  const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
-  const isReturned = inv.courierState === "returned";
-  const remaining = inv.total - inv.paid;
-  // A returned order has its stock restored and carries no customer debt,
-  // even though status stays 'debt' and delivery flips to 'direct'.
-  const customerRemaining = isReturned ? 0 : remaining;
-  const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
-  const profit = inv.total - cogs;
-
-  const submitCollect = async () => {
-    const a = Number(collectAmt);
-    if (isReturned || !a || a <= 0 || a > remaining) return;
-    try {
-      await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
-      setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
-    } catch (e) {
-      p.showToast?.(e instanceof Error ? e.message : "تعذّر التحصيل");
-    }
-  };
-
-  return (
-    <>
-      <TopBar title={`فاتورة #${inv.number}`} onBack={p.back} onHome={p.goHome} />
-      <div className="px-4 pt-3 space-y-3">
-        {isReturned && (
-          <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex items-start gap-2">
-            <Info className="w-4 h-4 shrink-0 mt-0.5" />
-            <span>هذه الفاتورة <b>أُرجعت</b> — رجعت البضاعة للمخزون، ولا يوجد دين على العميل ولا عهدة على المندوب.</span>
-          </div>
-        )}
-        <div className="rounded-2xl bg-card border border-border p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs text-muted-foreground">العميل</div>
-              <div className="font-bold mt-0.5">{remaining > 0 ? (cust?.name ?? "—") : (cust?.name ?? "بدون عميل")}</div>
-            </div>
-            {isReturned ? <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>أُرجعت</StatusChip> : <>
-              {inv.status === "paid" && <StatusChip kind="paid" icon={<CheckCircle2 className="w-3 h-3" />}>مدفوع</StatusChip>}
-              {inv.status === "partial" && <StatusChip kind="partial" icon={<Clock className="w-3 h-3" />}>جزئي</StatusChip>}
-              {inv.status === "debt" && <StatusChip kind="debt" icon={<AlertTriangle className="w-3 h-3" />}>دين</StatusChip>}
-            </>}
-          </div>
-          <div className="text-xs text-muted-foreground mt-2">{inv.time} {inv.delivery === "courier" && "· توصيل عبر مندوب"}</div>
-        </div>
-
-        <div className="rounded-2xl bg-card border border-border p-4">
-          <div className="text-xs font-bold text-muted-foreground mb-2">الأصناف</div>
-          <div className="space-y-2">
-            {inv.items.map((it, i) => (
-              <div key={i} className="flex items-center justify-between text-sm">
-                <div>{it.name} <span className="text-muted-foreground">× <span className="num">{it.qty}</span></span></div>
-                <Money v={it.qty * it.price} />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
-          <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
-          {inv.delivery === "courier" && (inv.collectedByCourier ?? 0) > 0 && (
-            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={inv.collectedByCourier ?? 0} className="text-warn" /></div>
-          )}
-          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} /></div>
-        </div>
-
-        <div className="rounded-2xl bg-profit-soft border border-profit/20 p-4">
-          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح الفاتورة (تقديري)</div>
-          <div className="mt-1"><Money v={profit} className="text-lg text-profit" /></div>
-          <div className="text-[11px] text-muted-foreground mt-1">التكلفة وقت البيع: <span className="num">{fmt(cogs)}</span> د.ل</div>
-        </div>
-
-        {/* Payment timeline */}
-        {(() => {
-          const invPayments = (p.payments as Payment[]).filter(pm => pm.invoiceId === inv.id).sort((a, b) => a.time < b.time ? -1 : 1);
-          if (invPayments.length === 0 && remaining === inv.total) return null;
-          return (
-            <div className="rounded-2xl bg-card border border-border p-4">
-              <div className="text-xs font-bold text-muted-foreground mb-2">سجل الدفعات</div>
-              <div className="space-y-1.5">
-                {invPayments.map(pm => (
-                  <div key={pm.id} className="flex items-center justify-between text-xs">
-                    <span className="text-muted-foreground">
-                      {pm.kind === "sale" ? "بيع" : pm.kind === "debt_collection" ? "تحصيل دفعة" : "تسوية مندوب"}
-                      {" · "}{pm.method === "cash" ? "نقدي" : pm.method === "transfer" ? "تحويل" : "تسوية"}
-                      {" · "}{pm.time}
-                    </span>
-                    <Money v={pm.amount} className="text-success font-bold" />
-                  </div>
-                ))}
-                {remaining > 0 && (
-                  <div className="flex items-center justify-between text-xs pt-2 border-t border-border mt-2">
-                    <span className="text-debt">المتبقي على العميل</span>
-                    <Money v={remaining} className="text-debt font-bold" />
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })()}
-
-        {(() => {
-          const courierName = inv.courierId ? p.couriers.find((c: Courier) => c.id === inv.courierId)?.name : undefined;
-          const salePm = (p.payments as Payment[]).find(pm => pm.invoiceId === inv.id && pm.kind === "sale");
-          const method = (salePm?.method ?? "cash") as "cash" | "transfer";
-          const createdAt = (inv as any).createdAt ? new Date((inv as any).createdAt) : new Date();
-          const dateText = createdAt.toLocaleDateString("en-GB");
-          const data: InvoicePdfData = {
-            shopName: tenant?.name ?? "محلي",
-            number: String(inv.number),
-            issuedAt: createdAt,
-            dateText, timeText: inv.time,
-            customerName: cust?.name,
-            customerPhone: (cust as any)?.phone,
-            courierName,
-            delivery: inv.delivery,
-            items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),
-            total: inv.total,
-            paid: inv.paid,
-            collectedByCourier: inv.collectedByCourier,
-            remaining,
-            method,
-            status: inv.status,
-          };
-          const handlePdf = async () => {
-            setPdfBusy(true);
-            try { await downloadInvoicePdf(data); p.showToast?.("تم تحميل الفاتورة"); }
-            catch (e) { console.error(e); p.showToast?.("تعذّر إنشاء PDF"); }
-            finally { setPdfBusy(false); }
-          };
-          return (
-            <>
-              <div className="grid grid-cols-2 gap-2">
-                <button disabled={pdfBusy} onClick={handlePdf} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5 disabled:opacity-50">
-                  <FileDown className="w-4 h-4" />{pdfBusy ? "..." : "تحميل PDF"}
-                </button>
-                <button onClick={() => printInvoice(data)} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5">
-                  <Printer className="w-4 h-4" />طباعة
-                </button>
-              </div>
-              {!isReturned && <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>}
-            </>
-          );
-        })()}
-      </div>
-
-      {collectOpen && (
-        <Sheet onClose={() => setCollectOpen(false)} title="تحصيل دفعة">
-          <div className="space-y-3">
-            <div className="text-sm text-muted-foreground">المتبقي: <Money v={remaining} className="text-debt" /></div>
-            <input value={collectAmt} onChange={e => setCollectAmt(e.target.value)} inputMode="decimal" placeholder="المبلغ" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
-            {Number(collectAmt) > remaining && <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>}
-            <div>
-              <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
-              <div className="mt-1 grid grid-cols-2 gap-2">
-                <button onClick={() => setCollectMethod("cash")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>نقدي</button>
-                <button onClick={() => setCollectMethod("transfer")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>تحويل</button>
-              </div>
-            </div>
-            <button disabled={!Number(collectAmt) || Number(collectAmt) > remaining} onClick={submitCollect} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تأكيد التحصيل</button>
-          </div>
-        </Sheet>
-      )}
-    </>
-  );
-}
+/* InvoicesScreen: moved to src/features/invoices/InvoicesScreen.tsx (R5b) */
+/* InvoiceDetailScreen: moved to src/features/invoices/InvoiceDetailScreen.tsx (R5a) */
 
 /* --------------- INVENTORY --------------- */
 /* InventoryScreen + AddProductSheet: moved to src/features/inventory/ (R4a) */

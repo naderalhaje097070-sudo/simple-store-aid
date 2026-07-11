@@ -1167,7 +1167,7 @@ function SaleQuickScreen(p: any) {
   const recentProducts: Product[] = useMemo(() => {
     const seen = new Set<string>();
     const out: Product[] = [];
-    for (let i = p.invoices.length - 1; i >= 0 && out.length < 6; i--) {
+    for (let i = 0; i < p.invoices.length && out.length < 6; i++) {
       for (const it of (p.invoices[i] as Invoice).items) {
         if (seen.has(it.productId)) continue;
         seen.add(it.productId);

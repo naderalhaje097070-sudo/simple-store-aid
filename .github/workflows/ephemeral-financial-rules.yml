@@ -74,7 +74,7 @@ jobs:
           INSERT INTO public.user_roles (user_id, tenant_id, role)
           VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
           ON CONFLICT DO NOTHING;
-SQL
+          SQL
 
       - name: Run T1-T15 financial regression suite
         env:

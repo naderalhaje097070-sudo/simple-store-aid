@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - ops/ephemeral-financial-tests
+    paths-ignore:
+      - "test-results/**"
   pull_request:
     branches:
       - main
 
 permissions:
-  contents: read
+  contents: write
   issues: write
   pull-requests: write
 
@@ -91,6 +93,31 @@ SQL
           supabase status || true
           docker ps -a || true
 
+      - name: Build result report
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          mkdir -p test-results
+          {
+            echo "Ephemeral Financial Rules"
+            echo "commit=${GITHUB_SHA}"
+            echo "status=${JOB_STATUS}"
+            echo "environment=local isolated Supabase in GitHub Actions"
+            echo "production_database_accessed=no"
+            echo
+            tail -n 200 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created; failure occurred during setup or migrations."
+          } > test-results/financial-rules-result.txt
+
+      - name: Persist result to branch
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add test-results/financial-rules-result.txt
+          git commit -m "test: record ephemeral financial result [skip ci]" || exit 0
+          git push origin HEAD:ops/ephemeral-financial-tests
+
       - name: Report result to PR 10
         if: always()
         env:
@@ -109,7 +136,7 @@ SQL
             tail -n 160 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created; failure occurred during setup or migrations."
             echo '```'
           } > /tmp/pr-report.md
-          gh pr comment 10 --body-file /tmp/pr-report.md
+          gh pr comment 10 --body-file /tmp/pr-report.md || true
 
       - name: Stop isolated Supabase
         if: always()

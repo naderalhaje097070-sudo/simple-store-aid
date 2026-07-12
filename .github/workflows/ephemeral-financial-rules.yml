@@ -1,6 +1,9 @@
 name: Ephemeral Financial Rules
 
 on:
+  push:
+    branches:
+      - ops/ephemeral-financial-tests
   pull_request:
     branches:
       - main

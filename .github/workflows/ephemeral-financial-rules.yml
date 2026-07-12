@@ -10,6 +10,8 @@ on:
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   financial-rules:
@@ -79,13 +81,35 @@ SQL
           PGUSER: postgres
           PGPASSWORD: postgres
           PGDATABASE: postgres
-        run: bash tests/financial-rules/run.sh
+        run: |
+          set -o pipefail
+          bash tests/financial-rules/run.sh 2>&1 | tee /tmp/financial-rules.log
 
       - name: Show Supabase status on failure
         if: failure()
         run: |
           supabase status || true
           docker ps -a || true
+
+      - name: Report result to PR 10
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Ephemeral Financial Rules"
+            echo
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Status: **${JOB_STATUS}**"
+            echo "- Environment: local isolated Supabase in GitHub Actions"
+            echo "- Production database accessed: **No**"
+            echo
+            echo '```text'
+            tail -n 160 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created; failure occurred during setup or migrations."
+            echo '```'
+          } > /tmp/pr-report.md
+          gh pr comment 10 --body-file /tmp/pr-report.md
 
       - name: Stop isolated Supabase
         if: always()

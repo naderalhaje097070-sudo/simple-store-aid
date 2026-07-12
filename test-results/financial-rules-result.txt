@@ -1,7 +1,0 @@
-Ephemeral Financial Rules
-commit=208e8eeeee1e5793d1f0af1809fd4abcf3da6227
-status=failure
-environment=local isolated Supabase in GitHub Actions
-production_database_accessed=no
-
-Financial test log was not created; failure occurred during setup or migrations.

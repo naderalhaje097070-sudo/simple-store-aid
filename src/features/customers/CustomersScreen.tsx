@@ -5,6 +5,7 @@ import { TopBar } from "@/features/layout/TopBar";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { Money } from "@/features/shared/Money";
 import { AddCustomerInline } from "./AddCustomerInline";
+import { getCustomerDebtForInvoice } from "@/domain/finance/invoice-selectors";
 
 type Filter = "all" | "debt" | "clear";
 
@@ -14,16 +15,8 @@ export function CustomersScreen(p: AppCtx) {
   const debtMap = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
     if (!i.customerId) return;
-    if (i.delivery === "direct" && i.courierState !== "returned" && i.total - i.paid > 0) {
-      debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + (i.total - i.paid));
-    }
-    if (i.delivery === "courier") {
-      const cs = i.courierState ?? "pending";
-      let d = 0;
-      if (cs === "delivered_none") d = i.total;
-      if (cs === "delivered_partial") d = i.total - (i.collectedByCourier ?? 0);
-      if (d > 0) debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + d);
-    }
+    const debt = getCustomerDebtForInvoice(i);
+    if (debt > 0) debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + debt);
   });
   const list = p.customers.filter((c: Customer) => {
     if (q && !c.name.includes(q) && !(c.phone ?? "").includes(q)) return false;

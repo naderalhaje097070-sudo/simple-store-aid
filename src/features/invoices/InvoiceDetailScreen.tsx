@@ -8,6 +8,14 @@ import { StatusChip } from "@/features/shared/StatusChip";
 import { Sheet } from "@/features/shared/Sheet";
 import { Money, fmt } from "@/features/shared/Money";
 import { TopBar } from "@/features/layout/TopBar";
+import {
+  getCourierCustodyForInvoice,
+  getCustomerDebtForInvoice,
+  getInvoiceGrossMargin,
+  getInvoiceItemCost,
+  getInvoiceRemainingAmount,
+  isReturnedOrder,
+} from "@/domain/finance/invoice-selectors";
 
 /* --------------- INVOICE DETAIL --------------- */
 export function InvoiceDetailScreen(p: AppCtx) {
@@ -22,13 +30,13 @@ export function InvoiceDetailScreen(p: AppCtx) {
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
-  const isReturned = inv.courierState === "returned";
-  const remaining = inv.total - inv.paid;
+  const isReturned = isReturnedOrder(inv);
+  const remaining = getInvoiceRemainingAmount(inv);
   // A returned order has its stock restored and carries no customer debt,
   // even though status stays 'debt' and delivery flips to 'direct'.
-  const customerRemaining = isReturned ? 0 : remaining;
-  const cogs = inv.items.reduce((s, it) => s + it.cost * it.qty, 0);
-  const profit = inv.total - cogs;
+  const customerRemaining = getCustomerDebtForInvoice(inv);
+  const cogs = inv.items.reduce((s, it) => s + getInvoiceItemCost(it), 0);
+  const profit = getInvoiceGrossMargin(inv);
 
   const submitCollect = async () => {
     const a = Number(collectAmt);
@@ -81,8 +89,8 @@ export function InvoiceDetailScreen(p: AppCtx) {
         <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
           <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
           <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
-          {inv.delivery === "courier" && (inv.collectedByCourier ?? 0) > 0 && (
-            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={inv.collectedByCourier ?? 0} className="text-warn" /></div>
+          {inv.delivery === "courier" && getCourierCustodyForInvoice(inv) > 0 && (
+            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={getCourierCustodyForInvoice(inv)} className="text-warn" /></div>
           )}
           <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} /></div>
         </div>

@@ -4,6 +4,7 @@ import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { Money, fmt } from "@/features/shared/Money";
 import { tenantTodayKey } from "@/lib/db";
+import { getCourierCustodyForInvoice } from "@/domain/finance/invoice-selectors";
 
 export function PilotScreen(p: AppCtx) {
   const products: Product[] = p.products ?? [];
@@ -53,9 +54,7 @@ export function PilotScreen(p: AppCtx) {
     now - new Date(i.createdAt).getTime() > 30 * DAY
   ).length;
   const customersNoPhone = customers.filter(c => !c.phone).length;
-  const unsettledCustody = invoices
-    .filter(i => i.delivery === "courier" && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"))
-    .reduce((s, i) => s + (i.collectedByCourier ?? 0), 0);
+  const unsettledCustody = invoices.reduce((s, i) => s + getCourierCustodyForInvoice(i), 0);
   const lastClose = dayCloses[0]?.closedFor ?? null;
   const daysSinceClose = lastClose
     ? Math.floor((new Date(todayKey).getTime() - new Date(lastClose).getTime()) / DAY)

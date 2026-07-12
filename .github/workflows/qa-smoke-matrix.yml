@@ -1,0 +1,198 @@
+name: QA Smoke Matrix
+
+on:
+  push:
+    branches:
+      - qa/smoke-20260712
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  public-live-smoke:
+    name: Public Vercel smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Run desktop and mobile RTL smoke
+        env:
+          SMOKE_BASE_URL: https://mongezz.vercel.app
+          SMOKE_OUT: /tmp/mongezz-public-smoke
+        run: python tests/visual/vercel-public-smoke.py
+
+      - name: Upload public smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-live-smoke
+          path: /tmp/mongezz-public-smoke
+          if-no-files-found: warn
+
+  ephemeral-authenticated-smoke:
+    name: Isolated login-sale-close smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase
+        run: |
+          set -o pipefail
+          supabase start 2>&1 | tee /tmp/supabase-start.log
+
+      - name: Export local Supabase environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+          {
+            echo "API_URL=$API_URL"
+            echo "ANON_KEY=$ANON_KEY"
+            echo "DB_URL=$DB_URL"
+            echo "PGHOST=127.0.0.1"
+            echo "PGPORT=54322"
+            echo "PGUSER=postgres"
+            echo "PGPASSWORD=postgres"
+            echo "PGDATABASE=postgres"
+          } >> "$GITHUB_ENV"
+
+      - name: Seed test owner and tenant
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/signup" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"pilot.qa@mongezz.test","password":"PilotQA-Only-2026!","data":{"display_name":"Pilot QA"}}' \
+            > /tmp/signup.json
+
+          USER_ID="$(jq -r '.user.id // .id // empty' /tmp/signup.json)"
+          if [[ -z "$USER_ID" ]]; then
+            USER_ID="$(psql "$DB_URL" -Atc "select id from auth.users where email='pilot.qa@mongezz.test' limit 1")"
+          fi
+          test -n "$USER_ID"
+
+          TENANT_ID="11111111-1111-4111-8111-111111111111"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$USER_ID" -v tid="$TENANT_ID" <<'SQL'
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'Pilot QA Tenant', :'uid'::uuid);
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Pilot QA')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+          SQL
+
+      - name: Configure local application
+        shell: bash
+        run: |
+          cat > .env <<EOF
+          VITE_SUPABASE_URL=$API_URL
+          VITE_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY
+          VITE_SUPABASE_PROJECT_ID=local-qa
+          SUPABASE_URL=$API_URL
+          SUPABASE_PUBLISHABLE_KEY=$ANON_KEY
+          VITE_PAYMENTS_CLIENT_TOKEN=
+          EOF
+
+      - name: Start application
+        shell: bash
+        run: |
+          nohup bun run dev --host 127.0.0.1 --port 8080 > /tmp/mongezz-vite.log 2>&1 &
+          echo $! > /tmp/mongezz-vite.pid
+          for attempt in $(seq 1 90); do
+            if curl -fsS http://127.0.0.1:8080/auth >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/mongezz-vite.log
+          exit 1
+
+      - name: Setup Python and Playwright
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright requests
+          python -m playwright install --with-deps chromium
+
+      - name: Run isolated authenticated UI smoke
+        env:
+          APP_BASE_URL: http://127.0.0.1:8080
+          TEST_EMAIL: pilot.qa@mongezz.test
+          TEST_PASSWORD: PilotQA-Only-2026!
+          SMOKE_OUT: /tmp/mongezz-ephemeral-smoke
+        run: python tests/e2e/ephemeral-ui-smoke.py
+
+      - name: Show diagnostics on failure
+        if: failure()
+        run: |
+          echo "=== Vite log ==="
+          tail -n 200 /tmp/mongezz-vite.log || true
+          echo "=== Supabase status ==="
+          supabase status || true
+          echo "=== Containers ==="
+          docker ps -a || true
+
+      - name: Upload authenticated smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ephemeral-authenticated-smoke
+          path: /tmp/mongezz-ephemeral-smoke
+          if-no-files-found: warn
+
+      - name: Stop isolated services
+        if: always()
+        run: |
+          if [[ -f /tmp/mongezz-vite.pid ]]; then
+            kill "$(cat /tmp/mongezz-vite.pid)" || true
+          fi
+          supabase stop --no-backup || true

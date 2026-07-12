@@ -1,4 +1,4 @@
-name: Mongzz Authenticated Smoke Retry
+name: Mongzz Session Business Flow
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   authenticated-smoke:
-    name: Verified login-sale-close smoke
+    name: Verified session-sale-close smoke
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -57,7 +57,7 @@ jobs:
             echo "PGDATABASE=postgres"
           } >> "$GITHUB_ENV"
 
-      - name: Create and verify password user
+      - name: Create verified password session and tenant
         shell: bash
         run: |
           set -euo pipefail
@@ -87,7 +87,6 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"email":"pilot.qa@mongzz.test","password":"PilotQA-Only-2026!"}' \
             > /tmp/password-token.json
-
           test -n "$(jq -r '.access_token // empty' /tmp/password-token.json)"
 
           TENANT_ID="11111111-1111-4111-8111-111111111111"
@@ -136,13 +135,15 @@ jobs:
           python -m pip install playwright requests
           python -m playwright install --with-deps chromium
 
-      - name: Run authenticated UI smoke
+      - name: Run authenticated business flow smoke
         env:
           APP_BASE_URL: http://127.0.0.1:8080
+          API_URL: ${{ env.API_URL }}
+          ANON_KEY: ${{ env.ANON_KEY }}
+          SESSION_FILE: /tmp/password-token.json
           TEST_EMAIL: pilot.qa@mongzz.test
-          TEST_PASSWORD: PilotQA-Only-2026!
-          SMOKE_OUT: /tmp/mongzz-auth-retry
-        run: python tests/e2e/mongzz-ephemeral-ui-smoke.py
+          SMOKE_OUT: /tmp/mongzz-session-smoke
+        run: python tests/e2e/mongzz-session-ui-smoke.py
 
       - name: Diagnostics
         if: failure()
@@ -155,8 +156,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mongzz-authenticated-smoke-retry
-          path: /tmp/mongzz-auth-retry
+          name: mongzz-session-business-flow
+          path: /tmp/mongzz-session-smoke
           if-no-files-found: warn
 
       - name: Stop isolated services

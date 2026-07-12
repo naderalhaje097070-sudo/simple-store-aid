@@ -20,5 +20,6 @@ jobs:
         run: |
           gh api /repos/${{ github.repository }}/actions/jobs/86647240772/logs > /tmp/previous-smoke.log
 
-      - name: Print failure tail
-        run: tail -n 220 /tmp/previous-smoke.log
+      - name: Print focused failure context
+        run: |
+          grep -n -E -A45 -B12 "Traceback|TimeoutError|auth error|Invalid login|email_not_confirmed|بيانات الدخول|حدث خطأ" /tmp/previous-smoke.log || true

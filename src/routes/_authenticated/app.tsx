@@ -18,6 +18,14 @@ import {
 } from "@/lib/db";
 import { BUSINESS_TYPES, businessTypeLabel } from "@/lib/business-types";
 import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
+import {
+  getCourierCustodyForInvoice,
+  getCustomerDebtForInvoice,
+  getInvoiceItemCost,
+  getInvoiceItemMargin,
+  getInvoiceRemainingAmount,
+  getPendingCourierValueForInvoice,
+} from "@/domain/finance/invoice-selectors";
 
 function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
@@ -166,7 +174,7 @@ function MongezzApp() {
     const expP = expenses.filter(e => inPeriod(e.createdAt));
 
     const sales = invP.reduce((s, i) => s + i.total, 0);
-    const cogs = invP.reduce((s, i) => s + i.items.reduce((a, it) => a + it.cost * it.qty, 0), 0);
+    const cogs = invP.reduce((s, i) => s + i.items.reduce((a, it) => a + getInvoiceItemCost(it), 0), 0);
     const expenseTotal = expP.reduce((s, e) => s + e.amount, 0);
     const collected = payP.reduce((s, pm) => s + pm.amount, 0);
     const grossProfit = sales - cogs;
@@ -175,7 +183,7 @@ function MongezzApp() {
     // for each invoice take (price-cost)*qty * min(paid/total, 1)
     const realizedCogs = invP.reduce((s, i) => {
       const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
-      return s + i.items.reduce((a, it) => a + it.cost * it.qty * ratio, 0);
+      return s + i.items.reduce((a, it) => a + getInvoiceItemCost(it) * ratio, 0);
     }, 0);
     const realizedRevenue = invP.reduce((s, i) => {
       const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
@@ -185,24 +193,11 @@ function MongezzApp() {
     const cashToday = collected - expenseTotal;
 
     // Stocks — current balances across ALL invoices (not period-bound)
-    const directDebt = invoices.filter(i => i.delivery === "direct" && i.courierState !== "returned").reduce((s, i) => s + (i.total - i.paid), 0);
-    const courierCustomerDebt = invoices
-      .filter(i => i.delivery === "courier")
-      .reduce((s, i) => {
-        const cs = i.courierState ?? "pending";
-        if (cs === "delivered_none") return s + i.total;
-        if (cs === "delivered_partial") return s + (i.total - (i.collectedByCourier ?? 0));
-        return s;
-      }, 0);
-    const customerDebts = directDebt + courierCustomerDebt;
+    const customerDebts = invoices.reduce((s, i) => s + getCustomerDebtForInvoice(i), 0);
 
-    const unsettledCustody = invoices
-      .filter(i => i.delivery === "courier" && (i.courierState === "delivered_partial" || i.courierState === "delivered_full"))
-      .reduce((s, i) => s + (i.collectedByCourier ?? 0), 0);
+    const unsettledCustody = invoices.reduce((s, i) => s + getCourierCustodyForInvoice(i), 0);
 
-    const inTransit = invoices
-      .filter(i => i.delivery === "courier" && (i.courierState === "pending" || !i.courierState))
-      .reduce((s, i) => s + i.total, 0);
+    const inTransit = invoices.reduce((s, i) => s + getPendingCourierValueForInvoice(i), 0);
 
     const openOnYou = customerDebts + unsettledCustody;
 
@@ -380,16 +375,8 @@ function MongezzApp() {
 function DebtsScreen(p: any) {
   const map = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
-    if (i.delivery === "direct" && i.courierState !== "returned" && i.total - i.paid > 0 && i.customerId) {
-      map.set(i.customerId, (map.get(i.customerId) ?? 0) + (i.total - i.paid));
-    }
-    if (i.delivery === "courier") {
-      const cs = i.courierState ?? "pending";
-      let debt = 0;
-      if (cs === "delivered_none") debt = i.total;
-      if (cs === "delivered_partial") debt = i.total - (i.collectedByCourier ?? 0);
-      if (debt > 0 && i.customerId) map.set(i.customerId, (map.get(i.customerId) ?? 0) + debt);
-    }
+    const debt = getCustomerDebtForInvoice(i);
+    if (debt > 0 && i.customerId) map.set(i.customerId, (map.get(i.customerId) ?? 0) + debt);
   });
   const rows = Array.from(map.entries()).map(([cid, v]) => ({ customer: p.customers.find((c: Customer) => c.id === cid), v }));
   const total = rows.reduce((s, r) => s + r.v, 0);
@@ -422,13 +409,8 @@ function DebtsScreen(p: any) {
 function DebtCustomerScreen(p: any) {
   const cust: Customer | undefined = p.customers.find((c: Customer) => c.id === p.openCustomerId);
   // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
-  const invs = p.invoices.filter((i: Invoice) =>
-    i.customerId === cust?.id &&
-    i.courierState !== "returned" &&
-    (i.total - i.paid) > 0 &&
-    !(i.delivery === "courier" && (i.courierState ?? "pending") === "pending")
-  );
-  const total = invs.reduce((s: number, i: Invoice) => s + (i.total - i.paid), 0);
+  const invs = p.invoices.filter((i: Invoice) => i.customerId === cust?.id && getCustomerDebtForInvoice(i) > 0);
+  const total = invs.reduce((s: number, i: Invoice) => s + getCustomerDebtForInvoice(i), 0);
   return (
     <>
       <TopBar title={cust?.name ?? "عميل"} onBack={p.back} onHome={p.goHome} />
@@ -450,7 +432,7 @@ function DebtCustomerScreen(p: any) {
               <span className="font-bold text-sm">#{inv.number}</span>
               <Money v={inv.total} />
             </div>
-            <div className="text-xs text-debt mt-1">متبقي <span className="num">{fmt(inv.total - inv.paid)}</span> د.ل</div>
+            <div className="text-xs text-debt mt-1">متبقي <span className="num">{fmt(getCustomerDebtForInvoice(inv))}</span> د.ل</div>
             <button onClick={() => { p.setOpenInvoiceId(inv.id); p.go("invoice_detail"); }} className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold">تحصيل دفعة</button>
           </div>
         ))}
@@ -483,13 +465,9 @@ function CourierCustodyScreen(p: any) {
   const collected = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_full");
   const customerDebtOrders = list.filter((i: Invoice) => i.courierState === "delivered_partial" || i.courierState === "delivered_none");
 
-  const pendingV = pending.reduce((s: number, i: Invoice) => s + i.total, 0);
-  const custodyV = collected.reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
-  const debtV = customerDebtOrders.reduce((s: number, i: Invoice) => {
-    if (i.courierState === "delivered_none") return s + i.total;
-    if (i.courierState === "delivered_partial") return s + (i.total - (i.collectedByCourier ?? 0));
-    return s;
-  }, 0);
+  const pendingV = pending.reduce((s: number, i: Invoice) => s + getPendingCourierValueForInvoice(i), 0);
+  const custodyV = collected.reduce((s: number, i: Invoice) => s + getCourierCustodyForInvoice(i), 0);
+  const debtV = customerDebtOrders.reduce((s: number, i: Invoice) => s + getCustomerDebtForInvoice(i), 0);
 
   const goSettlements = () => { p.setOpenCourierId(courierId); p.go("settlements"); };
 
@@ -564,7 +542,7 @@ function CourierCustodyScreen(p: any) {
           <button onClick={() => p.go("debts")} className="mt-2 w-full rounded-xl bg-card border border-debt/20 text-debt text-xs font-bold py-2">عرض في الديون ←</button>
           <div className="mt-2 space-y-1.5">
             {customerDebtOrders.map((i: Invoice) => {
-              const d = i.courierState === "delivered_none" ? i.total : (i.total - (i.collectedByCourier ?? 0));
+              const d = getCustomerDebtForInvoice(i);
               return (
                 <div key={i.id} className="text-xs flex justify-between bg-card rounded-lg px-3 py-2">
                   <span>#{i.number} · {p.customers.find((c: Customer) => c.id === i.customerId)?.name}</span>
@@ -630,7 +608,7 @@ function SettlementsScreen(p: any) {
   const [done, setDone] = useState(false);
 
   const toggle = (id: string) => setSelected(s => { const n = new Set(s); n.has(id) ? n.delete(id) : n.add(id); return n; });
-  const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + (i.collectedByCourier ?? 0), 0);
+  const net = collected.filter((i: Invoice) => selected.has(i.id)).reduce((s: number, i: Invoice) => s + getCourierCustodyForInvoice(i), 0);
 
   const [settledAmount, setSettledAmount] = useState(0);
 
@@ -1097,20 +1075,24 @@ function SaleSuccessScreen(p: any) {
   const s = p.lastSaleSummary;
   const [secondsLeft, setSecondsLeft] = useState(5);
   const [undone, setUndone] = useState(false);
+  const [undoBusy, setUndoBusy] = useState(false);
   useEffect(() => {
     if (secondsLeft <= 0 || undone) return;
     const t = setTimeout(() => setSecondsLeft(n => n - 1), 1000);
     return () => clearTimeout(t);
   }, [secondsLeft, undone]);
   const undo = async () => {
-    if (!p.lastCreatedInvoiceId) return;
+    if (!p.lastCreatedInvoiceId || undoBusy) return;
+    setUndoBusy(true);
     try {
       await p.deleteInvoiceAsync(p.lastCreatedInvoiceId);
       p.setLastCreatedInvoiceId(null);
       setUndone(true);
       setTimeout(() => p.setScreen("home"), 600);
     } catch (e) {
-      p.showToast?.(e instanceof Error ? e.message : "تعذّر التراجع عن الفاتورة");
+      p.showToast?.(e instanceof Error ? e.message : "تعذّر التراجع عن الفاتورة. حاول مرة أخرى.");
+    } finally {
+      setUndoBusy(false);
     }
   };
   if (undone) {
@@ -1136,7 +1118,7 @@ function SaleSuccessScreen(p: any) {
       )}
       {/* Undo only works on deletable (unpaid) orders — the delete RPC rejects paid>0. */}
       {secondsLeft > 0 && p.lastCreatedInvoiceId && s?.paid === 0 && (
-        <button onClick={undo} className="text-xs text-debt font-bold underline">تراجع عن هذه الفاتورة ({secondsLeft})</button>
+        <button disabled={undoBusy} onClick={undo} className="text-xs text-debt font-bold underline disabled:opacity-50">{undoBusy ? "جاري التراجع..." : `تراجع عن هذه الفاتورة (${secondsLeft})`}</button>
       )}
       <div className="w-full max-w-xs space-y-2 mt-2">
         <button onClick={() => p.setScreen("sale_quick")} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold">بيع جديد</button>
@@ -1406,7 +1388,7 @@ function DayCloseScreen(p: any) {
       if (!pm.invoiceId) return s;
       const inv = invById.get(pm.invoiceId);
       if (!inv || inv.total <= 0) return s;
-      const margin = inv.items.reduce((a, it) => a + (it.price - it.cost) * it.qty, 0);
+      const margin = getInvoiceItemMargin(inv);
       return s + (pm.amount / inv.total) * margin;
     }, 0) - expenseTotal;
 

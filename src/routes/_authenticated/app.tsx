@@ -21,8 +21,8 @@ import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFi
 import {
   getCourierCustodyForInvoice,
   getCustomerDebtForInvoice,
-  getInvoiceGrossMargin,
   getInvoiceItemCost,
+  getInvoiceItemMargin,
   getInvoiceRemainingAmount,
   getPendingCourierValueForInvoice,
 } from "@/domain/finance/invoice-selectors";
@@ -1388,7 +1388,7 @@ function DayCloseScreen(p: any) {
       if (!pm.invoiceId) return s;
       const inv = invById.get(pm.invoiceId);
       if (!inv || inv.total <= 0) return s;
-      const margin = getInvoiceGrossMargin(inv);
+      const margin = getInvoiceItemMargin(inv);
       return s + (pm.amount / inv.total) * margin;
     }, 0) - expenseTotal;
 

@@ -9,6 +9,7 @@ import { Sheet } from "@/features/shared/Sheet";
 import { Money, fmt } from "@/features/shared/Money";
 import { TopBar } from "@/features/layout/TopBar";
 import {
+  canCollectCustomerDebtForInvoice,
   getCourierCustodyForInvoice,
   getCustomerDebtForInvoice,
   getInvoiceGrossMargin,
@@ -35,12 +36,14 @@ export function InvoiceDetailScreen(p: AppCtx) {
   // A returned order has its stock restored and carries no customer debt,
   // even though status stays 'debt' and delivery flips to 'direct'.
   const customerRemaining = getCustomerDebtForInvoice(inv);
+  const canCollectCustomerDebt = canCollectCustomerDebtForInvoice(inv);
+  const courierCustody = getCourierCustodyForInvoice(inv);
   const cogs = inv.items.reduce((s, it) => s + getInvoiceItemCost(it), 0);
   const profit = getInvoiceGrossMargin(inv);
 
   const submitCollect = async () => {
     const a = Number(collectAmt);
-    if (isReturned || !a || a <= 0 || a > remaining) return;
+    if (!canCollectCustomerDebt || !a || a <= 0 || a > customerRemaining) return;
     try {
       await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
       setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
@@ -89,8 +92,8 @@ export function InvoiceDetailScreen(p: AppCtx) {
         <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
           <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
           <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
-          {inv.delivery === "courier" && getCourierCustodyForInvoice(inv) > 0 && (
-            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={getCourierCustodyForInvoice(inv)} className="text-warn" /></div>
+          {inv.delivery === "courier" && courierCustody > 0 && (
+            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={courierCustody} className="text-warn" /></div>
           )}
           <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} /></div>
         </div>
@@ -119,10 +122,10 @@ export function InvoiceDetailScreen(p: AppCtx) {
                     <Money v={pm.amount} className="text-success font-bold" />
                   </div>
                 ))}
-                {remaining > 0 && (
+                {customerRemaining > 0 && (
                   <div className="flex items-center justify-between text-xs pt-2 border-t border-border mt-2">
                     <span className="text-debt">المتبقي على العميل</span>
-                    <Money v={remaining} className="text-debt font-bold" />
+                    <Money v={customerRemaining} className="text-debt font-bold" />
                   </div>
                 )}
               </div>
@@ -148,8 +151,8 @@ export function InvoiceDetailScreen(p: AppCtx) {
             items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),
             total: inv.total,
             paid: inv.paid,
-            collectedByCourier: inv.collectedByCourier,
-            remaining,
+            collectedByCourier: courierCustody,
+            remaining: customerRemaining,
             method,
             status: inv.status,
           };
@@ -169,7 +172,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
                   <Printer className="w-4 h-4" />طباعة
                 </button>
               </div>
-              {!isReturned && <button disabled={remaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>}
+              {canCollectCustomerDebt && <button disabled={customerRemaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>}
             </>
           );
         })()}
@@ -178,9 +181,9 @@ export function InvoiceDetailScreen(p: AppCtx) {
       {collectOpen && (
         <Sheet onClose={() => setCollectOpen(false)} title="تحصيل دفعة">
           <div className="space-y-3">
-            <div className="text-sm text-muted-foreground">المتبقي: <Money v={remaining} className="text-debt" /></div>
+            <div className="text-sm text-muted-foreground">المتبقي: <Money v={customerRemaining} className="text-debt" /></div>
             <input value={collectAmt} onChange={e => setCollectAmt(e.target.value)} inputMode="decimal" placeholder="المبلغ" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
-            {Number(collectAmt) > remaining && <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>}
+            {Number(collectAmt) > customerRemaining && <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>}
             <div>
               <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
               <div className="mt-1 grid grid-cols-2 gap-2">
@@ -188,7 +191,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
                 <button onClick={() => setCollectMethod("transfer")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>تحويل</button>
               </div>
             </div>
-            <button disabled={!Number(collectAmt) || Number(collectAmt) > remaining} onClick={submitCollect} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تأكيد التحصيل</button>
+            <button disabled={!Number(collectAmt) || Number(collectAmt) > customerRemaining} onClick={submitCollect} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تأكيد التحصيل</button>
           </div>
         </Sheet>
       )}

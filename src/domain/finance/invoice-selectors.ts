@@ -52,8 +52,22 @@ export function getPendingCourierValueForInvoice(invoice: FinanceInvoice): numbe
   return courierState === "pending" ? invoice.total : 0;
 }
 
+export function canCollectCustomerDebtForInvoice(invoice: FinanceInvoice): boolean {
+  const customerDebt = getCustomerDebtForInvoice(invoice);
+  if (customerDebt <= 0) return false;
+  if (isReturnedOrder(invoice)) return false;
+
+  if (invoice.delivery === "direct") return true;
+
+  return invoice.courierState === "delivered_none" && getCourierCustodyForInvoice(invoice) === 0;
+}
+
 export function getInvoiceItemCost(item: FinanceInvoiceItem): number {
   return item.cost * item.qty;
+}
+
+export function getInvoiceItemMargin(invoice: Pick<FinanceInvoice, "items">): number {
+  return invoice.items.reduce((sum, item) => sum + (item.price - item.cost) * item.qty, 0);
 }
 
 export function getInvoiceGrossMargin(invoice: Pick<FinanceInvoice, "total" | "items">): number {

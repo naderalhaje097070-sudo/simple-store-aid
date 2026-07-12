@@ -1,0 +1,89 @@
+name: Ephemeral Financial Rules
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  financial-rules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase
+        run: supabase start
+
+      - name: Capture local Supabase environment
+        run: supabase status -o env > /tmp/supabase.env
+
+      - name: Seed test owner and tenant
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source /tmp/supabase.env
+          set +a
+
+          curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/signup" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"pilot.qa@mongezz.test","password":"PilotQA-Only-2026!","data":{"display_name":"Pilot QA"}}' \
+            > /tmp/signup.json
+
+          USER_ID="$(jq -r '.user.id // .id // empty' /tmp/signup.json)"
+          if [[ -z "$USER_ID" ]]; then
+            USER_ID="$(psql "$DB_URL" -Atc "select id from auth.users where email='pilot.qa@mongezz.test' limit 1")"
+          fi
+          test -n "$USER_ID"
+
+          TENANT_ID="11111111-1111-4111-8111-111111111111"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$USER_ID" -v tid="$TENANT_ID" <<'SQL'
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'Pilot QA Tenant', :'uid'::uuid);
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Pilot QA')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+SQL
+
+      - name: Run T1-T15 financial regression suite
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        run: bash tests/financial-rules/run.sh
+
+      - name: Show Supabase status on failure
+        if: failure()
+        run: |
+          supabase status || true
+          docker ps -a || true
+
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --no-backup || true

@@ -1,17 +1,23 @@
 name: Ephemeral Financial Rules
 
 on:
-  push:
-    branches:
-      - ops/ephemeral-financial-tests
   pull_request:
     branches:
       - main
+    paths:
+      - "supabase/migrations/**"
+      - "tests/financial-rules/**"
+      - ".github/workflows/ephemeral-financial-rules.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "supabase/migrations/**"
+      - "tests/financial-rules/**"
+      - ".github/workflows/ephemeral-financial-rules.yml"
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 jobs:
   financial-rules:
@@ -87,37 +93,28 @@ jobs:
           set -o pipefail
           bash tests/financial-rules/run.sh 2>&1 | tee /tmp/financial-rules.log
 
-      - name: Show Supabase status on failure
-        if: failure()
-        run: |
-          supabase status || true
-          docker ps -a || true
-
-      - name: Report result to PR 10
+      - name: Write job summary
         if: always()
         env:
-          GH_TOKEN: ${{ github.token }}
           JOB_STATUS: ${{ job.status }}
         run: |
           {
             echo "## Ephemeral Financial Rules"
             echo
-            echo "- Commit: \`${GITHUB_SHA}\`"
             echo "- Status: **${JOB_STATUS}**"
             echo "- Environment: local isolated Supabase in GitHub Actions"
             echo "- Production database accessed: **No**"
             echo
-            echo "### Supabase startup"
             echo '```text'
-            tail -n 120 /tmp/supabase-start.log 2>/dev/null || echo "No startup log."
+            tail -n 80 /tmp/financial-rules.log 2>/dev/null || tail -n 80 /tmp/supabase-start.log 2>/dev/null || echo "No log available."
             echo '```'
-            echo
-            echo "### T1-T15"
-            echo '```text'
-            tail -n 180 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created."
-            echo '```'
-          } > /tmp/pr-report.md
-          gh pr comment 10 --body-file /tmp/pr-report.md || true
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Show Supabase status on failure
+        if: failure()
+        run: |
+          supabase status || true
+          docker ps -a || true
 
       - name: Stop isolated Supabase
         if: always()

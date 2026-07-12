@@ -1,0 +1,35 @@
+name: Export Current Migrations
+
+on:
+  push:
+    branches:
+      - ops/export-current-migrations
+    paths:
+      - ".github/workflows/export-current-migrations.yml"
+      - "supabase/migrations/**"
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Combine migrations
+        run: |
+          mkdir -p staging-schema
+          for file in $(find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort); do
+            printf '\n-- ===== FILE: %s =====\n' "$file" >> staging-schema/current-migrations.sql
+            cat "$file" >> staging-schema/current-migrations.sql
+            printf '\n' >> staging-schema/current-migrations.sql
+          done
+          sha256sum staging-schema/current-migrations.sql > staging-schema/current-migrations.sha256
+          find supabase/migrations -maxdepth 1 -type f -name '*.sql' | sort > staging-schema/migration-files.txt
+      - name: Upload migration bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: current-migrations
+          path: staging-schema/
+          if-no-files-found: error
+          retention-days: 1

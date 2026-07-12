@@ -1,0 +1,166 @@
+name: Mongzz Authenticated Smoke Retry
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-smoke:
+    name: Verified login-sale-close smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase
+        run: |
+          set -o pipefail
+          supabase start 2>&1 | tee /tmp/supabase-start.log
+
+      - name: Export local environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+          {
+            echo "API_URL=$API_URL"
+            echo "ANON_KEY=$ANON_KEY"
+            echo "DB_URL=$DB_URL"
+            echo "PGHOST=127.0.0.1"
+            echo "PGPORT=54322"
+            echo "PGUSER=postgres"
+            echo "PGPASSWORD=postgres"
+            echo "PGDATABASE=postgres"
+          } >> "$GITHUB_ENV"
+
+      - name: Create and verify password user
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/signup" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"pilot.qa@mongzz.test","password":"PilotQA-Only-2026!","data":{"display_name":"Pilot QA"}}' \
+            > /tmp/signup.json
+
+          USER_ID="$(jq -r '.user.id // .id // empty' /tmp/signup.json)"
+          if [[ -z "$USER_ID" ]]; then
+            cat /tmp/signup.json
+            exit 1
+          fi
+
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$USER_ID" <<'SQL'
+          UPDATE auth.users
+          SET email_confirmed_at = COALESCE(email_confirmed_at, now()),
+              updated_at = now()
+          WHERE id = :'uid'::uuid;
+          SQL
+
+          curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/token?grant_type=password" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"pilot.qa@mongzz.test","password":"PilotQA-Only-2026!"}' \
+            > /tmp/password-token.json
+
+          test -n "$(jq -r '.access_token // empty' /tmp/password-token.json)"
+
+          TENANT_ID="11111111-1111-4111-8111-111111111111"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$USER_ID" -v tid="$TENANT_ID" <<'SQL'
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'Pilot QA Tenant', :'uid'::uuid);
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Pilot QA')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+          SQL
+
+      - name: Configure and start application
+        shell: bash
+        run: |
+          cat > .env <<EOF
+          VITE_SUPABASE_URL=$API_URL
+          VITE_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY
+          VITE_SUPABASE_PROJECT_ID=local-qa
+          SUPABASE_URL=$API_URL
+          SUPABASE_PUBLISHABLE_KEY=$ANON_KEY
+          VITE_PAYMENTS_CLIENT_TOKEN=
+          EOF
+          nohup bun run dev --host 127.0.0.1 --port 8080 > /tmp/mongzz-vite.log 2>&1 &
+          echo $! > /tmp/mongzz-vite.pid
+          for attempt in $(seq 1 90); do
+            curl -fsS http://127.0.0.1:8080/auth >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/mongzz-vite.log
+          exit 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Playwright
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright requests
+          python -m playwright install --with-deps chromium
+
+      - name: Run authenticated UI smoke
+        env:
+          APP_BASE_URL: http://127.0.0.1:8080
+          TEST_EMAIL: pilot.qa@mongzz.test
+          TEST_PASSWORD: PilotQA-Only-2026!
+          SMOKE_OUT: /tmp/mongzz-auth-retry
+        run: python tests/e2e/mongzz-ephemeral-ui-smoke.py
+
+      - name: Diagnostics
+        if: failure()
+        run: |
+          tail -n 200 /tmp/mongzz-vite.log || true
+          tail -n 200 /tmp/supabase-start.log || true
+          supabase status || true
+
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mongzz-authenticated-smoke-retry
+          path: /tmp/mongzz-auth-retry
+          if-no-files-found: warn
+
+      - name: Stop isolated services
+        if: always()
+        run: |
+          if [[ -f /tmp/mongzz-vite.pid ]]; then kill "$(cat /tmp/mongzz-vite.pid)" || true; fi
+          supabase stop --no-backup || true

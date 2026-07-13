@@ -72,13 +72,13 @@ export function HomeScreen(p: AppCtx) {
             <span>{statusMeta.l}</span>
             <span className="text-[10px] font-normal text-muted-foreground mr-auto">{periodLabel}</span>
           </div>
-          <div className="mt-4 space-y-3">
+          <div className="mt-4 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-3">
             <div className="rounded-xl bg-card/60 p-3">
               <div className="text-[11px] text-muted-foreground">المحصّل فعليًا</div>
               <Money v={totals.collected} className="text-2xl text-success font-bold" />
               <div className="text-[10px] text-muted-foreground mt-0.5">دخل جيبك فعلًا</div>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 lg:contents">
               <div className="rounded-xl bg-card/60 p-3">
                 <div className="text-[11px] text-muted-foreground">ديون العملاء</div>
                 <Money v={totals.customerDebts} className="text-lg text-debt font-bold" />

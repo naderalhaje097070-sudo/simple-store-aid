@@ -1,48 +1,64 @@
-## Plan: Add Dark Mode to Mongezz
 
-### Goal
-Add a fully functional dark mode with a manual toggle, persisted to `localStorage`, without changing any financial or business logic.
+# خطة: تحسين واجهات سطح المكتب لتطبيق منجز
+
+## الهدف
+جعل التطبيق يبدو ويعمل بشكل أفضل على شاشات الكمبيوتر (≥ 1024px) مع الحفاظ الكامل على تجربة الجوال RTL كما هي، ودون أي تعديل على قواعد البيانات، RPC، RLS، أو أي منطق مالي.
+
+## المبدأ الأساسي
+التطبيق مصمم أصلاً كتطبيق جوال (mobile-first، عربي RTL). على شاشة الكمبيوتر الحالية يظهر ممتداً بعرض الشاشة كاملاً بشكل غير مريح للقراءة، مع مساحات بيضاء ضخمة على الأطراف وعناصر مكدّسة عمودياً بلا استفادة من العرض المتاح.
+
+الحل: طبقة تنسيق سطح مكتب تُغلّف الشاشات الحالية دون تعديل منطقها الداخلي.
+
+## نطاق التغييرات (واجهات فقط)
+
+### 1) إطار عرض متجاوب للتطبيق المصادق عليه
+- في `src/routes/_authenticated/app.tsx` (طبقة العرض الخارجية فقط): إضافة حاوية بعرض أقصى مناسب على الشاشات الكبيرة (مثلاً `max-w-[1400px] mx-auto`) بدل ترك المحتوى يمتد لكامل عرض الشاشة.
+- إبقاء التخطيط الحالي على الجوال بدون أي تغيير (نقاط توقف `lg:` فقط).
+
+### 2) تفعيل الشريط الجانبي على سطح المكتب
+- `DesktopSidebar` موجود مسبقاً في المشروع (`src/features/layout/DesktopSidebar.tsx`). التأكد من ظهوره على `lg:` مع إخفاء `BottomNav` على نفس نقطة التوقف — أو تحسين المظهر إن كان مفعّلاً أصلاً.
+- لا تغيير في عناصر التنقل أو الوجهات.
+
+### 3) شبكات ثنائية/ثلاثية الأعمدة على الشاشات الكبيرة
+لشاشات مختارة، تحويل القوائم من عمود واحد إلى شبكة على `lg:` فقط:
+- **الرئيسية** (`HomeScreen`): بطاقات الملخّص المالي في صف واحد + آخر الفواتير في عمود جانبي.
+- **الفواتير** (`InvoicesScreen`): قائمة الفواتير على اليمين + معاينة الفاتورة المختارة على اليسار (بدون تغيير منطق `InvoiceDetailScreen`، فقط عرضه داخل لوحة بدل التنقل الكامل).
+- **العملاء / المندوبين / المخزون**: شبكة بطاقات `lg:grid-cols-2` أو `xl:grid-cols-3`.
+- **التقارير** (`ProfitScreen`, `CollectedScreen`): توسيع الرسوم/الأرقام لاستغلال العرض.
+
+### 4) تحسينات بصرية عامة على سطح المكتب فقط
+- تكبير مقاس الخط الأساسي قليلاً على `lg:` (typography scale).
+- تحسين المسافات (padding/gap) في البطاقات على الشاشات الكبيرة.
+- تظليل خفيف/حدود أوضح للبطاقات لتمييزها على الخلفية الفاتحة الواسعة.
+- إبقاء نظام الألوان (tokens في `src/styles.css`) كما هو دون أي تعديل.
+
+### 5) شريط علوي (TopBar) لسطح المكتب
+- على `lg:`: توسيط العنوان، إظهار مسار التنقل (breadcrumb خفيف) بدل زر الرجوع فقط.
+- لا تغيير على الجوال.
+
+## ما لن يتم لمسه (ضمانات صارمة)
+- ❌ لا تعديل على `src/integrations/supabase/*`
+- ❌ لا تعديل على `src/domain/finance/*` (منطق العهدة، الديون، المرتجعات)
+- ❌ لا تعديل على `src/lib/db.ts` أو أي RPC/hook للبيانات
+- ❌ لا migrations، لا RLS، لا grants
+- ❌ لا تعديل على منطق البيع/التحصيل/التسوية
+- ❌ لا تعديل على `PaymentSheet` أو تدفق الدفع
+- ❌ لا تعديل على المصادقة أو المسارات المحمية
+- ❌ لا تغيير في عناصر ومكونات الجوال — كل التحسينات خلف `lg:` أو `xl:`
+
+## التحقق قبل الإنهاء
+- `tsgo --noEmit` نظيف
+- `bun run build` ينجح
+- فحص بصري بـ Playwright على مقاسي 1440px (سطح مكتب) و 390px (جوال) للتأكد أن الجوال لم يتأثر
+- لا أخطاء runtime جديدة
+- لقطة قبل/بعد لكل شاشة معدّلة
+
+## المخرَج النهائي
+تقرير بسيط بالعربية يوضح:
+- الشاشات التي تحسّنت
+- لقطات قبل/بعد
+- تأكيد أن الجوال والقواعد المالية وقواعد البيانات لم تُمس
 
 ---
 
-### Step 1: Extend CSS tokens for dark mode
-In `src/styles.css`, add a `.dark` block that redefines all semantic color variables with dark-appropriate OKLCH values:
-- `--background`, `--foreground`, `--card`, `--muted`, `--border`, `--input`
-- `--primary`, `--primary-soft`, `--debt`, `--warn`, `--success`, `--info`, `--profit` (and their `-soft` variants)
-- Keep the same variable names so every component automatically adapts.
-
-### Step 2: Create a theme hook
-Create `src/hooks/useTheme.ts`:
-- Reads `"mongezz-theme"` from `localStorage` (values: `"light" | "dark"`, default `"light"`).
-- On mount, applies `document.documentElement.classList.toggle("dark", isDark)`.
-- Exposes `theme`, `setTheme`, and `toggleTheme`.
-- Updates the `<meta name="theme-color">` tag dynamically.
-
-### Step 3: Wrap the app with the theme provider
-In `src/routes/__root.tsx` (or `src/routes/_authenticated/app.tsx`):
-- Call the theme hook so the `dark` class is applied before first paint.
-- For authenticated routes, initialize inside the app shell; for the landing page, initialize in `RootComponent` so the landing page also respects the saved preference.
-
-### Step 4: Add toggle in Settings
-In `src/features/settings/SettingsScreen.tsx`:
-- Add a new card/row with label "الوضع المظلم" and a switch/toggle button.
-- Use the `toggleTheme` / `setTheme` from the hook.
-- Show current state (مظلم / فاتح).
-
-### Step 5: Fix hardcoded colors that break dark mode
-Search and replace specific hardcoded classes that ignore semantic tokens:
-- `bg-warn text-white` → use a semantic warn foreground or a dark-aware class.
-- `bg-emerald-100 text-emerald-800` and `bg-amber-100 text-amber-800` in `platform-admin.tsx` → map to `--success-soft` / `--warn-soft` with corresponding foregrounds.
-- Verify `bg-black/40` and `bg-black/80` overlays look acceptable in dark mode (usually fine).
-- Verify `shadow-primary/20` still reads well on dark backgrounds.
-
-### Step 6: Smoke test
-- Toggle dark mode in Settings → verify the class is added to `<html>`.
-- Refresh the page → verify localStorage preference is restored.
-- Check key screens in dark mode: Dashboard, Sale Quick, Inventory, Settings, Auth, Landing page.
-- Verify no unreadable text or invisible borders.
-
-### Out of scope
-- No DB migration or tenant profile field.
-- No system-preference auto-detection.
-- No financial logic changes.
+هل أبدأ التنفيذ بهذا النطاق؟ إذا أردت التركيز على شاشات محددة فقط (مثلاً الرئيسية والفواتير فقط بدل الكل) أخبرني قبل الموافقة.

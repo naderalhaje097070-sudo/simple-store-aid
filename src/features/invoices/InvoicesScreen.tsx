@@ -34,8 +34,8 @@ export function InvoicesScreen(p: AppCtx) {
             <button key={f.id} onClick={() => setFilter(f.id as typeof filter)} className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border text-foreground"}`}>{f.l}</button>
           ))}
         </div>
-        <div className="space-y-2">
-          {list.length === 0 && <div className="rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا توجد فواتير في هذا النطاق</div>}
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
+          {list.length === 0 && <div className="lg:col-span-2 xl:col-span-3 rounded-2xl bg-card border border-border p-8 text-center text-sm text-muted-foreground">لا توجد فواتير في هذا النطاق</div>}
           {list.map((inv: Invoice) => <InvoiceRow key={inv.id} inv={inv} customers={p.customers} onOpen={(id) => { p.setOpenInvoiceId(id); p.go("invoice_detail"); }} />)}
         </div>
       </div>

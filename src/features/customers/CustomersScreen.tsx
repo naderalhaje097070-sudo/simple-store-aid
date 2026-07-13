@@ -36,13 +36,13 @@ export function CustomersScreen(p: AppCtx) {
           ))}
         </div>
         {list.length === 0 && <EmptyState text={q ? "لا عميل بهذا الاسم" : "لا عملاء بهذا التصنيف"} />}
-        <div className="space-y-2">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
           {list.map((c: Customer) => (
-            <div key={c.id} className="rounded-2xl bg-card border border-border p-3 flex items-center gap-3">
+            <div key={c.id} className="rounded-2xl bg-card border border-border p-3 flex items-center gap-3 hover:border-primary/30 transition">
               <div className="w-10 h-10 rounded-full bg-primary-soft text-primary flex items-center justify-center font-bold">{c.name[0]}</div>
-              <div className="flex-1">
-                <div className="font-bold text-sm">{c.name}</div>
-                <div className="text-xs text-muted-foreground">{c.phone ?? "بدون رقم"}</div>
+              <div className="flex-1 min-w-0">
+                <div className="font-bold text-sm truncate">{c.name}</div>
+                <div className="text-xs text-muted-foreground truncate">{c.phone ?? "بدون رقم"}</div>
               </div>
               {debtMap.get(c.id) ? <Money v={debtMap.get(c.id)!} className="text-debt font-bold text-sm" /> : <span className="text-[11px] text-success">لا دين</span>}
             </div>

@@ -295,14 +295,14 @@ function MongezzApp() {
 
         <div className="md:flex-1 md:flex md:flex-col md:min-w-0">
           {/* Desktop header */}
-          <div className="hidden md:flex sticky top-0 z-30 bg-background/95 backdrop-blur border-b border-border px-6 py-3 items-center gap-4">
-            <h1 className="text-base font-bold text-foreground">منجز · {screenTitle[screen] ?? ""}</h1>
+          <div className="hidden md:flex sticky top-0 z-30 bg-background/95 backdrop-blur border-b border-border px-6 lg:px-10 py-3 items-center gap-4">
+            <h1 className="text-base lg:text-lg font-bold text-foreground">منجز · {screenTitle[screen] ?? ""}</h1>
             <div className="flex-1" />
             <button onClick={() => setQuickExpenseOpen(true)} className="text-xs font-bold px-3 py-2 rounded-xl bg-card border border-border hover:bg-muted">+ مصروف</button>
             <button onClick={() => go("sale_quick")} className="text-xs font-bold px-3 py-2 rounded-xl bg-primary text-primary-foreground hover:opacity-90">+ بيع سريع</button>
           </div>
 
-          <div className="mx-auto w-full max-w-md md:max-w-5xl min-h-screen md:min-h-0 bg-background relative pb-24 md:pb-10 shadow-sm md:shadow-none">
+          <div className="mx-auto w-full max-w-md md:max-w-[1400px] md:px-6 lg:px-10 xl:px-14 min-h-screen md:min-h-0 bg-background relative pb-24 md:pb-10 shadow-sm md:shadow-none">
             {screen === "home" && <HomeScreen {...ctx} />}
             {screen === "invoices" && <InvoicesScreen {...ctx} />}
             {screen === "invoice_detail" && <InvoiceDetailScreen {...ctx} />}

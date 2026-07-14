@@ -4,6 +4,7 @@ import asyncio
 import os
 from pathlib import Path
 
+from playwright.async_api import TimeoutError as PlaywrightTimeoutError
 from playwright.async_api import async_playwright
 
 BASE_URL = os.environ.get("APP_BASE_URL", "http://127.0.0.1:8080")
@@ -48,8 +49,19 @@ async def main() -> None:
 
             await page.locator("#auth-email").fill(EMAIL)
             await page.locator("#auth-password").fill(PASSWORD)
-            await page.get_by_role("button", name="دخول", exact=True).last.click()
-            await page.wait_for_url("**/app", timeout=20000)
+            await page.locator('button[type="submit"]').click()
+            try:
+                await page.wait_for_url("**/app", timeout=20000)
+            except PlaywrightTimeoutError:
+                await page.screenshot(
+                    path=str(EVIDENCE / f"{label}-login-failure.png"),
+                    full_page=True,
+                )
+                print(f"LOGIN FAILURE URL ({label}): {page.url}")
+                print(f"LOGIN FAILURE BODY ({label}):\n{await page.locator('body').inner_text()}")
+                print(f"LOGIN FAILURE ERRORS ({label}): {errors}")
+                raise
+
             await page.wait_for_load_state("networkidle", timeout=20000)
             await page.get_by_text("منجز", exact=True).first.wait_for(timeout=10000)
 

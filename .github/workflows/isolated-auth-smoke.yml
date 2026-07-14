@@ -110,7 +110,9 @@ jobs:
           python3 -m playwright install --with-deps chromium
 
       - name: Run read-only authenticated smoke
-        run: python3 tests/e2e/isolated-auth-smoke.py
+        run: |
+          set -o pipefail
+          python3 tests/e2e/isolated-auth-smoke.py 2>&1 | tee /tmp/auth-smoke.log
 
       - name: Upload evidence
         if: always()
@@ -120,6 +122,7 @@ jobs:
           path: |
             /tmp/mongezz-auth-smoke
             /tmp/mongezz-app.log
+            /tmp/auth-smoke.log
           if-no-files-found: warn
 
       - name: Stop isolated Supabase

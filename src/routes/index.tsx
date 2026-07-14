@@ -16,24 +16,27 @@ export const Route = createFileRoute("/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "منجز — دفتر ذكي لمحلك الصغير" },
+      { title: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
       {
         name: "description",
         content:
           "منجز: تطبيق بسيط لإدارة محلك الصغير. بيع سريع، متابعة ديون العملاء، عهدة المندوب، وتسويات يومية — كل شي في مكان واحد.",
       },
-      { property: "og:title", content: "منجز — دفتر ذكي لمحلك الصغير" },
+      { property: "og:title", content: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
       {
         property: "og:description",
         content:
           "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
       },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "https://simple-store-aid.lovable.app/" },
+      { property: "og:url", content: "https://www.fin-biz.shop/" },
+      { name: "twitter:title", content: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
+      {
+        name: "twitter:description",
+        content:
+          "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
+      },
     ],
-    links: [
-      { rel: "canonical", href: "https://simple-store-aid.lovable.app/" },
-    ],
+    links: [{ rel: "canonical", href: "https://www.fin-biz.shop/" }],
   }),
   component: LandingPage,
 });

@@ -196,7 +196,7 @@ function buildHtml(d: InvoicePdfData, qrDataUrl: string | null): string {
       : "";
 
   const qrHtml = qrDataUrl
-    ? `<img src="${qrDataUrl}" alt="QR" style="width:72px;height:72px;display:block" />`
+    ? `<img src="${qrDataUrl}" alt="Invoice verification QR code" style="width:72px;height:72px;display:block" />`
     : "";
 
   return `

@@ -7,7 +7,11 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
   head: () => ({
     meta: [
       { title: "إنشاء محلك — منجز" },
-      { name: "description", content: "ابدأ بإضافة اسم محلك للبدء في استخدام منجز." },
+      {
+        name: "description",
+        content:
+          "ابدأ بإعداد حساب محلك الجديد في منجز لإدارة نشاطك التجاري ومبيعاتك وديون عملائك بكل سهولة.",
+      },
     ],
   }),
   component: Onboarding,

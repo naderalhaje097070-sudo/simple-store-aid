@@ -12,7 +12,11 @@ export const Route = createFileRoute("/_authenticated/billing")({
   head: () => ({
     meta: [
       { title: "الاشتراك والباقات — منجز" },
-      { name: "description", content: "اختر باقة منجز المناسبة لمحلك واشترك بأمان." },
+      {
+        name: "description",
+        content:
+          "اختر باقة منجز المناسبة لحجم محلك الصغير واشترك بأمان للوصول إلى كافة مزايا إدارة المبيعات والديون والعهدة.",
+      },
     ],
   }),
   component: BillingPage,

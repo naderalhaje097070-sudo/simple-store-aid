@@ -16,7 +16,11 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "تسجيل الدخول — منجز" },
-      { name: "description", content: "ادخل إلى حساب محلك في منجز." },
+      {
+        name: "description",
+        content:
+          "تسجيل الدخول إلى حساب محلك في منجز لإدارة المبيعات والديون والعهدة اليومية بسهولة.",
+      },
     ],
   }),
   component: AuthPage,
@@ -167,8 +171,8 @@ function AuthPage() {
           </button>
         </div>
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-extrabold">منجز</h1>
-          <p className="text-sm text-muted-foreground mt-1">دفتر محلك الذكي</p>
+          <h1 className="text-3xl font-extrabold">تسجيل الدخول إلى منجز — دفتر محلك الذكي</h1>
+          <p className="text-sm text-muted-foreground mt-1">إدارة المبيعات والديون والعهدة</p>
         </div>
 
         <div className="rounded-2xl bg-card border border-border p-5 shadow-sm">
@@ -190,8 +194,10 @@ function AuthPage() {
           <form onSubmit={onSubmit} className="space-y-3">
             {mode === "signup" && (
               <div>
-                <label className="block text-xs text-muted-foreground mb-1">اسمك</label>
+                <label htmlFor="auth-name" className="block text-xs text-muted-foreground mb-1">اسمك</label>
                 <input
+                  id="auth-name"
+                  name="name"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
                   className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
@@ -200,8 +206,10 @@ function AuthPage() {
               </div>
             )}
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">البريد الإلكتروني</label>
+              <label htmlFor="auth-email" className="block text-xs text-muted-foreground mb-1">البريد الإلكتروني</label>
               <input
+                id="auth-email"
+                name="email"
                 type="email"
                 required
                 value={email}
@@ -212,8 +220,10 @@ function AuthPage() {
               />
             </div>
             <div>
-              <label className="block text-xs text-muted-foreground mb-1">كلمة المرور</label>
+              <label htmlFor="auth-password" className="block text-xs text-muted-foreground mb-1">كلمة المرور</label>
               <input
+                id="auth-password"
+                name="password"
                 type="password"
                 required
                 minLength={6}

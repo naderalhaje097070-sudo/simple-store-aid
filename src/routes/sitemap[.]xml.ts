@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
-const BASE_URL = "https://simple-store-aid.lovable.app";
+const BASE_URL = "https://www.fin-biz.shop";
 
 interface SitemapEntry {
   path: string;
@@ -13,9 +13,10 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        // Only public, indexable routes. Auth/app/admin routes are excluded.
+        // Only public, indexable routes. Authenticated app routes are excluded.
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
+          { path: "/guide", changefreq: "monthly", priority: "0.7" },
         ];
 
         const urls = entries.map((e) =>

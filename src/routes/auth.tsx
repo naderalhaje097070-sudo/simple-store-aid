@@ -4,6 +4,19 @@ import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
+type AuthFailure = {
+  message?: unknown;
+  code?: unknown;
+};
+
+function parseAuthFailure(error: unknown): { message: string; code: string } {
+  const failure = error as AuthFailure;
+  return {
+    message: String(failure?.message ?? error),
+    code: String(failure?.code ?? ""),
+  };
+}
+
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => {
     const next =
@@ -86,10 +99,9 @@ function AuthPage() {
         if (error) throw error;
       }
       navigate({ to: postAuthTarget });
-    } catch (err: any) {
-      const msg = String(err?.message ?? err);
-      const code = String(err?.code ?? "");
-      console.error("auth error:", err);
+    } catch (caught: unknown) {
+      const { message: msg, code } = parseAuthFailure(caught);
+      console.error("auth error:", caught);
       if (code === "email_not_confirmed" || msg.includes("Email not confirmed")) {
         setNeedsConfirm(true);
         setError("بريدك لم يُؤكَّد بعد — افتح رسالة التفعيل ثم حاول الدخول.");
@@ -127,9 +139,8 @@ function AuthPage() {
       });
       if (error) throw error;
       setInfo("أرسلنا رسالة التفعيل من جديد، تحقّق من بريدك.");
-    } catch (err: any) {
-      const code = String(err?.code ?? "");
-      const msg = String(err?.message ?? err);
+    } catch (caught: unknown) {
+      const { message: msg, code } = parseAuthFailure(caught);
       if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
         setError("تم الإرسال مؤخراً، انتظر دقيقة قبل المحاولة.");
       } else {

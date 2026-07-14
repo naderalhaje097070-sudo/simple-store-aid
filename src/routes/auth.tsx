@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/auth")({
-  ssr: false,
   validateSearch: (s: Record<string, unknown>) => {
     const next =
       typeof s.next === "string" && s.next.startsWith("/") && !s.next.startsWith("//")
@@ -194,7 +193,9 @@ function AuthPage() {
           <form onSubmit={onSubmit} className="space-y-3">
             {mode === "signup" && (
               <div>
-                <label htmlFor="auth-name" className="block text-xs text-muted-foreground mb-1">اسمك</label>
+                <label htmlFor="auth-name" className="block text-xs text-muted-foreground mb-1">
+                  اسمك
+                </label>
                 <input
                   id="auth-name"
                   name="name"
@@ -206,7 +207,9 @@ function AuthPage() {
               </div>
             )}
             <div>
-              <label htmlFor="auth-email" className="block text-xs text-muted-foreground mb-1">البريد الإلكتروني</label>
+              <label htmlFor="auth-email" className="block text-xs text-muted-foreground mb-1">
+                البريد الإلكتروني
+              </label>
               <input
                 id="auth-email"
                 name="email"
@@ -220,7 +223,9 @@ function AuthPage() {
               />
             </div>
             <div>
-              <label htmlFor="auth-password" className="block text-xs text-muted-foreground mb-1">كلمة المرور</label>
+              <label htmlFor="auth-password" className="block text-xs text-muted-foreground mb-1">
+                كلمة المرور
+              </label>
               <input
                 id="auth-password"
                 name="password"

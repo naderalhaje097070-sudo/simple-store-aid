@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useMyRole, useTenantId } from "@/lib/db";
 import { EmployeeAccountsList } from "@/features/employees/EmployeeAccountsList";
 
-export const Route = createFileRoute("/_authenticated/employees" as never)({
+export const Route = createFileRoute("/_authenticated/employees")({
   ssr: false,
   head: () => ({ meta: [{ title: "حسابات الموظفين — منجز" }] }),
   component: OwnerEmployeesPage,

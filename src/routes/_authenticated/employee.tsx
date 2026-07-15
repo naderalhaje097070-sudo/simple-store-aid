@@ -3,7 +3,7 @@ import { useMyRole, useTenantId } from "@/lib/db";
 import { EmployeePortal } from "@/features/employees/EmployeePortal";
 
 // Delivery staff are isolated from the owner application at the route boundary.
-export const Route = createFileRoute("/_authenticated/employee" as never)({
+export const Route = createFileRoute("/_authenticated/employee")({
   ssr: false,
   head: () => ({ meta: [{ title: "طلباتي وعهدتي — منجز" }] }),
   component: EmployeePage,

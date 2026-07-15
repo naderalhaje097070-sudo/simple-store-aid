@@ -174,9 +174,72 @@ REVOKE INSERT, UPDATE, DELETE ON public.order_items FROM authenticated;
 REVOKE INSERT, UPDATE, DELETE ON public.payments FROM authenticated;
 REVOKE INSERT, UPDATE, DELETE ON public.day_closes FROM authenticated;
 
--- Users must not be able to change tenant_id or clear disabled_at through the generic profile API.
+-- Active/disabled employees cannot escape into a new tenant through the onboarding insert policy.
+CREATE OR REPLACE FUNCTION public.can_current_user_create_tenant()
+RETURNS boolean
+LANGUAGE sql
+STABLE SECURITY DEFINER
+SET search_path = public
+AS $$
+  SELECT auth.uid() IS NOT NULL
+    AND EXISTS (
+      SELECT 1 FROM public.profiles p
+      WHERE p.id = auth.uid()
+        AND p.tenant_id IS NULL
+        AND p.disabled_at IS NULL
+    )
+    AND NOT EXISTS (
+      SELECT 1 FROM public.user_roles ur WHERE ur.user_id = auth.uid()
+    )
+    AND NOT EXISTS (
+      SELECT 1 FROM public.tenants t WHERE t.owner_user_id = auth.uid()
+    )
+$$;
+
+DROP POLICY IF EXISTS "users create their own tenant" ON public.tenants;
+CREATE POLICY "unassigned users create their own tenant" ON public.tenants
+FOR INSERT TO authenticated WITH CHECK (
+  owner_user_id = auth.uid()
+  AND public.can_current_user_create_tenant()
+);
+
+-- Users may edit ordinary profile fields, but access-control fields are protected.
+GRANT UPDATE ON public.profiles TO authenticated;
 DROP POLICY IF EXISTS "users update own profile" ON public.profiles;
-REVOKE UPDATE ON public.profiles FROM authenticated;
+CREATE POLICY "users update own profile" ON public.profiles
+FOR UPDATE TO authenticated USING (id = auth.uid()) WITH CHECK (id = auth.uid());
+
+CREATE OR REPLACE FUNCTION public.protect_profile_access_fields()
+RETURNS trigger
+LANGUAGE plpgsql
+SET search_path = public
+AS $$
+BEGIN
+  IF auth.uid() = OLD.id THEN
+    IF NEW.disabled_at IS DISTINCT FROM OLD.disabled_at THEN
+      RAISE EXCEPTION 'profile_access_fields_locked';
+    END IF;
+
+    IF NEW.tenant_id IS DISTINCT FROM OLD.tenant_id THEN
+      IF NOT (
+        OLD.tenant_id IS NULL
+        AND NEW.tenant_id IS NOT NULL
+        AND EXISTS (
+          SELECT 1 FROM public.tenants t
+          WHERE t.id = NEW.tenant_id AND t.owner_user_id = auth.uid()
+        )
+      ) THEN
+        RAISE EXCEPTION 'profile_access_fields_locked';
+      END IF;
+    END IF;
+  END IF;
+  RETURN NEW;
+END $$;
+
+DROP TRIGGER IF EXISTS trg_protect_profile_access_fields ON public.profiles;
+CREATE TRIGGER trg_protect_profile_access_fields
+BEFORE UPDATE OF tenant_id, disabled_at ON public.profiles
+FOR EACH ROW EXECUTE FUNCTION public.protect_profile_access_fields();
 
 -- A linked courier account must be explicitly unlinked before another account can replace it.
 CREATE OR REPLACE FUNCTION public.prevent_courier_account_replacement()
@@ -224,6 +287,9 @@ CREATE TRIGGER trg_prevent_employee_final_state_rewrite
 BEFORE UPDATE OF courier_state, collected_by_courier, delivery, courier_id ON public.orders
 FOR EACH ROW EXECUTE FUNCTION public.prevent_employee_final_state_rewrite();
 
+REVOKE ALL ON FUNCTION public.can_current_user_create_tenant() FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.can_current_user_create_tenant() TO authenticated;
+REVOKE ALL ON FUNCTION public.protect_profile_access_fields() FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.prevent_courier_account_replacement() FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.prevent_employee_final_state_rewrite() FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.is_active_courier_user(uuid, uuid) FROM PUBLIC, anon, authenticated;

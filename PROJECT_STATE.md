@@ -4,7 +4,7 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Governance PR #19 was reviewed and merged into `main` as merge commit `e7088a2c58bb514aac133f303627d4b829473934`. Gate 1 documentation is open as draft pull request #20; no employee feature implementation is authorized.
+NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Governance PR #19 was reviewed and merged into `main` as merge commit `e7088a2c58bb514aac133f303627d4b829473934`. Gate 1 documentation is open as draft pull request #20. The latest completed documentation-branch verification passed, and independent review found no documentation-level blocker. Explicit human Gate 1 approval is still required; no employee feature implementation is authorized.
 
 ## Completed work
 
@@ -17,12 +17,15 @@ NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Govern
 - Issue #16, current `main`, PR #17 scope, review threads, and latest recorded workflows inspected.
 - Current behavior, expected behavior, reproduction evidence, and PR #17 scope decomposition documented for Change Gate 1.
 - Draft PR #20 opened from `docs/employee-accounts-gate-1-baseline` with documentation-only scope.
+- Quality passed: dependency install, typecheck, changed-source lint, unit tests, and production build.
+- Ephemeral Financial Rules passed: isolated Supabase, full migration chain, and T1–T15.
+- Isolated Auth UI Smoke passed: isolated account, production build, Cloudflare emulator, Playwright smoke, evidence upload, and teardown.
+- Independent documentation review found no Critical, High, or Medium finding in PR #20.
 
 ## In-progress work
 
-- CI verification of PR #20 on its latest head.
-- Independent review of Employee Accounts Change Gate 1 documentation.
-- Human decision to approve Gate 1 or request corrections.
+- Final GitHub checks on the latest PR #20 head; GitHub checks are authoritative if the head changes.
+- Human review and explicit approval or correction request for Change Gate 1.
 
 ## Known issues
 
@@ -52,7 +55,7 @@ NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Govern
 
 ## Next task
 
-Review PR #20 and obtain explicit approval for Employee Accounts Change Gate 1. After approval, begin Change Gate 2 — Impact Analysis without writing feature code.
+Human review and explicit approval of PR #20 and Employee Accounts Change Gate 1. After approval, begin Change Gate 2 — Impact Analysis without writing feature code.
 
 ## Verification commands
 

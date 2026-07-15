@@ -4,7 +4,7 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19 and is awaiting CI completion and human review.
+NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19, all applicable CI gates passed, and the PR is awaiting explicit human review and merge approval.
 
 ## Completed work
 
@@ -17,12 +17,15 @@ NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19 and
 - NAADF, NAADF-CMF, delivery, security, database, testing, and review policies added.
 - Project state, decision, and governed task records added.
 - PR-GOV-001 opened as pull request #19 without automatic merge or deploy.
+- Pull request #19 diff reviewed and confirmed to contain documentation only.
+- Quality workflow passed on commit `93379d9fc7b9538c5dd0d2955a6c9e10c19fb60e`.
+- Ephemeral Financial Rules, including T1–T15, passed on the same commit.
+- Isolated Auth UI Smoke passed on the same commit.
 
 ## In-progress work
 
-- Review the documentation-only diff for internal consistency.
-- Wait for the applicable GitHub Actions workflows on pull request #19.
-- Leave pull request #19 open for human review; do not merge automatically.
+- Human review of pull request #19.
+- Human decision to merge or request changes.
 
 ## Known issues
 
@@ -46,7 +49,7 @@ NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19 and
 
 ## Next task
 
-Complete the independent documentation review and CI verification for pull request #19, then leave it open for explicit human merge approval.
+Human review and explicit merge decision for pull request #19. After merge, begin NAADF-CMF Change Gate 1 for Employee Accounts: Baseline and Reproduction.
 
 ## Verification commands
 

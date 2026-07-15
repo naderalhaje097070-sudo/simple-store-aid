@@ -26,15 +26,11 @@ export default defineConfig({
     // to Vite builds. Explicit CI or staging values always win; the public
     // production fallback is used only when no environment value is present.
     define: {
-      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
-        supabaseBuildConfig.url,
-      ),
+      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseBuildConfig.url),
       "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
         supabaseBuildConfig.publishableKey,
       ),
-      "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(
-        supabaseBuildConfig.projectId,
-      ),
+      "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(supabaseBuildConfig.projectId),
     },
     plugins: [
       mcpPlugin(),

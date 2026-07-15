@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -20,7 +22,34 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Typecheck
         run: bun run typecheck
+      - name: Lint changed source files
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          base="$BASE_SHA"
+          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx)$' || true)
+          printf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt
+          if (( ${#files[@]} == 0 )); then
+            echo "No changed JavaScript or TypeScript files to lint."
+            exit 0
+          fi
+          set -o pipefail
+          bunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log
       - name: Unit tests
         run: bun run test:unit
       - name: Build
         run: bun run build
+      - name: Upload quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-diagnostics
+          path: |
+            /tmp/lint-files.txt
+            /tmp/lint.log
+          if-no-files-found: warn

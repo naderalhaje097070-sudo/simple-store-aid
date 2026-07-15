@@ -19,13 +19,6 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    define: {
-      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify("https://dahzkekdirrngnkcxinv.supabase.co"),
-      "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhaHprZWtkaXJybmdua2N4aW52Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0NzQ5NzksImV4cCI6MjA5ODA1MDk3OX0.9xeU6o1E49rZemO5uwOsnGuYWW1n5MfKJmVlbU6UEvQ",
-      ),
-      "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify("dahzkekdirrngnkcxinv"),
-    },
     plugins: [
       mcpPlugin(),
       VitePWA({
@@ -37,11 +30,7 @@ export default defineConfig({
         workbox: {
           globPatterns: ["**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}"],
           navigateFallback: "/offline.html",
-          navigateFallbackDenylist: [
-            /^\/api\//,
-            /^\/__/,
-            /\/~oauth/,
-          ],
+          navigateFallbackDenylist: [/^\/api\//, /^\/__/, /\/~oauth/],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,

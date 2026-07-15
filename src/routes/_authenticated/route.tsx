@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
-  ssr: false,
   beforeLoad: async () => {
     if (typeof window === "undefined") return;
     const { data, error } = await supabase.auth.getUser();
@@ -20,7 +19,7 @@ function AuthenticatedLayout() {
 
   useEffect(() => {
     let active = true;
-    (async () => {
+    void (async () => {
       const { data: userRes } = await supabase.auth.getUser();
       const uid = userRes.user?.id;
       if (!uid) {
@@ -46,7 +45,9 @@ function AuthenticatedLayout() {
         navigate({ to: "/app" });
       }
     })();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [navigate]);
 
   if (checking) {
@@ -57,7 +58,11 @@ function AuthenticatedLayout() {
     );
   }
 
-  if (hasTenant === false && !window.location.pathname.startsWith("/platform-admin") && window.location.pathname !== "/onboarding") {
+  if (
+    hasTenant === false &&
+    !window.location.pathname.startsWith("/platform-admin") &&
+    window.location.pathname !== "/onboarding"
+  ) {
     return null;
   }
 

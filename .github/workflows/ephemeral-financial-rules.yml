@@ -85,30 +85,25 @@ jobs:
           set +a
           exec > >(tee /tmp/employee-seed.log) 2>&1
 
+          test -n "${SERVICE_ROLE_KEY:-}"
+
           create_employee() {
             local email="$1"
-            local file="$2"
-            curl --fail-with-body --silent --show-error \
-              -X POST "$API_URL/auth/v1/signup" \
-              -H "apikey: $ANON_KEY" \
+            local response
+            response="$(curl --fail-with-body --silent --show-error \
+              -X POST "$API_URL/auth/v1/admin/users" \
+              -H "apikey: $SERVICE_ROLE_KEY" \
+              -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
               -H "Content-Type: application/json" \
-              -d "{\"email\":\"${email}\",\"password\":\"EmployeeQA-Only-2026!\",\"data\":{\"display_name\":\"${email}\"}}" \
-              > "$file"
+              -d "{\"email\":\"${email}\",\"password\":\"EmployeeQA-Only-2026!\",\"email_confirm\":true,\"user_metadata\":{\"display_name\":\"${email}\"}}")"
             local uid
-            uid="$(jq -r '.user.id // .id // empty' "$file")"
-            if [[ -z "$uid" ]]; then
-              uid="$(psql "$DB_URL" -Atc "select id from auth.users where email='${email}' limit 1")"
-            fi
+            uid="$(jq -r '.id // .user.id // empty' <<< "$response")"
             test -n "$uid"
-            psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$uid" <<'SQL'
-            UPDATE auth.users
-               SET email_confirmed_at = COALESCE(email_confirmed_at, now())
-             WHERE id = :'uid'::uuid;
-            SQL
+            echo "Created ${email} as ${uid}"
           }
 
-          create_employee "employee.a@mongezz.test" /tmp/employee-a.json
-          create_employee "employee.b@mongezz.test" /tmp/employee-b.json
+          create_employee "employee.a@mongezz.test"
+          create_employee "employee.b@mongezz.test"
 
       - name: Run T1-T15 financial regression suite
         env:

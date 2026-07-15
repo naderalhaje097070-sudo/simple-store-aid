@@ -32,9 +32,7 @@ jobs:
           sudo apt-get install -y postgresql-client
 
       - name: Start isolated Supabase
-        run: |
-          set -o pipefail
-          supabase start 2>&1 | tee /tmp/supabase-start.log
+        run: supabase start > /tmp/supabase-start.log 2>&1
 
       - name: Capture local Supabase environment
         run: supabase status -o env > /tmp/supabase.env
@@ -76,34 +74,16 @@ jobs:
           ON CONFLICT DO NOTHING;
           SQL
 
-      - name: Seed isolated employee auth accounts
+      - name: Seed isolated employee identities
         shell: bash
         run: |
           set -euo pipefail
           set -a
           source /tmp/supabase.env
           set +a
-          exec > >(tee /tmp/employee-seed.log) 2>&1
-
-          test -n "${SERVICE_ROLE_KEY:-}"
-
-          create_employee() {
-            local email="$1"
-            local response
-            response="$(curl --fail-with-body --silent --show-error \
-              -X POST "$API_URL/auth/v1/admin/users" \
-              -H "apikey: $SERVICE_ROLE_KEY" \
-              -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
-              -H "Content-Type: application/json" \
-              -d "{\"email\":\"${email}\",\"password\":\"EmployeeQA-Only-2026!\",\"email_confirm\":true,\"user_metadata\":{\"display_name\":\"${email}\"}}")"
-            local uid
-            uid="$(jq -r '.id // .user.id // empty' <<< "$response")"
-            test -n "$uid"
-            echo "Created ${email} as ${uid}"
-          }
-
-          create_employee "employee.a@mongezz.test"
-          create_employee "employee.b@mongezz.test"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 \
+            -f tests/employee-accounts/seed-auth-users.sql \
+            2>&1 | tee /tmp/employee-seed.log
 
       - name: Run T1-T15 financial regression suite
         env:
@@ -127,11 +107,15 @@ jobs:
           set -o pipefail
           bash tests/employee-accounts/run.sh 2>&1 | tee /tmp/employee-accounts.log
 
-      - name: Show Supabase status on failure
+      - name: Show regression failure tail
         if: failure()
         run: |
-          supabase status || true
-          docker ps -a || true
+          echo "=== Employee seed tail ==="
+          tail -n 20 /tmp/employee-seed.log 2>/dev/null || true
+          echo "=== T1-T15 tail ==="
+          tail -n 20 /tmp/financial-rules.log 2>/dev/null || true
+          echo "=== Employee isolation tail ==="
+          tail -n 100 /tmp/employee-accounts.log 2>/dev/null || true
 
       - name: Report result to current PR
         if: always() && github.event_name == 'pull_request'
@@ -141,31 +125,15 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           {
-            echo "## Ephemeral Financial & Employee Rules"
+            echo "## Employee account regression"
             echo
             echo "- Commit: \`${GITHUB_SHA}\`"
             echo "- Status: **${JOB_STATUS}**"
-            echo "- Environment: local isolated Supabase in GitHub Actions"
-            echo "- Production database accessed: **No**"
+            echo "- Isolated Supabase: **Yes**"
+            echo "- Production accessed: **No**"
             echo
-            echo "### Employee seed"
             echo '```text'
-            tail -n 60 /tmp/employee-seed.log 2>/dev/null || echo "Employee seed log was not created."
-            echo '```'
-            echo
-            echo "### Supabase startup"
-            echo '```text'
-            tail -n 80 /tmp/supabase-start.log 2>/dev/null || echo "No startup log."
-            echo '```'
-            echo
-            echo "### T1-T15"
-            echo '```text'
-            tail -n 100 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created."
-            echo '```'
-            echo
-            echo "### Employee isolation"
-            echo '```text'
-            tail -n 120 /tmp/employee-accounts.log 2>/dev/null || echo "Employee account test log was not created."
+            tail -n 70 /tmp/employee-accounts.log 2>/dev/null || echo "Employee account test log was not created."
             echo '```'
           } > /tmp/pr-report.md
           gh pr comment "$PR_NUMBER" --body-file /tmp/pr-report.md || true

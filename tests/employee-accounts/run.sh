@@ -17,9 +17,15 @@ if [[ -z "${TID:-}" || -z "${OWNER:-}" || -z "${STAFF_A:-}" || -z "${STAFF_B:-}"
   exit 1
 fi
 
-psql -v ON_ERROR_STOP=1 \
-  -v tid="'$TID'" \
-  -v owner="'$OWNER'" \
-  -v staff_a="'$STAFF_A'" \
-  -v staff_b="'$STAFF_B'" \
-  -f "$HERE/rules.sql"
+run_sql() {
+  local file="$1"
+  psql -v ON_ERROR_STOP=1 \
+    -v tid="'$TID'" \
+    -v owner="'$OWNER'" \
+    -v staff_a="'$STAFF_A'" \
+    -v staff_b="'$STAFF_B'" \
+    -f "$file"
+}
+
+run_sql "$HERE/rules.sql"
+run_sql "$HERE/tenant-escape.sql"

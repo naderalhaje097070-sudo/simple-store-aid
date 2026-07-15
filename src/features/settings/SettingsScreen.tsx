@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Users, ChevronLeft } from "lucide-react";
 import { TopBar } from "@/features/layout/TopBar";
 import { useTheme } from "@/hooks/useTheme";
 import { useTenantId, useTenant, useMyRole, useUpdateTenantName, useUpdateTenantBusinessType } from "@/lib/db";
@@ -89,6 +89,22 @@ export function SettingsScreen(p: AppCtx) {
             {updateBizMut.isPending ? "..." : bizFlash ? "تم الحفظ ✓" : "حفظ"}
           </button>
         </div>
+
+        {role === "owner" && (
+          <button
+            onClick={() => { window.location.href = "/employees"; }}
+            className="w-full rounded-2xl bg-card border border-border p-4 flex items-center gap-3 text-right"
+          >
+            <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center">
+              <Users className="w-5 h-5" />
+            </div>
+            <div className="flex-1">
+              <div className="font-bold text-sm">حسابات الموظفين</div>
+              <div className="text-xs text-muted-foreground mt-1">اربط المندوب بحسابه وتابع طلباته وعهدته</div>
+            </div>
+            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+          </button>
+        )}
 
         <div className="rounded-2xl bg-card border border-border divide-y divide-border">
           <button

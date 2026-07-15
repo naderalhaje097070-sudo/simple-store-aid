@@ -29,12 +29,17 @@ export const Route = createFileRoute("/")({
           "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
       },
       { property: "og:url", content: "https://www.fin-biz.shop/" },
+      { property: "og:image", content: "https://www.fin-biz.shop/og-image.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "منجز — دفتر ذكي لمحلك الصغير" },
       { name: "twitter:title", content: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
       {
         name: "twitter:description",
         content:
           "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
       },
+      { name: "twitter:image", content: "https://www.fin-biz.shop/og-image.jpg" },
     ],
     links: [{ rel: "canonical", href: "https://www.fin-biz.shop/" }],
   }),

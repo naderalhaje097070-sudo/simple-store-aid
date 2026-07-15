@@ -21,3 +21,19 @@
 8. Never use production for destructive E2E tests.
 9. Do not add public test cleanup RPCs.
 10. No global formatting in functional PRs.
+
+## Engineering process
+
+Repository files are the source of truth. Read `PROJECT_STATE.md`, `DECISIONS.md`, and `TASKS.md` before material work.
+
+Use `docs/governance/NAADF.md` for new projects or independently designed subsystems. Use `docs/governance/NAADF-CMF.md` for every change to the existing application. Complete and approve the applicable intake gate before implementation.
+
+Follow:
+
+- `docs/governance/DELIVERY_PROTOCOL.md`
+- `docs/governance/SECURITY_BASELINE.md`
+- `docs/governance/DATABASE_CHANGE_POLICY.md`
+- `docs/governance/TESTING_POLICY.md`
+- `docs/governance/REVIEW_PROTOCOL.md`
+
+Do not access production data or secrets, perform destructive production actions, merge, deploy, rewrite published history, edit applied migrations, weaken tests, or rely on UI visibility as authorization. Record actual verification results, remaining risks, unverified items, and rollback steps before claiming completion.

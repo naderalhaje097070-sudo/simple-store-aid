@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { AppCtx } from "@/features/shared/AppContext";
 import {
   useCourierAccounts,
   useLinkCourierAccount,
@@ -8,12 +7,21 @@ import {
 } from "./employee-db";
 import { EmployeeAccountCard } from "./EmployeeAccountCard";
 
-export function EmployeeAccountsList({ context: p }: { context: AppCtx }) {
-  const isOwner = p.myRole === "owner";
-  const accounts = useCourierAccounts(p.tenantId, isOwner);
-  const linkAccount = useLinkCourierAccount(p.tenantId);
-  const unlinkAccount = useUnlinkCourierAccount(p.tenantId);
-  const resolveRequest = useResolveSettlementRequest(p.tenantId);
+export function EmployeeAccountsList({
+  tenantId,
+  isOwner,
+  onToast,
+  onOpenSettlements,
+}: {
+  tenantId: string | null | undefined;
+  isOwner: boolean;
+  onToast: (message: string) => void;
+  onOpenSettlements: (courierId: string) => void;
+}) {
+  const accounts = useCourierAccounts(tenantId, isOwner);
+  const linkAccount = useLinkCourierAccount(tenantId);
+  const unlinkAccount = useUnlinkCourierAccount(tenantId);
+  const resolveRequest = useResolveSettlementRequest(tenantId);
   const [emails, setEmails] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
 
@@ -21,7 +29,7 @@ export function EmployeeAccountsList({ context: p }: { context: AppCtx }) {
     setError(null);
     try {
       await action();
-      p.showToast(success);
+      onToast(success);
     } catch (err) {
       setError(err instanceof Error ? err.message : "تعذّر إتمام العملية");
     }
@@ -55,10 +63,7 @@ export function EmployeeAccountsList({ context: p }: { context: AppCtx }) {
               "تم ربط حساب الموظف",
             )}
             onUnlink={() => run(() => unlinkAccount.mutateAsync(account.courierId), "تم تعطيل حساب الموظف")}
-            onOpenSettlements={() => {
-              p.setOpenCourierId(account.courierId);
-              p.go("settlements");
-            }}
+            onOpenSettlements={() => onOpenSettlements(account.courierId)}
             onResolve={(status) => account.pendingRequest
               ? run(
                   () => resolveRequest.mutateAsync({ requestId: account.pendingRequest!.id, status }),

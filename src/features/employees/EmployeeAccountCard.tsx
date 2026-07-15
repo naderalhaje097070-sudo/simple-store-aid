@@ -31,13 +31,17 @@ export function EmployeeAccountCard({
           <div className="text-xs text-muted-foreground">{account.phone ?? "بدون رقم هاتف"}</div>
           <div className="mt-1 text-[11px]">
             {account.userId ? (
-              <span className="text-success">مرتبط: {account.email ?? account.displayName ?? "حساب موظف"}</span>
+              <span className="text-success">
+                مرتبط: {account.email ?? account.displayName ?? "حساب موظف"}
+              </span>
             ) : (
               <span className="text-muted-foreground">لا يوجد حساب مرتبط</span>
             )}
           </div>
         </div>
-        <span className={`text-[11px] px-2 py-1 rounded-full ${account.isActive ? "bg-success-soft text-success" : "bg-muted text-muted-foreground"}`}>
+        <span
+          className={`text-[11px] px-2 py-1 rounded-full ${account.isActive ? "bg-success-soft text-success" : "bg-muted text-muted-foreground"}`}
+        >
           {account.isActive ? "نشط" : "متوقف"}
         </span>
       </div>
@@ -55,18 +59,43 @@ export function EmployeeAccountCard({
 
       {account.pendingRequest && (
         <div className="rounded-xl bg-warn-soft border border-warn/20 p-3 space-y-2">
-          <div className="text-xs font-bold">طلب تسوية بقيمة <Money v={account.pendingRequest.amount} /></div>
-          <div className="grid grid-cols-3 gap-2">
-            <button onClick={onOpenSettlements} className="rounded-lg bg-primary text-primary-foreground py-2 text-xs font-bold">التسويات</button>
-            <button disabled={busy} onClick={() => onResolve("approved")} className="rounded-lg bg-success text-white py-2 text-xs font-bold disabled:opacity-50">اعتماد</button>
-            <button disabled={busy} onClick={() => onResolve("rejected")} className="rounded-lg bg-muted py-2 text-xs font-bold disabled:opacity-50">رفض</button>
+          <div className="text-xs font-bold">
+            طلب تسوية بقيمة <Money v={account.pendingRequest.amount} />
           </div>
-          <p className="text-[10px] text-muted-foreground">يجب تصفير العهدة من شاشة التسويات قبل الاعتماد.</p>
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={onOpenSettlements}
+              className="rounded-lg bg-primary text-primary-foreground py-2 text-xs font-bold"
+            >
+              التسويات
+            </button>
+            <button
+              disabled={busy}
+              onClick={() => onResolve("approved")}
+              className="rounded-lg bg-success text-white py-2 text-xs font-bold disabled:opacity-50"
+            >
+              اعتماد
+            </button>
+            <button
+              disabled={busy}
+              onClick={() => onResolve("rejected")}
+              className="rounded-lg bg-muted py-2 text-xs font-bold disabled:opacity-50"
+            >
+              رفض
+            </button>
+          </div>
+          <p className="text-[10px] text-muted-foreground">
+            يجب تصفير العهدة من شاشة التسويات قبل الاعتماد.
+          </p>
         </div>
       )}
 
       {account.userId ? (
-        <button disabled={busy} onClick={onUnlink} className="w-full rounded-xl border border-destructive/30 text-destructive py-2.5 text-xs font-bold disabled:opacity-50">
+        <button
+          disabled={busy}
+          onClick={onUnlink}
+          className="w-full rounded-xl border border-destructive/30 text-destructive py-2.5 text-xs font-bold disabled:opacity-50"
+        >
           تعطيل وفصل الحساب
         </button>
       ) : (
@@ -79,7 +108,11 @@ export function EmployeeAccountCard({
             placeholder="employee@example.com"
             className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm text-left"
           />
-          <button disabled={busy || !email.trim()} onClick={onLink} className="w-full rounded-xl bg-primary text-primary-foreground py-2.5 text-xs font-bold disabled:opacity-50">
+          <button
+            disabled={busy || !email.trim()}
+            onClick={onLink}
+            className="w-full rounded-xl bg-primary text-primary-foreground py-2.5 text-xs font-bold disabled:opacity-50"
+          >
             ربط الحساب بهذا المندوب
           </button>
         </div>

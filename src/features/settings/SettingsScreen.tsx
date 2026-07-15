@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { Moon, Sun, Users, ChevronLeft } from "lucide-react";
 import { TopBar } from "@/features/layout/TopBar";
 import { useTheme } from "@/hooks/useTheme";
-import { useTenantId, useTenant, useMyRole, useUpdateTenantName, useUpdateTenantBusinessType } from "@/lib/db";
+import {
+  useTenantId,
+  useTenant,
+  useMyRole,
+  useUpdateTenantName,
+  useUpdateTenantBusinessType,
+} from "@/lib/db";
 import { BUSINESS_TYPES, businessTypeLabel } from "@/lib/business-types";
 import type { AppCtx } from "@/features/shared/AppContext";
 
@@ -17,8 +23,12 @@ export function SettingsScreen(p: AppCtx) {
   const [bizType, setBizType] = useState<string>("");
   const [savedFlash, setSavedFlash] = useState(false);
   const [bizFlash, setBizFlash] = useState(false);
-  useEffect(() => { if (tenant?.name) setName(tenant.name); }, [tenant?.name]);
-  useEffect(() => { setBizType(tenant?.business_type ?? ""); }, [tenant?.business_type]);
+  useEffect(() => {
+    if (tenant?.name) setName(tenant.name);
+  }, [tenant?.name]);
+  useEffect(() => {
+    setBizType(tenant?.business_type ?? "");
+  }, [tenant?.business_type]);
 
   const signOut = async () => {
     const { supabase } = await import("@/integrations/supabase/client");
@@ -52,7 +62,7 @@ export function SettingsScreen(p: AppCtx) {
           <label className="block text-xs text-muted-foreground mb-1">اسم المحل</label>
           <input
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             maxLength={60}
             className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
             placeholder="مثال: بقالة الأمين"
@@ -70,12 +80,14 @@ export function SettingsScreen(p: AppCtx) {
           <label className="block text-xs text-muted-foreground mb-1">نوع النشاط</label>
           <select
             value={bizType}
-            onChange={e => setBizType(e.target.value)}
+            onChange={(e) => setBizType(e.target.value)}
             className="w-full h-11 rounded-xl border border-input bg-background px-3 text-sm"
           >
             <option value="">غير محدد</option>
-            {BUSINESS_TYPES.map(b => (
-              <option key={b.value} value={b.value}>{b.label}</option>
+            {BUSINESS_TYPES.map((b) => (
+              <option key={b.value} value={b.value}>
+                {b.label}
+              </option>
             ))}
           </select>
           <p className="mt-2 text-[11px] text-muted-foreground">
@@ -83,7 +95,9 @@ export function SettingsScreen(p: AppCtx) {
           </p>
           <button
             onClick={saveBiz}
-            disabled={updateBizMut.isPending || (bizType || null) === (tenant?.business_type ?? null)}
+            disabled={
+              updateBizMut.isPending || (bizType || null) === (tenant?.business_type ?? null)
+            }
             className="mt-3 w-full h-10 rounded-xl bg-primary text-primary-foreground text-sm font-semibold disabled:opacity-50"
           >
             {updateBizMut.isPending ? "..." : bizFlash ? "تم الحفظ ✓" : "حفظ"}
@@ -92,7 +106,9 @@ export function SettingsScreen(p: AppCtx) {
 
         {role === "owner" && (
           <button
-            onClick={() => { window.location.href = "/employees"; }}
+            onClick={() => {
+              window.location.href = "/employees";
+            }}
             className="w-full rounded-2xl bg-card border border-border p-4 flex items-center gap-3 text-right"
           >
             <div className="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center">
@@ -100,7 +116,9 @@ export function SettingsScreen(p: AppCtx) {
             </div>
             <div className="flex-1">
               <div className="font-bold text-sm">حسابات الموظفين</div>
-              <div className="text-xs text-muted-foreground mt-1">اربط المندوب بحسابه وتابع طلباته وعهدته</div>
+              <div className="text-xs text-muted-foreground mt-1">
+                اربط المندوب بحسابه وتابع طلباته وعهدته
+              </div>
             </div>
             <ChevronLeft className="w-4 h-4 text-muted-foreground" />
           </button>
@@ -111,7 +129,11 @@ export function SettingsScreen(p: AppCtx) {
             onClick={toggleTheme}
             className="w-full flex items-center gap-3 px-4 py-3 text-right transition"
           >
-            {theme === "dark" ? <Moon className="w-4 h-4 text-primary" /> : <Sun className="w-4 h-4 text-warn" />}
+            {theme === "dark" ? (
+              <Moon className="w-4 h-4 text-primary" />
+            ) : (
+              <Sun className="w-4 h-4 text-warn" />
+            )}
             <span className="flex-1 text-sm text-muted-foreground">الوضع المظلم</span>
             <span className="text-sm font-semibold">{theme === "dark" ? "مفعّل" : "معطّل"}</span>
           </button>
@@ -121,16 +143,23 @@ export function SettingsScreen(p: AppCtx) {
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <span className="flex-1 text-sm text-muted-foreground">نوع النشاط الحالي</span>
-            <span className="text-sm font-semibold">{businessTypeLabel(tenant?.business_type)}</span>
+            <span className="text-sm font-semibold">
+              {businessTypeLabel(tenant?.business_type)}
+            </span>
           </div>
           <div className="flex items-center gap-3 px-4 py-3">
             <span className="flex-1 text-sm text-muted-foreground">رقم المحل</span>
-            <span className="text-[11px] font-mono text-muted-foreground" dir="ltr">{tenantId?.slice(0, 8) ?? "—"}</span>
+            <span className="text-[11px] font-mono text-muted-foreground" dir="ltr">
+              {tenantId?.slice(0, 8) ?? "—"}
+            </span>
           </div>
         </div>
 
         <div className="rounded-2xl bg-card border border-border overflow-hidden">
-          <button onClick={signOut} className="w-full flex items-center gap-3 px-4 py-3 text-right text-destructive font-semibold">
+          <button
+            onClick={signOut}
+            className="w-full flex items-center gap-3 px-4 py-3 text-right text-destructive font-semibold"
+          >
             <span className="flex-1">تسجيل الخروج</span>
           </button>
         </div>

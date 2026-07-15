@@ -32,7 +32,10 @@ export function EmployeeOrderCard({
         <div className="flex-1">
           <div className="font-bold">طلب #{order.number}</div>
           <div className="text-xs text-muted-foreground mt-1">
-            {new Date(order.createdAt).toLocaleString("ar-LY", { dateStyle: "short", timeStyle: "short" })}
+            {new Date(order.createdAt).toLocaleString("ar-LY", {
+              dateStyle: "short",
+              timeStyle: "short",
+            })}
           </div>
         </div>
         <span className="rounded-full bg-primary-soft text-primary px-2 py-1 text-[11px] font-bold">
@@ -43,8 +46,13 @@ export function EmployeeOrderCard({
       <div className="rounded-xl bg-background border border-border p-3">
         <div className="font-bold text-sm">{order.customer?.name ?? "عميل"}</div>
         {order.customer?.phone && (
-          <a href={`tel:${order.customer.phone}`} className="mt-1 inline-flex items-center gap-1 text-xs text-primary" dir="ltr">
-            <Phone className="w-3.5 h-3.5" />{order.customer.phone}
+          <a
+            href={`tel:${order.customer.phone}`}
+            className="mt-1 inline-flex items-center gap-1 text-xs text-primary"
+            dir="ltr"
+          >
+            <Phone className="w-3.5 h-3.5" />
+            {order.customer.phone}
           </a>
         )}
       </div>
@@ -52,7 +60,9 @@ export function EmployeeOrderCard({
       <div className="space-y-1 text-xs">
         {order.items.map((item, index) => (
           <div key={`${item.name}-${index}`} className="flex justify-between gap-3">
-            <span>{item.name} × {item.qty}</span>
+            <span>
+              {item.name} × {item.qty}
+            </span>
             <Money v={item.unitPrice * item.qty} />
           </div>
         ))}
@@ -71,10 +81,34 @@ export function EmployeeOrderCard({
 
       {order.courierState === "pending" && (
         <div className="grid grid-cols-2 gap-2">
-          <button disabled={busy} onClick={() => onUpdate("delivered_full")} className="rounded-xl bg-success text-white py-2.5 text-xs font-bold disabled:opacity-50">تسليم كامل</button>
-          <button disabled={busy} onClick={() => setPartialOpen((value) => !value)} className="rounded-xl bg-warn text-white py-2.5 text-xs font-bold disabled:opacity-50">تحصيل جزئي</button>
-          <button disabled={busy} onClick={() => onUpdate("delivered_none")} className="rounded-xl bg-primary text-primary-foreground py-2.5 text-xs font-bold disabled:opacity-50">دون تحصيل</button>
-          <button disabled={busy} onClick={() => onUpdate("returned")} className="rounded-xl border border-destructive/30 text-destructive py-2.5 text-xs font-bold disabled:opacity-50">مرتجع</button>
+          <button
+            disabled={busy}
+            onClick={() => onUpdate("delivered_full")}
+            className="rounded-xl bg-success text-white py-2.5 text-xs font-bold disabled:opacity-50"
+          >
+            تسليم كامل
+          </button>
+          <button
+            disabled={busy}
+            onClick={() => setPartialOpen((value) => !value)}
+            className="rounded-xl bg-warn text-white py-2.5 text-xs font-bold disabled:opacity-50"
+          >
+            تحصيل جزئي
+          </button>
+          <button
+            disabled={busy}
+            onClick={() => onUpdate("delivered_none")}
+            className="rounded-xl bg-primary text-primary-foreground py-2.5 text-xs font-bold disabled:opacity-50"
+          >
+            دون تحصيل
+          </button>
+          <button
+            disabled={busy}
+            onClick={() => onUpdate("returned")}
+            className="rounded-xl border border-destructive/30 text-destructive py-2.5 text-xs font-bold disabled:opacity-50"
+          >
+            مرتجع
+          </button>
         </div>
       )}
 
@@ -94,7 +128,9 @@ export function EmployeeOrderCard({
             disabled={busy || Number(partialAmount) <= 0 || Number(partialAmount) >= remaining}
             onClick={() => onUpdate("delivered_partial", Number(partialAmount))}
             className="w-full rounded-xl bg-warn text-white py-2.5 text-xs font-bold disabled:opacity-50"
-          >تأكيد التحصيل الجزئي</button>
+          >
+            تأكيد التحصيل الجزئي
+          </button>
         </div>
       )}
     </article>

@@ -21,14 +21,27 @@ function OwnerEmployeesPage() {
   };
 
   if (isLoading || !tenantId) {
-    return <div dir="rtl" className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">جاري التحميل…</div>;
+    return (
+      <div
+        dir="rtl"
+        className="min-h-screen flex items-center justify-center text-sm text-muted-foreground"
+      >
+        جاري التحميل…
+      </div>
+    );
   }
 
   return (
     <div dir="rtl" className="min-h-screen bg-background text-foreground pb-10">
       <header className="sticky top-0 z-20 bg-background/95 backdrop-blur border-b border-border px-4 py-3">
         <div className="max-w-3xl mx-auto flex items-center gap-3">
-          <button onClick={() => { window.location.href = "/app"; }} className="w-10 h-10 rounded-xl border border-border flex items-center justify-center" aria-label="العودة">
+          <button
+            onClick={() => {
+              window.location.href = "/app";
+            }}
+            className="w-10 h-10 rounded-xl border border-border flex items-center justify-center"
+            aria-label="العودة"
+          >
             <ArrowRight className="w-4 h-4" />
           </button>
           <h1 className="font-bold">حسابات الموظفين</h1>
@@ -39,7 +52,9 @@ function OwnerEmployeesPage() {
         tenantId={tenantId}
         isOwner={role === "owner"}
         onToast={showToast}
-        onOpenSettlements={() => { window.location.href = "/app"; }}
+        onOpenSettlements={() => {
+          window.location.href = "/app";
+        }}
       />
 
       {toast && (

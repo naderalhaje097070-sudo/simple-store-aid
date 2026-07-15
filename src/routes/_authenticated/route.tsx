@@ -34,7 +34,10 @@ function AuthenticatedLayout() {
         .maybeSingle();
       if (!active) return;
 
-      const profile = rawProfile as unknown as { tenant_id?: string | null; disabled_at?: string | null } | null;
+      const profile = rawProfile as unknown as {
+        tenant_id?: string | null;
+        disabled_at?: string | null;
+      } | null;
       if (profile?.disabled_at) {
         setAccess("disabled");
         return;
@@ -96,14 +99,20 @@ function AuthenticatedLayout() {
               window.location.href = "/auth";
             }}
             className="w-full rounded-xl bg-muted py-3 text-sm font-bold"
-          >تسجيل الخروج</button>
+          >
+            تسجيل الخروج
+          </button>
         </div>
       </div>
     );
   }
 
   if (access !== "allowed") {
-    return <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">جاري التحميل…</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
+        جاري التحميل…
+      </div>
+    );
   }
 
   return <Outlet />;

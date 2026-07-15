@@ -109,10 +109,13 @@ export function useLinkCourierAccount(tenantId: string | null | undefined) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (input: { courierId: string; email: string }) => {
-      const { error } = await supabase.rpc("link_courier_account" as never, {
-        p_courier_id: input.courierId,
-        p_email: input.email.trim(),
-      } as never);
+      const { error } = await supabase.rpc(
+        "link_courier_account" as never,
+        {
+          p_courier_id: input.courierId,
+          p_email: input.email.trim(),
+        } as never,
+      );
       if (error) throw new Error(employeeRpcMessage(error));
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["courier_accounts", tenantId] }),
@@ -123,10 +126,13 @@ export function useUnlinkCourierAccount(tenantId: string | null | undefined) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (courierId: string) => {
-      const { error } = await supabase.rpc("unlink_courier_account" as never, {
-        p_courier_id: courierId,
-        p_disable_courier: true,
-      } as never);
+      const { error } = await supabase.rpc(
+        "unlink_courier_account" as never,
+        {
+          p_courier_id: courierId,
+          p_disable_courier: true,
+        } as never,
+      );
       if (error) throw new Error(employeeRpcMessage(error));
     },
     onSuccess: () => {
@@ -140,10 +146,13 @@ export function useResolveSettlementRequest(tenantId: string | null | undefined)
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (input: { requestId: string; status: "approved" | "rejected" }) => {
-      const { error } = await supabase.rpc("resolve_courier_settlement_request" as never, {
-        p_request_id: input.requestId,
-        p_status: input.status,
-      } as never);
+      const { error } = await supabase.rpc(
+        "resolve_courier_settlement_request" as never,
+        {
+          p_request_id: input.requestId,
+          p_status: input.status,
+        } as never,
+      );
       if (error) throw new Error(employeeRpcMessage(error));
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["courier_accounts", tenantId] }),
@@ -174,7 +183,9 @@ export function useEmployeePortal(tenantId: string | null | undefined, enabled: 
           number: String(order.number),
           total: Number(order.total ?? 0),
           paid: Number(order.paid ?? 0),
-          courierState: String(order.courier_state ?? "pending") as EmployeePortalOrder["courierState"],
+          courierState: String(
+            order.courier_state ?? "pending",
+          ) as EmployeePortalOrder["courierState"],
           collectedByCourier: Number(order.collected_by_courier ?? 0),
           createdAt: String(order.created_at),
           customer: order.customer
@@ -191,13 +202,17 @@ export function useEmployeePortal(tenantId: string | null | undefined, enabled: 
             unitPrice: Number(item.unit_price ?? 0),
           })),
         })),
-        settlementRequests: ((raw.settlement_requests ?? []) as Record<string, unknown>[]).map((request) => ({
-          id: String(request.id),
-          amount: Number(request.amount ?? 0),
-          status: String(request.status) as EmployeePortal["settlementRequests"][number]["status"],
-          createdAt: String(request.created_at),
-          resolvedAt: request.resolved_at ? String(request.resolved_at) : undefined,
-        })),
+        settlementRequests: ((raw.settlement_requests ?? []) as Record<string, unknown>[]).map(
+          (request) => ({
+            id: String(request.id),
+            amount: Number(request.amount ?? 0),
+            status: String(
+              request.status,
+            ) as EmployeePortal["settlementRequests"][number]["status"],
+            createdAt: String(request.created_at),
+            resolvedAt: request.resolved_at ? String(request.resolved_at) : undefined,
+          }),
+        ),
       };
     },
   });
@@ -211,11 +226,14 @@ export function useEmployeeOrderState(tenantId: string | null | undefined) {
       state: "pending" | "delivered_full" | "delivered_partial" | "delivered_none" | "returned";
       collected?: number;
     }) => {
-      const { error } = await supabase.rpc("courier_update_my_order_state" as never, {
-        p_order_id: input.orderId,
-        p_state: input.state,
-        p_collected: input.collected ?? null,
-      } as never);
+      const { error } = await supabase.rpc(
+        "courier_update_my_order_state" as never,
+        {
+          p_order_id: input.orderId,
+          p_state: input.state,
+          p_collected: input.collected ?? null,
+        } as never,
+      );
       if (error) throw new Error(employeeRpcMessage(error));
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["employee_portal", tenantId] }),

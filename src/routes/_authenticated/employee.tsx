@@ -14,7 +14,14 @@ function EmployeePage() {
   const { data: role, isLoading } = useMyRole(tenantId);
 
   if (isLoading || !tenantId) {
-    return <div dir="rtl" className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">جاري التحميل…</div>;
+    return (
+      <div
+        dir="rtl"
+        className="min-h-screen flex items-center justify-center text-sm text-muted-foreground"
+      >
+        جاري التحميل…
+      </div>
+    );
   }
 
   if (role !== "staff") {

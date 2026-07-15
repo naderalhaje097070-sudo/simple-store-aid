@@ -4,7 +4,7 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-**NAADF-CMF — Change Gate 0 approved. Governance bootstrap is in progress.**
+**NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as Draft PR #18.**
 
 No employee-account feature code is approved for merge. No Production access, merge, or deployment is authorized.
 
@@ -15,10 +15,11 @@ No employee-account feature code is approved for merge. No Production access, me
 - The employee-account change was classified as High Risk because it affects authentication, authorization, RLS, tenant isolation, financial custody, settlement, and historical records.
 - PR #17 was identified as an oversized implementation reference rather than an approved release candidate.
 - The governance bootstrap branch was created from `main`.
+- Draft PR #18 was opened for governance documentation review.
 
 ## In-progress work
 
-- PR-GOV-001: install NAADF, NAADF-CMF, delivery, security, database, testing, review, decision, task, and project-state documentation.
+- PR-GOV-001 / Draft PR #18: review NAADF, NAADF-CMF, delivery, security, database, testing, review, decision, task, and project-state documentation.
 
 ## Known issues
 
@@ -42,7 +43,7 @@ No employee-account feature code is approved for merge. No Production access, me
 
 ## Next task
 
-After human review and merge of PR-GOV-001, execute **NAADF-CMF Change Gate 1 — Baseline and Reproduction** for Issue #16 and PR #17. Do not resume implementation before that gate is documented and approved.
+After human review and merge of Draft PR #18, execute **NAADF-CMF Change Gate 1 — Baseline and Reproduction** for Issue #16 and PR #17. Do not resume implementation before that gate is documented and approved.
 
 ## Verification commands
 

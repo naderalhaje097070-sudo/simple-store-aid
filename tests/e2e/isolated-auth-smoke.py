@@ -42,7 +42,18 @@ async def main() -> None:
             )
 
             await page.goto(f"{BASE_URL}/app", wait_until="domcontentloaded")
-            await page.wait_for_url("**/auth", timeout=15000)
+            try:
+                await page.locator("#auth-email").wait_for(state="visible", timeout=20000)
+            except PlaywrightTimeoutError:
+                await page.screenshot(
+                    path=str(EVIDENCE / f"{label}-protection-failure.png"),
+                    full_page=True,
+                )
+                print(f"PROTECTION FAILURE URL ({label}): {page.url}")
+                print(f"PROTECTION FAILURE BODY ({label}):\n{await page.locator('body').inner_text()}")
+                print(f"PROTECTION FAILURE ERRORS ({label}): {errors}")
+                raise
+
             if critical(errors):
                 raise AssertionError(f"Hydration error on unauthenticated /app: {critical(errors)}")
             errors.clear()

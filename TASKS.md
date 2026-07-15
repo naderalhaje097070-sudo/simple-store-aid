@@ -4,16 +4,22 @@
 
 ### GOV-001 — Governance bootstrap
 
-- Gate: NAADF-CMF Change Gate 0 approved
+- Gate: NAADF-CMF Change Gate 0 approved.
+- Pull request: #19, open and unmerged.
 - Goal: Add repository-maintained NAADF, NAADF-CMF, delivery, security, database, testing, review, state, decision, and task documentation.
 - Scope: Documentation only.
 - Out of scope: Feature code, migrations, database access, dependency changes, merge, and deploy.
-- Done when:
+- Current status:
   - Governance files exist on the branch.
   - Diff contains documentation only.
-  - Documentation links are valid.
-  - Applicable CI completes.
-  - PR remains open for human review.
+  - PR #19 is open.
+  - Applicable CI is running on the latest commit.
+  - Automatic merge and deployment are not enabled.
+- Done when:
+  - Documentation links and internal consistency are reviewed.
+  - Applicable CI completes with recorded results.
+  - Completion report is produced.
+  - PR remains open for explicit human review and merge approval.
 
 ## Blocked
 

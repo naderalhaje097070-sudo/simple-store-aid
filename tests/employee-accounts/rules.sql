@@ -133,7 +133,7 @@ BEGIN
 
   BEGIN
     INSERT INTO public.products(tenant_id, name, price, cost, stock)
-    VALUES (:tid::uuid, 'UNAUTHORIZED', 1, 1, 1);
+    VALUES (current_setting('mongezz.emp.tid')::uuid, 'UNAUTHORIZED', 1, 1, 1);
   EXCEPTION WHEN OTHERS THEN
     v_product_dml_blocked := true;
   END;
@@ -141,7 +141,7 @@ BEGIN
 
   BEGIN
     INSERT INTO public.payments(tenant_id, kind, method, amount)
-    VALUES (:tid::uuid, 'sale', 'cash', 1);
+    VALUES (current_setting('mongezz.emp.tid')::uuid, 'sale', 'cash', 1);
   EXCEPTION WHEN OTHERS THEN
     v_payment_dml_blocked := true;
   END;
@@ -156,7 +156,8 @@ BEGIN
   IF NOT v_courier_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly updated courier master data'; END IF;
 
   BEGIN
-    UPDATE public.profiles SET disabled_at = NULL, tenant_id = NULL WHERE id = :staff_a::uuid;
+    UPDATE public.profiles SET disabled_at = NULL, tenant_id = NULL
+    WHERE id = current_setting('mongezz.emp.staff_a')::uuid;
   EXCEPTION WHEN insufficient_privilege THEN
     v_profile_dml_blocked := true;
   END;
@@ -257,7 +258,7 @@ BEGIN
 
   BEGIN
     UPDATE public.couriers
-       SET user_id = :staff_b::uuid
+       SET user_id = current_setting('mongezz.emp.staff_b')::uuid
      WHERE id = 'ea000003-0000-4000-8000-000000000001'::uuid;
   EXCEPTION WHEN OTHERS THEN
     IF SQLERRM LIKE '%courier_already_has_account%' THEN v_relink_blocked := true; END IF;

@@ -6,7 +6,7 @@
 
 - Gate: NAADF-CMF Change Gate 1 — Baseline and Reproduction.
 - Product source: Issue #16.
-- Pull request: #20, open as a draft and unmerged.
+- Pull request: #20, open, ready for human review, and unmerged.
 - Reference implementation: PR #17, open and unmerged.
 - Goal: Establish the approved current behavior, expected behavior, reproducible failure evidence, and decomposition boundary before impact analysis or implementation.
 - Scope:
@@ -32,12 +32,12 @@
   - Exact failing SQL and Playwright assertions remain unverified and must be reproduced without guessing.
 - Current status:
   - Gate 1 documents created.
-  - PR #20 contains documentation only.
-  - Quality passed.
-  - Ephemeral Financial Rules and T1–T15 passed on isolated Supabase.
-  - Isolated Auth UI Smoke passed.
+  - PR #20 contains documentation only and is ready for human review.
+  - Quality passed during PR verification.
+  - Ephemeral Financial Rules and T1–T15 passed on isolated Supabase during PR verification.
+  - Isolated Auth UI Smoke passed during PR verification.
   - Independent documentation review found no blocking finding.
-  - Final latest-head checks and explicit human Gate 1 approval remain pending.
+  - GitHub checks on the current head and explicit human Gate 1 approval remain required.
 - Done when:
   - Gate 1 documents are internally consistent.
   - Documentation-only PR checks pass on the latest head.

@@ -90,11 +90,14 @@ jobs:
             echo "PILOT_QA_PASSWORD=$password"
           } >> "$GITHUB_ENV"
 
-      - name: Start application against isolated Supabase
+      - name: Build production application against isolated Supabase
+        run: bun run build
+
+      - name: Start production preview
         shell: bash
         run: |
           set -euo pipefail
-          nohup bunx vite dev --host 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
+          nohup bun run preview -- --host 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
           for attempt in $(seq 1 60); do
             if curl --silent --fail http://127.0.0.1:8080/ > /dev/null; then
               exit 0

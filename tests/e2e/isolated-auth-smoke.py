@@ -74,7 +74,7 @@ async def main() -> None:
                 raise
 
             await page.wait_for_load_state("networkidle", timeout=20000)
-            await page.get_by_text("منجز", exact=True).first.wait_for(timeout=10000)
+            await page.get_by_text("فاتورة جديدة", exact=True).first.wait_for(timeout=10000)
 
             layout = await page.evaluate(
                 "() => ({ width: window.innerWidth, scroll: document.documentElement.scrollWidth, dir: document.documentElement.dir, lang: document.documentElement.lang })"

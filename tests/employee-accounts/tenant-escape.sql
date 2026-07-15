@@ -1,6 +1,8 @@
 -- A linked employee must not escape into a new tenant or alter access fields.
 BEGIN;
 
+SELECT set_config('mongezz.escape.staff_a', :staff_a, true);
+
 INSERT INTO public.couriers(id, tenant_id, name, phone, is_active)
 VALUES ('eb000003-0000-4000-8000-000000000001', :tid::uuid, 'EMPLOYEE-ESCAPE', '0933333333', true);
 
@@ -22,7 +24,7 @@ DECLARE
 BEGIN
   BEGIN
     INSERT INTO public.tenants(name, owner_user_id)
-    VALUES ('UNAUTHORIZED EMPLOYEE TENANT', :staff_a::uuid);
+    VALUES ('UNAUTHORIZED EMPLOYEE TENANT', current_setting('mongezz.escape.staff_a')::uuid);
   EXCEPTION WHEN OTHERS THEN
     v_tenant_blocked := true;
   END;
@@ -31,7 +33,7 @@ BEGIN
     UPDATE public.profiles
        SET tenant_id = NULL,
            disabled_at = NULL
-     WHERE id = :staff_a::uuid;
+     WHERE id = current_setting('mongezz.escape.staff_a')::uuid;
   EXCEPTION WHEN insufficient_privilege THEN
     v_profile_blocked := true;
   END;

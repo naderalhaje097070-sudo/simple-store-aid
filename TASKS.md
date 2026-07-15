@@ -13,9 +13,8 @@
   - Governance files exist on the branch.
   - Diff contains documentation only.
   - Documentation links and internal consistency were reviewed.
-  - Quality passed on commit `93379d9fc7b9538c5dd0d2955a6c9e10c19fb60e`.
-  - Ephemeral Financial Rules and T1–T15 passed on the same commit.
-  - Isolated Auth UI Smoke passed on the same commit.
+  - Quality, Ephemeral Financial Rules / T1–T15, and Isolated Auth UI Smoke passed during PR verification.
+  - GitHub PR checks are the authoritative verification source for the current head.
   - PR #19 remains open.
   - Automatic merge and deployment are not enabled.
 - Done when:

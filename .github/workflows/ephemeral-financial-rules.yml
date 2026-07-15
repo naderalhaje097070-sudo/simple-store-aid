@@ -83,6 +83,7 @@ jobs:
           set -a
           source /tmp/supabase.env
           set +a
+          exec > >(tee /tmp/employee-seed.log) 2>&1
 
           create_employee() {
             local email="$1"
@@ -99,8 +100,11 @@ jobs:
               uid="$(psql "$DB_URL" -Atc "select id from auth.users where email='${email}' limit 1")"
             fi
             test -n "$uid"
-            psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$uid" \
-              -c "update auth.users set email_confirmed_at=coalesce(email_confirmed_at, now()) where id=:'uid'::uuid"
+            psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$uid" <<'SQL'
+            UPDATE auth.users
+               SET email_confirmed_at = COALESCE(email_confirmed_at, now())
+             WHERE id = :'uid'::uuid;
+            SQL
           }
 
           create_employee "employee.a@mongezz.test" /tmp/employee-a.json
@@ -148,6 +152,11 @@ jobs:
             echo "- Status: **${JOB_STATUS}**"
             echo "- Environment: local isolated Supabase in GitHub Actions"
             echo "- Production database accessed: **No**"
+            echo
+            echo "### Employee seed"
+            echo '```text'
+            tail -n 60 /tmp/employee-seed.log 2>/dev/null || echo "Employee seed log was not created."
+            echo '```'
             echo
             echo "### Supabase startup"
             echo '```text'

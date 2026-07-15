@@ -29,3 +29,4 @@ run_sql() {
 
 run_sql "$HERE/rules.sql"
 run_sql "$HERE/tenant-escape.sql"
+run_sql "$HERE/account-link-guards.sql"

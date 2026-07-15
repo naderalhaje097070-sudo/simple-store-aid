@@ -93,11 +93,17 @@ jobs:
       - name: Build production application against isolated Supabase
         run: bun run build
 
-      - name: Start production preview
+      - name: Start built Nitro server
         shell: bash
         run: |
           set -euo pipefail
-          nohup bun run preview -- --host 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
+          find .output -maxdepth 4 -type f | sort | tee /tmp/build-files.log
+          entry="$(find .output -type f -path '*/server/index.mjs' | head -n 1)"
+          if [[ -z "$entry" ]]; then
+            echo "Nitro server entry not found."
+            exit 1
+          fi
+          HOST=127.0.0.1 PORT=8080 nohup bun "$entry" > /tmp/mongezz-app.log 2>&1 &
           for attempt in $(seq 1 60); do
             if curl --silent --fail http://127.0.0.1:8080/ > /dev/null; then
               exit 0
@@ -126,6 +132,7 @@ jobs:
             /tmp/mongezz-auth-smoke
             /tmp/mongezz-app.log
             /tmp/auth-smoke.log
+            /tmp/build-files.log
           if-no-files-found: warn
 
       - name: Stop isolated Supabase

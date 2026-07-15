@@ -33,10 +33,14 @@
 - Current status:
   - Gate 1 documents created.
   - PR #20 contains documentation only.
-  - CI and independent review are pending on the latest head.
+  - Quality passed.
+  - Ephemeral Financial Rules and T1–T15 passed on isolated Supabase.
+  - Isolated Auth UI Smoke passed.
+  - Independent documentation review found no blocking finding.
+  - Final latest-head checks and explicit human Gate 1 approval remain pending.
 - Done when:
   - Gate 1 documents are internally consistent.
-  - Documentation-only PR checks pass.
+  - Documentation-only PR checks pass on the latest head.
   - Human explicitly approves Gate 1.
 - Next gate: Change Gate 2 — Impact Analysis.
 
@@ -107,11 +111,11 @@
 
 ## Planned governance follow-up
 
-### SEC-CI-001 — Redact local Supabase keys from PR reports
+### SEC-CI-001 — Redact local Supabase credentials from PR reports
 
 - Change type: Security and CI reporting change.
-- Reason: Historical workflow comments copied disposable local Supabase keys into PR discussions.
-- Requirement: Report concise pass/fail evidence without printing startup credentials or tokens.
+- Reason: Historical workflow comments copied disposable local development credentials into PR discussions.
+- Requirement: Report concise pass/fail evidence without printing startup credentials.
 - Must use a separate NAADF-CMF change; not part of Employee Accounts Gate 1.
 
 ## Deferred product scope

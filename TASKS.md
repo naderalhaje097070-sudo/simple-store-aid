@@ -6,6 +6,7 @@
 
 - Gate: NAADF-CMF Change Gate 1 — Baseline and Reproduction.
 - Product source: Issue #16.
+- Pull request: #20, open as a draft and unmerged.
 - Reference implementation: PR #17, open and unmerged.
 - Goal: Establish the approved current behavior, expected behavior, reproducible failure evidence, and decomposition boundary before impact analysis or implementation.
 - Scope:
@@ -29,6 +30,10 @@
   - Active unresolved P1: repeated employee delivery RPC calls may rewrite collected custody.
   - Outdated unresolved P1: disabling/unlinking may strand unsettled custody.
   - Exact failing SQL and Playwright assertions remain unverified and must be reproduced without guessing.
+- Current status:
+  - Gate 1 documents created.
+  - PR #20 contains documentation only.
+  - CI and independent review are pending on the latest head.
 - Done when:
   - Gate 1 documents are internally consistent.
   - Documentation-only PR checks pass.

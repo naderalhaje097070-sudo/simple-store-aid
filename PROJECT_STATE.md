@@ -4,34 +4,37 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19, all applicable PR checks passed at the latest completed review, and the PR is awaiting explicit human review and merge approval. GitHub PR checks are the authoritative source for the current head SHA.
+NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Governance PR #19 was reviewed and merged into `main` as merge commit `e7088a2c58bb514aac133f303627d4b829473934`. Gate 1 documentation is being prepared on branch `docs/employee-accounts-gate-1-baseline`; no employee feature implementation is authorized.
 
 ## Completed work
 
 - Existing repository and technology stack inspected.
 - Core financial invariants identified.
-- Employee Accounts, Assigned Orders, and Personal Custody change intake drafted.
-- Pull request #17 identified as oversized and blocked from merge.
 - Change Gate 0 approved by the product owner.
-- Governance branch created from `main` without rewriting Lovable-linked history.
-- NAADF, NAADF-CMF, delivery, security, database, testing, and review policies added.
-- Project state, decision, and governed task records added.
-- PR-GOV-001 opened as pull request #19 without automatic merge or deploy.
-- Pull request #19 diff reviewed and confirmed to contain documentation only.
-- Quality, Ephemeral Financial Rules including T1–T15, and Isolated Auth UI Smoke passed during PR verification.
+- NAADF, NAADF-CMF, delivery, security, database, testing, review, state, decision, and task governance merged through PR #19.
+- Duplicate governance PR #18 closed without merge.
+- PR #17 confirmed open, unmerged, and diverged from current `main`.
+- Issue #16, current `main`, PR #17 scope, review threads, and latest recorded workflows inspected.
+- Current behavior, expected behavior, reproduction evidence, and PR #17 scope decomposition documented for Change Gate 1.
 
 ## In-progress work
 
-- Human review of pull request #19.
-- Human decision to merge or request changes.
+- Review of Employee Accounts Change Gate 1 documentation.
+- Current-baseline CI verification on a documentation-only branch.
+- Human decision to approve Gate 1 or request corrections.
 
 ## Known issues
 
-- PR #17 is open, unmerged, and combines database, authorization, UI, tests, and CI changes.
-- PR #17 latest recorded Quality workflow passed, while Isolated Auth UI Smoke and Ephemeral Financial Rules failed.
+- PR #17 is open, unmerged, 51 commits ahead and 25 commits behind `main`, and combines database, authorization, UI, tests, and CI changes.
+- PR #17 latest recorded Quality workflow passed.
+- PR #17 latest recorded Isolated Auth UI Smoke failed in the owner/employee authenticated-smoke step.
+- PR #17 T1–T15 passed, but the employee-account and custody isolation suite failed.
+- An active unresolved P1 finding indicates that repeated employee RPC calls may rewrite previously recorded courier custody.
+- An outdated but unresolved P1 finding identified a risk of stranding unsettled custody when unlinking disables a courier.
 - Employee hard-delete protection after unlinking is not verified.
-- README role documentation is inconsistent with the current `owner` / `staff` model.
-- The full employee feature baseline, impact analysis, authorization matrix, and rollback analysis are not yet approved.
+- README role documentation is inconsistent with the generated `owner` / `staff` enum.
+- Assignment source of truth, employee/courier identity semantics, authorization matrix, audit model, concurrency, idempotency, migration, and rollback design are not approved.
+- Historical CI comments exposed disposable local development keys; affected comments were redacted, but workflow reporting still requires a separate governed change.
 
 ## Decisions that must not change
 
@@ -44,22 +47,18 @@ NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19, al
 - Applied migrations are immutable; corrections use forward-only migrations.
 - One coherent change per pull request.
 - Published Lovable-linked Git history must not be rewritten.
+- PR #17 is evidence and a prototype, not an approved release candidate.
 
 ## Next task
 
-Human review and explicit merge decision for pull request #19. After merge, begin NAADF-CMF Change Gate 1 for Employee Accounts: Baseline and Reproduction.
+Complete and obtain explicit approval for Employee Accounts Change Gate 1. After approval, begin Change Gate 2 — Impact Analysis without writing feature code.
 
 ## Verification commands
 
-For documentation-only governance changes:
+For the Gate 1 documentation PR:
 
 ```bash
 git diff --check
-```
-
-When implementation resumes, use the commands applicable to the change:
-
-```bash
 bun install --frozen-lockfile
 bun run typecheck
 bun run lint
@@ -67,4 +66,6 @@ bun run test:unit
 bun run build
 ```
 
-Database, migration, authorization, financial regression, integration, E2E, and smoke tests are mandatory when their contracts are affected.
+Existing isolated financial and authenticated UI workflows must also pass on the documentation-only branch.
+
+When employee implementation resumes, database, migration, authorization, tenant-isolation, cross-employee, financial regression, concurrency, idempotency, integration, E2E, security, and smoke tests are mandatory according to the affected contracts.

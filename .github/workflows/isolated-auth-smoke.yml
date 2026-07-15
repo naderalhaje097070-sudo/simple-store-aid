@@ -51,7 +51,7 @@ jobs:
             echo "APP_BASE_URL=http://127.0.0.1:8080"
           } >> "$GITHUB_ENV"
 
-      - name: Create confirmed isolated QA account
+      - name: Create confirmed isolated owner account
         shell: bash
         run: |
           set -euo pipefail
@@ -88,6 +88,81 @@ jobs:
           {
             echo "PILOT_QA_EMAIL=$email"
             echo "PILOT_QA_PASSWORD=$password"
+            echo "PILOT_QA_USER_ID=$user_id"
+          } >> "$GITHUB_ENV"
+
+      - name: Create confirmed isolated employee and assigned order
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source /tmp/supabase.env
+          set +a
+
+          email="employee.qa.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
+          password="Employee-QA-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
+          response="$(curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/admin/users" \
+            -H "apikey: $SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"email\":\"$email\",\"password\":\"$password\",\"email_confirm\":true,\"user_metadata\":{\"display_name\":\"Pilot QA Employee\"}}")"
+          employee_id="$(jq -r '.id // .user.id // empty' <<< "$response")"
+          test -n "$employee_id"
+
+          tenant_id="11111111-1111-4111-8111-111111111111"
+          courier_id="22222222-2222-4222-8222-222222222222"
+          product_id="33333333-3333-4333-8333-333333333333"
+          customer_id="44444444-4444-4444-8444-444444444444"
+          order_id="55555555-5555-4555-8555-555555555555"
+
+          psql "$DB_URL" -v ON_ERROR_STOP=1 \
+            -v employee_id="$employee_id" \
+            -v owner_id="$PILOT_QA_USER_ID" \
+            -v tenant_id="$tenant_id" \
+            -v courier_id="$courier_id" \
+            -v product_id="$product_id" \
+            -v customer_id="$customer_id" \
+            -v order_id="$order_id" <<'SQL'
+          UPDATE public.profiles
+             SET tenant_id = :'tenant_id'::uuid,
+                 display_name = 'Pilot QA Employee',
+                 disabled_at = NULL
+           WHERE id = :'employee_id'::uuid;
+
+          INSERT INTO public.user_roles(user_id, tenant_id, role)
+          VALUES (:'employee_id'::uuid, :'tenant_id'::uuid, 'staff')
+          ON CONFLICT DO NOTHING;
+
+          INSERT INTO public.couriers(id, tenant_id, name, phone, is_active, user_id)
+          VALUES (:'courier_id'::uuid, :'tenant_id'::uuid, 'موظف الاختبار', '0911111111', true, :'employee_id'::uuid);
+
+          INSERT INTO public.products(id, tenant_id, name, price, cost, stock, is_active)
+          VALUES (:'product_id'::uuid, :'tenant_id'::uuid, 'منتج اختبار الموظف', 100, 60, 9, true);
+
+          INSERT INTO public.customers(id, tenant_id, name, phone)
+          VALUES (:'customer_id'::uuid, :'tenant_id'::uuid, 'عميل اختبار الموظف', '0922222222');
+
+          INSERT INTO public.orders(
+            id, tenant_id, customer_id, total, paid, status, created_by,
+            delivery, courier_id, courier_state, collected_by_courier
+          ) VALUES (
+            :'order_id'::uuid, :'tenant_id'::uuid, :'customer_id'::uuid,
+            100, 0, 'debt', :'owner_id'::uuid,
+            'courier', :'courier_id'::uuid, 'pending', 0
+          );
+
+          INSERT INTO public.order_items(
+            tenant_id, order_id, product_id, name, qty, unit_price, unit_cost
+          ) VALUES (
+            :'tenant_id'::uuid, :'order_id'::uuid, :'product_id'::uuid,
+            'منتج اختبار الموظف', 1, 100, 60
+          );
+          SQL
+
+          {
+            echo "EMPLOYEE_QA_EMAIL=$email"
+            echo "EMPLOYEE_QA_PASSWORD=$password"
           } >> "$GITHUB_ENV"
 
       - name: Build production application against isolated Supabase
@@ -114,7 +189,7 @@ jobs:
           python3 -m pip install playwright
           python3 -m playwright install --with-deps chromium
 
-      - name: Run read-only authenticated smoke
+      - name: Run owner and employee authenticated smoke
         run: |
           set -o pipefail
           python3 tests/e2e/isolated-auth-smoke.py 2>&1 | tee /tmp/auth-smoke.log

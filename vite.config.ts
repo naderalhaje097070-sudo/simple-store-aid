@@ -30,9 +30,7 @@ export default defineConfig({
       "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
         supabaseBuildConfig.publishableKey,
       ),
-      "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(
-        supabaseBuildConfig.projectId,
-      ),
+      "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(supabaseBuildConfig.projectId),
     },
     plugins: [
       mcpPlugin(),

@@ -17,19 +17,23 @@ export const PRODUCTION_SUPABASE_FALLBACK = Object.freeze({
   projectId: "dahzkekdirrngnkcxinv",
 });
 
-function firstNonEmpty(...values: Array<string | undefined>): string | undefined {
+function firstNonEmpty(
+  ...values: Array<string | undefined>
+): string | undefined {
   const value = values.find((candidate) => candidate?.trim());
   return value?.trim();
 }
 
 export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   return {
-    url: firstNonEmpty(env.VITE_SUPABASE_URL, env.SUPABASE_URL) ??
+    url:
+      firstNonEmpty(env.VITE_SUPABASE_URL, env.SUPABASE_URL) ??
       PRODUCTION_SUPABASE_FALLBACK.url,
-    publishableKey: firstNonEmpty(
-      env.VITE_SUPABASE_PUBLISHABLE_KEY,
-      env.SUPABASE_PUBLISHABLE_KEY,
-    ) ?? PRODUCTION_SUPABASE_FALLBACK.publishableKey,
+    publishableKey:
+      firstNonEmpty(
+        env.VITE_SUPABASE_PUBLISHABLE_KEY,
+        env.SUPABASE_PUBLISHABLE_KEY,
+      ) ?? PRODUCTION_SUPABASE_FALLBACK.publishableKey,
     projectId:
       firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID, env.SUPABASE_PROJECT_ID) ??
       PRODUCTION_SUPABASE_FALLBACK.projectId,

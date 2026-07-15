@@ -4,7 +4,7 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-NAADF-CMF — Change Gate 0 approved. Governance bootstrap is in progress through a documentation-only pull request.
+NAADF-CMF — Change Gate 0 approved. PR-GOV-001 is open as pull request #19 and is awaiting CI completion and human review.
 
 ## Completed work
 
@@ -13,11 +13,16 @@ NAADF-CMF — Change Gate 0 approved. Governance bootstrap is in progress throug
 - Employee Accounts, Assigned Orders, and Personal Custody change intake drafted.
 - Pull request #17 identified as oversized and blocked from merge.
 - Change Gate 0 approved by the product owner.
+- Governance branch created from `main` without rewriting Lovable-linked history.
+- NAADF, NAADF-CMF, delivery, security, database, testing, and review policies added.
+- Project state, decision, and governed task records added.
+- PR-GOV-001 opened as pull request #19 without automatic merge or deploy.
 
 ## In-progress work
 
-- Create PR-GOV-001 to add NAADF, NAADF-CMF, delivery, security, database, testing, and review policies.
-- Establish repository-maintained project state, decision, and task records.
+- Review the documentation-only diff for internal consistency.
+- Wait for the applicable GitHub Actions workflows on pull request #19.
+- Leave pull request #19 open for human review; do not merge automatically.
 
 ## Known issues
 
@@ -41,7 +46,7 @@ NAADF-CMF — Change Gate 0 approved. Governance bootstrap is in progress throug
 
 ## Next task
 
-Complete PR-GOV-001, review its documentation-only diff and CI results, and leave it open for human review without merging.
+Complete the independent documentation review and CI verification for pull request #19, then leave it open for explicit human merge approval.
 
 ## Verification commands
 

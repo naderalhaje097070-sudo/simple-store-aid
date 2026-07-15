@@ -62,7 +62,7 @@ BEGIN
   PERFORM set_config('mongezz.emp.order_b', v_order_b::text, true);
 END $owner_seed$;
 
--- Employee A: reads only A, cannot use owner financial RPCs, can update only A.
+-- Employee A: reads only A, cannot use owner financial RPCs/direct DML, and can finalize only A.
 RESET ROLE;
 SELECT set_config('request.jwt.claims', json_build_object('sub', :staff_a, 'role', 'authenticated')::text, true);
 SET LOCAL ROLE authenticated;
@@ -71,8 +71,14 @@ DO $staff_a$
 DECLARE
   v_count int;
   v_portal jsonb;
-  v_blocked bool := false;
-  v_other_blocked bool := false;
+  v_owner_rpc_blocked bool := false;
+  v_other_order_blocked bool := false;
+  v_order_dml_blocked bool := false;
+  v_product_dml_blocked bool := false;
+  v_payment_dml_blocked bool := false;
+  v_courier_dml_blocked bool := false;
+  v_profile_dml_blocked bool := false;
+  v_final_rewrite_blocked bool := false;
   v_request_count int;
 BEGIN
   IF public.current_courier_id() <> 'ea000003-0000-4000-8000-000000000001'::uuid THEN
@@ -82,8 +88,23 @@ BEGIN
   SELECT COUNT(*) INTO v_count FROM public.orders;
   IF v_count <> 1 THEN RAISE EXCEPTION 'E1 FAIL: employee A sees % orders', v_count; END IF;
 
+  SELECT COUNT(*) INTO v_count FROM public.order_items;
+  IF v_count <> 1 THEN RAISE EXCEPTION 'E1 FAIL: employee A sees % order items', v_count; END IF;
+
+  SELECT COUNT(*) INTO v_count FROM public.customers;
+  IF v_count <> 1 THEN RAISE EXCEPTION 'E1 FAIL: employee A sees % customers', v_count; END IF;
+
+  SELECT COUNT(*) INTO v_count FROM public.couriers;
+  IF v_count <> 1 THEN RAISE EXCEPTION 'E1 FAIL: employee A sees % couriers', v_count; END IF;
+
   SELECT COUNT(*) INTO v_count FROM public.products;
   IF v_count <> 0 THEN RAISE EXCEPTION 'E1 FAIL: employee can read products'; END IF;
+  SELECT COUNT(*) INTO v_count FROM public.payments;
+  IF v_count <> 0 THEN RAISE EXCEPTION 'E1 FAIL: employee can read payments'; END IF;
+  SELECT COUNT(*) INTO v_count FROM public.expenses;
+  IF v_count <> 0 THEN RAISE EXCEPTION 'E1 FAIL: employee can read expenses'; END IF;
+  SELECT COUNT(*) INTO v_count FROM public.day_closes;
+  IF v_count <> 0 THEN RAISE EXCEPTION 'E1 FAIL: employee can read day closes'; END IF;
 
   v_portal := public.get_my_courier_portal();
   IF jsonb_array_length(v_portal->'orders') <> 1 THEN
@@ -99,9 +120,47 @@ BEGIN
       '[{"productId":"ea000001-0000-4000-8000-000000000001","qty":1}]'::jsonb
     );
   EXCEPTION WHEN OTHERS THEN
-    IF SQLERRM LIKE '%forbidden_role%' THEN v_blocked := true; END IF;
+    IF SQLERRM LIKE '%forbidden_role%' THEN v_owner_rpc_blocked := true; END IF;
   END;
-  IF NOT v_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee used owner sale RPC'; END IF;
+  IF NOT v_owner_rpc_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee used owner sale RPC'; END IF;
+
+  BEGIN
+    UPDATE public.orders SET notes = 'UNAUTHORIZED' WHERE id = current_setting('mongezz.emp.order_a')::uuid;
+  EXCEPTION WHEN insufficient_privilege THEN
+    v_order_dml_blocked := true;
+  END;
+  IF NOT v_order_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly updated an order'; END IF;
+
+  BEGIN
+    INSERT INTO public.products(tenant_id, name, price, cost, stock)
+    VALUES (:tid::uuid, 'UNAUTHORIZED', 1, 1, 1);
+  EXCEPTION WHEN OTHERS THEN
+    v_product_dml_blocked := true;
+  END;
+  IF NOT v_product_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly inserted a product'; END IF;
+
+  BEGIN
+    INSERT INTO public.payments(tenant_id, kind, method, amount)
+    VALUES (:tid::uuid, 'sale', 'cash', 1);
+  EXCEPTION WHEN OTHERS THEN
+    v_payment_dml_blocked := true;
+  END;
+  IF NOT v_payment_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly inserted a payment'; END IF;
+
+  BEGIN
+    UPDATE public.couriers SET name = 'UNAUTHORIZED'
+    WHERE id = 'ea000003-0000-4000-8000-000000000001'::uuid;
+  EXCEPTION WHEN OTHERS THEN
+    v_courier_dml_blocked := true;
+  END;
+  IF NOT v_courier_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly updated courier master data'; END IF;
+
+  BEGIN
+    UPDATE public.profiles SET disabled_at = NULL, tenant_id = NULL WHERE id = :staff_a::uuid;
+  EXCEPTION WHEN insufficient_privilege THEN
+    v_profile_dml_blocked := true;
+  END;
+  IF NOT v_profile_dml_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee directly changed profile access fields'; END IF;
 
   BEGIN
     PERFORM public.courier_update_my_order_state(
@@ -110,15 +169,28 @@ BEGIN
       NULL
     );
   EXCEPTION WHEN OTHERS THEN
-    IF SQLERRM LIKE '%order_not_assigned_to_employee%' THEN v_other_blocked := true; END IF;
+    IF SQLERRM LIKE '%order_not_assigned_to_employee%' THEN v_other_order_blocked := true; END IF;
   END;
-  IF NOT v_other_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee A updated employee B order'; END IF;
+  IF NOT v_other_order_blocked THEN RAISE EXCEPTION 'E1 FAIL: employee A updated employee B order'; END IF;
 
   PERFORM public.courier_update_my_order_state(
     current_setting('mongezz.emp.order_a')::uuid,
     'delivered_partial',
     40
   );
+
+  BEGIN
+    PERFORM public.courier_update_my_order_state(
+      current_setting('mongezz.emp.order_a')::uuid,
+      'delivered_none',
+      NULL
+    );
+  EXCEPTION WHEN OTHERS THEN
+    IF SQLERRM LIKE '%order_state_finalized%' THEN v_final_rewrite_blocked := true; END IF;
+  END;
+  IF NOT v_final_rewrite_blocked THEN
+    RAISE EXCEPTION 'E1 FAIL: employee rewrote a finalized delivery state';
+  END IF;
 
   v_portal := public.get_my_courier_portal();
   IF (v_portal->>'custody')::numeric <> 40 THEN
@@ -134,7 +206,7 @@ BEGIN
     RAISE EXCEPTION 'E1 FAIL: duplicate pending settlement requests = %', v_request_count;
   END IF;
 
-  RAISE NOTICE 'E1 OK: employee A is isolated and owns only A custody';
+  RAISE NOTICE 'E1 OK: employee A is isolated, cannot bypass RLS, and owns only A custody';
 END $staff_a$;
 
 -- Employee B cannot see A custody or A order.
@@ -160,7 +232,7 @@ BEGIN
   RAISE NOTICE 'E2 OK: employee B cannot see employee A data';
 END $staff_b$;
 
--- Owner reviews, settlement must precede approval, then custody enters cash once.
+-- Owner reviews, cannot silently replace a linked account, and must settle before approval.
 RESET ROLE;
 SELECT set_config('request.jwt.claims', json_build_object('sub', :owner, 'role', 'authenticated')::text, true);
 SET LOCAL ROLE authenticated;
@@ -170,6 +242,7 @@ DECLARE
   v_accounts jsonb;
   v_request_id uuid;
   v_approval_blocked bool := false;
+  v_relink_blocked bool := false;
   v_paid numeric;
   v_collected numeric;
   v_delivery text;
@@ -180,6 +253,17 @@ BEGIN
   v_accounts := public.list_courier_accounts();
   IF jsonb_array_length(v_accounts) <> 2 THEN
     RAISE EXCEPTION 'E3 FAIL: owner account list count is %', jsonb_array_length(v_accounts);
+  END IF;
+
+  BEGIN
+    UPDATE public.couriers
+       SET user_id = :staff_b::uuid
+     WHERE id = 'ea000003-0000-4000-8000-000000000001'::uuid;
+  EXCEPTION WHEN OTHERS THEN
+    IF SQLERRM LIKE '%courier_already_has_account%' THEN v_relink_blocked := true; END IF;
+  END;
+  IF NOT v_relink_blocked THEN
+    RAISE EXCEPTION 'E3 FAIL: owner silently replaced a linked courier account';
   END IF;
 
   SELECT id INTO v_request_id
@@ -219,7 +303,7 @@ BEGIN
   END IF;
 
   PERFORM public.unlink_courier_account('ea000003-0000-4000-8000-000000000001'::uuid, true);
-  RAISE NOTICE 'E3 OK: owner settles before approval and cash is recorded once';
+  RAISE NOTICE 'E3 OK: account replacement is blocked and settlement cash is recorded once';
 END $owner_review$;
 
 -- Disabled employee cannot use the portal or any scoped employee mutation.

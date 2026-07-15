@@ -4,7 +4,7 @@ Last updated: 2026-07-15
 
 ## Current stage
 
-NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Governance PR #19 was reviewed and merged into `main` as merge commit `e7088a2c58bb514aac133f303627d4b829473934`. Gate 1 documentation is being prepared on branch `docs/employee-accounts-gate-1-baseline`; no employee feature implementation is authorized.
+NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Governance PR #19 was reviewed and merged into `main` as merge commit `e7088a2c58bb514aac133f303627d4b829473934`. Gate 1 documentation is open as draft pull request #20; no employee feature implementation is authorized.
 
 ## Completed work
 
@@ -16,11 +16,12 @@ NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Govern
 - PR #17 confirmed open, unmerged, and diverged from current `main`.
 - Issue #16, current `main`, PR #17 scope, review threads, and latest recorded workflows inspected.
 - Current behavior, expected behavior, reproduction evidence, and PR #17 scope decomposition documented for Change Gate 1.
+- Draft PR #20 opened from `docs/employee-accounts-gate-1-baseline` with documentation-only scope.
 
 ## In-progress work
 
-- Review of Employee Accounts Change Gate 1 documentation.
-- Current-baseline CI verification on a documentation-only branch.
+- CI verification of PR #20 on its latest head.
+- Independent review of Employee Accounts Change Gate 1 documentation.
 - Human decision to approve Gate 1 or request corrections.
 
 ## Known issues
@@ -51,7 +52,7 @@ NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Govern
 
 ## Next task
 
-Complete and obtain explicit approval for Employee Accounts Change Gate 1. After approval, begin Change Gate 2 — Impact Analysis without writing feature code.
+Review PR #20 and obtain explicit approval for Employee Accounts Change Gate 1. After approval, begin Change Gate 2 — Impact Analysis without writing feature code.
 
 ## Verification commands
 

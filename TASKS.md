@@ -33,11 +33,10 @@
 - Current status:
   - Gate 1 documents created.
   - PR #20 contains documentation only and is ready for human review.
-  - Quality passed during PR verification.
-  - Ephemeral Financial Rules and T1–T15 passed on isolated Supabase during PR verification.
-  - Isolated Auth UI Smoke passed during PR verification.
+  - Quality, Ephemeral Financial Rules / T1–T15, and Isolated Auth UI Smoke passed during PR verification.
   - Independent documentation review found no blocking finding.
-  - GitHub checks on the current head and explicit human Gate 1 approval remain required.
+  - GitHub checks for the current head are the authoritative verification source.
+  - Explicit human Gate 1 approval remains pending.
 - Done when:
   - Gate 1 documents are internally consistent.
   - Documentation-only PR checks pass on the latest head.

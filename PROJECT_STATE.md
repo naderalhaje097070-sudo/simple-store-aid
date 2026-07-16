@@ -24,7 +24,6 @@ NAADF-CMF — Employee Accounts Change Gate 1: Baseline and Reproduction. Govern
 
 ## In-progress work
 
-- GitHub checks on the current PR #20 head; GitHub checks are the authoritative verification source whenever the head changes.
 - Human review and explicit approval or correction request for Change Gate 1.
 
 ## Known issues
@@ -70,6 +69,6 @@ bun run test:unit
 bun run build
 ```
 
-Existing isolated financial and authenticated UI workflows must also pass on the documentation-only branch.
+GitHub checks for the current head are the authoritative verification source. Existing isolated financial and authenticated UI workflows must pass on the documentation-only branch.
 
 When employee implementation resumes, database, migration, authorization, tenant-isolation, cross-employee, financial regression, concurrency, idempotency, integration, E2E, security, and smoke tests are mandatory according to the affected contracts.

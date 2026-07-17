@@ -60,11 +60,36 @@ This file records decisions that govern Mongezz until replaced by an approved AD
 
 - Status: Accepted
 - Decision: Do not force-push, rebase, amend, or otherwise rewrite published history connected to Lovable.
-- Consequence: Corrections are additive commits or new branches/PRs.
+- Consequence: Corrections are additive commits, merge commits, or new branches and PRs.
+
+## DEC-011 — Pilot before employee expansion
+
+- Status: Accepted
+- Decision: Validate the owner-only financial core with a controlled pilot before implementing employee accounts.
+- Preconditions:
+  - A synchronized and release-verified `main` baseline.
+  - Non-production environments cannot silently connect to production.
+  - Financial write operations have approved retry and idempotency protection.
+  - CI reports do not expose environment credentials and use deterministic tool versions.
+  - Support, rollback, and reconciliation procedures are documented.
+- Consequence: PR #17 is superseded and closed without merge. Employee work remains deferred until pilot evidence confirms priority and Change Gates 2–4 are approved.
+
+## DEC-012 — Pilot blockers are release blockers
+
+- Status: Accepted
+- Decision: `SEC-ENV-001`, `SEC-CI-001`, and `FIN-IDEM-001` must be completed and release-verified before any real-store pilot data is accepted.
+- Consequence: Pilot planning may proceed, but pilot execution remains blocked. A build or smoke-test success alone does not waive these controls.
+
+## DEC-013 — Current role model is descriptive, not final authorization design
+
+- Status: Accepted
+- Decision: The current database enum is `owner | staff`. This records existing schema reality only; it does not authorize broad employee access or define the final employee/courier role model.
+- Consequence: A future restricted employee capability model requires an approved authorization matrix, RLS design, negative tests, and backward-compatibility analysis.
 
 ## Pending decisions
 
 - Employee assignment source of truth: existing `orders.courier_id` versus a dedicated assignment model.
 - Employee historical identity and hard-delete invariant after unlinking.
-- Final role model and compatibility with README role documentation.
+- Final restricted employee/courier capability model beyond the existing `owner | staff` enum.
 - Audit event model for employee order-state and custody changes.
+- Final billing enforcement and expired-subscription behavior.

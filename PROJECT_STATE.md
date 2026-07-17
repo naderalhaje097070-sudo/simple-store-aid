@@ -4,43 +4,59 @@ Last updated: 2026-07-17
 
 ## Current stage
 
-AUDIT-001 — Pilot Baseline and Truth Restoration. Employee Accounts Change Gate 1
-(baseline and reproduction) documentation was reviewed and **merged** into `main` as
-pull request #20 (merge commit `599f84dbb...`). No employee feature implementation is
-authorized. The project is a **Functional MVP** being stabilized into a trustworthy,
-reproducible baseline before an owner-only pilot; no new product features are in scope.
+AUDIT-001 — Main Containment and Pilot Baseline Truth Restoration.
 
-Current `main` HEAD: `bb92a4c` (`Fixed 3 security issues`).
+Employee Accounts Change Gate 1 documentation was reviewed and merged through pull request #20 as merge commit `599f84de4ef7f472da075e3ddbf1648501cbc871`. No employee feature implementation is authorized.
+
+The project is a Functional MVP being stabilized into a reproducible and financially safe baseline before a controlled owner-only pilot. Pilot execution is planned but blocked until the P0 environment, CI-reporting, and financial-idempotency changes are completed and release-verified.
+
+Current audited `main` head at the start of the final AUDIT-001 update: `1335d2912aa9cd1674dd082a4396c9bfb660c9c5` (`Fixed 429 retry & added enq_at`). GitHub history remains authoritative if `main` advances after this document is merged.
 
 ## Completed work
 
 - Existing repository and technology stack inspected.
 - Core financial invariants identified.
 - Change Gate 0 approved by the product owner.
-- NAADF, NAADF-CMF, delivery, security, database, testing, review, state, decision, and task governance merged through PR #19 (merge commit `e7088a2c58bb...`).
+- NAADF, NAADF-CMF, delivery, security, database, testing, review, state, decision, and task governance merged through PR #19 as merge commit `e7088a2c58bb514aac133f303627d4b829473934`.
 - Duplicate governance PR #18 closed without merge.
-- Employee Accounts Change Gate 1 baseline/reproduction documentation **merged** via PR #20 (merge commit `599f84dbb...`). Quality, Ephemeral Financial Rules (T1–T15), and Isolated Auth UI Smoke passed before merge; independent documentation review found no Critical/High/Medium finding.
-- Four post-#20 direct commits landed on `main` and were reviewed during AUDIT-001; all are small, non-destructive, and accepted:
-  - `d4794d2` — devDependency bump `@lovable.dev/vite-tanstack-config` 2.7.3 → 2.7.4 (plus `bun.lock`).
-  - `a6792b8` — regenerated `src/integrations/supabase/types.ts` (generator-owned).
-  - `cb0b6bd` — forward-only migration `..._f0da86df...`: pins `search_path` on the email-queue helper functions, adds a deny-INSERT RLS policy on `profiles` (signup trigger is `SECURITY DEFINER`), and a deny-ALL RLS policy on `tenant_counters` (touched only by the `next_order_number` `SECURITY DEFINER` RPC).
-  - `bb92a4c` — merge of the above (`Fixed 3 security issues`); current `main` HEAD.
-- AUDIT-001 revalidated `main` locally: `bun run typecheck`, `bun run test:unit` (26 pass), and `bun run build` all pass. T1–T15 and Isolated Auth UI Smoke run in CI against the pull request (isolated Supabase; no production access).
-- PR #17 closed as a superseded prototype (see "Decisions that must not change" and TASKS.md `AUDIT-001`); its Gate 1 decomposition is captured by `changes/employee-accounts/PR17_SCOPE_MAP.md`.
-- README role documentation corrected to match the actual `app_role` enum (`owner`, `staff`).
+- Employee Accounts Change Gate 1 baseline and reproduction documentation merged through PR #20 as merge commit `599f84de4ef7f472da075e3ddbf1648501cbc871`.
+- PR #20 passed Quality, Ephemeral Financial Rules T1–T15, and Isolated Auth UI Smoke before merge.
+- PR #17 was reviewed as an oversized prototype, decomposed in `changes/employee-accounts/PR17_SCOPE_MAP.md`, and closed without merge as superseded by the governed delivery sequence.
+- README role documentation corrected to the current database enum values: `owner` and `staff`.
+- Direct Lovable changes after PR #20 were inspected through `1335d2912aa9cd1674dd082a4396c9bfb660c9c5`:
+  - `d4794d26d88e228776a957900b1c48dd1f86a0b9` — `@lovable.dev/vite-tanstack-config` 2.7.3 to 2.7.4.
+  - `a6792b8687a891103e484c24c5c7ca47b41b5095` — regenerated Supabase types.
+  - `cb0b6bd2543a826fb905e537d1afbc40506eb13f` — forward-only security migration for email helpers, `profiles`, and `tenant_counters`.
+  - `bb92a4c072bd2145b550e8b4cc107d4026d9b8f5` — combined security update.
+  - `cbd6d5fb33e3175723dbcf1f5483c85622dbdec2` — `@lovable.dev/vite-tanstack-config` 2.7.4 to 2.7.6.
+  - `da68f17c1ea16b7102014a48c6e50b36627a795d` — rate-limit responses no longer consume the email delivery failure budget.
+  - `cd709d8388739296d09a308178edb3fe9add01fd` — forward-only `read_email_batch` return-contract change adding `enqueued_at`, plus regenerated types.
+  - `1335d2912aa9cd1674dd082a4396c9bfb660c9c5` — combined email retry and queue-age update.
+- AUDIT-001 initial local verification on `bb92a4c` recorded successful typecheck, 26 unit tests, and production build.
+- PR #21 verification on its earlier documentation head passed Quality, Ephemeral Financial Rules T1–T15, and Isolated Auth UI Smoke. Final verification must be taken from GitHub checks on the latest PR head after synchronization with `main`.
 
 ## In-progress work
 
-- AUDIT-001 documentation pull request open for human review. On merge, an annotated tag `v1.0.0-pilot-baseline` is applied to the merge commit as the pilot reference point.
+- Human review of AUDIT-001 pull request #21.
+- Final GitHub checks on the latest synchronized PR #21 head.
+- Review of the `read_email_batch` contract change and email 429 behavior as part of the current release baseline.
+- Creation of an annotated pilot-baseline tag only after PR #21 is merged and the final merge commit is verified. Tag creation is a separate explicit human action, not an automatic result of this documentation PR.
 
 ## Known issues
 
-- README previously advertised four roles (`owner` / `manager` / `cashier` / `viewer`); corrected to the true enum `owner` / `staff`. The expanded employee/courier role model remains a pending governed decision (not yet designed).
-- Build-time production Supabase fallback exists in `config/supabase-build-config.ts` (project ref `dahzkekdirrngnkcxinv`, anon key). A build with no env set silently ships the production ref. This is a **known P0 for the later environment-separation phase**, not part of AUDIT-001.
-- Financial RPCs (create sale, collect debt, settle, return) have no idempotency key; a retry after a lost response could duplicate a financial operation. Deferred to the later reliability phase.
-- Existing tenant-member RLS grants remain broader than a future restricted-employee role will require; employee accounts must not be enabled before the authorization matrix is approved.
-- Billing/plan promises are not enforced by the app, and the route guard checks tenant presence rather than subscription validity. Deferred to the later commercial-readiness phase.
-- Historical CI comments once exposed disposable local development keys; affected comments were redacted, but workflow reporting still requires the separate governed change SEC-CI-001.
+### Pilot blockers
+
+- `SEC-ENV-001`: `config/supabase-build-config.ts` contains a production Supabase public URL and anon-key fallback. Non-production builds must fail closed rather than silently target production.
+- `SEC-CI-001`: PR reporting has historically copied local Supabase startup output and disposable local credentials into comments. Reports must contain concise evidence only, and tool versions must be pinned.
+- `FIN-IDEM-001`: Financial RPCs for sale creation, debt collection, settlement, and return do not have an approved idempotency contract. A retry after a lost response can duplicate a financial operation.
+- Latest `main` must pass the full release gate after any direct Lovable change: Quality, full migration chain, T1–T15, and Isolated Auth UI Smoke.
+
+### Deferred until after pilot evidence and approved design gates
+
+- Existing tenant-member RLS grants are broader than a restricted employee role requires.
+- Assignment source of truth, employee/courier identity, authorization matrix, historical identity, audit model, concurrency, migration, and rollback design remain unapproved.
+- Billing and plan promises are not fully enforced by the application, and the authenticated route guard checks tenant presence rather than subscription validity.
+- Employee-account implementation remains deferred until the owner-only core is reliable and pilot evidence demonstrates priority.
 
 ## Decisions that must not change
 
@@ -53,14 +69,12 @@ Current `main` HEAD: `bb92a4c` (`Fixed 3 security issues`).
 - Applied migrations are immutable; corrections use forward-only migrations.
 - One coherent change per pull request.
 - Published Lovable-linked Git history must not be rewritten.
-- PR #17 is evidence and a prototype, not an approved release candidate.
+- PR #17 is a superseded prototype and must not be merged.
+- Pilot execution does not begin until the listed P0 pilot blockers are resolved and release-verified.
 
 ## Next task
 
-Owner-only controlled pilot preparation and execution (3–5 stores, direct supervision),
-measuring real daily usage and trust in the numbers. Employee-account implementation
-resumes only after the pilot demonstrates need and after Change Gates 2–4. No new
-product features until the pilot baseline is proven.
+Complete and merge AUDIT-001 after final checks and human approval. Then execute `SEC-ENV-001 — Environment Isolation and Fail-Closed Build Resolution` as the first implementation change. No new product feature is authorized.
 
 ## Verification commands
 
@@ -73,6 +87,4 @@ bun run test:unit
 bun run build
 ```
 
-GitHub checks for the current head are the authoritative verification source. The
-Ephemeral Financial Rules (T1–T15) and Isolated Auth UI Smoke workflows run in isolated
-Supabase environments and must pass; they never touch production.
+GitHub checks for the latest PR head are the authoritative verification source. Ephemeral Financial Rules must apply the full migration chain and pass T1–T15 on isolated Supabase. Isolated Auth UI Smoke must use an isolated account and must not access production.

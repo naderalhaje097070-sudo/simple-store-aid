@@ -32,14 +32,13 @@ Current audited `main` head at the start of the final AUDIT-001 update: `1335d29
   - `da68f17c1ea16b7102014a48c6e50b36627a795d` — rate-limit responses no longer consume the email delivery failure budget.
   - `cd709d8388739296d09a308178edb3fe9add01fd` — forward-only `read_email_batch` return-contract change adding `enqueued_at`, plus regenerated types.
   - `1335d2912aa9cd1674dd082a4396c9bfb660c9c5` — combined email retry and queue-age update.
+- The email 429 behavior and `read_email_batch` / `enqueued_at` contract change were reviewed as part of AUDIT-001. No documentation-baseline blocker was identified; production reliability remains governed by the later environment, CI, and idempotency changes.
 - AUDIT-001 initial local verification on `bb92a4c` recorded successful typecheck, 26 unit tests, and production build.
-- PR #21 verification on its earlier documentation head passed Quality, Ephemeral Financial Rules T1–T15, and Isolated Auth UI Smoke. Final verification must be taken from GitHub checks on the latest PR head after synchronization with `main`.
+- GitHub checks on PR #21 are the authoritative verification source for every updated head.
 
 ## In-progress work
 
-- Human review of AUDIT-001 pull request #21.
-- Final GitHub checks on the latest synchronized PR #21 head.
-- Review of the `read_email_batch` contract change and email 429 behavior as part of the current release baseline.
+- Human review and explicit merge decision for AUDIT-001 pull request #21.
 - Creation of an annotated pilot-baseline tag only after PR #21 is merged and the final merge commit is verified. Tag creation is a separate explicit human action, not an automatic result of this documentation PR.
 
 ## Known issues

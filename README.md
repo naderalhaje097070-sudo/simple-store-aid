@@ -37,81 +37,105 @@
 .
 ├── src/
 │   ├── components/        ← مكونات UI المُعاد استخدامها
-│   ├── hooks/             ← React hooks مخصصة
-│   ├── lib/               ← المنطق المشترك (DB helpers، types)
-│   ├── routes/            ← ملفات التوجيه (TanStack File-Based)
-│   │   ├── _authenticated/← المنطقة المحمية (التطبيق)
-│   │   ├── api/           ← نقاط نهاية API العامة
-│   │   ├── auth.tsx       ← صفحة تسجيل الدخول
-│   │   ├── index.tsx      ← صفحة الهبوط (Landing)
-│   │   └── guide.tsx      ← دليل تجربة المستخدم
-│   ├── styles.css         ← تصميم Tailwind v4 (tokens + theme)
-│   └── integrations/      ← Supabase client، auth middleware
+│   ├── hooks/               ← React hooks مخصصة
+│   ├── lib/                 ← المنطق المشترك (DB helpers، types)
+│   ├── routes/              ← ملفات التوجيه (TanStack File-Based)
+│   │   ├── _authenticated/  ← المنطقة المحمية (التطبيق)
+│   │   ├── api/             ← نقاط نهاية API العامة
+│   │   ├── auth.tsx         ← صفحة تسجيل الدخول
+│   │   ├── index.tsx        ← صفحة الهبوط (Landing)
+│   │   └── guide.tsx        ← دليل تجربة المستخدم
+│   ├── styles.css           ← تصميم Tailwind v4 (tokens + theme)
+│   └── integrations/        ← Supabase client، auth middleware
 ├── supabase/
-│   └── migrations/        ← ترحيلات قاعدة البيانات (RLS، Policies)
+│   └── migrations/          ← ترحيلات قاعدة البيانات (RLS، Policies)
+├── .env                     ← متغيرات البيئة (SUPABASE_URL، ...)
 ├── package.json
 └── vite.config.ts
 ```
 
 ---
 
-## التشغيل والتحقق
+## كيفية التشغيل داخل Lovable
 
-### داخل Lovable
+### 1. معاينة حية (Preview)
 
-عند فتح المشروع في Lovable، تُدار بيئة المعاينة تلقائيًا. لا تُستخدم بيئة المعاينة كدليل على صحة العمليات المالية أو كبديل عن فحوص GitHub المعزولة.
+عند فتح المشروع في Lovable، يُشغّل خادم التطوير تلقائيًا:
+- **الواجهة الأمامية:** يعمل على `localhost:8080`
+- **إعادة التحميل السريعة:** أي تعديل على الملفات يظهر مباشرة في المعاينة
 
-### الأوامر الأساسية
+### 2. بناء الإنتاج (Build)
 
 ```bash
-bun install --frozen-lockfile
-bun run dev
-bun run typecheck
-bun run lint
-bun run test:unit
 bun run build
 ```
 
-فحوص قاعدة البيانات والقواعد المالية والواجهة المسجلة تعمل من GitHub Actions على Supabase معزول. لا يجوز استخدام Production للاختبارات المدمرة أو بيانات QA.
+- يُنشئ مجلد `dist/` جاهزًا للنشر.
+- يدعم SSR بشكل افتراضي.
 
-### متغيرات البيئة
+### 3. بناء وضع التطوير
 
-استخدم متغيرات البيئة التي توفرها البيئة المستهدفة. لا يجوز اعتبار غياب المتغيرات سببًا للاتصال تلقائيًا بقاعدة Production في بيئة Local أو CI أو Preview. فصل البيئات الكامل مسجل كعمل P0 في `TASKS.md` تحت `SEC-ENV-001`.
+```bash
+bun run build:dev
+```
+
+- مفيد للفحص قبل الرفع إلى البيئة الإنتاجية.
+
+### 4. فحص الأنواع (TypeScript)
+
+```bash
+npx tsc --noEmit
+```
+
+- المشروع يستخدم `strict: true` — كل الاستيرادات يجب أن تكون صحيحة.
+
+### 5. تنسيق الكود
+
+```bash
+bun run format
+```
+
+### 6. التشغيل المحلي خارج Lovable
+
+إذا نسخت المستودع إلى جهازك:
+
+```bash
+# 1. تثبيت التبعيات
+bun install
+
+# 2. نسخ متغيرات البيئة
+# أنشئ ملف .env بناءً على المتغيرات التي يوفرها Lovable Cloud
+# (VITE_SUPABASE_URL، VITE_SUPABASE_PUBLISHABLE_KEY)
+
+# 3. تشغيل التطوير
+bun run dev
+```
 
 ---
 
-## Lovable Cloud وSupabase
+## الربط مع Lovable Cloud (Backend)
 
-- **قاعدة البيانات:** PostgreSQL مُدار عبر Lovable Cloud (Supabase).
-- **الجداول الرئيسية:** `tenants`، `profiles`، `products`، `customers`، `orders`، `payments`، `expenses`، `couriers`، `day_closes`.
-- **الأمان:** RLS + Tenant Isolation، مع وجوب التحقق من صلاحيات كل Actor على الخادم وقاعدة البيانات.
-- **الأدوار الحالية في Schema:** `owner`، `staff`.
-- قيمة `staff` تصف الـenum الحالي فقط، وليست تصميمًا نهائيًا لحساب موظف محدود الصلاحيات. نموذج الموظفين المؤسسي مؤجل إلى Change Gates مستقلة.
+- **قاعدة البيانات:** PostgreSQL مُدار عبر Lovable Cloud (Supabase)
+- **الجداول الرئيسية:** `tenants`، `profiles`، `products`، `customers`، `orders`، `payments`، `expenses`، `couriers`، `day_closes`
+- **الأمان:** RLS (Row Level Security) + Tenant Isolation
+- **الأدوار:** `owner`، `staff` (قيم enum الحالية في `app_role`). أي نموذج أدوار موسّع، مثل دور مندوب أو موظف محدود الصلاحيات، قرار حوكمي مؤجل لم يُصمم بعد.
 
----
-
-## قواعد مالية لا تتغير
-
-- `Delivered` لا يعني `Settled`.
-- الطلب المرتجع لا ينشئ دين عميل أو عهدة مندوب.
-- أموال المندوب لا تدخل `paid` أو `payments` قبل التسوية المعتمدة.
-- الكتابات المالية تمر عبر حدود Transactional معتمدة على الخادم أو قاعدة البيانات.
-- الواجهة ليست حد صلاحية.
+> لا تحتاج لتشغيل Supabase محليًا — كل شيء مُدار في السحابة.
 
 ---
 
 ## ملاحظات التطوير
 
-- اقرأ `AGENTS.md` و`PROJECT_STATE.md` و`DECISIONS.md` و`TASKS.md` قبل أي عمل جوهري.
-- لا تُنشئ `src/pages/`؛ التوجيه يعتمد على `src/routes/`.
-- لا تعدل `src/routeTree.gen.ts` يدويًا؛ يُولد تلقائيًا.
-- الملفات المنتهية بـ `.server.ts` خادمية فقط.
-- Migrations المطبقة غير قابلة للتعديل؛ استخدم Migration جديدة Forward-only.
-- لا تُعد كتابة Git history المرتبط بـLovable.
-- لا تدمج أو تنشر تلقائيًا.
+- **لا تُنشئ `src/pages/`** — التوجيع يعتمد على `src/routes/` (TanStack Start).
+- **لا تُعدّل `src/routeTree.gen.ts`** — يُولّد تلقائيًا.
+- **الملفات المنتهية بـ `.server.ts`** — لا يمكن استيرادها من المكونات (server-only).
+- **الملفات المنتهية بـ `.functions.ts`** — server functions يمكن استدعاؤها من المكونات.
+- **متغيرات البيئة:**
+  - `VITE_*` — متاحة في المتصفح والخادم
+  - `process.env.*` — خادم فقط (داخل `createServerFn`)
 
 ---
 
-## حالة المنتج
+## المساهمة
 
-Mongezz حاليًا Functional MVP في مرحلة تثبيت النواة المالية والاستعداد لـPilot محدود للمالك فقط. الـPilot الحقيقي محجوب حتى إغلاق مخاطر فصل البيئات، تقارير CI، وIdempotency المالية. راجع `PROJECT_STATE.md` و`TASKS.md` للحالة الدقيقة.
+هذا المشروع نموذج UX/POC تم تحويله إلى تطبيق SaaS حقيقي. إذا كنت تُطوره، راجع دليل UX في مسار `/guide` لفهم القيود والتعريفات المالية قبل أي تعديل.

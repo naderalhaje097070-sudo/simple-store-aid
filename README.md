@@ -120,7 +120,7 @@ bun run dev
 - **قاعدة البيانات:** PostgreSQL مُدار عبر Lovable Cloud (Supabase)
 - **الجداول الرئيسية:** `tenants`، `profiles`، `products`، `customers`، `orders`، `payments`، `expenses`، `couriers`، `day_closes`
 - **الأمان:** RLS (Row Level Security) + Tenant Isolation
-- **الأدوار:** `owner`، `manager`، `cashier`، `viewer`
+- **الأدوار:** `owner`، `staff` (قيم enum الحالية في `app_role`). أي نموذج أدوار موسّع، مثل دور مندوب أو موظف محدود الصلاحيات، قرار حوكمي مؤجل لم يُصمم بعد.
 
 > لا تحتاج لتشغيل Supabase محليًا — كل شيء مُدار في السحابة.
 

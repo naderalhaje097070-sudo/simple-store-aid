@@ -37,10 +37,29 @@ Compatibility strategy (independent-review correction, finding 5):
   reconsidered if an isolated test proves resolution is unambiguous — out of scope
   for documentation.
 
-Either way: **no previously-successful call becomes an error.** The only
-behavioral change is that some previously-rejected calls (courier without
-customer, no debt) now succeed — and that requires the CHECK-constraint
-replacement (see §3a), not just the RPC.
+Scope of the compatibility guarantee (clarified):
+
+- **All previously valid and financially *safe* business flows remain
+  supported.** Creating direct/courier sales, recording collection, settling,
+  returning an uncollected order, and collecting debt all keep working.
+- **This is not an absolute "every previously-successful call still succeeds"
+  guarantee, and that claim is withdrawn.** The old
+  `update_courier_order_state` technically permits **unsafe** operations —
+  reducing `collected_by_courier`, reversing a delivered outcome, and backward
+  transitions such as `delivered_full → pending` or
+  `delivered_partial → delivered_none`. Under the canonical v2 rules these are
+  **intentionally rejected** as unsafe (`custody_cannot_decrease` /
+  `invalid_transition`). This is deliberate and financially correct, not a
+  regression.
+- **The legacy adapter must delegate to the canonical v2 safety rules.** It must
+  **not** reproduce the old unsafe behavior merely to preserve technical
+  compatibility. Its only job is argument translation; all state/financial
+  guards live in `_v2`.
+
+For the create path specifically: no previously-valid `create_sale_with_items`
+call becomes an error (the adapter maps to `_v2`); the only new outcome is that
+some previously-rejected calls (courier without customer, no debt) now succeed —
+which also requires the CHECK-constraint replacement (§3a), not just the RPC.
 
 ## 2. Historical data compatibility
 

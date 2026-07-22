@@ -43,6 +43,10 @@ approval. See TEST_PLAN for the full case list; this maps suites to changes.
 - Courier state-machine valid/invalid transitions: D-M1..M10.
 - Custody monotonic / no reduction / idempotent retry: D-M11..M13.
 - Transition concurrency: D-M14, D-M15.
+- `delivered_none → returned` business rule (confirmed physical return, debt→0,
+  stock restored once, no double-return, terminal): D-R1..D-R8.
+- Backward-compat is safe-flows-only; legacy adapter delegates to v2 and rejects
+  unsafe custody-reducing/backward calls: F1a, F1b.
 - Platform health checks outcome-aware: G1..G3.
 - Platform/tenant debt totals = single source of truth (all courier states):
   G4, G5, G7, G8.

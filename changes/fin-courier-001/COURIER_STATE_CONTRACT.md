@@ -138,8 +138,13 @@ independent financial logic**. Rejected: a defaulted-parameter overload
 The normal outcome-update RPC is a **named** `update_courier_outcome_v2`
 (canonical). The old `update_courier_order_state` is preserved **only** as a
 compatibility adapter if a caller still needs it; canonical state/financial logic
-lives in exactly one place. It updates, in **one server-side transaction** under
-the existing `SELECT ... FOR UPDATE` row lock:
+lives in exactly one place. **The adapter delegates to the v2 safety rules and
+must not reproduce the old unsafe behavior** — the old RPC today permits custody
+reduction and backward transitions (e.g. `delivered_full → pending`,
+`delivered_partial → delivered_none`); those become rejected. Backward
+compatibility covers only previously valid **and safe** flows
+(BACKWARD_COMPATIBILITY §1). The canonical RPC updates, in **one server-side
+transaction** under the existing `SELECT ... FOR UPDATE` row lock:
 
 - `courier_state` (the new outcome),
 - `collected_by_courier`,
@@ -183,6 +188,41 @@ the existing `SELECT ... FOR UPDATE` row lock:
   delivered outcome) are **out of scope for this RPC** and must go through a
   separate audited correction workflow (future governed change). Documented so the
   normal path stays append-only in custody terms.
+
+### `delivered_none → returned` — explicit business condition (finding: clarification)
+
+`delivered_none` means *the goods were delivered but nothing was collected* (full
+customer debt); `returned` means *the goods physically came back and re-enter
+stock* (no debt). The transition is therefore permitted **only when the goods are
+physically returned after delivery** — never as a mere change of mind or a way to
+clear a debt without the goods coming back. It is executed through
+`return_courier_order` and must satisfy, atomically in one transaction:
+
+- **Physical return is the trigger** — the caller asserts the goods came back;
+  the state flip records that event, it does not invent it.
+- **No settled payment** and **`collected_by_courier = 0`** — enforced by
+  `return_courier_order`'s existing `paid = 0 AND collected_by_courier = 0` guard
+  (`20260626233231_...9c.sql`). `delivered_none` already has collected = 0, so it
+  qualifies; `delivered_partial` does not.
+- **Atomic cancellation of the debt effect** — customer debt for `delivered_none`
+  is *derived* (`close_day` CASE / `getCustomerDebtForInvoice`), not a stored
+  payable; the same `UPDATE` that sets `courier_state='returned'` makes the
+  derived debt 0 in the same transaction (returned has priority → 0). No separate
+  debt row to reverse; `collect_order_debt` is already blocked on returned
+  (`cannot_collect_returned_order`).
+- **Stock restored exactly once** — `return_courier_order` restores each
+  `order_items` line once per successful return.
+- **Idempotent / terminal protection** — after the first return the row is
+  `delivery='direct'`, `courier_state='returned'`; a second return (or any further
+  outcome transition) is **rejected** because `return_courier_order` requires
+  `delivery='courier'` (`not_a_courier_order`), so stock is never restored twice
+  and a returned/settled order cannot transition again.
+- **Audit evidence** — the return is recorded in the financial/audit log
+  (`_fin_audit_trigger` on `orders` UPDATE already captures before/after;
+  the contract requires the return to be attributable in the audit trail).
+
+These conditions are contract + test requirements to be proven before Gate 4;
+they do not require a new change.
 
 The replaced CHECK constraint (§1) is the schema backstop; `update_courier_
 outcome_v2` provides the typed errors, the monotonic/forbidden-transition

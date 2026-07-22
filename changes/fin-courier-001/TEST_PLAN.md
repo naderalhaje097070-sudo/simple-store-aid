@@ -143,6 +143,28 @@ Concurrency:
   `settle_courier_orders` → no double custody, no negative/again-collected money
   (targets the known P1).
 
+### `delivered_none → returned` business rule (finding: clarification)
+
+- **D-R1** `delivered_none` **with a customer** (full derived debt) →
+  `return_courier_order` on confirmed physical return → **succeeds**;
+  `courier_state='returned'`, `delivery='direct'`, `courier_id=NULL`.
+- **D-R2** After D-R1 the **customer debt becomes 0** (verified via `close_day`
+  customer-debt CASE and `getCustomerDebtForInvoice`), atomically with the state
+  flip — no separate debt reversal step.
+- **D-R3** **Stock is restored exactly once** for every `order_items` line of the
+  returned order.
+- **D-R4** **Repeated return** of the same order is **rejected**
+  (`not_a_courier_order`, because `delivery` is now `direct`) and **stock is not
+  restored a second time** (assert stock unchanged after the second attempt).
+- **D-R5** A **returned** order **cannot transition again** through
+  `update_courier_outcome_v2` (terminal) → rejected.
+- **D-R6** A **settled** order cannot be returned (`delivery='direct'`,
+  `collected_by_courier=0`) → rejected `not_a_courier_order`.
+- **D-R7** `collect_order_debt` on a returned order is rejected
+  (`cannot_collect_returned_order`) — no phantom debt survives the return.
+- **D-R8** Audit evidence: the return produces a `financial_audit_log` row (via
+  `_fin_audit_trigger`) capturing the `orders` before/after.
+
 ## E. Concurrency & idempotency (sensitive financial path)
 
 - **E1** Two concurrent `create_sale_with_items_v2` for the same product with
@@ -169,6 +191,14 @@ Concurrency:
 
 - **F1** Legacy six-param `create_sale_with_items` adapter with a customer →
   identical result to today for all courier paths (delegates to `_v2`).
+- **F1a** Legacy `update_courier_order_state` adapter, **safe** call (e.g.
+  `pending → delivered_full`, or a debt transition on an order that has a
+  customer) → succeeds, delegating to `_v2`.
+- **F1b** Legacy `update_courier_order_state` adapter, **unsafe** call that used to
+  be technically accepted — custody reduction (`delivered_full → delivered_none`)
+  or a backward transition (`delivered_partial → delivered_none`) → **rejected**
+  (`custody_cannot_decrease` / `invalid_transition`). Proves the adapter delegates
+  to v2 safety rules and does **not** reproduce unsafe legacy behavior.
 - **F2** Existing courier rows (all five states) read by `invoice-selectors` and
   `close_day` → identical debt/custody before and after the migration (snapshot
   compare on an isolated DB seeded with pre-change rows).
@@ -251,6 +281,8 @@ Concurrency:
 | Custody ≠ pending order value | B1, B8, A10 |
 | Delivered ≠ settled | A8, B9, E4 |
 | Returned ≠ debt/custody | A9, D-T7, C-CK4 |
+| delivered_none → returned business rule | D-R1..D-R8 |
+| Backward-compat = safe flows only; adapter delegates to v2 | F1a, F1b |
 | Outcome-aware platform health checks | G1..G3 |
 | Platform debt totals = single source of truth | G4, G5, G7, G8 |
 | Backward compat (v2 + adapter) | F1, F2, F3 |

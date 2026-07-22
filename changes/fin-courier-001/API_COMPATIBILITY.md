@@ -26,9 +26,11 @@ approval.
   overload resolution with defaults can be ambiguous; not adopted without an
   isolated proof test (finding 5).
 
-Compatibility guarantee: any call that succeeds today still succeeds with
-identical effect (via the adapter). The only new outcomes are previously-rejected
-customer-less courier creations that now succeed.
+Compatibility guarantee (create path): any `create_sale_with_items` call that
+succeeds today still succeeds with identical effect (via the adapter). The only
+new outcomes are previously-rejected customer-less courier creations that now
+succeed. **This create-path guarantee does not extend to the transition RPC** —
+see the safety carve-out below.
 
 ### Courier outcome transition
 
@@ -43,8 +45,15 @@ customer-less courier creations that now succeed.
 - The old `update_courier_order_state` is preserved **only** as a thin
   compatibility adapter if a caller still needs the 3-arg form; canonical
   state/financial logic lives in `update_courier_outcome_v2` alone. The adapter
-  must **reject** debt-creating transitions on customer-less orders rather than
-  silently violate the constraint or reduce custody.
+  **delegates to the v2 safety rules** and must **not** reproduce the old unsafe
+  behavior.
+- **Transition-safety carve-out (intentional break):** the old RPC today permits
+  unsafe operations — custody reduction and backward transitions such as
+  `delivered_full → pending` and `delivered_partial → delivered_none`. Those calls
+  are **intentionally rejected** under v2 (`custody_cannot_decrease` /
+  `invalid_transition`). This is a deliberate, financially-correct rejection, not
+  a compatibility regression; the backward-compatibility guarantee covers only
+  previously valid **and safe** flows (see BACKWARD_COMPATIBILITY §1).
 - `returned` continues to route to `return_courier_order` (unchanged signature);
   `delivered_partial → returned` is not permitted (custody > 0).
 

@@ -67,6 +67,41 @@ END IF;
 Courier collection never enters `payments` at creation — correct per
 "Delivered is not settled". Money only enters `payments` at settlement.
 
+## 1a. Effective database CHECK constraints (independent-review correction)
+
+The RPC guard is **not** the only enforcement. `orders` carries CHECK
+constraints added in
+`supabase/migrations/20260626155319_...4e.sql:12-34`, all `NOT VALID`:
+
+```
+:12-16  orders_customer_required_when_unpaid
+          CHECK (paid >= total OR customer_id IS NOT NULL) NOT VALID
+:18-22  orders_courier_requires_courier_id
+          CHECK (delivery <> 'courier' OR courier_id IS NOT NULL) NOT VALID
+:24-28  orders_courier_requires_customer_id
+          CHECK (delivery <> 'courier' OR customer_id IS NOT NULL) NOT VALID
+:30-34  orders_collected_not_over_total
+          CHECK (collected_by_courier <= total) NOT VALID
+```
+
+Critical facts, verified in code:
+
+- **`NOT VALID` skips *existing* rows only; it is still enforced on every new
+  INSERT/UPDATE.** So these constraints actively block new customer-less courier
+  orders **even if the RPC guard is relaxed**. Relaxing the RPC alone is
+  insufficient — the earlier draft missed this.
+- `orders_customer_required_when_unpaid` keys off **`paid`**, but courier orders
+  always store `paid = 0` at creation (§1.3) — courier custody lives in
+  `collected_by_courier`, not `paid`. Therefore `paid >= total` is false for
+  every non-zero-total courier order, so this constraint **requires a customer on
+  every courier order, including `delivered_full`** (collected in full, zero
+  debt).
+- `orders_courier_requires_customer_id` independently requires a customer on
+  every courier order regardless of outcome.
+- Net effect: **two** constraints must be replaced with the outcome-based rule
+  (see COURIER_STATE_CONTRACT / MIGRATION_IMPACT). `orders_courier_requires_courier_id`
+  (courier id) and `orders_collected_not_over_total` are kept.
+
 ## 2. Courier state-update RPC: `update_courier_order_state`
 
 Latest definition: `supabase/migrations/20260626233231_...c9.sql`.
@@ -79,6 +114,19 @@ Latest definition: `supabase/migrations/20260626233231_...c9.sql`.
 
 So `delivered_none` is a valid stored state with zero custody and full customer
 debt — but only settable **after** creation.
+
+**State-transition hole (independent-review correction).**
+`update_courier_order_state(p_order_id, p_state, p_collected)` does **not** accept
+or validate `customer_id`. Once customer-less courier orders are permitted at
+creation (pending / delivered_full), this RPC can transition a **customer-less**
+`pending` order to `delivered_partial` or `delivered_none`, which creates customer
+debt — with **no customer attached**. The only backstop today is the
+`orders_courier_requires_customer_id` CHECK, which this change removes; the
+replacement outcome-based CHECK would reject such an UPDATE, but the RPC would
+surface a raw constraint violation rather than attach a customer atomically. The
+earlier draft's statement that this RPC "needs no change" is **withdrawn**. The
+required atomic resolution contract is defined in COURIER_STATE_CONTRACT §
+"Post-creation transition".
 
 ## 3. Settlement RPC: `settle_courier_orders`
 
@@ -124,9 +172,48 @@ CASE
 END
 ```
 
-and unsettled custody as `SUM(collected_by_courier)` over courier orders. This
-already matches the target semantics; the change does **not** alter these
-formulas.
+and unsettled custody as `SUM(collected_by_courier)` over courier orders.
+
+`close_day` **is** outcome-aware: its CASE keys on `courier_state` and never
+references `customer_id`, so a customer-less pending/`delivered_full` order
+contributes 0 debt correctly. This function does **not** need to change.
+
+**But the blanket earlier claim that "all existing server aggregates already
+handle all five courier states" is WRONG and is withdrawn.** Per-function
+reality (independent-review correction), verified in code:
+
+| Function | Debt/custody by state? | Effect of customer-less courier orders |
+|---|---|---|
+| `close_day` (`20260704105413`) | Yes, correct | None — keyed on `courier_state`, not `customer_id`. No change needed. |
+| `get_tenant_today_estimate` (`20260627201534:240-276`) | **Does not compute debt or custody at all** | Returns only sales/collected/expenses/profit. My earlier A10 claim that it returns debt/custody was false. |
+| `get_platform_admin_overview` (`20260627201534:282-324`) | Partial | `open_customer_debts` counts only `delivery='direct' OR courier_id IS NULL` — courier debt is **excluded entirely**; `critical_alerts` does not check `customer_id`. |
+| `get_platform_financial_health` (`20260626191523`) | Integrity checks | **False-positives** — see §5a. |
+| `get_platform_tenants_health` (`20260626191523`) | Per-tenant health flag | Debt/custody aggregation excludes courier debt (`delivery='direct' OR courier_id IS NULL`); health flag keyed on sign/overflow, not `customer_id`. Low but must be reviewed. |
+| `get_platform_day_close_health` (`20260627201534:326-355`) | Recompute vs stored | Reconciliation only; unaffected by customer nulls, but exercised by new rows. |
+
+## 5a. Platform financial-health checks false-positive on valid new orders
+
+`get_platform_financial_health` (`20260626191523_...b1.sql`) runs a fixed check
+array. Two checks flag now-valid orders as corrupt:
+
+```
+key='courier_missing_refs'  sev='Critical'
+  SELECT COUNT(*) FROM orders WHERE delivery='courier' AND (customer_id IS NULL OR courier_id IS NULL)
+key='debt_without_customer'  sev='Warning'
+  SELECT COUNT(*) FROM orders WHERE status IN ('partial','debt') AND customer_id IS NULL
+```
+
+- `courier_missing_refs` (**Critical**) fires on **every** customer-less courier
+  order — exactly the orders this change makes valid.
+- `debt_without_customer` (**Warning**) also fires, because courier orders are
+  created with `status='debt'` (§1.3), regardless of outcome.
+- The paired detail RPC `get_platform_financial_health_rows` repeats the same two
+  predicates for the `courier_missing_refs` and `debt_without_customer` keys and
+  must be corrected in lock-step.
+
+Both checks must become **outcome-aware** (flag only rows that genuinely carry
+customer debt with no customer) or valid pilot orders will be reported as
+Critical corruption. Tracked in PR-B.
 
 ## 6. Domain selectors (client) already model the target
 
@@ -215,8 +302,13 @@ even though it creates no debt yet.
   blocked while courier holds custody), **T8** (settlement → cash payment),
   **T9/T10** (returned restores stock, no debt).
 - **T5 and T6 currently pass a customer id** to `create_sale_with_items` for
-  courier orders, because the RPC requires it today. These tests must be extended
-  (not weakened) to cover the no-customer courier path.
+  courier orders, because both the RPC guard **and the CHECK constraints** (§1a)
+  require it today. These tests must be extended (not weakened) to cover the
+  no-customer courier path, which requires replacing the constraints as well as
+  the RPC.
+- Note: `get_tenant_today_estimate` returns only sales/collected/expenses/
+  realized_profit — it does **not** expose debt or custody (§5), so it is not a
+  debt/custody regression surface.
 - Unit selectors: `tests/unit/invoice-selectors.test.ts`.
 - E2E: `tests/e2e/sale-dashboard-close.py`, `tests/e2e/isolated-auth-smoke.py`.
 - Visual: `tests/visual/mobile-rtl-smoke.py`.

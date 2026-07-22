@@ -1,7 +1,9 @@
-# FIN-COURIER-001 — Expected Behavior (approved target)
+# FIN-COURIER-001 — Expected Behavior
 
-Status: Target approved by the product owner for this change. This is the
-contract the implementation must satisfy and the tests must prove.
+Status: **Proposed target based on product-owner direction; pending formal Gate
+approval.** Gates 0–3 are **not** approved. This is the contract the
+implementation must satisfy and the tests must prove **once approved**; no
+implementation is authorized until then.
 
 ## Sale flow
 

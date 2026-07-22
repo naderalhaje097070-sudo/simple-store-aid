@@ -1,90 +1,132 @@
 # FIN-COURIER-001 — PR Decomposition
 
-Status: Draft for review. One coherent goal per PR (DEC-009, Architecture
-Rule 6). Financial contract first, UI second. Nothing here is authorized until
-Gates 0–3 are approved.
+Status: Proposed target based on product-owner direction; pending formal Gate
+approval. One coherent goal per PR (DEC-009, Architecture Rule 6). Nothing here
+is authorized until Gates 0–3 are approved **and** the baseline decision
+(§Baseline) is satisfied.
 
 ## Ordering & dependencies
 
 ```
-(baseline: AUDIT-001 / PR #23 merged) 
+(baseline: AUDIT-001 / PR #23 merged; impl branch cut from approved main head)
         │
         ▼
-PR-A  Financial contract + migration + SQL tests   (backend, forward-only)
+PR-A  Financial schema constraints + v2 sale RPC + atomic transition + SQL tests
         │
         ▼
-PR-B  UI: advanced-sale default + courier flow      (frontend, depends on PR-A)
+PR-B  Outcome-aware platform health / report functions + regression tests
         │
         ▼
-(separate tracks, NOT part of this change)
-   BUGFIX-APP-001 · PERF-APP-001 · settlement-method follow-up
+PR-C  Advanced-sale default + courier UI + wording + success screen + status
+        │
+        ▼
+(separate governed change) FIN-SETTLEMENT-METHOD-001
 ```
 
-## PR-A — Financial contract (backend)
+PR-B depends on PR-A (health checks must match the new valid-order shapes). PR-C
+depends on PR-A (UI drives the v2 contract) and should land after PR-B so the
+platform console does not scream Critical while the UI starts producing
+customer-less courier orders.
 
-Goal: correct the courier customer-requirement rule and enable create-time
-courier outcome, without any UI change.
+## PR-A — Financial schema + RPC (backend)
 
-Includes:
-- New forward-only migration:
-  - Replace blanket courier customer guard with outcome-based rule
-    (`customer_required_for_debt`; `courier_requires_courier` for missing courier).
-  - Add create-time courier outcome (overload with `p_courier_state`, default
-    NULL = today's paid-derived mapping) — see COURIER_STATE_CONTRACT.
-- Client contract update in `src/lib/db.ts` (`CreateSaleInput`, `useCreateSale`)
-  to pass the outcome; safe default preserves old behavior.
-- SQL tests added to `tests/financial-rules/rules.sql`: B1–B9, C1–C4, D1–D3
-  (TEST_PLAN). Existing T1–T15 kept and must stay green.
-- `DECISIONS.md` entry for the outcome-parameter and customer-rule decision.
-
-Excludes: any screen change, any wording change, default-flow change.
-
-Acceptance: TEST_PLAN A, B, C, D pass on isolated Supabase; no existing test
-weakened; backward-compat proven.
-
-Risk: High (financial write path). Requires independent adversarial review
-(Gate 6) focused on transaction boundaries, the customer-rule branch, and
-create-time state derivation.
-
-## PR-B — Sale UX (frontend)
-
-Goal: make advanced sale the default and align the courier UI to the PR-A
-contract.
+Goal: make the schema and RPC layer accept the outcome-based customer rule and
+close the transition hole, without any UI or reporting change.
 
 Includes:
-- Default-flow routing: `app.tsx:291,302,329,1124` → advanced `sale`; add a
-  labelled secondary quick-sale shortcut.
+- **Forward-only migration** replacing the CHECK constraints:
+  drop `orders_customer_required_when_unpaid` + `orders_courier_requires_customer_id`;
+  add `orders_customer_required_when_debt` (COURIER_STATE_CONTRACT §1). Keep
+  `orders_courier_requires_courier_id` and `orders_collected_not_over_total`.
+- **`create_sale_with_items_v2`** (canonical) with `p_courier_state`; outcome-based
+  customer rule (`customer_required_for_debt`, `courier_requires_courier`).
+- **Six-param `create_sale_with_items` adapter** delegating to `_v2` (no
+  independent financial logic) — backward compatibility.
+- **Atomic courier-outcome transition** (`resolve_courier_order_v2` or a
+  `p_customer_id`-bearing transition RPC) per COURIER_STATE_CONTRACT §3;
+  `returned` stays delegated to `return_courier_order`.
+- Client contract update in `src/lib/db.ts` to call `_v2` (createSale and the
+  transition).
+- SQL tests added to `tests/financial-rules/rules.sql`: TEST_PLAN B, C-CK*, D-T*,
+  E, F. Existing T1–T15 kept and must stay green.
+- `DECISIONS.md` entries for the v2-RPC-vs-overload decision and the
+  outcome-based customer rule.
+
+Excludes: platform health/report changes, any screen change, wording, default
+flow.
+
+Risk: High (financial write path + schema constraint). Requires independent
+adversarial review (Gate 6) on transaction boundaries, the customer-rule branch,
+the transition atomicity, and constraint safety.
+
+## PR-B — Outcome-aware platform health & reporting (backend)
+
+Goal: stop the platform console from reporting valid customer-less courier orders
+as corrupt.
+
+Includes:
+- Make `get_platform_financial_health` `courier_missing_refs` (Critical) and
+  `debt_without_customer` (Warning) **outcome-aware**: flag only rows that carry
+  genuine customer debt with no customer (e.g. courier `delivered_partial` /
+  `delivered_none` with `customer_id IS NULL`, and direct partial/debt with null
+  customer), not every customer-less courier order.
+- Update the matching `get_platform_financial_health_rows` detail queries in
+  lock-step.
+- Review `get_platform_admin_overview`, `get_platform_tenants_health`,
+  `get_platform_day_close_health`, `get_platform_courier_custody_health`,
+  `close_day`, `get_tenant_today_estimate` and adjust **only** where a valid new
+  order is misreported (per CURRENT_BEHAVIOR §5/§5a — most need no change; the two
+  health predicates do).
+- Regression tests TEST_PLAN G (and re-run A10/B8 aggregates).
+- Forward-only migration (`CREATE OR REPLACE` on the health functions).
+
+Excludes: UI, sale-path RPC changes.
+
+Risk: Medium. Read-only reporting functions; no write path.
+
+## PR-C — Sale UX (frontend)
+
+Goal: advanced sale default + courier UI aligned to the PR-A contract.
+
+Includes:
+- Default-flow routing: `app.tsx:291,302,329,1124` → advanced `sale`; labelled
+  secondary quick-sale shortcut.
 - `PaymentSheet`: courier-outcome selector when delivery=courier; outcome-based
   `needsCustomer` reusing `getCustomerDebtForInvoice` (`app.tsx:929-1073`).
 - `CourierCustodyScreen`: rename "لم تُسلَّم (دين)" → "تم التسليم دون تحصيل";
   ensure "not delivered" routes to `returned` (`app.tsx:484,566,579`).
 - `SaleSuccessScreen`: type-aware wording (`app.tsx:1112`).
-- Courier invoice **operational status** display via selectors (not
-  `order.status` alone).
-- UI tests: TEST_PLAN E (mobile RTL) and F (desktop).
-- Optional feature flag gating default-flow + courier-outcome UI (ROLLBACK_PLAN).
+- Courier invoice **operational status** display via selectors.
+- UI tests TEST_PLAN I (mobile RTL) and J (desktop).
+- Optional feature flag gating default-flow + courier-outcome UI (ROLLBACK_IMPACT).
 
 Excludes: `HomeScreen.slice(-3).reverse()` and midnight/timezone dependency
-(BUGFIX-APP-001); any pagination/lazy-load/PDF/dashboard-RPC work (PERF-APP-001).
-
-Acceptance: TEST_PLAN E, F pass on mobile and desktop smokes; no financial logic
-duplicated in screens (Architecture Rule 2); Quality + isolated smokes green.
+(BUGFIX-APP-001); pagination/lazy-load/PDF/dashboard-RPC (PERF-APP-001).
 
 Risk: Medium. Large shared route file; keep the diff scoped to the sale path.
 
-## Explicitly separate follow-ups (NOT in FIN-COURIER-001)
+## Deferred to separate governed changes (NOT in FIN-COURIER-001)
 
-- **Settlement method separation** (`settle_courier_orders` hard-coded `'cash'`,
-  `20260627201534_...c879.sql:496`): additive, forward-only; may be PR-A2 or a
-  distinct change once its contract is approved (CHANGE_INTAKE §Missing info).
-- **BUGFIX-APP-001**: latest-invoices ordering, midnight/timezone `useMemo`
-  dependency, generic loading/error states.
-- **PERF-APP-001**: initial-load reduction, pagination, lazy routes, dynamic PDF
-  import, dashboard summary RPC, post-sale cache patching.
+- **FIN-SETTLEMENT-METHOD-001** — settlement payment-method redesign
+  (`settle_courier_orders` hard-codes `method='cash'`,
+  `20260627201534_...c879.sql:496`; separate "transfer to shop" vs "paid to
+  courier" vs "courier handover method").
+- **FIN-IDEM-001** — sale idempotency key (TEST_PLAN E3 baseline).
+- **BUGFIX-APP-001** — latest-invoices ordering, midnight/timezone dependency,
+  loading/error states.
+- **PERF-APP-001** — initial-load, pagination, lazy routes, dynamic PDF,
+  dashboard summary RPC, post-sale cache patching.
+
+## Baseline (finding 10)
+
+- Documentation (this folder) may be revised now on the PR #24 branch.
+- **Implementation starts only after AUDIT-001 / PR #23 is merged**, and each
+  implementation branch (PR-A/B/C) is cut from the **approved `main` head** after
+  that merge — not from the current pre-baseline head.
 
 ## Merge boundary
 
 - Passing tests do not authorize merge (NAADF-CMF merge boundary).
 - No automated merge or deploy; a human reviews evidence and merges.
-- PR-A must be merged and verified on `main` before PR-B is reviewed, so the UI
-  never ships ahead of its contract.
+- PR-A → PR-B → PR-C land and verify in order so no layer ships ahead of its
+  contract.

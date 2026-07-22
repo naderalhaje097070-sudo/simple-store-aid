@@ -20,23 +20,26 @@ Constraints:
   exactly those six parameters (`src/lib/db.ts:445-452`). During and after
   rollout, a call with no courier-outcome argument must behave safely.
 
-Compatibility strategy (one of, decided at Gate 3):
+Compatibility strategy (independent-review correction, finding 5):
 
-- **Preferred — additive overload.** Add
-  `create_sale_with_items(..., p_courier_state text DEFAULT NULL)` as a new
-  overload. When `p_courier_state IS NULL`, reproduce today's paid-derived
-  mapping AND today's customer rule for legacy safety; when provided, apply the
-  outcome-based rule. The client is updated to pass the new argument; older
-  clients keep working.
-- **Alternative — same signature, relaxed guard only.** If create-time
-  `delivered_none` is deferred to a follow-up, the first migration only relaxes
-  the customer guard (courier no longer forces a customer when no debt). This is
-  strictly more permissive than today, so every previously-valid call remains
-  valid.
+- **Preferred — named v2 + adapter.** Introduce a clearly named
+  `create_sale_with_items_v2` with the explicit `p_courier_state` argument as the
+  single source of truth. Keep the existing six-parameter
+  `create_sale_with_items` as a thin **adapter** that maps its `p_paid` to the
+  legacy outcome and delegates to `_v2` — the adapter holds no independent
+  financial logic. The client is repointed to `_v2`; older/cached clients calling
+  the six-param adapter keep working with identical behavior.
+- **Rejected — DEFAULT-parameter overload.** Adding
+  `create_sale_with_items(..., p_courier_state text DEFAULT NULL)` as an overload
+  is **not** adopted: Supabase/PostgREST overload resolution with defaulted
+  parameters can be ambiguous, and that ambiguity is unproven here. It may only be
+  reconsidered if an isolated test proves resolution is unambiguous — out of scope
+  for documentation.
 
 Either way: **no previously-successful call becomes an error.** The only
 behavioral change is that some previously-rejected calls (courier without
-customer, no debt) now succeed.
+customer, no debt) now succeed — and that requires the CHECK-constraint
+replacement (see §3a), not just the RPC.
 
 ## 2. Historical data compatibility
 
@@ -45,6 +48,19 @@ customer, no debt) now succeed.
 - No `orders` rows are back-filled or mutated by this change.
 - `collected_by_courier`, `courier_state`, `paid`, `status` semantics for
   existing rows are unchanged; `close_day` and selectors read them identically.
+
+## 3a. CHECK-constraint compatibility
+
+- Replacing `orders_customer_required_when_unpaid` +
+  `orders_courier_requires_customer_id` with `orders_customer_required_when_debt`
+  is **strictly more permissive**: every row that satisfied the old constraints
+  satisfies the new one (all historical courier orders have a customer). So the
+  replacement can be added `NOT VALID` and validated in the same migration with no
+  legacy violation.
+- `orders_courier_requires_courier_id` and `orders_collected_not_over_total` are
+  unchanged.
+- Rollback restores the two original constraint definitions verbatim (they are
+  known from `20260626155319_...4e.sql`), forward-only. See ROLLBACK_IMPACT.
 
 ## 3. Enum compatibility
 
@@ -64,10 +80,13 @@ customer, no debt) now succeed.
   operational status after the UI PR, but the underlying stored `status` is
   unchanged, so any report keyed on `status` is unaffected.
 
-## 5. Settlement-method compatibility (if that item ships)
+## 5. Settlement-method compatibility (deferred — FIN-SETTLEMENT-METHOD-001)
 
-- Existing `payments` rows with `kind='courier_settlement', method='cash'` remain
-  valid. Any new method field/kind must be additive and default to today's
+- The settlement payment-method redesign is **not** part of FIN-COURIER-001; it is
+  the separate governed change FIN-SETTLEMENT-METHOD-001.
+- For reference: existing `payments` rows with
+  `kind='courier_settlement', method='cash'` remain valid, and any future method
+  field/kind introduced by that change must be additive and default to today's
   behavior for historical rows.
 
 ## 6. Migration immutability guarantee

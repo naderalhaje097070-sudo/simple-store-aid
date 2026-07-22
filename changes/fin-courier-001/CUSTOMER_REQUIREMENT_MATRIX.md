@@ -5,6 +5,14 @@ Status: Proposed contract for Gate 3 approval.
 Rule: **A customer is mandatory if and only if the operation results in customer
 debt.** The courier itself never makes a customer mandatory.
 
+Enforcement is **two-layered**: the RPC (`create_sale_with_items_v2` /
+`resolve_courier_order_v2`) raises a clear typed error, and a **CHECK constraint**
+(`orders_customer_required_when_debt`, replacing
+`orders_customer_required_when_unpaid` + `orders_courier_requires_customer_id`)
+is the schema backstop. Both must change together — relaxing the RPC without
+replacing the constraints leaves customer-less courier orders blocked at write
+time (see COURIER_STATE_CONTRACT §1, CURRENT_BEHAVIOR §1a).
+
 ## Full matrix
 
 | Operation | Delivery | Outcome | Customer debt result | Customer required | Enforced by |
@@ -62,3 +70,10 @@ component (Mongezz Architecture Rule 2).
   with `courier_requires_courier` for the missing-courier case only.
 - Legacy old-signature calls continue to pass a customer and therefore never
   observe a behavior change (see BACKWARD_COMPATIBILITY).
+
+## Post-creation transitions
+
+The same rule governs transitions, not just creation: moving a customer-less
+`pending` order to `delivered_partial`/`delivered_none` creates debt and so
+requires a customer to be present or supplied in the same transaction. See the
+atomic resolution contract in COURIER_STATE_CONTRACT §3.

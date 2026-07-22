@@ -1,27 +1,36 @@
 # FIN-COURIER-001 — Courier / customer / custody sale contract
 
 NAADF-CMF change-gate documentation for correcting the courier (delegate) sale
-flow and making advanced sale the primary path. **Documentation only — no
-implementation is authorized until Gates 0–3 are reviewed and approved by a
-human.**
+flow and making advanced sale the primary path. **Documentation only — Gates 0–3
+are NOT approved; no implementation is authorized until they are reviewed and
+approved by a human, and until the baseline condition below is met.**
 
-Baseline: `main = 906df4b`. All current-behavior claims cite file:line read from
-the working tree at that head.
+Baseline evidence: `main = 906df4b`. All current-behavior claims cite file:line
+read from the working tree at that head. This revision incorporates independent-
+review findings (effective CHECK constraints, the state-transition hole,
+outcome-aware reporting, and the RPC-compatibility design).
 
 ## Documents
 
 | Gate | Document | Purpose |
 |---|---|---|
-| 0 | [CHANGE_INTAKE.md](CHANGE_INTAKE.md) | Goal, scope, risk, blocking info, assumptions |
-| 1 | [CURRENT_BEHAVIOR.md](CURRENT_BEHAVIOR.md) | Evidenced baseline (RPC, UI, tests) |
-| 1 | [EXPECTED_BEHAVIOR.md](EXPECTED_BEHAVIOR.md) | Approved target contract |
-| 2 | [IMPACT_ANALYSIS.md](IMPACT_ANALYSIS.md) | Impact per area + caller/consumer map |
-| 3 | [COURIER_STATE_CONTRACT.md](COURIER_STATE_CONTRACT.md) | State machine + creation-time contract |
+| 0 | [CHANGE_INTAKE.md](CHANGE_INTAKE.md) | Goal, scope, risk, blocking info, baseline |
+| 1 | [CURRENT_BEHAVIOR.md](CURRENT_BEHAVIOR.md) | Evidenced baseline (RPC, constraints, health, UI, tests) |
+| 1 | [EXPECTED_BEHAVIOR.md](EXPECTED_BEHAVIOR.md) | Proposed target (pending Gate approval) |
+| 2 | [IMPACT_ANALYSIS.md](IMPACT_ANALYSIS.md) | Gate-2 **summary**, links to the artifacts below |
+| 2 | [DEPENDENCY_MAP.md](DEPENDENCY_MAP.md) | Callers/consumers of every affected contract |
+| 2 | [DATA_IMPACT.md](DATA_IMPACT.md) | Data shapes, historical rows, integrity |
+| 2 | [SECURITY_IMPACT.md](SECURITY_IMPACT.md) | Authz, tenant isolation, RLS, grants |
+| 2 | [API_COMPATIBILITY.md](API_COMPATIBILITY.md) | v2 RPC + adapter, client contract |
+| 2 | [MIGRATION_IMPACT.md](MIGRATION_IMPACT.md) | Forward-only migration steps |
+| 2 | [TEST_IMPACT.md](TEST_IMPACT.md) | Suites changed, corrections captured |
+| 2 | [ROLLBACK_IMPACT.md](ROLLBACK_IMPACT.md) | Reversal per layer + data verification |
+| 3 | [COURIER_STATE_CONTRACT.md](COURIER_STATE_CONTRACT.md) | State machine, constraint replacement, atomic transition |
 | 3 | [CUSTOMER_REQUIREMENT_MATRIX.md](CUSTOMER_REQUIREMENT_MATRIX.md) | When a customer is mandatory |
-| 3 | [BACKWARD_COMPATIBILITY.md](BACKWARD_COMPATIBILITY.md) | Signature, data, enum, read-model compat |
+| 3 | [BACKWARD_COMPATIBILITY.md](BACKWARD_COMPATIBILITY.md) | Signature, constraint, data, enum compat |
 | 3 | [ROLLBACK_PLAN.md](ROLLBACK_PLAN.md) | Forward-only rollback strategy |
-| 4 | [TEST_PLAN.md](TEST_PLAN.md) | Regression, new-behavior, concurrency, mobile, desktop, backward-compat |
-| 5 | [PR_DECOMPOSITION.md](PR_DECOMPOSITION.md) | Financial-first, UI-second PR split |
+| 4 | [TEST_PLAN.md](TEST_PLAN.md) | Regression, new-behavior, constraints, transition, health, concurrency, mobile, desktop, rollback |
+| 5 | [PR_DECOMPOSITION.md](PR_DECOMPOSITION.md) | Three-PR split (schema/RPC → reporting → UI) |
 
 ## Core decision (for approval)
 
@@ -40,5 +49,9 @@ the working tree at that head.
 
 ## Next step
 
-Human review and explicit approval of Gates 0–3. On approval, implement PR-A
-(financial contract + SQL tests) before PR-B (UI), per PR_DECOMPOSITION.
+Human review and explicit approval of Gates 0–3. On approval **and after
+AUDIT-001 / PR #23 is merged**, implement in order per PR_DECOMPOSITION:
+**PR-A** (schema constraints + v2 sale RPC + atomic transition + SQL tests) →
+**PR-B** (outcome-aware platform health/reporting) → **PR-C** (advanced-sale
+default + courier UI). Settlement payment-method redesign is a separate governed
+change, **FIN-SETTLEMENT-METHOD-001**.

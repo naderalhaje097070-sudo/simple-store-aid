@@ -54,19 +54,35 @@ Suites referenced:
 
 ## C. Effective CHECK constraints (new — finding 1/6)
 
-- **C-CK1** Old constraints replaced: after migration, `orders` has
-  `orders_customer_required_when_debt` and **not**
+Direct constraint tests (bypass the RPC via `service_role` insert/update so the
+CHECK itself is exercised; the constraint is added `NOT VALID`):
+
+- **C-CK1** Post-migration `pg_constraint` shows `orders_customer_required_when_debt`
+  present with `convalidated = false`, and **not**
   `orders_customer_required_when_unpaid` / `orders_courier_requires_customer_id`;
   `orders_courier_requires_courier_id` and `orders_collected_not_over_total`
-  still present. (query `pg_constraint`)
-- **C-CK2** Direct debt insert without customer is still rejected by the
-  constraint (independently of the RPC) — attempt a `service_role` insert.
-- **C-CK3** Courier `delivered_partial`/`delivered_none` row without customer is
-  rejected by the constraint at write time.
-- **C-CK4** Courier `pending`/`delivered_full` row without customer is **accepted**
-  by the constraint.
-- **C-CK5** Constraint validates against all pre-seeded historical rows without
-  error (proves the `NOT VALID`→`VALIDATE` step is safe).
+  still present.
+- **C-CK2** Customer-less **courier `pending`** → **accepted**.
+- **C-CK3** Customer-less **courier `delivered_full`** → **accepted**.
+- **C-CK4** Customer-less **`returned`** (row with `courier_state='returned'`,
+  `delivery='direct'` as `return_courier_order` leaves it) → **accepted**
+  (returned allowed independently of delivery).
+- **C-CK5** **Courier row with `courier_state IS NULL`**, no customer →
+  **rejected** (NULL-safe: fails closed, not passed by three-valued logic).
+- **C-CK6** **Direct debt** (`paid < total`) without customer → **rejected**.
+- **C-CK7** Customer-less **courier `delivered_partial`** and **`delivered_none`**
+  → **rejected**.
+- **C-CK8** Direct **fully paid** without customer → **accepted**.
+
+Historical preflight (finding 2 — precondition for validation, **not** run in the
+PR-A migration):
+
+- **C-PF1** The historical-data preflight query (MIGRATION_IMPACT step 2) returns
+  **zero** rows on a DB seeded with representative legacy orders; a seeded
+  violating row makes it return that row (proves the query detects violations).
+- **C-PF2** `VALIDATE CONSTRAINT` succeeds **only after** C-PF1 is zero; a
+  separate test asserts validation is not attempted in the PR-A migration
+  (`convalidated = false` immediately after PR-A).
 
 ## D. Post-creation atomic transition (new — finding 2/6)
 
@@ -89,6 +105,43 @@ Suites referenced:
 - **D-T8** Atomicity: a forced failure after the `courier_state` write (fault
   injection or constraint) rolls back the whole transaction — no order is left in
   a debt state without a customer.
+
+### State-machine transitions via `update_courier_outcome_v2` (finding 3)
+
+Valid transitions (accepted, custody non-decreasing):
+- **D-M1** `pending → delivered_none | delivered_partial | delivered_full | returned`.
+- **D-M2** `delivered_none → delivered_partial | delivered_full | returned`.
+- **D-M3** `delivered_partial → delivered_full` (custody rises to total).
+
+Invalid transitions (each **rejected** `invalid_transition`, row unchanged):
+- **D-M4** any `→ pending` (e.g. `delivered_none → pending`).
+- **D-M5** `delivered_full → delivered_partial | delivered_none` (backward).
+- **D-M6** `delivered_partial → delivered_none` (backward / custody reduction).
+- **D-M7** `delivered_partial → returned` (custody > 0; also rejected by
+  `return_courier_order`'s `cannot_return_partially_paid_order`).
+- **D-M8** any transition out of `returned` (terminal).
+- **D-M9** any outcome transition on a **settled** order (delivery flipped to
+  direct, `courier_state IS NULL`) → rejected `not_a_courier_order` /
+  `invalid_transition`.
+- **D-M10** `delivered_full →` any outcome (settlement only) → rejected.
+
+Custody monotonicity & idempotency:
+- **D-M11** Attempt to **reduce** `collected_by_courier` via the normal RPC (e.g.
+  `delivered_partial(80) → delivered_partial(50)` or `delivered_full → delivered_none`)
+  → **rejected** `custody_cannot_decrease`; stored custody unchanged.
+- **D-M12** Same-state, **same value** retry (`delivered_partial(80) →
+  delivered_partial(80)`) → idempotent success, no double effect, custody stays 80.
+- **D-M13** Same-state, **higher value** (`delivered_partial(80) →
+  delivered_partial(120)`, still < total) → accepted (monotonic increase); a
+  lower value → rejected (D-M11).
+
+Concurrency:
+- **D-M14** Two concurrent `update_courier_outcome_v2` on the same order
+  (`delivered_partial` and `delivered_full`) → serialized by `FOR UPDATE`; final
+  state is a single valid transition, custody never decreases, no lost update.
+- **D-M15** Concurrent `update_courier_outcome_v2(delivered_full)` +
+  `settle_courier_orders` → no double custody, no negative/again-collected money
+  (targets the known P1).
 
 ## E. Concurrency & idempotency (sensitive financial path)
 
@@ -134,13 +187,25 @@ Suites referenced:
   old blanket predicate.
 - **G3** `get_platform_financial_health_rows` detail queries for
   `courier_missing_refs` / `debt_without_customer` return the corrected row sets.
-- **G4** `get_platform_admin_overview.open_customer_debts` is **unchanged** by
-  customer-less courier orders (they have `courier_id IS NOT NULL`, so already
-  excluded) and `critical_alerts` stays 0 for the valid new orders.
-- **G5** `get_platform_tenants_health` per-tenant health stays `Healthy` for a
-  tenant whose only "anomaly" is valid customer-less courier orders.
+- **G4** *(corrected — finding 4)* `get_platform_admin_overview.open_customer_debts`
+  becomes **outcome-aware**: after seeding one `delivered_partial` (remainder R)
+  and one `delivered_none` (total T) courier order, the overview debt total
+  **increases by R + T** (previously these were excluded and under-reported).
+  `critical_alerts` stays 0 for the valid new orders.
+- **G5** `get_platform_tenants_health.open_debts` for that tenant likewise
+  includes R + T (outcome-aware), and per-tenant health stays `Healthy` when the
+  only "anomaly" is valid customer-less courier orders.
 - **G6** `get_platform_day_close_health` reconciliation still `Matches` for a day
   containing customer-less courier orders.
+- **G7** **Source-of-truth equality:** for a seeded mix of all five courier states
+  plus direct orders, `get_platform_admin_overview.open_customer_debts` **equals**
+  `SUM` of per-order customer debt computed by the canonical contract
+  (matching `close_day`'s customer-debt CASE and
+  `getCustomerDebtForInvoice`) — direct→remaining, delivered_none→total,
+  delivered_partial→total−collected, pending/delivered_full/returned→0.
+- **G8** Same equality holds for `get_platform_tenants_health.open_debts`
+  aggregated across tenants. Both totals are proven to use the **same single
+  source** as `close_day`/selectors, not a divergent inline formula.
 
 ## H. Rollback (new — finding 6/7)
 
@@ -174,18 +239,22 @@ Suites referenced:
 
 | Contract clause | Tests |
 |---|---|
-| Effective CHECK constraint replacement | C-CK1..5, H1 |
-| Customer optional when no debt (pending/full) | B1, B2, C-CK4, D-T1, I2 |
-| Customer required when debt (partial/none) | B3, B4, B6, C-CK3, D-T2/3, I2 |
-| Create-time delivered_none | B5, B8 |
+| Effective CHECK constraint (NULL-safe, returned) | C-CK1..8, H1 |
+| Historical preflight before VALIDATE | C-PF1, C-PF2 |
+| Customer optional when no debt (pending/full) | B1, B2, C-CK2/3, D-T1, I2 |
+| Customer required when debt (partial/none) | B3, B4, B6, C-CK7, D-T2/3, I2 |
+| Create-time delivered_none; returned rejected at creation | B5, B8 |
 | Atomic post-creation transition | D-T1..8 |
+| State-machine valid/invalid transitions | D-M1..M10 |
+| Custody monotonic / no reduction / idempotent | D-M11..M13 |
 | Cross-tenant/nonexistent customer rejection | D-T5, D-T6 |
 | Custody ≠ pending order value | B1, B8, A10 |
 | Delivered ≠ settled | A8, B9, E4 |
-| Returned ≠ debt/custody | A9, D-T7 |
-| Outcome-aware platform health/reporting | G1..G6 |
+| Returned ≠ debt/custody | A9, D-T7, C-CK4 |
+| Outcome-aware platform health checks | G1..G3 |
+| Platform debt totals = single source of truth | G4, G5, G7, G8 |
 | Backward compat (v2 + adapter) | F1, F2, F3 |
-| Concurrency / non-idempotent baseline | E1, E2, E3, E4 |
+| Concurrency / non-idempotent baseline | E1, E2, E3, E4, D-M14, D-M15 |
 | Advanced sale default | I1, J1 |
 | Wording corrections | I3, I4, J2 |
 | Rollback | H1, H2, H3 |

@@ -8,7 +8,7 @@ approval. Reversal for every layer. Full procedure in ROLLBACK_PLAN.
 | Layer | Forward change | Rollback action |
 |---|---|---|
 | Sale RPC | `create_sale_with_items_v2` + adapter | `CREATE OR REPLACE` adapter back to pre-change body; `DROP FUNCTION create_sale_with_items_v2(...)` |
-| Transition RPC | `resolve_courier_order_v2` / added `p_customer_id` | `CREATE OR REPLACE update_courier_order_state` to pre-change body; `DROP` new function if added |
+| Transition RPC | `update_courier_outcome_v2` / added `p_customer_id` | `CREATE OR REPLACE update_courier_order_state` to pre-change body; `DROP` new function if added |
 | CHECK constraints | `orders_customer_required_when_debt` | `DROP` it; re-add `orders_customer_required_when_unpaid` + `orders_courier_requires_customer_id` **`NOT VALID`** (do not validate until data reconciled) |
 | Health/report | outcome-aware `get_platform_financial_health` (+`_rows`) | `CREATE OR REPLACE` back to pre-change bodies |
 | UI (PR-C) | default flow, wording, success, status | Revert the PR-C commits |

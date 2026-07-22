@@ -33,13 +33,19 @@ approval. See TEST_PLAN for the full case list; this maps suites to changes.
 
 ## New coverage required by findings
 
-- Effective CHECK constraints: C-CK1..5.
-- Customer-less pending → full: B2, D-T1, C-CK4.
-- Customer-less pending → partial/none rejection: B3, B4, D-T2, D-T3, C-CK3.
+- NULL-safe / `returned`-aware CHECK constraint: C-CK1..8 (incl. NULL
+  `courier_state` fails closed, customer-less `returned` accepted).
+- Historical preflight before VALIDATE: C-PF1, C-PF2.
+- Customer-less pending → full: B2, D-T1, C-CK2/3.
+- Customer-less pending → partial/none rejection: B3, B4, D-T2, D-T3, C-CK7.
 - Atomic same-tenant customer attachment: D-T4.
 - Cross-tenant / nonexistent customer rejection: D-T5, D-T6.
-- Platform health checks outcome-aware: G1..G6.
-- Admin overview debt totals: G4.
+- Courier state-machine valid/invalid transitions: D-M1..M10.
+- Custody monotonic / no reduction / idempotent retry: D-M11..M13.
+- Transition concurrency: D-M14, D-M15.
+- Platform health checks outcome-aware: G1..G3.
+- Platform/tenant debt totals = single source of truth (all courier states):
+  G4, G5, G7, G8.
 - Rollback of constraints and RPCs: H1..H3.
 
 ## Environments & commands

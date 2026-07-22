@@ -14,7 +14,7 @@ migration. Lovable-linked history is not rewritten.
 ## Scope of rollback (all layers introduced by this change)
 
 1. **Sale RPC** — `create_sale_with_items_v2` and the six-param adapter.
-2. **Transition RPC** — `resolve_courier_order_v2` (or the `p_customer_id`
+2. **Transition RPC** — `update_courier_outcome_v2` (or the `p_customer_id`
    transition) and `update_courier_order_state`.
 3. **CHECK constraints** — the replaced `orders_customer_required_when_debt`.
 4. **Platform health / report functions** — the outcome-aware
@@ -35,7 +35,7 @@ migration. Lovable-linked history is not rewritten.
    pre-change body (`20260627201534_...c879.sql:358-444`, blanket courier guard);
    `DROP FUNCTION` `create_sale_with_items_v2` (its specific signature only).
 3. **Transition RPC:** `CREATE OR REPLACE` `update_courier_order_state` back to
-   its pre-change body; `DROP FUNCTION` `resolve_courier_order_v2` if added.
+   its pre-change body; `DROP FUNCTION` `update_courier_outcome_v2` if added.
 4. **Health/report:** `CREATE OR REPLACE` `get_platform_financial_health` and
    `get_platform_financial_health_rows` (and any other PR-B function) back to
    their pre-change bodies (`20260626191523_...b1.sql`).

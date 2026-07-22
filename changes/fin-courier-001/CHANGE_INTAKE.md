@@ -93,19 +93,26 @@ assigned after Gate 3 approval.
 - Delivered and settled remain distinct states.
 - UI defaults to advanced sale; quick sale remains a secondary shortcut.
 
-## Missing / blocking information
+## Resolved Gate-3 decisions
 
-1. **`delivered_none` at creation.** Recording a delivered-but-uncollected
-   outcome at sale time requires disambiguating `paid = 0` (today always
-   `pending`). Resolved by the explicit `p_courier_state` on
-   `create_sale_with_items_v2` (see COURIER_STATE_CONTRACT §2) — pending Gate 3
-   confirmation of the parameter name/order.
-2. **Constraint-validation strategy.** Whether to `VALIDATE` the replacement CHECK
-   in the same migration or defer (MIGRATION_IMPACT). Safe either way; Gate 4
-   decision.
-3. **Transition-RPC shape.** Named `resolve_courier_order_v2` vs an added optional
-   `p_customer_id` on `update_courier_order_state` (COURIER_STATE_CONTRACT §3) —
-   Gate 3 decision.
+1. **Sale RPC (5A).** `create_sale_with_items_v2` takes an explicit final
+   `p_courier_state public.courier_state` (**no DEFAULT**). Direct requires
+   `p_courier_state` and `p_courier_id` NULL; courier requires both, accepts
+   `pending | delivered_none | delivered_partial | delivered_full`, and rejects
+   `returned` at creation (COURIER_STATE_CONTRACT §2).
+2. **Constraint validation (5B).** The replacement CHECK is added `NOT VALID` in
+   PR-A and **not** validated in that migration. A historical-data preflight must
+   show zero violating rows; validation is a separate controlled step
+   (MIGRATION_IMPACT steps 1–3, finding 2).
+3. **Transition API (5C).** A named canonical `update_courier_outcome_v2` holds
+   the state-machine and financial logic; the old `update_courier_order_state` is
+   kept only as a compatibility adapter (COURIER_STATE_CONTRACT §3).
+
+## Remaining open items
+
+- **Parameter order / naming polish** for `_v2` RPCs (cosmetic; confirm at Gate 4).
+- **Whether to refactor `close_day` onto the shared single-source debt
+  expression** or only align definitions (Gate 4; DATA_IMPACT §Single-source).
 
 ## Deferred to separate governed changes
 

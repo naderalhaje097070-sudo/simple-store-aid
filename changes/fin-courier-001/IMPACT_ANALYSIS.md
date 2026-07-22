@@ -26,12 +26,17 @@ approval. This is the **summary**; the detailed Gate-2 artifacts required by
    withdrawn.
 3. **Not all aggregates are outcome-safe.** `close_day` is correct; but
    `get_platform_financial_health` **false-positives** on valid customer-less
-   courier orders (`courier_missing_refs` Critical, `debt_without_customer`
-   Warning), and `get_tenant_today_estimate` returns no debt/custody at all. The
-   earlier blanket "all aggregates already handle all five states" claim is
-   withdrawn (CURRENT_BEHAVIOR §5/§5a).
-4. **RPC compatibility** uses a named `create_sale_with_items_v2` + six-param
-   adapter, not a defaulted overload (API_COMPATIBILITY).
+   courier orders, `get_tenant_today_estimate` returns no debt/custody, and
+   `get_platform_admin_overview` / `get_platform_tenants_health` **under-report**
+   customer debt by excluding courier `delivered_partial`/`delivered_none`
+   (finding 4). The earlier blanket "all aggregates already handle all five
+   states" claim is withdrawn (CURRENT_BEHAVIOR §5/§5a).
+4. **RPC decisions (5A/5C).** Named `create_sale_with_items_v2` with typed
+   `p_courier_state` (no DEFAULT) + six-param adapter; named
+   `update_courier_outcome_v2` transition (matrix + monotonic custody) with the
+   old RPC as adapter (API_COMPATIBILITY, COURIER_STATE_CONTRACT).
+5. **Constraint is NULL-safe, `returned`-aware, and `NOT VALID`** with a deferred,
+   preflight-gated validation (5B; MIGRATION_IMPACT).
 
 ## Impact by area (summary)
 
@@ -42,8 +47,10 @@ approval. This is the **summary**; the detailed Gate-2 artifacts required by
   RPC (PR-A). Detail in API_COMPATIBILITY.
 - **Schema/constraints:** replace two CHECK constraints (PR-A). Detail in
   MIGRATION_IMPACT / DATA_IMPACT.
-- **Reporting/health:** two outcome-aware health predicates + `_rows` (PR-B).
-  Detail in DEPENDENCY_MAP / TEST_IMPACT.
+- **Reporting/health:** outcome-aware health predicates + `_rows`, **and**
+  outcome-aware `open_customer_debts` / `open_debts` debt totals using the
+  single-source debt contract (PR-B). Detail in DEPENDENCY_MAP / DATA_IMPACT /
+  TEST_IMPACT.
 - **Auth / tenant isolation / RLS:** unchanged; transition RPC adds same-tenant
   customer validation. Detail in SECURITY_IMPACT.
 - **Financial reports:** `close_day` unchanged and re-verified as regression.

@@ -28,24 +28,52 @@ approval.
 ## Historical rows
 
 - No historical row is mutated or backfilled.
-- All existing courier orders have a customer (old constraint), so they satisfy
-  the new, looser constraint — the replacement can be `VALIDATE`d without a legacy
-  violation (MIGRATION_IMPACT).
-- No re-validation of stored rows is triggered by relaxing the RPC guard.
+- **Correction (finding 2):** it is **not** proven that all existing courier
+  orders have a customer. The old constraints
+  (`orders_customer_required_when_unpaid`, `orders_courier_requires_customer_id`)
+  were themselves added `NOT VALID` (`20260626155319_...4e.sql:16,28`), so they
+  never validated pre-existing rows. The replacement is therefore added
+  `NOT VALID` and **not** validated in the same migration.
+- Before any `VALIDATE`, a **historical-data preflight** (MIGRATION_IMPACT step 2)
+  must return zero rows that would violate the new constraint. Validation is a
+  separate controlled step gated on that evidence.
+- No re-validation of stored rows is triggered by relaxing the RPC guard alone.
 
-## Integrity-monitor impact (must ship with the change)
+## Single-source debt strategy
+
+The per-order customer-debt definition exists in `close_day`
+(`20260704105413_...908.sql`, CASE on `courier_state`) and mirrored in
+`src/domain/finance/invoice-selectors.ts::getCustomerDebtForInvoice`:
+
+- direct → `GREATEST(total - paid, 0)`
+- `delivered_none` → `total`
+- `delivered_partial` → `GREATEST(total - collected_by_courier, 0)`
+- `pending` / `delivered_full` / `returned` → 0
+
+PR-B must reuse **this exact contract** for platform totals (below) rather than
+re-inlining a divergent CASE. Preferred: extract one canonical SQL expression /
+immutable helper consumed by `close_day`, `get_platform_admin_overview`, and
+`get_platform_tenants_health` (Architecture Rule 2 — do not duplicate the debt
+formula). Whether to refactor `close_day` onto the helper is a Gate-4 detail; the
+**definition must be identical** across all consumers.
+
+## Integrity-monitor & reporting impact (must ship with the change)
 
 - `get_platform_financial_health.courier_missing_refs` (**Critical**) currently
-  counts every `delivery='courier' AND customer_id IS NULL`. After this change
-  those include **valid** rows → false Critical unless the predicate is made
-  outcome-aware (PR-B).
+  counts every `delivery='courier' AND customer_id IS NULL` → false Critical on
+  valid new rows unless made outcome-aware (PR-B).
 - `get_platform_financial_health.debt_without_customer` (**Warning**) counts
   `status IN ('partial','debt') AND customer_id IS NULL`; courier orders are
   always `status='debt'`, so valid customer-less courier orders trip it → false
   Warning unless outcome-aware (PR-B).
-- `get_platform_admin_overview.open_customer_debts` excludes courier orders
-  (`delivery='direct' OR courier_id IS NULL`) → **not** distorted by the new rows;
-  verified, no change (test G4).
+- **`get_platform_admin_overview.open_customer_debts`** and
+  **`get_platform_tenants_health.open_debts`** currently **exclude** courier
+  orders (`delivery='direct' OR courier_id IS NULL`,
+  `20260627201534_...c879.sql:299-300`). This is a **debt-under-reporting bug**
+  (finding 4): `delivered_partial` (remainder) and `delivered_none` (full) carry
+  real customer debt that is hidden. PR-B must make both totals **outcome-aware**
+  using the single-source contract above, and prove equality with the financial
+  source of truth for all courier states (tests G4/G7).
 
 ## Data-loss / corruption risk
 

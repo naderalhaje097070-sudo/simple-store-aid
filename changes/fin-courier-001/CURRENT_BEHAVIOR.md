@@ -186,9 +186,9 @@ reality (independent-review correction), verified in code:
 |---|---|---|
 | `close_day` (`20260704105413`) | Yes, correct | None — keyed on `courier_state`, not `customer_id`. No change needed. |
 | `get_tenant_today_estimate` (`20260627201534:240-276`) | **Does not compute debt or custody at all** | Returns only sales/collected/expenses/profit. My earlier A10 claim that it returns debt/custody was false. |
-| `get_platform_admin_overview` (`20260627201534:282-324`) | Partial | `open_customer_debts` counts only `delivery='direct' OR courier_id IS NULL` — courier debt is **excluded entirely**; `critical_alerts` does not check `customer_id`. |
+| `get_platform_admin_overview` (`20260627201534:282-324`) | **Under-reports** | `open_customer_debts` counts only `delivery='direct' OR courier_id IS NULL` (`:299-300`) — courier `delivered_partial`/`delivered_none` customer debt is **excluded entirely** (a debt-under-reporting bug, finding 4); `critical_alerts` does not check `customer_id`. Must become outcome-aware (PR-B). |
 | `get_platform_financial_health` (`20260626191523`) | Integrity checks | **False-positives** — see §5a. |
-| `get_platform_tenants_health` (`20260626191523`) | Per-tenant health flag | Debt/custody aggregation excludes courier debt (`delivery='direct' OR courier_id IS NULL`); health flag keyed on sign/overflow, not `customer_id`. Low but must be reviewed. |
+| `get_platform_tenants_health` (`20260626191523`) | **Under-reports** | `open_debts` excludes courier debt (`delivery='direct' OR courier_id IS NULL`) — same under-reporting as admin overview (finding 4); health flag keyed on sign/overflow, not `customer_id`. Debt total must become outcome-aware (PR-B). |
 | `get_platform_day_close_health` (`20260627201534:326-355`) | Recompute vs stored | Reconciliation only; unaffected by customer nulls, but exercised by new rows. |
 
 ## 5a. Platform financial-health checks false-positive on valid new orders

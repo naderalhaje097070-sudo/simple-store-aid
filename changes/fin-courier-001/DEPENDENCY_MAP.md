@@ -14,13 +14,17 @@ approval. Callers, consumers, and readers of every affected contract.
 - SQL tests: `tests/financial-rules/rules.sql` T1–T8.
 - Change: add `_v2` (canonical); this becomes a delegating adapter.
 
-### `update_courier_order_state` (→ atomic transition contract)
+### `update_courier_order_state` (→ canonical `update_courier_outcome_v2`)
 - Latest def: `supabase/migrations/20260626233231_...9c.sql`.
 - Client wrapper: `src/lib/db.ts:530` (`updateCourierStateAsync`, exposed at
   `app.tsx:267`).
 - UI caller: `CourierCustodyScreen` mark controls (`app.tsx:445-597`).
 - Delegates `returned` → `return_courier_order`.
-- Change: accept/validate `customer_id`; atomic outcome+custody+customer write.
+- Change (decision 5C): canonical `update_courier_outcome_v2` enforces the
+  transition matrix, monotonic non-decreasing custody, forbidden backward/
+  reduction transitions, idempotent same-state retry, and atomic same-tenant
+  `customer_id` attachment for debt-creating targets. Old RPC kept only as a
+  compatibility adapter.
 
 ### `settle_courier_orders` (unchanged in this change)
 - Latest def: `20260627201534_...c879.sql:448-503`.
@@ -50,9 +54,9 @@ approval. Callers, consumers, and readers of every affected contract.
 | `getCustomerDebtForInvoice` etc. | `src/domain/finance/invoice-selectors.ts` | courier_state, collected, paid, total | None (already outcome-correct); customer not an input |
 | `close_day` | `20260704105413_...908.sql` | courier_state (CASE) | None — re-verify |
 | `get_tenant_today_estimate` | `20260627201534:240-276` | sales/collected/expenses/profit | None (no debt/custody output) |
-| `get_platform_admin_overview` | `20260627201534:282-324` | open_customer_debts excludes courier; critical_alerts | Re-verify; no customer-null check |
-| `get_platform_financial_health` (+`_rows`) | `20260626191523_...b1.sql` | `courier_missing_refs`, `debt_without_customer` | **Changes** — make outcome-aware (PR-B) |
-| `get_platform_tenants_health` | `20260626191523_...b1.sql` | per-tenant debt/custody + health flag | Review; likely no change (flag keyed on sign/overflow) |
+| `get_platform_admin_overview` | `20260627201534:282-324` | `open_customer_debts` **excludes** courier debt (`:299-300`) | **Changes (PR-B)** — outcome-aware; include delivered_partial/none debt (finding 4) |
+| `get_platform_financial_health` (+`_rows`) | `20260626191523_...b1.sql` | `courier_missing_refs`, `debt_without_customer` | **Changes (PR-B)** — make outcome-aware |
+| `get_platform_tenants_health` | `20260626191523_...b1.sql` | `open_debts` **excludes** courier debt; health flag | **Changes (PR-B)** — outcome-aware debt total (finding 4); health flag reviewed |
 | `get_platform_day_close_health` | `20260627201534:326-355` | recompute vs stored | Re-verify only |
 | `get_platform_courier_custody_health` | `20260626191523_...b1.sql` | courier rows with `collected_by_courier > 0` | None (custody filter, not customer) |
 | `HomeScreen` totals/alerts | `app.tsx:220-230`, `src/features/home/HomeScreen.tsx` | selectors | Display only (PR-C) |

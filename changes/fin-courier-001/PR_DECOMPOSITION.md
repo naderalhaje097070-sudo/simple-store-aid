@@ -36,21 +36,31 @@ close the transition hole, without any UI or reporting change.
 Includes:
 - **Forward-only migration** replacing the CHECK constraints:
   drop `orders_customer_required_when_unpaid` + `orders_courier_requires_customer_id`;
-  add `orders_customer_required_when_debt` (COURIER_STATE_CONTRACT §1). Keep
-  `orders_courier_requires_courier_id` and `orders_collected_not_over_total`.
-- **`create_sale_with_items_v2`** (canonical) with `p_courier_state`; outcome-based
-  customer rule (`customer_required_for_debt`, `courier_requires_courier`).
+  add the NULL-safe, `returned`-aware `orders_customer_required_when_debt`
+  **`NOT VALID`** (COURIER_STATE_CONTRACT §1). **Do not `VALIDATE` in this
+  migration** (decision 5B). Keep `orders_courier_requires_courier_id` and
+  `orders_collected_not_over_total`.
+- **Historical-data preflight** query/test (MIGRATION_IMPACT step 2); the separate
+  `VALIDATE CONSTRAINT` step is a **later controlled operation**, gated on the
+  preflight returning zero rows — not part of PR-A.
+- **`create_sale_with_items_v2`** (canonical) with explicit final
+  `p_courier_state public.courier_state` (**no DEFAULT**; decision 5A);
+  direct requires courier_state/courier_id NULL; courier requires both, rejects
+  `returned` at creation; outcome-based customer rule
+  (`customer_required_for_debt`, `courier_requires_courier`).
 - **Six-param `create_sale_with_items` adapter** delegating to `_v2` (no
   independent financial logic) — backward compatibility.
-- **Atomic courier-outcome transition** (`resolve_courier_order_v2` or a
-  `p_customer_id`-bearing transition RPC) per COURIER_STATE_CONTRACT §3;
-  `returned` stays delegated to `return_courier_order`.
+- **`update_courier_outcome_v2`** (canonical) per COURIER_STATE_CONTRACT §3:
+  transition matrix, monotonic custody, forbidden backward/reduction,
+  idempotent same-value retry, atomic same-tenant customer attachment; old
+  `update_courier_order_state` kept only as a compatibility adapter; `returned`
+  stays delegated to `return_courier_order`.
 - Client contract update in `src/lib/db.ts` to call `_v2` (createSale and the
   transition).
-- SQL tests added to `tests/financial-rules/rules.sql`: TEST_PLAN B, C-CK*, D-T*,
-  E, F. Existing T1–T15 kept and must stay green.
-- `DECISIONS.md` entries for the v2-RPC-vs-overload decision and the
-  outcome-based customer rule.
+- SQL tests added to `tests/financial-rules/rules.sql`: TEST_PLAN B, C-CK*, C-PF*,
+  D-T*, D-M*, E, F. Existing T1–T15 kept and must stay green.
+- `DECISIONS.md` entries for decisions 5A/5B/5C and the outcome-based customer
+  rule.
 
 Excludes: platform health/report changes, any screen change, wording, default
 flow.
@@ -67,18 +77,25 @@ as corrupt.
 Includes:
 - Make `get_platform_financial_health` `courier_missing_refs` (Critical) and
   `debt_without_customer` (Warning) **outcome-aware**: flag only rows that carry
-  genuine customer debt with no customer (e.g. courier `delivered_partial` /
+  genuine customer debt with no customer (courier `delivered_partial` /
   `delivered_none` with `customer_id IS NULL`, and direct partial/debt with null
-  customer), not every customer-less courier order.
-- Update the matching `get_platform_financial_health_rows` detail queries in
-  lock-step.
-- Review `get_platform_admin_overview`, `get_platform_tenants_health`,
-  `get_platform_day_close_health`, `get_platform_courier_custody_health`,
-  `close_day`, `get_tenant_today_estimate` and adjust **only** where a valid new
-  order is misreported (per CURRENT_BEHAVIOR §5/§5a — most need no change; the two
-  health predicates do).
-- Regression tests TEST_PLAN G (and re-run A10/B8 aggregates).
-- Forward-only migration (`CREATE OR REPLACE` on the health functions).
+  customer), not every customer-less courier order. Update the matching
+  `get_platform_financial_health_rows` detail queries in lock-step.
+- **Fix debt under-reporting (finding 4):** make
+  `get_platform_admin_overview.open_customer_debts` and
+  `get_platform_tenants_health.open_debts` **outcome-aware** so they **include**
+  courier `delivered_partial` (remainder) and `delivered_none` (total) customer
+  debt, instead of excluding all courier orders.
+- **Single-source strategy:** use the same per-order customer-debt contract as
+  `close_day` / `getCustomerDebtForInvoice` — preferably one canonical SQL
+  expression/immutable helper reused by all consumers — rather than re-inlining a
+  divergent CASE (Architecture Rule 2; DATA_IMPACT §Single-source).
+- Review `get_platform_day_close_health`, `get_platform_courier_custody_health`,
+  `close_day`, `get_tenant_today_estimate`; adjust only where a valid new order is
+  misreported (CURRENT_BEHAVIOR §5/§5a).
+- Regression tests TEST_PLAN G1..G8 (including source-of-truth equality) and
+  re-run A10/B8 aggregates.
+- Forward-only migration (`CREATE OR REPLACE` on the reporting functions).
 
 Excludes: UI, sale-path RPC changes.
 

@@ -23,14 +23,15 @@ Constraints:
 Compatibility strategy (independent-review correction, finding 5):
 
 - **Preferred — named v2 + adapter.** Introduce a clearly named
-  `create_sale_with_items_v2` with the explicit `p_courier_state` argument as the
-  single source of truth. Keep the existing six-parameter
+  `create_sale_with_items_v2` with an explicit final
+  `p_courier_state public.courier_state` argument (**no DEFAULT**; decision 5A)
+  as the single source of truth. Keep the existing six-parameter
   `create_sale_with_items` as a thin **adapter** that maps its `p_paid` to the
   legacy outcome and delegates to `_v2` — the adapter holds no independent
   financial logic. The client is repointed to `_v2`; older/cached clients calling
   the six-param adapter keep working with identical behavior.
 - **Rejected — DEFAULT-parameter overload.** Adding
-  `create_sale_with_items(..., p_courier_state text DEFAULT NULL)` as an overload
+  `create_sale_with_items(..., p_courier_state public.courier_state DEFAULT NULL)` as an overload
   is **not** adopted: Supabase/PostgREST overload resolution with defaulted
   parameters can be ambiguous, and that ambiguity is unproven here. It may only be
   reconsidered if an isolated test proves resolution is unambiguous — out of scope
@@ -52,15 +53,20 @@ replacement (see §3a), not just the RPC.
 ## 3a. CHECK-constraint compatibility
 
 - Replacing `orders_customer_required_when_unpaid` +
-  `orders_courier_requires_customer_id` with `orders_customer_required_when_debt`
-  is **strictly more permissive**: every row that satisfied the old constraints
-  satisfies the new one (all historical courier orders have a customer). So the
-  replacement can be added `NOT VALID` and validated in the same migration with no
-  legacy violation.
+  `orders_courier_requires_customer_id` with the NULL-safe, `returned`-aware
+  `orders_customer_required_when_debt` (COURIER_STATE_CONTRACT §1) is **more
+  permissive** for the customer-less debt-free courier shapes.
+- **Correction (finding 2):** it is **not** proven that all historical rows would
+  satisfy the new constraint. The old constraints were added `NOT VALID`
+  (`20260626155319_...4e.sql:16,28`) and never validated existing data. Therefore
+  the replacement is added `NOT VALID` and is **not** validated in the same
+  migration; a separate historical-data preflight must show zero violations before
+  a controlled `VALIDATE` step (MIGRATION_IMPACT steps 1–3).
 - `orders_courier_requires_courier_id` and `orders_collected_not_over_total` are
   unchanged.
-- Rollback restores the two original constraint definitions verbatim (they are
-  known from `20260626155319_...4e.sql`), forward-only. See ROLLBACK_IMPACT.
+- Rollback restores the two original constraint definitions verbatim (known from
+  `20260626155319_...4e.sql`), forward-only, and re-adds them `NOT VALID`. See
+  ROLLBACK_IMPACT.
 
 ## 3. Enum compatibility
 

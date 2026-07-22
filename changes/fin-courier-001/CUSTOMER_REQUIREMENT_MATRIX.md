@@ -6,7 +6,7 @@ Rule: **A customer is mandatory if and only if the operation results in customer
 debt.** The courier itself never makes a customer mandatory.
 
 Enforcement is **two-layered**: the RPC (`create_sale_with_items_v2` /
-`resolve_courier_order_v2`) raises a clear typed error, and a **CHECK constraint**
+`update_courier_outcome_v2`) raises a clear typed error, and a **CHECK constraint**
 (`orders_customer_required_when_debt`, replacing
 `orders_customer_required_when_unpaid` + `orders_courier_requires_customer_id`)
 is the schema backstop. Both must change together — relaxing the RPC without

@@ -8,8 +8,14 @@ approval.
 ### `create_sale_with_items` → adapter over `create_sale_with_items_v2`
 
 - **Canonical:** `create_sale_with_items_v2(p_customer_id, p_delivery,
-  p_courier_id, p_paid, p_method, p_items, p_courier_state text)` — single source
-  of truth for state, custody, debt, stock, and the outcome-based customer rule.
+  p_courier_id, p_paid, p_method, p_items, p_courier_state public.courier_state)`
+  — explicit final typed outcome, **no DEFAULT** (decision 5A). Single source of
+  truth for state, custody, debt, stock, and the outcome-based customer rule.
+  Argument rules: **direct** requires `p_courier_state IS NULL` and
+  `p_courier_id IS NULL`; **courier** requires both `p_courier_id` and
+  `p_courier_state`, accepts `pending | delivered_none | delivered_partial |
+  delivered_full`, and **rejects `returned` at creation** (COURIER_STATE_CONTRACT
+  §2).
 - **Adapter (kept):** the existing six-parameter
   `create_sale_with_items(p_customer_id, p_delivery, p_courier_id, p_paid,
   p_method, p_items)` is preserved and **delegates** to `_v2`, deriving
@@ -27,14 +33,20 @@ customer-less courier creations that now succeed.
 ### Courier outcome transition
 
 - Today: `update_courier_order_state(p_order_id, p_state, p_collected)` — no
-  customer.
-- Target: an atomic transition (preferred: `resolve_courier_order_v2(p_order_id,
-  p_state, p_collected, p_customer_id)`), or an added optional `p_customer_id` on
-  the existing RPC preserving the old 3-arg call. Backward compatibility: the
-  3-arg form keeps working for `pending → delivered_full` and for orders that
-  already have a customer; it must **reject** debt-creating transitions on
-  customer-less orders rather than silently violate the constraint.
-- `returned` continues to route to `return_courier_order` (unchanged signature).
+  customer, no transition validation, can reduce custody.
+- Target (decision 5C): a **named** canonical
+  `update_courier_outcome_v2(p_order_id, p_state, p_collected, p_customer_id)`
+  enforcing the approved transition matrix, **monotonic non-decreasing**
+  `collected_by_courier`, forbidden backward/reduction transitions, idempotent
+  same-state/same-value retry, and **atomic same-tenant customer attachment** for
+  debt-creating targets (COURIER_STATE_CONTRACT §3).
+- The old `update_courier_order_state` is preserved **only** as a thin
+  compatibility adapter if a caller still needs the 3-arg form; canonical
+  state/financial logic lives in `update_courier_outcome_v2` alone. The adapter
+  must **reject** debt-creating transitions on customer-less orders rather than
+  silently violate the constraint or reduce custody.
+- `returned` continues to route to `return_courier_order` (unchanged signature);
+  `delivered_partial → returned` is not permitted (custody > 0).
 
 ### Unchanged signatures
 

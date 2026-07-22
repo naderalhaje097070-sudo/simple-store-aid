@@ -72,6 +72,25 @@ See CUSTOMER_REQUIREMENT_MATRIX for the full table.
     - Courier collected: "عهدة لدى المندوب {amount}".
     - Courier pending: "لا يوجد تحصيل بعد".
 
+## Reporting correctness (finding 4)
+
+18. Platform and tenant customer-debt totals
+    (`get_platform_admin_overview.open_customer_debts`,
+    `get_platform_tenants_health.open_debts`) reflect **real** customer debt for
+    all courier states — `delivered_none` → total, `delivered_partial` → total −
+    collected — using the **same** per-order debt contract as `close_day` and the
+    domain selectors. No under-reporting from excluding courier orders, and no
+    divergent inline formula.
+19. Platform integrity checks do not flag valid customer-less courier orders
+    (`pending` / `delivered_full`) as corrupt.
+
+## Courier custody state machine (finding 3)
+
+20. `collected_by_courier` is **monotonic non-decreasing** before settlement. The
+    normal outcome-update path follows the approved transition matrix, never
+    reduces recorded custody, and never moves backward. Financial
+    corrections/reversals use a separate audited workflow, not the normal update.
+
 ## Invariants that must NOT change
 
 - Financial writes go only through approved RPCs.

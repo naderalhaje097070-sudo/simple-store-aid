@@ -32,6 +32,19 @@ outcome-aware reporting, and the RPC-compatibility design).
 | 4 | [TEST_PLAN.md](TEST_PLAN.md) | Regression, new-behavior, constraints, transition, health, concurrency, mobile, desktop, rollback |
 | 5 | [PR_DECOMPOSITION.md](PR_DECOMPOSITION.md) | Three-PR split (schema/RPC → reporting → UI) |
 
+## Gate-3 decisions recorded in these docs (not yet gate-approved)
+
+- **5A** `create_sale_with_items_v2` with explicit final
+  `p_courier_state public.courier_state` (no DEFAULT); `returned` rejected at
+  creation; six-param RPC kept as adapter.
+- **5B** Replacement CHECK added `NOT VALID`; validation is a separate,
+  preflight-gated step (historical rows are not proven clean).
+- **5C** Named canonical `update_courier_outcome_v2` (transition matrix +
+  monotonic custody); old `update_courier_order_state` kept only as adapter.
+
+These are proposed resolutions pending formal Gate approval; nothing here approves
+a gate.
+
 ## Core decision (for approval)
 
 > A customer is mandatory **only when the operation creates customer debt** — not

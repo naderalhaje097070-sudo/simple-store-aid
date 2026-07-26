@@ -405,8 +405,12 @@ function TrustBar() {
   return (
     <section className="px-4 py-6 border-y border-border bg-muted/20">
       <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4">
-        {stats.map((s) => (
-          <div key={s.l} className="text-center">
+        {stats.map((s, i) => (
+          <div
+            key={s.l}
+            className="animate-fade-up text-center"
+            style={{ animationDelay: `${350 + i * 70}ms` }}
+          >
             <div className="text-xl md:text-2xl font-black text-primary" style={{ direction: "ltr" }}>
               {s.v}
             </div>

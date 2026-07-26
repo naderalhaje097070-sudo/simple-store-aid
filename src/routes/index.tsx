@@ -229,7 +229,10 @@ function Hero() {
             <Sparkles className="h-3.5 w-3.5" />
             مصمم لصاحب المحل الصغير
           </div>
-          <h1 className="text-4xl md:text-6xl font-black leading-[1.1] tracking-tight">
+          <h1
+            className="animate-fade-up text-4xl md:text-6xl font-black leading-[1.1] tracking-tight"
+            style={{ animationDelay: "70ms" }}
+          >
             دفتر ذكي
             <br />
             <span className="bg-gradient-to-l from-primary to-primary/60 bg-clip-text text-transparent">

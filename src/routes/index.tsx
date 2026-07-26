@@ -74,15 +74,11 @@ function LandingPage() {
   }, [navigate]);
 
   if (!checked) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-muted-foreground text-sm">جاري التحميل…</div>
-      </div>
-    );
+    return <LandingSkeleton />;
   }
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div dir="rtl" className="min-h-screen bg-background text-foreground overflow-x-hidden animate-fade-in">
       <NavBar />
       <main>
         <Hero />
@@ -99,6 +95,84 @@ function LandingPage() {
     </div>
   );
 }
+
+/** Light skeleton mirroring the real hero + stats layout to avoid flash/layout shift. */
+function LandingSkeleton() {
+  return (
+    <div dir="rtl" className="min-h-screen bg-background overflow-x-hidden" aria-busy="true" aria-label="جاري التحميل">
+      {/* Nav */}
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+        <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-xl bg-muted animate-pulse" />
+            <div className="h-4 w-16 rounded bg-muted animate-pulse" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-14 rounded-lg bg-muted animate-pulse" />
+            <div className="h-9 w-24 rounded-lg bg-muted animate-pulse" />
+          </div>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="px-4 pt-12 pb-16 md:pt-20 md:pb-24">
+        <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-5">
+            <div className="h-7 w-52 rounded-full bg-muted animate-pulse mx-auto md:mx-0" />
+            <div className="space-y-3">
+              <div className="h-11 md:h-14 w-3/4 rounded-lg bg-muted animate-pulse mx-auto md:mx-0" />
+              <div className="h-11 md:h-14 w-2/3 rounded-lg bg-muted animate-pulse mx-auto md:mx-0" />
+            </div>
+            <div className="space-y-2 max-w-lg mx-auto md:mx-0">
+              <div className="h-4 w-full rounded bg-muted animate-pulse" />
+              <div className="h-4 w-5/6 rounded bg-muted animate-pulse" />
+            </div>
+            <div className="flex gap-3 justify-center md:justify-start pt-2">
+              <div className="h-[52px] w-40 rounded-xl bg-muted animate-pulse" />
+              <div className="h-[52px] w-32 rounded-xl bg-muted animate-pulse" />
+            </div>
+            <div className="flex gap-4 justify-center md:justify-start pt-1">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="h-3.5 w-24 rounded bg-muted animate-pulse" />
+              ))}
+            </div>
+          </div>
+
+          {/* Phone mockup placeholder */}
+          <div className="mx-auto w-full max-w-[320px]">
+            <div className="rounded-[2.5rem] border border-border bg-card p-4 pt-5 space-y-3">
+              <div className="h-4 w-full rounded bg-muted animate-pulse" />
+              <div className="h-24 rounded-2xl bg-muted animate-pulse" />
+              <div className="grid grid-cols-2 gap-2">
+                <div className="h-14 rounded-xl bg-muted animate-pulse" />
+                <div className="h-14 rounded-xl bg-muted animate-pulse" />
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[0, 1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="aspect-square rounded-xl bg-muted animate-pulse" />
+                ))}
+              </div>
+              <div className="h-11 rounded-xl bg-muted animate-pulse" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats grid */}
+      <section className="px-4 py-6 border-y border-border bg-muted/20">
+        <div className="mx-auto max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="flex flex-col items-center gap-2">
+              <div className="h-7 w-20 rounded bg-muted animate-pulse" />
+              <div className="h-3 w-16 rounded bg-muted animate-pulse" />
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
 
 function NavBar() {
   return (

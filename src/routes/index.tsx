@@ -222,7 +222,10 @@ function Hero() {
 
       <div className="mx-auto max-w-6xl grid md:grid-cols-2 gap-12 items-center">
         <div className="text-center md:text-right animate-fade-in">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-5">
+          <div
+            className="animate-fade-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold mb-5"
+            style={{ animationDelay: "0ms" }}
+          >
             <Sparkles className="h-3.5 w-3.5" />
             مصمم لصاحب المحل الصغير
           </div>

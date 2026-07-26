@@ -239,7 +239,10 @@ function Hero() {
               لمحلك الصغير
             </span>
           </h1>
-          <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto md:mx-0">
+          <p
+            className="animate-fade-up mt-5 text-base md:text-lg text-muted-foreground leading-relaxed max-w-lg mx-auto md:mx-0"
+            style={{ animationDelay: "140ms" }}
+          >
             بِع بسرعة، وفي نهاية اليوم اعرف فلوسك وين بالضبط:{" "}
             <span className="text-foreground font-semibold">محصّل</span>،{" "}
             <span className="text-foreground font-semibold">ديون عملاء</span>، و

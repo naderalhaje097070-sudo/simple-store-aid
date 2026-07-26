@@ -266,7 +266,10 @@ function Hero() {
               شوف الدليل
             </Link>
           </div>
-          <div className="mt-5 flex flex-wrap gap-4 justify-center md:justify-start text-xs text-muted-foreground">
+          <div
+            className="animate-fade-up mt-5 flex flex-wrap gap-4 justify-center md:justify-start text-xs text-muted-foreground"
+            style={{ animationDelay: "280ms" }}
+          >
             <span className="inline-flex items-center gap-1.5">
               <Check className="h-3.5 w-3.5 text-primary" /> بدون بطاقة ائتمان
             </span>

@@ -289,12 +289,18 @@ function Hero() {
 
 function HeroMockup() {
   return (
-    <div className="relative mx-auto w-full max-w-[320px] animate-fade-in">
+    <div
+      className="animate-fade-up relative mx-auto w-full max-w-[320px]"
+      style={{ animationDelay: "120ms" }}
+    >
       {/* Glow */}
       <div className="absolute -inset-8 bg-gradient-to-br from-primary/20 via-primary/5 to-transparent rounded-[3rem] blur-3xl" />
 
       {/* Floating stat card - top */}
-      <div className="absolute -top-4 -right-6 z-20 hidden sm:block animate-fade-in">
+      <div
+        className="animate-fade-up absolute -top-4 -right-6 z-20 hidden sm:block"
+        style={{ animationDelay: "420ms" }}
+      >
         <div className="bg-card border border-border rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-primary/15 grid place-items-center">
             <TrendingUp className="h-4 w-4 text-primary" />

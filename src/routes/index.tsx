@@ -315,7 +315,10 @@ function HeroMockup() {
       </div>
 
       {/* Floating stat card - bottom */}
-      <div className="absolute -bottom-4 -left-6 z-20 hidden sm:block">
+      <div
+        className="animate-fade-up absolute -bottom-4 -left-6 z-20 hidden sm:block"
+        style={{ animationDelay: "520ms" }}
+      >
         <div className="bg-card border border-border rounded-2xl shadow-xl px-4 py-3 flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-primary/15 grid place-items-center">
             <Wallet className="h-4 w-4 text-primary" />

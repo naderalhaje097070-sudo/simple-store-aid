@@ -60,11 +60,55 @@ This file records decisions that govern Mongezz until replaced by an approved AD
 
 - Status: Accepted
 - Decision: Do not force-push, rebase, amend, or otherwise rewrite published history connected to Lovable.
-- Consequence: Corrections are additive commits or new branches/PRs.
+- Consequence: Corrections are additive commits, merge commits, or new branches and PRs.
+
+## DEC-011 — Pilot before employee expansion
+
+- Status: Accepted
+- Decision: Validate the owner-only financial core with a controlled pilot before implementing employee accounts.
+- Preconditions:
+  - a synchronized and release-verified `main` baseline;
+  - non-production environments cannot silently connect to production;
+  - financial write operations have approved retry and idempotency protection;
+  - CI reports do not expose environment credentials and use deterministic tool versions;
+  - support, rollback, and reconciliation procedures are documented.
+- Consequence: PR #17 is superseded and closed without merge. Employee work remains deferred until pilot evidence confirms priority and Change Gates 2–4 are approved.
+
+## DEC-012 — Pilot blockers are release blockers
+
+- Status: Accepted
+- Decision: `FIN-COURIER-001`, `SEC-ENV-001`, `SEC-CI-001`, and `FIN-IDEM-001` must be completed and release-verified before any real-store pilot data is accepted.
+- Consequence: Pilot planning may proceed, but pilot execution remains blocked. A build or smoke-test success alone does not waive these controls.
+
+## DEC-013 — Current role model is descriptive, not final authorization design
+
+- Status: Accepted
+- Decision: The current database enum is `owner | staff`. This records existing schema reality only; it does not authorize broad employee access or define the final employee/courier role model.
+- Consequence: A future restricted employee capability model requires an approved authorization matrix, RLS design, negative tests, and backward-compatibility analysis.
+
+## DEC-014 — Courier sale, customer, custody, and primary sale flow
+
+- Status: Accepted
+- Decision:
+  - customer identity is required when a transaction creates customer debt, not merely because delivery uses a courier;
+  - a courier order still pending delivery may exist without a customer and remains outside financial settlement;
+  - money explicitly recorded as already collected by a courier is stored as courier custody, not store cash;
+  - a fully collected courier sale is represented as `delivered_full` and is immediately eligible for settlement;
+  - a partially collected courier sale is represented as `delivered_partial`; the collected amount is custody and the remainder is customer debt, therefore a customer is mandatory;
+  - delivery without collection that creates debt requires a customer;
+  - advanced sale is the primary sale workflow on desktop, mobile, and post-sale navigation;
+  - quick sale remains an explicit secondary shortcut for direct, cash, fully-paid, customer-free sales.
+- Consequence:
+  - effective database constraints and RPC validation must be corrected through a forward-only migration;
+  - the UI must use courier-specific states rather than ambiguous direct-payment labels;
+  - existing T1–T15 plus new financial, state-transition, mobile, and desktop tests are mandatory;
+  - `Delivered` remains distinct from `Settled`.
 
 ## Pending decisions
 
 - Employee assignment source of truth: existing `orders.courier_id` versus a dedicated assignment model.
 - Employee historical identity and hard-delete invariant after unlinking.
-- Final role model and compatibility with README role documentation.
+- Final restricted employee/courier capability model beyond the existing `owner | staff` enum.
 - Audit event model for employee order-state and custody changes.
+- Final billing enforcement and expired-subscription behavior.
+- Final backward-compatibility treatment for existing courier orders that are `pending` but contain inconsistent legacy financial fields.

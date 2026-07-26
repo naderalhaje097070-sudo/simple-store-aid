@@ -248,7 +248,10 @@ function Hero() {
             <span className="text-foreground font-semibold">ديون عملاء</span>، و
             <span className="text-foreground font-semibold">عهدة مندوب</span>.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3 justify-center md:justify-start">
+          <div
+            className="animate-fade-up mt-7 flex flex-wrap gap-3 justify-center md:justify-start"
+            style={{ animationDelay: "210ms" }}
+          >
             <Link
               to="/auth"
               className="group px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-bold hover:opacity-90 transition inline-flex items-center gap-2 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5"

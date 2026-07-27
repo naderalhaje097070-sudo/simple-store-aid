@@ -27,6 +27,8 @@ EXPECTED_OUTCOMES = (
     "تم التسليم دون تحصيل",
 )
 
+LEGACY_OUTCOME_BUTTONS = ("مدفوع", "جزئياً", "دين")
+
 
 async def login(page) -> None:
     await page.goto(f"{BASE_URL}/app", wait_until="domcontentloaded")
@@ -58,7 +60,7 @@ async def assert_contract(page, label: str) -> None:
     await page.wait_for_timeout(300)
     body = await page.locator("body").inner_text()
 
-    # I2 / J3: courier mode must expose operational outcomes, not generic payment states.
+    # I2 / J3: courier mode must expose operational outcomes.
     missing = [text for text in EXPECTED_OUTCOMES if text not in body]
     if missing:
         await page.screenshot(path=str(EVIDENCE / f"{label}-i2-outcomes.png"), full_page=True)
@@ -66,10 +68,16 @@ async def assert_contract(page, label: str) -> None:
             "GATE4_UI_EXPECTED_RED:I2/J3 missing courier outcomes: " + ", ".join(missing)
         )
 
-    generic = ("مدفوع", "جزئياً", "دين")
-    if all(text in body for text in generic):
+    # Reject legacy payment-state controls specifically. Do not scan the whole page
+    # for words such as "دين", because legitimate summaries may still use them.
+    legacy_controls = []
+    for text in LEGACY_OUTCOME_BUTTONS:
+        if await page.get_by_role("button", name=text, exact=True).count() > 0:
+            legacy_controls.append(text)
+    if legacy_controls:
         raise AssertionError(
-            "GATE4_UI_EXPECTED_RED:I2/J3 generic payment-state trio still drives courier outcome"
+            "GATE4_UI_EXPECTED_RED:I2/J3 legacy courier outcome buttons still present: "
+            + ", ".join(legacy_controls)
         )
 
     await page.screenshot(path=str(EVIDENCE / f"{label}-green.png"), full_page=True)

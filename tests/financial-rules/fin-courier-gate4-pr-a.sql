@@ -116,6 +116,10 @@ DECLARE
   v_paid numeric;
   v_payments int;
   v_ok bool;
+  v_delivery text;
+  v_courier uuid;
+  v_settlement_payments int;
+  v_settlement_amount numeric;
 BEGIN
   IF NOT v_has_v2 THEN RETURN; END IF;
 
@@ -139,7 +143,8 @@ BEGIN
     PERFORM pg_temp.g4_fail('B1', SQLERRM);
   END;
 
-  -- B2/B9: delivered_full/no-customer -> custody, then settlement succeeds.
+  -- B2/B9: delivered_full/no-customer -> custody, then settlement moves exactly
+  -- that custody into one store-receipt payment and clears the courier hold.
   BEGIN
     v_res := public.create_sale_with_items_v2(
       NULL, 'courier'::delivery_kind,
@@ -160,6 +165,30 @@ BEGIN
           'ffff6666-0000-0000-0000-000000000001'::uuid,
           ARRAY[v_oid]::uuid[]
         );
+
+        SELECT delivery::text, courier_id, paid, collected_by_courier
+          INTO v_delivery, v_courier, v_paid, v_custody
+          FROM orders WHERE id = v_oid;
+        SELECT COUNT(*), COALESCE(SUM(amount), 0)
+          INTO v_settlement_payments, v_settlement_amount
+          FROM payments
+         WHERE order_id = v_oid
+           AND kind = 'courier_settlement';
+
+        IF v_delivery <> 'direct'
+           OR v_courier IS NOT NULL
+           OR v_paid <> 200
+           OR v_custody <> 0
+           OR v_settlement_payments <> 1
+           OR v_settlement_amount <> 200 THEN
+          PERFORM pg_temp.g4_fail(
+            'B9',
+            format(
+              'delivery=%s courier=%s paid=%s custody=%s settlement_payments=%s settlement_amount=%s',
+              v_delivery, v_courier, v_paid, v_custody, v_settlement_payments, v_settlement_amount
+            )
+          );
+        END IF;
       EXCEPTION WHEN OTHERS THEN
         PERFORM pg_temp.g4_fail('B9', SQLERRM);
       END;

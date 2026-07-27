@@ -6,12 +6,12 @@ The build-time resolver treats **absence of explicit Supabase configuration as i
 
 ## Smallest correct change
 
-1. Introduce an explicit environment/deployment mode into the build resolver.
+1. Introduce an explicit deployment target into the build resolver.
 2. Remove unconditional production fallback for missing variables.
-3. Preserve VITE-over-server-alias precedence.
-4. Reject production target when mode is non-production.
-5. Allow production only with an approved explicit production-deployment signal and explicit configuration.
-6. Add mode-aware tests before implementation.
+3. Preserve VITE-over-server-alias precedence only after deployment target validation.
+4. Reject the production Supabase project when the deployment target is non-production.
+5. Allow production only with explicit production intent plus explicit approved production configuration.
+6. Add target-aware tests before implementation.
 7. Add isolated-CI target assertion before app-based test writes where needed.
 
 ## Proposed affected files
@@ -24,31 +24,71 @@ The build-time resolver treats **absence of explicit Supabase configuration as i
 
 Avoid directly editing generated `src/integrations/supabase/client.ts` unless evidence shows the source contract cannot be enforced at the resolver/build boundary.
 
-## Environment contract
+## Deployment-target contract
 
-### Non-production
+Do **not** infer deployment safety from `NODE_ENV`, Vite production-mode bundling, branch name, hostname, or the presence/absence of Lovable preview behavior. Those are not accepted authorization signals for production data access.
 
-- mode explicitly or reliably resolved as non-production;
-- URL/key required;
-- production host/project rejected;
-- missing values throw before build/client use.
+Use one explicit server/build-only variable, proposed name:
 
-### Production
+`MONGEZZ_DEPLOY_TARGET`
 
-- explicit verified production-deployment signal required;
-- explicit URL/key required;
-- expected production project may be allowlisted by project ID/host if needed;
-- missing configuration throws.
+Allowed values:
 
-## Open design decision before Gate 4 approval
+- `local`
+- `ci`
+- `preview`
+- `staging`
+- `production`
 
-Determine the reliable production-deployment signal exposed by the actual Lovable deployment path. No implementation should guess using `NODE_ENV=production`, because preview builds commonly use production-mode bundling too.
+The variable is consumed by the build resolver and is not required to be injected into the browser bundle.
+
+### Non-production targets
+
+For `local`, `ci`, `preview`, and `staging`:
+
+- URL and publishable key are required;
+- the known production project ID/host is rejected;
+- missing or blank values fail before application build/client use;
+- CI additionally proves the local/disposable Supabase sentinel before financial/auth writes.
+
+### Production target
+
+For `production`:
+
+- `MONGEZZ_DEPLOY_TARGET=production` is necessary but not sufficient;
+- URL and publishable key must be provided explicitly;
+- project ID/host must match the approved production allowlist;
+- missing, blank, or mismatched configuration fails closed;
+- no production URL/key/project ID is stored as a fallback inside resolver source code.
+
+## Lovable / hosting decision
+
+The previous open question is resolved by **not depending on a hidden or inferred Lovable production signal**.
+
+Official Lovable documentation confirms that Lovable projects are Vite applications and that `VITE_*` values are embedded at build time. It also documents explicit environment-variable configuration for externally hosted production builds. Lovable preview/development behavior must therefore never be treated as implicit permission to use the production Supabase project.
+
+For any deployment path that cannot provide the explicit deployment-target contract, the build must fail closed rather than silently select production. If a future Lovable-native production path needs support, it must supply an explicit reviewed adapter/configuration for `MONGEZZ_DEPLOY_TARGET=production`; it does not receive a source-code fallback exception.
 
 ## Compatibility strategy
 
-- Keep existing environment variable aliases.
+- Keep existing Supabase value aliases where needed.
+- Add one explicit deployment-target contract.
 - Intentionally break misconfigured non-production builds that relied on silent production fallback.
 - Keep application RPC/schema/business behavior unchanged.
+
+## Gate 4 safety-net expectations
+
+Before implementation, tests must prove the current unsafe baseline and then define the target contract:
+
+1. missing deployment target fails;
+2. missing URL/key fails;
+3. `ci|preview|staging|local` + known production project fails;
+4. `production` + non-production project fails;
+5. `production` + approved explicit production project succeeds;
+6. alias precedence cannot bypass target validation;
+7. blank strings are treated as missing;
+8. browser/build and SSR resolution produce the same approved target;
+9. no test requires production database access.
 
 ## Rollout
 

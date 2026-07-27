@@ -66,8 +66,8 @@ echo "FIN-COURIER-001 Gate 4 consolidated backend safety net"
 echo "tenant=${GATE4_TID}"
 echo "============================================================"
 
-# A + existing regression: run-fin-courier-gate4.sh itself proves unchanged T1–T15
-# GREEN and the first PR-A target RED for the named contract gaps.
+# A + existing regression: unchanged T1–T15 must be GREEN while the first PR-A
+# target remains RED for the named, approved missing contracts.
 require_green \
   "01-core-regression-and-pr-a-red" \
   "PASS: existing T1-T15 are green and the new FIN-COURIER target is RED" \
@@ -114,27 +114,32 @@ expect_red \
   "GATE4_REPORT_EXPECTED_RED" \
   "${PSQL[@]}" -v uid="$UID_ARG" -v tid="$TID_ARG" -f tests/financial-rules/fin-courier-gate4-reporting.sql
 
-expect_red \
-  "10-concurrency" \
-  "GATE4_CONCURRENCY_EXPECTED_RED" \
-  env GATE4_UID="$GATE4_UID" GATE4_TID="$GATE4_TID" \
-  bash tests/financial-rules/fin-courier-gate4-concurrency.sh
-
-# These are existing-safe baseline contracts and must be truly GREEN now.
+# Existing-safe baselines run BEFORE the concurrency shell. Every SQL suite above
+# rolls back its transaction; the concurrency shell intentionally uses multiple
+# sessions and may persist disposable rows once PR-A exists. Keeping close_day/
+# snapshot baselines before it prevents future fixture contamination.
 require_green \
-  "11-returned-order-baseline" \
+  "10-returned-order-baseline" \
   "GATE4_RETURN_GREEN" \
   "${PSQL[@]}" -v uid="$UID_ARG" -v tid="$TID_ARG" -f tests/financial-rules/fin-courier-gate4-return-baseline.sql
 
 require_green \
-  "12-f2-readmodel-snapshot" \
+  "11-f2-readmodel-snapshot" \
   "GATE4_F2_GREEN" \
   "${PSQL[@]}" -v uid="$UID_ARG" -v tid="$TID_ARG" -f tests/financial-rules/fin-courier-gate4-readmodel-snapshot.sql
 
 require_green \
-  "13-rollback-endpoint" \
+  "12-rollback-endpoint" \
   "GATE4_ROLLBACK_GREEN" \
   "${PSQL[@]}" -v uid="$UID_ARG" -v tid="$TID_ARG" -f tests/financial-rules/fin-courier-gate4-rollback-contract.sql
+
+# Concurrency runs last because it spans independent DB sessions and therefore
+# cannot be wrapped by the single-session BEGIN/ROLLBACK pattern used above.
+expect_red \
+  "13-concurrency" \
+  "GATE4_CONCURRENCY_EXPECTED_RED" \
+  env GATE4_UID="$GATE4_UID" GATE4_TID="$GATE4_TID" \
+  bash tests/financial-rules/fin-courier-gate4-concurrency.sh
 
 echo "============================================================"
 echo "GATE4_BACKEND_EVIDENCE_GREEN: all expected-RED and true-GREEN contracts behaved as classified"

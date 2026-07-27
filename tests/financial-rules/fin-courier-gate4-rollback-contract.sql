@@ -80,6 +80,56 @@ BEGIN
 END
 $seed$;
 
+-- H1 behavioral fingerprint: prove the restored legacy constraints have their
+-- original semantics, not merely their original names.
+DO $h1_constraint_behavior$
+DECLARE
+  v_tid uuid := current_setting('mongezz.test_tid')::uuid;
+  v_constraint text;
+  v_ok bool;
+BEGIN
+  -- Original orders_customer_required_when_unpaid:
+  -- direct partial debt without customer must be rejected by this exact CHECK.
+  v_ok := false;
+  v_constraint := NULL;
+  BEGIN
+    INSERT INTO orders(
+      id, tenant_id, total, paid, status, delivery,
+      courier_id, courier_state, collected_by_courier, customer_id
+    ) VALUES (
+      'aaee0001-b000-4000-8000-000000000001', v_tid, 100, 20, 'partial', 'direct',
+      NULL, NULL, 0, NULL
+    );
+  EXCEPTION WHEN check_violation THEN
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_customer_required_when_unpaid';
+  END;
+  IF NOT v_ok THEN
+    RAISE EXCEPTION 'H1 FAIL: unpaid legacy CHECK semantics wrong; constraint=%', COALESCE(v_constraint, 'none');
+  END IF;
+
+  -- Original orders_courier_requires_customer_id:
+  -- even a fully-paid courier row without customer must be rejected by this exact CHECK.
+  v_ok := false;
+  v_constraint := NULL;
+  BEGIN
+    INSERT INTO orders(
+      id, tenant_id, total, paid, status, delivery,
+      courier_id, courier_state, collected_by_courier, customer_id
+    ) VALUES (
+      'aaee0002-b000-4000-8000-000000000002', v_tid, 100, 100, 'paid', 'courier',
+      'ffee0001-b000-4000-8000-000000000001', 'delivered_full', 100, NULL
+    );
+  EXCEPTION WHEN check_violation THEN
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_courier_requires_customer_id';
+  END;
+  IF NOT v_ok THEN
+    RAISE EXCEPTION 'H1 FAIL: courier/customer legacy CHECK semantics wrong; constraint=%', COALESCE(v_constraint, 'none');
+  END IF;
+END
+$h1_constraint_behavior$;
+
 DO $h3_legacy$
 DECLARE
   v_res jsonb;

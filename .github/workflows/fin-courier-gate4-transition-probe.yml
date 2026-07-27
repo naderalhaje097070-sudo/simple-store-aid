@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "tests/financial-rules/fin-courier-gate4-transitions.sql"
+      - "tests/financial-rules/fin-courier-gate4-atomicity.sql"
       - ".github/workflows/fin-courier-gate4-transition-probe.yml"
 
 permissions:
@@ -113,12 +114,42 @@ jobs:
           }
           echo "PASS: transition matrix is authored and RED only because PR-A v2 RPCs are absent"
 
+      - name: Prove forced-failure atomicity target is red before PR-A
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        shell: bash
+        run: |
+          set +e
+          psql -v ON_ERROR_STOP=1 \
+            -v uid="'$GATE4_TRANSITION_UID'" \
+            -v tid="'$GATE4_TRANSITION_TID'" \
+            -f tests/financial-rules/fin-courier-gate4-atomicity.sql \
+            > /tmp/gate4-atomicity.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-atomicity.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: atomicity target unexpectedly passed before PR-A" >&2
+            exit 1
+          fi
+          grep -q "GATE4_ATOMICITY_EXPECTED_RED" /tmp/gate4-atomicity.log || {
+            echo "Atomicity probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: D-T8 fault-injection test is authored and RED only because PR-A v2 RPCs are absent"
+
       - name: Upload transition evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fin-courier-gate4-transitions
-          path: /tmp/gate4-transitions.log
+          path: |
+            /tmp/gate4-transitions.log
+            /tmp/gate4-atomicity.log
           if-no-files-found: warn
 
       - name: Stop isolated Supabase

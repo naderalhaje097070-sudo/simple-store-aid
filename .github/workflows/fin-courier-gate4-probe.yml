@@ -5,13 +5,10 @@ on:
     branches:
       - main
     paths:
-      - "tests/financial-rules/fin-courier-gate4-pr-a.sql"
-      - "tests/financial-rules/fin-courier-gate4-constraints.sql"
-      - "tests/financial-rules/fin-courier-gate4-concurrency.sh"
-      - "tests/financial-rules/run-fin-courier-gate4.sh"
-      - "tests/e2e/fin-courier-gate4-ui.py"
-      - "tests/e2e/fin-courier-gate4-ui-status.py"
-      - "tests/e2e/fin-courier-gate4-ui-success.py"
+      - "tests/financial-rules/fin-courier-gate4-*"
+      - "tests/financial-rules/run-fin-courier-gate4*.sh"
+      - "tests/e2e/fin-courier-gate4-ui*.py"
+      - "changes/fin-courier-001/GATE4_EVIDENCE.md"
       - ".github/workflows/fin-courier-gate4-probe.yml"
 
 permissions:
@@ -20,7 +17,7 @@ permissions:
 jobs:
   backend-contract:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,12 +33,17 @@ jobs:
           sudo apt-get install -y postgresql-client
 
       - name: Start isolated Supabase
+        shell: bash
         run: |
           set -euo pipefail
           supabase start
           supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+          echo "DB_URL=$DB_URL" >> "$GITHUB_ENV"
 
-      - name: Seed isolated owner and tenant
+      - name: Seed isolated owner, tenant, and platform-admin capability
         shell: bash
         run: |
           set -euo pipefail
@@ -49,11 +51,13 @@ jobs:
           source /tmp/supabase.env
           set +a
 
+          email="fin-courier.g4.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
+          password="Gate4-Only-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
           signup="$(curl --fail-with-body --silent --show-error \
             -X POST "$API_URL/auth/v1/signup" \
             -H "apikey: $ANON_KEY" \
             -H "Content-Type: application/json" \
-            -d '{"email":"fin-courier.g4@example.test","password":"Gate4-Only-2026!","data":{"display_name":"Gate 4"}}')"
+            -d "{\"email\":\"$email\",\"password\":\"$password\",\"data\":{\"display_name\":\"Gate 4\"}}")"
           user_id="$(jq -r '.user.id // .id // empty' <<< "$signup")"
           test -n "$user_id"
           tenant_id="11111111-1111-4111-8111-111111111111"
@@ -77,6 +81,10 @@ jobs:
           INSERT INTO public.user_roles (user_id, tenant_id, role)
           VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
           ON CONFLICT DO NOTHING;
+
+          INSERT INTO public.platform_admins (user_id, note)
+          VALUES (:'uid'::uuid, 'FIN-COURIER Gate 4 isolated reporting probe')
+          ON CONFLICT (user_id) DO NOTHING;
           SQL
 
           {
@@ -84,70 +92,22 @@ jobs:
             echo "GATE4_BACKEND_TID=$tenant_id"
           } >> "$GITHUB_ENV"
 
-      - name: Prove baseline green and PR-A target red
+      - name: Execute consolidated backend safety net
         env:
           PGHOST: 127.0.0.1
           PGPORT: 54322
           PGUSER: postgres
           PGPASSWORD: postgres
           PGDATABASE: postgres
-          GATE4_EXPECT: red
+        shell: bash
         run: |
           set -o pipefail
-          bash tests/financial-rules/run-fin-courier-gate4.sh 2>&1 | tee /tmp/gate4-backend.log
-
-      - name: Prove effective CHECK matrix red
-        env:
-          PGHOST: 127.0.0.1
-          PGPORT: 54322
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          PGDATABASE: postgres
-        shell: bash
-        run: |
-          set +e
-          psql -v ON_ERROR_STOP=1 \
-            -v tid="'$GATE4_BACKEND_TID'" \
-            -f tests/financial-rules/fin-courier-gate4-constraints.sql \
-            > /tmp/gate4-constraints.log 2>&1
-          rc=$?
-          set -e
-          cat /tmp/gate4-constraints.log
-          if [[ $rc -eq 0 ]]; then
-            echo "Gate 4 baseline mismatch: constraint target unexpectedly passed before PR-A" >&2
-            exit 1
-          fi
-          grep -q "GATE4_CK_EXPECTED_RED" /tmp/gate4-constraints.log || {
-            echo "Constraint probe failed for an unexpected harness/runtime reason" >&2
-            exit 1
-          }
-          echo "PASS: FIN-COURIER CHECK target is RED for an approved contract gap"
-
-      - name: Prove concurrency suite is authored and red before PR-A
-        env:
-          PGHOST: 127.0.0.1
-          PGPORT: 54322
-          PGUSER: postgres
-          PGPASSWORD: postgres
-          PGDATABASE: postgres
-        shell: bash
-        run: |
-          set +e
-          GATE4_UID="$GATE4_BACKEND_UID" GATE4_TID="$GATE4_BACKEND_TID" \
-            bash tests/financial-rules/fin-courier-gate4-concurrency.sh \
-            > /tmp/gate4-concurrency.log 2>&1
-          rc=$?
-          set -e
-          cat /tmp/gate4-concurrency.log
-          if [[ $rc -eq 0 ]]; then
-            echo "Gate 4 baseline mismatch: concurrency target unexpectedly passed before PR-A" >&2
-            exit 1
-          fi
-          grep -q "GATE4_CONCURRENCY_EXPECTED_RED" /tmp/gate4-concurrency.log || {
-            echo "Concurrency probe failed for an unexpected harness/runtime reason" >&2
-            exit 1
-          }
-          echo "PASS: FIN-COURIER concurrency target is RED only because PR-A v2 RPCs are absent"
+          GATE4_UID="$GATE4_BACKEND_UID" \
+          GATE4_TID="$GATE4_BACKEND_TID" \
+          GATE4_EVIDENCE_DIR="/tmp/fin-courier-gate4-backend" \
+            bash tests/financial-rules/run-fin-courier-gate4-all.sh \
+            2>&1 | tee /tmp/gate4-backend-summary.log
+          grep -q "GATE4_BACKEND_EVIDENCE_GREEN" /tmp/gate4-backend-summary.log
 
       - name: Upload backend evidence
         if: always()
@@ -155,10 +115,9 @@ jobs:
         with:
           name: fin-courier-gate4-backend
           path: |
-            /tmp/gate4-backend.log
+            /tmp/fin-courier-gate4-backend
+            /tmp/gate4-backend-summary.log
             /tmp/fin-courier-gate4-pr-a.log
-            /tmp/gate4-constraints.log
-            /tmp/gate4-concurrency.log
             /tmp/g4-e1-a.log
             /tmp/g4-e1-b.log
             /tmp/g4-m14-partial.log
@@ -301,7 +260,7 @@ jobs:
             echo "Primary-flow UI probe failed for an unexpected harness/runtime reason" >&2
             exit 1
           }
-          echo "PASS: FIN-COURIER primary-flow UI target is RED for an approved contract gap"
+          echo "EXPECTED-RED OK: primary-flow UI"
 
       - name: Prove wording/status UI target is red independently
         shell: bash
@@ -319,7 +278,7 @@ jobs:
             echo "Wording/status UI probe failed for an unexpected harness/runtime reason" >&2
             exit 1
           }
-          echo "PASS: FIN-COURIER wording/status UI target is RED for an approved contract gap"
+          echo "EXPECTED-RED OK: wording/status UI"
 
       - name: Prove success-screen UI target is red independently
         shell: bash
@@ -337,7 +296,7 @@ jobs:
             echo "Success-screen UI probe failed for an unexpected harness/runtime reason" >&2
             exit 1
           }
-          echo "PASS: FIN-COURIER success-screen target is RED for an approved contract gap"
+          echo "EXPECTED-RED OK: success-screen UI"
 
       - name: Upload UI evidence
         if: always()

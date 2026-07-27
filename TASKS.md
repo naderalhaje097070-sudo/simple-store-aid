@@ -2,78 +2,96 @@
 
 ## Active
 
-### BASELINE-SYNC-001 — Post-approval pilot baseline synchronization
+### FIN-COURIER-G4 — Courier sale workflow safety net
 
-- Change type: Governance and source-of-truth synchronization.
-- Priority: P0 sequencing prerequisite.
-- Goal: Synchronize repository state after AUDIT-001 / PR #23 and FIN-COURIER-001 Gate 0–3 / PR #24 were merged, and establish the exact sequencing boundary before Gate 4.
-- Starting `main` observed when this branch was cut: `e5632bff40e292583fd778f232dd0b7af5eb0e06`.
-- Scope:
-  - `PROJECT_STATE.md`, `TASKS.md`, `DECISIONS.md`, and `changes/fin-courier-001/README.md`.
-  - Record PR #23 and PR #24 as merged.
-  - Record FIN-COURIER-001 Gates 0–3 as formally approved by the product owner.
-  - Record that two dependency-resolution commits followed the PR #24 merge on `main`.
-  - Establish that Gate 4 must branch from the verified `main` head after this synchronization is merged, not from a stale pre-merge SHA.
-- Out of scope:
-  - Gate 4 test implementation.
-  - Financial production code.
-  - New migrations, RPCs, schema, RLS, UI, dependency, or workflow changes.
-  - PR-A, PR-B, PR-C.
-  - Production access, deployment, or pilot execution.
-- Done when:
-  - Repository state, tasks, decisions, and the FIN-COURIER index are internally consistent.
-  - The final diff is documentation only.
-  - Required GitHub checks on the final PR head are reviewed.
-  - A human explicitly merges the synchronization PR.
-  - The resulting `main` SHA is verified before Gate 4 begins.
-
-## Immediate next change
-
-### FIN-COURIER-001 — Courier sale workflow correction
-
-- Issue: #22.
+- Parent change: `FIN-COURIER-001` / Issue #22.
 - Priority: P0 financial workflow blocker.
+- Gate: NAADF-CMF Change Gate 4 — Safety Net.
+- Frozen baseline: `main = 983b746e5c6639dcdc5e6557381ad5619abaa046`.
+- Authoritative review PR: #27, Draft and unmerged.
 - Status:
-  - Gates 0–3: **APPROVED** by the product owner and merged through PR #24.
-  - PR #24 approved head: `a652de164e3efeae707038f1769aee12a9e2474a`.
-  - PR #24 merge commit: `cc1f9e5beb8f5fa73ef44125925fe54a6d1a8858`.
-  - Gate 4: **NEXT — not yet approved or implemented**.
-  - PR-A / PR-B / PR-C: **BLOCKED until Gate 4 approval**.
-- Reported defects:
-  - customer is required for every courier order even when no customer debt exists;
-  - courier-collected money can require an unclear manual delivery-state update before appearing in settlement;
-  - primary sale actions open quick sale rather than the advanced workflow.
-- Approved business behavior:
-  - direct fully paid sale: customer optional;
-  - direct sale with debt: customer required;
-  - courier pending delivery: customer optional and outside settlement;
-  - courier fully collected: customer optional, money becomes custody, order appears immediately in settlement;
-  - courier partially or not collected with resulting customer debt: customer required;
-  - no courier-collected money enters store receipts before settlement;
-  - advanced sale becomes the primary desktop, mobile, and post-sale workflow;
-  - quick sale remains a secondary direct, cash, fully-paid, customer-free shortcut.
-- Gate 4 scope before implementation:
-  - preserve existing T1–T15 regression behavior;
-  - add failing/new-behavior financial tests for customer-less debt-free courier states and debt-creating states;
-  - add effective CHECK-constraint tests and historical-data preflight tests;
-  - add atomic state-transition and monotonic-custody tests;
-  - add concurrency and retry-baseline tests;
-  - add backward-compatibility and rollback tests;
-  - add outcome-aware platform reporting tests;
-  - add mobile RTL and desktop primary-flow tests.
-- Mandatory verification target:
-  - pending courier order without customer succeeds and stays outside settlement;
-  - fully collected courier order without customer creates custody and appears immediately in settlement;
-  - partial courier collection without customer is rejected;
-  - partial courier collection with customer creates custody plus customer debt without double count;
-  - no payment row is created before settlement;
-  - settlement moves only stored custody into store receipts;
-  - existing T1–T15 remain green;
-  - mobile and desktop primary sale actions open advanced sale.
-- Implementation sequence after Gate 4 approval:
-  - **PR-A** — financial schema constraints + `create_sale_with_items_v2` + atomic `update_courier_outcome_v2` + SQL safety tests.
-  - **PR-B** — outcome-aware platform health/reporting + regression tests.
-  - **PR-C** — advanced-sale default + courier UI + wording + success/status display.
+  - Gates 0–3: **APPROVED** and merged through PR #24.
+  - Gate 4 assertions: **AUTHORED** across the approved TEST_PLAN.
+  - Independent adversarial review: **COMPLETED WITH CORRECTIONS**; see `changes/fin-courier-001/GATE4_INDEPENDENT_REVIEW.md`.
+  - Exact-head execution: **BLOCKED** because recent GitHub Actions jobs across both pre-existing and Gate-4 workflows complete before any step starts (`steps = None`).
+  - Gate 4 approval: **NOT APPROVED**.
+  - PR-A / PR-B / PR-C: **BLOCKED**.
+- Safety-net scope authored:
+  - existing T1–T15 preservation;
+  - B1–B9 create/settlement contract;
+  - effective CHECK matrix and historical preflight/validation;
+  - atomic customer attachment and transition/state-machine matrix;
+  - forced-failure atomicity;
+  - returned-order baseline and audit evidence;
+  - concurrency and retry baseline;
+  - backward compatibility and five-state read-model snapshot;
+  - outcome-aware platform reporting;
+  - rollback endpoint and future corrective-rollback runner;
+  - mobile RTL, desktop primary-flow, courier wording/status, and success-screen semantics.
+- Independent-review corrections already applied:
+  - negative CHECK cases now require the exact `orders_customer_required_when_debt` constraint rather than any `check_violation`;
+  - courier UI legacy-state detection targets exact controls instead of page-wide debt/payment wording;
+  - unknown browser/backend/runtime failures cannot be converted into accepted UI expected-RED evidence;
+  - rollback H1 proves the original legacy CHECK semantics, not names/counts alone;
+  - F1 compares normalized payment effects, not payment-row counts only;
+  - B9 proves the full custody-to-receipt settlement effect.
+- Current execution blocker:
+  - recent exact-head Quality, Ephemeral Financial Rules, Isolated Auth UI Smoke, Gate-4 backend, and Gate-4 UI jobs were created but reported no workflow steps;
+  - no checkout, dependency install, build, migration, SQL test, or browser test ran in those attempts;
+  - such runs are neither PASS nor expected RED and cannot approve the gate.
+- Done when one exact final PR #27 head proves:
+  - Quality GREEN;
+  - Ephemeral Financial Rules / T1–T15 GREEN;
+  - Isolated Auth UI Smoke GREEN;
+  - Gate-4 backend true-GREEN baselines pass;
+  - every pre-implementation target probe reaches its approved expected-RED sentinel rather than a harness/runtime failure;
+  - final diff remains Gate-4 test/evidence/workflow/governance only;
+  - a human explicitly approves Gate 4.
+- Out of scope:
+  - financial production implementation;
+  - migration/RPC/schema/RLS implementation;
+  - PR-C application UI implementation;
+  - employee accounts;
+  - SEC-ENV-001, SEC-CI-001, FIN-IDEM-001 implementation;
+  - production access, deployment, or pilot execution.
+
+## Immediate next change after Gate 4 approval
+
+### FIN-COURIER-PR-A — Financial contract implementation
+
+- Priority: P0.
+- Blocker: FIN-COURIER Gate 4 exact-head evidence + explicit approval.
+- Planned scope only after approval:
+  - forward-only replacement constraint migration;
+  - `create_sale_with_items_v2` as canonical sale RPC;
+  - legacy six-parameter create adapter;
+  - atomic `update_courier_outcome_v2` with row locking, transition validation, monotonic custody, and same-tenant customer attachment;
+  - legacy transition adapter delegating to v2 safety;
+  - typed client update;
+  - all PR-A-target Gate-4 tests switch from expected RED to GREEN without weakening assertions.
+- No PR-B reporting or PR-C UI work in PR-A.
+
+### FIN-COURIER-PR-B — Outcome-aware reporting
+
+- Priority: P0 after PR-A.
+- Blocker: approved/merged PR-A and exact-head regression verification.
+- Planned scope:
+  - canonical SQL customer-debt source;
+  - corrected `courier_missing_refs` and `debt_without_customer` health predicates;
+  - corrected platform/tenant open-debt totals;
+  - G1–G8 reporting tests GREEN.
+
+### FIN-COURIER-PR-C — Advanced sale and courier UX
+
+- Priority: P0 after PR-B.
+- Blocker: approved/merged PR-B.
+- Planned scope:
+  - advanced sale becomes primary desktop/mobile/post-sale path;
+  - quick sale remains secondary direct/cash/fully-paid shortcut;
+  - courier-specific outcome controls and wording;
+  - correct customer requirement UX;
+  - success-screen and invoice operational-status semantics;
+  - mobile/desktop Gate-4 UI probes GREEN.
 
 ## Other pilot blockers
 
@@ -167,6 +185,16 @@
   - rollback and operational checklist.
 
 ## Completed
+
+### BASELINE-SYNC-001 — Post-approval pilot baseline synchronization
+
+- Pull request: #26.
+- Result: Reviewed and merged into `main`.
+- Verified PR head: `396d683aadf94e466c230f2b63b284c944d26e4c`.
+- Merge commit / Gate-4 baseline: `983b746e5c6639dcdc5e6557381ad5619abaa046`.
+- Scope: repository source-of-truth synchronization after PR #23 and PR #24; documentation only.
+- Verification before merge: Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke passed on the exact PR head.
+- Deployment: Not performed.
 
 ### AUDIT-001 — Main containment and pilot baseline truth restoration
 

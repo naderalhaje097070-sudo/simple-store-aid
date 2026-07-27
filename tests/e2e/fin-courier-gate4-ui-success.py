@@ -59,13 +59,11 @@ async def assert_delivered_full(page, label: str) -> None:
     await start_advanced_sale(page)
     try:
         body = await save_outcome(page, "تم التحصيل بالكامل")
-    except Exception as exc:
-        await page.screenshot(path=str(EVIDENCE / f"{label}-i4-full-prereq.png"), full_page=True)
-        if "GATE4_UI_SUCCESS_EXPECTED_RED" in str(exc):
-            raise
-        raise AssertionError(
-            "GATE4_UI_SUCCESS_EXPECTED_RED:I4 delivered_full outcome/save path is missing"
-        ) from exc
+    except Exception:
+        # Preserve diagnostics, but do not convert an unknown browser/backend/runtime
+        # failure into an accepted expected-RED sentinel.
+        await page.screenshot(path=str(EVIDENCE / f"{label}-i4-full-runtime.png"), full_page=True)
+        raise
 
     if "عهدة" not in body:
         await page.screenshot(path=str(EVIDENCE / f"{label}-i4-full-wording.png"), full_page=True)
@@ -90,13 +88,11 @@ async def assert_pending(page, label: str) -> None:
     await start_advanced_sale(page)
     try:
         body = await save_outcome(page, "قيد التوصيل")
-    except Exception as exc:
-        await page.screenshot(path=str(EVIDENCE / f"{label}-i4-pending-prereq.png"), full_page=True)
-        if "GATE4_UI_SUCCESS_EXPECTED_RED" in str(exc):
-            raise
-        raise AssertionError(
-            "GATE4_UI_SUCCESS_EXPECTED_RED:I4 pending outcome/save path is missing"
-        ) from exc
+    except Exception:
+        # Same rule as delivered_full: only known contract assertions may emit
+        # GATE4_UI_SUCCESS_EXPECTED_RED. Runtime failures must stay failures.
+        await page.screenshot(path=str(EVIDENCE / f"{label}-i4-pending-runtime.png"), full_page=True)
+        raise
 
     if "قيد التوصيل" not in body:
         raise AssertionError(

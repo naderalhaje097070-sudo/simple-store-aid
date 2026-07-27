@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "tests/financial-rules/fin-courier-gate4-pr-a.sql"
+      - "tests/financial-rules/fin-courier-gate4-constraints.sql"
       - "tests/financial-rules/run-fin-courier-gate4.sh"
       - "tests/e2e/fin-courier-gate4-ui.py"
       - ".github/workflows/fin-courier-gate4-probe.yml"
@@ -75,7 +76,7 @@ jobs:
           ON CONFLICT DO NOTHING;
           SQL
 
-      - name: Prove baseline green and target red
+      - name: Prove baseline green and PR-A target red
         env:
           PGHOST: 127.0.0.1
           PGPORT: 54322
@@ -87,6 +88,33 @@ jobs:
           set -o pipefail
           bash tests/financial-rules/run-fin-courier-gate4.sh 2>&1 | tee /tmp/gate4-backend.log
 
+      - name: Prove effective CHECK matrix red
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        shell: bash
+        run: |
+          set +e
+          psql -v ON_ERROR_STOP=1 \
+            -v tid="'11111111-1111-4111-8111-111111111111'" \
+            -f tests/financial-rules/fin-courier-gate4-constraints.sql \
+            > /tmp/gate4-constraints.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-constraints.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: constraint target unexpectedly passed before PR-A" >&2
+            exit 1
+          fi
+          grep -q "GATE4_CK_EXPECTED_RED" /tmp/gate4-constraints.log || {
+            echo "Constraint probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: FIN-COURIER CHECK target is RED for an approved contract gap"
+
       - name: Upload backend evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -95,6 +123,7 @@ jobs:
           path: |
             /tmp/gate4-backend.log
             /tmp/fin-courier-gate4-pr-a.log
+            /tmp/gate4-constraints.log
           if-no-files-found: warn
 
       - name: Stop isolated Supabase

@@ -1,0 +1,126 @@
+name: FIN-COURIER Gate 4 Transition Probe
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tests/financial-rules/fin-courier-gate4-transitions.sql"
+      - ".github/workflows/fin-courier-gate4-transition-probe.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  transition-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase start
+          supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+          echo "DB_URL=$DB_URL" >> "$GITHUB_ENV"
+
+      - name: Seed isolated owner and tenant
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source /tmp/supabase.env
+          set +a
+
+          email="fin-courier.transition.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
+          password="Gate4-Transition-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
+          signup="$(curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/signup" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"email\":\"$email\",\"password\":\"$password\",\"data\":{\"display_name\":\"Gate 4 Transition\"}}")"
+          user_id="$(jq -r '.user.id // .id // empty' <<< "$signup")"
+          test -n "$user_id"
+          tenant_id="11111111-1111-4111-8111-111111111111"
+
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$user_id" -v tid="$tenant_id" <<'SQL'
+          UPDATE auth.users
+             SET email_confirmed_at = COALESCE(email_confirmed_at, now()),
+                 updated_at = now()
+           WHERE id = :'uid'::uuid;
+
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'FIN-COURIER Gate 4 Transition', :'uid'::uuid)
+          ON CONFLICT (id) DO NOTHING;
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Gate 4 Transition')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+          SQL
+
+          {
+            echo "GATE4_TRANSITION_UID=$user_id"
+            echo "GATE4_TRANSITION_TID=$tenant_id"
+          } >> "$GITHUB_ENV"
+
+      - name: Prove transition target is red before PR-A
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        shell: bash
+        run: |
+          set +e
+          psql -v ON_ERROR_STOP=1 \
+            -v uid="'$GATE4_TRANSITION_UID'" \
+            -v tid="'$GATE4_TRANSITION_TID'" \
+            -f tests/financial-rules/fin-courier-gate4-transitions.sql \
+            > /tmp/gate4-transitions.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-transitions.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: transition matrix unexpectedly passed before PR-A" >&2
+            exit 1
+          fi
+          grep -q "GATE4_TRANSITION_EXPECTED_RED" /tmp/gate4-transitions.log || {
+            echo "Transition probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: transition matrix is authored and RED only because PR-A v2 RPCs are absent"
+
+      - name: Upload transition evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fin-courier-gate4-transitions
+          path: /tmp/gate4-transitions.log
+          if-no-files-found: warn
+
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --no-backup || true

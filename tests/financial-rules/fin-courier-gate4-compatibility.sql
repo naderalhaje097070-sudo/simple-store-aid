@@ -51,8 +51,8 @@ AS $$
 DECLARE
   a record;
   b record;
-  pa int;
-  pb int;
+  pa jsonb;
+  pb jsonb;
 BEGIN
   SELECT paid, total, delivery::text, courier_state::text, collected_by_courier,
          customer_id, courier_id, status::text
@@ -60,8 +60,43 @@ BEGIN
   SELECT paid, total, delivery::text, courier_state::text, collected_by_courier,
          customer_id, courier_id, status::text
     INTO b FROM orders WHERE id=p_new;
-  SELECT COUNT(*) INTO pa FROM payments WHERE order_id=p_old;
-  SELECT COUNT(*) INTO pb FROM payments WHERE order_id=p_new;
+
+  -- Compare the financial payment effect, not merely row counts. IDs/timestamps
+  -- are intentionally excluded because equivalent calls legitimately create
+  -- distinct records at different instants.
+  SELECT COALESCE(
+           jsonb_agg(payment_shape ORDER BY payment_shape::text),
+           '[]'::jsonb
+         )
+    INTO pa
+    FROM (
+      SELECT jsonb_build_object(
+        'kind', kind::text,
+        'method', method::text,
+        'amount', amount,
+        'customer_id', customer_id,
+        'courier_id', courier_id
+      ) AS payment_shape
+      FROM payments
+      WHERE order_id=p_old
+    ) q;
+
+  SELECT COALESCE(
+           jsonb_agg(payment_shape ORDER BY payment_shape::text),
+           '[]'::jsonb
+         )
+    INTO pb
+    FROM (
+      SELECT jsonb_build_object(
+        'kind', kind::text,
+        'method', method::text,
+        'amount', amount,
+        'customer_id', customer_id,
+        'courier_id', courier_id
+      ) AS payment_shape
+      FROM payments
+      WHERE order_id=p_new
+    ) q;
 
   IF a.paid IS DISTINCT FROM b.paid
      OR a.total IS DISTINCT FROM b.total
@@ -72,7 +107,8 @@ BEGIN
      OR a.courier_id IS DISTINCT FROM b.courier_id
      OR a.status IS DISTINCT FROM b.status
      OR pa IS DISTINCT FROM pb THEN
-    RAISE EXCEPTION 'F1 FAIL %: legacy and v2 differ old=% new=% payments=%/%', p_case, row_to_json(a), row_to_json(b), pa, pb;
+    RAISE EXCEPTION 'F1 FAIL %: legacy and v2 differ old=% new=% payments_old=% payments_new=%',
+      p_case, row_to_json(a), row_to_json(b), pa, pb;
   END IF;
 END
 $$;

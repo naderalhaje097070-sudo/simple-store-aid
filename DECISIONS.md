@@ -89,6 +89,7 @@ This file records decisions that govern Mongezz until replaced by an approved AD
 ## DEC-014 — Courier sale, customer, custody, and primary sale flow
 
 - Status: Accepted
+- Approval record: FIN-COURIER-001 Gates 0–3 were explicitly approved by the product owner on PR #24 head `a652de164e3efeae707038f1769aee12a9e2474a` after the required Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke checks passed on that exact head. The documentation contract was merged through PR #24 as merge commit `cc1f9e5beb8f5fa73ef44125925fe54a6d1a8858`.
 - Decision:
   - customer identity is required when a transaction creates customer debt, not merely because delivery uses a courier;
   - a courier order still pending delivery may exist without a customer and remains outside financial settlement;
@@ -102,7 +103,9 @@ This file records decisions that govern Mongezz until replaced by an approved AD
   - effective database constraints and RPC validation must be corrected through a forward-only migration;
   - the UI must use courier-specific states rather than ambiguous direct-payment labels;
   - existing T1–T15 plus new financial, state-transition, mobile, and desktop tests are mandatory;
-  - `Delivered` remains distinct from `Settled`.
+  - `Delivered` remains distinct from `Settled`;
+  - Gate 4 safety-net work is the only next FIN-COURIER stage authorized for preparation; PR-A, PR-B, and PR-C remain blocked until Gate 4 evidence is independently reviewed and explicitly approved;
+  - after the baseline-synchronization PR is merged, the Gate 4 branch must be cut from the verified resulting `main` head rather than from a stale earlier SHA.
 
 ## Pending decisions
 

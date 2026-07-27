@@ -7,6 +7,7 @@ on:
     paths:
       - "tests/financial-rules/fin-courier-gate4-pr-a.sql"
       - "tests/financial-rules/fin-courier-gate4-constraints.sql"
+      - "tests/financial-rules/fin-courier-gate4-concurrency.sh"
       - "tests/financial-rules/run-fin-courier-gate4.sh"
       - "tests/e2e/fin-courier-gate4-ui.py"
       - ".github/workflows/fin-courier-gate4-probe.yml"
@@ -76,6 +77,11 @@ jobs:
           ON CONFLICT DO NOTHING;
           SQL
 
+          {
+            echo "GATE4_BACKEND_UID=$user_id"
+            echo "GATE4_BACKEND_TID=$tenant_id"
+          } >> "$GITHUB_ENV"
+
       - name: Prove baseline green and PR-A target red
         env:
           PGHOST: 127.0.0.1
@@ -99,7 +105,7 @@ jobs:
         run: |
           set +e
           psql -v ON_ERROR_STOP=1 \
-            -v tid="'11111111-1111-4111-8111-111111111111'" \
+            -v tid="'$GATE4_BACKEND_TID'" \
             -f tests/financial-rules/fin-courier-gate4-constraints.sql \
             > /tmp/gate4-constraints.log 2>&1
           rc=$?
@@ -115,6 +121,32 @@ jobs:
           }
           echo "PASS: FIN-COURIER CHECK target is RED for an approved contract gap"
 
+      - name: Prove concurrency suite is authored and red before PR-A
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        shell: bash
+        run: |
+          set +e
+          GATE4_UID="$GATE4_BACKEND_UID" GATE4_TID="$GATE4_BACKEND_TID" \
+            bash tests/financial-rules/fin-courier-gate4-concurrency.sh \
+            > /tmp/gate4-concurrency.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-concurrency.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: concurrency target unexpectedly passed before PR-A" >&2
+            exit 1
+          fi
+          grep -q "GATE4_CONCURRENCY_EXPECTED_RED" /tmp/gate4-concurrency.log || {
+            echo "Concurrency probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: FIN-COURIER concurrency target is RED only because PR-A v2 RPCs are absent"
+
       - name: Upload backend evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -124,6 +156,13 @@ jobs:
             /tmp/gate4-backend.log
             /tmp/fin-courier-gate4-pr-a.log
             /tmp/gate4-constraints.log
+            /tmp/gate4-concurrency.log
+            /tmp/g4-e1-a.log
+            /tmp/g4-e1-b.log
+            /tmp/g4-m14-partial.log
+            /tmp/g4-m14-full.log
+            /tmp/g4-m15-update.log
+            /tmp/g4-m15-settle.log
           if-no-files-found: warn
 
       - name: Stop isolated Supabase

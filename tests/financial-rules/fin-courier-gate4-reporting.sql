@@ -1,4 +1,4 @@
--- FIN-COURIER-001 Gate 4 — PR-B outcome-aware reporting safety net (G1..G5,G7,G8)
+-- FIN-COURIER-001 Gate 4 — PR-B outcome-aware reporting safety net (G1..G8)
 -- Runs after PR-A prerequisites exist. On the current pre-implementation baseline
 -- it is expected RED because the approved PR-A contract is not present yet.
 
@@ -59,6 +59,8 @@ DECLARE
   v_tenant_debt numeric;
   v_bad bigint;
   v_expected numeric := 160;
+  v_close jsonb;
+  v_close_status text;
 BEGIN
   SELECT
     to_regprocedure(
@@ -169,8 +171,82 @@ BEGIN
   IF COALESCE(v_tenant_debt, 0) <> v_expected THEN
     PERFORM pg_temp.r_fail('G5/G8', format('tenant debt=%s expected=%s', v_tenant_debt, v_expected));
   END IF;
+
+  -- G6: close_day remains canonical and platform reconciliation remains Matches.
+  BEGIN
+    v_close := public.close_day('FIN-COURIER Gate 4 reporting reconciliation');
+    SELECT status
+      INTO v_close_status
+      FROM public.get_platform_day_close_health(100)
+     WHERE tenant_id = v_tid
+     ORDER BY created_at DESC
+     LIMIT 1;
+    IF v_close_status IS DISTINCT FROM 'Matches' THEN
+      PERFORM pg_temp.r_fail('G6', format('platform day-close status=%s close=%s', v_close_status, v_close));
+    END IF;
+  EXCEPTION WHEN OTHERS THEN
+    PERFORM pg_temp.r_fail('G6', SQLERRM);
+  END;
 END
 $reporting$;
+
+-- G2: force one genuinely corrupt debt-carrying courier row by temporarily
+-- removing/re-adding the NOT VALID constraint inside this rollback-only test.
+DO $g2_corruption$
+DECLARE
+  v_tid uuid := current_setting('mongezz.test_tid')::uuid;
+  v_def text;
+  v_health bigint;
+  v_ready bool;
+BEGIN
+  SELECT EXISTS (
+    SELECT 1 FROM pg_constraint
+     WHERE conrelid = 'public.orders'::regclass
+       AND conname = 'orders_customer_required_when_debt'
+  ) INTO v_ready;
+  IF NOT v_ready THEN RETURN; END IF;
+
+  SELECT pg_get_constraintdef(oid)
+    INTO v_def
+    FROM pg_constraint
+   WHERE conrelid = 'public.orders'::regclass
+     AND conname = 'orders_customer_required_when_debt';
+
+  EXECUTE 'ALTER TABLE public.orders DROP CONSTRAINT orders_customer_required_when_debt';
+
+  INSERT INTO orders(
+    id, tenant_id, total, paid, status, delivery,
+    courier_id, courier_state, collected_by_courier, customer_id
+  ) VALUES (
+    'ab000099-3000-4000-8000-000000000099', v_tid, 100, 0, 'debt', 'courier',
+    'ffff6666-3000-0000-0000-000000000001', 'delivered_partial', 40, NULL
+  );
+
+  EXECUTE format(
+    'ALTER TABLE public.orders ADD CONSTRAINT orders_customer_required_when_debt %s',
+    v_def
+  );
+
+  SELECT COALESCE(SUM(affected_count), 0)
+    INTO v_health
+    FROM public.get_platform_financial_health()
+   WHERE check_key IN ('courier_missing_refs', 'debt_without_customer');
+
+  IF v_health < 1 THEN
+    PERFORM pg_temp.r_fail('G2', 'genuinely corrupt customer-less debt row was not detected');
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1
+      FROM jsonb_array_elements(
+        COALESCE(public.get_platform_financial_health_rows('debt_without_customer', 100), '[]'::jsonb)
+      ) r
+     WHERE r->>'id' = 'ab000099-3000-4000-8000-000000000099'
+  ) THEN
+    PERFORM pg_temp.r_fail('G2D', 'debt_without_customer detail omitted forced corrupt row');
+  END IF;
+END
+$g2_corruption$;
 
 DO $done$
 DECLARE
@@ -183,7 +259,7 @@ BEGIN
       INTO v_detail FROM gate4_reporting_failures;
     RAISE EXCEPTION 'GATE4_REPORT_EXPECTED_RED: % gap(s): %', v_count, v_detail;
   END IF;
-  RAISE NOTICE 'GATE4_REPORT_GREEN: G1/G3/G4/G5/G7/G8 passed';
+  RAISE NOTICE 'GATE4_REPORT_GREEN: G1..G8 passed';
 END
 $done$;
 

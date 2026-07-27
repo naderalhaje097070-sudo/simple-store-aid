@@ -10,7 +10,7 @@ Gate 4 branch base:
 
 This is the verified `main` merge commit produced by baseline-synchronization PR #26 after the exact PR #26 head passed Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke.
 
-Gate 4 is developed in draft PR #27 from that frozen baseline. PR #27 is not an implementation PR and is not intended to be merged to `main` while its dedicated probes are in expected-RED mode.
+Gate 4 is developed in draft PR #27 from that frozen baseline. PR #27 is not an implementation PR and is not intended to be merged to `main` while the new target-contract probes are in expected-RED mode.
 
 ## Gate 4 objective
 
@@ -19,7 +19,7 @@ Before implementation, prove both:
 1. the existing approved financial baseline remains GREEN;
 2. every new FIN-COURIER contract has an executable test written before the corresponding implementation and is RED on the pre-implementation baseline for the expected reason rather than because of a broken harness.
 
-A successful expected-RED workflow means the test harness reached the assertion and detected a known missing contract. It does **not** mean the feature is implemented.
+A successful expected-RED probe means the harness reached the assertion and detected a known missing contract. It does **not** mean the feature is implemented.
 
 ## First verified expected-RED checkpoint
 
@@ -30,15 +30,15 @@ On PR #27 head:
 GitHub run `30248157200` proved the first isolated checkpoint:
 
 - existing T1–T15: GREEN;
-- backend target: expected RED with exactly the initial contract gaps — missing `create_sale_with_items_v2`, missing `update_courier_outcome_v2`, missing `orders_customer_required_when_debt`, and the two legacy blanket-customer constraints still present;
+- backend target: expected RED with the initial contract gaps — missing `create_sale_with_items_v2`, missing `update_courier_outcome_v2`, missing `orders_customer_required_when_debt`, and the two legacy blanket-customer constraints still present;
 - mobile/desktop UI target: expected RED because the primary `فاتورة جديدة` CTA still opens quick sale (I1/J1);
-- the standard Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke checks also remained GREEN on that checkpoint.
+- standard Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke also remained GREEN on that checkpoint.
 
-An earlier Gate-4 attempt failed during test fixture seeding before reaching assertions. That result was rejected as false RED; the isolated seed was corrected to use the already-proven project pattern (`ON CONFLICT` / profile upsert), and only the later assertion-reaching run above is accepted as evidence.
+An earlier attempt failed during fixture seeding before reaching assertions. That result was rejected as false RED; the isolated seed was corrected to the proven repository pattern (`ON CONFLICT` / profile upsert), and only assertion-reaching runs are accepted as Gate-4 evidence.
 
 ## Existing baseline — unchanged
 
-The following pre-existing protection is preserved and not weakened:
+The following protection is preserved and not weakened:
 
 - `tests/financial-rules/rules.sql` — T1–T15;
 - `tests/unit/invoice-selectors.test.ts` — canonical client debt/custody selector coverage;
@@ -48,7 +48,7 @@ The following pre-existing protection is preserved and not weakened:
 
 ## Authored Gate 4 safety net
 
-### A/B/C — PR-A creation and schema contract
+### A/B/C — PR-A creation, schema, and historical-data contract
 
 Artifacts:
 
@@ -65,16 +65,8 @@ Coverage:
 - replacement `orders_customer_required_when_debt` CHECK exists and is initially `NOT VALID`;
 - two legacy blanket-customer constraints are removed;
 - courier-id and collected<=total constraints remain;
-- B1 pending courier without customer;
-- B2 delivered-full courier without customer;
-- B3 partial courier debt without customer rejected;
-- B4 delivered-none debt without customer rejected;
-- B5 delivered-none with customer at creation;
-- B6 delivered-partial with customer at creation;
-- B7 missing courier id rejected;
-- B8 close-day aggregate from pending/full/none/partial created through v2 — expected debt 160 and unsettled custody 140 for the fixed fixture;
-- B9 settlement of customer-less delivered-full custody;
-- C-CK1..C-CK8 direct CHECK-shape matrix, exercising the database constraint independently of RPC validation;
+- B1..B9 creation/settlement behavior, including B5/B6 create-time debt states and B8 close-day aggregate (`debt=160`, `unsettled custody=140` for the fixed fixture);
+- C-CK1..C-CK8 direct CHECK-shape matrix, independent of RPC validation;
 - C-PF1 historical preflight detects a deliberately seeded violating legacy row;
 - C-PF2 blind `VALIDATE` fails while that row exists and controlled validation succeeds only after the preflight returns zero.
 
@@ -87,13 +79,8 @@ Artifacts:
 
 Coverage:
 
-- D-T1 pending/no-customer → delivered-full;
-- D-T2/D-T3 debt transitions without customer rejected and row unchanged;
-- D-T4 same-tenant customer attachment + state/custody update in one transaction;
-- D-T5 cross-tenant customer rejection with no partial write;
-- D-T6 nonexistent customer rejection;
-- D-T7 returned transition delegates to the approved return transaction;
-- D-T8 forced AFTER UPDATE failure proves the whole v2 transition rolls back — state, custody, and customer remain unchanged;
+- D-T1..D-T7 transition/customer behavior;
+- D-T8 forced AFTER UPDATE failure proves the entire v2 transition rolls back — state, custody, and customer remain unchanged;
 - D-M1..D-M10 valid/invalid transition matrix;
 - D-M11 custody reduction rejection;
 - D-M12 same-state/same-value idempotent retry;
@@ -101,10 +88,9 @@ Coverage:
 
 ### D-R — returned-order baseline
 
-Artifacts:
+Artifact:
 
 - `tests/financial-rules/fin-courier-gate4-return-baseline.sql`
-- `.github/workflows/fin-courier-gate4-return-probe.yml`
 
 Coverage D-R1..D-R8:
 
@@ -117,9 +103,9 @@ Coverage D-R1..D-R8:
 - debt collection on returned order is rejected;
 - `financial_audit_log` contains before/after return evidence.
 
-This is a regression baseline and is expected GREEN before PR-A and after the adapters are introduced.
+This is a true regression baseline and must be GREEN before PR-A and remain GREEN afterward.
 
-### E / concurrency / retry baseline
+### E — concurrency and retry baseline
 
 Artifacts:
 
@@ -131,17 +117,16 @@ Coverage:
 - E1 two concurrent sales for stock=1 → exactly one succeeds and the loser is `insufficient_stock`;
 - D-M14 concurrent partial/full transition serializes to one valid final state with non-decreasing custody;
 - D-M15/E2 concurrent delivered-full transition + settlement cannot lose/double custody or create duplicate settlement payment;
-- E3 explicitly freezes the known non-idempotent sale-create baseline: two duplicate logical calls create two orders; true request-key idempotency remains `FIN-IDEM-001` and is not silently claimed here;
+- E3 freezes the known non-idempotent sale-create baseline: duplicate logical calls create two orders; true request-key idempotency remains `FIN-IDEM-001`;
 - E4 second settlement attempt is rejected and cannot create a duplicate payment.
 
-Concurrency is executed through the proven main Gate-4 backend workflow rather than a separate workflow because creation of a separate concurrency workflow was blocked by the connector. The test itself remains isolated and test-only.
+Concurrency intentionally runs last in the consolidated backend harness because it spans multiple database sessions and can persist disposable rows once PR-A exists. All `close_day`/snapshot true-GREEN tests run before it so future implementation verification cannot be contaminated by concurrency fixtures.
 
-### F — backward compatibility / read-model snapshot
+### F — backward compatibility and five-state snapshot
 
 Artifacts:
 
 - `tests/financial-rules/fin-courier-gate4-compatibility.sql`
-- `.github/workflows/fin-courier-gate4-compatibility-probe.yml`
 - `tests/financial-rules/fin-courier-gate4-readmodel-snapshot.sql`
 
 Coverage:
@@ -149,20 +134,20 @@ Coverage:
 - F1 legacy six-parameter create and v2 produce equivalent safe financial results for representative direct, pending-courier, and partial-courier flows;
 - F1a safe legacy transition delegates successfully;
 - F1b unsafe backward/custody-reducing legacy transition is intentionally rejected by v2 safety rules;
-- F2 fixed five-state golden snapshot: customer debt=160 and unsettled custody=140, including `close_day`; the exact same test must be rerun unchanged after PR-A to prove no read-model drift;
+- F2 fixed five-state golden snapshot: customer debt=160 and unsettled custody=140, including `close_day`; the exact same test must remain GREEN after PR-A;
 - F3 no customer-less `delivered_partial` / `delivered_none` rows exist.
 
-### G — PR-B health / reporting
+### G — PR-B health and reporting
 
-Artifacts:
+Artifact:
 
 - `tests/financial-rules/fin-courier-gate4-reporting.sql`
-- `.github/workflows/fin-courier-gate4-reporting-probe.yml`
 
 Coverage G1..G8:
 
 - valid customer-less pending/full courier orders do not trigger `courier_missing_refs` / `debt_without_customer`;
 - a deliberately forced genuinely corrupt customer-less debt row is still detected;
+- the corruption fixture explicitly re-adds the replacement CHECK as `NOT VALID` rather than relying on `pg_get_constraintdef()` to preserve validation state;
 - detail RPCs use the corrected row sets;
 - `get_platform_admin_overview.open_customer_debts` includes partial remainder + delivered-none total;
 - `get_platform_tenants_health.open_debts` uses the same contract;
@@ -177,19 +162,18 @@ Artifacts:
 
 - `tests/financial-rules/fin-courier-gate4-rollback-contract.sql`
 - `tests/financial-rules/run-fin-courier-gate4-corrective-rollback.sh`
-- `.github/workflows/fin-courier-gate4-rollback-probe.yml`
 
 Coverage:
 
-- H1 freezes the required rollback endpoint now: replacement CHECK absent, the two original CHECKs restored as `NOT VALID`, v2 functions absent, legacy signatures present;
+- H1 freezes the required rollback endpoint now: replacement CHECK absent, the two original CHECKs present as `NOT VALID`, v2 functions absent, legacy signatures present;
 - H2 customer-less partial/none verification query must be zero;
 - H3 legacy create path works;
-- the current pre-change baseline is used as the golden rollback fingerprint;
-- a generic corrective-rollback runner is already authored: once a real forward-only corrective migration exists, it must apply that SQL on an isolated changed database, rerun T1–T15, then rerun the same rollback endpoint contract.
+- the current pre-change baseline is the golden rollback fingerprint;
+- a generic corrective-rollback runner is already authored: once a real forward-only corrective migration exists, it applies that SQL on an isolated changed database, reruns T1–T15, then reruns the same rollback endpoint contract.
 
-Gate 4 does **not** invent or claim execution of a corrective migration that does not yet exist. Actual application of the future corrective rollback remains an implementation/rollback verification step, but its assertions and runner are written before implementation.
+Gate 4 does **not** invent or claim execution of a corrective migration that does not yet exist. Actual execution becomes mandatory implementation/rollback evidence when that migration is authored.
 
-### I/J — mobile + desktop UI
+### I/J — mobile and desktop UI
 
 Artifacts:
 
@@ -207,32 +191,51 @@ Coverage:
 - desktop 1440×900 and mobile 390×844 are exercised;
 - all writes are restricted to disposable isolated CI Supabase instances; no production environment is used.
 
-## Gate 4 workflows
+## Consolidated Gate 4 execution
 
-Dedicated Gate-4 workflows currently include:
+Gate-4 orchestration is intentionally consolidated into one workflow:
 
-- `.github/workflows/fin-courier-gate4-probe.yml` — PR-A core/CHECK/concurrency + independent UI probes;
-- `.github/workflows/fin-courier-gate4-create-aggregate-probe.yml` — B5/B6/B8;
-- `.github/workflows/fin-courier-gate4-preflight-probe.yml` — C-PF1/C-PF2;
-- `.github/workflows/fin-courier-gate4-transition-probe.yml` — transition matrix + D-T8 atomicity;
-- `.github/workflows/fin-courier-gate4-return-probe.yml` — returned baseline;
-- `.github/workflows/fin-courier-gate4-retry-probe.yml` — E3/E4;
-- `.github/workflows/fin-courier-gate4-compatibility-probe.yml` — F compatibility;
-- `.github/workflows/fin-courier-gate4-reporting-probe.yml` — G1..G8;
-- `.github/workflows/fin-courier-gate4-rollback-probe.yml` — F2 golden snapshot + H rollback endpoint fingerprint.
+- `.github/workflows/fin-courier-gate4-probe.yml`
 
-Expected-RED workflows must fail internally with their named sentinel and then report workflow success only when the reason is the approved missing contract. Any seed, build, SQL syntax, login, browser, or other harness failure is a Gate-4 failure and must not be counted as expected RED.
+with:
+
+- one isolated backend job;
+- one isolated UI job.
+
+Backend orchestration is centralized in:
+
+- `tests/financial-rules/run-fin-courier-gate4-all.sh`
+
+The backend runner executes all authored backend contracts on one isolated Supabase instance and classifies each explicitly as either:
+
+- **expected RED** before its corresponding implementation; or
+- **true GREEN** baseline that must already pass and remain passing.
+
+The true-GREEN baselines are executed before the multi-session concurrency test to prevent later `close_day` snapshots from being contaminated by concurrency fixtures.
+
+The UI job runs three independent probes so an I1 failure cannot hide I3/J2 or I4 evidence.
+
+Earlier development used multiple per-slice workflows. That design was removed after it caused a GitHub Actions queue storm: `pull_request.paths` evaluates the cumulative PR diff, so every subsequent push retriggered all Gate-4 workflows. The test files remain independent, but orchestration is now single and deterministic.
+
+Final intended exact-head workflow set is therefore:
+
+1. Quality;
+2. Ephemeral Financial Rules;
+3. Isolated Auth UI Smoke;
+4. FIN-COURIER Gate 4 Probe.
+
+Expected-RED tests must fail internally with their named sentinel and then allow the consolidated workflow to succeed only when the reason is the approved missing contract. Any seed, build, SQL syntax, login, browser, or other harness failure is a Gate-4 failure and must not count as expected RED.
 
 ## Remaining execution boundary before Gate 4 approval
 
-The safety-net assertions are now authored across the approved TEST_PLAN. Before Gate 4 can be approved:
+The safety-net assertions are authored across the approved TEST_PLAN. Before Gate 4 can be approved:
 
-1. all dedicated Gate-4 workflows must be run and reviewed on one exact final PR #27 head;
-2. standard Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke must also be GREEN on that same head;
-3. actual-GREEN baselines (T1–T15, returned baseline, F2 snapshot, rollback endpoint) must pass rather than being converted to expected RED;
-4. expected-RED tests must reach the named contract assertion/sentinel — no false RED from harness failures;
-5. an independent review must inspect the tests for false positives/negatives, transaction isolation, tenant isolation, and whether the assertions actually match `TEST_PLAN.md`;
-6. the future corrective rollback migration itself cannot be executed before it exists; when implementation supplies it, the already-authored corrective-rollback runner becomes mandatory evidence.
+1. the four intended workflows above must be run and reviewed on one exact final PR #27 head;
+2. standard Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke must be GREEN on that same head;
+3. true-GREEN baselines — T1–T15, returned baseline, F2 snapshot, rollback endpoint — must actually pass rather than being converted to expected RED;
+4. each expected-RED test must reach its named contract sentinel — no false RED from harness failures;
+5. an independent review must inspect false-positive/false-negative risk, transaction isolation, tenant isolation, concurrency assumptions, and traceability to `TEST_PLAN.md`;
+6. the future corrective rollback migration cannot be executed before it exists; when implementation supplies it, the already-authored corrective-rollback runner becomes mandatory evidence.
 
 ## Merge / implementation boundary
 
@@ -240,5 +243,5 @@ The safety-net assertions are now authored across the approved TEST_PLAN. Before
 - PR #27 contains no FIN-COURIER production financial logic, no migration implementation, no RPC implementation, no RLS change, and no PR-C UI implementation.
 - PR-A / PR-B / PR-C remain blocked until Gate 4 evidence is independently reviewed and explicitly approved.
 - Expected-RED workflow success does not authorize merge or implementation by itself.
-- After Gate 4 approval, PR-A should branch from the approved Gate-4 head (not from a stale earlier `main`) so the test commits remain chronologically before the implementation commits. The relevant probes then switch from expected-RED execution mode to GREEN verification without weakening or replacing their assertions.
-- The approved implementation order remains PR-A → PR-B → PR-C, each with its own exact-head CI and human merge boundary.
+- After Gate 4 approval, PR-A should branch from the approved Gate-4 head — not from a stale earlier `main` — so the test commits remain chronologically before the implementation commits. Relevant probes then switch from expected-RED execution mode to GREEN verification without weakening or replacing their assertions.
+- The approved implementation order remains PR-A → PR-B → PR-C, each with exact-head CI and a human merge boundary.

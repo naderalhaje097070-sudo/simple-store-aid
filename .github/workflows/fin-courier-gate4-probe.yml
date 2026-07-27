@@ -10,6 +10,8 @@ on:
       - "tests/financial-rules/fin-courier-gate4-concurrency.sh"
       - "tests/financial-rules/run-fin-courier-gate4.sh"
       - "tests/e2e/fin-courier-gate4-ui.py"
+      - "tests/e2e/fin-courier-gate4-ui-status.py"
+      - "tests/e2e/fin-courier-gate4-ui-success.py"
       - ".github/workflows/fin-courier-gate4-probe.yml"
 
 permissions:
@@ -171,7 +173,7 @@ jobs:
 
   ui-contract:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -283,7 +285,7 @@ jobs:
           python3 -m pip install playwright
           python3 -m playwright install --with-deps chromium
 
-      - name: Prove UI target is red for approved reason
+      - name: Prove primary-flow UI target is red
         shell: bash
         run: |
           set +e
@@ -292,14 +294,50 @@ jobs:
           set -e
           cat /tmp/gate4-ui.log
           if [[ $rc -eq 0 ]]; then
-            echo "Gate 4 baseline mismatch: UI target unexpectedly passed before PR-C" >&2
+            echo "Gate 4 baseline mismatch: primary-flow UI target unexpectedly passed before PR-C" >&2
             exit 1
           fi
           grep -q "GATE4_UI_EXPECTED_RED" /tmp/gate4-ui.log || {
-            echo "UI probe failed for an unexpected harness/runtime reason" >&2
+            echo "Primary-flow UI probe failed for an unexpected harness/runtime reason" >&2
             exit 1
           }
-          echo "PASS: FIN-COURIER UI target is RED for an approved contract gap"
+          echo "PASS: FIN-COURIER primary-flow UI target is RED for an approved contract gap"
+
+      - name: Prove wording/status UI target is red independently
+        shell: bash
+        run: |
+          set +e
+          python3 tests/e2e/fin-courier-gate4-ui-status.py > /tmp/gate4-ui-status.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-ui-status.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: wording/status UI target unexpectedly passed before PR-C" >&2
+            exit 1
+          fi
+          grep -q "GATE4_UI_STATUS_EXPECTED_RED" /tmp/gate4-ui-status.log || {
+            echo "Wording/status UI probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: FIN-COURIER wording/status UI target is RED for an approved contract gap"
+
+      - name: Prove success-screen UI target is red independently
+        shell: bash
+        run: |
+          set +e
+          python3 tests/e2e/fin-courier-gate4-ui-success.py > /tmp/gate4-ui-success.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gate4-ui-success.log
+          if [[ $rc -eq 0 ]]; then
+            echo "Gate 4 baseline mismatch: success-screen target unexpectedly passed before PR-A/PR-C" >&2
+            exit 1
+          fi
+          grep -q "GATE4_UI_SUCCESS_EXPECTED_RED" /tmp/gate4-ui-success.log || {
+            echo "Success-screen UI probe failed for an unexpected harness/runtime reason" >&2
+            exit 1
+          }
+          echo "PASS: FIN-COURIER success-screen target is RED for an approved contract gap"
 
       - name: Upload UI evidence
         if: always()
@@ -308,7 +346,11 @@ jobs:
           name: fin-courier-gate4-ui
           path: |
             /tmp/fin-courier-gate4-ui
+            /tmp/fin-courier-gate4-ui-status
+            /tmp/fin-courier-gate4-ui-success
             /tmp/gate4-ui.log
+            /tmp/gate4-ui-status.log
+            /tmp/gate4-ui-success.log
             /tmp/gate4-app.log
           if-no-files-found: warn
 

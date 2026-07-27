@@ -36,6 +36,16 @@ GitHub run `30248157200` proved the first isolated checkpoint:
 
 An earlier attempt failed during fixture seeding before reaching assertions. That result was rejected as false RED; the isolated seed was corrected to the proven repository pattern (`ON CONFLICT` / profile upsert), and only assertion-reaching runs are accepted as Gate-4 evidence.
 
+## Rejected runner-acquisition attempt
+
+A later exact-head execution attempt on PR #27 head:
+
+`2e4fa066a16300e9641bb7fe11d721ba233eac73`
+
+was **not accepted as PASS or FAIL evidence**. Quality, Ephemeral Financial Rules, Isolated Auth UI Smoke, and both Gate-4 jobs were created by GitHub but failed before any workflow step started (`steps = None`), including the pre-existing workflows that had passed on earlier heads. Re-running failed jobs produced the same pre-step failure.
+
+This is classified as a runner-acquisition / execution-infrastructure failure, not an application, test assertion, build, migration, or Gate-4 contract failure. No test was weakened or changed to convert that failure into expected RED. A new head is created by this evidence update so the four intended workflows can start from a clean exact-head execution attempt after the Gate-4 workflow consolidation.
+
 ## Existing baseline — unchanged
 
 The following protection is preserved and not weakened:
@@ -197,34 +207,26 @@ Gate-4 orchestration is intentionally consolidated into one workflow:
 
 - `.github/workflows/fin-courier-gate4-probe.yml`
 
-with:
-
-- one isolated backend job;
-- one isolated UI job.
+with one isolated backend job and one isolated UI job.
 
 Backend orchestration is centralized in:
 
 - `tests/financial-rules/run-fin-courier-gate4-all.sh`
 
-The backend runner executes all authored backend contracts on one isolated Supabase instance and classifies each explicitly as either:
+The backend runner executes all authored backend contracts on one isolated Supabase instance and classifies each explicitly as either expected RED before its corresponding implementation or true GREEN baseline that must already pass and remain passing.
 
-- **expected RED** before its corresponding implementation; or
-- **true GREEN** baseline that must already pass and remain passing.
-
-The true-GREEN baselines are executed before the multi-session concurrency test to prevent later `close_day` snapshots from being contaminated by concurrency fixtures.
-
-The UI job runs three independent probes so an I1 failure cannot hide I3/J2 or I4 evidence.
+The true-GREEN baselines are executed before the multi-session concurrency test to prevent later `close_day` snapshots from being contaminated by concurrency fixtures. The UI job runs three independent probes so an I1 failure cannot hide I3/J2 or I4 evidence.
 
 Earlier development used multiple per-slice workflows. That design was removed after it caused a GitHub Actions queue storm: `pull_request.paths` evaluates the cumulative PR diff, so every subsequent push retriggered all Gate-4 workflows. The test files remain independent, but orchestration is now single and deterministic.
 
-Final intended exact-head workflow set is therefore:
+Final intended exact-head workflow set is:
 
 1. Quality;
 2. Ephemeral Financial Rules;
 3. Isolated Auth UI Smoke;
 4. FIN-COURIER Gate 4 Probe.
 
-Expected-RED tests must fail internally with their named sentinel and then allow the consolidated workflow to succeed only when the reason is the approved missing contract. Any seed, build, SQL syntax, login, browser, or other harness failure is a Gate-4 failure and must not count as expected RED.
+Expected-RED tests must fail internally with their named sentinel and then allow the consolidated workflow to succeed only when the reason is the approved missing contract. Any seed, build, SQL syntax, login, browser, runner-acquisition, or other harness/infrastructure failure is a Gate-4 execution failure and must not count as expected RED.
 
 ## Remaining execution boundary before Gate 4 approval
 
@@ -233,7 +235,7 @@ The safety-net assertions are authored across the approved TEST_PLAN. Before Gat
 1. the four intended workflows above must be run and reviewed on one exact final PR #27 head;
 2. standard Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke must be GREEN on that same head;
 3. true-GREEN baselines — T1–T15, returned baseline, F2 snapshot, rollback endpoint — must actually pass rather than being converted to expected RED;
-4. each expected-RED test must reach its named contract sentinel — no false RED from harness failures;
+4. each expected-RED test must reach its named contract sentinel — no false RED from harness or runner failures;
 5. an independent review must inspect false-positive/false-negative risk, transaction isolation, tenant isolation, concurrency assumptions, and traceability to `TEST_PLAN.md`;
 6. the future corrective rollback migration cannot be executed before it exists; when implementation supplies it, the already-authored corrective-rollback runner becomes mandatory evidence.
 

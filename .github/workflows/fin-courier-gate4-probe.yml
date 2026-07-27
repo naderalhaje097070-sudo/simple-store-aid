@@ -61,13 +61,18 @@ jobs:
            WHERE id = :'uid'::uuid;
 
           INSERT INTO public.tenants (id, name, owner_user_id)
-          VALUES (:'tid'::uuid, 'FIN-COURIER Gate 4', :'uid'::uuid);
+          VALUES (:'tid'::uuid, 'FIN-COURIER Gate 4', :'uid'::uuid)
+          ON CONFLICT (id) DO NOTHING;
 
           INSERT INTO public.profiles (id, tenant_id, display_name)
-          VALUES (:'uid'::uuid, :'tid'::uuid, 'Gate 4');
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Gate 4')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
 
           INSERT INTO public.user_roles (user_id, tenant_id, role)
-          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner');
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
           SQL
 
       - name: Prove baseline green and target red
@@ -160,19 +165,26 @@ jobs:
            WHERE id = :'uid'::uuid;
 
           INSERT INTO public.tenants (id, name, owner_user_id)
-          VALUES (:'tid'::uuid, 'FIN-COURIER Gate 4 UI', :'uid'::uuid);
+          VALUES (:'tid'::uuid, 'FIN-COURIER Gate 4 UI', :'uid'::uuid)
+          ON CONFLICT (id) DO NOTHING;
 
           INSERT INTO public.profiles (id, tenant_id, display_name)
-          VALUES (:'uid'::uuid, :'tid'::uuid, 'Gate 4 UI');
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Gate 4 UI')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
 
           INSERT INTO public.user_roles (user_id, tenant_id, role)
-          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner');
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
 
           INSERT INTO public.products (id, tenant_id, name, price, cost, stock, is_active, is_discount)
-          VALUES ('dddd4444-1000-0000-0000-000000000001', :'tid'::uuid, 'GATE4-PRODUCT', 100, 60, 10, true, false);
+          VALUES ('dddd4444-1000-0000-0000-000000000001', :'tid'::uuid, 'GATE4-PRODUCT', 100, 60, 10, true, false)
+          ON CONFLICT (id) DO NOTHING;
 
           INSERT INTO public.couriers (id, tenant_id, name, is_active)
-          VALUES ('ffff6666-1000-0000-0000-000000000001', :'tid'::uuid, 'GATE4-COURIER', true);
+          VALUES ('ffff6666-1000-0000-0000-000000000001', :'tid'::uuid, 'GATE4-COURIER', true)
+          ON CONFLICT (id) DO NOTHING;
           SQL
 
           {

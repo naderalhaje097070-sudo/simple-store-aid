@@ -40,6 +40,7 @@ DECLARE
   v_has_new bool;
   v_old int;
   v_ok bool;
+  v_constraint text;
 BEGIN
   SELECT EXISTS (
     SELECT 1 FROM pg_constraint
@@ -99,8 +100,10 @@ BEGIN
     PERFORM pg_temp.ck_fail('C-CK4', SQLERRM);
   END;
 
-  -- C-CK5: courier with NULL state and no customer must fail closed.
+  -- C-CK5: courier with NULL state and no customer must fail specifically on
+  -- the approved replacement customer/debt CHECK, not on an unrelated CHECK.
   v_ok := false;
+  v_constraint := NULL;
   BEGIN
     INSERT INTO orders(
       id, tenant_id, total, paid, status, delivery,
@@ -110,12 +113,19 @@ BEGIN
       'ffff6666-2000-0000-0000-000000000001', NULL, 0, NULL
     );
   EXCEPTION WHEN check_violation THEN
-    v_ok := true;
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_customer_required_when_debt';
   END;
-  IF NOT v_ok THEN PERFORM pg_temp.ck_fail('C-CK5', 'NULL courier_state was accepted'); END IF;
+  IF NOT v_ok THEN
+    PERFORM pg_temp.ck_fail(
+      'C-CK5',
+      format('expected orders_customer_required_when_debt, got %s', COALESCE(v_constraint, 'no rejection'))
+    );
+  END IF;
 
-  -- C-CK6: direct debt without customer must fail.
+  -- C-CK6: direct debt without customer must fail on the replacement CHECK.
   v_ok := false;
+  v_constraint := NULL;
   BEGIN
     INSERT INTO orders(
       id, tenant_id, total, paid, status, delivery,
@@ -125,12 +135,19 @@ BEGIN
       NULL, NULL, 0, NULL
     );
   EXCEPTION WHEN check_violation THEN
-    v_ok := true;
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_customer_required_when_debt';
   END;
-  IF NOT v_ok THEN PERFORM pg_temp.ck_fail('C-CK6', 'direct debt without customer was accepted'); END IF;
+  IF NOT v_ok THEN
+    PERFORM pg_temp.ck_fail(
+      'C-CK6',
+      format('expected orders_customer_required_when_debt, got %s', COALESCE(v_constraint, 'no rejection'))
+    );
+  END IF;
 
-  -- C-CK7a: delivered_partial without customer must fail.
+  -- C-CK7a: delivered_partial without customer must fail on the replacement CHECK.
   v_ok := false;
+  v_constraint := NULL;
   BEGIN
     INSERT INTO orders(
       id, tenant_id, total, paid, status, delivery,
@@ -140,12 +157,19 @@ BEGIN
       'ffff6666-2000-0000-0000-000000000001', 'delivered_partial', 40, NULL
     );
   EXCEPTION WHEN check_violation THEN
-    v_ok := true;
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_customer_required_when_debt';
   END;
-  IF NOT v_ok THEN PERFORM pg_temp.ck_fail('C-CK7P', 'customer-less delivered_partial was accepted'); END IF;
+  IF NOT v_ok THEN
+    PERFORM pg_temp.ck_fail(
+      'C-CK7P',
+      format('expected orders_customer_required_when_debt, got %s', COALESCE(v_constraint, 'no rejection'))
+    );
+  END IF;
 
-  -- C-CK7b: delivered_none without customer must fail.
+  -- C-CK7b: delivered_none without customer must fail on the replacement CHECK.
   v_ok := false;
+  v_constraint := NULL;
   BEGIN
     INSERT INTO orders(
       id, tenant_id, total, paid, status, delivery,
@@ -155,9 +179,15 @@ BEGIN
       'ffff6666-2000-0000-0000-000000000001', 'delivered_none', 0, NULL
     );
   EXCEPTION WHEN check_violation THEN
-    v_ok := true;
+    GET STACKED DIAGNOSTICS v_constraint = CONSTRAINT_NAME;
+    v_ok := v_constraint = 'orders_customer_required_when_debt';
   END;
-  IF NOT v_ok THEN PERFORM pg_temp.ck_fail('C-CK7N', 'customer-less delivered_none was accepted'); END IF;
+  IF NOT v_ok THEN
+    PERFORM pg_temp.ck_fail(
+      'C-CK7N',
+      format('expected orders_customer_required_when_debt, got %s', COALESCE(v_constraint, 'no rejection'))
+    );
+  END IF;
 
   -- C-CK8: direct fully-paid sale without customer remains valid.
   BEGIN

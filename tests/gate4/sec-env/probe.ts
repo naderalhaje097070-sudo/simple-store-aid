@@ -17,14 +17,28 @@ function resolvesWithoutThrow(env: Record<string, string>): boolean {
   }
 }
 
-// True-green compatibility baseline: explicit non-production aliases already work.
-const local = resolveSupabaseBuildConfig({
+// True-green compatibility baseline 1: explicit preview/local target works.
+const preview = resolveSupabaseBuildConfig({
+  MONGEZZ_DEPLOY_TARGET: "preview",
   VITE_SUPABASE_URL: "http://127.0.0.1:54321",
   VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
   VITE_SUPABASE_PROJECT_ID: "isolated-project",
 } as any);
-if (local.url !== "http://127.0.0.1:54321" || local.projectId !== "isolated-project") {
-  fail("explicit isolated configuration no longer resolves correctly");
+if (preview.url !== "http://127.0.0.1:54321" || preview.projectId !== "isolated-project") {
+  fail("explicit isolated preview configuration no longer resolves correctly");
+}
+
+// True-green compatibility baseline 2: explicit production intent plus explicit
+// production values remains a valid deploy contract. This prevents a future
+// implementation from solving isolation by blocking production entirely.
+const production = resolveSupabaseBuildConfig({
+  MONGEZZ_DEPLOY_TARGET: "production",
+  VITE_SUPABASE_URL: PROD_URL,
+  VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
+  VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
+} as any);
+if (production.url !== PROD_URL || production.projectId !== PROD_PROJECT) {
+  fail("explicit production intent/configuration no longer resolves correctly");
 }
 
 const gaps: string[] = [];

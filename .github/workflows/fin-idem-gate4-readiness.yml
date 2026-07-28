@@ -1,0 +1,51 @@
+name: FIN-IDEM Gate 4 Readiness
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  target-readiness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+
+      - name: Confirm canonical sale dependency state
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          bun tests/gate4/fin-idem/target-readiness.ts > /tmp/fin-idem-readiness.log 2>&1
+          status=$?
+          set -e
+          cat /tmp/fin-idem-readiness.log
+
+          if [[ "$status" -eq 43 ]]; then
+            grep -Fq "FIN_IDEM_G4_D1_DEPENDENCY_BLOCKED" /tmp/fin-idem-readiness.log || exit 1
+            echo "FIN_IDEM_G4_DEPENDENCY_BLOCKED_CONFIRMED"
+            exit 0
+          fi
+
+          if [[ "$status" -eq 42 ]]; then
+            grep -Fq "FIN_IDEM_G4_E2_EXPECTED_RED" /tmp/fin-idem-readiness.log || exit 1
+            echo "FIN_IDEM_G4_EXPECTED_RED_READY_FOR_FULL_PROBE"
+            exit 0
+          fi
+
+          if [[ "$status" -eq 0 ]]; then
+            grep -Fq "FIN_IDEM_G4_TARGET_READY" /tmp/fin-idem-readiness.log || exit 1
+            echo "FIN_IDEM_G4_TARGET_DEPENDENCY_PRESENT"
+            exit 0
+          fi
+
+          echo "FIN_IDEM_G4_HARNESS_FAIL: unexpected readiness status $status"
+          exit 1

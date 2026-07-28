@@ -1,0 +1,21 @@
+name: GHA Hosted Runner Probe
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  hosted-runner-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Runner reached shell
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "GHA_HOSTED_RUNNER_REACHED_SHELL"
+          echo "runner_os=${RUNNER_OS}"

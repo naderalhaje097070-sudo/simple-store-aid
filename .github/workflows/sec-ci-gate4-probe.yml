@@ -1,0 +1,49 @@
+name: SEC-CI Gate 4 Probe
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  policy-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+
+      - name: Run expected-red CI policy probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          bun tests/gate4/sec-ci/probe.ts > /tmp/sec-ci-g4.log 2>&1
+          status=$?
+          set -e
+          cat /tmp/sec-ci-g4.log
+
+          if [[ "$status" -ne 42 ]]; then
+            echo "SEC_CI_G4_HARNESS_FAIL: expected controlled exit 42, got $status"
+            exit 1
+          fi
+
+          for sentinel in \
+            SEC_CI_G4_E1_EXPECTED_RED \
+            SEC_CI_G4_E2_EXPECTED_RED \
+            SEC_CI_G4_E3_EXPECTED_RED \
+            SEC_CI_G4_E4_EXPECTED_RED
+          do
+            grep -Fq "$sentinel" /tmp/sec-ci-g4.log || {
+              echo "SEC_CI_G4_HARNESS_FAIL: missing $sentinel"
+              exit 1
+            }
+          done
+
+          echo "SEC_CI_G4_EXPECTED_RED_CONFIRMED"

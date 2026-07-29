@@ -6,7 +6,7 @@ import {
   Wallet, Banknote, Truck, Users, Settings as SettingsIcon,
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
-  Activity, ShieldCheck, FileDown, Printer, Crown,
+  Activity, ShieldCheck, FileDown, Printer, Crown, Loader2,
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
@@ -936,6 +936,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
   const [pickCustomer, setPickCustomer] = useState(false);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
@@ -954,7 +955,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
     : undefined;
 
   return (
-    <Sheet onClose={onClose} title="الدفع">
+    <Sheet onClose={() => { if (!saving) onClose(); }} title="الدفع">
       <div className="space-y-3">
         <div className="rounded-xl bg-muted p-3 flex justify-between"><span className="text-sm text-muted-foreground">الإجمالي</span><Money v={subtotal} className="font-bold" /></div>
 
@@ -1034,7 +1035,24 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
           </div>
         </div>
 
-        <button disabled={!canSave} onClick={() => { if (!canSave || overpaid || paid > subtotal) return; onSave({ paid, customerId, delivery, courierId, method }); }} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
+        <button
+          disabled={!canSave || saving}
+          aria-busy={saving}
+          onClick={async () => {
+            if (saving) return;
+            if (!canSave || overpaid || paid > subtotal) return;
+            setSaving(true);
+            try {
+              await onSave({ paid, customerId, delivery, courierId, method });
+            } catch {
+              setSaving(false);
+            }
+          }}
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+        >
+          {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+          {saving ? "جاري الحفظ…" : "حفظ الفاتورة"}
+        </button>
       </div>
 
       {pickCustomer && (
@@ -1134,6 +1152,7 @@ function SaleQuickScreen(p: any) {
   const [q, setQ] = useState("");
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
   const [bumpMsg, setBumpMsg] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startedAt = useRef<number>(performance.now());
   const lastAddedRef = useRef<string | null>(null);
@@ -1212,21 +1231,29 @@ function SaleQuickScreen(p: any) {
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   const save = async () => {
+    if (saving) return;
     if (cart.length === 0 || subtotal <= 0) return;
-    const items: InvoiceItem[] = cart.map(c => {
-      const pr = p.products.find((x: Product) => x.id === c.productId)!;
-      return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
-    });
-    const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-    const created = await p.createSaleAsync({
-      items, total: subtotal, paid: subtotal,
-      delivery: "direct" as const, method: "cash" as const,
-    });
-    const elapsedMs = Math.round(performance.now() - startedAt.current);
-    p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
-    p.setLastCreatedInvoiceId(created.orderId);
-    p.setScreen("sale_success");
+    setSaving(true);
+    try {
+      const items: InvoiceItem[] = cart.map(c => {
+        const pr = p.products.find((x: Product) => x.id === c.productId)!;
+        return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
+      });
+      const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
+      const created = await p.createSaleAsync({
+        items, total: subtotal, paid: subtotal,
+        delivery: "direct" as const, method: "cash" as const,
+      });
+      const elapsedMs = Math.round(performance.now() - startedAt.current);
+      p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
+      p.setLastCreatedInvoiceId(created.orderId);
+      p.setScreen("sale_success");
+    } catch {
+      p.showToast?.("تعذّر حفظ الفاتورة — حاول مرة أخرى");
+      setSaving(false);
+    }
   };
+
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col" dir="rtl">
@@ -1333,22 +1360,34 @@ function SaleQuickScreen(p: any) {
           <div className="grid grid-cols-[auto_1fr] items-stretch gap-2">
             <button
               onClick={() => p.setScreen("sale")}
-              className="rounded-2xl bg-card border border-border px-3 text-[11px] font-bold text-muted-foreground"
+              disabled={saving}
+              className="rounded-2xl bg-card border border-border px-3 text-[11px] font-bold text-muted-foreground disabled:opacity-50 disabled:pointer-events-none"
               aria-label="بيع متقدم"
             >متقدّم</button>
             <button
               onClick={save}
-              className="rounded-2xl bg-primary text-primary-foreground py-3.5 font-bold flex items-center justify-between px-4 active:scale-[0.98] transition min-h-[56px]"
+              disabled={saving}
+              aria-busy={saving}
+              className="rounded-2xl bg-primary text-primary-foreground py-3.5 font-bold flex items-center justify-between px-4 active:scale-[0.98] transition min-h-[56px] disabled:opacity-60 disabled:pointer-events-none"
             >
-              <span className="text-sm">إصدار الفاتورة</span>
-              <span className="flex items-center gap-2 text-[12px] opacity-95">
-                <span className="num">{totalQty}</span>
-                <span className="opacity-60">قطعة ·</span>
-                <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
-                <span className="text-[10px] opacity-80">د.ل</span>
-              </span>
+              {saving ? (
+                <span className="w-full flex items-center justify-center gap-2 text-sm">
+                  <Loader2 className="w-4 h-4 animate-spin" /> جاري الحفظ…
+                </span>
+              ) : (
+                <>
+                  <span className="text-sm">إصدار الفاتورة</span>
+                  <span className="flex items-center gap-2 text-[12px] opacity-95">
+                    <span className="num">{totalQty}</span>
+                    <span className="opacity-60">قطعة ·</span>
+                    <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
+                    <span className="text-[10px] opacity-80">د.ل</span>
+                  </span>
+                </>
+              )}
             </button>
           </div>
+
 
           {lastAddedRef.current && (
             <button onClick={bumpLast} className="mt-2 w-full text-[11px] text-primary font-bold py-1 flex items-center justify-center gap-1">

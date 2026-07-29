@@ -1342,22 +1342,34 @@ function SaleQuickScreen(p: any) {
           <div className="grid grid-cols-[auto_1fr] items-stretch gap-2">
             <button
               onClick={() => p.setScreen("sale")}
-              className="rounded-2xl bg-card border border-border px-3 text-[11px] font-bold text-muted-foreground"
+              disabled={saving}
+              className="rounded-2xl bg-card border border-border px-3 text-[11px] font-bold text-muted-foreground disabled:opacity-50 disabled:pointer-events-none"
               aria-label="بيع متقدم"
             >متقدّم</button>
             <button
               onClick={save}
-              className="rounded-2xl bg-primary text-primary-foreground py-3.5 font-bold flex items-center justify-between px-4 active:scale-[0.98] transition min-h-[56px]"
+              disabled={saving}
+              aria-busy={saving}
+              className="rounded-2xl bg-primary text-primary-foreground py-3.5 font-bold flex items-center justify-between px-4 active:scale-[0.98] transition min-h-[56px] disabled:opacity-60 disabled:pointer-events-none"
             >
-              <span className="text-sm">إصدار الفاتورة</span>
-              <span className="flex items-center gap-2 text-[12px] opacity-95">
-                <span className="num">{totalQty}</span>
-                <span className="opacity-60">قطعة ·</span>
-                <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
-                <span className="text-[10px] opacity-80">د.ل</span>
-              </span>
+              {saving ? (
+                <span className="w-full flex items-center justify-center gap-2 text-sm">
+                  <Loader2 className="w-4 h-4 animate-spin" /> جاري الحفظ…
+                </span>
+              ) : (
+                <>
+                  <span className="text-sm">إصدار الفاتورة</span>
+                  <span className="flex items-center gap-2 text-[12px] opacity-95">
+                    <span className="num">{totalQty}</span>
+                    <span className="opacity-60">قطعة ·</span>
+                    <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
+                    <span className="text-[10px] opacity-80">د.ل</span>
+                  </span>
+                </>
+              )}
             </button>
           </div>
+
 
           {lastAddedRef.current && (
             <button onClick={bumpLast} className="mt-2 w-full text-[11px] text-primary font-bold py-1 flex items-center justify-center gap-1">

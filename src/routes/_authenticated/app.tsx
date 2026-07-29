@@ -936,6 +936,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
   const [pickCustomer, setPickCustomer] = useState(false);
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
@@ -1034,7 +1035,24 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
           </div>
         </div>
 
-        <button disabled={!canSave} onClick={() => { if (!canSave || overpaid || paid > subtotal) return; onSave({ paid, customerId, delivery, courierId, method }); }} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">حفظ الفاتورة</button>
+        <button
+          disabled={!canSave || saving}
+          aria-busy={saving}
+          onClick={async () => {
+            if (saving) return;
+            if (!canSave || overpaid || paid > subtotal) return;
+            setSaving(true);
+            try {
+              await onSave({ paid, customerId, delivery, courierId, method });
+            } catch {
+              setSaving(false);
+            }
+          }}
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40 disabled:pointer-events-none flex items-center justify-center gap-2"
+        >
+          {saving && <Loader2 className="w-4 h-4 animate-spin" />}
+          {saving ? "جاري الحفظ…" : "حفظ الفاتورة"}
+        </button>
       </div>
 
       {pickCustomer && (

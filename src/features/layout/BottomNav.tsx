@@ -5,10 +5,12 @@ export function BottomNav({
   screen,
   setScreen,
   onSale,
+  saleDisabled = false,
 }: {
   screen: Screen;
   setScreen: (s: Screen) => void;
   onSale: () => void;
+  saleDisabled?: boolean;
 }) {
   const Tab = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {
     const active = screen === id;

@@ -955,7 +955,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
     : undefined;
 
   return (
-    <Sheet onClose={onClose} title="الدفع">
+    <Sheet onClose={() => { if (!saving) onClose(); }} title="الدفع">
       <div className="space-y-3">
         <div className="rounded-xl bg-muted p-3 flex justify-between"><span className="text-sm text-muted-foreground">الإجمالي</span><Money v={subtotal} className="font-bold" /></div>
 

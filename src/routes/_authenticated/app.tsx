@@ -6,7 +6,7 @@ import {
   Wallet, Banknote, Truck, Users, Settings as SettingsIcon,
   TrendingUp, Phone, MessageCircle, Trash2, ArrowLeft, Info,
   Clock, PackageX, ArrowDownCircle, ArrowUpCircle, CircleDollarSign,
-  Activity, ShieldCheck, FileDown, Printer, Crown,
+  Activity, ShieldCheck, FileDown, Printer, Crown, Loader2,
 } from "lucide-react";
 import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
 import {
@@ -1134,6 +1134,7 @@ function SaleQuickScreen(p: any) {
   const [q, setQ] = useState("");
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
   const [bumpMsg, setBumpMsg] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const startedAt = useRef<number>(performance.now());
   const lastAddedRef = useRef<string | null>(null);
@@ -1212,21 +1213,29 @@ function SaleQuickScreen(p: any) {
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   const save = async () => {
+    if (saving) return;
     if (cart.length === 0 || subtotal <= 0) return;
-    const items: InvoiceItem[] = cart.map(c => {
-      const pr = p.products.find((x: Product) => x.id === c.productId)!;
-      return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
-    });
-    const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
-    const created = await p.createSaleAsync({
-      items, total: subtotal, paid: subtotal,
-      delivery: "direct" as const, method: "cash" as const,
-    });
-    const elapsedMs = Math.round(performance.now() - startedAt.current);
-    p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
-    p.setLastCreatedInvoiceId(created.orderId);
-    p.setScreen("sale_success");
+    setSaving(true);
+    try {
+      const items: InvoiceItem[] = cart.map(c => {
+        const pr = p.products.find((x: Product) => x.id === c.productId)!;
+        return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
+      });
+      const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
+      const created = await p.createSaleAsync({
+        items, total: subtotal, paid: subtotal,
+        delivery: "direct" as const, method: "cash" as const,
+      });
+      const elapsedMs = Math.round(performance.now() - startedAt.current);
+      p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
+      p.setLastCreatedInvoiceId(created.orderId);
+      p.setScreen("sale_success");
+    } catch {
+      p.showToast?.("تعذّر حفظ الفاتورة — حاول مرة أخرى");
+      setSaving(false);
+    }
   };
+
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col" dir="rtl">

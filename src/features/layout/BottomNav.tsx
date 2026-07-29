@@ -13,6 +13,7 @@ export function BottomNav({
   onSale: () => void;
   saleDisabled?: boolean;
 }) {
+  const [busy, setBusy] = useState(false);
   const Tab = ({ id, label, Icon }: { id: Screen; label: string; Icon: typeof Home }) => {
     const active = screen === id;
     return (

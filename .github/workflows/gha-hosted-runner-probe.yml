@@ -19,3 +19,4 @@ jobs:
           set -euo pipefail
           echo "GHA_HOSTED_RUNNER_REACHED_SHELL"
           echo "runner_os=${RUNNER_OS}"
+          echo "quota_reset_probe=2026-08-01"

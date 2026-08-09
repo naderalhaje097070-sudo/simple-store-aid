@@ -269,24 +269,38 @@ async def main():
             await page.wait_for_timeout(700)
             await page.screenshot(path=str(SHOTS / "p5_payment_sheet.png"))
 
-            save_btn = page.get_by_text("حفظ الفاتورة", exact=False)
+            save_btn = page.get_by_role("button", name="حفظ الفاتورة")
             if await save_btn.count():
+                # Throttle so the save stays in-flight long enough to observe the UI state.
+                cdp2 = await ctx.new_cdp_session(page)
+                await cdp2.send("Network.enable")
+                await cdp2.send("Network.emulateNetworkConditions", {
+                    "offline": False, "latency": 1500,
+                    "downloadThroughput": 200 * 1024, "uploadThroughput": 100 * 1024,
+                })
                 since5 = db_now()
                 counter.reset()
                 await rapid_click(page, save_btn.first, times=4, delay_ms=40)
-                await page.wait_for_timeout(400)
+                await page.wait_for_timeout(500)
                 sheet_open_during = await page.get_by_text("الدفع", exact=True).count()
-                # P4: attempt to dismiss the sheet mid-save (overlay click)
-                await page.mouse.click(195, 60)
-                await page.wait_for_timeout(200)
+                busy = await page.locator('button[aria-busy="true"]').count()
+                saving_label = await page.get_by_text("جاري الحفظ", exact=False).count()
+                # P4: attempt to dismiss the sheet mid-save (overlay click at top of screen)
+                await page.mouse.click(195, 40)
+                await page.wait_for_timeout(250)
                 sheet_still_open = await page.get_by_text("الدفع", exact=True).count()
                 await page.screenshot(path=str(SHOTS / "p4_sheet_during_save.png"))
-                await page.wait_for_timeout(4000)
+                await page.wait_for_timeout(8000)
+                await cdp2.send("Network.emulateNetworkConditions", {
+                    "offline": False, "latency": 0,
+                    "downloadThroughput": -1, "uploadThroughput": -1,
+                })
                 n5 = orders_since(tid, since5)
                 record("P5", counter.n == 1 and n5 == 1,
-                       f"advanced save 4 taps → create RPC={counter.n}, new orders={n5}")
-                record("P4", sheet_still_open >= 1 or sheet_open_during >= 1,
-                       f"sheet visible during save={sheet_open_during>0}, still open after outside click={sheet_still_open>0}")
+                       f"advanced save 4 taps (throttled) → create RPC={counter.n}, new orders={n5}")
+                record("P4", sheet_open_during > 0 and sheet_still_open > 0,
+                       f"sheet open during save={sheet_open_during>0}, still open after outside click={sheet_still_open>0}, "
+                       f"aria-busy buttons={busy}, 'جاري الحفظ' visible={saving_label>0}")
                 created_orders += psql_one(
                     f"SELECT string_agg(id::text, ',') FROM public.orders WHERE tenant_id='{tid}' AND created_at > '{since5}'"
                 ).split(",") if n5 else []

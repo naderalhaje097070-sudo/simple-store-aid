@@ -33,8 +33,8 @@ const authVersion = setupCliVersion(auth);
 const exactSemver = /^\d+\.\d+\.\d+$/;
 const gaps: string[] = [];
 
-const bothUseMaintainedAction = financial.includes("uses: supabase/setup-cli@v2") &&
-  auth.includes("uses: supabase/setup-cli@v2");
+const bothUseMaintainedAction =
+  financial.includes("uses: supabase/setup-cli@v2") && auth.includes("uses: supabase/setup-cli@v2");
 
 const bothUseOneExactVersion =
   financialVersion !== null &&
@@ -43,11 +43,12 @@ const bothUseOneExactVersion =
   exactSemver.test(authVersion) &&
   financialVersion === authVersion;
 
-const postsRawPrLogs = financial.includes("gh pr comment") &&
+const postsRawPrLogs =
+  financial.includes("gh pr comment") &&
   (financial.includes("/tmp/supabase-start.log") || financial.includes("/tmp/financial-rules.log"));
 
-const grantsCommentWritePermissions = /issues:\s*write/m.test(financial) ||
-  /pull-requests:\s*write/m.test(financial);
+const grantsCommentWritePermissions =
+  /issues:\s*write/m.test(financial) || /pull-requests:\s*write/m.test(financial);
 
 if (!bothUseMaintainedAction) {
   console.log("SEC_CI_G4_E1_EXPECTED_RED: release workflows are not both on supabase/setup-cli@v2");

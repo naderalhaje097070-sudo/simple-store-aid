@@ -1,5 +1,6 @@
 import "./lib/error-capture";
 
+import { resolveSupabaseBuildConfig } from "../config/supabase-build-config";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
@@ -8,6 +9,18 @@ type ServerEntry = {
 };
 
 let serverEntryPromise: Promise<ServerEntry> | undefined;
+let serverEnvironmentVerified = false;
+
+function verifyServerEnvironment(): void {
+  if (serverEnvironmentVerified) return;
+
+  // SEC-ENV-001: validate both VITE_* and server Supabase aliases before the
+  // generated server entry (auth middleware/admin clients) can make a request.
+  // Divergent aliases, missing intent/config, and non-production→production
+  // targeting all fail closed here.
+  resolveSupabaseBuildConfig(process.env);
+  serverEnvironmentVerified = true;
+}
 
 async function getServerEntry(): Promise<ServerEntry> {
   if (!serverEntryPromise) {
@@ -40,6 +53,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      verifyServerEnvironment();
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

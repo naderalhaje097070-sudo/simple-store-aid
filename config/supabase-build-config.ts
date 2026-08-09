@@ -147,6 +147,28 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   };
 }
 
+export function assertSupabaseRuntimeMatchesBuild(
+  buildEnv: SupabaseBuildEnvironment,
+  runtimeEnv: SupabaseBuildEnvironment,
+): void {
+  const buildTarget = parseTarget(firstNonEmpty(buildEnv.MONGEZZ_DEPLOY_TARGET));
+  const runtimeTarget = parseTarget(firstNonEmpty(runtimeEnv.MONGEZZ_DEPLOY_TARGET));
+  const build = resolveSupabaseBuildConfig(buildEnv);
+  const runtime = resolveSupabaseBuildConfig(runtimeEnv);
+
+  if (buildTarget !== runtimeTarget) {
+    configurationError("runtime deployment target does not match baked build target");
+  }
+
+  if (
+    canonicalUrl(build.url) !== canonicalUrl(runtime.url) ||
+    build.publishableKey !== runtime.publishableKey ||
+    build.projectId !== runtime.projectId
+  ) {
+    configurationError("runtime Supabase configuration does not match baked build configuration");
+  }
+}
+
 export function resolveAndHydrateSupabaseServerConfig(env: SupabaseBuildEnvironment) {
   const resolved = resolveSupabaseBuildConfig(env);
 

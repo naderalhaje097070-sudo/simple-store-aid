@@ -47,8 +47,7 @@ function childBaseEnv(): Record<string, string> {
 
   return Object.fromEntries(
     Object.entries(process.env).filter(
-      (entry): entry is [string, string] =>
-        typeof entry[1] === "string" && !excluded.has(entry[0]),
+      (entry): entry is [string, string] => typeof entry[1] === "string" && !excluded.has(entry[0]),
     ),
   );
 }
@@ -246,10 +245,7 @@ const safeCommon = {
   PGDATABASE: "postgres",
 };
 
-const destructiveHarnesses = [
-  "tests/e2e/rapid-click-sale.py",
-  "tests/e2e/sale-dashboard-close.py",
-];
+const destructiveHarnesses = ["tests/e2e/rapid-click-sale.py", "tests/e2e/sale-dashboard-close.py"];
 
 let allDestructiveHarnessesContained = inventoryMatches;
 for (const script of destructiveHarnesses) {
@@ -319,7 +315,7 @@ const sharedGuardPinsPsqlRouting =
   sharedGuardSource.includes('"-p",') &&
   sharedGuardSource.includes('"-U",') &&
   sharedGuardSource.includes('"-d",') &&
-  sharedGuardSource.includes('env=_psql_env(config)');
+  sharedGuardSource.includes("env=_psql_env(config)");
 const rapidPsqlStartupDisabled =
   (rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0) >= 2;
 const runnerPreflight = 'python3 "$HERE/sale-dashboard-close.py" --preflight-only';

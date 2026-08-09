@@ -1,5 +1,6 @@
 import {
   APPROVED_PRODUCTION_SUPABASE_TARGET,
+  assertSupabaseRuntimeMatchesBuild,
   resolveAndHydrateSupabaseServerConfig,
   resolveSupabaseBuildConfig,
   type SupabaseBuildEnvironment,
@@ -111,6 +112,29 @@ if (
   gaps.push("E5");
 }
 
+try {
+  assertSupabaseRuntimeMatchesBuild(
+    {
+      MONGEZZ_DEPLOY_TARGET: "production",
+      VITE_SUPABASE_URL: PROD_URL,
+      VITE_SUPABASE_PUBLISHABLE_KEY: "production-public-key",
+      VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
+    },
+    {
+      MONGEZZ_DEPLOY_TARGET: "preview",
+      VITE_SUPABASE_URL: "http://127.0.0.1:54321",
+      VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
+      VITE_SUPABASE_PROJECT_ID: "isolated-project",
+    },
+  );
+  console.log(
+    "SEC_ENV_G4_E6_EXPECTED_RED: runtime environment can diverge from the baked build identity",
+  );
+  gaps.push("E6");
+} catch {
+  // Expected target-green behavior.
+}
+
 if (gaps.length === 0) {
   console.log(
     "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production",
@@ -118,7 +142,7 @@ if (gaps.length === 0) {
   process.exit(0);
 }
 
-const expected = ["E1", "E2", "E3", "E4", "E5"];
+const expected = ["E1", "E2", "E3", "E4", "E5", "E6"];
 if (expected.some((id) => !gaps.includes(id))) {
   fail(`partial/unexpected environment gap set: ${gaps.join(",")}`);
 }

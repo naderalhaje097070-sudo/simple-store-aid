@@ -9,39 +9,111 @@ Scenarios (mobile 390x844):
   P5  rapid taps on advanced-flow "حفظ الفاتورة"       → 1 create RPC, 1 order row
   P6  tap again after success screen appears           → no duplicate order
 
-Read-only against financial logic: no RPC/migration changes. Seeds one product
-tagged E2E-<ts> and removes everything through the tag-scoped cleanup RPC.
+This is a WRITE-CAPABLE test harness: it seeds a product and may create paid
+orders while exercising the UI. It is authorized only against the local/CI
+Supabase stack after the fail-closed preflight below succeeds.
 
-Requires LOVABLE_BROWSER_* + PG* env vars and the dev server on :8080.
+Required explicit safety inputs:
+  MONGEZZ_E2E_WRITE_TEST=1
+  MONGEZZ_DEPLOY_TARGET=local|ci
+  PGHOST=127.0.0.1|localhost
+  PGPORT=54322
+  PGUSER=postgres
+  PGDATABASE=postgres
+  VITE_SUPABASE_URL=http://127.0.0.1:54321 (or localhost)
+
+Use --preflight-only to validate containment without importing browser/network
+dependencies or performing any API/SQL/browser operation.
 """
 
 import asyncio, json, os, subprocess, sys, time, re
 from decimal import Decimal
 from pathlib import Path
-import requests
-from playwright.async_api import async_playwright
+from urllib.parse import urlparse
 
 BASE = "http://localhost:8080"
-SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exist_ok=True)
 TAG = f"E2E-{int(time.time())}"
 PRICE = Decimal("1")
 COST = Decimal("0.6")
 STOCK = 50
 CREATE_RPC = "create_sale_with_items"
+ENV_FILE = Path(os.environ.get("MONGEZZ_E2E_ENV_FILE", ".env"))
 
 results: list[tuple[str, str, str]] = []   # (id, PASS/FAIL, evidence)
 
 
+def block_write_harness(reason: str) -> None:
+    print(f"SEC_ENV_RAPID_CLICK_BLOCKED: {reason}")
+    raise SystemExit(2)
+
+
+def require_explicit_write_intent() -> None:
+    if os.environ.get("MONGEZZ_E2E_WRITE_TEST") != "1":
+        block_write_harness("MONGEZZ_E2E_WRITE_TEST must equal 1")
+
+    target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
+    if target not in {"local", "ci"}:
+        block_write_harness("MONGEZZ_DEPLOY_TARGET must be local or ci")
+
+    pg_host = os.environ.get("PGHOST", "").strip().lower().rstrip(".")
+    pg_port = os.environ.get("PGPORT", "").strip()
+    pg_user = os.environ.get("PGUSER", "").strip()
+    pg_database = os.environ.get("PGDATABASE", "").strip()
+    if pg_host not in {"127.0.0.1", "localhost"}:
+        block_write_harness("PGHOST must be loopback")
+    if pg_port != "54322":
+        block_write_harness("PGPORT must equal the isolated Supabase port 54322")
+    if pg_user != "postgres" or pg_database != "postgres":
+        block_write_harness("PGUSER and PGDATABASE must match the isolated Supabase defaults")
+
+
 def read_env(name: str) -> str:
-    env = Path(".env").read_text()
+    direct = os.environ.get(name, "").strip()
+    if direct:
+        return direct
+    try:
+        env = ENV_FILE.read_text()
+    except FileNotFoundError:
+        block_write_harness(f"environment file not found: {ENV_FILE}")
     m = re.search(rf"^{name}\s*=\s*(.+)$", env, re.M)
     if not m:
-        raise RuntimeError(f"{name} missing from .env")
+        block_write_harness(f"{name} missing from explicit environment")
     return m.group(1).strip().strip('"').strip("'")
 
 
+def require_loopback_supabase(url_value: str) -> None:
+    try:
+        parsed = urlparse(url_value)
+        host = (parsed.hostname or "").lower().rstrip(".")
+        port = parsed.port
+    except ValueError:
+        block_write_harness("VITE_SUPABASE_URL is invalid")
+
+    if parsed.scheme != "http":
+        block_write_harness("VITE_SUPABASE_URL must use http for the isolated local stack")
+    if host not in {"127.0.0.1", "localhost"} or port != 54321:
+        block_write_harness("VITE_SUPABASE_URL must target loopback port 54321")
+    if parsed.username or parsed.password or parsed.query or parsed.fragment:
+        block_write_harness("VITE_SUPABASE_URL contains unsupported credentials/query/fragment")
+    if parsed.path not in {"", "/"}:
+        block_write_harness("VITE_SUPABASE_URL must target the Supabase root")
+
+
+# Safety preflight must complete before importing requests/Playwright, reading
+# an injected browser session, creating local artifacts, or touching API/SQL.
+require_explicit_write_intent()
 SB_URL = read_env("VITE_SUPABASE_URL")
 SB_ANON = read_env("VITE_SUPABASE_PUBLISHABLE_KEY")
+require_loopback_supabase(SB_URL)
+
+if "--preflight-only" in sys.argv:
+    print("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK: isolated write harness target verified")
+    raise SystemExit(0)
+
+import requests
+from playwright.async_api import async_playwright
+
+SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exist_ok=True)
 
 
 def psql_exec(sql: str) -> None:
@@ -315,7 +387,7 @@ async def main():
 
             await browser.close()
     finally:
-        # Cleanup uses only production RPCs (no test-only RPC, no privileged SQL).
+        # Cleanup uses standard application RPCs (no test-only RPC, no privileged SQL).
         # Fully paid orders are intentionally undeletable by financial policy; those
         # are reported as leftovers instead of being force-removed.
         leftovers = []

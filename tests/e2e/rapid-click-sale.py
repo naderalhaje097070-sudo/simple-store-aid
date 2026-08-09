@@ -147,13 +147,13 @@ SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exis
 
 def psql_exec(sql: str) -> None:
     """Test-only cleanup channel (never used for assertions). Scoped to rows this run created."""
-    r = subprocess.run(["psql", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
+    r = subprocess.run(["psql", "-X", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"psql exec failed: {r.stderr.strip()}")
 
 
 def psql_one(sql: str) -> str:
-    r = subprocess.run(["psql", "-At", "-q", "-c", sql], capture_output=True, text=True)
+    r = subprocess.run(["psql", "-X", "-At", "-q", "-c", sql], capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"psql failed: {r.stderr.strip()}")
     return r.stdout.strip().splitlines()[0] if r.stdout.strip() else ""

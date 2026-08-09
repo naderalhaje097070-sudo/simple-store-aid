@@ -27,6 +27,39 @@ function resolvesWithoutThrow(env: Record<string, string>): boolean {
   }
 }
 
+function childBaseEnv(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(process.env).filter(
+      (entry): entry is [string, string] =>
+        typeof entry[1] === "string" &&
+        ![
+          "VITE_SUPABASE_URL",
+          "VITE_SUPABASE_PUBLISHABLE_KEY",
+          "MONGEZZ_E2E_WRITE_TEST",
+          "MONGEZZ_DEPLOY_TARGET",
+          "MONGEZZ_E2E_ENV_FILE",
+          "PGHOST",
+          "PGPORT",
+          "PGUSER",
+          "PGDATABASE",
+        ].includes(entry[0]),
+    ),
+  );
+}
+
+function rapidClickPreflight(env: Record<string, string>) {
+  const run = Bun.spawnSync(["python3", "tests/e2e/rapid-click-sale.py", "--preflight-only"], {
+    env,
+    stdout: "pipe",
+    stderr: "pipe",
+  });
+  const decode = (value: Uint8Array) => new TextDecoder().decode(value);
+  return {
+    exitCode: run.exitCode,
+    output: `${decode(run.stdout)}\n${decode(run.stderr)}`,
+  };
+}
+
 const preview = resolve({
   MONGEZZ_DEPLOY_TARGET: "preview",
   VITE_SUPABASE_URL: "http://127.0.0.1:54321",
@@ -135,6 +168,58 @@ try {
   // Expected target-green behavior.
 }
 
+const safeRapidEnvFile = "/tmp/sec-env-rapid-safe.env";
+const prodRapidEnvFile = "/tmp/sec-env-rapid-production.env";
+await Bun.write(
+  safeRapidEnvFile,
+  "VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key\n",
+);
+await Bun.write(
+  prodRapidEnvFile,
+  `VITE_SUPABASE_URL=${PROD_URL}\nVITE_SUPABASE_PUBLISHABLE_KEY=production-public-key\n`,
+);
+
+const rapidCommon = {
+  ...childBaseEnv(),
+  MONGEZZ_DEPLOY_TARGET: "ci",
+  PGHOST: "127.0.0.1",
+  PGPORT: "54322",
+  PGUSER: "postgres",
+  PGDATABASE: "postgres",
+};
+
+const missingMarker = rapidClickPreflight({
+  ...rapidCommon,
+  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
+});
+const productionTarget = rapidClickPreflight({
+  ...rapidCommon,
+  MONGEZZ_E2E_WRITE_TEST: "1",
+  MONGEZZ_E2E_ENV_FILE: prodRapidEnvFile,
+});
+const safeTarget = rapidClickPreflight({
+  ...rapidCommon,
+  MONGEZZ_E2E_WRITE_TEST: "1",
+  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
+});
+
+const missingMarkerBlocked =
+  missingMarker.exitCode !== 0 && missingMarker.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
+const productionBlocked =
+  productionTarget.exitCode !== 0 && productionTarget.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
+const safeAccepted =
+  safeTarget.exitCode === 0 && safeTarget.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK");
+
+if (!missingMarkerBlocked || !productionBlocked) {
+  console.log(
+    "SEC_ENV_G4_E7_EXPECTED_RED: rapid-click write harness does not fail closed before production-capable I/O",
+  );
+  gaps.push("E7");
+}
+if (!safeAccepted) {
+  fail("rapid-click isolated preflight rejected the approved CI loopback target");
+}
+
 if (gaps.length === 0) {
   console.log(
     "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production",
@@ -142,7 +227,7 @@ if (gaps.length === 0) {
   process.exit(0);
 }
 
-const expected = ["E1", "E2", "E3", "E4", "E5", "E6"];
+const expected = ["E1", "E2", "E3", "E4", "E5", "E6", "E7"];
 if (expected.some((id) => !gaps.includes(id))) {
   fail(`partial/unexpected environment gap set: ${gaps.join(",")}`);
 }

@@ -197,7 +197,9 @@ async def main():
         async with async_playwright() as pw:
             browser = await pw.chromium.launch(headless=True)
             ctx = await browser.new_context(
-                viewport={"width": 1280, "height": 1800}, locale="ar-LY"
+                viewport={"width": 1280, "height": 1800},
+                locale="ar-LY",
+                service_workers="block",
             )
             page = await ctx.new_page()
             browser_isolation_violations: list[str] = []

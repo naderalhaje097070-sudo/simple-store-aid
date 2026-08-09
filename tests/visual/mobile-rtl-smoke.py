@@ -1,6 +1,7 @@
 """Read-only mobile/RTL visual smoke for explicit non-production targets only."""
 
 import asyncio
+import ipaddress
 import json
 import os
 import re
@@ -59,6 +60,67 @@ def hostname_from_url(url_value: str) -> str:
         return ""
 
 
+def parse_whatwg_ipv4_number(part: str) -> int | None:
+    """Parse one WHATWG IPv4-number component (decimal/octal/hex)."""
+
+    if not part:
+        return None
+
+    digits = part
+    radix = 10
+    lowered = part.lower()
+    if lowered.startswith("0x"):
+        digits = part[2:]
+        radix = 16
+        if not digits or not all(character in "0123456789abcdefABCDEF" for character in digits):
+            return None
+    elif len(part) >= 2 and part.startswith("0"):
+        digits = part[1:]
+        radix = 8
+        if not digits:
+            return 0
+        if not all(character in "01234567" for character in digits):
+            return None
+    elif not part.isdigit():
+        return None
+
+    try:
+        return int(digits, radix)
+    except ValueError:
+        return None
+
+
+def is_whatwg_ipv4_host(host: str) -> bool:
+    """Detect host spellings Chromium can canonicalize into an IPv4 address."""
+
+    parts = host.split(".")
+    if parts and parts[-1] == "":
+        parts.pop()
+    if not parts or len(parts) > 4:
+        return False
+
+    numbers: list[int] = []
+    for part in parts:
+        number = parse_whatwg_ipv4_number(part)
+        if number is None:
+            return False
+        numbers.append(number)
+
+    if any(number > 255 for number in numbers[:-1]):
+        return False
+
+    last_limit = 256 ** (5 - len(numbers))
+    return numbers[-1] < last_limit
+
+
+def is_ip_literal_or_legacy_numeric_host(host: str) -> bool:
+    try:
+        ipaddress.ip_address(host)
+        return True
+    except ValueError:
+        return is_whatwg_ipv4_host(host)
+
+
 def canonical_origin(parsed, host: str) -> str:
     try:
         port = parsed.port
@@ -108,6 +170,8 @@ def validate_target() -> str:
     else:
         if parsed.scheme != "https" or parsed.port is not None or host in LOOPBACK_HOSTS:
             block("preview/staging visual smoke must use HTTPS without a custom port")
+        if is_ip_literal_or_legacy_numeric_host(host):
+            block("preview/staging visual smoke cannot use IP or legacy numeric host syntax")
         if not REMOTE_DNS_HOST.fullmatch(host):
             block("preview/staging visual smoke must use a canonical DNS hostname")
 

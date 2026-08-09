@@ -42,7 +42,7 @@ def request_origin(url_value: str) -> tuple[str, str, int] | None:
     return (parsed.scheme, host, port)
 
 
-def validate_app_origin() -> tuple[str, tuple[str, str, int]]:
+def validate_app_origin() -> str:
     if os.environ.get("CI_ISOLATED_SUPABASE") != "1":
         block("CI_ISOLATED_SUPABASE must equal 1")
 
@@ -66,7 +66,7 @@ def validate_app_origin() -> tuple[str, tuple[str, str, int]]:
     if host == PRODUCTION_APP_HOST:
         block("production application host is forbidden")
 
-    return base_url, (parsed.scheme, host, port)
+    return base_url
 
 
 def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool) -> bool:
@@ -84,7 +84,10 @@ def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool
     return True
 
 
-BASE_URL, APP_ORIGIN = validate_app_origin()
+BASE_URL = validate_app_origin()
+APP_ORIGIN = request_origin(BASE_URL)
+if APP_ORIGIN is None:
+    block("validated APP_BASE_URL did not produce a canonical application origin")
 
 if "--preflight-only" in sys.argv:
     # Freeze the full-origin boundary before credentials or Playwright are loaded.

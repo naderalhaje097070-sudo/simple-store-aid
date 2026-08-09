@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   APPROVED_PRODUCTION_SUPABASE_TARGET,
+  resolveAndHydrateSupabaseServerConfig,
   resolveSupabaseBuildConfig,
 } from "../../config/supabase-build-config";
 
@@ -73,6 +74,31 @@ describe("Supabase build configuration", () => {
     });
   });
 
+  test("hydrates missing server aliases only from validated resolved values", () => {
+    const env = { ...isolatedViteConfig };
+
+    expect(resolveAndHydrateSupabaseServerConfig(env)).toEqual({
+      url: "http://127.0.0.1:54321",
+      publishableKey: "isolated-anon-key",
+      projectId: "isolated-project",
+    });
+    expect(env.SUPABASE_URL).toBe("http://127.0.0.1:54321");
+    expect(env.SUPABASE_PUBLISHABLE_KEY).toBe("isolated-anon-key");
+    expect(env.SUPABASE_PROJECT_ID).toBe("isolated-project");
+  });
+
+  test("server alias hydration cannot overwrite divergent explicit aliases", () => {
+    const env = {
+      ...isolatedViteConfig,
+      SUPABASE_URL: "https://different-project.supabase.co",
+    };
+
+    expect(() => resolveAndHydrateSupabaseServerConfig(env)).toThrow(
+      "VITE_SUPABASE_URL and SUPABASE_URL must target the same project",
+    );
+    expect(env.SUPABASE_URL).toBe("https://different-project.supabase.co");
+  });
+
   test("fails closed when deployment target is missing or unsupported", () => {
     expect(() => resolveSupabaseBuildConfig({})).toThrow("MONGEZZ_DEPLOY_TARGET is required");
     expect(() =>
@@ -121,6 +147,31 @@ describe("Supabase build configuration", () => {
         VITE_SUPABASE_PROJECT_ID: APPROVED_PRODUCTION_SUPABASE_TARGET.projectId,
       }),
     ).toThrow("cannot use the production Supabase host/project");
+  });
+
+  test("terminal DNS dots cannot bypass production isolation", () => {
+    const productionUrlWithTerminalDot = APPROVED_PRODUCTION_SUPABASE_TARGET.url.replace(
+      ".supabase.co",
+      ".supabase.co.",
+    );
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        VITE_SUPABASE_URL: productionUrlWithTerminalDot,
+        VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
+        VITE_SUPABASE_PROJECT_ID: APPROVED_PRODUCTION_SUPABASE_TARGET.projectId,
+      }),
+    ).toThrow("cannot use the production Supabase host/project");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        VITE_SUPABASE_URL: productionUrlWithTerminalDot,
+        VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
+        VITE_SUPABASE_PROJECT_ID: "lookalike-project",
+      }),
+    ).toThrow("Supabase URL and project ID do not match");
   });
 
   test("production requires explicit approved host/project and explicit key", () => {

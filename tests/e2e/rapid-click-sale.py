@@ -20,6 +20,7 @@ Required explicit safety inputs:
   PGPORT=54322
   PGUSER=postgres
   PGDATABASE=postgres
+  PGHOSTADDR unset or loopback; PGSERVICE/PGSERVICEFILE unset
   VITE_SUPABASE_URL=http://127.0.0.1:54321 (or localhost)
 
 Use --preflight-only to validate containment without importing browser/network
@@ -38,6 +39,7 @@ COST = Decimal("0.6")
 STOCK = 50
 CREATE_RPC = "create_sale_with_items"
 ENV_FILE = Path(os.environ.get("MONGEZZ_E2E_ENV_FILE", ".env"))
+LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 
 results: list[tuple[str, str, str]] = []   # (id, PASS/FAIL, evidence)
 
@@ -56,11 +58,16 @@ def require_explicit_write_intent() -> None:
         block_write_harness("MONGEZZ_DEPLOY_TARGET must be local or ci")
 
     pg_host = os.environ.get("PGHOST", "").strip().lower().rstrip(".")
+    pg_hostaddr = os.environ.get("PGHOSTADDR", "").strip().lower().rstrip(".")
     pg_port = os.environ.get("PGPORT", "").strip()
     pg_user = os.environ.get("PGUSER", "").strip()
     pg_database = os.environ.get("PGDATABASE", "").strip()
-    if pg_host not in {"127.0.0.1", "localhost"}:
+    if pg_host not in LOOPBACK_HOSTS:
         block_write_harness("PGHOST must be loopback")
+    if pg_hostaddr and pg_hostaddr not in {"127.0.0.1", "::1"}:
+        block_write_harness("PGHOSTADDR must be unset or loopback")
+    if os.environ.get("PGSERVICE", "").strip() or os.environ.get("PGSERVICEFILE", "").strip():
+        block_write_harness("PGSERVICE and PGSERVICEFILE are not allowed for this harness")
     if pg_port != "54322":
         block_write_harness("PGPORT must equal the isolated Supabase port 54322")
     if pg_user != "postgres" or pg_database != "postgres":
@@ -91,12 +98,32 @@ def require_loopback_supabase(url_value: str) -> None:
 
     if parsed.scheme != "http":
         block_write_harness("VITE_SUPABASE_URL must use http for the isolated local stack")
-    if host not in {"127.0.0.1", "localhost"} or port != 54321:
+    if host not in LOOPBACK_HOSTS or port != 54321:
         block_write_harness("VITE_SUPABASE_URL must target loopback port 54321")
     if parsed.username or parsed.password or parsed.query or parsed.fragment:
         block_write_harness("VITE_SUPABASE_URL contains unsupported credentials/query/fragment")
     if parsed.path not in {"", "/"}:
         block_write_harness("VITE_SUPABASE_URL must target the Supabase root")
+
+
+def browser_request_is_isolated(method: str, url_value: str) -> bool:
+    try:
+        parsed = urlparse(url_value)
+        host = (parsed.hostname or "").lower().rstrip(".")
+    except ValueError:
+        return False
+
+    if host.endswith(".supabase.co"):
+        return False
+
+    supabase_path = parsed.path.startswith(("/rest/v1", "/auth/v1", "/storage/v1", "/functions/v1"))
+    if supabase_path and host not in LOOPBACK_HOSTS:
+        return False
+
+    if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
+        return False
+
+    return True
 
 
 # Safety preflight must complete before importing requests/Playwright, reading
@@ -107,6 +134,8 @@ SB_ANON = read_env("VITE_SUPABASE_PUBLISHABLE_KEY")
 require_loopback_supabase(SB_URL)
 
 if "--preflight-only" in sys.argv:
+    if browser_request_is_isolated("POST", "https://forbidden.supabase.co/rest/v1/orders"):
+        block_write_harness("browser isolation invariant rejected a known remote Supabase write")
     print("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK: isolated write harness target verified")
     raise SystemExit(0)
 
@@ -244,6 +273,19 @@ async def main():
             browser = await pw.chromium.launch(headless=True)
             ctx = await browser.new_context(viewport={"width": 390, "height": 844}, locale="ar-LY")
             page = await ctx.new_page()
+            browser_isolation_violations: list[str] = []
+
+            async def enforce_browser_isolation(route):
+                request = route.request
+                if not browser_request_is_isolated(request.method, request.url):
+                    browser_isolation_violations.append(f"{request.method} {request.url}")
+                    print(f"SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: {request.method} {request.url}")
+                    await route.abort("blockedbyclient")
+                    return
+                await route.continue_()
+
+            await page.route("**/*", enforce_browser_isolation)
+
             errs: list[str] = []
             page.on("pageerror", lambda e: errs.append(str(e)))
             page.on("console", lambda m: m.type == "error" and errs.append(m.text))
@@ -379,6 +421,13 @@ async def main():
             else:
                 record("P5", False, "could not reach advanced PaymentSheet save button")
                 record("P4", False, "could not reach advanced PaymentSheet save button")
+
+            if browser_isolation_violations:
+                record(
+                    "SEC-ENV",
+                    False,
+                    f"browser isolation blocked {len(browser_isolation_violations)} remote request(s)",
+                )
 
             if errs:
                 print("⚠ runtime errors:")

@@ -20,19 +20,42 @@ describe("Supabase build configuration", () => {
     });
   });
 
-  test("VITE aliases take precedence over server aliases", () => {
-    const resolved = resolveSupabaseBuildConfig({
-      ...isolatedViteConfig,
-      SUPABASE_URL: "http://server-supabase.test",
-      SUPABASE_PUBLISHABLE_KEY: "server-key",
-      SUPABASE_PROJECT_ID: "server-project",
-    });
-
-    expect(resolved).toEqual({
+  test("accepts matching browser and server aliases", () => {
+    expect(
+      resolveSupabaseBuildConfig({
+        ...isolatedViteConfig,
+        SUPABASE_URL: "http://127.0.0.1:54321/",
+        SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
+        SUPABASE_PROJECT_ID: "isolated-project",
+      }),
+    ).toEqual({
       url: "http://127.0.0.1:54321",
       publishableKey: "isolated-anon-key",
       projectId: "isolated-project",
     });
+  });
+
+  test("rejects divergent browser and server aliases", () => {
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        ...isolatedViteConfig,
+        SUPABASE_URL: "https://server-project.supabase.co",
+      }),
+    ).toThrow("VITE_SUPABASE_URL and SUPABASE_URL must target the same project");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        ...isolatedViteConfig,
+        SUPABASE_PUBLISHABLE_KEY: "different-server-key",
+      }),
+    ).toThrow("VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        ...isolatedViteConfig,
+        SUPABASE_PROJECT_ID: "different-server-project",
+      }),
+    ).toThrow("VITE_SUPABASE_PROJECT_ID and SUPABASE_PROJECT_ID must match");
   });
 
   test("uses server aliases when VITE aliases are absent", () => {

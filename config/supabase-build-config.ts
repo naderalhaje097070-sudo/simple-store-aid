@@ -97,7 +97,9 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
 
   if (target === "production") {
     if (!targetsProductionHost || !targetsProductionProject) {
-      configurationError("production target requires the approved production Supabase host/project");
+      configurationError(
+        "production target requires the approved production Supabase host/project",
+      );
     }
   } else if (targetsProductionHost || targetsProductionProject) {
     configurationError(`${target} target cannot use the production Supabase host/project`);

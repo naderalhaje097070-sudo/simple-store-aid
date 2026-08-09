@@ -3,6 +3,7 @@
 import asyncio
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from urllib.parse import urlparse
@@ -12,6 +13,10 @@ PRODUCTION_SUPABASE_HOST = "dahzkekdirrngnkcxinv.supabase.co"
 FORBIDDEN_PRODUCTION_HOSTS = {PRODUCTION_APP_HOST, PRODUCTION_SUPABASE_HOST}
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 ALLOWED_TARGETS = {"local", "ci", "preview", "staging"}
+REMOTE_DNS_HOST = re.compile(
+    r"^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+"
+    r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"
+)
 BLOCK_SENTINEL = "SEC_ENV_VISUAL_SMOKE_BLOCKED"
 OK_SENTINEL = "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK"
 
@@ -22,21 +27,25 @@ def block(reason: str) -> None:
 
 
 def reject_browser_ambiguous_url(value: str) -> None:
-    # Chromium follows WHATWG URL semantics, where backslashes in special-scheme
-    # URLs are treated as path separators and surrounding/control whitespace may
-    # be normalized away. Python's urllib parser is intentionally not used as an
-    # approval oracle for those ambiguous raw forms: reject them before parsing.
+    """Reject raw forms whose WHATWG interpretation can differ from urllib."""
+
+    # This test harness accepts canonical ASCII origins only. Punycode remains
+    # available for international domains, but raw Unicode/IDNA separators,
+    # percent-encoded hostname bytes, backslashes and browser-trimmed whitespace
+    # are never treated as an approval input.
+    if value != value.strip():
+        block("visual smoke base URL cannot contain surrounding whitespace")
+    if any(ord(character) < 0x21 or ord(character) > 0x7E for character in value):
+        block("visual smoke base URL must be a printable ASCII origin")
     if "\\" in value:
         block("visual smoke base URL cannot contain backslashes")
-    if any(character.isspace() or ord(character) < 0x20 for character in value):
-        block("visual smoke base URL cannot contain whitespace or control characters")
+    if "%" in value:
+        block("visual smoke base URL cannot contain percent-encoding")
 
 
 def normalize_hostname(value: str) -> str:
-    host = value.strip().rstrip(".")
+    host = value.rstrip(".")
     try:
-        # Python's IDNA codec maps browser-equivalent DNS separators such as
-        # U+3002/U+FF0E/U+FF61 to '.', matching Chromium's hostname semantics.
         return host.encode("idna").decode("ascii").lower().rstrip(".")
     except UnicodeError:
         block("visual smoke hostname is not valid IDNA")
@@ -50,38 +59,59 @@ def hostname_from_url(url_value: str) -> str:
         return ""
 
 
+def canonical_origin(parsed, host: str) -> str:
+    try:
+        port = parsed.port
+    except ValueError:
+        block("MONGEZZ_VISUAL_TEST_BASE_URL has an invalid port")
+
+    suffix = f":{port}" if port is not None else ""
+    return f"{parsed.scheme}://{host}{suffix}"
+
+
 def validate_target() -> str:
     target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
-    base_url = os.environ.get("MONGEZZ_VISUAL_TEST_BASE_URL", "").strip().rstrip("/")
+    raw_base_url = os.environ.get("MONGEZZ_VISUAL_TEST_BASE_URL", "")
 
     if target not in ALLOWED_TARGETS:
         block("MONGEZZ_DEPLOY_TARGET must be local, ci, preview, or staging")
-    if not base_url:
+    if not raw_base_url:
         block("MONGEZZ_VISUAL_TEST_BASE_URL must be explicit")
 
-    reject_browser_ambiguous_url(base_url)
+    reject_browser_ambiguous_url(raw_base_url)
 
     try:
-        parsed = urlparse(base_url)
-        host = normalize_hostname(parsed.hostname or "")
+        parsed = urlparse(raw_base_url)
+        raw_host = parsed.hostname or ""
+        host = normalize_hostname(raw_host)
     except ValueError:
         block("MONGEZZ_VISUAL_TEST_BASE_URL is invalid")
 
     if parsed.username or parsed.password or parsed.query or parsed.fragment:
         block("visual smoke base URL cannot contain credentials/query/fragment")
-    if parsed.path not in {"", "/"}:
+    if parsed.path not in {"", "/"} or parsed.params:
         block("visual smoke base URL must be an origin, not a routed path")
+    if not host:
+        block("visual smoke base URL must contain a hostname")
+    if raw_host != host:
+        block("visual smoke hostname must already be canonical lowercase ASCII")
     if host in FORBIDDEN_PRODUCTION_HOSTS:
         block("visual smoke is not authorized against a production host")
 
-    if target in {"local", "ci"}:
-        if parsed.scheme != "http" or host not in LOOPBACK_HOSTS:
-            block("local/ci visual smoke must use an HTTP loopback origin")
-    else:
-        if parsed.scheme != "https" or not host or host in LOOPBACK_HOSTS:
-            block("preview/staging visual smoke must use an explicit non-production HTTPS origin")
+    origin = canonical_origin(parsed, host)
+    if raw_base_url not in {origin, f"{origin}/"}:
+        block("visual smoke base URL must be a canonical origin")
 
-    return base_url
+    if target in {"local", "ci"}:
+        if parsed.scheme != "http" or host not in LOOPBACK_HOSTS or parsed.port != 8080:
+            block("local/ci visual smoke must use HTTP loopback port 8080")
+    else:
+        if parsed.scheme != "https" or parsed.port is not None or host in LOOPBACK_HOSTS:
+            block("preview/staging visual smoke must use HTTPS without a custom port")
+        if not REMOTE_DNS_HOST.fullmatch(host):
+            block("preview/staging visual smoke must use a canonical DNS hostname")
+
+    return origin
 
 
 BASE = validate_target()

@@ -43,6 +43,11 @@ jobs:
       - name: Unit tests
         run: bun run test:unit
       - name: Build
+        env:
+          MONGEZZ_DEPLOY_TARGET: ci
+          VITE_SUPABASE_URL: http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+          VITE_SUPABASE_PROJECT_ID: quality-build
         run: bun run build
       - name: Upload quality diagnostics
         if: always()

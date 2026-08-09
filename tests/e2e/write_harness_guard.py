@@ -125,13 +125,17 @@ def require_write_harness() -> WriteHarnessConfig:
     )
 
 
-def browser_request_is_isolated(method: str, url_value: str) -> bool:
-    """Deny remote Supabase traffic and non-read browser requests off loopback."""
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
+    """Keep destructive browser navigations/writes on the isolated loopback app."""
 
     try:
         parsed = urlparse(url_value)
         host = _normalize_host(parsed.hostname or "")
     except ValueError:
+        return False
+
+    # Session-bearing top-level/frame navigations must never leave the isolated app.
+    if is_navigation and host not in LOOPBACK_HOSTS:
         return False
 
     if host.endswith(".supabase.co"):
@@ -209,6 +213,8 @@ def preflight_only() -> None:
     config = require_write_harness()
     if browser_request_is_isolated("POST", "https://forbidden.supabase.co/rest/v1/orders"):
         block("browser isolation invariant accepted a known remote Supabase write")
+    if browser_request_is_isolated("GET", "https://simple-store-aid.lovable.app/app", True):
+        block("browser isolation invariant accepted a known remote navigation")
     # The config object is intentionally not printed because it contains a public
     # key and operational endpoint details that do not belong in routine logs.
     _ = config

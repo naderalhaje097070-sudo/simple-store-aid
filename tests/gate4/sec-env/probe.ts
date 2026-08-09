@@ -39,9 +39,12 @@ function childBaseEnv(): Record<string, string> {
           "MONGEZZ_DEPLOY_TARGET",
           "MONGEZZ_E2E_ENV_FILE",
           "PGHOST",
+          "PGHOSTADDR",
           "PGPORT",
           "PGUSER",
           "PGDATABASE",
+          "PGSERVICE",
+          "PGSERVICEFILE",
         ].includes(entry[0]),
     ),
   );
@@ -197,6 +200,18 @@ const productionTarget = rapidClickPreflight({
   MONGEZZ_E2E_WRITE_TEST: "1",
   MONGEZZ_E2E_ENV_FILE: prodRapidEnvFile,
 });
+const hostaddrBypass = rapidClickPreflight({
+  ...rapidCommon,
+  MONGEZZ_E2E_WRITE_TEST: "1",
+  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
+  PGHOSTADDR: "203.0.113.10",
+});
+const serviceBypass = rapidClickPreflight({
+  ...rapidCommon,
+  MONGEZZ_E2E_WRITE_TEST: "1",
+  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
+  PGSERVICE: "unsafe-service",
+});
 const safeTarget = rapidClickPreflight({
   ...rapidCommon,
   MONGEZZ_E2E_WRITE_TEST: "1",
@@ -208,10 +223,14 @@ const missingMarkerBlocked =
 const productionBlocked =
   productionTarget.exitCode !== 0 &&
   productionTarget.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
+const hostaddrBlocked =
+  hostaddrBypass.exitCode !== 0 && hostaddrBypass.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
+const serviceBlocked =
+  serviceBypass.exitCode !== 0 && serviceBypass.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
 const safeAccepted =
   safeTarget.exitCode === 0 && safeTarget.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK");
 
-if (!missingMarkerBlocked || !productionBlocked) {
+if (!missingMarkerBlocked || !productionBlocked || !hostaddrBlocked || !serviceBlocked) {
   console.log(
     "SEC_ENV_G4_E7_EXPECTED_RED: rapid-click write harness does not fail closed before production-capable I/O",
   );

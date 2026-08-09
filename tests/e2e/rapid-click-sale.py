@@ -199,7 +199,15 @@ class API:
         }
 
     def post(self, path, body):
-        r = requests.post(f"{SB_URL}{path}", headers=self.h, json=body, timeout=20)
+        r = requests.post(
+            f"{SB_URL}{path}",
+            headers=self.h,
+            json=body,
+            timeout=20,
+            allow_redirects=False,
+        )
+        if 300 <= r.status_code < 400:
+            raise RuntimeError(f"POST {path} redirect forbidden: HTTP {r.status_code}")
         if r.status_code >= 400:
             raise RuntimeError(f"POST {path} {r.status_code}: {r.text}")
         return r.json() if r.text else None

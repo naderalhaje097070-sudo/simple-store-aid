@@ -10,17 +10,23 @@ Current `main` observed at reconciliation start:
 
 `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`
 
+Phase-0 runtime containment was human-approved and merged through PR #44. The Phase-0 reconciliation branch is now synchronized with:
+
+`main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`
+
 The current P0 Gate-4 workstreams were created from or stacked on the older governed baseline:
 
 `983b746e5c6639dcdc5e6557381ad5619abaa046`
 
-GitHub comparison shows current `main` is 11 commits ahead and changes five paths:
+GitHub comparison at reconciliation start showed `main` was 11 commits ahead and changed five paths:
 
 - `.lovable/plan.md`
 - `package.json`
 - `bun.lock`
 - `src/features/layout/BottomNav.tsx`
 - `src/routes/_authenticated/app.tsx`
+
+PR #44 subsequently added one isolated-test-harness containment change to `.github/workflows/isolated-auth-smoke.yml`; it does not change application or financial behavior.
 
 The project remains a Functional MVP being stabilized into a reproducible, financially safe owner-only release candidate. No pilot or production-release authorization exists yet.
 
@@ -50,6 +56,18 @@ Until Pilot RC1 is explicitly approved:
 ### OPS-GHA-001 / Issue #36
 
 Resolved on 2026-08-01. GitHub-hosted Actions again reaches real workflow steps and logs after the monthly Actions quota reset. Remaining failures are repository/test evidence, not runner acquisition failures.
+
+### BASELINE-RUNTIME-001 / Issue #42
+
+Resolved by explicit human merge of PR #44 as `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+
+Evidence sequence:
+
+- Phase-0 PR #41 originally reached a successful isolated Supabase start, QA seed, and production build, then failed before Playwright because the generated Worker compatibility date was `2026-08-09` while the local workerd binary supported through `2026-08-08`.
+- PR #43 tested a dependency rollback hypothesis and reproduced the same failure, so it was closed without merge.
+- PR #44 changed one local Auth Smoke command only, passing `--compatibility-date 2026-08-08` to `wrangler dev`.
+- On PR #44 exact head `7e12e9c2af64ce12fbfe09c88f52d787df44a937`, Quality, Ephemeral Financial Rules / T1–T15, and Isolated Auth UI Smoke all passed; Playwright executed successfully.
+- No application logic, financial logic, dependency rollback, production access, or deployment was performed.
 
 ## Current P0 workstreams
 
@@ -142,7 +160,8 @@ Since the old Gate-4 baseline, effective `main` added:
 
 1. client-side duplicate-click/save guards in the sale UI;
 2. an update of `@lovable.dev/vite-tanstack-config` from `2.7.7` to `2.9.1` and corresponding lockfile changes;
-3. planning-file updates.
+3. planning-file updates;
+4. the isolated Auth Smoke local-emulator compatibility-date containment merged through PR #44.
 
 Therefore no P0 Gate-4 approval may rely solely on stale exact-head evidence. Each workstream must reconcile its relevant assumptions to the accepted release baseline and run authoritative checks on its final exact head.
 
@@ -191,7 +210,7 @@ Pilot entry is blocked by:
 
 ## Immediate next task
 
-Finish this documentation-only baseline reconciliation through required checks and explicit human merge. Then verify the resulting `main` SHA and begin the SEC-CI reconciliation from that exact baseline.
+Complete the exact-head checks on Phase-0 PR #41 after synchronization with `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`, then require an explicit human merge. After that merge, record the resulting `main` SHA and begin SEC-CI reconciliation from that exact baseline.
 
 Do not begin SEC-CI implementation, SEC-ENV implementation, FIN-COURIER PR-A/B/C, FIN-IDEM implementation, pilot execution, or deployment before their stated gate is satisfied.
 

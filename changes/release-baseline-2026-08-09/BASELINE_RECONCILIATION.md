@@ -16,13 +16,19 @@ Previous Gate-4 baseline used by the current P0 workstreams:
 
 `983b746e5c6639dcdc5e6557381ad5619abaa046`
 
-GitHub comparison shows current `main` is 11 commits ahead of that baseline and modifies exactly five paths:
+GitHub comparison at reconciliation start showed `main` was 11 commits ahead of that baseline and modified exactly five paths:
 
 - `.lovable/plan.md`
 - `package.json`
 - `bun.lock`
 - `src/features/layout/BottomNav.tsx`
 - `src/routes/_authenticated/app.tsx`
+
+During Phase 0, authenticated release verification exposed a local Cloudflare emulator compatibility-date mismatch. The accepted containment was human-merged through PR #44, producing:
+
+`main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`
+
+The Phase-0 reconciliation branch is synchronized with that exact `main` before final checks.
 
 ## Material drift classification
 
@@ -50,11 +56,35 @@ Impact:
 - release checks must run against the current dependency graph;
 - SEC-CI exact-head evidence cannot be accepted solely from an older dependency baseline.
 
+### Phase-0 authenticated-smoke containment
+
+The first synchronized Phase-0 run reached a successful isolated Supabase start, QA seed, and production application build, but failed before Playwright because generated Worker config required compatibility date `2026-08-09` while the local workerd binary supported through `2026-08-08`.
+
+A dependency rollback hypothesis was tested in PR #43 and reproduced the same failure. PR #43 was closed without merge.
+
+PR #44 then changed only the isolated local emulator command to pass:
+
+`--compatibility-date 2026-08-08`
+
+On PR #44 exact head `7e12e9c2af64ce12fbfe09c88f52d787df44a937`:
+
+- Quality: GREEN;
+- Ephemeral Financial Rules / T1–T15: GREEN;
+- Isolated Auth UI Smoke: GREEN;
+- Cloudflare emulator: GREEN;
+- Playwright installation and read-only authenticated smoke: GREEN.
+
+PR #44 was explicitly human-approved and merged as `975a34a854c510f3da7dbe45caa9791bb0375e2d`. No deployment or production access occurred.
+
 ## Current P0 evidence status
 
 ### OPS-GHA-001 / #36
 
 Resolved on 2026-08-01. GitHub-hosted Actions execution again reaches real job steps and logs. Runner/account failure is no longer the current blocker.
+
+### BASELINE-RUNTIME-001 / #42
+
+Resolved by PR #44. The rejected rollback candidate PR #43 remains closed without merge.
 
 ### SEC-CI-001 / #29
 
@@ -128,11 +158,12 @@ Until Pilot RC1 is approved:
 ## Exit criteria for RELEASE-BASELINE-RECON-002
 
 - `PROJECT_STATE.md` and `TASKS.md` reflect the exact current state;
-- the current `main` SHA and five-file drift are recorded;
+- the reconciliation start SHA and original five-file drift are recorded;
+- the accepted Phase-0 runtime containment `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d` is recorded;
 - stale Gate-4 evidence is explicitly classified as requiring reconciliation before approval;
 - the P0 sequence is fixed;
-- required checks on this documentation-only PR are reviewed;
+- required checks on the final synchronized documentation PR are reviewed;
 - a human explicitly merges the PR;
-- the resulting `main` SHA is recorded as the baseline for the first SEC-CI reconciliation branch.
+- the resulting post-merge `main` SHA is recorded as the baseline for the first SEC-CI reconciliation branch.
 
 No merge or deployment is authorized automatically by this document.

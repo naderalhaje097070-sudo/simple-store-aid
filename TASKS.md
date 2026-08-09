@@ -2,237 +2,300 @@
 
 ## Active
 
-### BASELINE-SYNC-001 — Post-approval pilot baseline synchronization
+### RELEASE-BASELINE-RECON-002 — Current main reconciliation before Pilot RC1
 
-- Change type: Governance and source-of-truth synchronization.
 - Priority: P0 sequencing prerequisite.
-- Goal: Synchronize repository state after AUDIT-001 / PR #23 and FIN-COURIER-001 Gate 0–3 / PR #24 were merged, and establish the exact sequencing boundary before Gate 4.
-- Starting `main` observed when this branch was cut: `e5632bff40e292583fd778f232dd0b7af5eb0e06`.
-- Scope:
-  - `PROJECT_STATE.md`, `TASKS.md`, `DECISIONS.md`, and `changes/fin-courier-001/README.md`.
-  - Record PR #23 and PR #24 as merged.
-  - Record FIN-COURIER-001 Gates 0–3 as formally approved by the product owner.
-  - Record that two dependency-resolution commits followed the PR #24 merge on `main`.
-  - Establish that Gate 4 must branch from the verified `main` head after this synchronization is merged, not from a stale pre-merge SHA.
+- Change type: Governance / source-of-truth synchronization only.
+- Reconciliation-start `main`: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
+- Accepted current Phase-0 baseline after human merge of PR #44: `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- Previous P0 Gate-4 baseline: `983b746e5c6639dcdc5e6557381ad5619abaa046`.
+- At reconciliation start, `main` was 11 commits ahead / five changed paths relative to the old Gate-4 baseline.
+- After concurrent repository history and PR #44, the accepted current `main` is 21 commits ahead / nine net changed paths relative to that old baseline.
+- Net current drift categories:
+  - sale UI `busy`/`saving` duplicate-click guards;
+  - `@lovable.dev/vite-tanstack-config` `2.7.7` → `2.9.1` plus lockfile changes;
+  - Lovable plan relocation/update;
+  - rapid-click sale QA result/script artifacts;
+  - isolated Auth Smoke compatibility-date containment from PR #44.
+- Rapid-click artifact classification:
+  - `docs/rapid-click-sale-results.md` reports 6/6 UI duplicate-click scenarios passed;
+  - this remains UI evidence only and does not close FIN-IDEM-001;
+  - `tests/e2e/rapid-click-sale.py` reads target configuration/session context and performs financial writes, so it is **not authorized for production execution** and future use must be isolated/fail-closed.
 - Out of scope:
-  - Gate 4 test implementation.
-  - Financial production code.
-  - New migrations, RPCs, schema, RLS, UI, dependency, or workflow changes.
-  - PR-A, PR-B, PR-C.
-  - Production access, deployment, or pilot execution.
+  - production financial logic;
+  - workflow hardening implementation;
+  - environment resolver implementation;
+  - migrations/RPC/RLS changes;
+  - deployment or pilot execution.
 - Done when:
-  - Repository state, tasks, decisions, and the FIN-COURIER index are internally consistent.
-  - The final diff is documentation only.
-  - Required GitHub checks on the final PR head are reviewed.
-  - A human explicitly merges the synchronization PR.
-  - The resulting `main` SHA is verified before Gate 4 begins.
+  - `PROJECT_STATE.md`, `TASKS.md`, and the reconciliation record agree;
+  - final PR #41 diff relative to accepted `main` is documentation/governance only;
+  - required checks on one exact final head are reviewed;
+  - a human explicitly merges PR #41;
+  - the resulting `main` SHA is recorded before Phase 1 begins.
 
-## Immediate next change
+## Fixed P0 execution queue
 
-### FIN-COURIER-001 — Courier sale workflow correction
+### P0-1 — SEC-CI-001: deterministic and secret-safe CI
+
+- Issue: #29.
+- Design PR: #32.
+- Gate-4 PR: #37.
+- Status:
+  - Gates 0–3: owner-approved;
+  - Gate-4 probe: reached real execution and passed;
+  - Quality previously failed on formatting in `tests/gate4/sec-ci/probe.ts`;
+  - Gate 4: **NOT APPROVED**.
+- Required next actions after RELEASE-BASELINE-RECON-002 merge:
+  1. branch/reconcile SEC-CI Gate 4 from the accepted release baseline;
+  2. preserve exact policy sentinels;
+  3. fix only test-quality/format issues required for Quality;
+  4. validate the final stable Supabase CLI candidate on a real runner with fresh migrations + T1–T15 + auth smoke;
+  5. prove concise/redacted reporting and least-privilege permissions;
+  6. independent evidence review;
+  7. explicit human Gate-4 approval;
+  8. focused SEC-CI implementation PR;
+  9. exact-head verification and explicit human merge.
+- Exit:
+  - release-blocking workflows are deterministic, isolated, secret-safe, and distinguish infrastructure failure from assertion failure.
+
+### P0-2 — SEC-ENV-001: fail-closed environment isolation
+
+- Issue: #30.
+- Design PR: #33.
+- Gate-4 PR: #38.
+- Status:
+  - Gates 0–3: owner-approved;
+  - Gate-4 probe: reached real execution and passed;
+  - Quality previously failed on `explicit-any`/formatting in `tests/gate4/sec-env/probe.ts`;
+  - Gate 4: **NOT APPROVED**.
+- Approved contract:
+  - `MONGEZZ_DEPLOY_TARGET = local | ci | preview | staging | production`;
+  - non-production requires explicit non-production Supabase configuration;
+  - missing configuration fails closed;
+  - non-production rejects the known production project;
+  - production requires explicit production intent and explicit configuration;
+  - no source-code production fallback.
+- Additional current evidence requirement:
+  - financial-write test harnesses, including `tests/e2e/rapid-click-sale.py`, must be prevented from running against production or ambiguous targets.
+- Required next actions:
+  1. reconcile Gate 4 from the accepted release baseline;
+  2. correct test-quality issues without weakening sentinels;
+  3. verify client, SSR, build-time, runtime, and financial-write test-harness resolution paths share the approved fail-closed contract;
+  4. exact-head Gate-4 evidence;
+  5. independent review;
+  6. explicit human Gate-4 approval;
+  7. focused resolver/build implementation PR;
+  8. exact-head verification and explicit human merge.
+- Exit:
+  - local/CI/preview/staging and write-capable test harnesses cannot silently target production Supabase.
+
+### P0-3 — FIN-COURIER-001: courier sale/customer/custody correction
 
 - Issue: #22.
-- Priority: P0 financial workflow blocker.
+- Gate-4 PR: #27.
+- Gates 0–3: owner-approved and merged through PR #24.
+- Current exact-head evidence on `86f2b552db3ff83a9091ee2df58b7f4e547717b7`:
+  - Quality: GREEN;
+  - Ephemeral Financial Rules / T1–T15: GREEN;
+  - Isolated Auth UI Smoke: GREEN;
+  - UI Gate-4 contract: GREEN;
+  - backend Gate-4 contract: real execution failed with exit code `3`.
+- Rapid-click main-branch artifact reports 6/6 human-style duplicate-click scenarios passed, but it is UI-only evidence and does not alter the approved FIN-COURIER contract.
+- Classification: real Gate-4 evidence blocker, not runner failure.
+- Gate 4: **NOT APPROVED**.
+- PR-A / PR-B / PR-C: **BLOCKED**.
+- Required next actions after SEC-CI and SEC-ENV are closed:
+  1. reconcile #27 assumptions against the accepted release baseline, including the UI `saving`/`busy` guards and rapid-click artifacts;
+  2. identify the exact backend sentinel producing exit `3`;
+  3. determine whether the cause is probe defect, stale baseline assumption, false evidence, or a genuine current contract mismatch;
+  4. correct Gate-4 test/evidence only if required; do not implement financial behavior while the gate is unapproved;
+  5. rerun Quality + T1–T15 + Auth Smoke + backend/UI Gate-4 on one exact final head;
+  6. independent financial review;
+  7. explicit human FIN-COURIER Gate-4 approval.
+
+#### FIN-COURIER implementation after Gate-4 approval
+
+**PR-A — canonical financial write**
+
+- forward-only constraint/schema changes;
+- `create_sale_with_items_v2`;
+- atomic `update_courier_outcome_v2`;
+- same-tenant customer validation;
+- legal/monotonic courier state transitions;
+- custody/debt/stock transaction correctness;
+- SQL/concurrency/backward-compatibility/rollback safety tests.
+
+**PR-B — reporting/financial-health alignment**
+
+- outcome-aware reporting;
+- canonical debt/custody/store-cash separation;
+- regression proof against PR-A semantics.
+
+**PR-C — sales UX**
+
+- Advanced Sale primary on desktop/mobile/post-sale;
+- Quick Sale secondary direct/cash/fully-paid/customer-free shortcut;
+- courier-specific wording/statuses;
+- mobile RTL + desktop exact-flow tests;
+- preserve loading/failure states and client-side duplicate-click guards as defense in depth.
+
+### P0-4 — FIN-IDEM-001: financial retry safety
+
+- Issue: #31.
+- Design PR: #35.
+- Gate-4 preparation PR: #39.
 - Status:
-  - Gates 0–3: **APPROVED** by the product owner and merged through PR #24.
-  - PR #24 approved head: `a652de164e3efeae707038f1769aee12a9e2474a`.
-  - PR #24 merge commit: `cc1f9e5beb8f5fa73ef44125925fe54a6d1a8858`.
-  - Gate 4: **NEXT — not yet approved or implemented**.
-  - PR-A / PR-B / PR-C: **BLOCKED until Gate 4 approval**.
-- Reported defects:
-  - customer is required for every courier order even when no customer debt exists;
-  - courier-collected money can require an unclear manual delivery-state update before appearing in settlement;
-  - primary sale actions open quick sale rather than the advanced workflow.
-- Approved business behavior:
-  - direct fully paid sale: customer optional;
-  - direct sale with debt: customer required;
-  - courier pending delivery: customer optional and outside settlement;
-  - courier fully collected: customer optional, money becomes custody, order appears immediately in settlement;
-  - courier partially or not collected with resulting customer debt: customer required;
-  - no courier-collected money enters store receipts before settlement;
-  - advanced sale becomes the primary desktop, mobile, and post-sale workflow;
-  - quick sale remains a secondary direct, cash, fully-paid, customer-free shortcut.
-- Gate 4 scope before implementation:
-  - preserve existing T1–T15 regression behavior;
-  - add failing/new-behavior financial tests for customer-less debt-free courier states and debt-creating states;
-  - add effective CHECK-constraint tests and historical-data preflight tests;
-  - add atomic state-transition and monotonic-custody tests;
-  - add concurrency and retry-baseline tests;
-  - add backward-compatibility and rollback tests;
-  - add outcome-aware platform reporting tests;
-  - add mobile RTL and desktop primary-flow tests.
-- Mandatory verification target:
-  - pending courier order without customer succeeds and stays outside settlement;
-  - fully collected courier order without customer creates custody and appears immediately in settlement;
-  - partial courier collection without customer is rejected;
-  - partial courier collection with customer creates custody plus customer debt without double count;
-  - no payment row is created before settlement;
-  - settlement moves only stored custody into store receipts;
-  - existing T1–T15 remain green;
-  - mobile and desktop primary sale actions open advanced sale.
-- Implementation sequence after Gate 4 approval:
-  - **PR-A** — financial schema constraints + `create_sale_with_items_v2` + atomic `update_courier_outcome_v2` + SQL safety tests.
-  - **PR-B** — outcome-aware platform health/reporting + regression tests.
-  - **PR-C** — advanced-sale default + courier UI + wording + success/status display.
+  - Gates 0–3: owner-approved;
+  - full target behavior intentionally dependency-blocked until FIN-COURIER PR-A provides canonical `create_sale_with_items_v2`;
+  - current UI duplicate-click guards and rapid-click 6/6 result are not accepted as server-side idempotency.
+- Required target contract:
+  - key scope = `tenant_id + operation + idempotency_key`;
+  - same key + same canonical request returns original result with no second financial effect;
+  - same key + different request returns deterministic conflict;
+  - concurrent same-key calls produce exactly one committed financial effect;
+  - failed transaction does not poison the key;
+  - authorization/tenant isolation still applies on replay.
+- Required tests before implementation:
+  - sequential replay;
+  - same-key conflict;
+  - concurrent duplicate calls;
+  - lost-response retry;
+  - failure-then-retry;
+  - tenant isolation;
+  - result fidelity;
+  - exactly-one stock/payment/debt/custody effect.
+- Exit:
+  - explicit human Gate-4 approval and focused server/database implementation verified on exact head.
 
-## Other pilot blockers
+### P0-5 — PILOT-RC-001: one exact release candidate
 
-### SEC-ENV-001 — Environment isolation and fail-closed build resolution
+- Master tracker: Issue #34.
+- Dependency: P0-1 through P0-4 complete and human-merged.
+- Create one exact `PILOT_RC1_SHA` and freeze it for release verification.
+- Required proof on that same SHA:
 
-- Priority: P0.
-- Goal: Prevent local, CI, and preview builds from silently connecting to production Supabase.
-- Required before pilot:
-  - fail closed when required variables are absent outside an explicit production deployment;
-  - add environment-resolution tests;
-  - prove staging and preview cannot target production accidentally;
-  - independently review all relevant client/SSR/build resolution paths before closing the blocker.
+Financial:
+- T1–T15 GREEN;
+- FIN-COURIER approved contract GREEN;
+- idempotency/retry/concurrency GREEN;
+- debt/courier-custody/store-cash reconciliation matches canonical rules;
+- returns and stock restoration GREEN;
+- day close/reconciliation GREEN.
 
-### SEC-CI-001 — CI reporting hardening
+Security/environment:
+- local/CI/preview/staging cannot target production;
+- write-capable test harnesses cannot target production or ambiguous configuration;
+- tenant isolation GREEN;
+- no raw credentials/secrets in CI output or artifacts;
+- least-privilege release workflows.
 
-- Priority: P0.
-- Goal: Stop raw Supabase startup output and disposable local credentials from being copied to PR comments.
-- Required before pilot:
-  - post concise pass/fail evidence only;
-  - redact environment details;
-  - pin material tool versions;
-  - ensure required checks run on the relevant merge path.
+Reliability:
+- frozen dependency install;
+- typecheck/lint/unit/build GREEN;
+- fresh isolated migration chain GREEN;
+- authenticated UI smoke GREEN;
+- failure/retry paths verified.
 
-### FIN-IDEM-001 — Financial idempotency and retry safety
+UX:
+- Advanced Sale primary;
+- Quick Sale secondary only;
+- mobile RTL and desktop core flows GREEN;
+- loading/error/retry states verified.
 
-- Priority: P0.
-- Goal: Prevent duplicate financial effects when a successful request is retried after a lost response.
-- Required before pilot:
-  - approved idempotency contract and request-hash behavior;
-  - duplicate and conflicting-key behavior;
-  - concurrency and retry tests;
-  - forward-only migration and rollback/compensation design;
-  - focused implementation after design and safety-net approval.
+Operations:
+- release notes;
+- known limitations;
+- environment and secret inventory;
+- backup procedure;
+- restore procedure tested;
+- rollback/compensation procedure reviewed;
+- incident checklist.
 
-## Planned
+- Exit: explicit human RC1 approval. No automatic deploy.
 
-### PILOT-000 — Owner-only controlled pilot
+### P0-6 — PILOT-000: owner-only controlled pilot
 
-- Status: Blocked by FIN-COURIER-001, SEC-ENV-001, SEC-CI-001, FIN-IDEM-001, and final release verification.
-- Target: 3–5 stores under direct supervision.
-- Goal: Validate activation, daily usage, financial reconciliation, retention, and willingness to pay before employee expansion.
-- No employee accounts are required for the first pilot.
+- Target: 3–5 owner-operated stores under direct supervision.
+- No employee-account dependency.
+- Pilot mode: fix-only for release-critical defects; feature requests are collected but not automatically implemented.
+- Measure:
+  - activation and time-to-first-sale;
+  - daily sales/expenses/debt/day-close/courier-settlement usage;
+  - reconciliation variance;
+  - failed/duplicate writes;
+  - D1/D7/D14/D30 retention;
+  - willingness to pay.
+- Exit: pilot evidence reviewed and accepted before deciding the next product roadmap.
 
-### EMP-001 — Employee specification and impact analysis
+## Deferred until after owner-only pilot evidence
 
-- Status: Deferred until owner-only pilot evidence confirms priority and Change Gates 2–4 are approved.
-- Planned output:
-  - actors and role model;
-  - assignment source of truth;
-  - authorization matrix;
-  - historical identity and hard-delete invariants;
-  - custody and settlement contracts;
-  - threat model, migration strategy, rollback, and test matrix.
-- No production implementation.
+### EMP-001 → EMP-005 — Team/employee edition
 
-### EMP-002 — Identity and authorization foundation
+Employee identity, RBAC, assignment, personal custody, employee UI, and employee E2E remain deferred until the owner-only financial core has real pilot evidence and the corresponding change gates are approved.
 
-- Blocker: EMP-001 and approved Change Gates 2–4.
-- Planned scope:
-  - employee identity and membership model;
-  - owner-controlled linking and disabling;
-  - tenant and assignment isolation;
-  - historical identity preservation;
-  - audit and authorization tests.
+### Other deferred scope
 
-### EMP-003 — Assignment, custody, and settlement contracts
-
-- Blocker: Approved domain design and EMP-002 foundation.
-- Planned scope:
-  - assignment history and legal state transitions;
-  - employee collection and custody rules;
-  - settlement-request lifecycle;
-  - idempotency, concurrency, audit, and financial regression tests.
-
-### EMP-004 — Owner and employee UI
-
-- Blocker: EMP-002 and EMP-003 contracts.
-- Planned scope:
-  - owner employee management;
-  - assigned orders and personal custody for the employee;
-  - typed client contracts and role routing;
-  - RTL, desktop, and mobile behavior;
-  - no UI-only authorization.
-
-### EMP-005 — Employee E2E and pilot readiness
-
-- Blocker: Completed implementation PRs and independent review.
-- Planned scope:
-  - Owner, Employee A, Employee B, disabled employee, and second-tenant scenarios;
-  - production-like isolated environment;
-  - rollback and operational checklist.
+- payroll;
+- attendance;
+- automatic commissions;
+- GPS tracking;
+- internal chat;
+- custom per-button permissions;
+- multi-branch expansion;
+- broad analytics expansion;
+- AI product features.
 
 ## Completed
 
-### AUDIT-001 — Main containment and pilot baseline truth restoration
+### BASELINE-RUNTIME-001 — Auth Smoke local runtime containment
 
-- Pull request: #23.
-- Result: Reviewed and merged into `main`.
-- Merge commit: `6946cddabecb184b0edcd5ffaf9a0dcc521ae2c6`.
-- Scope: repository source-of-truth restoration and pilot blocker sequencing; documentation only.
-- Verification before merge: Quality, full isolated migration chain / Financial Rules T1–T15, and Isolated Auth UI Smoke passed on the synchronized PR head.
-- Deployment: Not performed.
+- Issue #42.
+- PR #43 tested a dependency rollback and was closed without merge after exact-head evidence reproduced the failure.
+- PR #44 exact head `7e12e9c2af64ce12fbfe09c88f52d787df44a937` passed Quality, T1–T15, and real Playwright Auth Smoke.
+- PR #44 was explicitly human-approved and merged as `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- Scope was one local emulator command-line compatibility-date pin only.
+- No deployment or production access occurred.
 
-### FIN-COURIER-G0-G3 — Courier sale contract design
+### OPS-GHA-001 — GitHub-hosted Actions execution restoration
 
-- Pull request: #24.
-- Result: Gates 0–3 formally approved by the product owner and documentation merged into `main`.
-- Approved PR head: `a652de164e3efeae707038f1769aee12a9e2474a`.
-- Merge commit: `cc1f9e5beb8f5fa73ef44125925fe54a6d1a8858`.
-- Deliverables:
-  - intake and evidenced current/expected behavior;
-  - dependency/data/security/API/migration/test/rollback impact analysis;
-  - courier state machine and customer requirement contract;
-  - backward-compatibility and rollback design;
-  - mandatory Gate 4 test plan;
-  - PR-A / PR-B / PR-C decomposition.
-- Verification before merge: Quality, Ephemeral Financial Rules, and Isolated Auth UI Smoke passed on the exact approved PR head.
-- Implementation authorization: None; Gate 4 is next.
+- Issue #36.
+- Resolved 2026-08-01 after monthly Actions quota reset.
+- Hosted runner reached real shell steps/logs.
+- No weakened tests, public-repo workaround, unmanaged self-hosted runner, merge, or deploy was used.
 
-### GOV-001 — Governance bootstrap
+### FIN-COURIER-G0-G3
 
-- Pull request: #19.
-- Result: Reviewed and merged into `main`.
-- Merge commit: `e7088a2c58bb514aac133f303627d4b829473934`.
-- Verification: Quality, Ephemeral Financial Rules T1–T15, and Isolated Auth UI Smoke passed before merge.
-- Deployment: Not performed.
+- PR #24.
+- Owner-approved and merged.
+- Establishes the financial/customer/courier/primary-sale contract.
 
-### EMP-000 — Employee accounts baseline and decomposition
+### AUDIT-001
 
-- Gate: NAADF-CMF Change Gate 1 — Baseline and Reproduction.
-- Product source: Issue #16.
-- Pull request: #20.
-- Result: Reviewed and merged into `main`.
-- Merge commit: `599f84de4ef7f472da075e3ddbf1648501cbc871`.
-- Deliverables:
-  - current and expected behavior;
-  - reproduction evidence;
-  - PR #17 scope map and decomposition;
-  - recorded employee-account risks and unknowns.
-- Implementation authorization: None.
+- PR #23.
+- Reviewed and merged.
+- Restored a governed pilot baseline before the later drift recorded by RELEASE-BASELINE-RECON-002.
 
-### PR17-PROTOTYPE — Employee accounts prototype
+### GOV-001
 
-- Pull request: #17.
-- Result: Closed without merge as superseded.
-- Reason:
-  - oversized and diverged from current `main`;
-  - combined database, authorization, UI, tests, and CI;
-  - contained unresolved custody and lifecycle findings;
-  - retained only as historical evidence.
+- PR #19.
+- Governance bootstrap merged.
 
-## Deferred product scope
+### EMP-000
 
-- Payroll.
-- Attendance.
-- Automatic commissions.
-- GPS tracking.
-- Internal chat.
-- Custom per-button permissions.
-- Multi-branch expansion.
-- Additional MCP tools.
-- AI features inside the product.
+- PR #20.
+- Employee-account baseline/decomposition merged; no implementation authorization.
+
+### PR17-PROTOTYPE
+
+- Closed without merge as superseded oversized prototype.
+
+## Permanent financial invariants
+
+- Sale != Cash.
+- Delivered != Settled.
+- Customer debt != Courier custody.
+- Returned => zero debt/custody + approved stock restoration.
+- Customer required only when customer debt is created.
+- Courier-collected money remains custody until settlement.
+- No UI-only authorization or UI-only duplicate-write protection is accepted as the financial safety boundary.

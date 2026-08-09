@@ -69,8 +69,14 @@ jobs:
           MONGEZZ_DEPLOY_TARGET=preview \
           MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid.lovable.app \
             python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-production.log 2>&1
-          production_status=$?
+            > /tmp/visual-production-app.log 2>&1
+          production_app_status=$?
+
+          MONGEZZ_DEPLOY_TARGET=preview \
+          MONGEZZ_VISUAL_TEST_BASE_URL=https://dahzkekdirrngnkcxinv.supabase.co \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-production-supabase.log 2>&1
+          production_supabase_status=$?
 
           MONGEZZ_DEPLOY_TARGET=preview \
           MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid。lovable.app \
@@ -90,9 +96,15 @@ jobs:
             exit 1
           fi
 
-          if [[ "$production_status" -eq 0 ]] || \
-             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production.log; then
-            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production host was accepted"
+          if [[ "$production_app_status" -eq 0 ]] || \
+             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production-app.log; then
+            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production app host was accepted"
+            exit 1
+          fi
+
+          if [[ "$production_supabase_status" -eq 0 ]] || \
+             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production-supabase.log; then
+            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production Supabase host was accepted"
             exit 1
           fi
 

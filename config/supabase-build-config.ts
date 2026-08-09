@@ -79,12 +79,12 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   );
   const projectId = firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID, env.SUPABASE_PROJECT_ID);
 
-  const missing = [
-    ...(!urlValue ? ["SUPABASE_URL"] : []),
-    ...(!publishableKey ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
-    ...(!projectId ? ["SUPABASE_PROJECT_ID"] : []),
-  ];
-  if (missing.length > 0) {
+  if (!urlValue || !publishableKey || !projectId) {
+    const missing = [
+      ...(!urlValue ? ["SUPABASE_URL"] : []),
+      ...(!publishableKey ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
+      ...(!projectId ? ["SUPABASE_PROJECT_ID"] : []),
+    ];
     configurationError(`missing explicit Supabase configuration: ${missing.join(", ")}`);
   }
 

@@ -122,6 +122,14 @@ jobs:
             'https://2130706433'
           assert_blocked ipv6-literal preview \
             'https://[::1]'
+          assert_blocked numeric-ending-decimal preview \
+            'https://preview.127'
+          assert_blocked numeric-ending-invalid-octal preview \
+            'https://preview.09'
+          assert_blocked numeric-ending-out-of-range preview \
+            'https://1.2.3.999'
+          assert_blocked numeric-ending-hex preview \
+            'https://preview.0x7f'
 
           MONGEZZ_DEPLOY_TARGET=ci \
           MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \

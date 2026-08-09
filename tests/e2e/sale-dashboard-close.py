@@ -66,6 +66,13 @@ def psql_exec(sql: str) -> None:
     guarded_psql_exec(WRITE_CONFIG, sql)
 
 
+def reject_write_redirect(response, operation: str) -> None:
+    """Never forward a write body or auth header to a redirected origin."""
+
+    if 300 <= response.status_code < 400:
+        raise RuntimeError(f"{operation} redirect forbidden: HTTP {response.status_code}")
+
+
 class API:
     def __init__(self, token: str):
         self.h = {
@@ -76,13 +83,26 @@ class API:
         }
 
     def post(self, path, body):
-        r = requests.post(f"{SB_URL}{path}", headers=self.h, json=body, timeout=20)
+        r = requests.post(
+            f"{SB_URL}{path}",
+            headers=self.h,
+            json=body,
+            timeout=20,
+            allow_redirects=False,
+        )
+        reject_write_redirect(r, f"POST {path}")
         if r.status_code >= 400:
             raise RuntimeError(f"POST {path} {r.status_code}: {r.text}")
         return r.json() if r.text else None
 
     def delete(self, path):
-        r = requests.delete(f"{SB_URL}{path}", headers=self.h, timeout=20)
+        r = requests.delete(
+            f"{SB_URL}{path}",
+            headers=self.h,
+            timeout=20,
+            allow_redirects=False,
+        )
+        reject_write_redirect(r, f"DELETE {path}")
         if r.status_code >= 400 and r.status_code != 404:
             raise RuntimeError(f"DELETE {path} {r.status_code}: {r.text}")
 
@@ -99,7 +119,13 @@ def preflight_cleanup_channel(api: "API") -> None:
         headers=api.h,
         timeout=10,
         json={"p_order_id": None, "p_product_id": None, "p_tag": probe_tag},
+        allow_redirects=False,
     )
+    if 300 <= r.status_code < 400:
+        print(
+            "⛔ Blocked: cleanup channel returned an HTTP redirect; refusing to forward test credentials or writes."
+        )
+        sys.exit(2)
     if r.status_code == 200:
         return
     print(

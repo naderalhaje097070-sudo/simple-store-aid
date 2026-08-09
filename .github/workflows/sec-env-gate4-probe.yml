@@ -21,35 +21,29 @@ jobs:
         with:
           bun-version: "1.2.14"
 
-      - name: Run expected-red environment isolation probe
+      - name: Run target-green environment isolation probe
         shell: bash
         run: |
           set -euo pipefail
-          set +e
           bun tests/gate4/sec-env/probe.ts > /tmp/sec-env-g4.log 2>&1
-          status=$?
-          set -e
           cat /tmp/sec-env-g4.log
 
-          if [[ "$status" -ne 42 ]]; then
-            echo "SEC_ENV_G4_HARNESS_FAIL: expected controlled exit 42, got $status"
-            exit 1
-          fi
+          grep -Fq \
+            "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production" \
+            /tmp/sec-env-g4.log || {
+              echo "SEC_ENV_G4_HARNESS_FAIL: exact target-green sentinel missing"
+              exit 1
+            }
 
-          for sentinel in \
+          for unexpected in \
             SEC_ENV_G4_E1_EXPECTED_RED \
             SEC_ENV_G4_E2_EXPECTED_RED \
             SEC_ENV_G4_E3_EXPECTED_RED
           do
-            grep -Fq "$sentinel" /tmp/sec-env-g4.log || {
-              echo "SEC_ENV_G4_HARNESS_FAIL: missing $sentinel"
+            if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then
+              echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"
               exit 1
-            }
+            fi
           done
 
-          if grep -Fq "SEC_ENV_G4_TARGET_GREEN" /tmp/sec-env-g4.log; then
-            echo "SEC_ENV_G4_HARNESS_FAIL: target-green appeared before implementation"
-            exit 1
-          fi
-
-          echo "SEC_ENV_G4_EXPECTED_RED_CONFIRMED"
+          echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"

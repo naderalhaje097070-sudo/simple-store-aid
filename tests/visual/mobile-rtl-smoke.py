@@ -7,7 +7,9 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
-PRODUCTION_HOST = "simple-store-aid.lovable.app"
+PRODUCTION_APP_HOST = "simple-store-aid.lovable.app"
+PRODUCTION_SUPABASE_HOST = "dahzkekdirrngnkcxinv.supabase.co"
+FORBIDDEN_PRODUCTION_HOSTS = {PRODUCTION_APP_HOST, PRODUCTION_SUPABASE_HOST}
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 ALLOWED_TARGETS = {"local", "ci", "preview", "staging"}
 BLOCK_SENTINEL = "SEC_ENV_VISUAL_SMOKE_BLOCKED"
@@ -56,8 +58,8 @@ def validate_target() -> str:
         block("visual smoke base URL cannot contain credentials/query/fragment")
     if parsed.path not in {"", "/"}:
         block("visual smoke base URL must be an origin, not a routed path")
-    if host == PRODUCTION_HOST:
-        block("visual smoke is not authorized against the production host")
+    if host in FORBIDDEN_PRODUCTION_HOSTS:
+        block("visual smoke is not authorized against a production host")
 
     if target in {"local", "ci"}:
         if parsed.scheme != "http" or host not in LOOPBACK_HOSTS:
@@ -102,7 +104,7 @@ async def run():
             page = await ctx.new_page()
 
             async def block_production_requests(route):
-                if hostname_from_url(route.request.url) == PRODUCTION_HOST:
+                if hostname_from_url(route.request.url) in FORBIDDEN_PRODUCTION_HOSTS:
                     print(
                         f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {route.request.method} {route.request.url}"
                     )

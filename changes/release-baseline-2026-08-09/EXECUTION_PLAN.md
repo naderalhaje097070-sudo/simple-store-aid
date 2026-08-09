@@ -10,9 +10,15 @@ This file is intentionally operational. It freezes the sequence from the current
 - [x] Classify UI sale-save guards as client-only defense in depth, not idempotency.
 - [x] Record dependency drift to `@lovable.dev/vite-tanstack-config@2.9.1`.
 - [x] Synchronize `PROJECT_STATE.md` and `TASKS.md`.
-- [ ] Documentation-only PR checks GREEN.
-- [ ] Explicit human merge.
-- [ ] Record resulting `main` SHA.
+- [x] Diagnose Phase-0 authenticated-smoke runtime failure.
+- [x] Falsify and close dependency-rollback PR #43 without merge.
+- [x] Verify PR #44 exact head with Quality + T1–T15 + real Playwright Auth Smoke GREEN.
+- [x] Human-merge PR #44.
+- [x] Record containment baseline: `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- [x] Synchronize PR #41 branch with that exact `main` history.
+- [ ] Final PR #41 checks GREEN on one exact head.
+- [ ] Explicit human merge of PR #41.
+- [ ] Record resulting post-merge `main` SHA.
 
 ## Phase 1 — SEC-CI
 

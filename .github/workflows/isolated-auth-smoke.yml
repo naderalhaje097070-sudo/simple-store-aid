@@ -99,7 +99,7 @@ jobs:
           set -euo pipefail
           find .output -maxdepth 4 -type f | sort | tee /tmp/build-files.log
           test -f .output/server/wrangler.json
-          nohup bunx wrangler dev --config .output/server/wrangler.json --ip 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
+          nohup bunx wrangler dev --config .output/server/wrangler.json --compatibility-date 2026-08-08 --ip 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
           for attempt in $(seq 1 90); do
             if curl --silent --fail http://127.0.0.1:8080/ > /dev/null; then
               exit 0

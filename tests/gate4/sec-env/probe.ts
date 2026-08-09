@@ -65,13 +65,16 @@ function rapidClickPreflight(env: Record<string, string>) {
 
 const preview = resolve({
   MONGEZZ_DEPLOY_TARGET: "preview",
-  VITE_SUPABASE_URL: "http://127.0.0.1:54321",
-  VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
-  VITE_SUPABASE_PROJECT_ID: "isolated-project",
+  VITE_SUPABASE_URL: "https://preview-project.supabase.co",
+  VITE_SUPABASE_PUBLISHABLE_KEY: "preview-public-key",
+  VITE_SUPABASE_PROJECT_ID: "preview-project",
 });
 
-if (preview.url !== "http://127.0.0.1:54321" || preview.projectId !== "isolated-project") {
-  fail("explicit isolated preview configuration no longer resolves correctly");
+if (
+  preview.url !== "https://preview-project.supabase.co" ||
+  preview.projectId !== "preview-project"
+) {
+  fail("explicit dedicated preview configuration no longer resolves correctly");
 }
 
 const production = resolve({
@@ -116,22 +119,34 @@ if (resolvesWithoutThrow({ MONGEZZ_DEPLOY_TARGET: "production" })) {
 }
 
 const productionUrlWithTerminalDot = PROD_URL.replace(".supabase.co", ".supabase.co.");
-if (
-  resolvesWithoutThrow({
-    MONGEZZ_DEPLOY_TARGET: "preview",
-    VITE_SUPABASE_URL: productionUrlWithTerminalDot,
-    VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
-    VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
-  })
-) {
+const terminalDotBypass = resolvesWithoutThrow({
+  MONGEZZ_DEPLOY_TARGET: "preview",
+  VITE_SUPABASE_URL: productionUrlWithTerminalDot,
+  VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
+  VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
+});
+const queryRoutingBypass = resolvesWithoutThrow({
+  MONGEZZ_DEPLOY_TARGET: "preview",
+  VITE_SUPABASE_URL: "https://preview-project.supabase.co?project=prod",
+  VITE_SUPABASE_PUBLISHABLE_KEY: "preview-public-key",
+  VITE_SUPABASE_PROJECT_ID: "preview-project",
+});
+const gatewayRoutingBypass = resolvesWithoutThrow({
+  MONGEZZ_DEPLOY_TARGET: "staging",
+  VITE_SUPABASE_URL: "https://gateway.example",
+  VITE_SUPABASE_PUBLISHABLE_KEY: "staging-public-key",
+  VITE_SUPABASE_PROJECT_ID: "staging-project",
+});
+
+if (terminalDotBypass || queryRoutingBypass || gatewayRoutingBypass) {
   console.log(
-    "SEC_ENV_G4_E4_EXPECTED_RED: terminal DNS dot bypasses non-production production-target isolation",
+    "SEC_ENV_G4_E4_EXPECTED_RED: endpoint normalization or routing can bypass target isolation",
   );
   gaps.push("E4");
 }
 
 const serverAliasEnv: SupabaseBuildEnvironment = {
-  MONGEZZ_DEPLOY_TARGET: "preview",
+  MONGEZZ_DEPLOY_TARGET: "ci",
   VITE_SUPABASE_URL: "http://127.0.0.1:54321",
   VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
   VITE_SUPABASE_PROJECT_ID: "isolated-project",
@@ -157,7 +172,7 @@ try {
       VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
     },
     {
-      MONGEZZ_DEPLOY_TARGET: "preview",
+      MONGEZZ_DEPLOY_TARGET: "ci",
       VITE_SUPABASE_URL: "http://127.0.0.1:54321",
       VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
       VITE_SUPABASE_PROJECT_ID: "isolated-project",
@@ -218,6 +233,10 @@ const safeTarget = rapidClickPreflight({
   MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
 });
 
+const rapidSource = await Bun.file("tests/e2e/rapid-click-sale.py").text();
+const psqlNoRcCalls = rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0;
+const startupFilesDisabled = psqlNoRcCalls >= 2;
+
 const missingMarkerBlocked =
   missingMarker.exitCode !== 0 && missingMarker.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
 const productionBlocked =
@@ -230,7 +249,13 @@ const serviceBlocked =
 const safeAccepted =
   safeTarget.exitCode === 0 && safeTarget.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK");
 
-if (!missingMarkerBlocked || !productionBlocked || !hostaddrBlocked || !serviceBlocked) {
+if (
+  !missingMarkerBlocked ||
+  !productionBlocked ||
+  !hostaddrBlocked ||
+  !serviceBlocked ||
+  !startupFilesDisabled
+) {
   console.log(
     "SEC_ENV_G4_E7_EXPECTED_RED: rapid-click write harness does not fail closed before production-capable I/O",
   );

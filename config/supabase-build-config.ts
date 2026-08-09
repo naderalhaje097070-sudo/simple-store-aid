@@ -61,9 +61,15 @@ function parseUrl(value: string): URL {
   }
 }
 
+function normalizedHostname(url: URL): string {
+  return url.hostname.replace(/\.+$/, "").toLowerCase();
+}
+
 function canonicalUrl(value: string): string {
   const url = parseUrl(value);
-  return `${url.protocol}//${url.host}${url.pathname.replace(/\/$/, "")}`;
+  const port = url.port ? `:${url.port}` : "";
+  const path = url.pathname.replace(/\/+$/, "");
+  return `${url.protocol}//${normalizedHostname(url)}${port}${path}`;
 }
 
 function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
@@ -87,9 +93,10 @@ function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
 }
 
 function validateRemoteProjectPair(url: URL, projectId: string): void {
-  if (!url.hostname.endsWith(".supabase.co")) return;
+  const hostname = normalizedHostname(url);
+  if (!hostname.endsWith(".supabase.co")) return;
 
-  const urlProjectId = url.hostname.slice(0, -".supabase.co".length);
+  const urlProjectId = hostname.slice(0, -".supabase.co".length);
   if (!urlProjectId || urlProjectId !== projectId) {
     configurationError("Supabase URL and project ID do not match");
   }
@@ -119,7 +126,8 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   validateRemoteProjectPair(url, projectId);
 
   const approvedProductionUrl = new URL(APPROVED_PRODUCTION_SUPABASE_TARGET.url);
-  const targetsProductionHost = url.hostname === approvedProductionUrl.hostname;
+  const targetsProductionHost =
+    normalizedHostname(url) === normalizedHostname(approvedProductionUrl);
   const targetsProductionProject = projectId === APPROVED_PRODUCTION_SUPABASE_TARGET.projectId;
 
   if (target === "production") {
@@ -137,4 +145,20 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
     publishableKey,
     projectId,
   };
+}
+
+export function resolveAndHydrateSupabaseServerConfig(env: SupabaseBuildEnvironment) {
+  const resolved = resolveSupabaseBuildConfig(env);
+
+  if (!firstNonEmpty(env.SUPABASE_URL)) {
+    env.SUPABASE_URL = resolved.url;
+  }
+  if (!firstNonEmpty(env.SUPABASE_PUBLISHABLE_KEY)) {
+    env.SUPABASE_PUBLISHABLE_KEY = resolved.publishableKey;
+  }
+  if (!firstNonEmpty(env.SUPABASE_PROJECT_ID)) {
+    env.SUPABASE_PROJECT_ID = resolved.projectId;
+  }
+
+  return resolved;
 }

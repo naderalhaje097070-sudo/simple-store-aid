@@ -90,6 +90,22 @@ def parse_whatwg_ipv4_number(part: str) -> int | None:
         return None
 
 
+def ends_in_whatwg_ipv4_number_candidate(host: str) -> bool:
+    """Detect the WHATWG 'ends in a number' boundary before DNS acceptance."""
+
+    parts = host.split(".")
+    if parts and parts[-1] == "":
+        parts.pop()
+    if not parts:
+        return False
+
+    last = parts[-1]
+    # WHATWG treats a host as an IPv4 candidate when the final label parses as
+    # an IPv4 number, or when it is all ASCII digits even if that parse fails
+    # (for example 09 or an out-of-range decimal component).
+    return parse_whatwg_ipv4_number(last) is not None or (last.isascii() and last.isdigit())
+
+
 def is_whatwg_ipv4_host(host: str) -> bool:
     """Detect host spellings Chromium can canonicalize into an IPv4 address."""
 
@@ -170,6 +186,8 @@ def validate_target() -> str:
     else:
         if parsed.scheme != "https" or parsed.port is not None or host in LOOPBACK_HOSTS:
             block("preview/staging visual smoke must use HTTPS without a custom port")
+        if ends_in_whatwg_ipv4_number_candidate(host):
+            block("preview/staging visual smoke cannot use a WHATWG IPv4-candidate hostname")
         if is_ip_literal_or_legacy_numeric_host(host):
             block("preview/staging visual smoke cannot use IP or legacy numeric host syntax")
         if not REMOTE_DNS_HOST.fullmatch(host):

@@ -4,18 +4,22 @@ This file is intentionally operational. It freezes the sequence from the current
 
 ## Phase 0 — Baseline reconciliation
 
-- [x] Identify current `main` SHA at start: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
+- [x] Identify reconciliation-start `main`: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
 - [x] Compare with previous Gate-4 baseline `983b746e5c6639dcdc5e6557381ad5619abaa046`.
-- [x] Record 11-commit / five-file drift.
+- [x] Record start-state 11-commit / five-file drift.
 - [x] Classify UI sale-save guards as client-only defense in depth, not idempotency.
 - [x] Record dependency drift to `@lovable.dev/vite-tanstack-config@2.9.1`.
-- [x] Synchronize `PROJECT_STATE.md` and `TASKS.md`.
 - [x] Diagnose Phase-0 authenticated-smoke runtime failure.
 - [x] Falsify and close dependency-rollback PR #43 without merge.
 - [x] Verify PR #44 exact head with Quality + T1–T15 + real Playwright Auth Smoke GREEN.
 - [x] Human-merge PR #44.
-- [x] Record containment baseline: `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`.
-- [x] Synchronize PR #41 branch with that exact `main` history.
+- [x] Record accepted Phase-0 baseline: `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- [x] Recompare accepted `main` with old Gate-4 baseline: 21 commits ahead / nine net changed paths.
+- [x] Preserve concurrent rapid-click plan/results/test history from accepted `main`.
+- [x] Classify rapid-click results as UI evidence only, not FIN-IDEM closure.
+- [x] Classify `tests/e2e/rapid-click-sale.py` as non-production-only until fail-closed isolation is proven.
+- [x] Synchronize `PROJECT_STATE.md`, `TASKS.md`, baseline reconciliation, and Human Gate.
+- [x] Ensure final PR #41 diff relative to accepted `main` is documentation/governance only.
 - [ ] Final PR #41 checks GREEN on one exact head.
 - [ ] Explicit human merge of PR #41.
 - [ ] Record resulting post-merge `main` SHA.
@@ -43,6 +47,7 @@ This file is intentionally operational. It freezes the sequence from the current
 - [ ] Verify one build/server environment contract across client/SSR/build paths.
 - [ ] Prove local/CI/preview/staging reject production target.
 - [ ] Prove missing non-production configuration fails closed.
+- [ ] Include financial-write test harness target isolation in the environment contract.
 - [ ] Independent review.
 - [ ] Explicit human Gate-4 approval.
 - [ ] Focused SEC-ENV implementation PR.

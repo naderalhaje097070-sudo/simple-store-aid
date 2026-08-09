@@ -44,6 +44,13 @@ SB_URL = read_env("VITE_SUPABASE_URL")
 SB_ANON = read_env("VITE_SUPABASE_PUBLISHABLE_KEY")
 
 
+def psql_exec(sql: str) -> None:
+    """Test-only cleanup channel (never used for assertions). Scoped to rows this run created."""
+    r = subprocess.run(["psql", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"psql exec failed: {r.stderr.strip()}")
+
+
 def psql_one(sql: str) -> str:
     r = subprocess.run(["psql", "-At", "-q", "-c", sql], capture_output=True, text=True)
     if r.returncode != 0:
@@ -139,13 +146,12 @@ async def main():
         print("⛔ no tenant for injected user"); sys.exit(2)
     print(f"→ tenant={tid} tag={TAG}")
 
-    # Preflight: never seed what we cannot delete.
-    probe = requests.post(
-        f"{SB_URL}/rest/v1/rpc/__test_force_delete_e2e_order", headers=api.h, timeout=10,
-        json={"p_order_id": None, "p_product_id": None, "p_tag": TAG},
-    )
-    if probe.status_code != 200:
-        print(f"⛔ cleanup RPC unavailable ({probe.status_code}): {probe.text[:200]}")
+    # Preflight: never seed what we cannot delete. Cleanup runs over psql
+    # (test-only channel) scoped to this run's rows — no public test RPC.
+    try:
+        psql_exec("SELECT 1")
+    except Exception as e:
+        print(f"⛔ psql cleanup channel unavailable: {e}")
         sys.exit(2)
 
     seeded = api.post("/rest/v1/products", {
@@ -296,23 +302,29 @@ async def main():
             await browser.close()
     finally:
         leaked = False
-        for oid in [o for o in created_orders if o]:
-            try:
-                api.rpc("__test_force_delete_e2e_order",
-                        {"p_order_id": oid, "p_product_id": None, "p_tag": TAG})
-            except Exception as e:
-                leaked = True
-                print(f"❌ cleanup error for order {oid}: {e}")
+        ids = [o for o in created_orders if o]
         try:
-            api.rpc("__test_force_delete_e2e_order",
-                    {"p_order_id": None, "p_product_id": pid, "p_tag": TAG})
+            if ids:
+                lst = ",".join(f"'{i}'" for i in ids)
+                psql_exec(
+                    "BEGIN;"
+                    f"DELETE FROM public.payments    WHERE order_id IN ({lst});"
+                    f"DELETE FROM public.order_items WHERE order_id IN ({lst});"
+                    f"DELETE FROM public.orders      WHERE id       IN ({lst});"
+                    "COMMIT;"
+                )
+            psql_exec(f"DELETE FROM public.products WHERE id='{pid}'")
         except Exception as e:
             leaked = True
-            print(f"❌ cleanup error for product: {e}")
+            print(f"❌ cleanup error: {e}")
         left_p = psql_one(f"SELECT COUNT(*)::text FROM public.products WHERE id='{pid}'")
-        if left_p != "0":
+        left_o = "0"
+        if ids:
+            lst = ",".join(f"'{i}'" for i in ids)
+            left_o = psql_one(f"SELECT COUNT(*)::text FROM public.orders WHERE id IN ({lst})")
+        if left_p != "0" or left_o != "0":
             leaked = True
-            print(f"❌ leftover product rows={left_p}")
+            print(f"❌ leftover rows: products={left_p} orders={left_o}")
         print("🧹 cleanup done" if not leaked else "⚠ cleanup incomplete")
 
     print("\n=== RESULTS ===")

@@ -8,18 +8,50 @@ type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
 };
 
+const SERVER_ENV_KEYS = [
+  "MONGEZZ_DEPLOY_TARGET",
+  "VITE_SUPABASE_URL",
+  "VITE_SUPABASE_PUBLISHABLE_KEY",
+  "VITE_SUPABASE_PROJECT_ID",
+  "SUPABASE_URL",
+  "SUPABASE_PUBLISHABLE_KEY",
+  "SUPABASE_PROJECT_ID",
+  "SUPABASE_SERVICE_ROLE_KEY",
+] as const;
+
 let serverEntryPromise: Promise<ServerEntry> | undefined;
-let serverEnvironmentVerified = false;
 
-function verifyServerEnvironment(): void {
-  if (serverEnvironmentVerified) return;
+function hydrateServerProcessEnv(workerEnv: unknown): void {
+  if (!workerEnv || typeof workerEnv !== "object") return;
+  const bindings = workerEnv as Record<string, unknown>;
 
-  // SEC-ENV-001: validate both VITE_* and server Supabase aliases before the
-  // generated server entry (auth middleware/admin clients) can make a request.
-  // Divergent aliases, missing intent/config, and non-production→production
-  // targeting all fail closed here.
+  for (const key of SERVER_ENV_KEYS) {
+    const bindingValue = bindings[key];
+    if (typeof bindingValue !== "string") continue;
+
+    const incoming = bindingValue.trim();
+    if (!incoming) continue;
+
+    const existing = process.env[key]?.trim();
+    if (existing && existing !== incoming) {
+      throw new Error(`SEC_ENV_BINDING_CONFLICT: ${key} differs between runtime sources`);
+    }
+
+    process.env[key] = incoming;
+  }
+}
+
+function verifyServerEnvironment(workerEnv: unknown): void {
+  // Cloudflare exposes configured values as Worker bindings. Copy only the
+  // allowlisted Supabase/deployment strings into process.env so generated
+  // server modules that use process.env inherit the same validated target.
+  // Never replace the process.env object and never accept conflicting sources.
+  hydrateServerProcessEnv(workerEnv);
+
+  // Validate before the generated server entry (auth middleware/admin clients)
+  // can execute. Missing intent/config, divergent aliases, and
+  // non-production→production targeting all fail closed here.
   resolveSupabaseBuildConfig(process.env);
-  serverEnvironmentVerified = true;
 }
 
 async function getServerEntry(): Promise<ServerEntry> {
@@ -53,7 +85,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
-      verifyServerEnvironment();
+      verifyServerEnvironment(env);
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);

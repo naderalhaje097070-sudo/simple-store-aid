@@ -110,6 +110,64 @@ jobs:
           print("SEC_ENV_REST_REDIRECT_GUARD_CONFIRMED")
           PY
 
+      - name: Independently prove destructive preflights reject inherited proxies
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          safe_env=/tmp/sec-env-proxy-safe.env
+          cat > "$safe_env" <<'EOF'
+          VITE_SUPABASE_URL=http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key
+          EOF
+
+          proxy_vars=(HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy)
+
+          assert_proxy_blocked() {
+            local script="$1"
+            local sentinel="$2"
+            local proxy_name="$3"
+            local safe_name
+            safe_name="${script//\//-}-${proxy_name}"
+            local log="/tmp/${safe_name}.log"
+
+            set +e
+            env \
+              -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY \
+              -u http_proxy -u https_proxy -u all_proxy \
+              "$proxy_name=http://203.0.113.10:8080" \
+              MONGEZZ_E2E_WRITE_TEST=1 \
+              MONGEZZ_DEPLOY_TARGET=ci \
+              MONGEZZ_E2E_ENV_FILE="$safe_env" \
+              PGHOST=127.0.0.1 \
+              PGPORT=54322 \
+              PGUSER=postgres \
+              PGDATABASE=postgres \
+              python3 "$script" --preflight-only \
+              > "$log" 2>&1
+            local status=$?
+            set -e
+
+            if [[ "$status" -eq 0 ]] || ! grep -Fq "$sentinel" "$log"; then
+              echo "SEC_ENV_PROXY_GUARD_FAIL: ${script} accepted ${proxy_name}"
+              cat "$log"
+              exit 1
+            fi
+          }
+
+          for proxy_name in "${proxy_vars[@]}"; do
+            assert_proxy_blocked \
+              tests/e2e/rapid-click-sale.py \
+              SEC_ENV_RAPID_CLICK_BLOCKED \
+              "$proxy_name"
+            assert_proxy_blocked \
+              tests/e2e/sale-dashboard-close.py \
+              SEC_ENV_WRITE_HARNESS_BLOCKED \
+              "$proxy_name"
+          done
+
+          echo "SEC_ENV_PROXY_GUARD_CONFIRMED"
+
       - name: Independently prove routing-protected browser contexts block service workers
         shell: bash
         run: |
@@ -161,6 +219,63 @@ jobs:
                       )
 
           print("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")
+          PY
+
+      - name: Independently prove visual runtime isolation failures are fatal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          path = Path("tests/visual/mobile-rtl-smoke.py")
+          source = path.read_text()
+          tree = ast.parse(source, filename=str(path))
+
+          if "isolation_violations.append" not in source:
+              raise SystemExit(
+                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: production route blocks are not recorded"
+              )
+          if "visual smoke blocked forbidden production request(s)" not in source:
+              raise SystemExit(
+                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: recorded production blocks are not fatal"
+              )
+          if "visual navigation failed for" not in source:
+              raise SystemExit(
+                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto failures are not fatal"
+              )
+
+          def contains_page_goto(node):
+              for child in ast.walk(node):
+                  if not isinstance(child, ast.Call):
+                      continue
+                  func = child.func
+                  if (
+                      isinstance(func, ast.Attribute)
+                      and func.attr == "goto"
+                      and isinstance(func.value, ast.Name)
+                      and func.value.id == "page"
+                  ):
+                      return True
+              return False
+
+          for node in ast.walk(tree):
+              if not isinstance(node, ast.Try):
+                  continue
+              if not any(contains_page_goto(statement) for statement in node.body):
+                  continue
+              if not node.handlers:
+                  raise SystemExit(
+                      "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto try has no handler"
+                  )
+              for handler in node.handlers:
+                  if not any(isinstance(child, ast.Raise) for child in ast.walk(handler)):
+                      raise SystemExit(
+                          "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto exception is swallowed"
+                      )
+
+          print("SEC_ENV_VISUAL_RUNTIME_GUARD_CONFIRMED")
           PY
 
       - name: Independently prove visual smoke uses canonical non-production origins
@@ -238,6 +353,8 @@ jobs:
             'https://1.2.3.999'
           assert_blocked numeric-ending-hex preview \
             'https://preview.0x7f'
+          assert_blocked invalid-punycode-alabel preview \
+            'https://xn--a.example'
 
           MONGEZZ_DEPLOY_TARGET=ci \
           MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \
@@ -258,6 +375,18 @@ jobs:
             "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
             /tmp/visual-safe-preview.log || {
               echo "SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected"
+              exit 1
+            }
+
+          MONGEZZ_DEPLOY_TARGET=preview \
+          MONGEZZ_VISUAL_TEST_BASE_URL=https://xn--bcher-kva.example \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-safe-punycode.log 2>&1
+          grep -Fq \
+            "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
+            /tmp/visual-safe-punycode.log || {
+              echo "SEC_ENV_VISUAL_HARNESS_FAIL: valid canonical punycode preview target was rejected"
+              cat /tmp/visual-safe-punycode.log
               exit 1
             }
 

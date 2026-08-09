@@ -178,7 +178,11 @@ async def main():
 
             async def enforce_browser_isolation(route):
                 request = route.request
-                if not browser_request_is_isolated(request.method, request.url):
+                if not browser_request_is_isolated(
+                    request.method,
+                    request.url,
+                    request.is_navigation_request(),
+                ):
                     browser_isolation_violations.append(f"{request.method} {request.url}")
                     print(
                         f"SEC_ENV_WRITE_HARNESS_BROWSER_BLOCKED: {request.method} {request.url}"

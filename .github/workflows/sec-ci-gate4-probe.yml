@@ -49,3 +49,201 @@ jobs:
           done
 
           echo "SEC_CI_G4_EXPECTED_RED_CONFIRMED"
+
+  candidate-financial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup candidate Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: "2.101.0"
+
+      - name: Verify candidate version
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(supabase --version)"
+          test "$actual" = "2.101.0"
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase
+        run: supabase start
+
+      - name: Capture isolated environment
+        run: supabase status -o env > /tmp/supabase.env
+
+      - name: Seed test owner and tenant
+        shell: bash
+        run: |
+          set -euo pipefail
+          set -a
+          source /tmp/supabase.env
+          set +a
+
+          curl --fail-with-body --silent --show-error \
+            -X POST "$API_URL/auth/v1/signup" \
+            -H "apikey: $ANON_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"email":"pilot.qa@mongezz.test","password":"PilotQA-Only-2026!","data":{"display_name":"Pilot QA"}}' \
+            > /tmp/signup.json
+
+          user_id="$(jq -r '.user.id // .id // empty' /tmp/signup.json)"
+          if [[ -z "$user_id" ]]; then
+            user_id="$(psql "$DB_URL" -Atc "select id from auth.users where email='pilot.qa@mongezz.test' limit 1")"
+          fi
+          test -n "$user_id"
+
+          tenant_id="11111111-1111-4111-8111-111111111111"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$user_id" -v tid="$tenant_id" <<'SQL'
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'Pilot QA Tenant', :'uid'::uuid);
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Pilot QA')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+          SQL
+
+      - name: Run T1-T15 with candidate CLI
+        env:
+          PGHOST: 127.0.0.1
+          PGPORT: 54322
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: postgres
+        run: bash tests/financial-rules/run.sh
+
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --no-backup || true
+
+  candidate-auth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+
+      - name: Install application dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Setup candidate Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: "2.101.0"
+
+      - name: Verify candidate version
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(supabase --version)"
+          test "$actual" = "2.101.0"
+
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Start isolated Supabase and export environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase start
+          supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+          {
+            echo "VITE_SUPABASE_URL=$API_URL"
+            echo "VITE_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY"
+            echo "DB_URL=$DB_URL"
+            echo "CI_ISOLATED_SUPABASE=1"
+            echo "APP_BASE_URL=http://127.0.0.1:8080"
+          } >> "$GITHUB_ENV"
+
+      - name: Create confirmed isolated QA account
+        shell: bash
+        run: |
+          set -euo pipefail
+          email="pilot.qa.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
+          password="Pilot-QA-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
+          signup="$(curl --fail-with-body --silent --show-error \
+            -X POST "$VITE_SUPABASE_URL/auth/v1/signup" \
+            -H "apikey: $VITE_SUPABASE_PUBLISHABLE_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"email\":\"$email\",\"password\":\"$password\",\"data\":{\"display_name\":\"Pilot QA\"}}")"
+          user_id="$(jq -r '.user.id // .id // empty' <<< "$signup")"
+          test -n "$user_id"
+          tenant_id="11111111-1111-4111-8111-111111111111"
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -v uid="$user_id" -v tid="$tenant_id" <<'SQL'
+          UPDATE auth.users
+             SET email_confirmed_at = COALESCE(email_confirmed_at, now()),
+                 updated_at = now()
+           WHERE id = :'uid'::uuid;
+
+          INSERT INTO public.tenants (id, name, owner_user_id)
+          VALUES (:'tid'::uuid, 'Pilot QA Tenant', :'uid'::uuid)
+          ON CONFLICT (id) DO NOTHING;
+
+          INSERT INTO public.profiles (id, tenant_id, display_name)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'Pilot QA')
+          ON CONFLICT (id) DO UPDATE
+          SET tenant_id = EXCLUDED.tenant_id,
+              display_name = EXCLUDED.display_name;
+
+          INSERT INTO public.user_roles (user_id, tenant_id, role)
+          VALUES (:'uid'::uuid, :'tid'::uuid, 'owner')
+          ON CONFLICT DO NOTHING;
+          SQL
+          {
+            echo "PILOT_QA_EMAIL=$email"
+            echo "PILOT_QA_PASSWORD=$password"
+          } >> "$GITHUB_ENV"
+
+      - name: Build production application against isolated Supabase
+        run: bun run build
+
+      - name: Start Cloudflare production emulator
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .output/server/wrangler.json
+          nohup bunx wrangler dev --config .output/server/wrangler.json --compatibility-date 2026-08-08 --ip 127.0.0.1 --port 8080 > /tmp/mongezz-app.log 2>&1 &
+          for attempt in $(seq 1 90); do
+            if curl --silent --fail http://127.0.0.1:8080/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/mongezz-app.log
+          exit 1
+
+      - name: Install Playwright
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+
+      - name: Run read-only authenticated smoke with candidate CLI
+        run: python3 tests/e2e/isolated-auth-smoke.py
+
+      - name: Stop isolated Supabase
+        if: always()
+        run: supabase stop --no-backup || true

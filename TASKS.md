@@ -7,16 +7,19 @@
 - Priority: P0 sequencing prerequisite.
 - Change type: Governance / source-of-truth synchronization only.
 - Starting `main`: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
+- Current Phase-0 containment baseline after human merge of PR #44: `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
 - Previous P0 Gate-4 baseline: `983b746e5c6639dcdc5e6557381ad5619abaa046`.
-- Drift: current `main` is 11 commits ahead and changes five paths:
+- Drift at reconciliation start: `main` was 11 commits ahead and changed five paths:
   - `.lovable/plan.md`;
   - `package.json`;
   - `bun.lock`;
   - `src/features/layout/BottomNav.tsx`;
   - `src/routes/_authenticated/app.tsx`.
+- Phase-0 containment subsequently added one isolated-test-harness change in `.github/workflows/isolated-auth-smoke.yml` through PR #44.
 - Material impact:
   - current sale UI has client-side `busy`/`saving` duplicate-click guards;
   - `@lovable.dev/vite-tanstack-config` changed from `2.7.7` to `2.9.1`;
+  - local Auth Smoke now pins the emulator compatibility date required by the verified workerd boundary;
   - P0 exact-head evidence must be reconciled to the effective baseline before approval.
 - Out of scope:
   - production financial logic;
@@ -26,8 +29,8 @@
   - deployment or pilot execution.
 - Done when:
   - `PROJECT_STATE.md`, `TASKS.md`, and the reconciliation record agree;
-  - required checks on the documentation-only PR are reviewed;
-  - a human explicitly merges the PR;
+  - required checks on the final synchronized documentation PR are reviewed;
+  - a human explicitly merges PR #41;
   - the resulting `main` SHA is recorded before Phase 1 begins.
 
 ## Fixed P0 execution queue
@@ -239,6 +242,15 @@ Employee identity, RBAC, assignment, personal custody, employee UI, and employee
 - AI product features.
 
 ## Completed
+
+### BASELINE-RUNTIME-001 — Auth Smoke local runtime containment
+
+- Issue #42.
+- PR #43 tested a dependency rollback and was closed without merge after exact-head evidence reproduced the failure.
+- PR #44 exact head `7e12e9c2af64ce12fbfe09c88f52d787df44a937` passed Quality, T1–T15, and real Playwright Auth Smoke.
+- PR #44 was explicitly human-approved and merged as `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- Scope was one local emulator command-line compatibility-date pin only.
+- No deployment or production access occurred.
 
 ### OPS-GHA-001 — GitHub-hosted Actions execution restoration
 

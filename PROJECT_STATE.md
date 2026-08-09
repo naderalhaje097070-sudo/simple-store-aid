@@ -6,27 +6,31 @@ Last updated: 2026-08-09
 
 `RELEASE-BASELINE-RECON-002` — reconcile the effective `main` branch with the fixed Pilot RC1 plan before any new P0 implementation is authorized.
 
-Current `main` observed at reconciliation start:
+Reconciliation start `main`:
 
 `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`
 
-Phase-0 runtime containment was human-approved and merged through PR #44. The Phase-0 reconciliation branch is now synchronized with:
+Accepted current Phase-0 baseline after human merge of PR #44:
 
-`main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`
+`975a34a854c510f3da7dbe45caa9791bb0375e2d`
 
 The current P0 Gate-4 workstreams were created from or stacked on the older governed baseline:
 
 `983b746e5c6639dcdc5e6557381ad5619abaa046`
 
-GitHub comparison at reconciliation start showed `main` was 11 commits ahead and changed five paths:
+At reconciliation start, `main` was 11 commits ahead of that older baseline and changed five paths. Before PR #44 was merged, additional direct repository history landed. The accepted current `main` is now 21 commits ahead of the older Gate-4 baseline with net changes across nine paths:
 
-- `.lovable/plan.md`
+- `.github/workflows/isolated-auth-smoke.yml`
+- `.lovable/plan.md` removed/moved into a dated plan file
+- `.lovable/plan/اختبار-الضغط-المتكرر-على-زر-بيع-وحفظ-الفاتورة-mobile-390px-2026-08-09.md`
 - `package.json`
 - `bun.lock`
 - `src/features/layout/BottomNav.tsx`
 - `src/routes/_authenticated/app.tsx`
+- `docs/rapid-click-sale-results.md`
+- `tests/e2e/rapid-click-sale.py`
 
-PR #44 subsequently added one isolated-test-harness containment change to `.github/workflows/isolated-auth-smoke.yml`; it does not change application or financial behavior.
+The application source drift still consists of the client-side sale-save guards already classified as defense in depth. The later rapid-click files are test/planning/evidence artifacts; they do not provide server-side idempotency and are not authorized for production execution.
 
 The project remains a Functional MVP being stabilized into a reproducible, financially safe owner-only release candidate. No pilot or production-release authorization exists yet.
 
@@ -108,6 +112,8 @@ Approved target remains:
 
 Non-production requires explicit non-production configuration and rejects the production target. Production requires explicit production intent and explicit approved configuration. No source-code production fallback is accepted.
 
+The newly landed `tests/e2e/rapid-click-sale.py` reinforces this requirement: its historical evidence says it used an injected owner session and could leave undeletable paid test orders. The script is not wired into an approved release gate and must not be run against production; future execution must use an isolated tenant and fail-closed environment proof.
+
 ### 3. FIN-COURIER-001 / Issue #22
 
 Priority: P0 financial workflow blocker.
@@ -133,7 +139,7 @@ Current exact-head evidence on PR #27 head `86f2b552db3ff83a9091ee2df58b7f4e5477
 
 This is a real Gate-4 evidence failure, not infrastructure failure. Gate 4 is **NOT APPROVED**. PR-A / PR-B / PR-C remain blocked.
 
-The effective `main` now also contains client-side sale-save guards in BottomNav, Quick Sale, and PaymentSheet. These UI guards must be included in the reconciliation of FIN-COURIER UI assumptions, but they do not alter the approved financial contract.
+The effective `main` contains client-side sale-save guards in BottomNav, Quick Sale, and PaymentSheet. The rapid-click QA artifact reports 6/6 human-style duplicate-click scenarios passed on one injected session, but this remains UI evidence only and does not alter the approved financial or idempotency contract.
 
 ### 4. FIN-IDEM-001 / Issue #31
 
@@ -143,7 +149,7 @@ Current state:
 
 - Gates 0–3: owner-approved.
 - PR #39 is preparation/readiness only and remains dependency-blocked by the canonical FIN-COURIER sale v2.
-- Current UI `saving`/`busy` guards do not satisfy server-side idempotency.
+- Current UI `saving`/`busy` guards and rapid-click results do not satisfy server-side idempotency.
 
 Required contract:
 
@@ -156,12 +162,13 @@ Required contract:
 
 ## Baseline drift impact
 
-Since the old Gate-4 baseline, effective `main` added:
+Compared with old Gate-4 baseline `983b746e5c6639dcdc5e6557381ad5619abaa046`, accepted current `main` `975a34a854c510f3da7dbe45caa9791bb0375e2d` is 21 commits ahead with nine changed paths. Material categories are:
 
 1. client-side duplicate-click/save guards in the sale UI;
-2. an update of `@lovable.dev/vite-tanstack-config` from `2.7.7` to `2.9.1` and corresponding lockfile changes;
-3. planning-file updates;
-4. the isolated Auth Smoke local-emulator compatibility-date containment merged through PR #44.
+2. `@lovable.dev/vite-tanstack-config` `2.7.7` → `2.9.1` and lockfile changes;
+3. planning-history relocation/update;
+4. rapid-click sale QA script/results artifacts;
+5. isolated Auth Smoke local-emulator compatibility-date containment merged through PR #44.
 
 Therefore no P0 Gate-4 approval may rely solely on stale exact-head evidence. Each workstream must reconcile its relevant assumptions to the accepted release baseline and run authoritative checks on its final exact head.
 
@@ -210,7 +217,7 @@ Pilot entry is blocked by:
 
 ## Immediate next task
 
-Complete the exact-head checks on Phase-0 PR #41 after synchronization with `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`, then require an explicit human merge. After that merge, record the resulting `main` SHA and begin SEC-CI reconciliation from that exact baseline.
+Complete exact-head checks on Phase-0 PR #41 after synchronizing its tree to accepted `main = 975a34a854c510f3da7dbe45caa9791bb0375e2d`, preserving all concurrent repository history. Then require an explicit human merge. After that merge, record the resulting `main` SHA and begin SEC-CI reconciliation from that exact baseline.
 
 Do not begin SEC-CI implementation, SEC-ENV implementation, FIN-COURIER PR-A/B/C, FIN-IDEM implementation, pilot execution, or deployment before their stated gate is satisfied.
 

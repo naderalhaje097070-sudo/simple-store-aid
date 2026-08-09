@@ -25,7 +25,24 @@ def normalize_hostname(value: str) -> str:
         block("application hostname is not valid IDNA")
 
 
-def validate_app_origin() -> str:
+def request_origin(url_value: str) -> tuple[str, str, int] | None:
+    """Return a normalized network origin for browser routing decisions."""
+
+    try:
+        parsed = urlparse(url_value)
+        host = normalize_hostname(parsed.hostname or "")
+        port = parsed.port
+    except (ValueError, SystemExit):
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
+
+
+def validate_app_origin() -> tuple[str, tuple[str, str, int]]:
     if os.environ.get("CI_ISOLATED_SUPABASE") != "1":
         block("CI_ISOLATED_SUPABASE must equal 1")
 
@@ -49,28 +66,36 @@ def validate_app_origin() -> str:
     if host == PRODUCTION_APP_HOST:
         block("production application host is forbidden")
 
-    return base_url
+    return base_url, (parsed.scheme, host, port)
 
 
 def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool) -> bool:
-    try:
-        parsed = urlparse(url_value)
-        host = normalize_hostname(parsed.hostname or "")
-    except (ValueError, SystemExit):
+    origin = request_origin(url_value)
+    if origin is None:
         return False
 
+    _, host, _ = origin
     if host == PRODUCTION_APP_HOST or host.endswith(".supabase.co"):
         return False
-    if is_navigation and host not in LOOPBACK_HOSTS:
+    if is_navigation and origin != APP_ORIGIN:
         return False
     if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
         return False
     return True
 
 
-BASE_URL = validate_app_origin()
+BASE_URL, APP_ORIGIN = validate_app_origin()
 
 if "--preflight-only" in sys.argv:
+    # Freeze the full-origin boundary before credentials or Playwright are loaded.
+    # Same-host redirects on a different port/scheme are distinct origins and must
+    # never receive the authenticated smoke's credentials.
+    if browser_request_is_isolated("GET", "http://127.0.0.1:8000/auth", True):
+        block("browser isolation invariant accepted an alternate loopback port")
+    if browser_request_is_isolated("GET", "https://localhost/app", True):
+        block("browser isolation invariant accepted an alternate loopback scheme")
+    if not browser_request_is_isolated("GET", f"{BASE_URL}/app", True):
+        block("browser isolation invariant rejected the validated application origin")
     print(f"{OK_SENTINEL}: isolated application origin verified")
     raise SystemExit(0)
 

@@ -61,6 +61,33 @@ function parseUrl(value: string): URL {
   }
 }
 
+function canonicalUrl(value: string): string {
+  const url = parseUrl(value);
+  return `${url.protocol}//${url.host}${url.pathname.replace(/\/$/, "")}`;
+}
+
+function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
+  const viteUrl = firstNonEmpty(env.VITE_SUPABASE_URL);
+  const serverUrl = firstNonEmpty(env.SUPABASE_URL);
+  if (viteUrl && serverUrl && canonicalUrl(viteUrl) !== canonicalUrl(serverUrl)) {
+    configurationError("VITE_SUPABASE_URL and SUPABASE_URL must target the same project");
+  }
+
+  const viteKey = firstNonEmpty(env.VITE_SUPABASE_PUBLISHABLE_KEY);
+  const serverKey = firstNonEmpty(env.SUPABASE_PUBLISHABLE_KEY);
+  if (viteKey && serverKey && viteKey !== serverKey) {
+    configurationError(
+      "VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match",
+    );
+  }
+
+  const viteProject = firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID);
+  const serverProject = firstNonEmpty(env.SUPABASE_PROJECT_ID);
+  if (viteProject && serverProject && viteProject !== serverProject) {
+    configurationError("VITE_SUPABASE_PROJECT_ID and SUPABASE_PROJECT_ID must match");
+  }
+}
+
 function validateRemoteProjectPair(url: URL, projectId: string): void {
   if (!url.hostname.endsWith(".supabase.co")) return;
 
@@ -72,6 +99,8 @@ function validateRemoteProjectPair(url: URL, projectId: string): void {
 
 export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   const target = parseTarget(firstNonEmpty(env.MONGEZZ_DEPLOY_TARGET));
+  validateAliasConsistency(env);
+
   const urlValue = firstNonEmpty(env.VITE_SUPABASE_URL, env.SUPABASE_URL);
   const publishableKey = firstNonEmpty(
     env.VITE_SUPABASE_PUBLISHABLE_KEY,

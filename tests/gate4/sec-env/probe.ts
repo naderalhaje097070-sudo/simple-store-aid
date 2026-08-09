@@ -420,8 +420,10 @@ const authSafe = pythonPreflight(authSmoke, {
 const authSource = await Bun.file(authSmoke).text();
 const authPreflightBeforeCredentials =
   authSource.indexOf("BASE_URL = validate_app_origin()") >= 0 &&
-  authSource.indexOf("BASE_URL = validate_app_origin()") < authSource.indexOf('EMAIL = os.environ["PILOT_QA_EMAIL"]') &&
-  authSource.indexOf("BASE_URL = validate_app_origin()") < authSource.indexOf("from playwright.async_api");
+  authSource.indexOf("BASE_URL = validate_app_origin()") <
+    authSource.indexOf('EMAIL = os.environ["PILOT_QA_EMAIL"]') &&
+  authSource.indexOf("BASE_URL = validate_app_origin()") <
+    authSource.indexOf("from playwright.async_api");
 
 if (
   !blocked(authMissingMarker, "SEC_ENV_AUTH_SMOKE_BLOCKED") ||

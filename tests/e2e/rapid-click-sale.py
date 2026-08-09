@@ -260,18 +260,14 @@ async def main():
             await page.wait_for_timeout(800)
             await page.get_by_text(f"{TAG} منتج", exact=False).first.click()
             await page.wait_for_timeout(250)
-            # switch to advanced sale screen
-            adv = page.get_by_text("خيارات متقدمة", exact=False)
-            if not await adv.count():
-                adv = page.get_by_text("متقدم", exact=False)
-            if await adv.count():
-                await adv.first.click()
-                await page.wait_for_timeout(900)
-                # open payment sheet
-                cont = page.get_by_text("متابعة", exact=False)
-                if await cont.count():
-                    await cont.first.click()
-                    await page.wait_for_timeout(700)
+            # switch to advanced sale screen ("متقدّم"), rebuild cart there
+            await page.get_by_role("button", name="بيع متقدم").first.click()
+            await page.wait_for_timeout(900)
+            await page.get_by_text(f"{TAG} منتج", exact=False).first.click()
+            await page.wait_for_timeout(300)
+            await page.get_by_text("إتمام البيع", exact=False).first.click()
+            await page.wait_for_timeout(700)
+            await page.screenshot(path=str(SHOTS / "p5_payment_sheet.png"))
 
             save_btn = page.get_by_text("حفظ الفاتورة", exact=False)
             if await save_btn.count():

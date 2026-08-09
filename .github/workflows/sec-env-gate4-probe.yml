@@ -40,7 +40,8 @@ jobs:
             SEC_ENV_G4_E2_EXPECTED_RED \
             SEC_ENV_G4_E3_EXPECTED_RED \
             SEC_ENV_G4_E4_EXPECTED_RED \
-            SEC_ENV_G4_E5_EXPECTED_RED
+            SEC_ENV_G4_E5_EXPECTED_RED \
+            SEC_ENV_G4_E6_EXPECTED_RED
           do
             if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then
               echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"

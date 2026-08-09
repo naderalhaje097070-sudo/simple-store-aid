@@ -158,9 +158,11 @@ def browser_request_is_isolated(
 
     _, host, _ = origin
 
-    # Session-bearing navigations must stay on the exact validated app origin.
-    # A different loopback port/scheme is a different security boundary because
-    # the harness writes an injected session into the current page's localStorage.
+    # Keep the broad remote-host rejection as defense in depth, then enforce the
+    # stronger full-origin boundary below. E7 freezes both the Playwright wiring
+    # and the executable preflight negatives for alternate loopback origins.
+    if is_navigation and host not in LOOPBACK_HOSTS:
+        return False
     if is_navigation and origin != app_origin:
         return False
 

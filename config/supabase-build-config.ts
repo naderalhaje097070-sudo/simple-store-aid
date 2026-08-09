@@ -109,11 +109,7 @@ function validateRemoteProjectPair(url: URL, projectId: string): void {
   }
 }
 
-function validateTargetEndpoint(
-  target: MongezzDeployTarget,
-  url: URL,
-  projectId: string,
-): void {
+function validateTargetEndpoint(target: MongezzDeployTarget, url: URL, projectId: string): void {
   const hostname = normalizedHostname(url);
 
   if (target === "local" || target === "ci") {

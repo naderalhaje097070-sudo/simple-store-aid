@@ -17,6 +17,7 @@ from urllib.parse import urlparse
 
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 ALLOWED_WRITE_TARGETS = {"local", "ci"}
+WRITE_APP_BASE_URL = "http://localhost:8080"
 BLOCK_SENTINEL = "SEC_ENV_WRITE_HARNESS_BLOCKED"
 OK_SENTINEL = "SEC_ENV_WRITE_HARNESS_PREFLIGHT_OK"
 
@@ -58,6 +59,23 @@ def read_value(name: str, env_file: Path) -> str:
 
 def _normalize_host(value: str) -> str:
     return value.strip().lower().rstrip(".")
+
+
+def _network_origin(value: str) -> tuple[str, str, int] | None:
+    """Return a normalized HTTP(S) origin for fail-closed browser routing."""
+
+    try:
+        parsed = urlparse(value)
+        host = _normalize_host(parsed.hostname or "")
+        port = parsed.port
+    except ValueError:
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
 
 
 def _validate_supabase_url(value: str) -> str:
@@ -125,22 +143,31 @@ def require_write_harness() -> WriteHarnessConfig:
     )
 
 
-def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
-    """Keep destructive browser navigations/writes on the isolated loopback app."""
+def browser_request_is_isolated(
+    method: str,
+    url_value: str,
+    is_navigation: bool = False,
+    expected_app_url: str = WRITE_APP_BASE_URL,
+) -> bool:
+    """Pin destructive navigations to the exact isolated app origin."""
 
-    try:
-        parsed = urlparse(url_value)
-        host = _normalize_host(parsed.hostname or "")
-    except ValueError:
+    origin = _network_origin(url_value)
+    app_origin = _network_origin(expected_app_url)
+    if origin is None or app_origin is None:
         return False
 
-    # Session-bearing top-level/frame navigations must never leave the isolated app.
-    if is_navigation and host not in LOOPBACK_HOSTS:
+    _, host, _ = origin
+
+    # Session-bearing navigations must stay on the exact validated app origin.
+    # A different loopback port/scheme is a different security boundary because
+    # the harness writes an injected session into the current page's localStorage.
+    if is_navigation and origin != app_origin:
         return False
 
     if host.endswith(".supabase.co"):
         return False
 
+    parsed = urlparse(url_value)
     supabase_path = parsed.path.startswith(("/rest/v1", "/auth/v1", "/storage/v1", "/functions/v1"))
     if supabase_path and host not in LOOPBACK_HOSTS:
         return False
@@ -215,6 +242,12 @@ def preflight_only() -> None:
         block("browser isolation invariant accepted a known remote Supabase write")
     if browser_request_is_isolated("GET", "https://simple-store-aid.lovable.app/app", True):
         block("browser isolation invariant accepted a known remote navigation")
+    if browser_request_is_isolated("GET", "http://localhost:8000/app", True):
+        block("browser isolation invariant accepted an alternate loopback port")
+    if browser_request_is_isolated("GET", "https://127.0.0.1/app", True):
+        block("browser isolation invariant accepted an alternate loopback scheme/host")
+    if not browser_request_is_isolated("GET", f"{WRITE_APP_BASE_URL}/app", True):
+        block("browser isolation invariant rejected the exact isolated app origin")
     # The config object is intentionally not printed because it contains a public
     # key and operational endpoint details that do not belong in routine logs.
     _ = config

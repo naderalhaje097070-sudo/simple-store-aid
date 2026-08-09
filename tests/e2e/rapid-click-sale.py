@@ -24,8 +24,8 @@ from playwright.async_api import async_playwright
 BASE = "http://localhost:8080"
 SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exist_ok=True)
 TAG = f"E2E-{int(time.time())}"
-PRICE = Decimal("100")
-COST = Decimal("60")
+PRICE = Decimal("1")
+COST = Decimal("0.6")
 STOCK = 50
 CREATE_RPC = "create_sale_with_items"
 
@@ -104,7 +104,11 @@ async def restore_session(ctx, page, storage_key, session_json):
 
 async def open_app(page):
     await page.goto(BASE + "/app", wait_until="domcontentloaded")
-    await page.wait_for_load_state("networkidle", timeout=20000)
+    try:
+        await page.wait_for_load_state("networkidle", timeout=20000)
+    except Exception:
+        pass
+    await page.wait_for_selector("text=فاتورة جديدة", timeout=25000)
     await page.wait_for_timeout(600)
 
 
@@ -301,31 +305,23 @@ async def main():
 
             await browser.close()
     finally:
-        leaked = False
-        ids = [o for o in created_orders if o]
+        # Cleanup uses only production RPCs (no test-only RPC, no privileged SQL).
+        # Fully paid orders are intentionally undeletable by financial policy; those
+        # are reported as leftovers instead of being force-removed.
+        leftovers = []
+        for oid in [o for o in created_orders if o]:
+            try:
+                api.rpc("delete_order_with_restore_stock", {"p_order_id": oid})
+            except Exception as e:
+                leftovers.append((oid, str(e)[:80]))
         try:
-            if ids:
-                lst = ",".join(f"'{i}'" for i in ids)
-                psql_exec(
-                    "BEGIN;"
-                    f"DELETE FROM public.payments    WHERE order_id IN ({lst});"
-                    f"DELETE FROM public.order_items WHERE order_id IN ({lst});"
-                    f"DELETE FROM public.orders      WHERE id       IN ({lst});"
-                    "COMMIT;"
-                )
-            psql_exec(f"DELETE FROM public.products WHERE id='{pid}'")
+            api.rpc("delete_product_safe", {"p_product_id": pid})
         except Exception as e:
-            leaked = True
-            print(f"❌ cleanup error: {e}")
-        left_p = psql_one(f"SELECT COUNT(*)::text FROM public.products WHERE id='{pid}'")
-        left_o = "0"
-        if ids:
-            lst = ",".join(f"'{i}'" for i in ids)
-            left_o = psql_one(f"SELECT COUNT(*)::text FROM public.orders WHERE id IN ({lst})")
-        if left_p != "0" or left_o != "0":
-            leaked = True
-            print(f"❌ leftover rows: products={left_p} orders={left_o}")
-        print("🧹 cleanup done" if not leaked else "⚠ cleanup incomplete")
+            print(f"⚠ product cleanup: {e}")
+        left_p = psql_one(f"SELECT COALESCE(is_active::text,'gone') FROM public.products WHERE id='{pid}'") or "deleted"
+        print(f"🧹 cleanup: product={left_p}, undeletable orders={len(leftovers)}")
+        for oid, err in leftovers:
+            print(f"   • order {oid[:8]} kept ({PRICE} د.ل) — {err}")
 
     print("\n=== RESULTS ===")
     for cid, st, ev in results:

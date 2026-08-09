@@ -127,6 +127,7 @@ async def main() -> None:
             context = await browser.new_context(
                 viewport={"width": width, "height": height},
                 locale="ar-LY",
+                service_workers="block",
             )
             page = await context.new_page()
             isolation_violations: list[str] = []

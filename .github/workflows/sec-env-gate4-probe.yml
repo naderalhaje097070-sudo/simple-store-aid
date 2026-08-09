@@ -110,6 +110,59 @@ jobs:
           print("SEC_ENV_REST_REDIRECT_GUARD_CONFIRMED")
           PY
 
+      - name: Independently prove routing-protected browser contexts block service workers
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          files = [
+              Path("tests/e2e/rapid-click-sale.py"),
+              Path("tests/e2e/sale-dashboard-close.py"),
+              Path("tests/e2e/isolated-auth-smoke.py"),
+              Path("tests/visual/mobile-rtl-smoke.py"),
+          ]
+
+          for path in files:
+              tree = ast.parse(path.read_text(), filename=str(path))
+              context_calls = []
+              for node in ast.walk(tree):
+                  if not isinstance(node, ast.Call):
+                      continue
+                  func = node.func
+                  if not (
+                      isinstance(func, ast.Attribute)
+                      and func.attr == "new_context"
+                      and isinstance(func.value, ast.Name)
+                      and func.value.id == "browser"
+                  ):
+                      continue
+                  context_calls.append(node)
+
+              if not context_calls:
+                  raise SystemExit(
+                      f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: no browser.new_context call found in {path}"
+                  )
+
+              for node in context_calls:
+                  service_workers_kw = next(
+                      (keyword for keyword in node.keywords if keyword.arg == "service_workers"),
+                      None,
+                  )
+                  if not (
+                      service_workers_kw
+                      and isinstance(service_workers_kw.value, ast.Constant)
+                      and service_workers_kw.value.value == "block"
+                  ):
+                      raise SystemExit(
+                          f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: {path} has browser.new_context without service_workers='block'"
+                      )
+
+          print("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")
+          PY
+
       - name: Independently prove visual smoke uses canonical non-production origins
         shell: bash
         run: |

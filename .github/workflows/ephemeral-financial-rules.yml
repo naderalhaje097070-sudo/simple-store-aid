@@ -10,8 +10,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
-  pull-requests: write
 
 jobs:
   financial-rules:
@@ -22,9 +20,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v2
         with:
-          version: latest
+          version: "2.101.0"
+
+      - name: Verify Supabase CLI version
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(supabase --version)"
+          test "$actual" = "2.101.0"
 
       - name: Install PostgreSQL client
         run: |
@@ -32,17 +37,51 @@ jobs:
           sudo apt-get install -y postgresql-client
 
       - name: Start isolated Supabase
+        shell: bash
         run: |
-          set -o pipefail
-          supabase start 2>&1 | tee /tmp/supabase-start.log
+          set -euo pipefail
+          if ! supabase start > /tmp/supabase-start.log 2>&1; then
+            echo "SEC_CI_INFRA_FAIL: isolated Supabase failed to start; raw startup output withheld"
+            exit 1
+          fi
 
-      - name: Capture local Supabase environment
-        run: supabase status -o env > /tmp/supabase.env
+      - name: Capture and verify isolated Supabase environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase status -o env > /tmp/supabase.env
+          set -a
+          source /tmp/supabase.env
+          set +a
+
+          case "$API_URL" in
+            http://127.0.0.1:54321|http://localhost:54321) ;;
+            *)
+              echo "SEC_CI_ISOLATION_FAIL: API_URL is not the approved loopback target"
+              exit 1
+              ;;
+          esac
+
+          case "$DB_URL" in
+            postgresql://*@127.0.0.1:54322/*|postgresql://*@localhost:54322/*|postgres://*@127.0.0.1:54322/*|postgres://*@localhost:54322/*) ;;
+            *)
+              echo "SEC_CI_ISOLATION_FAIL: DB_URL is not the approved loopback target"
+              exit 1
+              ;;
+          esac
+
+          echo "::add-mask::$ANON_KEY"
+          if [[ -n "${SERVICE_ROLE_KEY:-}" ]]; then
+            echo "::add-mask::$SERVICE_ROLE_KEY"
+          fi
+          echo "::add-mask::$DB_URL"
+          echo "CI_ISOLATED_SUPABASE=1" >> "$GITHUB_ENV"
 
       - name: Seed test owner and tenant
         shell: bash
         run: |
           set -euo pipefail
+          test "${CI_ISOLATED_SUPABASE:-}" = "1"
           set -a
           source /tmp/supabase.env
           set +a
@@ -83,43 +122,32 @@ jobs:
           PGUSER: postgres
           PGPASSWORD: postgres
           PGDATABASE: postgres
-        run: |
-          set -o pipefail
-          bash tests/financial-rules/run.sh 2>&1 | tee /tmp/financial-rules.log
+        run: bash tests/financial-rules/run.sh
 
-      - name: Show Supabase status on failure
-        if: failure()
-        run: |
-          supabase status || true
-          docker ps -a || true
-
-      - name: Report result to current PR
-        if: always() && github.event_name == 'pull_request'
+      - name: Write concise CI summary
+        if: always()
         env:
-          GH_TOKEN: ${{ github.token }}
           JOB_STATUS: ${{ job.status }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
         run: |
           {
             echo "## Ephemeral Financial Rules"
             echo
             echo "- Commit: \`${GITHUB_SHA}\`"
             echo "- Status: **${JOB_STATUS}**"
-            echo "- Environment: local isolated Supabase in GitHub Actions"
+            echo "- Supabase CLI: \`2.101.0\`"
+            echo "- Environment: isolated loopback Supabase"
             echo "- Production database accessed: **No**"
-            echo
-            echo "### Supabase startup"
-            echo '```text'
-            tail -n 120 /tmp/supabase-start.log 2>/dev/null || echo "No startup log."
-            echo '```'
-            echo
-            echo "### T1-T15"
-            echo '```text'
-            tail -n 180 /tmp/financial-rules.log 2>/dev/null || echo "Financial test log was not created."
-            echo '```'
-          } > /tmp/pr-report.md
-          gh pr comment "$PR_NUMBER" --body-file /tmp/pr-report.md || true
+            echo "- Raw infrastructure logs published: **No**"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Show redacted diagnostics on failure
+        if: failure()
+        shell: bash
+        run: |
+          echo "SEC_CI_DIAGNOSTIC: isolated financial workflow failed; raw environment/startup output withheld"
+          docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}' || true
 
       - name: Stop isolated Supabase
         if: always()
-        run: supabase stop --no-backup || true
+        run: supabase stop --no-backup > /dev/null 2>&1 || true

@@ -1,5 +1,6 @@
 import {
   APPROVED_PRODUCTION_SUPABASE_TARGET,
+  resolveAndHydrateSupabaseServerConfig,
   resolveSupabaseBuildConfig,
   type SupabaseBuildEnvironment,
 } from "../../../config/supabase-build-config";
@@ -77,6 +78,39 @@ if (resolvesWithoutThrow({ MONGEZZ_DEPLOY_TARGET: "production" })) {
   gaps.push("E3");
 }
 
+const productionUrlWithTerminalDot = PROD_URL.replace(".supabase.co", ".supabase.co.");
+if (
+  resolvesWithoutThrow({
+    MONGEZZ_DEPLOY_TARGET: "preview",
+    VITE_SUPABASE_URL: productionUrlWithTerminalDot,
+    VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
+    VITE_SUPABASE_PROJECT_ID: PROD_PROJECT,
+  })
+) {
+  console.log(
+    "SEC_ENV_G4_E4_EXPECTED_RED: terminal DNS dot bypasses non-production production-target isolation",
+  );
+  gaps.push("E4");
+}
+
+const serverAliasEnv: SupabaseBuildEnvironment = {
+  MONGEZZ_DEPLOY_TARGET: "preview",
+  VITE_SUPABASE_URL: "http://127.0.0.1:54321",
+  VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
+  VITE_SUPABASE_PROJECT_ID: "isolated-project",
+};
+resolveAndHydrateSupabaseServerConfig(serverAliasEnv);
+if (
+  serverAliasEnv.SUPABASE_URL !== serverAliasEnv.VITE_SUPABASE_URL ||
+  serverAliasEnv.SUPABASE_PUBLISHABLE_KEY !== serverAliasEnv.VITE_SUPABASE_PUBLISHABLE_KEY ||
+  serverAliasEnv.SUPABASE_PROJECT_ID !== serverAliasEnv.VITE_SUPABASE_PROJECT_ID
+) {
+  console.log(
+    "SEC_ENV_G4_E5_EXPECTED_RED: validated VITE-only runtime does not materialize required server aliases",
+  );
+  gaps.push("E5");
+}
+
 if (gaps.length === 0) {
   console.log(
     "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production",
@@ -84,7 +118,7 @@ if (gaps.length === 0) {
   process.exit(0);
 }
 
-const expected = ["E1", "E2", "E3"];
+const expected = ["E1", "E2", "E3", "E4", "E5"];
 if (expected.some((id) => !gaps.includes(id))) {
   fail(`partial/unexpected environment gap set: ${gaps.join(",")}`);
 }

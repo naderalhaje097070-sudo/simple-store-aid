@@ -16,7 +16,9 @@ import { resolveSupabaseBuildConfig } from "./config/supabase-build-config";
 // matched by any handler and pass directly to the network — never cached.
 // Financial operations (sale, debt collection, courier settlement, day close)
 // remain online-only.
-export default defineConfig(({ mode }) => {
+export default defineConfig(async (configEnv) => {
+  const { mode } = configEnv;
+
   // Vite intentionally loads .env* after config evaluation unless loadEnv is
   // called explicitly. SEC-ENV-001 needs these values to validate and bake the
   // build identity, so load the current mode here. Existing shell/runner vars
@@ -33,7 +35,7 @@ export default defineConfig(({ mode }) => {
   const supabaseBuildConfig = resolveSupabaseBuildConfig(env);
   const mongezzBuildTarget = env.MONGEZZ_DEPLOY_TARGET?.trim() ?? "";
 
-  return defineLovableConfig({
+  const lovableConfig = defineLovableConfig({
     tanstackStart: {
       server: { entry: "server" },
     },
@@ -110,4 +112,6 @@ export default defineConfig(({ mode }) => {
       ],
     },
   });
+
+  return lovableConfig(configEnv);
 });

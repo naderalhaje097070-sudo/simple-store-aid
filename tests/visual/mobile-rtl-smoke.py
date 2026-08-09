@@ -19,6 +19,24 @@ def block(reason: str) -> None:
     raise SystemExit(2)
 
 
+def normalize_hostname(value: str) -> str:
+    host = value.strip().rstrip(".")
+    try:
+        # Python's IDNA codec maps browser-equivalent DNS separators such as
+        # U+3002/U+FF0E/U+FF61 to '.', matching Chromium's hostname semantics.
+        return host.encode("idna").decode("ascii").lower().rstrip(".")
+    except UnicodeError:
+        block("visual smoke hostname is not valid IDNA")
+
+
+def hostname_from_url(url_value: str) -> str:
+    try:
+        parsed = urlparse(url_value)
+        return normalize_hostname(parsed.hostname or "")
+    except (ValueError, SystemExit):
+        return ""
+
+
 def validate_target() -> str:
     target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
     base_url = os.environ.get("MONGEZZ_VISUAL_TEST_BASE_URL", "").strip().rstrip("/")
@@ -30,7 +48,7 @@ def validate_target() -> str:
 
     try:
         parsed = urlparse(base_url)
-        host = (parsed.hostname or "").lower().rstrip(".")
+        host = normalize_hostname(parsed.hostname or "")
     except ValueError:
         block("MONGEZZ_VISUAL_TEST_BASE_URL is invalid")
 
@@ -82,6 +100,18 @@ async def run():
                 viewport={"width": width, "height": height}, locale="ar-EG"
             )
             page = await ctx.new_page()
+
+            async def block_production_requests(route):
+                if hostname_from_url(route.request.url) == PRODUCTION_HOST:
+                    print(
+                        f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {route.request.method} {route.request.url}"
+                    )
+                    await route.abort("blockedbyclient")
+                    return
+                await route.continue_()
+
+            await page.route("**/*", block_production_requests)
+
             errs = []
             page.on("pageerror", lambda error: errs.append(("pageerror", str(error))))
             page.on(

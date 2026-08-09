@@ -7,14 +7,14 @@ import {
 } from "../../config/supabase-build-config";
 
 const isolatedViteConfig = {
-  MONGEZZ_DEPLOY_TARGET: "preview",
+  MONGEZZ_DEPLOY_TARGET: "ci",
   VITE_SUPABASE_URL: "http://127.0.0.1:54321",
   VITE_SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
   VITE_SUPABASE_PROJECT_ID: "isolated-project",
 };
 
 describe("Supabase build configuration", () => {
-  test("accepts explicit isolated VITE configuration", () => {
+  test("accepts explicit isolated CI configuration", () => {
     expect(resolveSupabaseBuildConfig(isolatedViteConfig)).toEqual({
       url: "http://127.0.0.1:54321",
       publishableKey: "isolated-anon-key",
@@ -103,7 +103,7 @@ describe("Supabase build configuration", () => {
   test("runtime identity must match the baked build identity", () => {
     expect(() =>
       assertSupabaseRuntimeMatchesBuild(isolatedViteConfig, {
-        MONGEZZ_DEPLOY_TARGET: "preview",
+        MONGEZZ_DEPLOY_TARGET: "ci",
         SUPABASE_URL: "http://127.0.0.1:54321/",
         SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
         SUPABASE_PROJECT_ID: "isolated-project",
@@ -124,7 +124,7 @@ describe("Supabase build configuration", () => {
 
     expect(() =>
       assertSupabaseRuntimeMatchesBuild(isolatedViteConfig, {
-        MONGEZZ_DEPLOY_TARGET: "preview",
+        MONGEZZ_DEPLOY_TARGET: "ci",
         SUPABASE_URL: "http://127.0.0.1:54323",
         SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
         SUPABASE_PROJECT_ID: "isolated-project",
@@ -171,6 +171,55 @@ describe("Supabase build configuration", () => {
     });
   });
 
+  test("deployment targets require their approved endpoint class", () => {
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "ci",
+        VITE_SUPABASE_URL: "https://ci-project.supabase.co",
+        VITE_SUPABASE_PUBLISHABLE_KEY: "ci-key",
+        VITE_SUPABASE_PROJECT_ID: "ci-project",
+      }),
+    ).toThrow("ci target requires an http loopback Supabase endpoint");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        VITE_SUPABASE_URL: "http://127.0.0.1:54321",
+        VITE_SUPABASE_PUBLISHABLE_KEY: "preview-key",
+        VITE_SUPABASE_PROJECT_ID: "preview-project",
+      }),
+    ).toThrow("preview target requires a dedicated https Supabase project");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "staging",
+        VITE_SUPABASE_URL: "https://gateway.example",
+        VITE_SUPABASE_PUBLISHABLE_KEY: "staging-key",
+        VITE_SUPABASE_PROJECT_ID: "staging-project",
+      }),
+    ).toThrow("staging target requires a dedicated https Supabase project");
+  });
+
+  test("rejects URL routing components instead of canonicalizing them away", () => {
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        VITE_SUPABASE_URL: "https://preview-project.supabase.co?project=prod",
+        VITE_SUPABASE_PUBLISHABLE_KEY: "preview-key",
+        VITE_SUPABASE_PROJECT_ID: "preview-project",
+      }),
+    ).toThrow("cannot contain credentials, query, or fragment routing");
+
+    expect(() =>
+      resolveSupabaseBuildConfig({
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        VITE_SUPABASE_URL: "https://preview-project.supabase.co/proxy",
+        VITE_SUPABASE_PUBLISHABLE_KEY: "preview-key",
+        VITE_SUPABASE_PROJECT_ID: "preview-project",
+      }),
+    ).toThrow("must target the project root without a path prefix");
+  });
+
   test("non-production targets reject the production host or project", () => {
     expect(() =>
       resolveSupabaseBuildConfig({
@@ -207,7 +256,7 @@ describe("Supabase build configuration", () => {
     ).toThrow("Supabase URL and project ID do not match");
   });
 
-  test("production requires explicit approved host/project and explicit key", () => {
+  test("production requires the exact approved endpoint and explicit key", () => {
     expect(
       resolveSupabaseBuildConfig({
         MONGEZZ_DEPLOY_TARGET: "production",
@@ -224,9 +273,9 @@ describe("Supabase build configuration", () => {
     expect(() =>
       resolveSupabaseBuildConfig({
         MONGEZZ_DEPLOY_TARGET: "production",
-        VITE_SUPABASE_URL: "https://staging-project.supabase.co",
+        VITE_SUPABASE_URL: `${APPROVED_PRODUCTION_SUPABASE_TARGET.url}:8443`,
         VITE_SUPABASE_PUBLISHABLE_KEY: "public-key-placeholder",
-        VITE_SUPABASE_PROJECT_ID: "staging-project",
+        VITE_SUPABASE_PROJECT_ID: APPROVED_PRODUCTION_SUPABASE_TARGET.projectId,
       }),
     ).toThrow("production target requires the approved production Supabase host/project");
   });

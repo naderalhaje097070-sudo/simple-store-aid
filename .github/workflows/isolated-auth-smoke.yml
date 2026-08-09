@@ -78,8 +78,10 @@ jobs:
           echo "::add-mask::$DB_URL"
 
           {
+            echo "MONGEZZ_DEPLOY_TARGET=ci"
             echo "VITE_SUPABASE_URL=$API_URL"
             echo "VITE_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY"
+            echo "VITE_SUPABASE_PROJECT_ID=local-ci"
             echo "DB_URL=$DB_URL"
             echo "CI_ISOLATED_SUPABASE=1"
             echo "APP_BASE_URL=http://127.0.0.1:8080"
@@ -90,6 +92,7 @@ jobs:
         run: |
           set -euo pipefail
           test "${CI_ISOLATED_SUPABASE:-}" = "1"
+          test "${MONGEZZ_DEPLOY_TARGET:-}" = "ci"
           email="pilot.qa.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
           password="Pilot-QA-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
           echo "::add-mask::$password"
@@ -165,6 +168,7 @@ jobs:
             echo "- Commit: \`${GITHUB_SHA}\`"
             echo "- Status: **${JOB_STATUS}**"
             echo "- Supabase CLI: \`2.101.0\`"
+            echo "- Deploy target: \`ci\`"
             echo "- Environment: isolated loopback Supabase + local Cloudflare emulator"
             echo "- Production database accessed: **No**"
             echo "- Raw Supabase environment/startup output published: **No**"

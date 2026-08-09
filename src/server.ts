@@ -1,6 +1,6 @@
 import "./lib/error-capture";
 
-import { resolveSupabaseBuildConfig } from "../config/supabase-build-config";
+import { resolveAndHydrateSupabaseServerConfig } from "../config/supabase-build-config";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 
@@ -44,14 +44,14 @@ function hydrateServerProcessEnv(workerEnv: unknown): void {
 function verifyServerEnvironment(workerEnv: unknown): void {
   // Cloudflare exposes configured values as Worker bindings. Copy only the
   // allowlisted Supabase/deployment strings into process.env so generated
-  // server modules that use process.env inherit the same validated target.
-  // Never replace the process.env object and never accept conflicting sources.
+  // server modules inherit the same runtime source without accepting conflicts.
   hydrateServerProcessEnv(workerEnv);
 
   // Validate before the generated server entry (auth middleware/admin clients)
-  // can execute. Missing intent/config, divergent aliases, and
-  // non-production→production targeting all fail closed here.
-  resolveSupabaseBuildConfig(process.env);
+  // can execute. If only VITE_* public aliases are supplied, materialize their
+  // already-validated values under SUPABASE_* because generated server modules
+  // read the server aliases directly. Divergent aliases still fail closed.
+  resolveAndHydrateSupabaseServerConfig(process.env);
 }
 
 async function getServerEntry(): Promise<ServerEntry> {

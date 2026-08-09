@@ -55,46 +55,38 @@ jobs:
 
           echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
 
-      - name: Independently prove visual smoke cannot target production
+      - name: Independently prove visual smoke uses canonical non-production origins
         shell: bash
         run: |
           set -euo pipefail
+
+          assert_blocked() {
+            local name="$1"
+            local target="$2"
+            local base_url="$3"
+            local log="/tmp/visual-${name}.log"
+
+            set +e
+            MONGEZZ_DEPLOY_TARGET="$target" \
+            MONGEZZ_VISUAL_TEST_BASE_URL="$base_url" \
+              python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+              > "$log" 2>&1
+            local status=$?
+            set -e
+
+            if [[ "$status" -eq 0 ]] || ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" "$log"; then
+              echo "SEC_ENV_VISUAL_HARNESS_FAIL: ${name} was accepted"
+              cat "$log"
+              exit 1
+            fi
+          }
 
           set +e
           env -u MONGEZZ_DEPLOY_TARGET -u MONGEZZ_VISUAL_TEST_BASE_URL \
             python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
             > /tmp/visual-missing.log 2>&1
           missing_status=$?
-
-          MONGEZZ_DEPLOY_TARGET=preview \
-          MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid.lovable.app \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-production-app.log 2>&1
-          production_app_status=$?
-
-          MONGEZZ_DEPLOY_TARGET=preview \
-          MONGEZZ_VISUAL_TEST_BASE_URL=https://dahzkekdirrngnkcxinv.supabase.co \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-production-supabase.log 2>&1
-          production_supabase_status=$?
-
-          MONGEZZ_DEPLOY_TARGET=preview \
-          MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid。lovable.app \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-unicode-production.log 2>&1
-          unicode_status=$?
-
-          MONGEZZ_DEPLOY_TARGET=preview \
-          MONGEZZ_VISUAL_TEST_BASE_URL='https://simple-store-aid.lovable.app\preview.example' \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-backslash-production.log 2>&1
-          backslash_status=$?
           set -e
-
-          MONGEZZ_DEPLOY_TARGET=ci \
-          MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-safe.log 2>&1
 
           if [[ "$missing_status" -eq 0 ]] || \
              ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-missing.log; then
@@ -102,34 +94,42 @@ jobs:
             exit 1
           fi
 
-          if [[ "$production_app_status" -eq 0 ]] || \
-             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production-app.log; then
-            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production app host was accepted"
-            exit 1
-          fi
+          assert_blocked production-app preview \
+            'https://simple-store-aid.lovable.app'
+          assert_blocked production-supabase preview \
+            'https://dahzkekdirrngnkcxinv.supabase.co'
+          assert_blocked unicode-production preview \
+            'https://simple-store-aid。lovable.app'
+          assert_blocked backslash-production preview \
+            'https://simple-store-aid.lovable.app\preview.example'
+          assert_blocked encoded-production-app preview \
+            'https://simple-store-aid%2elovable.app'
+          assert_blocked encoded-production-supabase preview \
+            'https://dahzkekdirrngnkcxinv%2esupabase.co'
+          assert_blocked trailing-dot-production preview \
+            'https://simple-store-aid.lovable.app.'
+          assert_blocked preview-custom-port preview \
+            'https://preview.example:443'
 
-          if [[ "$production_supabase_status" -eq 0 ]] || \
-             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production-supabase.log; then
-            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production Supabase host was accepted"
-            exit 1
-          fi
-
-          if [[ "$unicode_status" -eq 0 ]] || \
-             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-unicode-production.log; then
-            echo "SEC_ENV_VISUAL_HARNESS_FAIL: browser-equivalent Unicode production hostname was accepted"
-            exit 1
-          fi
-
-          if [[ "$backslash_status" -eq 0 ]] || \
-             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-backslash-production.log; then
-            echo "SEC_ENV_VISUAL_HARNESS_FAIL: browser-ambiguous backslash production URL was accepted"
-            exit 1
-          fi
-
+          MONGEZZ_DEPLOY_TARGET=ci \
+          MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-safe-ci.log 2>&1
           grep -Fq \
             "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
-            /tmp/visual-safe.log || {
+            /tmp/visual-safe-ci.log || {
               echo "SEC_ENV_VISUAL_HARNESS_FAIL: isolated CI visual target was rejected"
+              exit 1
+            }
+
+          MONGEZZ_DEPLOY_TARGET=preview \
+          MONGEZZ_VISUAL_TEST_BASE_URL=https://preview.example \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-safe-preview.log 2>&1
+          grep -Fq \
+            "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
+            /tmp/visual-safe-preview.log || {
+              echo "SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected"
               exit 1
             }
 

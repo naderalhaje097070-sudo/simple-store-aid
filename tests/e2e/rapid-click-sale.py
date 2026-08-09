@@ -106,11 +106,14 @@ def require_loopback_supabase(url_value: str) -> None:
         block_write_harness("VITE_SUPABASE_URL must target the Supabase root")
 
 
-def browser_request_is_isolated(method: str, url_value: str) -> bool:
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
     try:
         parsed = urlparse(url_value)
         host = (parsed.hostname or "").lower().rstrip(".")
     except ValueError:
+        return False
+
+    if is_navigation and host not in LOOPBACK_HOSTS:
         return False
 
     if host.endswith(".supabase.co"):
@@ -135,7 +138,9 @@ require_loopback_supabase(SB_URL)
 
 if "--preflight-only" in sys.argv:
     if browser_request_is_isolated("POST", "https://forbidden.supabase.co/rest/v1/orders"):
-        block_write_harness("browser isolation invariant rejected a known remote Supabase write")
+        block_write_harness("browser isolation invariant accepted a known remote Supabase write")
+    if browser_request_is_isolated("GET", "https://simple-store-aid.lovable.app/app", True):
+        block_write_harness("browser isolation invariant accepted a known remote navigation")
     print("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK: isolated write harness target verified")
     raise SystemExit(0)
 
@@ -277,7 +282,11 @@ async def main():
 
             async def enforce_browser_isolation(route):
                 request = route.request
-                if not browser_request_is_isolated(request.method, request.url):
+                if not browser_request_is_isolated(
+                    request.method,
+                    request.url,
+                    request.is_navigation_request(),
+                ):
                     browser_isolation_violations.append(f"{request.method} {request.url}")
                     print(f"SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: {request.method} {request.url}")
                     await route.abort("blockedbyclient")

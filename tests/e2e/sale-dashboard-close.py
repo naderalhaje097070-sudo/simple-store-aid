@@ -81,9 +81,11 @@ class API:
             "Content-Type": "application/json",
             "Prefer": "return=representation",
         }
+        self.session = requests.Session()
+        self.session.trust_env = False
 
     def post(self, path, body):
-        r = requests.post(
+        r = self.session.post(
             f"{SB_URL}{path}",
             headers=self.h,
             json=body,
@@ -96,7 +98,7 @@ class API:
         return r.json() if r.text else None
 
     def delete(self, path):
-        r = requests.delete(
+        r = self.session.delete(
             f"{SB_URL}{path}",
             headers=self.h,
             timeout=20,
@@ -114,7 +116,7 @@ def preflight_cleanup_channel(api: "API") -> None:
     """Verify the tag-scoped cleanup RPC before seeding any row."""
 
     probe_tag = f"E2E-{int(time.time())}"
-    r = requests.post(
+    r = api.session.post(
         f"{SB_URL}/rest/v1/rpc/__test_force_delete_e2e_order",
         headers=api.h,
         timeout=10,

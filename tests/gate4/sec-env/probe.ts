@@ -1,3 +1,4 @@
+import { readdir } from "node:fs/promises";
 import {
   APPROVED_PRODUCTION_SUPABASE_TARGET,
   assertSupabaseRuntimeMatchesBuild,
@@ -28,30 +29,37 @@ function resolvesWithoutThrow(env: Record<string, string>): boolean {
 }
 
 function childBaseEnv(): Record<string, string> {
+  const excluded = new Set([
+    "VITE_SUPABASE_URL",
+    "VITE_SUPABASE_PUBLISHABLE_KEY",
+    "MONGEZZ_E2E_WRITE_TEST",
+    "MONGEZZ_DEPLOY_TARGET",
+    "MONGEZZ_E2E_ENV_FILE",
+    "PGHOST",
+    "PGHOSTADDR",
+    "PGPORT",
+    "PGUSER",
+    "PGDATABASE",
+    "PGSERVICE",
+    "PGSERVICEFILE",
+    "PSQLRC",
+  ]);
+
   return Object.fromEntries(
     Object.entries(process.env).filter(
       (entry): entry is [string, string] =>
-        typeof entry[1] === "string" &&
-        ![
-          "VITE_SUPABASE_URL",
-          "VITE_SUPABASE_PUBLISHABLE_KEY",
-          "MONGEZZ_E2E_WRITE_TEST",
-          "MONGEZZ_DEPLOY_TARGET",
-          "MONGEZZ_E2E_ENV_FILE",
-          "PGHOST",
-          "PGHOSTADDR",
-          "PGPORT",
-          "PGUSER",
-          "PGDATABASE",
-          "PGSERVICE",
-          "PGSERVICEFILE",
-        ].includes(entry[0]),
+        typeof entry[1] === "string" && !excluded.has(entry[0]),
     ),
   );
 }
 
-function rapidClickPreflight(env: Record<string, string>) {
-  const run = Bun.spawnSync(["python3", "tests/e2e/rapid-click-sale.py", "--preflight-only"], {
+type PreflightResult = {
+  exitCode: number;
+  output: string;
+};
+
+function pythonPreflight(script: string, env: Record<string, string>): PreflightResult {
+  const run = Bun.spawnSync(["python3", script, "--preflight-only"], {
     env,
     stdout: "pipe",
     stderr: "pipe",
@@ -61,6 +69,22 @@ function rapidClickPreflight(env: Record<string, string>) {
     exitCode: run.exitCode,
     output: `${decode(run.stdout)}\n${decode(run.stderr)}`,
   };
+}
+
+function preflightBlocked(result: PreflightResult): boolean {
+  return (
+    result.exitCode !== 0 &&
+    (result.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED") ||
+      result.output.includes("SEC_ENV_WRITE_HARNESS_BLOCKED"))
+  );
+}
+
+function preflightAccepted(result: PreflightResult): boolean {
+  return (
+    result.exitCode === 0 &&
+    (result.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK") ||
+      result.output.includes("SEC_ENV_WRITE_HARNESS_PREFLIGHT_OK"))
+  );
 }
 
 const preview = resolve({
@@ -186,18 +210,34 @@ try {
   // Expected target-green behavior.
 }
 
-const safeRapidEnvFile = "/tmp/sec-env-rapid-safe.env";
-const prodRapidEnvFile = "/tmp/sec-env-rapid-production.env";
+// E7 — inventory and fail-closed containment of every checked-in E2E harness.
+const e2eEntries = await readdir("tests/e2e", { withFileTypes: true });
+const actualPythonHarnesses = e2eEntries
+  .filter((entry) => entry.isFile() && entry.name.endsWith(".py"))
+  .map((entry) => entry.name)
+  .sort();
+const classifiedPythonHarnesses = [
+  "isolated-auth-smoke.py", // read-only
+  "rapid-click-sale.py", // destructive; legacy in-file guard
+  "sale-dashboard-close.py", // destructive; shared guard
+  "write_harness_guard.py", // safety infrastructure
+].sort();
+const inventoryMatches =
+  actualPythonHarnesses.length === classifiedPythonHarnesses.length &&
+  actualPythonHarnesses.every((name, index) => name === classifiedPythonHarnesses[index]);
+
+const safeEnvFile = "/tmp/sec-env-e2e-safe.env";
+const prodEnvFile = "/tmp/sec-env-e2e-production.env";
 await Bun.write(
-  safeRapidEnvFile,
+  safeEnvFile,
   "VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key\n",
 );
 await Bun.write(
-  prodRapidEnvFile,
+  prodEnvFile,
   `VITE_SUPABASE_URL=${PROD_URL}\nVITE_SUPABASE_PUBLISHABLE_KEY=production-public-key\n`,
 );
 
-const rapidCommon = {
+const safeCommon = {
   ...childBaseEnv(),
   MONGEZZ_DEPLOY_TARGET: "ci",
   PGHOST: "127.0.0.1",
@@ -206,63 +246,104 @@ const rapidCommon = {
   PGDATABASE: "postgres",
 };
 
-const missingMarker = rapidClickPreflight({
-  ...rapidCommon,
-  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
-});
-const productionTarget = rapidClickPreflight({
-  ...rapidCommon,
-  MONGEZZ_E2E_WRITE_TEST: "1",
-  MONGEZZ_E2E_ENV_FILE: prodRapidEnvFile,
-});
-const hostaddrBypass = rapidClickPreflight({
-  ...rapidCommon,
-  MONGEZZ_E2E_WRITE_TEST: "1",
-  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
-  PGHOSTADDR: "203.0.113.10",
-});
-const serviceBypass = rapidClickPreflight({
-  ...rapidCommon,
-  MONGEZZ_E2E_WRITE_TEST: "1",
-  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
-  PGSERVICE: "unsafe-service",
-});
-const safeTarget = rapidClickPreflight({
-  ...rapidCommon,
-  MONGEZZ_E2E_WRITE_TEST: "1",
-  MONGEZZ_E2E_ENV_FILE: safeRapidEnvFile,
-});
+const destructiveHarnesses = [
+  "tests/e2e/rapid-click-sale.py",
+  "tests/e2e/sale-dashboard-close.py",
+];
+
+let allDestructiveHarnessesContained = inventoryMatches;
+for (const script of destructiveHarnesses) {
+  const missingMarker = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_E2E_ENV_FILE: safeEnvFile,
+  });
+  const productionTarget = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_DEPLOY_TARGET: "production",
+    MONGEZZ_E2E_WRITE_TEST: "1",
+    MONGEZZ_E2E_ENV_FILE: safeEnvFile,
+  });
+  const productionEndpoint = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_E2E_WRITE_TEST: "1",
+    MONGEZZ_E2E_ENV_FILE: prodEnvFile,
+  });
+  const hostaddrBypass = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_E2E_WRITE_TEST: "1",
+    MONGEZZ_E2E_ENV_FILE: safeEnvFile,
+    PGHOSTADDR: "203.0.113.10",
+  });
+  const serviceBypass = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_E2E_WRITE_TEST: "1",
+    MONGEZZ_E2E_ENV_FILE: safeEnvFile,
+    PGSERVICE: "unsafe-service",
+  });
+  const safeTarget = pythonPreflight(script, {
+    ...safeCommon,
+    MONGEZZ_E2E_WRITE_TEST: "1",
+    MONGEZZ_E2E_ENV_FILE: safeEnvFile,
+  });
+
+  if (
+    !preflightBlocked(missingMarker) ||
+    !preflightBlocked(productionTarget) ||
+    !preflightBlocked(productionEndpoint) ||
+    !preflightBlocked(hostaddrBypass) ||
+    !preflightBlocked(serviceBypass) ||
+    !preflightAccepted(safeTarget)
+  ) {
+    allDestructiveHarnessesContained = false;
+  }
+}
 
 const rapidSource = await Bun.file("tests/e2e/rapid-click-sale.py").text();
-const psqlNoRcCalls = rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0;
-const startupFilesDisabled = psqlNoRcCalls >= 2;
+const saleCloseSource = await Bun.file("tests/e2e/sale-dashboard-close.py").text();
+const sharedGuardSource = await Bun.file("tests/e2e/write_harness_guard.py").text();
+const runnerSource = await Bun.file("tests/e2e/run.sh").text();
+const readOnlySmokeSource = await Bun.file("tests/e2e/isolated-auth-smoke.py").text();
 
-const missingMarkerBlocked =
-  missingMarker.exitCode !== 0 && missingMarker.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
-const productionBlocked =
-  productionTarget.exitCode !== 0 &&
-  productionTarget.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
-const hostaddrBlocked =
-  hostaddrBypass.exitCode !== 0 && hostaddrBypass.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
-const serviceBlocked =
-  serviceBypass.exitCode !== 0 && serviceBypass.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
-const safeAccepted =
-  safeTarget.exitCode === 0 && safeTarget.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK");
+const rapidPreflightBeforeNetwork =
+  rapidSource.indexOf("require_explicit_write_intent()") >= 0 &&
+  rapidSource.indexOf("require_explicit_write_intent()") < rapidSource.indexOf("import requests");
+const saleCloseUsesSharedGuard =
+  saleCloseSource.includes("from write_harness_guard import") &&
+  saleCloseSource.indexOf("WRITE_CONFIG = require_write_harness()") >= 0 &&
+  saleCloseSource.indexOf("WRITE_CONFIG = require_write_harness()") <
+    saleCloseSource.indexOf("import requests");
+const sharedGuardPinsPsqlRouting =
+  sharedGuardSource.includes('"psql",') &&
+  sharedGuardSource.includes('"-X",') &&
+  sharedGuardSource.includes('"-h",') &&
+  sharedGuardSource.includes('"-p",') &&
+  sharedGuardSource.includes('"-U",') &&
+  sharedGuardSource.includes('"-d",') &&
+  sharedGuardSource.includes('env=_psql_env(config)');
+const rapidPsqlStartupDisabled =
+  (rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0) >= 2;
+const runnerPreflight = 'python3 "$HERE/sale-dashboard-close.py" --preflight-only';
+const runnerChecksPreflightBeforeServer =
+  runnerSource.includes(runnerPreflight) &&
+  runnerSource.indexOf(runnerPreflight) < runnerSource.indexOf("curl -sf");
+const readOnlySmokeStaysIsolated =
+  readOnlySmokeSource.includes('CI_ISOLATED_SUPABASE") != "1"') &&
+  !readOnlySmokeSource.includes("psql") &&
+  !readOnlySmokeSource.includes("requests.post");
 
 if (
-  !missingMarkerBlocked ||
-  !productionBlocked ||
-  !hostaddrBlocked ||
-  !serviceBlocked ||
-  !startupFilesDisabled
+  !allDestructiveHarnessesContained ||
+  !rapidPreflightBeforeNetwork ||
+  !saleCloseUsesSharedGuard ||
+  !sharedGuardPinsPsqlRouting ||
+  !rapidPsqlStartupDisabled ||
+  !runnerChecksPreflightBeforeServer ||
+  !readOnlySmokeStaysIsolated
 ) {
   console.log(
-    "SEC_ENV_G4_E7_EXPECTED_RED: rapid-click write harness does not fail closed before production-capable I/O",
+    "SEC_ENV_G4_E7_EXPECTED_RED: checked-in E2E inventory contains an unclassified or non-contained write-capable path",
   );
   gaps.push("E7");
-}
-if (!safeAccepted) {
-  fail("rapid-click isolated preflight rejected the approved CI loopback target");
 }
 
 if (gaps.length === 0) {

@@ -52,6 +52,21 @@ def normalize_hostname(value: str) -> str:
         block("visual smoke hostname is not valid IDNA")
 
 
+def validate_ascii_alabels(host: str) -> None:
+    """Reject malformed or non-canonical punycode labels before Chromium sees them."""
+
+    for label in host.split("."):
+        if not label.startswith("xn--"):
+            continue
+        try:
+            decoded = label.encode("ascii").decode("idna")
+            roundtrip = decoded.encode("idna").decode("ascii").lower()
+        except UnicodeError:
+            block("visual smoke hostname contains an invalid IDNA A-label")
+        if roundtrip != label.lower():
+            block("visual smoke hostname contains a non-canonical IDNA A-label")
+
+
 def hostname_from_url(url_value: str) -> str:
     try:
         parsed = urlparse(url_value)
@@ -173,6 +188,7 @@ def validate_target() -> str:
         block("visual smoke base URL must contain a hostname")
     if raw_host != host:
         block("visual smoke hostname must already be canonical lowercase ASCII")
+    validate_ascii_alabels(host)
     if host in FORBIDDEN_PRODUCTION_HOSTS:
         block("visual smoke is not authorized against a production host")
 
@@ -229,9 +245,13 @@ async def run():
                 service_workers="block",
             )
             page = await ctx.new_page()
+            isolation_violations: list[str] = []
 
             async def block_production_requests(route):
                 if hostname_from_url(route.request.url) in FORBIDDEN_PRODUCTION_HOSTS:
+                    isolation_violations.append(
+                        f"{route.request.method} {route.request.url}"
+                    )
                     print(
                         f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {route.request.method} {route.request.url}"
                     )
@@ -254,8 +274,19 @@ async def run():
                 try:
                     await page.goto(url, wait_until="domcontentloaded", timeout=25000)
                 except Exception as error:
-                    errs.append((f"goto:{name}", str(error)))
+                    raise RuntimeError(
+                        f"visual navigation failed for {name}: {error}"
+                    ) from error
                 await page.wait_for_timeout(800)
+                if isolation_violations:
+                    raise AssertionError(
+                        "visual smoke blocked forbidden production request(s): "
+                        + "; ".join(isolation_violations)
+                    )
+                if hostname_from_url(page.url) in FORBIDDEN_PRODUCTION_HOSTS:
+                    raise AssertionError(
+                        f"visual smoke reached forbidden production URL: {page.url}"
+                    )
                 shot = OUT / f"{vname}_{name}.png"
                 await page.screenshot(path=str(shot))
                 info = await page.evaluate(

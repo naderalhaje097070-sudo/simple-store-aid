@@ -76,9 +76,7 @@ function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
   const viteKey = firstNonEmpty(env.VITE_SUPABASE_PUBLISHABLE_KEY);
   const serverKey = firstNonEmpty(env.SUPABASE_PUBLISHABLE_KEY);
   if (viteKey && serverKey && viteKey !== serverKey) {
-    configurationError(
-      "VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match",
-    );
+    configurationError("VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match");
   }
 
   const viteProject = firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID);

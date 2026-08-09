@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import {
   APPROVED_PRODUCTION_SUPABASE_TARGET,
+  assertSupabaseRuntimeMatchesBuild,
   resolveAndHydrateSupabaseServerConfig,
   resolveSupabaseBuildConfig,
 } from "../../config/supabase-build-config";
@@ -97,6 +98,38 @@ describe("Supabase build configuration", () => {
       "VITE_SUPABASE_URL and SUPABASE_URL must target the same project",
     );
     expect(env.SUPABASE_URL).toBe("https://different-project.supabase.co");
+  });
+
+  test("runtime identity must match the baked build identity", () => {
+    expect(() =>
+      assertSupabaseRuntimeMatchesBuild(isolatedViteConfig, {
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        SUPABASE_URL: "http://127.0.0.1:54321/",
+        SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
+        SUPABASE_PROJECT_ID: "isolated-project",
+      }),
+    ).not.toThrow();
+
+    expect(() =>
+      assertSupabaseRuntimeMatchesBuild(
+        {
+          MONGEZZ_DEPLOY_TARGET: "production",
+          VITE_SUPABASE_URL: APPROVED_PRODUCTION_SUPABASE_TARGET.url,
+          VITE_SUPABASE_PUBLISHABLE_KEY: "production-public-key",
+          VITE_SUPABASE_PROJECT_ID: APPROVED_PRODUCTION_SUPABASE_TARGET.projectId,
+        },
+        isolatedViteConfig,
+      ),
+    ).toThrow("runtime deployment target does not match baked build target");
+
+    expect(() =>
+      assertSupabaseRuntimeMatchesBuild(isolatedViteConfig, {
+        MONGEZZ_DEPLOY_TARGET: "preview",
+        SUPABASE_URL: "http://127.0.0.1:54323",
+        SUPABASE_PUBLISHABLE_KEY: "isolated-anon-key",
+        SUPABASE_PROJECT_ID: "isolated-project",
+      }),
+    ).toThrow("runtime Supabase configuration does not match baked build configuration");
   });
 
   test("fails closed when deployment target is missing or unsupported", () => {

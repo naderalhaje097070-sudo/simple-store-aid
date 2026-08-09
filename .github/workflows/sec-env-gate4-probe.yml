@@ -55,6 +55,61 @@ jobs:
 
           echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
 
+      - name: Independently prove destructive REST writes never follow redirects
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+
+          files = [
+              Path("tests/e2e/rapid-click-sale.py"),
+              Path("tests/e2e/sale-dashboard-close.py"),
+          ]
+
+          for path in files:
+              source = path.read_text()
+              tree = ast.parse(source, filename=str(path))
+              guarded_calls = 0
+              for node in ast.walk(tree):
+                  if not isinstance(node, ast.Call):
+                      continue
+                  func = node.func
+                  if not (
+                      isinstance(func, ast.Attribute)
+                      and isinstance(func.value, ast.Name)
+                      and func.value.id == "requests"
+                      and func.attr in {"post", "delete"}
+                  ):
+                      continue
+
+                  guarded_calls += 1
+                  redirect_kw = next(
+                      (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),
+                      None,
+                  )
+                  if not (
+                      redirect_kw
+                      and isinstance(redirect_kw.value, ast.Constant)
+                      and redirect_kw.value.value is False
+                  ):
+                      raise SystemExit(
+                          f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: {path} has requests.{func.attr} without allow_redirects=False"
+                      )
+
+              if guarded_calls == 0:
+                  raise SystemExit(
+                      f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: no guarded requests write calls found in {path}"
+                  )
+              if "300 <=" not in source or "status_code < 400" not in source:
+                  raise SystemExit(
+                      f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: {path} does not reject HTTP 3xx responses"
+                  )
+
+          print("SEC_ENV_REST_REDIRECT_GUARD_CONFIRMED")
+          PY
+
       - name: Independently prove visual smoke uses canonical non-production origins
         shell: bash
         run: |

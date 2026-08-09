@@ -330,6 +330,10 @@ const sharedGuardPinsPsqlRouting =
   sharedGuardSource.includes('"-U",') &&
   sharedGuardSource.includes('"-d",') &&
   sharedGuardSource.includes("env=_psql_env(config)");
+const destructiveNavigationGuardWired =
+  sharedGuardSource.includes("is_navigation and host not in LOOPBACK_HOSTS") &&
+  rapidSource.includes("request.is_navigation_request()") &&
+  saleCloseSource.includes("request.is_navigation_request()");
 const rapidPsqlStartupDisabled =
   (rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0) >= 2;
 const runnerPreflight = 'python3 "$HERE/sale-dashboard-close.py" --preflight-only';
@@ -342,6 +346,7 @@ if (
   !rapidPreflightBeforeNetwork ||
   !saleCloseUsesSharedGuard ||
   !sharedGuardPinsPsqlRouting ||
+  !destructiveNavigationGuardWired ||
   !rapidPsqlStartupDisabled ||
   !runnerChecksPreflightBeforeServer
 ) {
@@ -438,7 +443,7 @@ if (
   gaps.push("E9");
 }
 
-// E10 — visual smoke is read-only but must still reject production, including browser-equivalent IDNA separators.
+// E10 — visual smoke is read-only but must reject every approved production origin.
 const visualSmoke = "tests/visual/mobile-rtl-smoke.py";
 const visualMissing = pythonPreflight(visualSmoke, childBaseEnv());
 const visualProduction = pythonPreflight(visualSmoke, {
@@ -446,10 +451,16 @@ const visualProduction = pythonPreflight(visualSmoke, {
   MONGEZZ_DEPLOY_TARGET: "preview",
   MONGEZZ_VISUAL_TEST_BASE_URL: PROD_APP_URL,
 });
+const visualProductionSupabase = pythonPreflight(visualSmoke, {
+  ...childBaseEnv(),
+  MONGEZZ_DEPLOY_TARGET: "preview",
+  MONGEZZ_VISUAL_TEST_BASE_URL: PROD_URL,
+});
 const unicodeProductionUrls = [
   "https://simple-store-aid。lovable.app",
   "https://simple-store-aid．lovable.app",
   "https://simple-store-aid｡lovable.app",
+  `https://${PROD_PROJECT}。supabase.co`,
 ];
 const unicodeProductionBlocked = unicodeProductionUrls.every((baseUrl) =>
   blocked(
@@ -469,17 +480,20 @@ const visualSafe = pythonPreflight(visualSmoke, {
 const visualSource = await Bun.file(visualSmoke).text();
 const visualCanonicalizesAndBlocksRuntime =
   visualSource.includes('.encode("idna")') &&
+  visualSource.includes("PRODUCTION_SUPABASE_HOST") &&
+  visualSource.includes("FORBIDDEN_PRODUCTION_HOSTS") &&
   visualSource.includes('await page.route("**/*", block_production_requests)');
 
 if (
   !blocked(visualMissing, "SEC_ENV_VISUAL_SMOKE_BLOCKED") ||
   !blocked(visualProduction, "SEC_ENV_VISUAL_SMOKE_BLOCKED") ||
+  !blocked(visualProductionSupabase, "SEC_ENV_VISUAL_SMOKE_BLOCKED") ||
   !unicodeProductionBlocked ||
   !accepted(visualSafe, "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK") ||
   !visualCanonicalizesAndBlocksRuntime
 ) {
   console.log(
-    "SEC_ENV_G4_E10_EXPECTED_RED: visual smoke can reach the production application origin",
+    "SEC_ENV_G4_E10_EXPECTED_RED: visual smoke can reach an approved production application or Supabase origin",
   );
   gaps.push("E10");
 }

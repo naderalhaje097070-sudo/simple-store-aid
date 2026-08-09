@@ -206,7 +206,8 @@ const safeTarget = rapidClickPreflight({
 const missingMarkerBlocked =
   missingMarker.exitCode !== 0 && missingMarker.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
 const productionBlocked =
-  productionTarget.exitCode !== 0 && productionTarget.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
+  productionTarget.exitCode !== 0 &&
+  productionTarget.output.includes("SEC_ENV_RAPID_CLICK_BLOCKED");
 const safeAccepted =
   safeTarget.exitCode === 0 && safeTarget.output.includes("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK");
 

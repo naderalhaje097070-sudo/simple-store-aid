@@ -110,6 +110,18 @@ jobs:
             'https://simple-store-aid.lovable.app.'
           assert_blocked preview-custom-port preview \
             'https://preview.example:443'
+          assert_blocked ipv4-canonical preview \
+            'https://127.0.0.1'
+          assert_blocked ipv4-octal preview \
+            'https://0177.0.0.1'
+          assert_blocked ipv4-hex preview \
+            'https://0x7f.0.0.1'
+          assert_blocked ipv4-short preview \
+            'https://127.1'
+          assert_blocked ipv4-integer preview \
+            'https://2130706433'
+          assert_blocked ipv6-literal preview \
+            'https://[::1]'
 
           MONGEZZ_DEPLOY_TARGET=ci \
           MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \

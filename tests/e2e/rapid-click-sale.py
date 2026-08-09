@@ -309,7 +309,11 @@ async def main():
     try:
         async with async_playwright() as pw:
             browser = await pw.chromium.launch(headless=True)
-            ctx = await browser.new_context(viewport={"width": 390, "height": 844}, locale="ar-LY")
+            ctx = await browser.new_context(
+                viewport={"width": 390, "height": 844},
+                locale="ar-LY",
+                service_workers="block",
+            )
             page = await ctx.new_page()
             browser_isolation_violations: list[str] = []
 

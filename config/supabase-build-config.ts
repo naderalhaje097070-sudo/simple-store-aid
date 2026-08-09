@@ -26,6 +26,8 @@ const DEPLOY_TARGETS = new Set<MongezzDeployTarget>([
   "production",
 ]);
 
+const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost"]);
+
 function firstNonEmpty(...values: Array<string | undefined>): string | undefined {
   const value = values.find((candidate) => candidate?.trim());
   return value?.trim();
@@ -52,6 +54,12 @@ function parseUrl(value: string): URL {
     if (url.protocol !== "http:" && url.protocol !== "https:") {
       configurationError("Supabase URL must use http or https");
     }
+    if (url.username || url.password || url.search || url.hash) {
+      configurationError("Supabase URL cannot contain credentials, query, or fragment routing");
+    }
+    if (url.pathname !== "/") {
+      configurationError("Supabase URL must target the project root without a path prefix");
+    }
     return url;
   } catch (error) {
     if (error instanceof Error && error.message.startsWith("SEC_ENV_CONFIG_ERROR:")) {
@@ -68,8 +76,7 @@ function normalizedHostname(url: URL): string {
 function canonicalUrl(value: string): string {
   const url = parseUrl(value);
   const port = url.port ? `:${url.port}` : "";
-  const path = url.pathname.replace(/\/+$/, "");
-  return `${url.protocol}//${normalizedHostname(url)}${port}${path}`;
+  return `${url.protocol}//${normalizedHostname(url)}${port}`;
 }
 
 function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
@@ -102,6 +109,39 @@ function validateRemoteProjectPair(url: URL, projectId: string): void {
   }
 }
 
+function validateTargetEndpoint(
+  target: MongezzDeployTarget,
+  url: URL,
+  projectId: string,
+): void {
+  const hostname = normalizedHostname(url);
+
+  if (target === "local" || target === "ci") {
+    if (url.protocol !== "http:" || !LOOPBACK_HOSTS.has(hostname)) {
+      configurationError(`${target} target requires an http loopback Supabase endpoint`);
+    }
+    return;
+  }
+
+  if (target === "preview" || target === "staging") {
+    const expectedHost = `${projectId}.supabase.co`;
+    if (url.protocol !== "https:" || hostname !== expectedHost || url.port) {
+      configurationError(
+        `${target} target requires a dedicated https Supabase project matching the project ID`,
+      );
+    }
+    return;
+  }
+
+  const approvedProductionUrl = canonicalUrl(APPROVED_PRODUCTION_SUPABASE_TARGET.url);
+  if (
+    canonicalUrl(url.toString()) !== approvedProductionUrl ||
+    projectId !== APPROVED_PRODUCTION_SUPABASE_TARGET.projectId
+  ) {
+    configurationError("production target requires the approved production Supabase host/project");
+  }
+}
+
 export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   const target = parseTarget(firstNonEmpty(env.MONGEZZ_DEPLOY_TARGET));
   validateAliasConsistency(env);
@@ -130,15 +170,11 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
     normalizedHostname(url) === normalizedHostname(approvedProductionUrl);
   const targetsProductionProject = projectId === APPROVED_PRODUCTION_SUPABASE_TARGET.projectId;
 
-  if (target === "production") {
-    if (!targetsProductionHost || !targetsProductionProject) {
-      configurationError(
-        "production target requires the approved production Supabase host/project",
-      );
-    }
-  } else if (targetsProductionHost || targetsProductionProject) {
+  if (target !== "production" && (targetsProductionHost || targetsProductionProject)) {
     configurationError(`${target} target cannot use the production Supabase host/project`);
   }
+
+  validateTargetEndpoint(target, url, projectId);
 
   return {
     url: urlValue,

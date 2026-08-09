@@ -18,6 +18,14 @@ from urllib.parse import urlparse
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 ALLOWED_WRITE_TARGETS = {"local", "ci"}
 WRITE_APP_BASE_URL = "http://localhost:8080"
+PROXY_ENV_VARS = (
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+)
 BLOCK_SENTINEL = "SEC_ENV_WRITE_HARNESS_BLOCKED"
 OK_SENTINEL = "SEC_ENV_WRITE_HARNESS_PREFLIGHT_OK"
 
@@ -97,6 +105,15 @@ def _validate_supabase_url(value: str) -> str:
     return value.rstrip("/")
 
 
+def reject_proxy_routing() -> None:
+    configured = [name for name in PROXY_ENV_VARS if os.environ.get(name, "").strip()]
+    if configured:
+        block(
+            "proxy routing variables are not allowed for destructive E2E: "
+            + ",".join(configured)
+        )
+
+
 def require_write_harness() -> WriteHarnessConfig:
     """Validate explicit destructive-test intent before any write-capable I/O."""
 
@@ -104,6 +121,11 @@ def require_write_harness() -> WriteHarnessConfig:
     # .env files, where a stale value could accidentally persist across sessions.
     if os.environ.get("MONGEZZ_E2E_WRITE_TEST") != "1":
         block("MONGEZZ_E2E_WRITE_TEST must equal 1")
+
+    # Requests trusts HTTP(S)/ALL proxy environment variables by default. These
+    # harnesses are loopback-only, so any inherited proxy route is an isolation
+    # violation before credentials, API keys or request bodies are constructed.
+    reject_proxy_routing()
 
     env_file = Path(os.environ.get("MONGEZZ_E2E_ENV_FILE", ".env"))
     target = read_value("MONGEZZ_DEPLOY_TARGET", env_file)

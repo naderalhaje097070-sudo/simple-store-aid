@@ -21,6 +21,17 @@ def block(reason: str) -> None:
     raise SystemExit(2)
 
 
+def reject_browser_ambiguous_url(value: str) -> None:
+    # Chromium follows WHATWG URL semantics, where backslashes in special-scheme
+    # URLs are treated as path separators and surrounding/control whitespace may
+    # be normalized away. Python's urllib parser is intentionally not used as an
+    # approval oracle for those ambiguous raw forms: reject them before parsing.
+    if "\\" in value:
+        block("visual smoke base URL cannot contain backslashes")
+    if any(character.isspace() or ord(character) < 0x20 for character in value):
+        block("visual smoke base URL cannot contain whitespace or control characters")
+
+
 def normalize_hostname(value: str) -> str:
     host = value.strip().rstrip(".")
     try:
@@ -47,6 +58,8 @@ def validate_target() -> str:
         block("MONGEZZ_DEPLOY_TARGET must be local, ci, preview, or staging")
     if not base_url:
         block("MONGEZZ_VISUAL_TEST_BASE_URL must be explicit")
+
+    reject_browser_ambiguous_url(base_url)
 
     try:
         parsed = urlparse(base_url)

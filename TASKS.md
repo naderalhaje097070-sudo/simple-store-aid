@@ -6,21 +6,21 @@
 
 - Priority: P0 sequencing prerequisite.
 - Change type: Governance / source-of-truth synchronization only.
-- Starting `main`: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
-- Current Phase-0 containment baseline after human merge of PR #44: `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
+- Reconciliation-start `main`: `a0f3b8c30743860ec0c06dd37e8e5d43b34e6c5b`.
+- Accepted current Phase-0 baseline after human merge of PR #44: `975a34a854c510f3da7dbe45caa9791bb0375e2d`.
 - Previous P0 Gate-4 baseline: `983b746e5c6639dcdc5e6557381ad5619abaa046`.
-- Drift at reconciliation start: `main` was 11 commits ahead and changed five paths:
-  - `.lovable/plan.md`;
-  - `package.json`;
-  - `bun.lock`;
-  - `src/features/layout/BottomNav.tsx`;
-  - `src/routes/_authenticated/app.tsx`.
-- Phase-0 containment subsequently added one isolated-test-harness change in `.github/workflows/isolated-auth-smoke.yml` through PR #44.
-- Material impact:
-  - current sale UI has client-side `busy`/`saving` duplicate-click guards;
-  - `@lovable.dev/vite-tanstack-config` changed from `2.7.7` to `2.9.1`;
-  - local Auth Smoke now pins the emulator compatibility date required by the verified workerd boundary;
-  - P0 exact-head evidence must be reconciled to the effective baseline before approval.
+- At reconciliation start, `main` was 11 commits ahead / five changed paths relative to the old Gate-4 baseline.
+- After concurrent repository history and PR #44, the accepted current `main` is 21 commits ahead / nine net changed paths relative to that old baseline.
+- Net current drift categories:
+  - sale UI `busy`/`saving` duplicate-click guards;
+  - `@lovable.dev/vite-tanstack-config` `2.7.7` → `2.9.1` plus lockfile changes;
+  - Lovable plan relocation/update;
+  - rapid-click sale QA result/script artifacts;
+  - isolated Auth Smoke compatibility-date containment from PR #44.
+- Rapid-click artifact classification:
+  - `docs/rapid-click-sale-results.md` reports 6/6 UI duplicate-click scenarios passed;
+  - this remains UI evidence only and does not close FIN-IDEM-001;
+  - `tests/e2e/rapid-click-sale.py` reads target configuration/session context and performs financial writes, so it is **not authorized for production execution** and future use must be isolated/fail-closed.
 - Out of scope:
   - production financial logic;
   - workflow hardening implementation;
@@ -29,7 +29,8 @@
   - deployment or pilot execution.
 - Done when:
   - `PROJECT_STATE.md`, `TASKS.md`, and the reconciliation record agree;
-  - required checks on the final synchronized documentation PR are reviewed;
+  - final PR #41 diff relative to accepted `main` is documentation/governance only;
+  - required checks on one exact final head are reviewed;
   - a human explicitly merges PR #41;
   - the resulting `main` SHA is recorded before Phase 1 begins.
 
@@ -43,7 +44,7 @@
 - Status:
   - Gates 0–3: owner-approved;
   - Gate-4 probe: reached real execution and passed;
-  - Quality: reached lint/format validation and failed on formatting in `tests/gate4/sec-ci/probe.ts`;
+  - Quality previously failed on formatting in `tests/gate4/sec-ci/probe.ts`;
   - Gate 4: **NOT APPROVED**.
 - Required next actions after RELEASE-BASELINE-RECON-002 merge:
   1. branch/reconcile SEC-CI Gate 4 from the accepted release baseline;
@@ -66,7 +67,7 @@
 - Status:
   - Gates 0–3: owner-approved;
   - Gate-4 probe: reached real execution and passed;
-  - Quality: failed on `explicit-any`/formatting in `tests/gate4/sec-env/probe.ts`;
+  - Quality previously failed on `explicit-any`/formatting in `tests/gate4/sec-env/probe.ts`;
   - Gate 4: **NOT APPROVED**.
 - Approved contract:
   - `MONGEZZ_DEPLOY_TARGET = local | ci | preview | staging | production`;
@@ -75,17 +76,19 @@
   - non-production rejects the known production project;
   - production requires explicit production intent and explicit configuration;
   - no source-code production fallback.
+- Additional current evidence requirement:
+  - financial-write test harnesses, including `tests/e2e/rapid-click-sale.py`, must be prevented from running against production or ambiguous targets.
 - Required next actions:
   1. reconcile Gate 4 from the accepted release baseline;
   2. correct test-quality issues without weakening sentinels;
-  3. verify client, SSR, build-time, and runtime resolution paths share the approved contract;
+  3. verify client, SSR, build-time, runtime, and financial-write test-harness resolution paths share the approved fail-closed contract;
   4. exact-head Gate-4 evidence;
   5. independent review;
   6. explicit human Gate-4 approval;
   7. focused resolver/build implementation PR;
   8. exact-head verification and explicit human merge.
 - Exit:
-  - local/CI/preview/staging cannot silently target production Supabase.
+  - local/CI/preview/staging and write-capable test harnesses cannot silently target production Supabase.
 
 ### P0-3 — FIN-COURIER-001: courier sale/customer/custody correction
 
@@ -98,11 +101,12 @@
   - Isolated Auth UI Smoke: GREEN;
   - UI Gate-4 contract: GREEN;
   - backend Gate-4 contract: real execution failed with exit code `3`.
+- Rapid-click main-branch artifact reports 6/6 human-style duplicate-click scenarios passed, but it is UI-only evidence and does not alter the approved FIN-COURIER contract.
 - Classification: real Gate-4 evidence blocker, not runner failure.
 - Gate 4: **NOT APPROVED**.
 - PR-A / PR-B / PR-C: **BLOCKED**.
 - Required next actions after SEC-CI and SEC-ENV are closed:
-  1. reconcile #27 assumptions against the accepted release baseline, including the new UI `saving`/`busy` guards;
+  1. reconcile #27 assumptions against the accepted release baseline, including the UI `saving`/`busy` guards and rapid-click artifacts;
   2. identify the exact backend sentinel producing exit `3`;
   3. determine whether the cause is probe defect, stale baseline assumption, false evidence, or a genuine current contract mismatch;
   4. correct Gate-4 test/evidence only if required; do not implement financial behavior while the gate is unapproved;
@@ -134,7 +138,7 @@
 - Quick Sale secondary direct/cash/fully-paid/customer-free shortcut;
 - courier-specific wording/statuses;
 - mobile RTL + desktop exact-flow tests;
-- preserve loading/failure states and current client-side duplicate-click guards as defense in depth.
+- preserve loading/failure states and client-side duplicate-click guards as defense in depth.
 
 ### P0-4 — FIN-IDEM-001: financial retry safety
 
@@ -144,7 +148,7 @@
 - Status:
   - Gates 0–3: owner-approved;
   - full target behavior intentionally dependency-blocked until FIN-COURIER PR-A provides canonical `create_sale_with_items_v2`;
-  - current UI duplicate-click guards are not accepted as server-side idempotency.
+  - current UI duplicate-click guards and rapid-click 6/6 result are not accepted as server-side idempotency.
 - Required target contract:
   - key scope = `tenant_id + operation + idempotency_key`;
   - same key + same canonical request returns original result with no second financial effect;
@@ -181,6 +185,7 @@ Financial:
 
 Security/environment:
 - local/CI/preview/staging cannot target production;
+- write-capable test harnesses cannot target production or ambiguous configuration;
 - tenant isolation GREEN;
 - no raw credentials/secrets in CI output or artifacts;
 - least-privilege release workflows.

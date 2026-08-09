@@ -40,6 +40,14 @@ STOCK = 50
 CREATE_RPC = "create_sale_with_items"
 ENV_FILE = Path(os.environ.get("MONGEZZ_E2E_ENV_FILE", ".env"))
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
+PROXY_ENV_VARS = (
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+)
 
 results: list[tuple[str, str, str]] = []   # (id, PASS/FAIL, evidence)
 
@@ -52,6 +60,15 @@ def block_write_harness(reason: str) -> None:
 def require_explicit_write_intent() -> None:
     if os.environ.get("MONGEZZ_E2E_WRITE_TEST") != "1":
         block_write_harness("MONGEZZ_E2E_WRITE_TEST must equal 1")
+
+    configured_proxies = [
+        name for name in PROXY_ENV_VARS if os.environ.get(name, "").strip()
+    ]
+    if configured_proxies:
+        block_write_harness(
+            "proxy routing variables are not allowed for destructive E2E: "
+            + ",".join(configured_proxies)
+        )
 
     target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
     if target not in {"local", "ci"}:

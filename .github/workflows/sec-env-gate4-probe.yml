@@ -42,7 +42,10 @@ jobs:
             SEC_ENV_G4_E4_EXPECTED_RED \
             SEC_ENV_G4_E5_EXPECTED_RED \
             SEC_ENV_G4_E6_EXPECTED_RED \
-            SEC_ENV_G4_E7_EXPECTED_RED
+            SEC_ENV_G4_E7_EXPECTED_RED \
+            SEC_ENV_G4_E8_EXPECTED_RED \
+            SEC_ENV_G4_E9_EXPECTED_RED \
+            SEC_ENV_G4_E10_EXPECTED_RED
           do
             if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then
               echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"
@@ -52,7 +55,7 @@ jobs:
 
           echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
 
-      - name: Prove read-only visual smoke cannot target production
+      - name: Independently prove visual smoke cannot target production
         shell: bash
         run: |
           set -euo pipefail
@@ -68,6 +71,12 @@ jobs:
             python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
             > /tmp/visual-production.log 2>&1
           production_status=$?
+
+          MONGEZZ_DEPLOY_TARGET=preview \
+          MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid。lovable.app \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-unicode-production.log 2>&1
+          unicode_status=$?
           set -e
 
           MONGEZZ_DEPLOY_TARGET=ci \
@@ -84,6 +93,12 @@ jobs:
           if [[ "$production_status" -eq 0 ]] || \
              ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production.log; then
             echo "SEC_ENV_VISUAL_HARNESS_FAIL: production host was accepted"
+            exit 1
+          fi
+
+          if [[ "$unicode_status" -eq 0 ]] || \
+             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-unicode-production.log; then
+            echo "SEC_ENV_VISUAL_HARNESS_FAIL: browser-equivalent Unicode production hostname was accepted"
             exit 1
           fi
 

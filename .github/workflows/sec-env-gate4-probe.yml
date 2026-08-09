@@ -51,3 +51,47 @@ jobs:
           done
 
           echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
+
+      - name: Prove read-only visual smoke cannot target production
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          set +e
+          env -u MONGEZZ_DEPLOY_TARGET -u MONGEZZ_VISUAL_TEST_BASE_URL \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-missing.log 2>&1
+          missing_status=$?
+
+          MONGEZZ_DEPLOY_TARGET=preview \
+          MONGEZZ_VISUAL_TEST_BASE_URL=https://simple-store-aid.lovable.app \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-production.log 2>&1
+          production_status=$?
+          set -e
+
+          MONGEZZ_DEPLOY_TARGET=ci \
+          MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \
+            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
+            > /tmp/visual-safe.log 2>&1
+
+          if [[ "$missing_status" -eq 0 ]] || \
+             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-missing.log; then
+            echo "SEC_ENV_VISUAL_HARNESS_FAIL: missing target/base URL did not fail closed"
+            exit 1
+          fi
+
+          if [[ "$production_status" -eq 0 ]] || \
+             ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-production.log; then
+            echo "SEC_ENV_VISUAL_HARNESS_FAIL: production host was accepted"
+            exit 1
+          fi
+
+          grep -Fq \
+            "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
+            /tmp/visual-safe.log || {
+              echo "SEC_ENV_VISUAL_HARNESS_FAIL: isolated CI visual target was rejected"
+              exit 1
+            }
+
+          echo "SEC_ENV_VISUAL_HARNESS_CONFIRMED"

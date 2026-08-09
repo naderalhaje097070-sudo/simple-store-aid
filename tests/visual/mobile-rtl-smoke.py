@@ -224,7 +224,9 @@ async def run():
         browser = await pw.chromium.launch(headless=True)
         for vname, width, height in VIEWPORTS:
             ctx = await browser.new_context(
-                viewport={"width": width, "height": height}, locale="ar-EG"
+                viewport={"width": width, "height": height},
+                locale="ar-EG",
+                service_workers="block",
             )
             page = await ctx.new_page()
 

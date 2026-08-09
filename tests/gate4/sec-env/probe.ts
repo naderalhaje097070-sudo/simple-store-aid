@@ -1,11 +1,11 @@
 import {
-  PRODUCTION_SUPABASE_FALLBACK,
+  APPROVED_PRODUCTION_SUPABASE_TARGET,
   resolveSupabaseBuildConfig,
   type SupabaseBuildEnvironment,
 } from "../../../config/supabase-build-config";
 
-const PROD_URL = PRODUCTION_SUPABASE_FALLBACK.url;
-const PROD_PROJECT = PRODUCTION_SUPABASE_FALLBACK.projectId;
+const PROD_URL = APPROVED_PRODUCTION_SUPABASE_TARGET.url;
+const PROD_PROJECT = APPROVED_PRODUCTION_SUPABASE_TARGET.projectId;
 
 function fail(message: string): never {
   console.error(`SEC_ENV_G4_BASELINE_FAIL: ${message}`);

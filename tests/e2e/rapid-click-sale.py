@@ -214,9 +214,11 @@ class API:
             "Content-Type": "application/json",
             "Prefer": "return=representation",
         }
+        self.session = requests.Session()
+        self.session.trust_env = False
 
     def post(self, path, body):
-        r = requests.post(
+        r = self.session.post(
             f"{SB_URL}{path}",
             headers=self.h,
             json=body,

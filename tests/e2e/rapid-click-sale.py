@@ -106,19 +106,38 @@ def require_loopback_supabase(url_value: str) -> None:
         block_write_harness("VITE_SUPABASE_URL must target the Supabase root")
 
 
-def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
+def network_origin(url_value: str) -> tuple[str, str, int] | None:
     try:
         parsed = urlparse(url_value)
         host = (parsed.hostname or "").lower().rstrip(".")
+        port = parsed.port
     except ValueError:
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
+
+
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
+    origin = network_origin(url_value)
+    app_origin = network_origin(BASE)
+    if origin is None or app_origin is None:
         return False
 
+    _, host, _ = origin
+
     if is_navigation and host not in LOOPBACK_HOSTS:
+        return False
+    if is_navigation and origin != app_origin:
         return False
 
     if host.endswith(".supabase.co"):
         return False
 
+    parsed = urlparse(url_value)
     supabase_path = parsed.path.startswith(("/rest/v1", "/auth/v1", "/storage/v1", "/functions/v1"))
     if supabase_path and host not in LOOPBACK_HOSTS:
         return False
@@ -141,6 +160,12 @@ if "--preflight-only" in sys.argv:
         block_write_harness("browser isolation invariant accepted a known remote Supabase write")
     if browser_request_is_isolated("GET", "https://simple-store-aid.lovable.app/app", True):
         block_write_harness("browser isolation invariant accepted a known remote navigation")
+    if browser_request_is_isolated("GET", "http://localhost:8000/app", True):
+        block_write_harness("browser isolation invariant accepted an alternate loopback port")
+    if browser_request_is_isolated("GET", "https://127.0.0.1/app", True):
+        block_write_harness("browser isolation invariant accepted an alternate loopback scheme/host")
+    if not browser_request_is_isolated("GET", f"{BASE}/app", True):
+        block_write_harness("browser isolation invariant rejected the exact isolated app origin")
     print("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK: isolated write harness target verified")
     raise SystemExit(0)
 

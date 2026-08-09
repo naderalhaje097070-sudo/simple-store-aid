@@ -25,9 +25,16 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Setup Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@v2
         with:
-          version: latest
+          version: "2.101.0"
+
+      - name: Verify Supabase CLI version
+        shell: bash
+        run: |
+          set -euo pipefail
+          actual="$(supabase --version)"
+          test "$actual" = "2.101.0"
 
       - name: Install PostgreSQL client
         run: |
@@ -38,11 +45,38 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          supabase start
+          if ! supabase start > /tmp/supabase-start.log 2>&1; then
+            echo "SEC_CI_INFRA_FAIL: isolated Supabase failed to start; raw startup output withheld"
+            exit 1
+          fi
+
           supabase status -o env > /tmp/supabase.env
           set -a
           source /tmp/supabase.env
           set +a
+
+          case "$API_URL" in
+            http://127.0.0.1:54321|http://localhost:54321) ;;
+            *)
+              echo "SEC_CI_ISOLATION_FAIL: API_URL is not the approved loopback target"
+              exit 1
+              ;;
+          esac
+
+          case "$DB_URL" in
+            postgresql://*@127.0.0.1:54322/*|postgresql://*@localhost:54322/*|postgres://*@127.0.0.1:54322/*|postgres://*@localhost:54322/*) ;;
+            *)
+              echo "SEC_CI_ISOLATION_FAIL: DB_URL is not the approved loopback target"
+              exit 1
+              ;;
+          esac
+
+          echo "::add-mask::$ANON_KEY"
+          if [[ -n "${SERVICE_ROLE_KEY:-}" ]]; then
+            echo "::add-mask::$SERVICE_ROLE_KEY"
+          fi
+          echo "::add-mask::$DB_URL"
+
           {
             echo "VITE_SUPABASE_URL=$API_URL"
             echo "VITE_SUPABASE_PUBLISHABLE_KEY=$ANON_KEY"
@@ -55,8 +89,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test "${CI_ISOLATED_SUPABASE:-}" = "1"
           email="pilot.qa.${GITHUB_RUN_ID}.${GITHUB_RUN_ATTEMPT}@example.test"
           password="Pilot-QA-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}!"
+          echo "::add-mask::$password"
           signup="$(curl --fail-with-body --silent --show-error \
             -X POST "$VITE_SUPABASE_URL/auth/v1/signup" \
             -H "apikey: $VITE_SUPABASE_PUBLISHABLE_KEY" \
@@ -106,7 +142,7 @@ jobs:
             fi
             sleep 1
           done
-          cat /tmp/mongezz-app.log
+          echo "SEC_CI_APP_FAIL: local production emulator did not become ready; raw application log retained only as CI artifact"
           exit 1
 
       - name: Install Playwright
@@ -115,9 +151,24 @@ jobs:
           python3 -m playwright install --with-deps chromium
 
       - name: Run read-only authenticated smoke
+        run: python3 tests/e2e/isolated-auth-smoke.py
+
+      - name: Write concise CI summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+        shell: bash
         run: |
-          set -o pipefail
-          python3 tests/e2e/isolated-auth-smoke.py 2>&1 | tee /tmp/auth-smoke.log
+          {
+            echo "## Isolated Auth UI Smoke"
+            echo
+            echo "- Commit: \`${GITHUB_SHA}\`"
+            echo "- Status: **${JOB_STATUS}**"
+            echo "- Supabase CLI: \`2.101.0\`"
+            echo "- Environment: isolated loopback Supabase + local Cloudflare emulator"
+            echo "- Production database accessed: **No**"
+            echo "- Raw Supabase environment/startup output published: **No**"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload evidence
         if: always()
@@ -127,10 +178,10 @@ jobs:
           path: |
             /tmp/mongezz-auth-smoke
             /tmp/mongezz-app.log
-            /tmp/auth-smoke.log
             /tmp/build-files.log
           if-no-files-found: warn
+          retention-days: 7
 
       - name: Stop isolated Supabase
         if: always()
-        run: supabase stop --no-backup || true
+        run: supabase stop --no-backup > /dev/null 2>&1 || true

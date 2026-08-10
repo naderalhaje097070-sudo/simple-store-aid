@@ -66,6 +66,23 @@ def hostname_from_url(url_value: str) -> str:
         return ""
 
 
+def network_origin(url_value: str) -> tuple[str, str, int] | None:
+    """Return normalized HTTP(S) origin for exact navigation pinning."""
+
+    try:
+        parsed = urlparse(url_value)
+        host = normalize_hostname(parsed.hostname or "")
+        port = parsed.port
+    except (ValueError, SystemExit):
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
+
+
 def parse_whatwg_ipv4_number(part: str) -> int | None:
     """Parse one WHATWG IPv4-number component (decimal/octal/hex)."""
 
@@ -204,6 +221,9 @@ def validate_target() -> str:
 
 
 BASE = validate_target()
+BASE_ORIGIN = network_origin(BASE)
+if BASE_ORIGIN is None:
+    block("validated visual smoke base URL has no usable network origin")
 
 if "--preflight-only" in sys.argv:
     print(f"{OK_SENTINEL}: explicit non-production visual target verified")
@@ -238,19 +258,25 @@ async def run():
             page = await ctx.new_page()
             isolation_violations: list[str] = []
 
-            async def block_production_requests(route):
-                if hostname_from_url(route.request.url) in FORBIDDEN_PRODUCTION_HOSTS:
-                    isolation_violations.append(
-                        f"{route.request.method} {route.request.url}"
-                    )
+            async def enforce_visual_isolation(route):
+                request = route.request
+                request_host = hostname_from_url(request.url)
+                request_origin = network_origin(request.url)
+                forbidden_production = request_host in FORBIDDEN_PRODUCTION_HOSTS
+                off_origin_navigation = (
+                    request.is_navigation_request() and request_origin != BASE_ORIGIN
+                )
+
+                if forbidden_production or off_origin_navigation:
+                    isolation_violations.append(f"{request.method} {request.url}")
                     print(
-                        f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {route.request.method} {route.request.url}"
+                        f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {request.method} {request.url}"
                     )
                     await route.abort("blockedbyclient")
                     return
                 await route.continue_()
 
-            await page.route("**/*", block_production_requests)
+            await page.route("**/*", enforce_visual_isolation)
 
             errs = []
             page.on("pageerror", lambda error: errs.append(("pageerror", str(error))))
@@ -271,12 +297,12 @@ async def run():
                 await page.wait_for_timeout(800)
                 if isolation_violations:
                     raise AssertionError(
-                        "visual smoke blocked forbidden production request(s): "
+                        "visual smoke blocked forbidden/off-origin request(s): "
                         + "; ".join(isolation_violations)
                     )
-                if hostname_from_url(page.url) in FORBIDDEN_PRODUCTION_HOSTS:
+                if network_origin(page.url) != BASE_ORIGIN:
                     raise AssertionError(
-                        f"visual smoke reached forbidden production URL: {page.url}"
+                        f"visual smoke reached unapproved application origin: {page.url}"
                     )
                 shot = OUT / f"{vname}_{name}.png"
                 await page.screenshot(path=str(shot))

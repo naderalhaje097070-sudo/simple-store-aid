@@ -396,6 +396,10 @@ jobs:
             'https://preview.0x7f'
           assert_blocked invalid-punycode-alabel preview \
             'https://xn--a.example'
+          assert_blocked whatwg-invalid-punycode-alabel preview \
+            'https://xn--ksa.example'
+          assert_blocked canonical-punycode-alabel preview \
+            'https://xn--bcher-kva.example'
 
           MONGEZZ_DEPLOY_TARGET=ci \
           MONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \
@@ -416,18 +420,6 @@ jobs:
             "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
             /tmp/visual-safe-preview.log || {
               echo "SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected"
-              exit 1
-            }
-
-          MONGEZZ_DEPLOY_TARGET=preview \
-          MONGEZZ_VISUAL_TEST_BASE_URL=https://xn--bcher-kva.example \
-            python3 tests/visual/mobile-rtl-smoke.py --preflight-only \
-            > /tmp/visual-safe-punycode.log 2>&1
-          grep -Fq \
-            "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \
-            /tmp/visual-safe-punycode.log || {
-              echo "SEC_ENV_VISUAL_HARNESS_FAIL: valid canonical punycode preview target was rejected"
-              cat /tmp/visual-safe-punycode.log
               exit 1
             }
 

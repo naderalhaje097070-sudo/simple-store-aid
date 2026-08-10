@@ -276,7 +276,9 @@ async def run():
                     return
                 await route.continue_()
 
-            await page.route("**/*", enforce_visual_isolation)
+            # Context-scoped routing covers every page/popup, including each
+            # popup's initial navigation before a Page-scoped route could attach.
+            await ctx.route("**/*", enforce_visual_isolation)
 
             errs = []
             page.on("pageerror", lambda error: errs.append(("pageerror", str(error))))
@@ -326,6 +328,17 @@ async def run():
                     };
                 }"""
                 )
+                # Recheck after screenshot/evaluation because requests can start
+                # while visual evidence is being collected.
+                if isolation_violations:
+                    raise AssertionError(
+                        "visual smoke blocked forbidden/off-origin request(s) during evidence collection: "
+                        + "; ".join(isolation_violations)
+                    )
+                if network_origin(page.url) != BASE_ORIGIN:
+                    raise AssertionError(
+                        f"visual smoke left approved application origin during evidence collection: {page.url}"
+                    )
                 results.append(
                     {"viewport": vname, "page": name, **info, "errors": errs[-5:]}
                 )

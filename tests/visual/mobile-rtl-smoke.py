@@ -30,10 +30,9 @@ def block(reason: str) -> None:
 def reject_browser_ambiguous_url(value: str) -> None:
     """Reject raw forms whose WHATWG interpretation can differ from urllib."""
 
-    # This test harness accepts canonical ASCII origins only. Punycode remains
-    # available for international domains, but raw Unicode/IDNA separators,
-    # percent-encoded hostname bytes, backslashes and browser-trimmed whitespace
-    # are never treated as an approval input.
+    # This test harness accepts canonical printable ASCII origins only. Raw
+    # Unicode/IDNA separators, percent-encoded hostname bytes, backslashes and
+    # browser-trimmed whitespace are never treated as an approval input.
     if value != value.strip():
         block("visual smoke base URL cannot contain surrounding whitespace")
     if any(ord(character) < 0x21 or ord(character) > 0x7E for character in value):
@@ -52,19 +51,11 @@ def normalize_hostname(value: str) -> str:
         block("visual smoke hostname is not valid IDNA")
 
 
-def validate_ascii_alabels(host: str) -> None:
-    """Reject malformed or non-canonical punycode labels before Chromium sees them."""
+def reject_ascii_alabels(host: str) -> None:
+    """Avoid Python-vs-WHATWG IDNA differences by disallowing A-labels."""
 
-    for label in host.split("."):
-        if not label.startswith("xn--"):
-            continue
-        try:
-            decoded = label.encode("ascii").decode("idna")
-            roundtrip = decoded.encode("idna").decode("ascii").lower()
-        except UnicodeError:
-            block("visual smoke hostname contains an invalid IDNA A-label")
-        if roundtrip != label.lower():
-            block("visual smoke hostname contains a non-canonical IDNA A-label")
+    if any(label.startswith("xn--") for label in host.split(".")):
+        block("visual smoke preview/staging hostnames cannot use IDNA A-labels")
 
 
 def hostname_from_url(url_value: str) -> str:
@@ -188,7 +179,6 @@ def validate_target() -> str:
         block("visual smoke base URL must contain a hostname")
     if raw_host != host:
         block("visual smoke hostname must already be canonical lowercase ASCII")
-    validate_ascii_alabels(host)
     if host in FORBIDDEN_PRODUCTION_HOSTS:
         block("visual smoke is not authorized against a production host")
 
@@ -202,6 +192,7 @@ def validate_target() -> str:
     else:
         if parsed.scheme != "https" or parsed.port is not None or host in LOOPBACK_HOSTS:
             block("preview/staging visual smoke must use HTTPS without a custom port")
+        reject_ascii_alabels(host)
         if ends_in_whatwg_ipv4_number_candidate(host):
             block("preview/staging visual smoke cannot use a WHATWG IPv4-candidate hostname")
         if is_ip_literal_or_legacy_numeric_host(host):

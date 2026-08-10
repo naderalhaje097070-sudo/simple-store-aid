@@ -262,7 +262,7 @@ jobs:
           print("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")
           PY
 
-      - name: Independently prove visual runtime isolation failures are fatal
+      - name: Independently prove visual runtime isolation failures are fatal and origin-pinned
         shell: bash
         run: |
           set -euo pipefail
@@ -274,18 +274,20 @@ jobs:
           source = path.read_text()
           tree = ast.parse(source, filename=str(path))
 
-          if "isolation_violations.append" not in source:
-              raise SystemExit(
-                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: production route blocks are not recorded"
-              )
-          if "visual smoke blocked forbidden production request(s)" not in source:
-              raise SystemExit(
-                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: recorded production blocks are not fatal"
-              )
-          if "visual navigation failed for" not in source:
-              raise SystemExit(
-                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto failures are not fatal"
-              )
+          required_fragments = [
+              "isolation_violations.append",
+              "visual smoke blocked forbidden/off-origin request(s)",
+              "visual navigation failed for",
+              "request.is_navigation_request()",
+              "request_origin != BASE_ORIGIN",
+              "network_origin(page.url) != BASE_ORIGIN",
+              "visual smoke reached unapproved application origin",
+          ]
+          for fragment in required_fragments:
+              if fragment not in source:
+                  raise SystemExit(
+                      f"SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: missing exact-origin runtime guard fragment: {fragment}"
+                  )
 
           def contains_page_goto(node):
               for child in ast.walk(node):
@@ -316,7 +318,14 @@ jobs:
                           "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto exception is swallowed"
                       )
 
-          print("SEC_ENV_VISUAL_RUNTIME_GUARD_CONFIRMED")
+          final_guard = source.find("if network_origin(page.url) != BASE_ORIGIN:")
+          evidence_write = source.find("shot = OUT", final_guard)
+          if final_guard < 0 or evidence_write < 0 or evidence_write <= final_guard:
+              raise SystemExit(
+                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: final page origin is not checked before screenshot evidence"
+              )
+
+          print("SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED")
           PY
 
       - name: Independently prove visual smoke uses canonical non-production origins

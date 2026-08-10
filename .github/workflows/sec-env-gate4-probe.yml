@@ -55,7 +55,7 @@ jobs:
 
           echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
 
-      - name: Independently prove destructive REST writes never follow redirects
+      - name: Independently prove destructive REST routing ignores inherited environment and redirects
         shell: bash
         run: |
           set -euo pipefail
@@ -68,46 +68,87 @@ jobs:
               Path("tests/e2e/sale-dashboard-close.py"),
           ]
 
+          def attr_chain(node):
+              parts = []
+              while isinstance(node, ast.Attribute):
+                  parts.append(node.attr)
+                  node = node.value
+              if isinstance(node, ast.Name):
+                  parts.append(node.id)
+                  return list(reversed(parts))
+              return []
+
           for path in files:
               source = path.read_text()
               tree = ast.parse(source, filename=str(path))
-              guarded_calls = 0
+              has_session_constructor = False
+              has_trust_env_false = False
+              session_write_calls = 0
+
               for node in ast.walk(tree):
-                  if not isinstance(node, ast.Call):
-                      continue
-                  func = node.func
-                  if not (
-                      isinstance(func, ast.Attribute)
-                      and isinstance(func.value, ast.Name)
-                      and func.value.id == "requests"
-                      and func.attr in {"post", "delete"}
-                  ):
-                      continue
+                  if isinstance(node, ast.Call):
+                      chain = attr_chain(node.func)
 
-                  guarded_calls += 1
-                  redirect_kw = next(
-                      (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),
-                      None,
-                  )
-                  if not (
-                      redirect_kw
-                      and isinstance(redirect_kw.value, ast.Constant)
-                      and redirect_kw.value.value is False
-                  ):
-                      raise SystemExit(
-                          f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: {path} has requests.{func.attr} without allow_redirects=False"
-                      )
+                      if chain == ["requests", "Session"]:
+                          has_session_constructor = True
 
-              if guarded_calls == 0:
+                      if chain in (["requests", "post"], ["requests", "delete"]):
+                          raise SystemExit(
+                              f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} contains direct {'.'.join(chain)}"
+                          )
+
+                      if chain in (
+                          ["self", "session", "post"],
+                          ["self", "session", "delete"],
+                          ["api", "session", "post"],
+                          ["api", "session", "delete"],
+                      ):
+                          session_write_calls += 1
+                          redirect_kw = next(
+                              (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),
+                              None,
+                          )
+                          if not (
+                              redirect_kw
+                              and isinstance(redirect_kw.value, ast.Constant)
+                              and redirect_kw.value.value is False
+                          ):
+                              raise SystemExit(
+                                  f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} has {'.'.join(chain)} without allow_redirects=False"
+                              )
+
+                  if isinstance(node, ast.Assign):
+                      if not (
+                          isinstance(node.value, ast.Constant)
+                          and node.value.value is False
+                      ):
+                          continue
+                      for target in node.targets:
+                          chain = attr_chain(target)
+                          if chain in (
+                              ["self", "session", "trust_env"],
+                              ["api", "session", "trust_env"],
+                          ):
+                              has_trust_env_false = True
+
+              if not has_session_constructor:
                   raise SystemExit(
-                      f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: no guarded requests write calls found in {path}"
+                      f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not construct requests.Session()"
+                  )
+              if not has_trust_env_false:
+                  raise SystemExit(
+                      f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not set session.trust_env=False"
+                  )
+              if session_write_calls == 0:
+                  raise SystemExit(
+                      f"SEC_ENV_REST_ROUTING_GUARD_FAIL: no session-backed destructive REST writes found in {path}"
                   )
               if "300 <=" not in source or "status_code < 400" not in source:
                   raise SystemExit(
-                      f"SEC_ENV_REST_REDIRECT_GUARD_FAIL: {path} does not reject HTTP 3xx responses"
+                      f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not reject HTTP 3xx responses"
                   )
 
-          print("SEC_ENV_REST_REDIRECT_GUARD_CONFIRMED")
+          print("SEC_ENV_REST_ROUTING_GUARD_CONFIRMED")
           PY
 
       - name: Independently prove destructive preflights reject inherited proxies

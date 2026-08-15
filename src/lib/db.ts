@@ -83,7 +83,6 @@ export function useUpdateTenantTimezone(tenantId: string | null | undefined) {
 /* ---------- today helpers (tenant timezone) ---------- */
 export function tenantTodayKey(timezone: string | null | undefined): string {
   const tz = timezone || "Africa/Tripoli";
-  // en-CA returns YYYY-MM-DD
   return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
 }
 
@@ -108,9 +107,7 @@ export function useTenantTodayEstimate(tenantId: string | null | undefined) {
   });
 }
 
-
 /* ---------- my role ---------- */
-// Aligned with database enum public.app_role
 export type AppRole = "owner" | "staff";
 export function useMyRole(tenantId: string | null | undefined) {
   return useQuery({
@@ -141,9 +138,17 @@ function rpcMessage(err: any): string {
     paid_exceeds_total: "المبلغ المدفوع لا يمكن أن يكون أكبر من إجمالي الفاتورة",
     customer_required_for_debt: "يجب اختيار عميل لأن هناك مبلغًا متبقّيًا",
     courier_requires_customer_and_courier: "توصيل المندوب يتطلّب عميلًا ومندوبًا",
+    courier_requires_courier: "يجب اختيار مندوب للتوصيل",
+    courier_state_required: "يجب تحديد نتيجة التوصيل",
+    invalid_paid_for_courier_state: "المبلغ لا يتوافق مع نتيجة التوصيل المحددة",
+    returned_not_allowed_at_creation: "الإرجاع لا يمكن تسجيله عند إنشاء الفاتورة",
     insufficient_stock: "الكمية المتاحة في المخزون غير كافية",
     product_inactive: "أحد المنتجات موقوف عن البيع",
     product_not_found: "لم يتم العثور على المنتج",
+    customer_not_found: "العميل غير موجود في هذا المتجر",
+    idempotency_conflict: "تعذّر إعادة المحاولة لأن بيانات العملية تغيّرت؛ راجع الفاتورة قبل المحاولة من جديد",
+    idempotency_incomplete: "تعذّر التحقق من نتيجة المحاولة السابقة؛ لا تعِد الحفظ قبل مراجعة الفواتير",
+    idempotency_state_missing: "تعذّر التحقق من حالة المحاولة السابقة؛ لا تعِد الحفظ قبل مراجعة الفواتير",
     amount_exceeds_remaining: "المبلغ المدخل أكبر من المتبقّي على الفاتورة",
     courier_not_found: "المندوب غير موجود",
     order_not_in_courier_custody: "هذه الفاتورة ليست ضمن عهدة المندوب",
@@ -160,7 +165,6 @@ function rpcMessage(err: any): string {
   }
   return "تعذّر إتمام العملية";
 }
-
 
 /* ---------- products ---------- */
 export type DBProduct = {
@@ -408,7 +412,6 @@ export function useExpenses(tenantId: string | null | undefined) {
   });
 }
 
-
 export function useAddExpense(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
@@ -427,6 +430,7 @@ export function useAddExpense(tenantId: string | null | undefined) {
 
 /* ---------- sales / debt / settlement / undo ---------- */
 
+export type CourierCreateState = "pending" | "delivered_none" | "delivered_partial" | "delivered_full";
 
 export type CreateSaleInput = {
   items: { productId: string; name: string; qty: number; price: number; cost: number }[];
@@ -435,22 +439,105 @@ export type CreateSaleInput = {
   delivery: "direct" | "courier";
   courierId?: string;
   method: "cash" | "transfer";
+  courierState?: CourierCreateState;
 };
+
+type PendingSaleIdempotency = {
+  tenantId: string;
+  fingerprint: string;
+  key: string;
+  createdAt: number;
+};
+
+const PENDING_SALE_IDEMPOTENCY_STORAGE = "mongezz.pending-sale-idempotency.v1";
+const PENDING_SALE_IDEMPOTENCY_TTL_MS = 30 * 60 * 1000;
+
+function inferCourierCreateState(input: CreateSaleInput): CourierCreateState | null {
+  if (input.delivery !== "courier") return null;
+  if (input.courierState) return input.courierState;
+  if (input.paid === 0) return "pending";
+  if (input.paid >= input.total) return "delivered_full";
+  return "delivered_partial";
+}
+
+function saleRequestFingerprint(input: CreateSaleInput, courierState: CourierCreateState | null): string {
+  return JSON.stringify({
+    customerId: input.customerId ?? null,
+    delivery: input.delivery,
+    courierId: input.courierId ?? null,
+    paid: input.paid,
+    method: input.method,
+    items: input.items.map(it => ({ productId: it.productId, qty: it.qty })),
+    courierState,
+  });
+}
+
+function newIdempotencyKey(): string {
+  const randomUUID = globalThis.crypto?.randomUUID?.bind(globalThis.crypto);
+  if (!randomUUID) throw new Error("secure idempotency key unavailable");
+  return randomUUID();
+}
+
+function loadPendingSaleIdempotency(): PendingSaleIdempotency | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.sessionStorage.getItem(PENDING_SALE_IDEMPOTENCY_STORAGE);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as PendingSaleIdempotency;
+    if (!parsed?.tenantId || !parsed?.fingerprint || !parsed?.key || !parsed?.createdAt) return null;
+    if (Date.now() - parsed.createdAt > PENDING_SALE_IDEMPOTENCY_TTL_MS) {
+      window.sessionStorage.removeItem(PENDING_SALE_IDEMPOTENCY_STORAGE);
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function getOrCreateSaleIdempotencyKey(tenantId: string, fingerprint: string): string {
+  const pending = loadPendingSaleIdempotency();
+  if (pending && pending.tenantId === tenantId && pending.fingerprint === fingerprint) {
+    return pending.key;
+  }
+  const key = newIdempotencyKey();
+  if (typeof window !== "undefined") {
+    const next: PendingSaleIdempotency = { tenantId, fingerprint, key, createdAt: Date.now() };
+    window.sessionStorage.setItem(PENDING_SALE_IDEMPOTENCY_STORAGE, JSON.stringify(next));
+  }
+  return key;
+}
+
+function clearSaleIdempotencyKey(key: string): void {
+  if (typeof window === "undefined") return;
+  const pending = loadPendingSaleIdempotency();
+  if (pending?.key === key) {
+    window.sessionStorage.removeItem(PENDING_SALE_IDEMPOTENCY_STORAGE);
+  }
+}
 
 export function useCreateSale(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (input: CreateSaleInput): Promise<{ orderId: string; number: string }> => {
       if (!tenantId) throw new Error("no tenant");
-      const { data, error } = await supabase.rpc("create_sale_with_items" as any, {
+      const courierState = inferCourierCreateState(input);
+      const fingerprint = saleRequestFingerprint(input, courierState);
+      const idempotencyKey = getOrCreateSaleIdempotencyKey(tenantId, fingerprint);
+
+      const { data, error } = await supabase.rpc("create_sale_with_items_idempotent" as any, {
+        p_idempotency_key: idempotencyKey,
         p_customer_id: input.customerId ?? null,
         p_delivery: input.delivery,
         p_courier_id: input.courierId ?? null,
         p_paid: input.paid,
         p_method: input.method,
         p_items: input.items.map(it => ({ productId: it.productId, qty: it.qty })),
+        p_courier_state: courierState,
       });
       if (error) throw new Error(rpcMessage(error));
+
+      clearSaleIdempotencyKey(idempotencyKey);
       const out = data as any;
       return { orderId: out.order_id, number: String(out.number) };
     },
@@ -499,9 +586,6 @@ export function useCollectDebt(tenantId: string | null | undefined) {
 export function useSettleCourier(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    // Input keeps `orders[]` for backwards compatibility with current callers,
-    // but only order ids are sent to the RPC. The settled amount is derived
-    // server-side from each order's stored collected_by_courier.
     mutationFn: async (input: { courierId: string; orders: { id: string; customerId?: string; collected?: number }[] }) => {
       if (!tenantId) throw new Error("no tenant");
       const { error } = await supabase.rpc("settle_courier_orders" as any, {
@@ -617,6 +701,3 @@ export function useFinancialAuditLog(tenantId: string | null | undefined, limit 
     },
   });
 }
-
-
-

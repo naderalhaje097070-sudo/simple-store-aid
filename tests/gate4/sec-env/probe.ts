@@ -482,7 +482,7 @@ const visualCanonicalizesAndBlocksRuntime =
   visualSource.includes('.encode("idna")') &&
   visualSource.includes("PRODUCTION_SUPABASE_HOST") &&
   visualSource.includes("FORBIDDEN_PRODUCTION_HOSTS") &&
-  visualSource.includes('await page.route("**/*", block_production_requests)');
+  visualSource.includes('await ctx.route("**/*", enforce_visual_isolation)');
 
 if (
   !blocked(visualMissing, "SEC_ENV_VISUAL_SMOKE_BLOCKED") ||

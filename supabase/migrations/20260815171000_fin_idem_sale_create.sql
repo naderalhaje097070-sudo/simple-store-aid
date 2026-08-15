@@ -73,9 +73,9 @@ BEGIN
     'courier_state', p_courier_state
   );
 
-  -- MD5 is used only as a compact diagnostic fingerprint. Replay equality also
-  -- compares the complete jsonb request, so a hash collision cannot authorize a
-  -- mismatched request.
+  -- MD5 is only a compact diagnostic fingerprint. Replay authorization also
+  -- requires exact jsonb request equality, so a hash collision cannot authorize
+  -- a mismatched financial request.
   v_request_hash := md5(v_request::text);
 
   INSERT INTO public.financial_idempotency(
@@ -98,9 +98,8 @@ BEGIN
   GET DIAGNOSTICS v_inserted = ROW_COUNT;
 
   IF v_inserted = 1 THEN
-    -- The reservation and the financial write are in the same PostgreSQL
-    -- transaction. Any uncaught failure in the canonical v2 write rolls the
-    -- reservation back as well, so a retry is not poisoned.
+    -- Reservation and financial write share one PostgreSQL transaction. Any
+    -- uncaught canonical-write failure rolls the reservation back too.
     v_result := public.create_sale_with_items_v2(
       p_customer_id,
       p_delivery,
@@ -121,9 +120,9 @@ BEGIN
     RETURN v_result;
   END IF;
 
-  -- A conflicting concurrent INSERT waits on the unique key before reaching
-  -- this SELECT. Once the owner transaction commits, this row contains the
-  -- original result. If the owner transaction rolls back, our INSERT can win.
+  -- A same-key concurrent INSERT waits on the unique key. Once the owner
+  -- transaction commits this row carries the original result; if it rolls back,
+  -- the waiting INSERT can become the owner instead.
   SELECT request_hash, request_payload, result
     INTO v_existing_hash, v_existing_request, v_result
     FROM public.financial_idempotency
@@ -141,9 +140,6 @@ BEGIN
   END IF;
 
   IF v_result IS NULL THEN
-    -- A completed reservation cannot normally persist without a result because
-    -- reservation + canonical write + result update are one transaction. Fail
-    -- closed if external/manual corruption ever violates that invariant.
     RAISE EXCEPTION 'idempotency_incomplete';
   END IF;
 
@@ -159,3 +155,14 @@ GRANT EXECUTE ON FUNCTION public.create_sale_with_items_idempotent(
   uuid, uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb,
   public.courier_state
 ) TO authenticated;
+
+-- FIN-IDEM must be server-enforced, not merely a client convention. Once this
+-- migration lands, application roles cannot bypass the idempotency wrapper by
+-- calling either the canonical v2 write or the legacy six-argument adapter.
+REVOKE EXECUTE ON FUNCTION public.create_sale_with_items_v2(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb,
+  public.courier_state
+) FROM authenticated;
+REVOKE EXECUTE ON FUNCTION public.create_sale_with_items(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb
+) FROM authenticated;

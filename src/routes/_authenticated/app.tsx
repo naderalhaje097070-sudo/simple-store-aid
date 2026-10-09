@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
 import { useMemo, useState, useEffect, useRef } from "react";
 import {
   Home, ReceiptText, Plus, Boxes, Store, Bell, Menu,
@@ -27,7 +27,7 @@ import {
   getPendingCourierValueForInvoice,
 } from "@/domain/finance/invoice-selectors";
 
-function AppErrorBoundary({ error, reset }: { error: Error; reset: () => void }) {
+function AppErrorBoundary({ error, reset }: ErrorComponentProps) {
   const router = useRouter();
   console.error("[Mongezz /app error]", error);
   return (

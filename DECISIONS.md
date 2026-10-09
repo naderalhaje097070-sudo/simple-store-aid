@@ -131,3 +131,11 @@ This file records decisions that govern Mongezz until replaced by an approved AD
   existing PR48/49/50 rather than repeat them from stale August instructions.
 - This record does not approve an unreviewed financial policy, waive NAADF-CMF,
   close a release gate, merge, deploy, or authorize production access.
+
+## DEC-016 — Framework transport and serializer candidate pins (2026-10-09)
+
+Within the owner's authorized security batch, use the official minimum patched react-start1.168.60 graph with matching react-router1.170.41/router-plugin1.168.42. Preserve Lovable2.9.1. Pin Seroval1.6.7 in its direct declaration, overrides and resolutions because the old lock is affected and the new framework requires ^1.6.7. Retain seroval-plugins policy and all unrelated root declarations.
+
+Use provider ErrorComponentProps in the two error boundaries; retain behavior and accept error:unknown without casts. Generated route/lock files come from their generators. Lock resolution uses Bun1.3.14 with the existing24-hour release-age policy; the current CI Bun1.2.14 was tested for frozen-install compatibility but its supply-chain enforcement gap is not claimed fixed.
+
+Candidate status only: native29 tests/typecheck/build pass; existing lint, broader audit, hosted CI and review block global acceptance. PRIMARY-SEC-002 is prioritized by newly proven audit evidence before PRIMARY-ENV-001. No financial rule, schema, release approval, merge or deployment decision is changed. See changes/primary-sec-001/VERIFICATION.md.

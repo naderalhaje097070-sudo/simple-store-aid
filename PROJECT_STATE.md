@@ -1,3 +1,13 @@
+## Current execution checkpoint — PRIMARY-SEC-001, 2026-10-09
+
+This top block supersedes the planning-only status below. Application main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae. A focused security candidate is prepared on sec/primary-sec-001-tanstack-2026-10-09, stacked on PR51's planning branch. It is a draft, not accepted on main or released.
+
+Pinned compatible TanStack transport/router/plugin and Seroval1.6.7; generated lock/route tree; corrected two provider error-boundary prop annotations. Native frozen install, typecheck and isolated build pass;29/29 unit tests pass. Full lint remains1117errors/13warnings; changed-file lint fails on340pre-existing errors/1warning in app.tsx, with zero added diagnostics proven by text comparison.
+
+Wider audit:65 package/advisory records (2Critical/33High/25Moderate/5Low),25 fewer than baseline and no new records. These are untriaged scanner reports, not proof of deployed exploitation. Hosted runners still lack usable evidence; CI Bun1.2.14 cannot enforce minimumReleaseAge and Node is unpinned. Independent review and runtime/auth/finance validation remain pending. Details and source fingerprints: changes/primary-sec-001/VERIFICATION.md and evidence.json.
+
+ONE NEXT: PRIMARY-SEC-002, triage remaining Critical/High dependency chains and exploit conditions into focused fixes. Security gate is open; PRIMARY-ENV-001 follows. No financial write harness, migration, merge or deployment ran.
+
 # Project State
 
 Last reconciled: 2026-10-09 (Africa/Tripoli).

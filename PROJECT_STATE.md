@@ -1,5 +1,47 @@
 # Project State
 
+Last reconciled: 2026-10-09 (Africa/Tripoli).
+
+## Current state — authoritative within this review branch
+
+- Repository: `naderalhaje0970-droid/simple-store-aid` (original Lovable project).
+- Verified main: `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`.
+- Packet: `PRIMARY-GOV-001` — start plan pinned as documentation candidate.
+- Plan: [PRIMARY_DELIVERY_PLAN.md](docs/PRIMARY_DELIVERY_PLAN.md).
+- Code baseline remains a functional MVP with financial/security blockers.
+- This branch contains documentation only; no runtime, dependency or DB fix is accepted.
+- Historical main/PR statuses below are not current task instructions.
+- No main merge, release, pilot or production-data authorization is granted by this packet.
+
+## ONE NEXT
+
+`PRIMARY-SEC-001`: prepare a focused TanStack dependency-security candidate.
+Start by re-reading live main, applicable governance, package/lock resolution,
+Lovable compatibility and open PRs. Follow the detailed four-step task and
+applicable intake/safety requirements in the plan. Native verification gaps
+keep the candidate blocked; no security override or unsafe environment fallback.
+
+Following dependency: reconcile PR48/environment isolation, then financial gate
+and PR49, followed by PR50/idempotency. No financial write test before isolation proof.
+
+## Current evidence limits
+
+Main confirmed at the SHA above; PR48/49/50 metadata re-read, all unmerged.
+No application tests, database runs or dependency upgrade performed in this
+documentation session. CI and independent review results belong to the actual
+PR head and must be recorded separately, not inferred from earlier green runs.
+Detailed audit and remaining acceptance conditions are summarized in the plan.
+
+## Historical state — superseded scheduling, retained evidence
+
+The following 2026-08-09 snapshot is retained verbatim as history. Its headings
+such as Current stage / Immediate next task do not override the current block.
+Existing financial invariants and release controls remain effective.
+
+---
+
+# Project State
+
 Last updated: 2026-08-09
 
 ## Current stage

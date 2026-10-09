@@ -1,5 +1,34 @@
 # Governed Tasks
 
+## Current queue — 2026-10-09
+
+See [primary plan](docs/PRIMARY_DELIVERY_PLAN.md) and the current block in PROJECT_STATE.md.
+Only this queue schedules new work; the preserved August queue below is history.
+
+| Task | Status | Acceptance |
+| --- | --- | --- |
+| PRIMARY-GOV-001 | Documentation candidate prepared | Identity/state/task/decision links agree; diff limited to docs; no release acceptance implied |
+| PRIMARY-SEC-001 | ONE NEXT: preparation | Official advisory + compatible lock/build + required final-head evidence and review |
+| PRIMARY-ENV-001 | Follows security candidate and prerequisites | Reconcile PR48/current SEC-CI; prove isolated targets before write tests |
+| FIN-COURIER-001 | Existing gate/contract retained | Diagnose current Gate4 and evaluate PR49; backend -> reports -> UX |
+| FIN-IDEM-001 | Depends on canonical financial write | Evaluate PR50; all relevant writes, concurrency/replay/lost response |
+| PILOT-RC-001 | Blocked by release gates | One accepted source with recovery, security, finance and complete journeys |
+| PILOT-000 / commercial | Not started | Actual stores, reconciliations, costs and accepted billing lifecycle |
+
+Do not mark old mongezz B01–B20 as accepted here. Preserve original finding/task IDs,
+map dependencies, and use additive history. No full rewrite, speculative transfers,
+financial-policy changes or new product scope in the initial dependency packet.
+
+## Historical task snapshot
+
+The content below is preserved as historical evidence; old Active/queue headings
+do not schedule the current branch. Actual acceptance is verified from the
+relevant current source, review and result, never a historical checkbox.
+
+---
+
+# Governed Tasks
+
 ## Active
 
 ### RELEASE-BASELINE-RECON-002 — Current main reconciliation before Pilot RC1

@@ -115,3 +115,19 @@ This file records decisions that govern Mongezz until replaced by an approved AD
 - Audit event model for employee order-state and custody changes.
 - Final billing enforcement and expired-subscription behavior.
 - Final backward-compatibility treatment for existing courier orders that are `pending` but contain inconsistent legacy financial fields.
+
+
+## DEC-015 — Original-project source and pinned execution plan
+
+- Status: Owner-directed planning/governance; documentation candidate on a review branch.
+- Owner instruction on 2026-10-09: consolidate instructions from both repositories,
+  define the final-product plan, then pin starting steps so work can begin.
+- Source: `naderalhaje0970-droid/simple-store-aid`; verified main `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`.
+- Current plan: `docs/PRIMARY_DELIVERY_PLAN.md`; one current state/task queue.
+- `mongezz` and PR137 retain historical evidence only; transfer candidates require
+  source comparison and new verification. Plan1.2 identifiers are mapping history.
+- Scheduling adjustment: prepare PRIMARY-SEC-001 dependency-security work before
+  environment acceptance and financial write verification; reconcile SEC-CI and
+  existing PR48/49/50 rather than repeat them from stale August instructions.
+- This record does not approve an unreviewed financial policy, waive NAADF-CMF,
+  close a release gate, merge, deploy, or authorize production access.

@@ -66,15 +66,6 @@
       "name": "diff-check",
       "result": "pass",
       "evidence": "sec-evidence/sec2-diff-check.log"
-    },
-    {
-      "name": "hosted-quality",
-      "result": "infrastructure-failure",
-      "run_id": 38034835691,
-      "job_id": 114162999877,
-      "head_sha": "8e8ee58eaec47c7fa8ba1fd62a786fddea2de661",
-      "runner_id": 0,
-      "steps": []
     }
   ],
   "limits": [

@@ -33,7 +33,7 @@ Local evidence is saved under `/workspace/scratch/ef360bbe5cf9/sec-evidence`:
 | Production build with local Supabase fixture env | Pass |
 | Changed-file lint: `tests/unit/dependency-security.test.ts` | Pass |
 | `git diff --check` | Pass |
-| Hosted Quality on PR53 head `8e8ee58eaec47c7fa8ba1fd62a786fddea2de661` | Failure before runner execution; `runner_id:0`, empty steps |
+| Hosted Quality on PR53 | Failure before runner execution; `runner_id:0`, empty steps |
 
 ## Open Gates
 

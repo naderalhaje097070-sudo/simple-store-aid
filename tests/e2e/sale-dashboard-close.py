@@ -19,6 +19,8 @@ import time
 from decimal import Decimal
 from pathlib import Path
 
+from browser_network_guard import install_browser_network_guard
+
 from write_harness_guard import (
     browser_request_is_isolated,
     preflight_only,
@@ -203,25 +205,20 @@ async def main():
                 locale="ar-LY",
                 service_workers="block",
             )
-            page = await ctx.new_page()
             browser_isolation_violations: list[str] = []
 
-            async def enforce_browser_isolation(route):
-                request = route.request
-                if not browser_request_is_isolated(
-                    request.method,
-                    request.url,
-                    request.is_navigation_request(),
-                ):
-                    browser_isolation_violations.append(f"{request.method} {request.url}")
-                    print(
-                        f"SEC_ENV_WRITE_HARNESS_BROWSER_BLOCKED: {request.method} {request.url}"
-                    )
-                    await route.abort("blockedbyclient")
-                    return
-                await route.continue_()
+            def reject_browser_request(reason):
+                browser_isolation_violations.append(reason)
+                print(f"SEC_ENV_WRITE_HARNESS_BROWSER_BLOCKED: {reason}")
 
-            await ctx.route("**/*", enforce_browser_isolation)
+            await install_browser_network_guard(
+                ctx,
+                lambda method, url, navigation: browser_request_is_isolated(
+                    method, url, navigation, expected_supabase_url=SB_URL
+                ),
+                reject_browser_request,
+            )
+            page = await ctx.new_page()
 
             errs = []
             page.on("pageerror", lambda e: errs.append(str(e)))

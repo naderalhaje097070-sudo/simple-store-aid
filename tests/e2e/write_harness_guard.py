@@ -170,6 +170,7 @@ def browser_request_is_isolated(
     url_value: str,
     is_navigation: bool = False,
     expected_app_url: str = WRITE_APP_BASE_URL,
+    expected_supabase_url: str = "http://127.0.0.1:54321",
 ) -> bool:
     """Pin destructive navigations to the exact isolated app origin."""
 
@@ -196,10 +197,9 @@ def browser_request_is_isolated(
     if supabase_path and host not in LOOPBACK_HOSTS:
         return False
 
-    if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
-        return False
-
-    return True
+    # Another loopback port is a different service. Pin HTTP, including writes
+    # and resource reads, to the configured application and Supabase origins.
+    return origin in {app_origin, _network_origin(expected_supabase_url)}
 
 
 def _psql_env(config: WriteHarnessConfig) -> dict[str, str]:
@@ -270,6 +270,10 @@ def preflight_only() -> None:
         block("browser isolation invariant accepted an alternate loopback port")
     if browser_request_is_isolated("GET", "https://127.0.0.1/app", True):
         block("browser isolation invariant accepted an alternate loopback scheme/host")
+    if browser_request_is_isolated("POST", "http://localhost:9999/rest/v1/rpc/create_sale_with_items"):
+        block("browser isolation invariant accepted an alternate loopback write origin")
+    if browser_request_is_isolated("POST", "https://127.0.0.1:4443/auth/v1/token"):
+        block("browser isolation invariant accepted an alternate write scheme")
     if not browser_request_is_isolated("GET", f"{WRITE_APP_BASE_URL}/app", True):
         block("browser isolation invariant rejected the exact isolated app origin")
     # The config object is intentionally not printed because it contains a public

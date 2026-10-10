@@ -44,6 +44,18 @@ jobs:
         run: bun run test:unit
       - name: Offline server environment boundary
         run: bun tests/gate4/sec-env/server-boundary.ts
+      - name: Setup Python for browser containment regression
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned browser test tooling
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt
+          python -m playwright install chromium --only-shell --with-deps
+      - name: Verify browser redirect, WebSocket and origin containment
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python tests/gate4/sec-env/browser-network.py
       - name: Build from mode-specific env file
         shell: bash
         run: |

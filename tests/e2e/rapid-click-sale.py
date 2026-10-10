@@ -32,6 +32,9 @@ from decimal import Decimal
 from pathlib import Path
 from urllib.parse import urlparse
 
+from browser_network_guard import install_browser_network_guard
+from write_harness_guard import browser_request_is_isolated as isolated_browser_request
+
 BASE = "http://localhost:8080"
 TAG = f"E2E-{int(time.time())}"
 PRICE = Decimal("1")
@@ -139,30 +142,10 @@ def network_origin(url_value: str) -> tuple[str, str, int] | None:
 
 
 def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
-    origin = network_origin(url_value)
-    app_origin = network_origin(BASE)
-    if origin is None or app_origin is None:
-        return False
-
-    _, host, _ = origin
-
-    if is_navigation and host not in LOOPBACK_HOSTS:
-        return False
-    if is_navigation and origin != app_origin:
-        return False
-
-    if host.endswith(".supabase.co"):
-        return False
-
-    parsed = urlparse(url_value)
-    supabase_path = parsed.path.startswith(("/rest/v1", "/auth/v1", "/storage/v1", "/functions/v1"))
-    if supabase_path and host not in LOOPBACK_HOSTS:
-        return False
-
-    if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
-        return False
-
-    return True
+    return isolated_browser_request(
+        method, url_value, is_navigation,
+        expected_app_url=BASE, expected_supabase_url=SB_URL,
+    )
 
 
 # Safety preflight must complete before importing requests/Playwright, reading
@@ -333,23 +316,16 @@ async def main():
                 locale="ar-LY",
                 service_workers="block",
             )
-            page = await ctx.new_page()
             browser_isolation_violations: list[str] = []
 
-            async def enforce_browser_isolation(route):
-                request = route.request
-                if not browser_request_is_isolated(
-                    request.method,
-                    request.url,
-                    request.is_navigation_request(),
-                ):
-                    browser_isolation_violations.append(f"{request.method} {request.url}")
-                    print(f"SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: {request.method} {request.url}")
-                    await route.abort("blockedbyclient")
-                    return
-                await route.continue_()
+            def reject_browser_request(reason):
+                browser_isolation_violations.append(reason)
+                print(f"SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: {reason}")
 
-            await ctx.route("**/*", enforce_browser_isolation)
+            await install_browser_network_guard(
+                ctx, browser_request_is_isolated, reject_browser_request
+            )
+            page = await ctx.new_page()
 
             errs: list[str] = []
             page.on("pageerror", lambda e: errs.append(str(e)))

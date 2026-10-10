@@ -9,6 +9,9 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "e2e"))
+from browser_network_guard import install_browser_network_guard
+
 PRODUCTION_APP_HOST = "simple-store-aid.lovable.app"
 PRODUCTION_SUPABASE_HOST = "dahzkekdirrngnkcxinv.supabase.co"
 FORBIDDEN_PRODUCTION_HOSTS = {PRODUCTION_APP_HOST, PRODUCTION_SUPABASE_HOST}
@@ -81,6 +84,16 @@ def network_origin(url_value: str) -> tuple[str, str, int] | None:
     if port is None:
         port = 80 if parsed.scheme == "http" else 443
     return (parsed.scheme, host, port)
+
+
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool) -> bool:
+    origin = network_origin(url_value)
+    if origin is None or hostname_from_url(url_value) in FORBIDDEN_PRODUCTION_HOSTS:
+        return False
+    if is_navigation and origin != BASE_ORIGIN:
+        return False
+    # Visual smoke is read-only; no fetch/XHR/form writes to any destination.
+    return method.upper() in {"GET", "HEAD", "OPTIONS"}
 
 
 def parse_whatwg_ipv4_number(part: str) -> int | None:
@@ -255,30 +268,16 @@ async def run():
                 locale="ar-EG",
                 service_workers="block",
             )
-            page = await ctx.new_page()
             isolation_violations: list[str] = []
 
-            async def enforce_visual_isolation(route):
-                request = route.request
-                request_host = hostname_from_url(request.url)
-                request_origin = network_origin(request.url)
-                forbidden_production = request_host in FORBIDDEN_PRODUCTION_HOSTS
-                off_origin_navigation = (
-                    request.is_navigation_request() and request_origin != BASE_ORIGIN
-                )
+            def reject_browser_request(reason):
+                isolation_violations.append(reason)
+                print(f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {reason}")
 
-                if forbidden_production or off_origin_navigation:
-                    isolation_violations.append(f"{request.method} {request.url}")
-                    print(
-                        f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {request.method} {request.url}"
-                    )
-                    await route.abort("blockedbyclient")
-                    return
-                await route.continue_()
-
-            # Context-scoped routing covers every page/popup, including each
-            # popup's initial navigation before a Page-scoped route could attach.
-            await ctx.route("**/*", enforce_visual_isolation)
+            await install_browser_network_guard(
+                ctx, browser_request_is_isolated, reject_browser_request
+            )
+            page = await ctx.new_page()
 
             errs = []
             page.on("pageerror", lambda error: errs.append(("pageerror", str(error))))

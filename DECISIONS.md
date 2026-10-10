@@ -1,5 +1,13 @@
 # Engineering Decisions
 
+## DEC-PRIMARY-ENV-001-R — Preserve reviewed remediation before integration
+
+- Date: 2026-10-10; authorized continuation of PR54.
+- Astra source review resumed and closed the recorded transport/font findings; outcome remains Blocked pending missing evidence. The earlier reviewer-capacity note below is historical.
+- Reconcile the 13 reviewed source blobs and preserve raw proof in an additive commit on PR54. Do not rewrite published history or mark bounded transport evidence as application/database isolation.
+- No capable local stack is available. The old cloud validation project is inactive and unverified; do not restore or use it as a shortcut. Obtain the documented fresh isolated runner before financial write tests.
+
+
 This file records decisions that govern Mongezz until replaced by an approved ADR or later decision entry.
 
 ## DEC-PRIMARY-ENV-001 — Continue isolated local candidate work
@@ -165,3 +173,12 @@ Candidate status only: native29 tests/typecheck/build pass; existing lint, broad
 - Keep the existing 24-hour resolution-age configuration and exclusions unchanged. The regenerated lock remains version 1 and installs with Bun 1.2.14 and 1.3.14; no CI toolchain or application runtime upgrade is made here.
 - Put the synthetic MCP adapter compatibility tests in `tests/unit` so existing Quality includes them. These tests do not approve application JWT, tenant isolation or financial behavior.
 - Hosted execution is blocked by the observed GitHub account payment/spending annotation. No billing change, spending increase, merge or deployment is authorized by this engineering decision.
+
+## DEC-019 — Isolated browser transport policy (2026-10-10)
+
+- Status: candidate remediation in existing draft PR54 under the owner's continuation request; independent bounded findings closed, global acceptance blocked.
+- Install one context HTTP/WebSocket guard before creating any page. No direct continuation: fetch without redirects/retries, reject all3xx, close WebSockets without connecting. Auth/destructive requests use exact configured app/API origins; visual policy stays read-only.
+- Fulfill the existing exact Google Fonts stylesheet URL offline with empty CSS only for GET/stylesheet/non-navigation; reject other uses. This intentionally uses fallback fonts and does not approve final typography. No provider request, app or package change.
+- Use production-built artifacts for browser smoke; local/CI uses the isolated Cloudflare emulator, explicit preview/staging visual targets remain supported. HMR and Realtime are outside these harnesses because WebSockets are blocked.
+- Preserve live before/after recorder evidence and substitute-browser/toolchain limitations. Passing dummy transport cases does not establish isolated Auth, migrations, RLS, tenants, finances or matching hosted execution.
+- No financial write harness before accepted isolation proof; no production access, billing/spending change, merge or deployment. Continue with the isolated runner sequence in changes/primary-env-001/ISOLATED_STACK_READINESS.md.

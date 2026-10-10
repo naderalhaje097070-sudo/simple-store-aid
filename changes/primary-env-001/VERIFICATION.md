@@ -1,5 +1,7 @@
 # PRIMARY-ENV-001 — verification and completion checkpoint
 
+Superseding transport/remediation checkpoint: see REMEDIATION_VERIFICATION.md and remediation-evidence.json. Independent Astra review ran after this original packet, found real transport defects and triggered fixes; final browser regression is67 cases/0 failures. The original statements below about unavailable browser/Astra evidence describe the initial packet only. Overall release/integration acceptance remains blocked.
+
 Date:2026-10-10. Repository:naderalhaje0970-droid/simple-store-aid. Candidate only; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae. Remote parent is PR53 head54c930166a776828566876771efdec86a997fa53; reuse source is PR48 head31958e53438b377a9896dd0bf7e9c268c1f14aef. Exact tested application/config/test/workflow Git blob fingerprints and raw proof hashes are in evidence.json. The new PR body records resulting immutable remote commit.
 
 ## Outcome and root cause

@@ -1,5 +1,13 @@
 # Review checkpoint — 2026-10-10
 
+## Superseding Astra remediation review
+
+Outcome remains **Blocked pending missing evidence**. Astra resumed independently, found ENV-A1/A2/A3, then reviewed the bounded corrections and closed all three plus the subsequently found font compatibility regression. Independent final browser execution:67 scenarios/0 failures on recorded substitute Chromium153. The production-build prerequisite and actual positive popup coverage were corrected. See ASTRA_REVIEW_INITIAL.md and ASTRA_REVIEW_FINAL.md for reviewed source fingerprints and limitations; remediation-evidence.json binds final implementation source/proof.
+
+No unresolved concrete Critical/High ENV source defect was identified in the reviewed boundary. This does not approve merge/release or financial execution. Final remote reconciliation, matching hosted browser/required checks, actual isolated DB/migrations/Auth/RLS/tenant/disabled-user/financial behavior and rollback evidence remain open, as do prior security/full-lint gates. ONE NEXT: capable isolated runner and exact-candidate integration evidence per ISOLATED_STACK_READINESS.md.
+
+## Historical initial capacity-blocked review
+
 Outcome: **Blocked pending missing evidence**.
 
 Independent Astra review was explicitly requested and attempted once. The agent stopped at its usage limit before delivering any code review. This is a capacity blocker, not an approval or a finding. No automatic or human merge acceptance is claimed.

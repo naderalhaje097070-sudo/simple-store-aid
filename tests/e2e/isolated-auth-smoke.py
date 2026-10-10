@@ -6,6 +6,8 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+from browser_network_guard import install_browser_network_guard
+
 LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
 PRODUCTION_APP_HOST = "simple-store-aid.lovable.app"
 BLOCK_SENTINEL = "SEC_ENV_AUTH_SMOKE_BLOCKED"
@@ -79,9 +81,10 @@ def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool
         return False
     if is_navigation and origin != APP_ORIGIN:
         return False
-    if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
+    api_origin = request_origin(os.environ.get("VITE_SUPABASE_URL", "http://127.0.0.1:54321"))
+    if api_origin is None or api_origin[0] != "http" or api_origin[1] not in LOOPBACK_HOSTS or api_origin[2] != 54321:
         return False
-    return True
+    return origin in {APP_ORIGIN, api_origin}
 
 
 BASE_URL = validate_app_origin()
@@ -129,25 +132,16 @@ async def main() -> None:
                 locale="ar-LY",
                 service_workers="block",
             )
-            page = await context.new_page()
             isolation_violations: list[str] = []
 
-            async def enforce_browser_isolation(route):
-                request = route.request
-                if not browser_request_is_isolated(
-                    request.method,
-                    request.url,
-                    request.is_navigation_request(),
-                ):
-                    isolation_violations.append(f"{request.method} {request.url}")
-                    print(
-                        f"SEC_ENV_AUTH_SMOKE_BROWSER_BLOCKED: {request.method} {request.url}"
-                    )
-                    await route.abort("blockedbyclient")
-                    return
-                await route.continue_()
+            def reject_browser_request(reason):
+                isolation_violations.append(reason)
+                print(f"SEC_ENV_AUTH_SMOKE_BROWSER_BLOCKED: {reason}")
 
-            await context.route("**/*", enforce_browser_isolation)
+            await install_browser_network_guard(
+                context, browser_request_is_isolated, reject_browser_request
+            )
+            page = await context.new_page()
 
             errors: list[str] = []
             page.on("pageerror", lambda error: errors.append(str(error)))

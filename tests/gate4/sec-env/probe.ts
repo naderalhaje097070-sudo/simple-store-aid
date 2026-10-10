@@ -228,6 +228,7 @@ const actualPythonHarnesses = e2eEntries
   .map((entry) => entry.name)
   .sort();
 const classifiedPythonHarnesses = [
+  "browser_network_guard.py", // shared HTTP/WebSocket containment
   "isolated-auth-smoke.py", // read-only; app-origin guarded below in E9
   "rapid-click-sale.py", // destructive; legacy in-file guard
   "sale-dashboard-close.py", // destructive; shared guard
@@ -336,6 +337,12 @@ for (const script of destructiveHarnesses) {
 const rapidSource = await Bun.file("tests/e2e/rapid-click-sale.py").text();
 const saleCloseSource = await Bun.file("tests/e2e/sale-dashboard-close.py").text();
 const sharedGuardSource = await Bun.file("tests/e2e/write_harness_guard.py").text();
+const networkGuardSource = await Bun.file("tests/e2e/browser_network_guard.py").text();
+function browserGuardWiredBeforePage(source: string, context: string): boolean {
+  const installation = source.indexOf("await install_browser_network_guard(");
+  const firstPage = source.indexOf(`await ${context}.new_page()`);
+  return installation >= 0 && installation < firstPage && !source.includes("route.continue_()");
+}
 const runnerSource = await Bun.file("tests/e2e/run.sh").text();
 
 const rapidPreflightBeforeNetwork =
@@ -356,10 +363,13 @@ const sharedGuardPinsPsqlRouting =
   sharedGuardSource.includes("env=_psql_env(config)");
 const destructiveNavigationGuardWired =
   sharedGuardSource.includes("is_navigation and host not in LOOPBACK_HOSTS") &&
-  rapidSource.includes("request.is_navigation_request()") &&
-  saleCloseSource.includes("request.is_navigation_request()") &&
-  rapidSource.includes('await ctx.route("**/*", enforce_browser_isolation)') &&
-  saleCloseSource.includes('await ctx.route("**/*", enforce_browser_isolation)');
+  networkGuardSource.includes("request.is_navigation_request()") &&
+  networkGuardSource.includes("max_redirects=0") &&
+  networkGuardSource.includes("max_retries=0") &&
+  networkGuardSource.includes("300 <= response.status < 400") &&
+  networkGuardSource.includes('await context.route_web_socket("**/*", enforce_websocket)') &&
+  browserGuardWiredBeforePage(rapidSource, "ctx") &&
+  browserGuardWiredBeforePage(saleCloseSource, "ctx");
 const rapidPsqlStartupDisabled =
   (rapidSource.match(/subprocess\.run\(\["psql", "-X"/g)?.length ?? 0) >= 2;
 const runnerPreflight = 'python3 "$HERE/sale-dashboard-close.py" --preflight-only';
@@ -455,7 +465,7 @@ const authPreflightBeforeCredentials =
     authSource.indexOf('EMAIL = os.environ["PILOT_QA_EMAIL"]') &&
   authSource.indexOf("BASE_URL = validate_app_origin()") <
     authSource.indexOf("from playwright.async_api") &&
-  authSource.includes('await context.route("**/*", enforce_browser_isolation)');
+  browserGuardWiredBeforePage(authSource, "context");
 
 if (
   !blocked(authMissingMarker, "SEC_ENV_AUTH_SMOKE_BLOCKED") ||
@@ -509,7 +519,7 @@ const visualCanonicalizesAndBlocksRuntime =
   visualSource.includes('.encode("idna")') &&
   visualSource.includes("PRODUCTION_SUPABASE_HOST") &&
   visualSource.includes("FORBIDDEN_PRODUCTION_HOSTS") &&
-  visualSource.includes('await ctx.route("**/*", enforce_visual_isolation)');
+  browserGuardWiredBeforePage(visualSource, "ctx");
 
 if (
   !blocked(visualMissing, "SEC_ENV_VISUAL_SMOKE_BLOCKED") ||

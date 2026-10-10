@@ -1,4 +1,16 @@
-## Current execution checkpoint — PRIMARY-ENV-001, 2026-10-10
+## Current execution checkpoint — PRIMARY-ENV-001 Astra remediation, 2026-10-10
+
+This top checkpoint supersedes the initial ENV review/capacity status below. Existing draft PR54 is extended additively; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae. Only naderalhaje0970-droid/simple-store-aid is active.
+
+Independent Astra review resumed and found three browser transport gaps: redirected requests escaped routing, WebSockets were unintercepted, and auth/destructive policies allowed unrelated loopback origins. The shared context guard now blocks redirects without retries, intercepts/closes WebSockets before pages, and pins the exact app/API HTTP origins. Rereview also corrected the existing font dependency with an exact offline stylesheet stub and standardized local/CI prerequisites on the production-built emulator. Screenshots use fallback fonts. No application, schema, financial or dependency change.
+
+Actual browser evidence: original47 cases/36 failures; final67 cases/0 failures on recorded substitute Chromium153. Astra independently reproduced67 passing cases and closed the three initial findings and font compatibility defect for the reviewed source. Outcome remains **Blocked pending missing evidence**, not release/merge approval. Source fingerprints and logs are in changes/primary-env-001/remediation-evidence.json; final review in ASTRA_REVIEW_FINAL.md. Initial60 unit/125 expectations,8 wrapper/stub cases, typecheck/build evidence remains applicable to unchanged application source; changed Gate4/lint/Python/shell/YAML/diff checks passed.
+
+No working Docker/Podman/Supabase/PostgreSQL tooling is present; the loopback fixtures are not an application/database stack. Real migration/Auth/RLS/tenant/disabled-user and financial/concurrency/rollback evidence is missing. Hosted checks still lack runner execution under the quota/spending blocker. Prior security/full-lint/PWA gates and11Moderate/5Low findings remain open. No database writes, migration, production access, merge, deployment or payment/budget change occurred.
+
+ONE NEXT: obtain a capable isolated runner and execute the exact candidate's fresh stack/production-build Auth and tenant-isolation sequence in ISOLATED_STACK_READINESS.md, then obtain matching hosted checks and gate acceptance before financial write tests. Preserve main and current draft history.
+
+## Historical initial ENV checkpoint — 2026-10-10
 
 This checkpoint supersedes older scheduling below. Work continues only in naderalhaje0970-droid/simple-store-aid. main remains 43d6edbccb66fb06ce0fcb93734ad59532d1aeae. The owner authorized local ENV implementation despite hosted Actions limits; security/release acceptance gates remain open.
 

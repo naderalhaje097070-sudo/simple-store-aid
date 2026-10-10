@@ -1,3 +1,17 @@
+## Current execution checkpoint — PRIMARY-ENV-001 runner feasibility, 2026-10-10
+
+Source verified directly from GitHub: draft PR54 head `0e616d0013fd72de244686f10c8de5a12488f312`, base PR53 `54c930166a776828566876771efdec86a997fa53`; main remains `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. No merge/release occurred. This read-only/runtime-feasibility packet supersedes the older assumption that Docker is the only possible local runtime, without approving a toolchain change.
+
+The old `mongezz-pr35-validation` cloud project is INACTIVE in a Free organization. Metadata does not expose pause date, schema/data provenance or exact-candidate migration compatibility. No restore, keys, SQL, backup download or cloud provisioning was performed; it is not accepted as a test target.
+
+Current official Supabase documentation supports experimental native local stacks in CLI >=2.119.0. Downloaded scratch CLI2.120.0 was verified against the official release SHA256 and its help. A clean-environment/default-config native bootstrap failed before starting PostgreSQL: **PostgreSQL cannot be run as root**. This runtime maps only UID/GID0; both non-root transition and user-namespace probes fail. No container runtime/socket exists either. A new CLI executable alone cannot overcome these runtime restrictions; the repository CLI2.101.0 pin and application source remain unchanged.
+
+GitHub Quality run38073032780/job114274195972 on the reviewed head is failure with runner_id0 and empty steps. No new retry was requested; current specific startup annotation remains unverified. Prior billing/quota evidence remains historical, not a new billing inspection.
+
+Evidence: changes/primary-env-001/RUNNER_FEASIBILITY.md and runner-feasibility.json. No new unit/browser/application/database/financial test passed in this packet; preserve the previous bounded67-case evidence without promoting it to integration acceptance.
+
+ONE NEXT: run the exact candidate on a capable disposable runner: preferably the existing Docker/CLI2.101.0 workflow once hosted capacity returns; alternatively assess CLI2.120.0 native on a supported non-root runner as an explicit experimental tooling change. Prove fresh migrations/Auth/RLS/two-tenant/disabled-user isolation and obtain its gate acceptance before financial write tests. No new cost, production access, merge or deployment.
+
 ## Current execution checkpoint — PRIMARY-ENV-001 Astra remediation, 2026-10-10
 
 This top checkpoint supersedes the initial ENV review/capacity status below. Existing draft PR54 is extended additively; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae. Only naderalhaje0970-droid/simple-store-aid is active.

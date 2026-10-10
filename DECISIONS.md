@@ -1,3 +1,11 @@
+## DEC-020 — Runtime feasibility and unchanged cloud boundary (2026-10-10)
+
+- Status: authorized runner investigation; documentation candidate only.
+- Current public documentation adds an experimental native runtime requiring CLI >=2.119.0, so absence of Docker is not a universal Supabase limitation. Existing repository CLI2.101.0 and Docker CI remain unchanged.
+- A scratch CLI2.120.0 native probe failed before PostgreSQL startup; the environment only maps UID/GID0, cannot transition to a non-root account and cannot create a user namespace. Do not patch PostgreSQL to run as root, bypass host restrictions or label an unavailable stack as tested.
+- Free-plan metadata for the old validation project does not establish fresh schema/data isolation or exact-candidate compatibility. Preserve DEC-PRIMARY-ENV-001-R: do not restore it as a shortcut. No cloud project restore/creation or cost is approved by this record.
+- Select a capable disposable runner and preserve exact source/runtime identity. A native runner would need explicit experimental-toolchain assessment and cannot replace matching hosted acceptance by inference. Financial write harnesses remain blocked until real isolation proof and gate acceptance.
+
 # Engineering Decisions
 
 ## DEC-PRIMARY-ENV-001-R — Preserve reviewed remediation before integration

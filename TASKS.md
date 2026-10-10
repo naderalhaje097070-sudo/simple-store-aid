@@ -1,3 +1,15 @@
+## Current queue checkpoint — PRIMARY-ENV-001 runner feasibility, 2026-10-10
+
+- [x] Re-read PR54 head `0e616d0013fd72de244686f10c8de5a12488f312`, PR53 base and unchanged main directly from GitHub.
+- [x] Cloud metadata: old validation project INACTIVE; organization Free. No accepted schema/data provenance or restore suitability; no cloud action.
+- [x] Container prerequisites absent; user namespace creation denied; UID/GID mappings only permit root and non-root transition fails.
+- [x] Discovered official native-stack alternative; scratch CLI2.120.0 archive SHA256 verified and actual help inspected. Clean default native bootstrap exits1: PostgreSQL cannot run as root. No database service or migration started.
+- [x] Re-read latest Quality job: failure, runner_id0, steps[]. No blind rerun or spending change.
+- [ ] ONE NEXT: capable disposable Docker runner using existing CLI2.101.0, or separately evaluated experimental native non-root runner. Execute fresh exact-candidate migration/Auth/tenant/RLS/disabled-user proof before requesting isolation acceptance.
+- [ ] Required hosted checks, isolation gate and financial tests remain blocked; existing security/lint/PWA blockers unchanged.
+
+Evidence: changes/primary-env-001/{RUNNER_FEASIBILITY.md,runner-feasibility.json}. Older checkpoints remain history.
+
 ## Current queue checkpoint — PRIMARY-ENV-001 Astra remediation, 2026-10-10
 
 - [x] Independent Astra source review resumed; original ENV-A1/A2/A3 findings recorded.

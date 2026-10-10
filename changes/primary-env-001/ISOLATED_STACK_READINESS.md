@@ -24,3 +24,13 @@ No application session, database connection, migration, financial test body, pro
 Read-only Supabase project inventory exposes an older `mongezz-pr35-validation` project, but it is INACTIVE. Its name does not prove a fresh isolated database, a matching migration chain, or a safe test target. No credentials, database content, restore, provisioning or write was requested. This project cannot substitute for the documented fresh local-stack evidence. The local Docker/Podman/CLI/database executable and socket checks remain negative. Official Supabase local-development documentation again confirms a Docker-API-compatible runtime is required.
 
 Source reconciliation before remote save: all 13 source blobs in ASTRA_REVIEW_FINAL.md match the working files. Corrected stale initial fingerprints and 47-case summary in remediation-evidence.json to preserve the final 67-case strict-launch evidence separately from historical runs. No unchanged browser/application test was repeated.
+
+## Fresh runtime feasibility — 2026-10-10
+
+Supersedes the universal Docker-only assumption in the historical inventory above. Official current documentation provides experimental native stacks in CLI >=2.119.0; this does not change the repository's CLI2.101.0 Docker workflow.
+
+Scratch CLI2.120.0 was checksum-verified and its actual `stack start --help` inspected. In a separate empty scratch directory with a clean environment and no app/cloud configuration, one native bootstrap failed immediately with `PostgreSQL cannot be run as root`. UID/GID maps contain only0, the non-root transition returned EINVAL, and `unshare -Ur true` failed with Operation not permitted. No stack service or migration started. Downloading Docker/CLI packages cannot resolve the host capabilities/mapping restrictions.
+
+Cloud metadata independently confirms the old validation project INACTIVE and its organization Free; pause date, data provenance and schema suitability remain unavailable. No restoration/SQL/credential request was performed.
+
+Next: use a capable disposable Docker runner with the current pinned workflow, or assess an experimental native non-root runner separately; then follow the migration/Auth/RLS/tenant/disabled-user sequence above. Details and commands: RUNNER_FEASIBILITY.md and runner-feasibility.json. Hosted Quality still has no executed steps on the observed head.

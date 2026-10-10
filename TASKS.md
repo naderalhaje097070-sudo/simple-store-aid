@@ -1,3 +1,13 @@
+## Current queue checkpoint — 2026-10-10
+
+- [x] PRIMARY-SEC-002 local candidate: Critical/High audit triage and compatible dependency corrections prepared; audit now reports 0 Critical and 0 High records; native frozen install/typecheck/unit/build/changed-file lint/diff-check evidence saved. Candidate only; not on main.
+- [ ] PRIMARY-SEC-002 PR packaging and acceptance: create/update focused draft PR stacked after PRIMARY-SEC-001; record hosted CI behavior; obtain independent review; do not waive remaining Low/Moderate audit findings or previous lint/CI blockers.
+- [ ] ONE NEXT — PRIMARY-ENV-001 after security PR evidence is stable: reconcile fail-closed environment isolation before write-capable financial tests.
+- [ ] Track remaining security maintenance: Moderate/Low findings remain for `@babel/core`, `@hono/node-server`, `dompurify`, `esbuild`, `hono`, and `qs`.
+- [ ] Financial gates remain blocked until environment isolation and canonical financial write evidence are proven.
+
+Evidence: changes/primary-sec-002/VERIFICATION.md. Earlier PRIMARY-SEC-002-as-next statements below are historical.
+
 ## Current queue checkpoint — 2026-10-09
 
 - [x] PRIMARY-SEC-001 candidate preparation: official transport/serializer patch verification, generated lock, three negative/positive advisory guards, minimal ErrorComponentProps compatibility, native29 tests and typecheck/build evidence saved. Candidate only; not on main.

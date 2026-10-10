@@ -139,3 +139,11 @@ Within the owner's authorized security batch, use the official minimum patched r
 Use provider ErrorComponentProps in the two error boundaries; retain behavior and accept error:unknown without casts. Generated route/lock files come from their generators. Lock resolution uses Bun1.3.14 with the existing24-hour release-age policy; the current CI Bun1.2.14 was tested for frozen-install compatibility but its supply-chain enforcement gap is not claimed fixed.
 
 Candidate status only: native29 tests/typecheck/build pass; existing lint, broader audit, hosted CI and review block global acceptance. PRIMARY-SEC-002 is prioritized by newly proven audit evidence before PRIMARY-ENV-001. No financial rule, schema, release approval, merge or deployment decision is changed. See changes/primary-sec-001/VERIFICATION.md.
+
+## DEC-017 — Critical/High dependency advisory floors (2026-10-10)
+
+- Status: Candidate decision in the owner's authorized security batch; not merged or released.
+- Decision: preserve explicit patched floors for current Critical/High audit groups: `@modelcontextprotocol/sdk` 1.31.0, `proxy-addr` 2.0.8, `shell-quote` 1.11.0, `brace-expansion` 1.1.21 / 2.1.7 / 5.0.12 by major line, `browserslist` 4.29.3, `fast-uri` 3.1.8, `ip-address` 10.7.3, `js-yaml` 4.3.2, `nanoid` 3.3.19, `postcss` 8.5.29, and `source-map-js` 1.2.2.
+- Rationale: `bun audit` on the prior candidate still reported 2 Critical and 33 High package/advisory records. After these floors, current audit has 0 Critical and 0 High records.
+- Tooling note: Bun 1.3.14 did not apply nested overrides for the three `brace-expansion` major lines, so the lockfile carries the compatible major-specific entries and the unit guard enforces them. Frozen install was verified with Bun 1.3.14 and Bun 1.2.14.
+- Consequence: future dependency refreshes must keep the dependency-security guard green and must not silently reintroduce the vulnerable floors. Remaining Moderate/Low audit records, hosted CI, independent review, runtime auth/MCP, financial gates, merge, and deployment remain outside this decision.

@@ -1,3 +1,15 @@
+## Current execution checkpoint — PRIMARY-SEC-002, 2026-10-10
+
+This top block supersedes older current checkpoints below. Application main still remains unmodified at `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. A second focused security candidate batch is prepared in this working tree, continuing from PRIMARY-SEC-001, and is not merged or released.
+
+Resolved the remaining current Critical/High dependency-audit groups by pinning compatible patched transitive versions for MCP SDK, proxy address parsing, shell quoting, brace expansion, browserslist, URI/IP/YAML parsing, PostCSS, NanoID and source-map parsing. `bun audit` changed from 65 package/advisory records with 2 Critical and 33 High records to 16 records with 0 Critical and 0 High records. Remaining findings are Low/Moderate only and are not release-accepted.
+
+Native evidence: Bun 1.3.14 frozen install passed; Bun 1.2.14 frozen install passed; typecheck passed; unit tests passed at 40/40 with 86 expectations; build passed using local Supabase fixture values; changed-file lint for the dependency guard passed; `git diff --check` passed. Details: `changes/primary-sec-002/VERIFICATION.md` and `evidence.json`.
+
+Known limits: no hosted CI rerun, independent review, runtime MCP/auth/tenant test, financial write test, migration, merge, or deployment ran. PRIMARY-SEC-001 acceptance blockers still apply until exact-head PR/CI/review evidence exists.
+
+ONE NEXT: package this security batch as its own draft candidate PR stacked after PRIMARY-SEC-001, then request/record independent review. After security PR evidence is stable, proceed to PRIMARY-ENV-001 to reconcile fail-closed environment isolation before any financial write-capable tests.
+
 ## Current execution checkpoint — PRIMARY-SEC-001, 2026-10-09
 
 This top block supersedes the planning-only status below. Application main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae. A focused security candidate is prepared on sec/primary-sec-001-tanstack-2026-10-09, stacked on PR51's planning branch. It is a draft, not accepted on main or released.

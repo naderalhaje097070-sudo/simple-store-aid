@@ -1,3 +1,28 @@
+## Current checkpoint — ENV-NATIVE-01 clean baseline, 2026-10-11 Africa/Tripoli
+
+Active repository: `naderalhaje097070-sudo/simple-store-aid`.
+Main remains `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`; this candidate
+is stacked on draft PR57 `fd2bed16a051a6d4de44f8b97c1a5ba9a36e50fc`.
+Branch: `test/env-native-01-clean-baseline-2026-10-11`. No merge or release.
+
+The owner replied «انت المسؤول» to the concrete PR57 approval request.
+Recorded as delegated technical approval for Gates0–3 / L01–L15 isolated scope,
+not merge, deployment, cost or core financial-contract approval. Issue #55 records
+the sole implementer's claim. This bounded batch builds a focused nonfinancial
+Gate4 baseline on an existing GitHub runner with pinned Supabase CLI2.101.0.
+Five new local harness safety tests pass; hosted evidence is pending.
+See [execution record](changes/env-native-01/CLEAN_BASELINE.md).
+
+A named expected-red baseline demonstrates the old-JWT defect; it never accepts
+an authorization fix, broad lifecycle isolation, financial tests or release gates.
+Actual pg_catalog and provider schema must be captured before implementation.
+MCP/admin, nonempty history, expired/deleted actors and broad writes remain open.
+ONE NEXT: execute the clean focused baseline, reconcile its actual catalog/results,
+then design the minimum forward-only enforcement correction with independent review.
+
+Prior checkpoints below are preserved historical candidate records.
+
+---
 ## Current checkpoint — ENV-NATIVE-01 preparation, 2026-10-10
 
 Active repository: `naderalhaje097070-sudo/simple-store-aid`.

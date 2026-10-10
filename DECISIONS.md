@@ -1,3 +1,18 @@
+## DEC-ENV-NATIVE-01-BASELINE — Delegated approval and bounded execution
+
+2026-10-11 Africa/Tripoli. Owner «انت المسؤول» delegates technical responsibility
+after review material in PR57; Gates0–3 / L01–L15 isolated scope are approved for
+routine implementation, without merge/deploy/cost/financial contract approval.
+Use the existing GitHub runner, repository-pinned CLI2.101.0, separate temporary
+CLI config and exact41 migrations. No production identity/config or source changes.
+Keep the harness fail-closed before credential reads; real loopback Auth tokens
+are distinct from SQL RLS checks. Expected-red is a named regression, never green
+authorization acceptance. Preserve all prior failed evidence and missing coverage.
+This batch changes only tests, workflow and documentation. Enforcement migration
+and independent acceptance follow actual catalog reconciliation. Rollback: revert
+these additive candidate commits; no database correction has been applied.
+
+---
 ## DEC-ENV-NATIVE-01-PREP — Lifecycle intake candidate
 
 2026-10-10. Routine owner-authorized preparation only; proposed authorization design

@@ -1,7 +1,6 @@
 The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
 vite v8.0.16 building client environment for production...
-[2K
-transforming...[plugin tanstack-start-core::server-fn:client] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[2Ktransforming...[plugin tanstack-start-core::server-fn:client] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 ✓ 2224 modules transformed.
 rendering chunks...
 computing gzip size...
@@ -67,8 +66,7 @@ warnings
 }
 
 vite v8.0.16 building ssr environment for production...
-[2K
-transforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts?tss-serverfn-split:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[2Ktransforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts?tss-serverfn-split:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 [plugin tanstack-start-core::server-fn:ssr] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
 ✓ 136 modules transformed.
 rendering chunks...
@@ -132,8 +130,7 @@ vite v8.0.16 building nitro environment for production...
 
  WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified.
 
-[2K
-transforming...✓ 3520 modules transformed.
+[2Ktransforming...✓ 3520 modules transformed.
 rendering chunks...
 computing gzip size...
 .output/server/_ssr/empty-plugin-adapters-si4Xcmkm.mjs                 0.25 kB │ gzip:   0.17 kB

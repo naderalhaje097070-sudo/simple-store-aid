@@ -1,0 +1,79 @@
+bun test v1.2.14 (6a363a38)
+
+tests/unit/dependency-security.test.ts:
+(pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [2.16ms]
+(pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [0.38ms]
+(pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy [0.43ms]
+(pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy [0.34ms]
+(pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy [0.40ms]
+(pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy [0.40ms]
+(pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy [0.33ms]
+(pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy [0.32ms]
+(pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy [0.33ms]
+(pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy [0.36ms]
+(pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy [0.33ms]
+(pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy [0.32ms]
+(pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy [0.34ms]
+(pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy [0.63ms]
+
+tests/unit/invoice-selectors.test.ts:
+(pass) invoice finance selectors > direct fully paid has zero remaining debt [0.14ms]
+(pass) invoice finance selectors > direct partially paid debt equals remaining [0.03ms]
+(pass) invoice finance selectors > direct full debt equals total [0.02ms]
+(pass) invoice finance selectors > returned direct order has no customer debt or courier custody [0.05ms]
+(pass) invoice finance selectors > courier pending is pending value, not customer debt [0.07ms]
+(pass) invoice finance selectors > courier delivered_none creates full customer debt [0.02ms]
+(pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part [0.02ms]
+(pass) invoice finance selectors > courier delivered_full creates no customer debt [0.02ms]
+(pass) invoice finance selectors > courier returned has no customer debt or courier custody [0.03ms]
+(pass) invoice finance selectors > courier custody full equals collected money [0.02ms]
+(pass) invoice finance selectors > courier custody partial equals collected money [0.01ms]
+(pass) invoice finance selectors > zero remaining stays zero [0.02ms]
+(pass) invoice finance selectors > item cost is cost times quantity [0.03ms]
+(pass) invoice finance selectors > gross margin is total minus item costs [0.14ms]
+(pass) invoice finance selectors > direct debt can be collected [0.05ms]
+(pass) invoice finance selectors > returned order cannot be collected [0.03ms]
+(pass) invoice finance selectors > courier pending cannot be collected [0.02ms]
+(pass) invoice finance selectors > courier delivered_none can be collected [0.02ms]
+(pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement [0.02ms]
+(pass) invoice finance selectors > courier delivered_full cannot be collected [0.03ms]
+(pass) invoice finance selectors > item margin uses price minus cost times quantity [0.05ms]
+(pass) invoice finance selectors > gross margin and item margin remain separate concepts [0.04ms]
+
+tests/unit/mcp-dependency-compatibility.test.ts:
+(pass) Lovable MCP adapter initializes with the overridden SDK [27.08ms]
+(pass) Lovable MCP adapter lists and invokes a Zod tool [17.40ms]
+(pass) invalid arguments do not invoke the synthetic tool [3.77ms]
+[mcp-js] auth.no_bearer_token {
+  outcome: "401",
+}
+(pass) protected fixture rejects a missing bearer without external requests [1.34ms]
+
+tests/unit/supabase-build-config.test.ts:
+(pass) Supabase build configuration > accepts explicit isolated CI configuration [0.56ms]
+(pass) Supabase build configuration > accepts matching browser and server aliases [0.12ms]
+(pass) Supabase build configuration > rejects divergent browser and server aliases [0.25ms]
+(pass) Supabase build configuration > uses server aliases when VITE aliases are absent [0.09ms]
+(pass) Supabase build configuration > hydrates missing server aliases only from validated resolved values [0.12ms]
+(pass) Supabase build configuration > server alias hydration cannot overwrite divergent explicit aliases [0.08ms]
+(pass) Supabase build configuration > runtime identity must match the baked build identity [0.37ms]
+(pass) Supabase build configuration > fails closed when deployment target is missing or unsupported [0.09ms]
+(pass) Supabase build configuration > fails closed when explicit Supabase values are missing or blank [0.07ms]
+(pass) Supabase build configuration > blank VITE aliases do not override usable server aliases [0.06ms]
+(pass) Supabase build configuration > deployment targets require their approved endpoint class [0.15ms]
+(pass) Supabase build configuration > rejects URL routing components instead of canonicalizing them away [0.12ms]
+(pass) Supabase build configuration > non-production targets reject the production host or project [0.06ms]
+(pass) Supabase build configuration > terminal DNS dots cannot bypass production isolation [0.15ms]
+(pass) Supabase build configuration > production requires the exact approved endpoint and explicit key [0.13ms]
+(pass) Supabase build configuration > remote Supabase URL and project ID must match [0.05ms]
+
+tests/unit/supabase-public-key.test.ts:
+(pass) public Supabase configuration rejects privileged credentials > rejects privileged key format secret [0.08ms]
+(pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT [0.10ms]
+(pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT [0.02ms]
+(pass) public Supabase configuration rejects privileged credentials > accepts legacy anon and publishable fixtures [0.13ms]
+
+ 60 pass
+ 0 fail
+ 125 expect() calls
+Ran 60 tests across 5 files. [321.00ms]

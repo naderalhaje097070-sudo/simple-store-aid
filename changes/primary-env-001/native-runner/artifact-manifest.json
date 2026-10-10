@@ -1,0 +1,82 @@
+{
+  "source-match.json": {
+    "bytes": 157,
+    "sha256": "3d14e6aa30c788fa3a179b6017515c10952a8c376740d22782e26bb38035ec06"
+  },
+  "native-start.log": {
+    "bytes": 6133,
+    "sha256": "6693e4d52bb1501e3f22101221c31fd6e03958ff75636e27b0422586dd1b3fc0"
+  },
+  "fresh-inventory.log": {
+    "bytes": 651,
+    "sha256": "83dc08c16c35c6cb383b7b5c60240c635cd37e7ed824c9090e1c5840acfaa75b"
+  },
+  "owner-trigger-check.log": {
+    "bytes": 309,
+    "sha256": "e6cfae144029709773da8641effb0269e9befda3187859f85ed210eb0d873ef3"
+  },
+  "auth-tenant-probe.json": {
+    "bytes": 2663,
+    "sha256": "105ab7ffd5f1635cd0a22436faa8166139fa75d22aee8a9162e24ed6ee57dce0"
+  },
+  "frozen-install.log": {
+    "bytes": 2312,
+    "sha256": "d525fe012ff2810d7f520c58be76f6528893e83cb4265b0e809a6609612bac0d"
+  },
+  "gate4.log": {
+    "bytes": 95,
+    "sha256": "e2760645daa6198ad2f82056efc9551bc6908b6f290ac3d162008bcd527aef3a"
+  },
+  "auth-preflight.log": {
+    "bytes": 70,
+    "sha256": "d15b661cfe9e51a8f7811288360020af70b0486eb67c62bae1c4a9ec266fe60b"
+  },
+  "unit.log": {
+    "bytes": 6285,
+    "sha256": "8bcaba6e445d2f5d4fb1045d97b8885df5e10e2d312b0bd61ff39b4259809fd2"
+  },
+  "typecheck.log": {
+    "bytes": 15,
+    "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+  },
+  "build.log": {
+    "bytes": 17514,
+    "sha256": "617c3b2b8a60a32679b937a36cbbc0f967c07bca6011890f406ef870f7b4e9d6"
+  },
+  "build-checks.json": {
+    "bytes": 264,
+    "sha256": "201bec0488e79dc49de3cb7f2feb1aef80416eb7498f57232a911000f44fa8fd"
+  },
+  "browser-install.log": {
+    "bytes": 43926,
+    "sha256": "3ed501c4dd8b6a1f69a32e2d9b861f0ed2486b99cfc2b0675016591e5bfc7e1a"
+  },
+  "emulator-initial-bunx-failure.log": {
+    "bytes": 38,
+    "sha256": "5edb5f67874c3d78a24edeb4550cb6f32f990c4a1a31ca8bfafb4cbbf0756fcf"
+  },
+  "emulator.log": {
+    "bytes": 25215,
+    "sha256": "08361ab51612c689edfa531915d3b60f3b826c7dde37ebda80e2cdd6c134a7f5"
+  },
+  "auth-ui.log": {
+    "bytes": 38,
+    "sha256": "094e8db5a086cf324823f5d41224acc6f95706a3435d670ba6bccfa0dbdbb8fc"
+  },
+  "auth-ui-result.json": {
+    "bytes": 133,
+    "sha256": "2bb4ec2c1a331209eff18a7760aa695409febbc3755df7924766b22b56cd2e29"
+  },
+  "final-inventory.json": {
+    "bytes": 109,
+    "sha256": "b9958cd76d7fb253a45f62c52756b1c488da90e88cf26024666639808ef6e037"
+  },
+  "desktop.png": {
+    "bytes": 93814,
+    "sha256": "9d536823b07acc834444d5ee43abdfa61bb3c037338e7975b20c6e9f0f7ffc72"
+  },
+  "mobile.png": {
+    "bytes": 61809,
+    "sha256": "a2f26e48ebba31cc283cf6f96fc3daebdd179b2454b75cb0518a77a5eee9d07d"
+  }
+}

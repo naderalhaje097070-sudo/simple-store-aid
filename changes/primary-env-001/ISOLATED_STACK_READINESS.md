@@ -1,3 +1,7 @@
+## Current execution status — 2026-10-10
+
+The missing runtime was obtained on a disposable non-root Vercel runner. Exact PR54 head84c3444 ran41 fresh migrations, bounded Auth/tenant metadata probes and production-built desktop/mobile Auth UI. This environment was stopped after evidence retrieval. Acceptance remains blocked by ENV-NATIVE-01 (pre-ban JWT retains own-tenant access), incomplete authorization/hosted evidence and independent review. No financial harness ran. See [NATIVE_RUNNER_VERIFICATION.md](NATIVE_RUNNER_VERIFICATION.md) and native-runner/. The inventory below is historical; the repository Docker/CLI2.101.0 pin is unchanged.
+
 # Isolated application/database execution readiness — 2026-10-10
 
 Status: **Blocked pending missing execution environment**. This is a readiness inventory, not an integration test.

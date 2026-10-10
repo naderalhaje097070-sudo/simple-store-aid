@@ -1,0 +1,101 @@
+{
+  "source": "84c3444fcdf5fa2825809192cda5b15561c950cf",
+  "reviewed_implementation": "0e616d0013fd72de244686f10c8de5a12488f312",
+  "base": "54c930166a776828566876771efdec86a997fa53",
+  "main": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "sandbox": {
+    "name": "simple-store-aid-env-validation-20261010",
+    "currentSessionId": "sbx_Efpz90k5MLJoNiv6n3PSSOwGbTqy",
+    "status": "stopped",
+    "statusUpdatedAt": 1791660848810,
+    "persistent": false,
+    "region": "iad1",
+    "failoverRegions": [],
+    "vcpus": 4,
+    "memory": 8192,
+    "runtime": "node22",
+    "architecture": "amd64",
+    "image": "vercel/sandbox/ubuntu@sha256:a1a45af3ee30a8f31fc8b284c615cb845ae86f9d613607cf8f5241203ddddf5e",
+    "timeout": 1800000,
+    "snapshotExpiration": 604800000,
+    "totalEgressBytes": 2378247,
+    "totalIngressBytes": 958051345,
+    "totalActiveCpuDurationMs": 218177,
+    "totalDurationMs": 905775,
+    "cwd": "/vercel",
+    "tags": {
+      "purpose": "isolated-env-validation",
+      "repository": "naderalhaje0970-droid/simple-store-aid",
+      "source": "84c3444fcdf5fa2825809192cda5b15561c950cf"
+    },
+    "createdAt": 1791659942783,
+    "updatedAt": 1791659942783
+  },
+  "session": {
+    "id": "sbx_Efpz90k5MLJoNiv6n3PSSOwGbTqy",
+    "runtime": "node22",
+    "architecture": "amd64",
+    "requestedAt": 1791659942664,
+    "startedAt": 1791659942691,
+    "requestedStopAt": 1791660846808,
+    "stoppedAt": 1791660848466,
+    "status": "stopped",
+    "duration": 905775,
+    "vcpus": 4,
+    "memory": 8192,
+    "timeout": 1800000,
+    "region": "iad1",
+    "cwd": "/vercel",
+    "createdAt": 1791659942664,
+    "updatedAt": 1791659942701,
+    "interactivePort": 26661,
+    "activeCpuDurationMs": 218177,
+    "networkTransfer": {
+      "ingress": 958051345,
+      "egress": 2378247
+    },
+    "sourceSandboxName": "simple-store-aid-env-validation-20261010",
+    "projectId": "prj_dWYK6gQDj6tFr2SUlD7ZN2h797gS"
+  },
+  "public_routes": [],
+  "snapshots_created": false,
+  "production_credentials_supplied": false,
+  "services": {
+    "enabled": [
+      "database",
+      "auth",
+      "rest"
+    ],
+    "excluded": [
+      "realtime",
+      "storage",
+      "functions",
+      "studio",
+      "mail",
+      "analytics",
+      "pooler"
+    ]
+  },
+  "toolchain": {
+    "supabase": "2.120.0 native experimental",
+    "node": "22.16.0",
+    "bun": "1.2.14",
+    "playwright": "1.62.0",
+    "chromium": "151.0.7922.34 (matching Playwright v1234)",
+    "wrangler": "4.149.0",
+    "compatibility_date": "2026-08-08"
+  },
+  "verified_download_sha256": {
+    "supabase": "7074584113aa00495beeac661c41fb09f1ddd0a483cd7333894b0d080086dc6e",
+    "node": "f4cb75bb036f0d0eddf6b79d9596df1aaab9ddccd6a20bf489be5abe9467e84e"
+  },
+  "archive": {
+    "archive_bytes": 172975,
+    "archive_sha256": "5d3ea4bb9976c4dc6df0927eeab21b11e04e4b1c646449f169f72650188f5d19",
+    "chunks": 129,
+    "source_mismatches": [],
+    "utc": "2026-10-10T19:30:10.110494+00:00"
+  },
+  "acceptance": "Blocked: disabled-account existing JWT access; scope/hosted/review coverage incomplete",
+  "financial_harnesses_executed": false
+}

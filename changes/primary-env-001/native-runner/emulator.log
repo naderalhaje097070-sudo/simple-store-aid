@@ -1,0 +1,209 @@
+Resolving dependencies
+Resolved, downloaded and extracted [250]
+Saved lockfile
+
+ ⛅️ wrangler 4.149.0
+────────────────────
+Using secrets defined in ../worker.env
+Your Worker has access to the following bindings:
+Binding                                             Resource                  Mode
+env.ASSETS                                          Assets                    local
+env.MONGEZZ_DEPLOY_TARGET ("(hidden)")              Environment Variable      local
+env.VITE_SUPABASE_URL ("(hidden)")                  Environment Variable      local
+env.SUPABASE_URL ("(hidden)")                       Environment Variable      local
+env.VITE_SUPABASE_PUBLISHABLE_KEY ("(hidden)")      Environment Variable      local
+env.SUPABASE_PUBLISHABLE_KEY ("(hidden)")           Environment Variable      local
+env.VITE_SUPABASE_PROJECT_ID ("(hidden)")           Environment Variable      local
+env.SUPABASE_PROJECT_ID ("(hidden)")                Environment Variable      local
+env.SUPABASE_SERVICE_ROLE_KEY ("(hidden)")          Environment Variable      local
+
+Attaching additional modules:
+┌────────────────────────────────────────────────────┬──────┬─────────────┐
+│ Name                                               │ Type │ Size        │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _._lovable.oauth.consent-BPHozSpo.mjs              │ esm  │ 1.58 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _._lovable.oauth.consent-DS_MDyUZ.mjs              │ esm  │ 0.68 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _._lovable.oauth.consent-xFk8FKFL.mjs              │ esm  │ 2.83 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ __23tanstack-start-server-fn-resolver-DAGxUOcY.mjs │ esm  │ 0.84 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _chunks/ssr-renderer.mjs                           │ esm  │ 0.59 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/@lovable.dev/mcp-js+[...].mjs                │ esm  │ 1124.02 KiB │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/@supabase/storage-js+[...].mjs               │ esm  │ 116.16 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/@tanstack/react-router+[...].mjs             │ esm  │ 734.77 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/@tanstack/router-core+[...].mjs              │ esm  │ 38.10 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/babel__runtime.mjs                           │ esm  │ 3.92 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/canvg+[...].mjs                              │ esm  │ 316.21 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/dijkstrajs.mjs                               │ esm  │ 3.62 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/dompurify.mjs                                │ esm  │ 68.65 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/fast-png+iobuffer+pako.mjs                   │ esm  │ 139.58 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/fflate.mjs                                   │ esm  │ 11.61 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/h3+rou3+srvx.mjs                             │ esm  │ 13.88 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/h3-v2+srvx.mjs                               │ esm  │ 9.50 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/hookable.mjs                                 │ esm  │ 1.14 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/html2canvas.mjs                              │ esm  │ 310.85 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/jspdf.mjs                                    │ esm  │ 465.56 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/lovable.dev__cloud-auth-js.mjs               │ esm  │ 6.53 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/lovable.dev__email-js.mjs                    │ esm  │ 2.56 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/lucide-react.mjs                             │ esm  │ 25.21 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/paddle__paddle-node-sdk.mjs                  │ esm  │ 196.44 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/pngjs.mjs                                    │ esm  │ 54.95 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/qrcode.mjs                                   │ esm  │ 75.08 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/react+tanstack__react-query.mjs              │ esm  │ 23.50 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__auth-js+tslib.mjs                  │ esm  │ 296.07 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__functions-js.mjs                   │ esm  │ 12.06 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__phoenix.mjs                        │ esm  │ 47.97 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__postgrest-js.mjs                   │ esm  │ 102.95 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__realtime-js+unenv.mjs              │ esm  │ 76.55 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/supabase__supabase-js.mjs                    │ esm  │ 35.23 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/tanstack__history.mjs                        │ esm  │ 12.21 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/tanstack__query-core.mjs                     │ esm  │ 64.08 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _libs/zod.mjs                                      │ esm  │ 104.76 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _runtime.mjs                                       │ esm  │ 1.76 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/app-7MxVv-Tv.mjs                              │ esm  │ 238.65 KiB  │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/app-CM8H2GxL.mjs                              │ esm  │ 1.54 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/auth-BxuGa1sP.mjs                             │ esm  │ 0.83 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/auth-CLWWB-ks.mjs                             │ esm  │ 13.31 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/auth-middleware-BFa9aFrh.mjs                  │ esm  │ 2.67 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/billing-D3ZG3GBT.mjs                          │ esm  │ 12.66 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/client-CmoNCQC_.mjs                           │ esm  │ 2.05 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/createStart-Dt05N14y.mjs                      │ esm  │ 1.53 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/db-Dv5YLvBM.mjs                               │ esm  │ 16.81 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/empty-plugin-adapters-D9UWiqvJ.mjs            │ esm  │ 0.22 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/esm-B8uG0sol.mjs                              │ esm  │ 14.61 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/guide-UAaiXopt.mjs                            │ esm  │ 22.26 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/onboarding-D7BxgfTG.mjs                       │ esm  │ 4.29 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/paddle.server-DUFMhm_W.mjs                    │ esm  │ 1.66 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/payments.functions-DKJYDotv.mjs               │ esm  │ 1.24 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/platform-admin-DgDdThRs.mjs                   │ esm  │ 44.22 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/pwa-register-CVllKo7b.mjs                     │ esm  │ 1.48 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/route-Dwk34S1l.mjs                            │ esm  │ 1.90 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/router-DfJUKTxf.mjs                           │ esm  │ 33.90 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/routes-CXUJB8pU.mjs                           │ esm  │ 42.58 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/server-CtkFEPT3.mjs                           │ esm  │ 57.48 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/ssr.mjs                                       │ esm  │ 11.13 KiB   │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/start-j6Be_FnK.mjs                            │ esm  │ 1.12 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/useTheme-11HVCO0w.mjs                         │ esm  │ 1.20 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/virtual_pwa-register-D3SAxYes.mjs             │ esm  │ 2.25 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _ssr/workbox-window.prod.es5-CkHxznpn.mjs          │ esm  │ 7.39 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ _tanstack-start-manifest_v-d6nDjjHZ.mjs            │ esm  │ 3.13 KiB    │
+├────────────────────────────────────────────────────┼──────┼─────────────┤
+│ Total (64 modules)                                 │      │ 5044.12 KiB │
+└────────────────────────────────────────────────────┴──────┴─────────────┘
+⎔ Starting local server...
+[wrangler:info] ✨ Parsed 1 valid header rule.
+[wrangler:info] Ready on http://127.0.0.1:8080
+[wrangler:info] GET / 200 OK (109ms)
+[wrangler:info] GET /app 200 OK (29ms)
+[wrangler:info] GET /assets/styles-BU_4IDtB.css 200 OK (7ms)
+[wrangler:info] GET /assets/useSelector-BarC7cIn.js 200 OK (38ms)
+[wrangler:info] GET /assets/client-C7hbw76Y.js 200 OK (44ms)
+[wrangler:info] GET /assets/index-DhKEpcVm.js 200 OK (45ms)
+[wrangler:info] GET /assets/chunk-QTnfLwEv.js 200 OK (45ms)
+[wrangler:info] GET /assets/preload-helper-zJ_50EbN.js 200 OK (46ms)
+[wrangler:info] GET /assets/useRouter-taNZoCdo.js 200 OK (56ms)
+[wrangler:info] GET /assets/invariant-CgFvOqN2.js 200 OK (56ms)
+[wrangler:info] GET /assets/link-DepuAy0Q.js 200 OK (60ms)
+[wrangler:info] GET /assets/matchContext-C7c66U70.js 200 OK (61ms)
+[wrangler:info] GET /assets/x-DkWJGFpE.js 200 OK (59ms)
+[wrangler:info] GET /assets/app-DKZseGew.js 200 OK (55ms)
+[wrangler:info] GET /assets/not-found-DIgawKw1.js 200 OK (63ms)
+[wrangler:info] GET /assets/jsx-runtime-DsKLSDJq.js 200 OK (62ms)
+[wrangler:info] GET /assets/react-xd4aoMiW.js 200 OK (62ms)
+[wrangler:info] GET /assets/route-eUxFtJsc.js 200 OK (62ms)
+[wrangler:info] GET /assets/app-Bf7areJ6.js 200 OK (65ms)
+[wrangler:info] GET /assets/typeof-B5XbjTb1.js 200 OK (64ms)
+[wrangler:info] GET /assets/db-Dr56FOjn.js 200 OK (65ms)
+[wrangler:info] GET /assets/createLucideIcon-CJP-tiyj.js 200 OK (64ms)
+[wrangler:info] GET /assets/arrow-left-D_POL03-.js 200 OK (65ms)
+[wrangler:info] GET /assets/pwa-register-DwekqpFs.js 200 OK (5ms)
+[wrangler:info] GET /assets/auth-CBsiWPs3.js 200 OK (5ms)
+[wrangler:info] GET /assets/virtual_pwa-register-B8IV-JXw.js 200 OK (5ms)
+[wrangler:info] GET /assets/workbox-window.prod.es5-Bd17z0YL.js 200 OK (4ms)
+[wrangler:info] GET /app 200 OK (10ms)
+[wrangler:info] GET /assets/styles-BU_4IDtB.css 200 OK (11ms)
+[wrangler:info] GET /assets/preload-helper-zJ_50EbN.js 200 OK (19ms)
+[wrangler:info] GET /assets/client-C7hbw76Y.js 200 OK (16ms)
+[wrangler:info] GET /assets/index-DhKEpcVm.js 200 OK (21ms)
+[wrangler:info] GET /assets/chunk-QTnfLwEv.js 200 OK (20ms)
+[wrangler:info] GET /assets/x-DkWJGFpE.js 200 OK (50ms)
+[wrangler:info] GET /assets/app-DKZseGew.js 200 OK (47ms)
+[wrangler:info] GET /assets/useSelector-BarC7cIn.js 200 OK (64ms)
+[wrangler:info] GET /assets/link-DepuAy0Q.js 200 OK (64ms)
+[wrangler:info] GET /assets/matchContext-C7c66U70.js 200 OK (62ms)
+[wrangler:info] GET /assets/useRouter-taNZoCdo.js 200 OK (63ms)
+[wrangler:info] GET /assets/invariant-CgFvOqN2.js 200 OK (59ms)
+[wrangler:info] GET /assets/not-found-DIgawKw1.js 200 OK (59ms)
+[wrangler:info] GET /assets/jsx-runtime-DsKLSDJq.js 200 OK (59ms)
+[wrangler:info] GET /assets/react-xd4aoMiW.js 200 OK (58ms)
+[wrangler:info] GET /assets/route-eUxFtJsc.js 200 OK (58ms)
+[wrangler:info] GET /assets/app-Bf7areJ6.js 200 OK (58ms)
+[wrangler:info] GET /assets/typeof-B5XbjTb1.js 200 OK (62ms)
+[wrangler:info] GET /assets/db-Dr56FOjn.js 200 OK (63ms)
+[wrangler:info] GET /assets/createLucideIcon-CJP-tiyj.js 200 OK (64ms)
+[wrangler:info] GET /assets/arrow-left-D_POL03-.js 200 OK (63ms)
+[wrangler:info] GET /assets/pwa-register-DwekqpFs.js 200 OK (4ms)
+[wrangler:info] GET /assets/auth-CBsiWPs3.js 200 OK (4ms)
+[wrangler:info] GET /assets/virtual_pwa-register-B8IV-JXw.js 200 OK (4ms)
+[wrangler:info] GET /assets/workbox-window.prod.es5-Bd17z0YL.js 200 OK (6ms)

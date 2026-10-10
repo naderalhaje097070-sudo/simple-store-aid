@@ -1,3 +1,17 @@
+## Current execution checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
+
+A capable disposable Vercel sandbox executed exact PR54 source `84c3444fcdf5fa2825809192cda5b15561c950cf`, preserving reviewed implementation0e616d0013fd72de244686f10c8de5a12488f312. All356 tracked blobs matched before and after execution. Main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae; no merge/deployment occurred.
+
+Fresh experimental Supabase CLI2.120.0 native PostgreSQL/Auth/PostgREST stack applied all41 migrations on a non-root runner. Initial Auth users/tenants/orders were0. Bun1.2.14 frozen install, Gate4, Auth preflight,60 unit tests/125 expectations, typecheck and isolated production build passed. Existing Auth UI smoke passed on desktop1440/mobile390 with Playwright1.62.0/matching Chromium151 and strict browser containment. Screenshots and redacted logs are saved in changes/primary-env-001/native-runner; details in NATIVE_RUNNER_VERIFICATION.md. Repository CLI2.101.0/Docker workflow remains unchanged.
+
+Actual Auth/tenant probe:22 passed checks and2 retained duplicate owner-role seed conflicts. Existing tenant trigger already created the roles; independent aggregate proves exactly2 correct rows. Own/foreign tenant metadata cases passed for both real user JWTs. No comprehensive tenant/RPC/financial acceptance is inferred.
+
+**ENV-NATIVE-01 blocks acceptance:** banning fixtureB rejected new login400 but its previously issued JWT still read its own tenant via PostgREST200. This violates the strict disabled-account baseline; no cross-tenant exposure was observed. No account-lifecycle fix was implemented. Existing isolated write-test gates stay closed.
+
+Final aggregates:2 Auth users/2 tenants,0 orders/products/customers. No financial harness, production access, old cloud-project restore, billing/payment change, migration edit, merge or deploy. The sandbox was stopped after retrieval; no snapshot/public route. This removes the earlier database-runtime availability blocker only. Experimental native tooling and external execution do not replace matching hosted CI, independent gate acceptance, full authorization evidence, existing security/lint/PWA blockers or remaining11Moderate/5Low findings.
+
+ONE NEXT: independent review of this real isolation packet and a focused gated resolution of ENV-NATIVE-01, then remaining authorization/hosted evidence before financial write tests. Older checkpoints below remain historical.
+
 ## Current execution checkpoint — PRIMARY-ENV-001 runner feasibility, 2026-10-10
 
 Source verified directly from GitHub: draft PR54 head `0e616d0013fd72de244686f10c8de5a12488f312`, base PR53 `54c930166a776828566876771efdec86a997fa53`; main remains `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. No merge/release occurred. This read-only/runtime-feasibility packet supersedes the older assumption that Docker is the only possible local runtime, without approving a toolchain change.

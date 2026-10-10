@@ -190,3 +190,11 @@ Candidate status only: native29 tests/typecheck/build pass; existing lint, broad
 - Use production-built artifacts for browser smoke; local/CI uses the isolated Cloudflare emulator, explicit preview/staging visual targets remain supported. HMR and Realtime are outside these harnesses because WebSockets are blocked.
 - Preserve live before/after recorder evidence and substitute-browser/toolchain limitations. Passing dummy transport cases does not establish isolated Auth, migrations, RLS, tenants, finances or matching hosted execution.
 - No financial write harness before accepted isolation proof; no production access, billing/spending change, merge or deployment. Continue with the isolated runner sequence in changes/primary-env-001/ISOLATED_STACK_READINESS.md.
+
+## DEC-020 — Bounded experimental native runner evidence (2026-10-10)
+
+- Status: experimental external validation evidence in draft PR54; no CI-toolchain, schema, merge or release acceptance.
+- Use one fresh disposable non-root Vercel sandbox for exact simple-store-aid source; enable only local PostgreSQL/Auth/PostgREST and explicit matching ci identities. No production/cloud data, public routes, snapshots, new paid plan or billing change. Preserve repository Docker/CLI2.101.0 workflow.
+- Record actual41 fresh migrations,60 unit tests/125 expectations, isolated build, bounded two-tenant metadata and matching-browser desktop/mobile Auth results. Preserve two fixture-role conflicts; separately verify the existing owner trigger rather than rewriting failed results.
+- ENV-NATIVE-01: a banned account's old JWT still reads its own tenant. Strict disabled-account acceptance is not met; no exception or UI-only mitigation is approved. A focused gated server/database lifecycle fix and independent review are next.
+- Stop the temporary runner after retrieving sanitized evidence. Do not promote bounded tests to comprehensive tenant/RPC/financial or hosted-check acceptance. Financial write tests remain blocked until the isolation gate is accepted.

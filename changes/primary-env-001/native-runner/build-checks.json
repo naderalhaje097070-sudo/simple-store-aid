@@ -1,0 +1,22 @@
+[
+  {
+    "check": "gate4",
+    "exit_code": 0
+  },
+  {
+    "check": "auth-preflight",
+    "exit_code": 0
+  },
+  {
+    "check": "unit",
+    "exit_code": 0
+  },
+  {
+    "check": "typecheck",
+    "exit_code": 0
+  },
+  {
+    "check": "build",
+    "exit_code": 0
+  }
+]

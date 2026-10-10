@@ -1,3 +1,16 @@
+## Current queue checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
+
+- [x] Exact PR54 head84c3444 snapshot: all356 blobs match GitHub before/after execution.
+- [x] Capable disposable non-root runner; fresh experimental native CLI2.120.0 stack applied41 migrations. No production credentials/data.
+- [x] Bun1.2.14 frozen install, Gate4/Auth preflight,60 unit/125 expectations, typecheck/build; matching Playwright1.62.0/Chromium151 desktop/mobile Auth UI passed.
+- [x] Two dummy tenant/user metadata checks executed using real user JWTs:22 pass,2 fixture-role conflicts preserved and independently explained by existing owner trigger.
+- [x] Evidence/screenshots retrieved with secret redaction; source integrity verified; provider confirms sandbox stopped. No snapshot/public route or financial test.
+- [ ] ONE NEXT: independently review the packet and resolve **ENV-NATIVE-01** through a focused account-lifecycle change gate: pre-ban JWT still reads own tenant after Auth ban, despite new login denial. Preserve history and require direct API/RLS/RPC denial proof.
+- [ ] Complete broad authorization and matching hosted checks; external native evidence does not approve Docker/CLI2.101.0 CI or replace independent isolation acceptance.
+- [ ] Financial write/concurrency/idempotency/rollback suites remain blocked until accepted isolation proof. Prior security/lint/PWA and11Moderate/5Low findings remain open.
+
+Evidence: changes/primary-env-001/NATIVE_RUNNER_VERIFICATION.md and native-runner/. Older queues remain historical.
+
 ## Current queue checkpoint — PRIMARY-ENV-001 runner feasibility, 2026-10-10
 
 - [x] Re-read PR54 head `0e616d0013fd72de244686f10c8de5a12488f312`, PR53 base and unchanged main directly from GitHub.

@@ -1,0 +1,231 @@
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+vite v8.0.16 building client environment for production...
+[2K
+transforming...[plugin tanstack-start-core::server-fn:client] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 2224 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/public/assets/styles-BU_4IDtB.css                   106.19 kB │ gzip:  17.05 kB
+.output/public/assets/not-found-DIgawKw1.js                   0.05 kB │ gzip:   0.07 kB
+.output/public/assets/html2canvas-BkO5KJNm.js                 0.05 kB │ gzip:   0.07 kB
+.output/public/assets/arrow-left-D_POL03-.js                  0.16 kB │ gzip:   0.16 kB
+.output/public/assets/useRouter-taNZoCdo.js                   0.17 kB │ gzip:   0.15 kB
+.output/public/assets/matchContext-C7c66U70.js                0.18 kB │ gzip:   0.15 kB
+.output/public/assets/typeof-B5XbjTb1.js                      0.27 kB │ gzip:   0.16 kB
+.output/public/assets/_._lovable.oauth.consent-D5KX02Fx.js    0.36 kB │ gzip:   0.29 kB
+.output/public/assets/jsx-runtime-DsKLSDJq.js                 0.42 kB │ gzip:   0.29 kB
+.output/public/assets/invariant-CgFvOqN2.js                   0.45 kB │ gzip:   0.28 kB
+.output/public/assets/sparkles-CKpZVJuT.js                    0.49 kB │ gzip:   0.28 kB
+.output/public/assets/chunk-QTnfLwEv.js                       0.69 kB │ gzip:   0.42 kB
+.output/public/assets/app-DKZseGew.js                         0.93 kB │ gzip:   0.55 kB
+.output/public/assets/route-D7QTE1m9.js                       1.03 kB │ gzip:   0.62 kB
+.output/public/assets/virtual_pwa-register-B8IV-JXw.js        1.13 kB │ gzip:   0.60 kB
+.output/public/assets/preload-helper-zJ_50EbN.js              1.19 kB │ gzip:   0.68 kB
+.output/public/assets/createLucideIcon-CJP-tiyj.js            1.21 kB │ gzip:   0.70 kB
+.output/public/assets/pwa-register-DwekqpFs.js                1.32 kB │ gzip:   0.63 kB
+.output/public/assets/_._lovable.oauth.consent-cv9zP3EP.js    1.66 kB │ gzip:   0.90 kB
+.output/public/assets/x-DkWJGFpE.js                           1.91 kB │ gzip:   0.83 kB
+.output/public/assets/useSelector-BarC7cIn.js                 2.16 kB │ gzip:   0.95 kB
+.output/public/assets/onboarding-IPRFwnYG.js                  2.61 kB │ gzip:   1.31 kB
+.output/public/assets/workbox-window.prod.es5-Bd17z0YL.js     5.65 kB │ gzip:   2.20 kB
+.output/public/assets/react-xd4aoMiW.js                       7.52 kB │ gzip:   2.87 kB
+.output/public/assets/link-DepuAy0Q.js                        9.34 kB │ gzip:   4.30 kB
+.output/public/assets/auth-AZSFq_Ub.js                       11.85 kB │ gzip:   4.82 kB
+.output/public/assets/billing-BVRjFwcH.js                    12.50 kB │ gzip:   5.16 kB
+.output/public/assets/guide-CFoYQQew.js                      13.73 kB │ gzip:   3.75 kB
+.output/public/assets/db-BZZyqNnI.js                         22.92 kB │ gzip:   6.86 kB
+.output/public/assets/platform-admin-BvocndoI.js             25.95 kB │ gzip:   5.85 kB
+.output/public/assets/purify.es-Bu4Grnl0.js                  26.10 kB │ gzip:  10.27 kB
+.output/public/assets/routes-DZqsNFZ6.js                     28.82 kB │ gzip:   6.50 kB
+.output/public/assets/index.es-CW48MJ1v.js                  151.41 kB │ gzip:  48.89 kB
+.output/public/assets/client-aI1FPOly.js                    204.26 kB │ gzip:  52.35 kB
+.output/public/assets/index-C2FO8A6d.js                     325.72 kB │ gzip: 103.71 kB
+.output/public/assets/app-DOuHcvpj.js                       772.44 kB │ gzip: 220.25 kB
+
+✓ built in 2.09s
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+
+PWA v1.3.0
+mode      generateSW
+precache  0 entries (0.00 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-d0f0e45d.js
+warnings
+  One of the glob patterns doesn't match any files. Please remove or fix the following: {
+  "globDirectory": "/workspace/scratch/ef360bbe5cf9/simple-store-aid-env/dist",
+  "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+  "globIgnores": [
+    "**/node_modules/**/*",
+    "sw.js",
+    "workbox-*.js"
+  ]
+}
+
+vite v8.0.16 building ssr environment for production...
+[2K
+transforming...[plugin tanstack-start-core::server-fn:ssr] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts?tss-serverfn-split:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] /workspace/scratch/ef360bbe5cf9/simple-store-aid-env/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+✓ 136 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/styles-BU_4IDtB.css                                106.19 kB │ gzip: 17.05 kB
+node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-si4Xcmkm.js                    0.24 kB │ gzip:  0.17 kB
+node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-DS_MDyUZ.js                 0.54 kB │ gzip:  0.38 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-CJguWS_E.js                                     0.78 kB │ gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-BTEx0aT8.js    0.79 kB │ gzip:  0.43 kB
+node_modules/.nitro/vite/services/ssr/assets/useTheme-11HVCO0w.js                                 0.98 kB │ gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/start-Be52M7O9.js                                    1.16 kB │ gzip:  0.61 kB
+node_modules/.nitro/vite/services/ssr/assets/app-CM8H2GxL.js                                      1.32 kB │ gzip:  0.66 kB
+node_modules/.nitro/vite/services/ssr/assets/payments.functions-mk-NhmZL.js                       1.36 kB │ gzip:  0.73 kB
+node_modules/.nitro/vite/services/ssr/assets/pwa-register-Ba4r2rUD.js                             1.47 kB │ gzip:  0.62 kB
+node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-rDYRIaMN.js                 1.61 kB │ gzip:  0.70 kB
+node_modules/.nitro/vite/services/ssr/assets/paddle.server-DUFMhm_W.js                            1.63 kB │ gzip:  0.73 kB
+node_modules/.nitro/vite/services/ssr/assets/route-BAcZEmV3.js                                    1.63 kB │ gzip:  0.79 kB
+node_modules/.nitro/vite/services/ssr/assets/createStart-DpygwMw2.js                              1.69 kB │ gzip:  0.59 kB
+node_modules/.nitro/vite/services/ssr/assets/client-BYHch6TS.js                                   1.81 kB │ gzip:  0.88 kB
+node_modules/.nitro/vite/services/ssr/assets/virtual_pwa-register-T-Za3euO.js                     2.27 kB │ gzip:  0.80 kB
+node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-CmkXglXt.js                 2.46 kB │ gzip:  1.07 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-middleware-BaxnILkO.js                          2.66 kB │ gzip:  1.09 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DCPjKwtj.js               3.49 kB │ gzip:  1.00 kB
+node_modules/.nitro/vite/services/ssr/assets/onboarding-B8i4ftH7.js                               3.83 kB │ gzip:  1.57 kB
+node_modules/.nitro/vite/services/ssr/assets/workbox-window.prod.es5-BG8ydblv.js                  7.42 kB │ gzip:  2.62 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                   10.76 kB │ gzip:  3.52 kB
+node_modules/.nitro/vite/services/ssr/assets/billing-b_v3gc1W.js                                 11.92 kB │ gzip:  4.10 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-CG5DOM8r.js                                    12.28 kB │ gzip:  3.81 kB
+node_modules/.nitro/vite/services/ssr/assets/request-response-C_GLBuW0.js                        15.88 kB │ gzip:  4.43 kB
+node_modules/.nitro/vite/services/ssr/assets/db-BhjSeCBh.js                                      17.13 kB │ gzip:  3.52 kB
+node_modules/.nitro/vite/services/ssr/assets/guide-UAaiXopt.js                                   19.34 kB │ gzip:  4.21 kB
+node_modules/.nitro/vite/services/ssr/assets/router-CUHyPWNu.js                                  34.88 kB │ gzip:  9.16 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-BDoSyn0O.js                                  37.39 kB │ gzip:  7.28 kB
+node_modules/.nitro/vite/services/ssr/assets/platform-admin-CaD5CK4e.js                          38.41 kB │ gzip:  7.07 kB
+node_modules/.nitro/vite/services/ssr/assets/server-u5J99RSM.js                                  60.04 kB │ gzip: 15.39 kB
+node_modules/.nitro/vite/services/ssr/assets/app-BntaOIk2.js                                    217.86 kB │ gzip: 43.93 kB
+
+✓ built in 1.64s
+
+PWA v1.3.0
+mode      generateSW
+precache  0 entries (0.00 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-d0f0e45d.js
+warnings
+  One of the glob patterns doesn't match any files. Please remove or fix the following: {
+  "globDirectory": "/workspace/scratch/ef360bbe5cf9/simple-store-aid-env/dist",
+  "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+  "globIgnores": [
+    "**/node_modules/**/*",
+    "sw.js",
+    "workbox-*.js"
+  ]
+}
+
+
+[nitro] ◐ Building [Nitro] (preset: cloudflare-module, compatibility: 2026-10-10)
+[nitro] ✔ Generated public .output/public
+vite v8.0.16 building nitro environment for production...
+
+ WARN  inlineDynamicImports option is ignored because the codeSplitting option is specified.
+
+[2K
+transforming...✓ 3520 modules transformed.
+rendering chunks...
+computing gzip size...
+.output/server/_ssr/empty-plugin-adapters-si4Xcmkm.mjs                 0.25 kB │ gzip:   0.17 kB
+.output/server/_chunks/ssr-renderer.mjs                                0.64 kB │ gzip:   0.37 kB
+.output/server/_._lovable.oauth.consent-DS_MDyUZ.mjs                   0.71 kB │ gzip:   0.46 kB
+.output/server/_ssr/auth-CJguWS_E.mjs                                  0.87 kB │ gzip:   0.57 kB
+.output/server/__23tanstack-start-server-fn-resolver-BTEx0aT8.mjs      0.87 kB │ gzip:   0.48 kB
+.output/server/_ssr/start-Be52M7O9.mjs                                 1.16 kB │ gzip:   0.63 kB
+.output/server/_libs/hookable.mjs                                      1.18 kB │ gzip:   0.52 kB
+.output/server/_ssr/useTheme-11HVCO0w.mjs                              1.24 kB │ gzip:   0.64 kB
+.output/server/_ssr/payments.functions-mk-NhmZL.mjs                    1.30 kB │ gzip:   0.72 kB
+.output/server/_ssr/pwa-register-Ba4r2rUD.mjs                          1.54 kB │ gzip:   0.67 kB
+.output/server/_ssr/createStart-DpygwMw2.mjs                           1.58 kB │ gzip:   0.59 kB
+.output/server/_ssr/app-CM8H2GxL.mjs                                   1.59 kB │ gzip:   0.74 kB
+.output/server/_._lovable.oauth.consent-rDYRIaMN.mjs                   1.64 kB │ gzip:   0.75 kB
+.output/server/_ssr/paddle.server-DUFMhm_W.mjs                         1.73 kB │ gzip:   0.79 kB
+.output/server/_runtime.mjs                                            1.80 kB │ gzip:   0.82 kB
+.output/server/_ssr/route-BAcZEmV3.mjs                                 1.96 kB │ gzip:   0.92 kB
+.output/server/_ssr/client-BYHch6TS.mjs                                2.01 kB │ gzip:   0.96 kB
+.output/server/_ssr/virtual_pwa-register-T-Za3euO.mjs                  2.32 kB │ gzip:   0.84 kB
+.output/server/_libs/lovable.dev__email-js.mjs                         2.64 kB │ gzip:   1.13 kB
+.output/server/_ssr/auth-middleware-BaxnILkO.mjs                       2.78 kB │ gzip:   1.15 kB
+.output/server/_._lovable.oauth.consent-CmkXglXt.mjs                   2.91 kB │ gzip:   1.18 kB
+.output/server/_tanstack-start-manifest_v-DCPjKwtj.mjs                 3.57 kB │ gzip:   1.03 kB
+.output/server/_libs/dijkstrajs.mjs                                    3.72 kB │ gzip:   1.55 kB
+.output/server/_libs/babel__runtime.mjs                                4.23 kB │ gzip:   1.39 kB
+.output/server/_ssr/onboarding-B8i4ftH7.mjs                            4.41 kB │ gzip:   1.69 kB
+.output/server/_libs/lovable.dev__cloud-auth-js.mjs                    6.70 kB │ gzip:   2.50 kB
+.output/server/_ssr/workbox-window.prod.es5-BG8ydblv.mjs               7.58 kB │ gzip:   2.71 kB
+.output/server/_libs/h3-v2+srvx.mjs                                    9.76 kB │ gzip:   3.03 kB
+.output/server/_ssr/ssr.mjs                                           10.72 kB │ gzip:   3.54 kB
+.output/server/_libs/fflate.mjs                                       11.90 kB │ gzip:   4.41 kB
+.output/server/_libs/supabase__functions-js.mjs                       12.41 kB │ gzip:   3.42 kB
+.output/server/_libs/tanstack__history.mjs                            12.52 kB │ gzip:   3.72 kB
+.output/server/_ssr/billing-b_v3gc1W.mjs                              12.99 kB │ gzip:   4.15 kB
+.output/server/_ssr/auth-CG5DOM8r.mjs                                 13.64 kB │ gzip:   3.94 kB
+.output/server/_libs/h3+rou3+srvx.mjs                                 14.27 kB │ gzip:   4.24 kB
+.output/server/_ssr/request-response-C_GLBuW0.mjs                     14.99 kB │ gzip:   4.39 kB
+.output/server/_ssr/db-BhjSeCBh.mjs                                   17.23 kB │ gzip:   3.59 kB
+.output/server/index.mjs                                              19.30 kB │ gzip:   5.41 kB
+.output/server/_ssr/guide-UAaiXopt.mjs                                22.81 kB │ gzip:   4.35 kB
+.output/server/_libs/react+tanstack__react-query.mjs                  24.32 kB │ gzip:   6.16 kB
+.output/server/_libs/lucide-react.mjs                                 25.97 kB │ gzip:   5.35 kB
+.output/server/_ssr/router-CUHyPWNu.mjs                               34.82 kB │ gzip:   9.21 kB
+.output/server/_libs/supabase__supabase-js.mjs                        36.09 kB │ gzip:  10.68 kB
+.output/server/_libs/@tanstack/router-core+[...].mjs                  39.31 kB │ gzip:   9.58 kB
+.output/server/_ssr/routes-BDoSyn0O.mjs                               43.61 kB │ gzip:   7.59 kB
+.output/server/_ssr/platform-admin-CaD5CK4e.mjs                       45.30 kB │ gzip:   7.31 kB
+.output/server/_libs/supabase__phoenix.mjs                            49.14 kB │ gzip:  12.38 kB
+.output/server/_libs/pngjs.mjs                                        56.73 kB │ gzip:  11.72 kB
+.output/server/_ssr/server-u5J99RSM.mjs                               58.89 kB │ gzip:  15.33 kB
+.output/server/_libs/tanstack__query-core.mjs                         65.97 kB │ gzip:  13.87 kB
+.output/server/_libs/dompurify.mjs                                    70.31 kB │ gzip:  19.12 kB
+.output/server/_libs/qrcode.mjs                                       77.58 kB │ gzip:  18.69 kB
+.output/server/_libs/supabase__realtime-js+unenv.mjs                  78.65 kB │ gzip:  20.08 kB
+.output/server/_libs/supabase__postgrest-js.mjs                      105.43 kB │ gzip:  21.67 kB
+.output/server/_libs/zod.mjs                                         107.59 kB │ gzip:  20.93 kB
+.output/server/_libs/@supabase/storage-js+[...].mjs                  118.98 kB │ gzip:  22.12 kB
+.output/server/_libs/fast-png+iobuffer+pako.mjs                      143.20 kB │ gzip:  32.97 kB
+.output/server/_libs/paddle__paddle-node-sdk.mjs                     207.37 kB │ gzip:  26.18 kB
+.output/server/_ssr/app-BntaOIk2.mjs                                 244.39 kB │ gzip:  44.90 kB
+.output/server/_libs/supabase__auth-js+tslib.mjs                     303.49 kB │ gzip:  60.68 kB
+.output/server/_libs/html2canvas.mjs                                 318.33 kB │ gzip:  63.07 kB
+.output/server/_libs/canvg+[...].mjs                                 327.16 kB │ gzip:  71.43 kB
+.output/server/_libs/jspdf.mjs                                       476.75 kB │ gzip: 124.10 kB
+.output/server/_libs/@tanstack/react-router+[...].mjs                753.82 kB │ gzip: 159.38 kB
+.output/server/_libs/@lovable.dev/mcp-js+[...].mjs                 1,156.20 kB │ gzip: 239.79 kB
+
+✓ built in 723ms
+
+PWA v1.3.0
+mode      generateSW
+precache  0 entries (0.00 KiB)
+files generated
+  dist/sw.js
+  dist/workbox-d0f0e45d.js
+warnings
+  One of the glob patterns doesn't match any files. Please remove or fix the following: {
+  "globDirectory": "/workspace/scratch/ef360bbe5cf9/simple-store-aid-env/dist",
+  "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+  "globIgnores": [
+    "**/node_modules/**/*",
+    "sw.js",
+    "workbox-*.js"
+  ]
+}
+
+[nitro] ℹ Using auto generated worker name: tanstack-start-ts
+ℹ Generated .output/server/wrangler.json
+ℹ Generated .wrangler/deploy/config.json
+ℹ Generated .output/public/_headers
+ℹ Generated .output/nitro.json
+
+[nitro] ✔ You can preview this build using npx vite preview
+[nitro] ✔ You can deploy this build using npx nitro deploy --prebuilt

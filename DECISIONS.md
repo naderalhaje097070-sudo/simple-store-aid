@@ -2,6 +2,14 @@
 
 This file records decisions that govern Mongezz until replaced by an approved ADR or later decision entry.
 
+## DEC-PRIMARY-ENV-001 — Continue isolated local candidate work
+
+- Date:2026-10-10; owner explicitly authorized implementation and continuation.
+- Decision: reconcile existing PR48 current source with immutable PR53 security source on a separate draft branch. Local implementation/probes continue despite hosted Actions quota; they do not substitute for hosted or independent release evidence.
+- Contract: explicit deploy target and Supabase public identity; non-production cannot select approved production; runtime matches baked configuration before application entry; public fields reject known privileged formats. Write harnesses remain restricted and require isolated-stack proof before execution.
+- Review: Astra attempt failed on usage capacity, so review is pending. Do not substitute self-checks for independent approval or silently change the requested reviewer.
+- Consequence: no merge, deploy or financial write harness execution in this packet. Keep PR48/main and dependency artifacts unchanged; preserve raw failed evidence and exact-source fingerprints. Human-controlled release gates remain effective.
+
 ## DEC-001 — Delivery methodology
 
 - Status: Accepted

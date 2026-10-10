@@ -9,50 +9,198 @@ Scenarios (mobile 390x844):
   P5  rapid taps on advanced-flow "حفظ الفاتورة"       → 1 create RPC, 1 order row
   P6  tap again after success screen appears           → no duplicate order
 
-Read-only against financial logic: no RPC/migration changes. Seeds one product
-tagged E2E-<ts> and removes everything through the tag-scoped cleanup RPC.
+This is a WRITE-CAPABLE test harness: it seeds a product and may create paid
+orders while exercising the UI. It is authorized only against the local/CI
+Supabase stack after the fail-closed preflight below succeeds.
 
-Requires LOVABLE_BROWSER_* + PG* env vars and the dev server on :8080.
+Required explicit safety inputs:
+  MONGEZZ_E2E_WRITE_TEST=1
+  MONGEZZ_DEPLOY_TARGET=local|ci
+  PGHOST=127.0.0.1|localhost
+  PGPORT=54322
+  PGUSER=postgres
+  PGDATABASE=postgres
+  PGHOSTADDR unset or loopback; PGSERVICE/PGSERVICEFILE unset
+  VITE_SUPABASE_URL=http://127.0.0.1:54321 (or localhost)
+
+Use --preflight-only to validate containment without importing browser/network
+dependencies or performing any API/SQL/browser operation.
 """
 
 import asyncio, json, os, subprocess, sys, time, re
 from decimal import Decimal
 from pathlib import Path
-import requests
-from playwright.async_api import async_playwright
+from urllib.parse import urlparse
 
 BASE = "http://localhost:8080"
-SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exist_ok=True)
 TAG = f"E2E-{int(time.time())}"
 PRICE = Decimal("1")
 COST = Decimal("0.6")
 STOCK = 50
 CREATE_RPC = "create_sale_with_items"
+ENV_FILE = Path(os.environ.get("MONGEZZ_E2E_ENV_FILE", ".env"))
+LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
+PROXY_ENV_VARS = (
+    "HTTP_PROXY",
+    "HTTPS_PROXY",
+    "ALL_PROXY",
+    "http_proxy",
+    "https_proxy",
+    "all_proxy",
+)
 
 results: list[tuple[str, str, str]] = []   # (id, PASS/FAIL, evidence)
 
 
+def block_write_harness(reason: str) -> None:
+    print(f"SEC_ENV_RAPID_CLICK_BLOCKED: {reason}")
+    raise SystemExit(2)
+
+
+def require_explicit_write_intent() -> None:
+    if os.environ.get("MONGEZZ_E2E_WRITE_TEST") != "1":
+        block_write_harness("MONGEZZ_E2E_WRITE_TEST must equal 1")
+
+    configured_proxies = [
+        name for name in PROXY_ENV_VARS if os.environ.get(name, "").strip()
+    ]
+    if configured_proxies:
+        block_write_harness(
+            "proxy routing variables are not allowed for destructive E2E: "
+            + ",".join(configured_proxies)
+        )
+
+    target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
+    if target not in {"local", "ci"}:
+        block_write_harness("MONGEZZ_DEPLOY_TARGET must be local or ci")
+
+    pg_host = os.environ.get("PGHOST", "").strip().lower().rstrip(".")
+    pg_hostaddr = os.environ.get("PGHOSTADDR", "").strip().lower().rstrip(".")
+    pg_port = os.environ.get("PGPORT", "").strip()
+    pg_user = os.environ.get("PGUSER", "").strip()
+    pg_database = os.environ.get("PGDATABASE", "").strip()
+    if pg_host not in LOOPBACK_HOSTS:
+        block_write_harness("PGHOST must be loopback")
+    if pg_hostaddr and pg_hostaddr not in {"127.0.0.1", "::1"}:
+        block_write_harness("PGHOSTADDR must be unset or loopback")
+    if os.environ.get("PGSERVICE", "").strip() or os.environ.get("PGSERVICEFILE", "").strip():
+        block_write_harness("PGSERVICE and PGSERVICEFILE are not allowed for this harness")
+    if pg_port != "54322":
+        block_write_harness("PGPORT must equal the isolated Supabase port 54322")
+    if pg_user != "postgres" or pg_database != "postgres":
+        block_write_harness("PGUSER and PGDATABASE must match the isolated Supabase defaults")
+
+
 def read_env(name: str) -> str:
-    env = Path(".env").read_text()
+    direct = os.environ.get(name, "").strip()
+    if direct:
+        return direct
+    try:
+        env = ENV_FILE.read_text()
+    except FileNotFoundError:
+        block_write_harness(f"environment file not found: {ENV_FILE}")
     m = re.search(rf"^{name}\s*=\s*(.+)$", env, re.M)
     if not m:
-        raise RuntimeError(f"{name} missing from .env")
+        block_write_harness(f"{name} missing from explicit environment")
     return m.group(1).strip().strip('"').strip("'")
 
 
+def require_loopback_supabase(url_value: str) -> None:
+    try:
+        parsed = urlparse(url_value)
+        host = (parsed.hostname or "").lower().rstrip(".")
+        port = parsed.port
+    except ValueError:
+        block_write_harness("VITE_SUPABASE_URL is invalid")
+
+    if parsed.scheme != "http":
+        block_write_harness("VITE_SUPABASE_URL must use http for the isolated local stack")
+    if host not in LOOPBACK_HOSTS or port != 54321:
+        block_write_harness("VITE_SUPABASE_URL must target loopback port 54321")
+    if parsed.username or parsed.password or parsed.query or parsed.fragment:
+        block_write_harness("VITE_SUPABASE_URL contains unsupported credentials/query/fragment")
+    if parsed.path not in {"", "/"}:
+        block_write_harness("VITE_SUPABASE_URL must target the Supabase root")
+
+
+def network_origin(url_value: str) -> tuple[str, str, int] | None:
+    try:
+        parsed = urlparse(url_value)
+        host = (parsed.hostname or "").lower().rstrip(".")
+        port = parsed.port
+    except ValueError:
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
+
+
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool = False) -> bool:
+    origin = network_origin(url_value)
+    app_origin = network_origin(BASE)
+    if origin is None or app_origin is None:
+        return False
+
+    _, host, _ = origin
+
+    if is_navigation and host not in LOOPBACK_HOSTS:
+        return False
+    if is_navigation and origin != app_origin:
+        return False
+
+    if host.endswith(".supabase.co"):
+        return False
+
+    parsed = urlparse(url_value)
+    supabase_path = parsed.path.startswith(("/rest/v1", "/auth/v1", "/storage/v1", "/functions/v1"))
+    if supabase_path and host not in LOOPBACK_HOSTS:
+        return False
+
+    if method.upper() not in {"GET", "HEAD", "OPTIONS"} and host not in LOOPBACK_HOSTS:
+        return False
+
+    return True
+
+
+# Safety preflight must complete before importing requests/Playwright, reading
+# an injected browser session, creating local artifacts, or touching API/SQL.
+require_explicit_write_intent()
 SB_URL = read_env("VITE_SUPABASE_URL")
 SB_ANON = read_env("VITE_SUPABASE_PUBLISHABLE_KEY")
+require_loopback_supabase(SB_URL)
+
+if "--preflight-only" in sys.argv:
+    if browser_request_is_isolated("POST", "https://forbidden.supabase.co/rest/v1/orders"):
+        block_write_harness("browser isolation invariant accepted a known remote Supabase write")
+    if browser_request_is_isolated("GET", "https://simple-store-aid.lovable.app/app", True):
+        block_write_harness("browser isolation invariant accepted a known remote navigation")
+    if browser_request_is_isolated("GET", "http://localhost:8000/app", True):
+        block_write_harness("browser isolation invariant accepted an alternate loopback port")
+    if browser_request_is_isolated("GET", "https://127.0.0.1/app", True):
+        block_write_harness("browser isolation invariant accepted an alternate loopback scheme/host")
+    if not browser_request_is_isolated("GET", f"{BASE}/app", True):
+        block_write_harness("browser isolation invariant rejected the exact isolated app origin")
+    print("SEC_ENV_RAPID_CLICK_PREFLIGHT_OK: isolated write harness target verified")
+    raise SystemExit(0)
+
+import requests
+from playwright.async_api import async_playwright
+
+SHOTS = Path("/tmp/browser/mongezz-rapid/shots"); SHOTS.mkdir(parents=True, exist_ok=True)
 
 
 def psql_exec(sql: str) -> None:
     """Test-only cleanup channel (never used for assertions). Scoped to rows this run created."""
-    r = subprocess.run(["psql", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
+    r = subprocess.run(["psql", "-X", "-q", "-v", "ON_ERROR_STOP=1", "-c", sql], capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"psql exec failed: {r.stderr.strip()}")
 
 
 def psql_one(sql: str) -> str:
-    r = subprocess.run(["psql", "-At", "-q", "-c", sql], capture_output=True, text=True)
+    r = subprocess.run(["psql", "-X", "-At", "-q", "-c", sql], capture_output=True, text=True)
     if r.returncode != 0:
         raise RuntimeError(f"psql failed: {r.stderr.strip()}")
     return r.stdout.strip().splitlines()[0] if r.stdout.strip() else ""
@@ -66,9 +214,19 @@ class API:
             "Content-Type": "application/json",
             "Prefer": "return=representation",
         }
+        self.session = requests.Session()
+        self.session.trust_env = False
 
     def post(self, path, body):
-        r = requests.post(f"{SB_URL}{path}", headers=self.h, json=body, timeout=20)
+        r = self.session.post(
+            f"{SB_URL}{path}",
+            headers=self.h,
+            json=body,
+            timeout=20,
+            allow_redirects=False,
+        )
+        if 300 <= r.status_code < 400:
+            raise RuntimeError(f"POST {path} redirect forbidden: HTTP {r.status_code}")
         if r.status_code >= 400:
             raise RuntimeError(f"POST {path} {r.status_code}: {r.text}")
         return r.json() if r.text else None
@@ -170,8 +328,29 @@ async def main():
     try:
         async with async_playwright() as pw:
             browser = await pw.chromium.launch(headless=True)
-            ctx = await browser.new_context(viewport={"width": 390, "height": 844}, locale="ar-LY")
+            ctx = await browser.new_context(
+                viewport={"width": 390, "height": 844},
+                locale="ar-LY",
+                service_workers="block",
+            )
             page = await ctx.new_page()
+            browser_isolation_violations: list[str] = []
+
+            async def enforce_browser_isolation(route):
+                request = route.request
+                if not browser_request_is_isolated(
+                    request.method,
+                    request.url,
+                    request.is_navigation_request(),
+                ):
+                    browser_isolation_violations.append(f"{request.method} {request.url}")
+                    print(f"SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: {request.method} {request.url}")
+                    await route.abort("blockedbyclient")
+                    return
+                await route.continue_()
+
+            await ctx.route("**/*", enforce_browser_isolation)
+
             errs: list[str] = []
             page.on("pageerror", lambda e: errs.append(str(e)))
             page.on("console", lambda m: m.type == "error" and errs.append(m.text))
@@ -308,6 +487,13 @@ async def main():
                 record("P5", False, "could not reach advanced PaymentSheet save button")
                 record("P4", False, "could not reach advanced PaymentSheet save button")
 
+            if browser_isolation_violations:
+                record(
+                    "SEC-ENV",
+                    False,
+                    f"browser isolation blocked {len(browser_isolation_violations)} remote request(s)",
+                )
+
             if errs:
                 print("⚠ runtime errors:")
                 for e in errs[:8]:
@@ -315,7 +501,7 @@ async def main():
 
             await browser.close()
     finally:
-        # Cleanup uses only production RPCs (no test-only RPC, no privileged SQL).
+        # Cleanup uses standard application RPCs (no test-only RPC, no privileged SQL).
         # Fully paid orders are intentionally undeletable by financial policy; those
         # are reported as leftovers instead of being force-removed.
         leftovers = []

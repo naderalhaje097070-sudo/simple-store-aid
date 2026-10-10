@@ -1,3 +1,17 @@
+## Current execution checkpoint — PRIMARY-ENV-001, 2026-10-10
+
+This checkpoint supersedes older scheduling below. Work continues only in naderalhaje0970-droid/simple-store-aid. main remains 43d6edbccb66fb06ce0fcb93734ad59532d1aeae. The owner authorized local ENV implementation despite hosted Actions limits; security/release acceptance gates remain open.
+
+Prepared an isolated reconciliation candidate by reusing PR48 head31958e53438b377a9896dd0bf7e9c268c1f14aef on PR53 head54c930166a776828566876771efdec86a997fa53. Removed implicit production fallback, enforce explicit build/runtime target identity, guarded write preflights and context browser routing. Corrected privileged-public-key acceptance with before/after regression, proxy-contaminated positive fixtures with explicit proxy negatives, and page-only auth/destructive interception. Package/lock match PR53 unchanged.
+
+Local evidence: 60/60 unit tests,125 expectations; Gate4 E1-E10 target-green; eight real server-wrapper cases with a stub entry; typecheck, changed-source lint, explicit-env build and mode-file build passed. Python/bash syntax and diff evidence are in changes/primary-env-001/VERIFICATION.md/evidence.json. Builds retain existing PWA glob/precache/chunk warnings; no offline/PWA release acceptance.
+
+Independent Astra review was attempted but failed at usage limit before reviewing source. No independent acceptance. Hosted checks, real isolated database/browser/auth/tenant/financial execution and previous security/full-lint gates remain unverified. No database test writes, production data access, migration, merge or deployment occurred.
+
+Billing clarification: earlier startup annotation listed payment failure OR spending limit; subsequent account inspection showed no outstanding invoice, October billed $0 and Actions budget $0 with stop-usage. A quota/spending restriction is the supported explanation, not proof of an unpaid invoice. No payment/budget changes were made. Do not repeat runnerless jobs while this remains unchanged.
+
+ONE NEXT: independent exact-candidate ENV review when reviewer capacity is available; then close findings and obtain isolated integration/required CI evidence before financial write tests. Safe planning may continue meanwhile.
+
 ## Current execution checkpoint — PRIMARY-SEC-002, 2026-10-10
 
 This top block supersedes older current checkpoints below. Application main still remains unmodified at `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. A second focused security candidate batch is prepared in this working tree, continuing from PRIMARY-SEC-001, and is not merged or released.

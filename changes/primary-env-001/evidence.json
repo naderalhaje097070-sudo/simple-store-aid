@@ -1,0 +1,82 @@
+{
+  "packet": "PRIMARY-ENV-001",
+  "date": "2026-10-10",
+  "repo": "naderalhaje0970-droid/simple-store-aid",
+  "remote_base": "54c930166a776828566876771efdec86a997fa53",
+  "pr48_source": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+  "main_reference": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "local_baseline": "71422e5",
+  "candidate_source_git_blobs": {
+    ".env.example": "962d763602e1ecae0200f06b03e3ce9164614d25",
+    ".github/workflows/isolated-auth-smoke.yml": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+    ".github/workflows/quality.yml": "5c3dba5f0d987b9e7494e5afb09244af22ac255a",
+    ".github/workflows/sec-ci-gate4-probe.yml": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+    ".github/workflows/sec-env-gate4-probe.yml": "9aa350ec29b96e39c8d290dbbc4d0da8c1026d74",
+    "config/supabase-build-config.ts": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+    "src/server.ts": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+    "tests/e2e/README.md": "d3b5b482536586cfc8eea9e2f2161ca2b693c569",
+    "tests/e2e/__pycache__/write_harness_guard.cpython-312.pyc": "c3c9691e89fb3ddb9dc9988458ce7e7964f556a6",
+    "tests/e2e/isolated-auth-smoke.py": "75aac7987c1fea164f5e1a2766461f1850e3297e",
+    "tests/e2e/rapid-click-sale.py": "8c0f6f8edce724b40ed51c25914cfcda00c7f0a1",
+    "tests/e2e/run.sh": "fdbbfba6aa2fd03d4580ec99539edca8445c5392",
+    "tests/e2e/sale-dashboard-close.py": "47360fa45d68f85d53527fbedae05d859da80bcb",
+    "tests/e2e/write_harness_guard.py": "3f16a0d27baf1c46c15401f086014916e63952c6",
+    "tests/financial-rules/run.sh": "47553eedbd86c8d4984b59ac5287220d141931e2",
+    "tests/gate4/sec-env/probe.ts": "23a3c1e38c4807aa9c8ae5d9dabac563eb863a7a",
+    "tests/gate4/sec-env/server-boundary.ts": "a058c1b8160d7d9ef480c5fba6da51fc9f538652",
+    "tests/unit/supabase-build-config.test.ts": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+    "tests/unit/supabase-public-key.test.ts": "ed06e5912a055ebcc663b80055fd2f448bbcdade",
+    "tests/visual/mobile-rtl-smoke.py": "1c1eeac75169740d0bc10f418fa5ab544aff7dcc",
+    "vite.config.ts": "c87bea82550dc7a798b01ee99c934a1713f777c9"
+  },
+  "dependency_git_blobs": {
+    "package.json": "293395a676487cfc742caa642517f2c2323bdbac",
+    "bun.lock": "efbffd2d5d0073978c374bb27b1f6398a322b8c6"
+  },
+  "checks": {
+    "units": {
+      "pass": 60,
+      "fail": 0,
+      "expectations": 125
+    },
+    "environment_probe": "target_green_exit0",
+    "server_boundary": {
+      "pass": 8,
+      "app_entry": "stub",
+      "network_database": "none"
+    },
+    "typecheck": 0,
+    "changed_lint": 0,
+    "explicit_build": 0,
+    "mode_file_build": 0,
+    "python_ast_files": 5,
+    "bash_syntax": 0,
+    "diff_check": 0
+  },
+  "review": "Astra usage limit before source review; pending",
+  "unverified": [
+    "hosted checks",
+    "independent review",
+    "real isolated DB/browser/auth/tenant/financial flows",
+    "PWA release behavior",
+    "prior security/full-lint acceptance"
+  ],
+  "proof_sha256": {
+    "baseline-probe.log": "6ab0282bd3f7937a8a51674371e2c8345c68f139ca38b25483f2de6c4315ca9a",
+    "build-final.log": "f6f29ed431dd67106bc9d9d9a34c3205b3a7a420402b6e457dcfa899142d6bdd",
+    "build.log": "61ee2827bccbb229d7d3ccc4a58e04e2718066201efa26e6d0772a7e707bcbda",
+    "changed-lint-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "changed-lint.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diff-check.log": "31cbc7f6640f67db087c6e5aa939e60853dca2e6f513aa512be87c2347b865e9",
+    "environment-probe-after.log": "e2760645daa6198ad2f82056efc9551bc6908b6f290ac3d162008bcd527aef3a",
+    "environment-probe.log": "349dfa9801ae6689f41ab2915e468c030755736aa60b76698c74fb997da41104",
+    "mode-build-final.log": "2220076bb9e204cfeee724bfdad6a9b7e5082038116b7059dfe7bcb418f14b2a",
+    "public-key-before.log": "943bb2b1900bf5f609007e5580e2b12b98bb1ef1be74919f608613b5c283b85d",
+    "server-boundary.log": "26d2ed57a22497f8c6c8dd636dbeb2074c8c7a1d7c88fd613bb8a59313247c93",
+    "syntax.log": "d43ea49015cfa47b40a88d602c1c36a4c02144a0c47f490aafd8903fcf3c9dae",
+    "typecheck-final.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "typecheck.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unit-final.log": "a4f221b7ae53e9d58bb56b7f98c4c1958abfbab044d67ebdea6c5f54048be96e",
+    "unit.log": "e723cebd434cb947c039ec1889a3b0c4c357d248de90a62e4460d06d616a1f76"
+  }
+}

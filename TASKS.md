@@ -1,3 +1,16 @@
+## Current queue checkpoint — PRIMARY-ENV-001, 2026-10-10
+
+- [x] Local ENV reconciliation: reuse current PR48 source on PR53, preserve dependencies; explicit environments, matching build/runtime, guarded harnesses.
+- [x] Candidate fixes: privileged-public-key negative regression; deterministic proxy fixtures + explicit proxy rejection; context routing for auth/destructive harnesses.
+- [x] Offline verification:60 unit tests/125 expectations; Gate4 target-green;8 actual server-wrapper cases with stub entry; typecheck/changed lint/two isolated builds/syntax.
+- [ ] ONE NEXT: independent exact-candidate review. Astra was attempted but stopped at usage limit before review; no approval.
+- [ ] ENV acceptance: hosted/current-head checks and isolated DB/auth/RLS/tenant/browser containment evidence. No write-capable financial flow before proof and acceptance.
+- [ ] Security acceptance: PR53 final review, prior CI/lint gates and remaining11Moderate/5Low findings remain open.
+- [ ] Release/PWA: retain and investigate existing build warnings including empty glob/precache; do not claim offline release readiness from these builds.
+- [ ] GitHub Actions startup: no invoice observed; $0 stop-usage budget/quota blocks execution. No account spending change; no blind retries.
+
+Evidence: changes/primary-env-001. The old queue below is historical and does not schedule new work.
+
 ## Current queue checkpoint — 2026-10-10
 
 - [x] PRIMARY-SEC-002 local candidate: Critical/High audit triage and compatible dependency corrections prepared; audit now reports 0 Critical and 0 High records; native frozen install/typecheck/unit/build/changed-file lint/diff-check evidence saved. Candidate only; not on main.

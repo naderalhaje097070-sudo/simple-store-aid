@@ -42,7 +42,32 @@ jobs:
           bunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log
       - name: Unit tests
         run: bun run test:unit
+      - name: Offline server environment boundary
+        run: bun tests/gate4/sec-env/server-boundary.ts
+      - name: Build from mode-specific env file
+        shell: bash
+        run: |
+          set -euo pipefail
+          trap 'rm -f .env.sec-env-contract' EXIT
+          cat > .env.sec-env-contract <<'EOF'
+          MONGEZZ_DEPLOY_TARGET=ci
+          VITE_SUPABASE_URL=http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder
+          VITE_SUPABASE_PROJECT_ID=quality-env-file
+          EOF
+
+          env \
+            -u MONGEZZ_DEPLOY_TARGET \
+            -u VITE_SUPABASE_URL \
+            -u VITE_SUPABASE_PUBLISHABLE_KEY \
+            -u VITE_SUPABASE_PROJECT_ID \
+            bunx vite build --mode sec-env-contract
       - name: Build
+        env:
+          MONGEZZ_DEPLOY_TARGET: ci
+          VITE_SUPABASE_URL: http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+          VITE_SUPABASE_PROJECT_ID: quality-build
         run: bun run build
       - name: Upload quality diagnostics
         if: always()

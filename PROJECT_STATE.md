@@ -8,7 +8,9 @@ Native evidence: Bun 1.3.14 frozen install passed; Bun 1.2.14 frozen install pas
 
 Known limits: no successful hosted CI, independent review, runtime MCP/auth/tenant test, financial write test, migration, merge, or deployment ran. PRIMARY-SEC-001 acceptance blockers still apply until exact-head PR/CI/review evidence exists.
 
-ONE NEXT: package this security batch as its own draft candidate PR stacked after PRIMARY-SEC-001, then request/record independent review. After security PR evidence is stable, proceed to PRIMARY-ENV-001 to reconcile fail-closed environment isolation before any financial write-capable tests.
+Review checkpoint (2026-10-10): draft PR #53 already exists, stacked on PR #52, with reviewed head `4a5dda42d6470ded52edfb667d582d04d2a28165`. The manifest, lock and dependency guard were matched to that remote tree by Git blob hashes. A separate source/evidence review is recorded in `changes/primary-sec-002/REVIEW.md`; outcome: Changes required. Four isolated Lovable/MCP compatibility checks passed, but they do not prove application authorization or tenant isolation. The original manual brace-expansion lock edits conflict with the generated-file rule; independent clean generation reproduces all four entries, while a full regenerated graph has broader changes that were not adopted. Hosted CI still has no executed steps; its specific cause remains unverified.
+
+ONE NEXT: resolve PRIMARY-SEC-002 review findings: a bounded generator-owned lock correction and usable final-head hosted CI evidence, then review the final candidate. PRIMARY-ENV-001 follows stable security evidence; no financial write-capable tests before isolation proof.
 
 ## Current execution checkpoint — PRIMARY-SEC-001, 2026-10-09
 

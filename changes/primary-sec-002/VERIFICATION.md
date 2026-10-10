@@ -41,3 +41,15 @@ Local evidence is saved under `/workspace/scratch/ef360bbe5cf9/sec-evidence`:
 - Independent review has not been completed.
 - Remaining Moderate/Low audit records are not fixed here.
 - Runtime MCP/auth/tenant/financial gates remain pending.
+
+## Review Follow-up (2026-10-10)
+
+See `REVIEW.md` for the reviewed PR53 SHA, source identity and findings.
+Four synthetic adapter/SDK compatibility checks passed in
+`review-mcp-compatibility.test.ts`; changed-file lint for that fixture passed.
+Independent clean generation corroborated all four brace-expansion lock entries,
+but its broader graph was not adopted. Review outcome: Changes required.
+Hosted verification, generated-lock process disposition and final-candidate
+review remain open. No application auth/tenant or financial gate was closed.
+Combined local run of `tests/unit` and the new compatibility fixture passed
+44/44 with 94 expectations; `git diff --check` passed after the documentation edits.

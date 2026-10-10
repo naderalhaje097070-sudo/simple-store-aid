@@ -2,8 +2,11 @@
 
 - [x] PRIMARY-SEC-002 local candidate: Critical/High audit triage and compatible dependency corrections prepared; audit now reports 0 Critical and 0 High records; native frozen install/typecheck/unit/build/changed-file lint/diff-check evidence saved. Candidate only; not on main.
 - [x] PRIMARY-SEC-002 PR packaging: draft PR #53 stacked after PRIMARY-SEC-001; hosted Quality attempts failed before runner steps (`runner_id:0`, empty steps).
-- [ ] PRIMARY-SEC-002 acceptance: obtain successful hosted CI or resolved runner evidence plus independent review; do not waive remaining Low/Moderate audit findings or previous lint/CI blockers.
-- [ ] ONE NEXT — PRIMARY-ENV-001 after security PR evidence is stable: reconcile fail-closed environment isolation before write-capable financial tests.
+- [x] PRIMARY-SEC-002 source/evidence review of PR #53 head `4a5dda42d6470ded52edfb667d582d04d2a28165`: Changes required; see `changes/primary-sec-002/REVIEW.md`. This is not a GitHub approval or final-head merge acceptance.
+- [x] PRIMARY-SEC-002 compatibility evidence: four synthetic Lovable/MCP runtime checks passed; clean Bun generation independently matched all four brace-expansion entries. No application tenant/finance proof claimed.
+- [ ] ONE NEXT — PRIMARY-SEC-002 review remediation: resolve the generated-lock process finding and obtain usable final-head hosted CI evidence, then re-review. Preserve the original failed evidence; do not blindly rerun runnerless jobs.
+- [ ] PRIMARY-SEC-002 acceptance: final-candidate review and required checks remain open; do not waive remaining Low/Moderate findings or previous lint/CI blockers.
+- [ ] PRIMARY-ENV-001 after security PR evidence is stable: reconcile fail-closed environment isolation before write-capable financial tests.
 - [ ] Track remaining security maintenance: Moderate/Low findings remain for `@babel/core`, `@hono/node-server`, `dompurify`, `esbuild`, `hono`, and `qs`.
 - [ ] Financial gates remain blocked until environment isolation and canonical financial write evidence are proven.
 

@@ -72,7 +72,8 @@ Local Git blob hashes matched the reviewed remote tree:
 
 ## Additional Runtime Evidence
 
-`review-mcp-compatibility.test.ts` uses synthetic tools and in-process Requests.
+The fixture (originally `review-mcp-compatibility.test.ts`, now moved to
+`tests/unit/mcp-dependency-compatibility.test.ts`) uses synthetic tools and in-process Requests.
 It imports the actual installed Lovable adapter, SDK and Zod. No project tools,
 database, production credentials or financial writes are used.
 
@@ -85,7 +86,7 @@ auth-helper failure is a test-fixture defect, not a product failure.
 Reproduction command from the repository:
 
 ```sh
-bun test changes/primary-sec-002/review-mcp-compatibility.test.ts
+bun test tests/unit/mcp-dependency-compatibility.test.ts
 ```
 
 Local diagnostic evidence is under `../sec-evidence/`: `review-refresh.log`,
@@ -108,5 +109,23 @@ Running it together with `tests/unit` passed 44/44 with 94 expectations
   the review/test/doc additions. Do not rewrite Lovable-linked history or revert
   production to vulnerable dependencies.
 
-ONE NEXT: resolve SEC2-R2 through a bounded generator-owned update and SEC2-R1
-through usable hosted evidence; review the final candidate before ENV acceptance.
+## Remediation Disposition (2026-10-10)
+
+SEC2-R2: remediated in the candidate, awaiting separate final review. Bun 1.4.0
+generated the lock from the verified original PR52 lock; a second run with the
+final manifest/config produced the identical file. Unsupported brace paths were
+removed and the already-resolved Lovable MCP 0.20.1 was pinned. See
+`LOCK_REGENERATION.md` and `remediation-evidence.json` for provenance and limits.
+No new package version was introduced versus the reviewed candidate; optional/orphan
+pruning did not alter retained package metadata/integrity. The current lock passed
+frozen installation under Bun 1.2.14 and 1.3.14, 44/44 unit tests under 1.2.14,
+typecheck, fixture build and changed-source lint. Audit remains 11 Moderate / 5 Low.
+
+SEC2-R1: startup cause diagnosed, hosted acceptance still blocked. The signed-in
+GitHub page for run `38035862590` / job `114166024458` reports that recent account
+payments failed or the spending limit needs increasing. This is the service's
+combined annotation; it does not identify which account condition applies.
+No billing or spending setting was changed, and no successful hosted result exists.
+
+ONE NEXT: owner resolves the GitHub Billing & plans condition, then final-source
+checks and independent final-candidate review before ENV acceptance.

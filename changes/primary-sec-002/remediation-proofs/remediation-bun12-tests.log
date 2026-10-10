@@ -1,0 +1,61 @@
+bun test v1.2.14 (6a363a38)
+
+tests/unit/invoice-selectors.test.ts:
+(pass) invoice finance selectors > direct fully paid has zero remaining debt [0.12ms]
+(pass) invoice finance selectors > direct partially paid debt equals remaining [0.02ms]
+(pass) invoice finance selectors > direct full debt equals total [0.01ms]
+(pass) invoice finance selectors > returned direct order has no customer debt or courier custody [0.03ms]
+(pass) invoice finance selectors > courier pending is pending value, not customer debt [0.04ms]
+(pass) invoice finance selectors > courier delivered_none creates full customer debt [0.01ms]
+(pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part
+(pass) invoice finance selectors > courier delivered_full creates no customer debt
+(pass) invoice finance selectors > courier returned has no customer debt or courier custody [0.01ms]
+(pass) invoice finance selectors > courier custody full equals collected money
+(pass) invoice finance selectors > courier custody partial equals collected money
+(pass) invoice finance selectors > zero remaining stays zero [0.01ms]
+(pass) invoice finance selectors > item cost is cost times quantity [0.01ms]
+(pass) invoice finance selectors > gross margin is total minus item costs [0.07ms]
+(pass) invoice finance selectors > direct debt can be collected [0.02ms]
+(pass) invoice finance selectors > returned order cannot be collected
+(pass) invoice finance selectors > courier pending cannot be collected [0.01ms]
+(pass) invoice finance selectors > courier delivered_none can be collected
+(pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement
+(pass) invoice finance selectors > courier delivered_full cannot be collected
+(pass) invoice finance selectors > item margin uses price minus cost times quantity [0.03ms]
+(pass) invoice finance selectors > gross margin and item margin remain separate concepts [0.02ms]
+
+tests/unit/supabase-build-config.test.ts:
+(pass) Supabase build configuration > VITE variables override production fallback values [0.11ms]
+(pass) Supabase build configuration > server variable aliases are used when VITE variables are absent [0.02ms]
+(pass) Supabase build configuration > Lovable preview receives the production public fallback when variables are missing [0.01ms]
+(pass) Supabase build configuration > blank environment values do not override usable values [0.05ms]
+
+tests/unit/mcp-dependency-compatibility.test.ts:
+(pass) Lovable MCP adapter initializes with the overridden SDK [19.17ms]
+(pass) Lovable MCP adapter lists and invokes a Zod tool [7.81ms]
+(pass) invalid arguments do not invoke the synthetic tool [2.35ms]
+[mcp-js] auth.no_bearer_token {
+  outcome: "401",
+}
+(pass) protected fixture rejects a missing bearer without external requests [0.91ms]
+
+tests/unit/dependency-security.test.ts:
+(pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [0.67ms]
+(pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [0.16ms]
+(pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy [0.29ms]
+(pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy [0.15ms]
+(pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy [0.26ms]
+(pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy [0.16ms]
+(pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy [0.14ms]
+(pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy [0.26ms]
+(pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy [0.33ms]
+
+ 44 pass
+ 0 fail
+ 94 expect() calls
+Ran 44 tests across 4 files. [211.00ms]

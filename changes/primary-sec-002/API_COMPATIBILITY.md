@@ -14,3 +14,7 @@ Compatibility checks:
 - `@lovable.dev/mcp-js` stayed within the existing root semver range.
 - The MCP SDK is kept on v1 and pinned to the official patched floor `1.31.0`, avoiding an unreviewed v2 API change.
 - Typecheck, unit tests, and production build passed after the lock change.
+
+Review remediation pins the already-resolved `@lovable.dev/mcp-js` 0.20.1 without
+changing its installed version. Four synthetic adapter/SDK runtime checks now run
+with the unit suite. Application OAuth/JWT and tenant-policy acceptance remains open.

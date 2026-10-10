@@ -3,6 +3,7 @@ import { auth, defineMcp, defineTool } from "@lovable.dev/mcp-js";
 import { createMcpProtocolHandler } from "@lovable.dev/mcp-js/protocols/mcp";
 import { z } from "zod";
 
+// Synthetic adapter checks exercise the locked SDK without project data or tools.
 let calls = 0;
 const echo = defineTool({
   name: "echo",

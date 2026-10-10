@@ -29,3 +29,13 @@ Started from the PRIMARY-SEC-001 candidate tree, stacked on the current governan
 - Critical/High package/advisory records from `bun audit` are removed or explicitly classified as blocked.
 - Native frozen install, typecheck, unit tests, build, changed-file lint, and diff check pass.
 - Remaining audit findings are documented by severity and not described as accepted for release.
+
+## Authorized Review Remediation
+
+The owner's 2026-10-10 instruction authorizes resolving the recorded lock-generation
+finding and diagnosing CI startup. Scope includes a generator-owned bounded lock,
+removing unsupported resolution intents, preserving the current Lovable MCP version,
+and moving the synthetic compatibility fixture into the existing CI unit-test path.
+Risk remains dependency compatibility; no runtime feature, database, financial,
+production or billing-setting change is part of this packet. Acceptance still needs
+usable final-source hosted checks and independent final-candidate review.

@@ -17,7 +17,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@lovable.dev/cloud-auth-js": "^1.1.2",
     "@lovable.dev/email-js": "^0.1.0",
-    "@lovable.dev/mcp-js": "^0.20.0",
+    "@lovable.dev/mcp-js": "0.20.1",
     "@lovable.dev/webhooks-js": "^0.0.1",
     "@paddle/paddle-node-sdk": "^3.8.0",
     "@radix-ui/react-accordion": "^1.2.12",
@@ -114,10 +114,6 @@
     "seroval-plugins": "^1.5.6"
   },
   "resolutions": {
-    "brace-expansion": "1.1.21",
-    "filelist/minimatch/brace-expansion": "2.1.7",
-    "@typescript-eslint/typescript-estree/minimatch/brace-expansion": "5.0.12",
-    "glob/minimatch/brace-expansion": "5.0.12",
     "@modelcontextprotocol/sdk": "1.31.0",
     "proxy-addr": "2.0.8",
     "shell-quote": "1.11.0",

@@ -24,4 +24,4 @@
 
 ## Tooling Constraint
 
-Bun 1.3.14 did not apply nested/scoped overrides for the three `brace-expansion` major lines. The lockfile therefore pins the three compatible major-specific patched entries directly, with integrity values from npm registry metadata, and frozen install verifies the lock is installable.
+Bun 1.3.14 did not apply the scoped rules used in the original candidate. That manual-lock approach was rejected by SEC2-R2 review. The current candidate uses Bun 1.4.0's transitive update generator from the original PR52 lock, preserves all three compatible major lines and removes unsupported resolution paths. See `LOCK_REGENERATION.md` for the reproduced output and graph pruning. Frozen installation with the existing Bun 1.2.14 CI version remains verified; no package-manager runtime upgrade is required to install this lock.

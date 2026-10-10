@@ -147,3 +147,13 @@ Candidate status only: native29 tests/typecheck/build pass; existing lint, broad
 - Rationale: `bun audit` on the prior candidate still reported 2 Critical and 33 High package/advisory records. After these floors, current audit has 0 Critical and 0 High records.
 - Tooling note: Bun 1.3.14 did not apply nested overrides for the three `brace-expansion` major lines, so the lockfile carries the compatible major-specific entries and the unit guard enforces them. Frozen install was verified with Bun 1.3.14 and Bun 1.2.14.
 - Consequence: future dependency refreshes must keep the dependency-security guard green and must not silently reintroduce the vulnerable floors. Remaining Moderate/Low audit records, hosted CI, independent review, runtime auth/MCP, financial gates, merge, and deployment remain outside this decision.
+
+## DEC-018 - Generator-owned PRIMARY-SEC-002 lock remediation (2026-10-10)
+
+- Status: Candidate implementation under the owner's authorized review-remediation request; final review/hosted CI remain open.
+- Supersedes the manual-lock procedure described in DEC-017, preserving its patched security floors.
+- Use verified Bun 1.4.0 transitive update support on the original PR52 lock and the final manifest/config. Do not hand-edit generated lock entries. See `changes/primary-sec-002/LOCK_REGENERATION.md` for source blobs, commands and graph impact.
+- Pin `@lovable.dev/mcp-js` to the already-tested/resolved 0.20.1 to avoid an accidental downgrade during regeneration. Remove unsupported brace-expansion resolution paths; preserve the major-aware dependency guard and frozen installations.
+- Keep the existing 24-hour resolution-age configuration and exclusions unchanged. The regenerated lock remains version 1 and installs with Bun 1.2.14 and 1.3.14; no CI toolchain or application runtime upgrade is made here.
+- Put the synthetic MCP adapter compatibility tests in `tests/unit` so existing Quality includes them. These tests do not approve application JWT, tenant isolation or financial behavior.
+- Hosted execution is blocked by the observed GitHub account payment/spending annotation. No billing change, spending increase, merge or deployment is authorized by this engineering decision.

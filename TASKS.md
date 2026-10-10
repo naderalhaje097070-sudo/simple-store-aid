@@ -1,3 +1,33 @@
+## Current correction candidate — ENV-NATIVE-01, 2026-10-11 Africa/Tripoli
+
+Owner explicitly «قم بذلك» authorizes the concrete database-policy/RPC correction
+and isolated tests after the PR58 clean baseline. Active repository is
+`naderalhaje097070-sudo/simple-store-aid`; main remains
+`43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. Baseline draft PR58 is
+`b8fd5e95ab1f6eee07bb6198da3169cd46916962`.
+Branch: `fix/env-native-01-live-account-2026-10-11`. Candidate only, never Merged/Released.
+
+One forward-only migration adds a private live Auth-account predicate,22 restrictive
+authenticated ALL policies and guards30 exposed definer /3 internal assertion
+functions. Preserve existing policies, ACLs, RPC signatures and financial bodies.
+No rows/backfill/applied-migration/app/dependency/config change. Static generator and
+human-gated rollback are pinned to the reconciled catalog; baseline oracle unchanged.
+Five new local contract tests pass; actual fresh42 and41→42 upgrade/denial/active/
+rollback tests are recorded on the exact source in the batch PR and issue #55.
+Consult those final run records; do not infer hosted results from this checkpoint.
+
+Design/limits: [CORRECTION](changes/env-native-01/CORRECTION.md).
+Gate6 independent review, MCP/expired/deleted actors, concurrent/nonempty financial
+history and production-scale performance remain open. Broader financial writes and
+release stay gated. Existing active-user email/scanner privilege concerns require
+separate review; this lifecycle guard does not accept those contracts.
+ONE NEXT after candidate tests: independent adversarial review plus missing isolation
+coverage. Merge/deployment/cost/financial-policy changes still require owner approval.
+
+Prior checkpoints below remain historical evidence.
+
+---
+
 ## Completed focused baseline — 2026-10-11 Africa/Tripoli
 
 Draft PR58 `test/env-native-01-clean-baseline-2026-10-11`, based on PR57; main remains

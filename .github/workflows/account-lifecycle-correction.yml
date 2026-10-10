@@ -1,0 +1,112 @@
+name: Account Lifecycle Correction
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/20261010223557_enforce_live_account_state.sql'
+      - 'tests/account-lifecycle/correction_probe.py'
+      - 'tests/account-lifecycle/test_correction_probe.py'
+      - 'changes/env-native-01/generate-correction.py'
+      - '.github/workflows/account-lifecycle-correction.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  lifecycle-correction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [fresh, upgrade]
+    env:
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: lifecycle-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check new lifecycle harness safety
+        run: python -m unittest discover -s tests/account-lifecycle -p test_correction_probe.py -v
+      - name: Setup pinned Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - name: Inspect CLI and validate isolated intent
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(supabase --version)" = '2.101.0'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          supabase --help > "$RUNNER_TEMP/lifecycle-cli-help.txt"
+          grep -q -- '--workdir' "$RUNNER_TEMP/lifecycle-cli-help.txt"
+          supabase start --help > "$RUNNER_TEMP/lifecycle-start-help.txt"
+          python tests/e2e/write_harness_guard.py --preflight-only
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client > "$RUNNER_TEMP/lifecycle-psql-install.log" 2>&1
+      - name: Start fresh disposable stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-lifecycle-correction"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/lifecycle-init.log" 2>&1
+          mkdir -p "$stack/supabase/migrations"
+          for migration in supabase/migrations/*.sql; do
+            if [[ "${{ matrix.mode }}" == 'upgrade' && "$(basename "$migration")" == '20261010223557_enforce_live_account_state.sql' ]]; then
+              continue
+            fi
+            cp "$migration" "$stack/supabase/migrations/"
+          done
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/lifecycle-start.log" 2>&1; then
+            echo 'ENV_NATIVE_01_STACK_START_FAILURE: raw infrastructure output withheld'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/lifecycle-status.json"
+          chmod 600 "$RUNNER_TEMP/lifecycle-status.json"
+      - name: Run focused lifecycle correction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tests/account-lifecycle/correction_probe.py \
+            --status-file "$RUNNER_TEMP/lifecycle-status.json" \
+            --evidence-dir "$RUNNER_TEMP/lifecycle-evidence" \
+            --expected-source "$EXPECTED_SOURCE" \
+            --mode "${{ matrix.mode }}" \
+            --stack-dir "$RUNNER_TEMP/monjez-lifecycle-correction"
+      - name: Upload sanitized lifecycle evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: account-lifecycle-correction-${{ matrix.mode }}
+          path: ${{ runner.temp }}/lifecycle-evidence/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Stop disposable stack and remove keys
+        if: always()
+        shell: bash
+        run: |
+          rm -f "$RUNNER_TEMP/lifecycle-status.json"
+          if [[ -d "$RUNNER_TEMP/monjez-lifecycle-correction/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-lifecycle-correction" stop --no-backup > "$RUNNER_TEMP/lifecycle-stop.log" 2>&1
+          fi

@@ -1,7 +1,8 @@
 ## Current queue checkpoint — 2026-10-10
 
 - [x] PRIMARY-SEC-002 local candidate: Critical/High audit triage and compatible dependency corrections prepared; audit now reports 0 Critical and 0 High records; native frozen install/typecheck/unit/build/changed-file lint/diff-check evidence saved. Candidate only; not on main.
-- [ ] PRIMARY-SEC-002 PR packaging and acceptance: create/update focused draft PR stacked after PRIMARY-SEC-001; record hosted CI behavior; obtain independent review; do not waive remaining Low/Moderate audit findings or previous lint/CI blockers.
+- [x] PRIMARY-SEC-002 PR packaging: draft PR #53 stacked after PRIMARY-SEC-001 at head `8e8ee58eaec47c7fa8ba1fd62a786fddea2de661`; hosted Quality failed before runner steps (`runner_id:0`, empty steps).
+- [ ] PRIMARY-SEC-002 acceptance: obtain successful hosted CI or resolved runner evidence plus independent review; do not waive remaining Low/Moderate audit findings or previous lint/CI blockers.
 - [ ] ONE NEXT — PRIMARY-ENV-001 after security PR evidence is stable: reconcile fail-closed environment isolation before write-capable financial tests.
 - [ ] Track remaining security maintenance: Moderate/Low findings remain for `@babel/core`, `@hono/node-server`, `dompurify`, `esbuild`, `hono`, and `qs`.
 - [ ] Financial gates remain blocked until environment isolation and canonical financial write evidence are proven.

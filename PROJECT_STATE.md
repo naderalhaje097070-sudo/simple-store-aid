@@ -1,3 +1,34 @@
+## Completed focused baseline — 2026-10-11 Africa/Tripoli
+
+Draft PR58 `test/env-native-01-clean-baseline-2026-10-11`, based on PR57; main remains
+`43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. No merge or release.
+Tested runtime SHA: `15d30f3794aaab8c04b1dc17ddbfc4d99c4099bd`.
+
+Quality345/run38091180062 attempt1 SUCCESS:60 unit tests,8 server wrapper
+scenarios,67 browser scenarios, typecheck/lint and both build stages.
+Account Lifecycle Baseline1/run38091180122 attempt1 SUCCESS as a named
+EXPECTED-RED regression:57 controls passed;10 denial targets failed, showing
+banned owner AND staff retain old-JWT protected own data/summary and direct RLS.
+Fresh Docker stack: CLI2.101.0, PostgreSQL17.6,41 exact migrations; four dummy
+actors/two tenants, zero finance rows; public history checksums unchanged.
+All cleanup steps succeeded. No foreign tenant read/update/reassignment succeeded.
+
+Effective catalog:40 public functions,58 policies,432 table grants. The tenant
+owner policy bypasses a helper-only fix; existing role/tenant/admin assertions
+contain no live Auth-ban check. Catalog and exact raw sanitized results are
+archived under changes/env-native-01/evidence/clean-baseline; infrastructure/job
+identity and limitations are in execution.json and CLEAN_BASELINE.md.
+
+This closes the focused harness/baseline batch, not ENV-NATIVE-01 or broad
+Gate4/6 acceptance. All previous failed evidence and unverified coverage remain.
+ONE NEXT: use this catalog to implement the minimum forward-only caller-bound
+live-account enforcement across direct policies and exposed definer entry points,
+extend missing lifecycle tests, then obtain independent review. Financial writes,
+merge/deployment remain gated. Later docs/evidence-only commits preserve runtime;
+their check statuses must be stated on their own exact SHA.
+
+---
+
 ## Current checkpoint — ENV-NATIVE-01 clean baseline, 2026-10-11 Africa/Tripoli
 
 Active repository: `naderalhaje097070-sudo/simple-store-aid`.

@@ -1,3 +1,38 @@
+# Actual hosted result — completed 2026-10-11 Africa/Tripoli
+
+Source15d30f3794aaab8c04b1dc17ddbfc4d99c4099bd, draft PR58.
+Quality345/run38091180062 attempt1 SUCCESS;60 units/8 server wrappers/
+67 browser cases and all install/typecheck/lint/build steps succeed.
+Baseline1/run38091180122 attempt1 SUCCESS only as named EXPECTED-RED:
+57 controls PASS,10 protected-denial targets FAIL with old JWT for BOTH owner
+and staff. Auth login/refresh correctly deny both banned accounts; no foreign
+tenant access/update/reassignment succeeds. Cleanup/no-backup/key-removal succeed.
+
+Catalog and raw sanitized live-result are permanently archived in
+[evidence](evidence/clean-baseline/execution.json). ZIP digest verified before
+extraction; credential-pattern scan passed. All41 effective migration SHA256
+values match pinned source. CLI2.101.0, PostgreSQL17.6,40 public functions,
+58 policies,432 grants. Four users/two tenants/four profiles/four roles;
+seven financial tables remain empty; public hashes before/after are identical.
+This proves preservation of this empty fixture history, not nonempty finance.
+
+Catalog reconciliation: current_tenant_id, has_role, has_owner_role,
+has_staff_or_owner_role, is_platform_admin, _assert_staff, _assert_owner and
+get_tenant_today_estimate have no live ban test. Their existing SECURITY DEFINER
+search_path is public. Tenant SELECT is owner_user_id=auth.uid() OR
+id=current_tenant_id(); its direct owner arm bypasses a tenant-helper-only change.
+Source predictions were verified against actual pg_catalog, not substituted for it.
+No authorization correction or migration was made. All unverified coverage below
+remains open; no full Gate4/Gate6 or financial isolation acceptance.
+
+Final publication includes docs/evidence only after this tested runtime SHA.
+Do not relabel the source SHA in the archived JSON as a later documentation head.
+Automatic checks on the final head are recorded separately in PR58/#55.
+ONE NEXT: minimal forward-only lifecycle enforcement plus missing denial tests and
+independent review. No merge/deploy approval is implied.
+
+---
+
 # ENV-NATIVE-01 — clean focused baseline execution
 
 Approval: owner «انت المسؤول» follows the concrete PR57 intake approval request.

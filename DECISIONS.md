@@ -1,3 +1,28 @@
+## DEC-PRIMARY-RESUME-001 — Owner transfer and evidence reconciliation
+
+- Date: 2026-10-10 (Africa/Tripoli).
+- Status: owner-instructed source identity; documentation candidate, not merge approval.
+- Active repository: `naderalhaje097070-sudo/simple-store-aid`, stable repository ID1281463067.
+  Prior `naderalhaje0970-droid/simple-store-aid` links identify transferred history;
+  separate `mongezz` repository is not authorized as a fallback.
+- main remains `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`. Existing PR51-54 candidates are not accepted on main.
+- Observe workflow attempt and real steps: Quality #342 attempt2 is green on
+  `57fb508b9d239aaf4676352dd97654341416c46a`; retained attempt1 failure must not be rewritten or
+  used to claim a current runner block for that successful job.
+- Only bounded Quality execution is proven. No account spending change or release,
+  database, disabled-account or financial acceptance follows from it.
+- Preserve the existing six-stage plan, all accepted DEC-001 through DEC-014
+  financial/security boundaries, raw failed evidence and Lovable history.
+- ENV-NATIVE-01 remains a blocker requiring focused lifecycle intake/safety tests
+  and independent review; do not approve it through UI-only or login-only proof.
+- Routine safe candidate preparation is authorized by MONJEZ v2.2. Protected
+  merge/deploy/destructive/cost/core-contract/security-bypass decisions stay with
+  the owner. No new financial policy is introduced by this record.
+- Rollback: close this draft before merge; if later human-merged, use an additive
+  documentation revert and retain issue/PR evidence. Never force-push.
+
+---
+
 ## DEC-020 — Runtime feasibility and unchanged cloud boundary (2026-10-10)
 
 - Status: authorized runner investigation; documentation candidate only.

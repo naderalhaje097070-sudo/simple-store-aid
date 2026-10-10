@@ -1,3 +1,39 @@
+## Current queue checkpoint — PRIMARY-RESUME-001, 2026-10-10
+
+Repository: `naderalhaje097070-sudo/simple-store-aid`.
+Verified main: `43d6edbccb66fb06ce0fcb93734ad59532d1aeae` (unchanged).
+Candidate baseline: PR54 `57fb508b9d239aaf4676352dd97654341416c46a` (draft, unmerged).
+Batch branch: `docs/primary-resume-001-2026-10-10`.
+Evidence: [PRIMARY-RESUME-001](changes/primary-resume-001/VERIFICATION.md).
+
+This resumes the six-stage plan and issue #55; it does not create a second roadmap.
+
+- [x] S1.1a: re-read main, PR54, required files, live open PRs and execution claims.
+- [x] S1.1a: review PR51 scope/preservation; six Markdown paths, one additive commit,
+  289 additions and zero deletions. No independent approval is inferred.
+- [x] S1.1a: reconcile active repository identity and current/historical notices.
+- [x] S2.1 bounded evidence: Quality #342 attempt2 actually executed and passed
+  on PR54 head57fb508; prior attempt1 failure is historical. No billing change
+  or blind rerun. Other required checks are not inferred from this one workflow.
+- [x] S1.1a documentation candidate: path/content/blob/link/whitespace validation;
+  source/migrations/lock/workflows are preserved. Publication details in issue #55.
+- [ ] S1.1 full acceptance: genuinely separate review and explicit human merge.
+- [ ] S2.2/S2.3: remaining toolchain/security review, exact-head checks and residual
+  11 Moderate/5 Low dispositions; Quality alone does not close these gates.
+- [ ] ONE NEXT: `S2.4a / ENV-NATIVE-01` — prepare the focused account-lifecycle
+  intake, dependency map and regression safety net; preserve historical records.
+- [ ] S2.4 isolation acceptance: pre-disable JWT direct API/RLS/RPC denial,
+  active-account positive control, foreign-tenant denial and preserved history;
+  independent exact-source review and required hosted proof.
+- [ ] S3/S4 financial write, concurrency, idempotency and rollback execution remain
+  blocked by isolation acceptance. PR27/49/50 stay unmerged.
+- [ ] S5/S6 RC1, real-store pilot and commercial deployment remain blocked.
+
+Earlier active queues and ONE NEXT statements below are historical; do not schedule
+duplicate dependency/ENV implementation or billing retries from them.
+
+---
+
 ## Current queue checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
 
 - [x] Exact PR54 head84c3444 snapshot: all356 blobs match GitHub before/after execution.

@@ -1,3 +1,48 @@
+## Current execution checkpoint — PRIMARY-RESUME-001, 2026-10-10
+
+Repository: `naderalhaje097070-sudo/simple-store-aid`.
+Verified main: `43d6edbccb66fb06ce0fcb93734ad59532d1aeae` (unchanged).
+Candidate baseline: PR54 `57fb508b9d239aaf4676352dd97654341416c46a` (draft, unmerged).
+Batch branch: `docs/primary-resume-001-2026-10-10`.
+Evidence: [PRIMARY-RESUME-001](changes/primary-resume-001/VERIFICATION.md).
+
+Status: documentation candidate Implemented and locally Tested; not Merged or Released.
+Final published SHA/PR and check status are recorded in issue #55 and the batch PR.
+
+GitHub access now works through the new owner connection. The connected GitHub App
+installation is 170077393; repository permission read reports pull/push/admin.
+This is access evidence, not approval to merge or change billing.
+
+Quality #342 / run38080476062, **attempt2**, completed successfully on the exact
+PR54 baseline above. Latest job114311070422 reached checkout, frozen install,
+typecheck, changed-source lint, unit tests, offline server boundary, browser
+containment and both isolated builds; all returned success. The earlier attempt1
+runnerless failure remains historical evidence. No rerun was requested in this batch.
+Quality does not prove real database/RLS/RPC/disabled-user/financial acceptance.
+
+Reviewed the existing PR51 plan diff: one additive commit, six Markdown paths,
+289 additions, zero deletions. Accepted rules and prior source were preserved.
+This continuing agent's source reconciliation is not an independent review approval.
+PR51 -> PR52 -> PR53 -> PR54 remains a draft/unmerged stack; the finance
+PR27 -> PR49 -> PR50 candidates remain separate and unaccepted.
+
+**ENV-NATIVE-01 remains open:** the prior real dummy-account probe recorded a
+pre-ban JWT reading its own tenant after Auth ban. No cross-tenant exposure was
+observed in that bounded probe; broad isolation acceptance remains missing.
+No lifecycle fix, migration, application test, finance write, merge or deployment
+was performed in this documentation batch.
+
+ONE NEXT: `S2.4a / ENV-NATIVE-01` — prepare the focused account-lifecycle
+intake, current RLS/RPC dependency map and negative regression safety net on this
+candidate lineage, before implementing a forward-only authorization correction.
+Independent review of the real isolation packet and security candidates remains
+required; financial write testing stays blocked until isolation acceptance.
+
+All previous current/ONE NEXT blocks below are preserved historical checkpoints.
+Their accepted financial and release boundaries continue to apply.
+
+---
+
 ## Current execution checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
 
 A capable disposable Vercel sandbox executed exact PR54 source `84c3444fcdf5fa2825809192cda5b15561c950cf`, preserving reviewed implementation0e616d0013fd72de244686f10c8de5a12488f312. All356 tracked blobs matched before and after execution. Main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae; no merge/deployment occurred.

@@ -1,3 +1,28 @@
+## Current repository authority — MONJEZ v2.2, 2026-10-10
+
+The owner transferred the active repository to `naderalhaje097070-sudo/simple-store-aid`.
+Verify this exact owner/repository, main, branch/head, open PRs and execution claims
+before material work. The repository ID remains 1281463067. The earlier owner path
+in preserved records below is historical identity, not a second active repository.
+`naderalhaje0970-droid/mongezz` remains separate; do not move changes between repositories.
+
+Read the top current blocks in PROJECT_STATE.md and TASKS.md, the current notice in
+docs/PRIMARY_DELIVERY_PLAN.md, and execution index issue #55. Do not repeat completed
+candidate work or treat unmerged changes as main/released. Historical billing or
+runner failures must not override a later observed successful attempt on the same SHA.
+Check status, run attempt and actual steps, then scope new checks to the current change.
+
+One implementer owns each task; inspect the task's issue/PR claims before writing.
+Routine isolated development, verification, documentation and draft PR preparation
+are authorized. Protected merge, production deployment, destructive action, new cost,
+core financial-contract change or security/governance bypass still requires owner approval.
+No automatic merge/deployment and no published-history rewriting.
+
+The original Lovable notice and accepted architecture/governance rules below remain
+binding. Older active-repository/scheduling statements are superseded by this notice.
+
+---
+
 <!-- LOVABLE:BEGIN -->
 > [!IMPORTANT]
 > This project is connected to [Lovable](https://lovable.dev). Avoid rewriting

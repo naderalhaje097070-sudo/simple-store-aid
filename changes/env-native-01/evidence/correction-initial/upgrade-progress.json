@@ -1,0 +1,574 @@
+{
+  "source_sha": "0c9689dd814e5ce8220d15ed5dcad6b0deb75efe",
+  "controls": [
+    {
+      "name": "fresh_empty_stack",
+      "passed": true
+    },
+    {
+      "name": "initial_exact_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_1_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_2_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_3_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_summary_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_summary_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_admin_read",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "ban_owner",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "stored_ban_owner",
+      "passed": true
+    },
+    {
+      "name": "ban_staff",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "stored_ban_staff",
+      "passed": true
+    },
+    {
+      "name": "prior_schema_named_regression",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "prior_state_upgrade_applied",
+      "passed": true,
+      "duration_ms": 972.32
+    },
+    {
+      "name": "upgrade_public_history_preserved",
+      "passed": true
+    },
+    {
+      "name": "final_exact_42_chain",
+      "passed": true
+    },
+    {
+      "name": "auth_ban_schema_present",
+      "passed": true
+    },
+    {
+      "name": "original_58_policies_preserved",
+      "passed": true
+    },
+    {
+      "name": "restrictive_22_policy_surface",
+      "passed": true
+    },
+    {
+      "name": "public_table_grants_preserved",
+      "passed": true
+    },
+    {
+      "name": "all_public_function_acls_preserved",
+      "passed": true
+    },
+    {
+      "name": "all_33_definer_entries_guarded",
+      "passed": true
+    },
+    {
+      "name": "private_lookup_not_public_auth_table",
+      "passed": true
+    },
+    {
+      "name": "banned_owner_login",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "banned_owner_refresh",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "banned_owner_old_jwt_own_tenant",
+      "passed": true,
+      "status": 403,
+      "visible_rows": 0
+    },
+    {
+      "name": "banned_owner_old_jwt_own_profiles",
+      "passed": true,
+      "status": 200,
+      "visible_rows": 0
+    },
+    {
+      "name": "banned_owner_old_jwt_own_user_roles",
+      "passed": true,
+      "status": 403,
+      "visible_rows": 0
+    },
+    {
+      "name": "banned_owner_table_couriers",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_customers",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_day_closes",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_email_send_log",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_email_send_state",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_email_unsubscribe_tokens",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_expenses",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_financial_audit_log",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_order_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_orders",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_payments",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_platform_admin_audit_log",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_platform_admins",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_products",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_profiles",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_security_scan_findings",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_security_scan_runs",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_subscriptions",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_suppressed_emails",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_table_tenant_counters",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_table_user_roles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "owner_exact_30_rpc_surface",
+      "passed": true
+    },
+    {
+      "name": "banned_owner_rpc_current_tenant_id",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_current_tenant_timezone",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_is_platform_admin",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_has_role",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_has_owner_role",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_has_staff_or_owner_role",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_tenant_today",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_tenant_has_active_subscription",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_summary",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_admin_overview",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_admin_audit_log",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_courier_custody_health",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_day_close_health",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_financial_health",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_financial_health_rows",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_system_health",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_get_platform_tenants_health",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_run_security_scan",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_delete_email",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_enqueue_email",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_read_email_batch",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_move_to_dlq",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_close_day",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_collect_order_debt",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_delete_order_with_restore_stock",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_delete_product_safe",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_return_courier_order",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_settle_courier_orders",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_rpc_update_courier_order_state",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_owner_direct_rls",
+      "passed": true
+    },
+    {
+      "name": "banned_owner_update_tenants",
+      "passed": true,
+      "status": 403
+    }
+  ]
+}

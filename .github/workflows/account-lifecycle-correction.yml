@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'supabase/migrations/20261010223557_enforce_live_account_state.sql'
+      - 'supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql'
       - 'tests/account-lifecycle/correction_probe.py'
       - 'tests/account-lifecycle/test_correction_probe.py'
       - 'changes/env-native-01/generate-correction.py'
@@ -73,7 +74,7 @@ jobs:
           supabase --workdir "$stack" init > "$RUNNER_TEMP/lifecycle-init.log" 2>&1
           mkdir -p "$stack/supabase/migrations"
           for migration in supabase/migrations/*.sql; do
-            if [[ "${{ matrix.mode }}" == 'upgrade' && "$(basename "$migration")" == '20261010223557_enforce_live_account_state.sql' ]]; then
+            if [[ "${{ matrix.mode }}" == 'upgrade' && ( "$(basename "$migration")" == '20261010223557_enforce_live_account_state.sql' || "$(basename "$migration")" == '20261010225012_avoid_profile_policy_sublink_recursion.sql' ) ]]; then
               continue
             fi
             cp "$migration" "$stack/supabase/migrations/"
@@ -84,6 +85,17 @@ jobs:
           fi
           supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/lifecycle-status.json"
           chmod 600 "$RUNNER_TEMP/lifecycle-status.json"
+      - name: Inspect runtime and local advisory capability
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/lifecycle-evidence"
+          docker ps --format '{{.Image}}' > "$RUNNER_TEMP/lifecycle-evidence/runtime-images.txt"
+          if supabase db advisors --help > "$RUNNER_TEMP/lifecycle-evidence/advisory-capability.txt" 2>&1 && grep -q -- '--local' "$RUNNER_TEMP/lifecycle-evidence/advisory-capability.txt"; then
+            supabase --workdir "$RUNNER_TEMP/monjez-lifecycle-correction" db advisors --local -o json > "$RUNNER_TEMP/lifecycle-evidence/advisors.json"
+          else
+            echo 'Local CLI advisor target unsupported; no linked/cloud fallback used' > "$RUNNER_TEMP/lifecycle-evidence/advisory-status.txt"
+          fi
       - name: Run focused lifecycle correction
         shell: bash
         run: |

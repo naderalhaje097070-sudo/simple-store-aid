@@ -2,15 +2,20 @@
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
 import time
 import uuid
+import urllib.error
+import urllib.request
 
 from live_probe import Probe, HarnessFailure, FINANCE_TABLES, denial
+from write_harness_guard import _psql_command, _psql_env
 
 MIGRATION = '20261010223557_enforce_live_account_state.sql'
+COMPENSATION = '20261010225012_avoid_profile_policy_sublink_recursion.sql'
 SUCCESS = 'ENV_NATIVE_01_FOCUSED_CORRECTION_GREEN'
 
 
@@ -62,6 +67,33 @@ def rpc_payloads(actor, other):
 
 
 class CorrectionProbe(Probe):
+    def sql(self, sql):
+        result=subprocess.run(_psql_command(self.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),
+                              input=sql,capture_output=True,text=True,env=_psql_env(self.config))
+        if result.returncode:
+            match=re.search(r'ERROR:\s*([0-9A-Z]{5})\b',result.stderr)
+            raise HarnessFailure('isolated SQL failure: '+(match.group(1) if match else 'unknown'))
+        return result.stdout.strip()
+
+    def request(self, method, path, payload=None, token=None, admin=False):
+        if not path.startswith(('/auth/v1/','/rest/v1/')) or '\n' in path:
+            raise HarnessFailure('unsupported local API path')
+        key=self.admin if admin else self.anon
+        headers={'apikey':key,'Authorization':'Bearer '+(key if admin else token or self.anon),
+                 'Content-Type':'application/json','Prefer':'return=representation'}
+        request=urllib.request.Request(self.base+path,data=None if payload is None else json.dumps(payload).encode(),method=method,headers=headers)
+        try:
+            with self.opener.open(request,timeout=15) as response:status,raw=response.status,response.read()
+        except urllib.error.HTTPError as error:status,raw=error.code,error.read()
+        except (urllib.error.URLError,TimeoutError) as error:raise HarnessFailure('local transport failure') from error
+        try:body=json.loads(raw) if raw else None
+        except json.JSONDecodeError as error:raise HarnessFailure('non-JSON local API result') from error
+        if status>=500 or 300<=status<400:
+            code=body.get('code','unknown') if isinstance(body,dict) else 'unknown'
+            code=code if re.fullmatch(r'[A-Z0-9]{5,10}',code) else 'unknown'
+            raise HarnessFailure(f'server/redirect failure: status={status}, code={code}')
+        return status,body
+
     def history_all(self, tables):
         return {t: self.query(f"select to_jsonb(md5(coalesce(jsonb_agg(to_jsonb(t) order by to_jsonb(t)::text)::text,'[]'))) from public.{t} t;") for t in tables}
 
@@ -87,7 +119,8 @@ class CorrectionProbe(Probe):
         help_result = subprocess.run(['supabase', 'migration', 'up', '--help'], capture_output=True, text=True)
         if help_result.returncode or '--local' not in help_result.stdout:
             raise HarnessFailure('pinned CLI local migration capability missing')
-        shutil.copy2(Path('supabase/migrations') / MIGRATION, stack / 'supabase/migrations' / MIGRATION)
+        for name in (MIGRATION,COMPENSATION):
+            shutil.copy2(Path('supabase/migrations') / name, stack / 'supabase/migrations' / name)
         start = time.monotonic()
         result = subprocess.run(['supabase', '--workdir', str(stack), 'migration', 'up', '--local'], capture_output=True, text=True)
         self.control('prior_state_upgrade_applied', result.returncode == 0, duration_ms=round((time.monotonic()-start)*1000, 2))
@@ -99,11 +132,29 @@ class CorrectionProbe(Probe):
         initial = self.counts()
         self.control('fresh_empty_stack', all(v == 0 for v in initial.values()))
         files = sorted(Path('supabase/migrations').glob('*.sql'))
-        expected = files if mode == 'fresh' else [f for f in files if f.name != MIGRATION]
+        expected = files if mode == 'fresh' else [f for f in files if f.name not in (MIGRATION,COMPENSATION)]
         versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
-        self.control('initial_exact_migration_chain', len(files) == 42 and versions == [p.name.split('_')[0] for p in expected])
+        self.control('initial_exact_migration_chain', len(files) == 43 and versions == [p.name.split('_')[0] for p in expected])
         a, b = self.fixture('owner_A'), self.fixture('owner_B')
         s1, s2 = self.fixture('staff_A', a['tenant'], True), self.fixture('staff_B', b['tenant'], True)
+        if mode=='fresh':
+            # Regression proves the precise42P17 root cause in a rolled-back DDL
+            # transaction; do not turn a server error into permission success.
+            self.sql(f'''begin;
+            alter policy monjez_live_actor on public.profiles
+              using ((select monjez_private.actor_is_active()))
+              with check ((select monjez_private.actor_is_active()));
+            set local role authenticated;
+            select set_config('request.jwt.claim.sub','{a['uid']}',true) is not null;
+            do $test$ begin
+              begin
+                update public.profiles set display_name=display_name where id='{a['uid']}'::uuid;
+                raise exception 'expected42P17 not reproduced';
+              exception when sqlstate '42P17' then
+                if SQLERRM <> 'infinite recursion detected in policy for relation "profiles"' then raise; end if;
+              end;
+            end $test$; rollback;''')
+            self.control('prior_42p17_profile_recursion_reproduced',True)
         # Existing-schema membership only; no product/admin contract added.
         self.sql(f"insert into public.platform_admins(user_id) values ('{a['uid']}'),('{b['uid']}');")
         for n, actor in enumerate([a,b,s1,s2]):
@@ -120,6 +171,8 @@ class CorrectionProbe(Probe):
             self.control('active_summary_'+name,status==200 and isinstance(body,dict) and 'sales' in body,status=status)
         status, body=self.request('POST','/rest/v1/rpc/get_platform_admin_audit_log',{},token=a['token'])
         self.control('active_admin_read',status==200 and isinstance(body,list),status=status)
+        status,rows=self.request('PATCH','/rest/v1/profiles?id=eq.'+a['uid'],{'display_name':'ACTIVE FIXTURE'},token=a['token'])
+        self.control('active_profile_edit_preserved',status==200 and isinstance(rows,list) and len(rows)==1,status=status)
         status,body=self.request('GET','/rest/v1/tenants?select=id')
         self.control('anonymous_denied',denial(status,body),status=status)
         for name,actor in [('owner',b),('staff',s2)]:
@@ -132,7 +185,7 @@ class CorrectionProbe(Probe):
             self.control('prior_schema_named_regression',status==200 and isinstance(rows,list) and len(rows)==1,status=status)
             self.migrate_upgrade(stack,before,tables)
         versions=self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
-        self.control('final_exact_42_chain',versions==[p.name.split('_')[0] for p in files])
+        self.control('final_exact_43_chain',versions==[p.name.split('_')[0] for p in files])
         self.export_catalog(files)
         current=json.loads((self.evidence_dir/'catalog.json').read_text())
         old=[p for p in current['policies'] if p['policyname']!='monjez_live_actor']
@@ -147,6 +200,9 @@ class CorrectionProbe(Probe):
         private=self.query("select jsonb_build_object('functions',(select jsonb_agg(jsonb_build_object('name',p.proname,'acl',p.proacl::text,'config',p.proconfig,'definition',pg_get_functiondef(p.oid))) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='monjez_private'),'anon_usage',has_schema_privilege('anon','monjez_private','USAGE'),'auth_create',has_schema_privilege('authenticated','monjez_private','CREATE'),'auth_auth_table',has_table_privilege('authenticated','auth.users','SELECT'));")
         self.control('private_lookup_not_public_auth_table',not private['anon_usage'] and not private['auth_create'] and not private['auth_auth_table'] and len(private['functions'])==2 and all(f['config']==['search_path=""'] for f in private['functions']))
         (self.evidence_dir/'private-catalog.json').write_text(json.dumps(private,indent=2)+'\n')
+        plan=self.query(f"explain (analyze,buffers,format json) select exists(select 1 from auth.users where id='{b['uid']}'::uuid and deleted_at is null and (banned_until is null or banned_until<=statement_timestamp()));")
+        (self.evidence_dir/'lookup-plan.json').write_text(json.dumps(plan,indent=2)+'\n')
+        self.control('fixture_lookup_plan_recorded',isinstance(plan,list) and bool(plan))
         expected_rpc={f['name'] for f in baseline['functions'] if f['definer'] and 'authenticated=X/' in f['acl']}
         for name, actor in [('owner',b),('staff',s2)]:
             from live_probe import auth_ban_denial
@@ -214,9 +270,12 @@ class CorrectionProbe(Probe):
         restored=self.query("select jsonb_object_agg(p.proname,pg_get_functiondef(p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.prokind='f';")
         self.control('rollback_all_40_definitions_exact',restored=={f['name']:f['definition'] for f in baseline['functions']})
         self.sql((Path('supabase/migrations')/MIGRATION).read_text())
+        self.sql((Path('supabase/migrations')/COMPENSATION).read_text())
         self.control('compensation_reapply_no_data_change',self.history_all(tables)==unchanged)
         status,rows=self.own_rows(s2,'tenants')
         self.control('reapply_banned_staff_denied',denial(status,rows),status=status)
+        status,body=self.request('PATCH','/rest/v1/profiles?id=eq.'+s2['uid'],{'display_name':'FORBIDDEN'},token=s2['token'])
+        self.control('reapply_banned_staff_profile_denied',denial(status,body),status=status)
         final=self.counts()
         self.control('zero_financial_rows',all(final[t]==0 for t in FINANCE_TABLES))
         self.control('exact_fixture_counts',{k:final[k] for k in ('users','tenants','profiles','roles')}=={'users':4,'tenants':2,'profiles':4,'roles':4})

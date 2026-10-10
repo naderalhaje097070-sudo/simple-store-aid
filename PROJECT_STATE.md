@@ -1,3 +1,29 @@
+## Current checkpoint — ENV-NATIVE-01 preparation, 2026-10-10
+
+Active repository: `naderalhaje097070-sudo/simple-store-aid`.
+Main remains `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`; baseline is draft
+PR56 `b9aa56bc3bb30948d95961c06fd493dfb866f476`. This batch is a candidate,
+not Merged or Released. Branch: `test/env-native-01-lifecycle-intake-2026-10-10`.
+Packet: [ENV-NATIVE-01](changes/env-native-01/CHANGE_INTAKE.md);
+results: [VERIFICATION](changes/env-native-01/VERIFICATION.md).
+
+S2.4a preparation is implemented: focused Gates0–3, pinned migration/policy/RPC/app
+discovery map and offline evidence regression oracle. The archive remains22 passes/
+2 seed conflicts; pre-ban own-tenant access is detected as regression, not accepted.
+No authorization fix/migration/app financial change or live database execution here.
+Source-only discovery is not the effective pg_catalog; catalog reconciliation required.
+
+ONE NEXT: owner review/approve the concrete lifecycle intake and L01–L15 execution
+scope, then clean isolated Gate4 baseline on a verified disposable runner. This is
+the required intake gate under AGENTS/NAADF-CMF, not merge/deploy authorization.
+ENV-NATIVE-01 High candidate, independent review and broad isolation gates stay open.
+Financial write/concurrency/idempotency/rollback suites remain blocked by isolation.
+Quality342 attempt2/343 success remain historical exact-head evidence; no reruns.
+
+All previous checkpoints below are retained history, with accepted rules preserved.
+
+---
+
 ## Current execution checkpoint — PRIMARY-RESUME-001, 2026-10-10
 
 Repository: `naderalhaje097070-sudo/simple-store-aid`.

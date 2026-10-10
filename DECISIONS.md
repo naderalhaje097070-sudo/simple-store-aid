@@ -1,3 +1,17 @@
+## DEC-ENV-NATIVE-01-PREP — Lifecycle intake candidate
+
+2026-10-10. Routine owner-authorized preparation only; proposed authorization design
+awaits intake approval under AGENTS/NAADF-CMF. Use Auth ban as the existing defect's
+live lifecycle signal after pinned-schema validation; do not add client-writable
+disabled state, delete identities/history, or adopt the separate finance stack.
+An old JWT reading own tenant is the confirmed historical failure. A tenant-helper-
+only change leaves direct owner policies open. Source discovery and offline tests
+are not isolated acceptance or independent review. Preserve22/2 fixture evidence.
+No production, migration implementation, costs, merge or deployment. Candidate scope
+and rollback: changes/env-native-01. ONE NEXT: approve intake/L01–L15 scoped baseline.
+
+---
+
 ## DEC-PRIMARY-RESUME-001 — Owner transfer and evidence reconciliation
 
 - Date: 2026-10-10 (Africa/Tripoli).

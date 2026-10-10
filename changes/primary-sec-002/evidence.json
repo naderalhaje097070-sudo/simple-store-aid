@@ -1,0 +1,77 @@
+{
+  "change": "PRIMARY-SEC-002",
+  "date": "2026-10-10",
+  "audit_before": {
+    "source": "sec-evidence/final-audit.json",
+    "packages": 18,
+    "records": 65,
+    "severity_counts": {
+      "critical": 2,
+      "high": 33,
+      "moderate": 25,
+      "low": 5
+    }
+  },
+  "audit_after": {
+    "source": "sec-evidence/sec2-candidate-audit.json",
+    "packages": 6,
+    "records": 16,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 11,
+      "low": 5
+    },
+    "remaining_packages": [
+      "@babel/core",
+      "@hono/node-server",
+      "dompurify",
+      "esbuild",
+      "hono",
+      "qs"
+    ]
+  },
+  "checks": [
+    {
+      "name": "bun-1.3.14-frozen-install",
+      "result": "pass"
+    },
+    {
+      "name": "bun-1.2.14-frozen-install",
+      "result": "pass",
+      "evidence": "sec-evidence/sec2-bun12-frozen-install.log"
+    },
+    {
+      "name": "typecheck",
+      "result": "pass",
+      "evidence": "sec-evidence/sec2-typecheck-final.log"
+    },
+    {
+      "name": "unit",
+      "result": "pass",
+      "summary": "40 pass, 0 fail, 86 expect() calls",
+      "evidence": "sec-evidence/sec2-unit-final.log"
+    },
+    {
+      "name": "build",
+      "result": "pass",
+      "evidence": "sec-evidence/sec2-build.log"
+    },
+    {
+      "name": "changed-file-lint",
+      "result": "pass",
+      "evidence": "sec-evidence/sec2-changed-lint-final.log"
+    },
+    {
+      "name": "diff-check",
+      "result": "pass",
+      "evidence": "sec-evidence/sec2-diff-check.log"
+    }
+  ],
+  "limits": [
+    "No production data, production secrets, migration, merge, or deployment.",
+    "No runtime MCP/auth/tenant/financial write gate was executed.",
+    "Hosted CI and independent review remain pending.",
+    "Moderate and Low audit records remain for a later security maintenance batch."
+  ]
+}

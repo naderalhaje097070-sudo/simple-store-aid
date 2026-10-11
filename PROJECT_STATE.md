@@ -1,3 +1,25 @@
+## 2026-10-11 — MCP L10 verification candidate
+
+Owner «قم بالاختبار» authorizes the next bounded test-only batch after PR60 evidence
+closure. Base e4ee6bafc8adec292826769ec37ad1d21e97ae95; source of truth issue55.
+Root owns tests/account-lifecycle/mcp_* and focused workflow/packet. No app,
+migration, dependency, financial-contract, production, cost, merge/deploy change.
+
+Actual application four tools/locked protocol with real local Auth JWT are the
+scope; administrative Supabase MCP is a different trust boundary. Local3 oracle
+methods PASS. New focused one-stack CI is pending. Active controls must pass before
+ban testing; source-derived cloud issuer versus approved local URL is a potential
+configuration blocker, not proof of correct ban denial. Record all observed status
+and stored hashes; no timeout/5xx/generic auth failure treated as acceptance.
+Do not repeat prior210/212/78 workflows or claim full isolation/financial release.
+
+Packet: changes/mcp-lifecycle-01/VERIFICATION_PLAN.md. Actualsource/jobs/results and
+blocker saved in draftPR/#55 after execution; independent acceptance not performed.
+ONE NEXT: inspect actual focused result; if active is blocked, scoped issuer/config
+repair intake with retained failing regression before any application change.
+
+---
+
 ## 2026-10-11 — PR60 second failure retained; signature classifier diagnosed
 
 Candidate9cc230b7f17de92f69a7ec2d59f0e0f3735a6dde: Quality350 SUCCESS; focused4
@@ -612,3 +634,4 @@ bun run build
 ```
 
 When a change affects financial or authenticated application behavior, the appropriate isolated financial and authenticated UI suites are additionally mandatory. GitHub checks on the exact final PR head are the authoritative verification source.
+

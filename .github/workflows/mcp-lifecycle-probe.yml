@@ -109,6 +109,9 @@ jobs:
       - name: Print allowlisted sanitized receipt
         if: always()
         run: |
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/runtime-images.txt" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/runtime-images.txt"
+          fi
           if [[ -f "$RUNNER_TEMP/mcp-evidence/mcp-result.json" ]]; then
             cat "$RUNNER_TEMP/mcp-evidence/mcp-result.json"
           fi

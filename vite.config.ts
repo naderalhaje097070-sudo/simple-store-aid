@@ -45,25 +45,18 @@ export default defineConfig(async (configEnv) => {
       // identity into the server bundle so runtime Worker bindings cannot silently
       // target a different environment than the browser bundle was built for.
       define: {
-        "import.meta.env.MONGEZZ_DEPLOY_TARGET":
-          JSON.stringify(mongezzBuildTarget),
-        "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
-          supabaseBuildConfig.url,
-        ),
+        "import.meta.env.MONGEZZ_DEPLOY_TARGET": JSON.stringify(mongezzBuildTarget),
+        "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseBuildConfig.url),
         "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
           supabaseBuildConfig.publishableKey,
         ),
-        "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(
-          supabaseBuildConfig.projectId,
-        ),
+        "import.meta.env.VITE_SUPABASE_PROJECT_ID": JSON.stringify(supabaseBuildConfig.projectId),
         __MONGEZZ_BUILD_DEPLOY_TARGET__: JSON.stringify(mongezzBuildTarget),
         __MONGEZZ_BUILD_SUPABASE_URL__: JSON.stringify(supabaseBuildConfig.url),
         __MONGEZZ_BUILD_SUPABASE_PUBLISHABLE_KEY__: JSON.stringify(
           supabaseBuildConfig.publishableKey,
         ),
-        __MONGEZZ_BUILD_SUPABASE_PROJECT_ID__: JSON.stringify(
-          supabaseBuildConfig.projectId,
-        ),
+        __MONGEZZ_BUILD_SUPABASE_PROJECT_ID__: JSON.stringify(supabaseBuildConfig.projectId),
       },
       plugins: [
         mcpPlugin(),

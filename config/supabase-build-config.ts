@@ -1,9 +1,4 @@
-export type MongezzDeployTarget =
-  | "local"
-  | "ci"
-  | "preview"
-  | "staging"
-  | "production";
+export type MongezzDeployTarget = "local" | "ci" | "preview" | "staging" | "production";
 
 export type SupabaseBuildEnvironment = Partial<
   Record<
@@ -33,9 +28,7 @@ const DEPLOY_TARGETS = new Set<MongezzDeployTarget>([
 
 const LOOPBACK_HOSTS = new Set(["127.0.0.1", "localhost"]);
 
-function firstNonEmpty(
-  ...values: Array<string | undefined>
-): string | undefined {
+function firstNonEmpty(...values: Array<string | undefined>): string | undefined {
   const value = values.find((candidate) => candidate?.trim());
   return value?.trim();
 }
@@ -62,21 +55,14 @@ function parseUrl(value: string): URL {
       configurationError("Supabase URL must use http or https");
     }
     if (url.username || url.password || url.search || url.hash) {
-      configurationError(
-        "Supabase URL cannot contain credentials, query, or fragment routing",
-      );
+      configurationError("Supabase URL cannot contain credentials, query, or fragment routing");
     }
     if (url.pathname !== "/") {
-      configurationError(
-        "Supabase URL must target the project root without a path prefix",
-      );
+      configurationError("Supabase URL must target the project root without a path prefix");
     }
     return url;
   } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message.startsWith("SEC_ENV_CONFIG_ERROR:")
-    ) {
+    if (error instanceof Error && error.message.startsWith("SEC_ENV_CONFIG_ERROR:")) {
       throw error;
     }
     configurationError("Supabase URL is invalid");
@@ -96,30 +82,20 @@ function canonicalUrl(value: string): string {
 function validateAliasConsistency(env: SupabaseBuildEnvironment): void {
   const viteUrl = firstNonEmpty(env.VITE_SUPABASE_URL);
   const serverUrl = firstNonEmpty(env.SUPABASE_URL);
-  if (
-    viteUrl &&
-    serverUrl &&
-    canonicalUrl(viteUrl) !== canonicalUrl(serverUrl)
-  ) {
-    configurationError(
-      "VITE_SUPABASE_URL and SUPABASE_URL must target the same project",
-    );
+  if (viteUrl && serverUrl && canonicalUrl(viteUrl) !== canonicalUrl(serverUrl)) {
+    configurationError("VITE_SUPABASE_URL and SUPABASE_URL must target the same project");
   }
 
   const viteKey = firstNonEmpty(env.VITE_SUPABASE_PUBLISHABLE_KEY);
   const serverKey = firstNonEmpty(env.SUPABASE_PUBLISHABLE_KEY);
   if (viteKey && serverKey && viteKey !== serverKey) {
-    configurationError(
-      "VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match",
-    );
+    configurationError("VITE_SUPABASE_PUBLISHABLE_KEY and SUPABASE_PUBLISHABLE_KEY must match");
   }
 
   const viteProject = firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID);
   const serverProject = firstNonEmpty(env.SUPABASE_PROJECT_ID);
   if (viteProject && serverProject && viteProject !== serverProject) {
-    configurationError(
-      "VITE_SUPABASE_PROJECT_ID and SUPABASE_PROJECT_ID must match",
-    );
+    configurationError("VITE_SUPABASE_PROJECT_ID and SUPABASE_PROJECT_ID must match");
   }
 }
 
@@ -144,12 +120,9 @@ function validatePublicKey(key: string): void {
     try {
       const payload = key.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
       const claims: unknown = JSON.parse(atob(payload));
-      if (claims && typeof claims === "object" && "role" in claims)
-        role = claims.role;
+      if (claims && typeof claims === "object" && "role" in claims) role = claims.role;
     } catch {
-      configurationError(
-        "public Supabase key has an invalid legacy JWT payload",
-      );
+      configurationError("public Supabase key has an invalid legacy JWT payload");
     }
     if (role !== "anon") {
       configurationError("public Supabase key must use the legacy anon role");
@@ -157,18 +130,12 @@ function validatePublicKey(key: string): void {
   }
 }
 
-function validateTargetEndpoint(
-  target: MongezzDeployTarget,
-  url: URL,
-  projectId: string,
-): void {
+function validateTargetEndpoint(target: MongezzDeployTarget, url: URL, projectId: string): void {
   const hostname = normalizedHostname(url);
 
   if (target === "local" || target === "ci") {
     if (url.protocol !== "http:" || !LOOPBACK_HOSTS.has(hostname)) {
-      configurationError(
-        `${target} target requires an http loopback Supabase endpoint`,
-      );
+      configurationError(`${target} target requires an http loopback Supabase endpoint`);
     }
     return;
   }
@@ -183,16 +150,12 @@ function validateTargetEndpoint(
     return;
   }
 
-  const approvedProductionUrl = canonicalUrl(
-    APPROVED_PRODUCTION_SUPABASE_TARGET.url,
-  );
+  const approvedProductionUrl = canonicalUrl(APPROVED_PRODUCTION_SUPABASE_TARGET.url);
   if (
     canonicalUrl(url.toString()) !== approvedProductionUrl ||
     projectId !== APPROVED_PRODUCTION_SUPABASE_TARGET.projectId
   ) {
-    configurationError(
-      "production target requires the approved production Supabase host/project",
-    );
+    configurationError("production target requires the approved production Supabase host/project");
   }
 }
 
@@ -205,10 +168,7 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
     env.VITE_SUPABASE_PUBLISHABLE_KEY,
     env.SUPABASE_PUBLISHABLE_KEY,
   );
-  const projectId = firstNonEmpty(
-    env.VITE_SUPABASE_PROJECT_ID,
-    env.SUPABASE_PROJECT_ID,
-  );
+  const projectId = firstNonEmpty(env.VITE_SUPABASE_PROJECT_ID, env.SUPABASE_PROJECT_ID);
 
   if (!urlValue || !publishableKey || !projectId) {
     const missing = [
@@ -216,30 +176,20 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
       ...(!publishableKey ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
       ...(!projectId ? ["SUPABASE_PROJECT_ID"] : []),
     ];
-    configurationError(
-      `missing explicit Supabase configuration: ${missing.join(", ")}`,
-    );
+    configurationError(`missing explicit Supabase configuration: ${missing.join(", ")}`);
   }
 
   validatePublicKey(publishableKey);
   const url = parseUrl(urlValue);
   validateRemoteProjectPair(url, projectId);
 
-  const approvedProductionUrl = new URL(
-    APPROVED_PRODUCTION_SUPABASE_TARGET.url,
-  );
+  const approvedProductionUrl = new URL(APPROVED_PRODUCTION_SUPABASE_TARGET.url);
   const targetsProductionHost =
     normalizedHostname(url) === normalizedHostname(approvedProductionUrl);
-  const targetsProductionProject =
-    projectId === APPROVED_PRODUCTION_SUPABASE_TARGET.projectId;
+  const targetsProductionProject = projectId === APPROVED_PRODUCTION_SUPABASE_TARGET.projectId;
 
-  if (
-    target !== "production" &&
-    (targetsProductionHost || targetsProductionProject)
-  ) {
-    configurationError(
-      `${target} target cannot use the production Supabase host/project`,
-    );
+  if (target !== "production" && (targetsProductionHost || targetsProductionProject)) {
+    configurationError(`${target} target cannot use the production Supabase host/project`);
   }
 
   validateTargetEndpoint(target, url, projectId);
@@ -253,9 +203,7 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
 
 // Derive OAuth endpoints only after the existing deployment/endpoint contract passes.
 // Production must stay on the approved direct Supabase host; local/ci is loopback.
-export function resolveSupabaseMcpIssuer(
-  env: SupabaseBuildEnvironment,
-): string {
+export function resolveSupabaseMcpIssuer(env: SupabaseBuildEnvironment): string {
   const config = resolveSupabaseBuildConfig(env);
   return `${canonicalUrl(config.url)}/auth/v1`;
 }
@@ -264,19 +212,13 @@ export function assertSupabaseRuntimeMatchesBuild(
   buildEnv: SupabaseBuildEnvironment,
   runtimeEnv: SupabaseBuildEnvironment,
 ): void {
-  const buildTarget = parseTarget(
-    firstNonEmpty(buildEnv.MONGEZZ_DEPLOY_TARGET),
-  );
-  const runtimeTarget = parseTarget(
-    firstNonEmpty(runtimeEnv.MONGEZZ_DEPLOY_TARGET),
-  );
+  const buildTarget = parseTarget(firstNonEmpty(buildEnv.MONGEZZ_DEPLOY_TARGET));
+  const runtimeTarget = parseTarget(firstNonEmpty(runtimeEnv.MONGEZZ_DEPLOY_TARGET));
   const build = resolveSupabaseBuildConfig(buildEnv);
   const runtime = resolveSupabaseBuildConfig(runtimeEnv);
 
   if (buildTarget !== runtimeTarget) {
-    configurationError(
-      "runtime deployment target does not match baked build target",
-    );
+    configurationError("runtime deployment target does not match baked build target");
   }
 
   if (
@@ -284,15 +226,11 @@ export function assertSupabaseRuntimeMatchesBuild(
     build.publishableKey !== runtime.publishableKey ||
     build.projectId !== runtime.projectId
   ) {
-    configurationError(
-      "runtime Supabase configuration does not match baked build configuration",
-    );
+    configurationError("runtime Supabase configuration does not match baked build configuration");
   }
 }
 
-export function resolveAndHydrateSupabaseServerConfig(
-  env: SupabaseBuildEnvironment,
-) {
+export function resolveAndHydrateSupabaseServerConfig(env: SupabaseBuildEnvironment) {
   const resolved = resolveSupabaseBuildConfig(env);
 
   if (!firstNonEmpty(env.SUPABASE_URL)) {

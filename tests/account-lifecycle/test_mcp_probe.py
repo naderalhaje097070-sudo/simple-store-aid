@@ -1,6 +1,6 @@
 import json
 import unittest
-from mcp_probe import tool_success, account_tool_denial, protocol_body
+from mcp_probe import tool_success, account_tool_denial, protocol_body, safe_authorization_id
 
 
 class McpBoundaryTest(unittest.TestCase):
@@ -35,6 +35,12 @@ class McpBoundaryTest(unittest.TestCase):
 
     def test_initialized_notification_empty_response(self):
         self.assertIsNone(protocol_body(b''))
+
+    def test_provider_authorization_id_cannot_inject_a_path_or_query(self):
+        self.assertTrue(safe_authorization_id('aB09' * 8))
+        for value in [None, '', 'a' * 31, 'a' * 33, '../' + 'a' * 29,
+                      'a' * 31 + '?', 'a' * 31 + '/', 'ع' * 32]:
+            self.assertFalse(safe_authorization_id(value))
 
 
 if __name__ == '__main__': unittest.main()

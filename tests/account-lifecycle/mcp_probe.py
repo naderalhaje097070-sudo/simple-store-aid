@@ -3,6 +3,7 @@ import argparse
 import base64
 import json
 import hashlib
+import re
 import secrets
 import urllib.parse
 import os
@@ -16,6 +17,12 @@ from live_probe import Probe, HarnessFailure, FINANCE_TABLES
 
 TOOLS = {'list_products': 'products', 'list_customers': 'customers',
          'list_recent_orders': 'orders', 'today_summary': 'summary'}
+
+
+def safe_authorization_id(value):
+    # Auth's public AuthorizationID is SecureAlphanumeric(32), not its DB UUID.
+    # Reject any path/query delimiters before inserting it into a local API path.
+    return isinstance(value, str) and re.fullmatch(r'[A-Za-z0-9]{32}', value) is not None
 
 
 def tool_success(status, body, name):
@@ -104,9 +111,8 @@ class McpProbe(Probe):
                          and location.path == '/oauth/consent'
                          and len(params.get('authorization_id', [])) == 1)
             authorization_id = params['authorization_id'][0]
-            # IDs must be provider UUIDs before inclusion in a path.
-            import uuid
-            authorization_id = str(uuid.UUID(authorization_id))
+            self.control('oauth_authorization_id_format_' + label,
+                         safe_authorization_id(authorization_id))
         status, details = self.request('GET', '/auth/v1/oauth/authorizations/' + authorization_id,
                                        token=actor['token'])
         self.control('oauth_details_' + label, status == 200

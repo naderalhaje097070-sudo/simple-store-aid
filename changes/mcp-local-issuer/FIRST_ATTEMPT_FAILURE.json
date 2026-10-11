@@ -1,0 +1,17 @@
+{
+  "source_sha": "febaeae11ab2fd78a48c89d7ae3c1137c5b2d215",
+  "quality_run": 38165292169,
+  "quality_typecheck": "pass",
+  "quality_lint": "34 formatting errors; remaining steps skipped",
+  "mcp_run": 38165292174,
+  "mcp_job": 114546484811,
+  "mcp_outcome": "ENV_NATIVE_01_MCP_HARNESS_FAILURE",
+  "last_successful_control": "oauth_authorize_A",
+  "mcp_initialize_executed": false,
+  "ban_executed": false,
+  "cleanup": "pass",
+  "artifact": 11711424624,
+  "diagnosis": "public AuthorizationID is SecureAlphanumeric(32), not database UUID",
+  "official_source": "https://github.com/supabase/auth/blob/v2.194.0/internal/models/oauth_authorization.go",
+  "evidence_comment": "https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/62#issuecomment-6112472687"
+}

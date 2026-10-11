@@ -12,7 +12,7 @@ const local: SupabaseBuildEnvironment = {
   VITE_SUPABASE_PROJECT_ID: "monjez-mcp-ci",
 };
 
-function actualDefinition(config: SupabaseBuildEnvironment) {
+function actualDefinition(config: SupabaseBuildEnvironment, fixture?: string) {
   // A fresh process prevents other unit tests or ambient deployment values from
   // replacing this explicit test environment. No auth or tool implementation stub.
   const env = { ...process.env };
@@ -29,11 +29,13 @@ function actualDefinition(config: SupabaseBuildEnvironment) {
     delete env[name];
   Object.assign(env, config);
   return Bun.spawnSync({
-    cmd: [
-      process.execPath,
-      "--eval",
-      'const { default: mcp } = await import("./src/lib/mcp/index.ts"); console.log(JSON.stringify(mcp.auth));',
-    ],
+    cmd: fixture
+      ? [process.execPath, fixture]
+      : [
+          process.execPath,
+          "--eval",
+          'const { default: mcp } = await import("./src/lib/mcp/index.ts"); console.log(JSON.stringify(mcp.auth));',
+        ],
     env,
   });
 }
@@ -47,19 +49,37 @@ test("actual MCP definition uses the approved local issuer", () => {
     type: "oauth",
     issuer: "http://127.0.0.1:54321/auth/v1",
   });
-  expect(auth.jwksUri).toBe(
-    "http://127.0.0.1:54321/auth/v1/.well-known/jwks.json",
-  );
+  expect(auth.jwksUri).toBe("http://127.0.0.1:54321/auth/v1/.well-known/jwks.json");
   expect(auth.acceptedAudiences).toEqual(["authenticated"]);
   expect(auth.requireOAuthClientClaim).not.toBe(false);
+});
+
+test("actual locked handler rejects signature, issuer, audience, expiry and client-claim failures", () => {
+  const result = actualDefinition(local, "tests/unit/mcp-issuer-verifier.fixture.ts");
+  expect(result.exitCode).toBe(0);
+  const line = new TextDecoder()
+    .decode(result.stdout)
+    .split("\n")
+    .find((line) => line.startsWith("UNIT_AUTH_RECEIPT:"));
+  expect(line).toBeDefined();
+  const receipt = JSON.parse(line!.slice("UNIT_AUTH_RECEIPT:".length));
+  expect(receipt.jwksRequests).toBeGreaterThan(0);
+  expect(receipt.results.valid.status).toBe(200);
+  for (const name of [
+    "bad_signature",
+    "wrong_issuer",
+    "wrong_audience",
+    "expired",
+    "missing_client_claim",
+  ]) {
+    expect(receipt.results[name]).toEqual({ status: 401, invalid_token: true });
+  }
 });
 
 test("actual MCP import fails closed without explicit environment configuration", () => {
   const result = actualDefinition({});
   expect(result.exitCode).not.toBe(0);
-  expect(new TextDecoder().decode(result.stderr)).toContain(
-    "SEC_ENV_CONFIG_ERROR",
-  );
+  expect(new TextDecoder().decode(result.stderr)).toContain("SEC_ENV_CONFIG_ERROR");
 });
 
 test("issuer resolution validates local and ci endpoints before canonicalizing", () => {
@@ -125,7 +145,5 @@ test("issuer cannot bypass the existing endpoint, alias or public key contract",
     },
   ];
   for (const config of invalid)
-    expect(() => resolveSupabaseMcpIssuer(config)).toThrow(
-      "SEC_ENV_CONFIG_ERROR",
-    );
+    expect(() => resolveSupabaseMcpIssuer(config)).toThrow("SEC_ENV_CONFIG_ERROR");
 });

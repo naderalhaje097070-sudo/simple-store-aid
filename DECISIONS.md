@@ -1,3 +1,14 @@
+## 2026-10-11 — focused local MCP proof, no release decision
+
+Real local OAuth/PKCE meets the unchanged SDK client-claim requirement. On29af5b,
+all four banned old-token calls gave explicit account_inactive, while the other tenant's
+four calls remained successful; no empty result accepted as denial.51 controls passed.
+Actual runtime Authv2.188.1 independently confirms public authorization IDs are32
+ASCII alphanumeric, not UUIDs. This is direct handler proof only. Final CI and separate
+review receipts belong to PR62/#55; owner/planning controls the next batch.
+
+---
+
 ## 2026-10-11 — validated MCP issuer selection (draft PR62)
 
 Use the existing approved Supabase build/runtime endpoint contract for MCP issuer

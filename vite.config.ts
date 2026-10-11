@@ -92,10 +92,7 @@ export default defineConfig(async (configEnv) => {
                 handler: "CacheFirst",
                 options: {
                   cacheName: "mongezz-assets",
-                  expiration: {
-                    maxEntries: 200,
-                    maxAgeSeconds: 60 * 60 * 24 * 30,
-                  },
+                  expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
                 },
               },
               {
@@ -105,10 +102,7 @@ export default defineConfig(async (configEnv) => {
                 handler: "CacheFirst",
                 options: {
                   cacheName: "mongezz-fonts",
-                  expiration: {
-                    maxEntries: 30,
-                    maxAgeSeconds: 60 * 60 * 24 * 365,
-                  },
+                  expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
                 },
               },
               // NOTE: intentionally no entry for *.supabase.co — every Supabase

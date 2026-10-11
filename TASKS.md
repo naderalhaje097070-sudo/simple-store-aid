@@ -1,3 +1,29 @@
+## 2026-10-11 — local MCP issuer candidate verified, draft PR62
+
+Bounded result on29af5b34d3c55c6db1c4debc5d93d8587d2c04fe:
+MCP run38165648102 GREEN (51 controls); A/B genuine local OAuth/PKCE,
+initialize200 + initialized202 + stateless catalog,8/8 active tool calls,
+committed B ban verified,4/4 exact account_inactive old-token denials,
+A4/4 after ban.22 public hashes unchanged,7 finance counts zero,
+external-attempt/SDK counters zero, stack/key cleanup PASS.
+Quality38165648142 PASS (66 unit tests /159 assertions, server/browser boundaries,
+both builds). Targeted issuer/crypto6/6 /34 assertions; Python6/6 PASS.
+
+This additive receipt commit removes the last unrelated Vite formatting hunks.
+Required gates must run on its exact final head; final run IDs/source/independent
+review are recorded in PR62 and issue55 without another source-changing commit.
+Separate agent independently reviewed security/harness and reran targeted tests;
+final-head review is pending. Receipt changes/mcp-local-issuer/evidence/native-29af.json.
+
+Main43d6edb unchanged; draftPR60/61/62 remain unmerged. No release approval,
+production action, dependency/migration/financial-contract change. Direct actual MCP
+handler is proven; full TanStack HTTP route, nonempty financial/cross-tenant payloads,
+cloud deployment and concurrency remain untested. Historical failed attempts retained.
+ONE NEXT: planning reviews this bounded evidence and authorizes a separate full
+TanStack HTTP-route verification batch if appropriate. Stop here; no merge/deploy.
+
+---
+
 ## 2026-10-11 — PR62 bounded local MCP issuer candidate
 
 Owner authorizes this issuer/configuration batch on PR61 head

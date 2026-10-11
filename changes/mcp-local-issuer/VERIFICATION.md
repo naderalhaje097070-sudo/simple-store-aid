@@ -37,3 +37,14 @@ not the full TanStack HTTP route. Nonempty finance or foreign-tenant payloads, c
 OAuth deployment, concurrency, main integration and release approval remain unproven.
 Draft PR62 is stacked on draftPR61/60, all unmerged. No merge, deploy or production
 change occurred. ONE NEXT: planning review for a separately authorized full-route batch.
+
+## Final order audit
+
+Prior green receipt29af interleaved each B denial and A success after the committed ban.
+This proves continued A activity after ban, but the owner asked a strict sequence.
+Final additive correction completes all four B negatives, then all four A controls;
+adds explicit distinct user/tenant assertion. No app/auth change. Expected52 controls
+on the new exact-source final run; the51-control historical receipt remains unchanged.
+Final exact-head runs and independent review are appended to PR62/#55, with no further
+source changes after these required checks. Prior1251 checks are historical, not
+promoted to this new source. ONE NEXT remains planning review of bounded proof.

@@ -166,6 +166,7 @@ class McpProbe(Probe):
         versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
         self.control('exact_final_43_migrations', len(files) == 43 and versions == [p.name.split('_')[0] for p in files])
         a, b = self.fixture('mcp_owner_A'), self.fixture('mcp_owner_B')
+        self.control('distinct_actor_tenants', a['tenant'] != b['tenant'] and a['uid'] != b['uid'])
         status, client = self.request('POST', '/auth/v1/admin/oauth/clients', {
             'redirect_uris': ['http://127.0.0.1:54325/test-oauth-callback'],
             'client_type': 'public', 'token_endpoint_auth_method': 'none',
@@ -244,6 +245,8 @@ class McpProbe(Probe):
                                          'status': status, 'passed': denied,
                                          'empty_result_only': empty_filtered,
                                          'expected_account_inactive': denied})
+                    # Complete all B old-token denials before testing A, in owner-requested order.
+                    for name in TOOLS:
                         status, body = self.invoke(name, a)
                         passed = tool_success(status, body, name)
                         observed.append({'actor': 'A', 'tool': name, 'phase': 'unaffected_active',

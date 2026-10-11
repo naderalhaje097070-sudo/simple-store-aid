@@ -46,6 +46,13 @@ if __name__ == '__main__':
         receipt['built_module_sha256'] = {str(p): hashlib.sha256(p.read_bytes()).hexdigest() for p in chunks}
         assert all(receipt['compiled_contract_markers'].values()), 'Actual app/adapter not in built bundle'
         receipt['tracked_source_unchanged'] = subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0
+        output = Path('/tmp/monjez-tanstack-route/.output')
+        subprocess.run(['sudo', 'cp', '-a', '.output', str(output)], check=True)
+        subprocess.run(['sudo', 'chown', '-R', 'mcp-route:mcp-route', str(output)], check=True)
+        receipt['standalone_copy_hashes_match'] = all(
+            hashlib.sha256((output.parent/p).read_bytes()).hexdigest() == digest
+            for p, digest in receipt['built_module_sha256'].items())
+        assert receipt['standalone_copy_hashes_match'], 'Copied standalone build changed'
     else:
         # Retain safe build diagnostic categories, never a log that may contain a key.
         private = (root / 'route-build-private.log').read_text()

@@ -88,10 +88,19 @@ jobs:
           sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable
           sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j MCP_ROUTE
           sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
-          sudo install -d -m 755 -o mcp-route "$RUNNER_TEMP/route-runtime"
+          # Hosted runner workspace ancestors may be private to runner. Copy only
+          # the containment preload, then later the exact standalone build output.
+          sudo install -d -m 755 -o mcp-route /tmp/monjez-tanstack-route
+          sudo install -m 644 tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
+          cmp tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
+          if sudo -u mcp-route test -r "$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs"; then
+            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=true'
+          else
+            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=false'
+          fi
           sudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \
-            MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE="$RUNNER_TEMP/route-runtime/preflight.json" \
-            "$(command -v node)" --import "$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs" \
+            MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json \
+            "$(command -v node)" --import /tmp/monjez-tanstack-route/guard.mjs \
             --input-type=module -e ''
           sudo iptables -nvxL MCP_ROUTE > "$RUNNER_TEMP/route-firewall.txt"
           sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT

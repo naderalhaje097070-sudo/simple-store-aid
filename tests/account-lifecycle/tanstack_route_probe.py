@@ -65,9 +65,9 @@ def lifecycle_accepted(observations):
 class TanStackRouteProbe(McpProbe):
     def __init__(self, *args):
         # The credential-free OS/redirect preflight precedes even Probe reading keys.
-        runtime = Path(os.environ['RUNNER_TEMP']) / 'route-runtime'
+        runtime = Path('/tmp/monjez-tanstack-route')
         state = json.loads((runtime / 'preflight.json').read_text())
-        firewall = json.loads((runtime.parent / 'route-firewall.json').read_text())
+        firewall = json.loads((Path(os.environ['RUNNER_TEMP']) / 'route-firewall.json').read_text())
         if not (state.get('guard_ready') is True and state.get('native_redirect_rejected') is True
                 and state.get('redirect_manual') is True and state.get('uid') == firewall.get('uid')
                 and firewall.get('ipv4_reject_packets', 0) > 0 and firewall.get('ipv6_rule_installed') is True):
@@ -154,19 +154,19 @@ class TanStackRouteProbe(McpProbe):
             server_env['SUPABASE_PROJECT_ID'] = server_env['VITE_SUPABASE_PROJECT_ID'] = 'route-conflict'
         server_env.update(NITRO_HOST='127.0.0.1', NITRO_PORT='54325',
                           MCP_ROUTE_STATE=str(self.runtime / (label + '.json')),
-                          MCP_ROUTE_RELEASE=str(self.runtime.parent / ('route-release-' + label)))
+                          MCP_ROUTE_RELEASE=str(self.runtime / ('release-' + label)))
         release = Path(server_env['MCP_ROUTE_RELEASE'])
         release.unlink(missing_ok=True)
         self.log = (Path(os.environ['RUNNER_TEMP']) / ('route-' + label + '-private.log')).open('w')
         command = ['sudo', '-u', 'mcp-route', 'env', '-i', 'PATH=/usr/bin:/bin']
         command += [k + '=' + v for k, v in server_env.items()]
-        command += [shutil.which('node'), '--import', str(Path('tests/account-lifecycle/tanstack_route_guard.mjs').resolve()),
-                    str(Path('.output/server/index.mjs').resolve())]
+        command += [shutil.which('node'), '--import', str(self.runtime / 'guard.mjs'),
+                    str(self.runtime / '.output/server/index.mjs')]
         self.process = subprocess.Popen(command, stdout=self.log, stderr=self.log)
         for _ in range(80):
             if (self.runtime / (label + '.json')).exists() and self.state(label).get('guard_ready') is True:
                 self.firewall_baseline = self.rejected_packets()
-                release.write_text('release actual bundle\n')
+                subprocess.run(['sudo', '-u', 'mcp-route', 'touch', str(release)], check=True)
                 break
             if self.process.poll() is not None:
                 raise HarnessFailure('actual process containment failed')
@@ -246,7 +246,8 @@ class TanStackRouteProbe(McpProbe):
         self.control('exact_43_migrations', len(files) == 43 and versions == [p.name.split('_')[0] for p in files])
         build = json.loads((self.evidence_dir / 'build.json').read_text())
         self.control('actual_built_app_contract', build['source_sha'] == self.source and build['exit_code'] == 0
-                     and all(build['compiled_contract_markers'].values()) and build['tracked_source_unchanged'])
+                     and all(build['compiled_contract_markers'].values()) and build['tracked_source_unchanged']
+                     and build['standalone_copy_hashes_match'])
         accepted, failure = False, None
         try:
             a, b = self.fixture('route_A'), self.fixture('route_B')

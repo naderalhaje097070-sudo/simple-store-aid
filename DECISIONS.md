@@ -1,3 +1,25 @@
+## 2026-10-11 — local full TanStack route proof is a separate acceptance
+
+PR63 tests the native built Node preset of the unchanged application, including
+src/server.ts and generated routing/adapter. Installed Nitro NITRO_PRESET selects
+node-server only in isolated harness; default Cloudflare deployment is unchanged.
+No direct createMcpProtocolHandler test server is used for this full-route claim.
+OAuth/PKCE fixture, initialize sequence and strict account_inactive/body oracle
+are reused from PR62. Test metadata under hostile Host/forwarded headers without
+inventing proxy policy: advertised resource can reflect trusted forwarded host;
+issuer/JWKS stay pinned and outbound attempts remain forbidden.
+OS UID containment is established before credentials, then preload barrier records
+firewall baselines before bundle import and requires zero later IPv4/IPv6 deltas.
+Detected credential evidence is quarantined outside the always-upload directory.
+On3b1a25f:71 controls passed,22public hashes stable and finance7empty; independent
+review accepted that bounded evidence. Final exact-source receipts live in PR63/#55.
+Broader integration_accepted=false; no financial correctness/nonempty isolation,
+Cloudflare runtime, production or release inference. Main and unmerged lineage stay
+unchanged. PR62 final52controls/6112608180 supersede historical51/pending notes below.
+ONE NEXT: planning review of final PR63 evidence, not automatic merge or expansion.
+
+---
+
 ## 2026-10-11 — focused local MCP proof, no release decision
 
 Real local OAuth/PKCE meets the unchanged SDK client-claim requirement. On29af5b,

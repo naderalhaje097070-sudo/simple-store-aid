@@ -1,3 +1,41 @@
+## 2026-10-11 — full local TanStack MCP route candidate, draft PR63
+
+Approved task: issue55/6112713277; sole execution claim6112916960.
+Branch test/mcp-tanstack-route-2026-10-11 directly above PR62 head26d6e271ad1a50a26390d25d3236edb5ab47fff7.
+PR63 is draft/unmerged; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae.
+
+Local full route was proven on3b1a25fda8a11b27559b0e988a7930e6748972fa:
+HTTP -> native Nitro node-server -> src/server.ts -> generated TanStack /mcp
+-> SDK0.20.1 -> genuine local Supabase OAuth/PKCE. Run38169721783:71/71 controls,
+A4/B4 active -> B ban persistedSQL -> oldB4 exact account_inactive/isError -> A4
+after all B attempts. Initialize200/initialized202/stateless exact4catalog passed.
+Missing/malformed/clientclaimless bearers401; hostile headers leave trusted issuer
+and JWKS local. Build/runtime conflict500 was separately proved with exact cause
+and zero downstream. Public22fingerprints unchanged, finance7zero, containment,
+credential scanning/quarantine and cleanup passed. Quality38169721803 passed;
+its merge-ref2edf3d6501cda70b3bdae4af9965ac65634a40d0 has the identical source tree.
+Independent agent fetched original logs and accepted only this local test scope.
+This additive final candidate also records metadata/runtime provenance and filter
+coverage. Exact final-head gates and independent closure receipts are recorded in
+PR63/#55 at batch closure; no source change follows those gates.
+
+PR62 reconciliation: its final26d6e271 result was52controls, with separate review
+6112608180 and planning6112713277 scoped acceptance. The51/pending-review notices
+below are preserved historical checkpoints, superseded by those final receipts.
+PR60/61/62/63 remain unmerged; none is a main fix or release approval.
+integration_accepted remains false. Cloudflare/production/nonempty financial or
+foreign-tenant data/concurrency/broader lifecycle matrix remain unverified.
+Two pre-credential harness failures are preserved; protected runner workspace
+was inaccessible to the dedicated UID. Exact preload/standalone build copies
+and cmp/hash checks fixed test access only. No application/dependency/migration/
+financial-contract/generated-file manual modification.
+
+Packet changes/mcp-tanstack-route/. ONE NEXT: planning reviews PR63 final evidence
+and independent receipt to select the next bounded gate. Stop; no merge/deploy or
+financial work.
+
+---
+
 ## 2026-10-11 — local MCP issuer candidate verified, draft PR62
 
 Bounded result on29af5b34d3c55c6db1c4debc5d93d8587d2c04fe:

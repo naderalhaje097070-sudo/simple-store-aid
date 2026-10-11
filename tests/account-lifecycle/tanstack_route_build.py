@@ -35,6 +35,11 @@ if __name__ == '__main__':
                                 stderr=subprocess.STDOUT, timeout=300)
     receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'command': 'NITRO_PRESET=node-server bun run build',
                'exit_code': result.returncode, 'app_entry': 'src/server.ts', 'generated_files_edited': False}
+    receipt['node_version'] = subprocess.run(['node', '--version'], capture_output=True, text=True, check=True).stdout.strip()
+    receipt['sdk_version'] = json.loads(Path('node_modules/@lovable.dev/mcp-js/package.json').read_text())['version']
+    receipt['nitro_version'] = json.loads(Path('node_modules/nitro/package.json').read_text())['version']
+    receipt['runtime_images'] = subprocess.run(['docker', 'ps', '--format', '{{.Image}}'], capture_output=True,
+                                               text=True, check=True).stdout.splitlines()
     if result.returncode == 0:
         entry = Path('.output/server/index.mjs')
         assert entry.is_file(), 'Expected native Nitro Node entry absent'

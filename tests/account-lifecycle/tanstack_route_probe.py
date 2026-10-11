@@ -81,6 +81,7 @@ class TanStackRouteProbe(McpProbe):
         self.oauth_refresh_tokens = []
         self.firewall_observations = []
         self.readiness = []
+        self.metadata_observations = []
 
     def request(self, method, path, *args, **kwargs):
         status, body = super().request(method, path, *args, **kwargs)
@@ -212,6 +213,8 @@ class TanStackRouteProbe(McpProbe):
     def metadata_and_negatives(self, actor):
         self.failure_stage = 'metadata_authentication'
         status, metadata = self.http('GET', METADATA)
+        self.metadata_observations.append({'case': 'normal', 'status': status,
+            'resource': metadata.get('resource'), 'authorization_servers': metadata.get('authorization_servers')})
         self.control('actual_metadata_local_resource_and_issuer', status == 200
                      and metadata.get('resource') == APP + '/mcp'
                      and metadata.get('authorization_servers') == [self.base + '/auth/v1'])
@@ -231,6 +234,8 @@ class TanStackRouteProbe(McpProbe):
                                              'X-Forwarded-Proto': 'https',
                                              'Forwarded': 'host=other.example;proto=https'})]:
             status, metadata = self.http('GET', METADATA, extra=headers)
+            self.metadata_observations.append({'case': label, 'status': status,
+                'resource': metadata.get('resource'), 'authorization_servers': metadata.get('authorization_servers')})
             self.control(label + '_issuer_stays_trusted', status == 200
                          and metadata.get('authorization_servers') == [self.base + '/auth/v1'])
             self.extra_headers = headers
@@ -320,6 +325,7 @@ class TanStackRouteProbe(McpProbe):
                       'firewall': self.firewall,
                       'firewall_observations': self.firewall_observations,
                       'readiness_http': self.readiness,
+                      'metadata_observations': self.metadata_observations,
                       'not_verified': ['Cloudflare runtime', 'production', 'nonempty financial isolation',
                                        'concurrency', 'broader integration acceptance']}
             # Check private output before publishing evidence. Known credentials never

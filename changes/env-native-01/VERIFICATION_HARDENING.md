@@ -53,10 +53,14 @@ uses separate four actors/two tenants and evidence directory after correction,
 then checks active/foreign controls, committed ban owner/staff oldJWT table/summary/
 RLS denial, unaffected active actor, real Auth-admin soft-delete of an UNBANNED
 owner with deleted_at/history assertions, and valid locally signed expiredJWT.
-The expiry pair uses the actual issued token's verified HS256 signature and local
-status secret; a future twin positive control and tampered-signature negative
-control distinguish expiry from invalid credentials. Fail closed on other key
-contracts. Not a claim about naturally elapsed Auth-issued-token expiration.
+The expiry pair verifies the actual issued token through Auth GET/user and checks
+its identity/role/expiry/observed algorithm. CLI's actual combined PostgREST JWKS
+includes the local legacy HS256 secret alongside asymmetric public signing keys.
+Clean-header HS256 twins preserve those verified issued claims except expiry;
+future-positive/expired303/tampered301 controls distinguish expiry from invalid
+credentials. Fail closed on unsupported key contracts. This is locally signed
+fixture evidence, not naturally elapsed Auth-issued-token expiration or local
+verification of an asymmetric issuer signature.
 
 Verified pinned contracts: Auth2.188.1 [admin DELETE](https://github.com/supabase/auth/blob/v2.188.1/internal/api/admin.go)
 and [SoftDeleteUser](https://github.com/supabase/auth/blob/v2.188.1/internal/models/user.go),
@@ -64,6 +68,24 @@ CLI2.101.0 [private local status key](https://github.com/supabase/cli/blob/v2.10
 PostgREST14.10 [303 expiry /301 signature errors](https://github.com/PostgREST/postgrest/blob/v14.10/src/PostgREST/Error.hs)
 and [30-second expiry skew](https://github.com/PostgREST/postgrest/blob/v14.10/src/PostgREST/Auth/Jwt.hs).
 Supabase changelog/docs checked; no provider/runtime upgrade proposed.
+Also verified CLI [ResolveJWKS](https://github.com/supabase/cli/blob/v2.101.0/apps/cli-go/pkg/config/config.go)
+and [PGRST_JWT_SECRET](https://github.com/supabase/cli/blob/v2.101.0/apps/cli-go/internal/start/start.go),
+Auth [authenticated user route](https://github.com/supabase/auth/blob/v2.188.1/internal/api/api.go)
+and [JWT signature validation](https://github.com/supabase/auth/blob/v2.188.1/internal/api/auth.go).
+
+## Retained initial failure and diagnosed forward correction
+
+Initial candidate7f6a6c991c7de4767c13f38485709e01ac0b1bf8: Quality349/run38120052119
+SUCCESS; focused3/run38120052208 attempt1 correction fresh210/210 andupgrade212/212
+PASS, final43 advisors0ERROR45WARN and stored no-effect controls pass. Both separate
+independent steps FAILED after44 controls with issuer algorithm unsupported; no
+expiry/softdelete/independent acceptance claimed. Raw failure/progress retained
+permanently under evidence/hardening-initial. Cleanup succeeded and ZIP digests
+verified. This disproves the original HS256 issuer assumption on actual local Auth.
+Forward test-only fix uses provider validation plus the source-verified combined
+JWKS legacy fixture key, with mandatory future-positive and separate error reasons.
+Artifact names now include run_attempt to preserve independent replay provenance.
+No history rewrite or unchanged retry; final source/results recorded in PR60/#55.
 
 ## Safety and verification (Gates4–6)
 

@@ -27,8 +27,16 @@ def decoded(value):
     return base64.b64decode(value + '=' * (-len(value) % 4), altchars=b'-_', validate=True)
 
 
-def signed_twins(token, secret, expected_uid, clock):
-    """Verify real local Auth signature before changing only its expiry claim."""
+def signed_twins(token, secret, expected_uid, clock, verified_user_uid=None):
+    """Mint local HS256 expiry twins from provider-verified issued claims.
+
+    The caller must first verify this exact token through Auth GET/user. For
+    HS256 issuers we also verify the original HMAC; asymmetric signatures are
+    verified by Auth, not reimplemented locally. The two fixture tokens have
+    identical clean HS256 headers and claims except exp, with no issuer kid.
+    """
+    if verified_user_uid != expected_uid:
+        raise HarnessFailure('independent provider-verified identity missing')
     if not isinstance(secret, str) or len(secret) < 32:
         raise HarnessFailure('independent local JWT secret unavailable')
     try:
@@ -37,15 +45,21 @@ def signed_twins(token, secret, expected_uid, clock):
         actual = decoded(signature)
     except (ValueError, TypeError, binascii.Error, json.JSONDecodeError) as exc:
         raise HarnessFailure('independent issued JWT shape') from exc
-    if not isinstance(header, dict) or header.get('alg') != 'HS256':
+    if not isinstance(header, dict) or header.get('alg') not in ('HS256','ES256','RS256'):
         raise HarnessFailure('independent issued JWT algorithm unsupported')
-    expected = hmac.new(secret.encode(), (head + '.' + body).encode('ascii'), hashlib.sha256).digest()
-    if not hmac.compare_digest(actual, expected):
-        raise HarnessFailure('independent issued JWT signature mismatch')
+    if not actual:
+        raise HarnessFailure('independent issued JWT signature missing')
+    if header['alg'] == 'HS256':
+        expected = hmac.new(secret.encode(), (head + '.' + body).encode('ascii'), hashlib.sha256).digest()
+        if not hmac.compare_digest(actual, expected):
+            raise HarnessFailure('independent issued JWT signature mismatch')
     if (not isinstance(claims, dict) or claims.get('sub') != expected_uid
             or claims.get('role') != 'authenticated' or type(claims.get('exp')) is not int
             or claims['exp'] <= clock):
         raise HarnessFailure('independent issued JWT identity or expiry mismatch')
+
+    issuer_algorithm = header['alg']
+    head = encoded(json.dumps({'alg':'HS256','typ':'JWT'}, separators=(',', ':')).encode())
 
     def twin(expiry):
         payload = encoded(json.dumps(dict(claims, exp=expiry), separators=(',', ':')).encode())
@@ -56,7 +70,10 @@ def signed_twins(token, secret, expected_uid, clock):
     future, expired = twin(clock + 600), twin(clock - 300)
     head, body, signature = future.split('.')
     invalid = bytearray(decoded(signature)); invalid[0] ^= 1
-    return future, expired, head + '.' + body + '.' + encoded(bytes(invalid))
+    return future, expired, head + '.' + body + '.' + encoded(bytes(invalid)), {
+        'issuer_algorithm':issuer_algorithm,'issuer_validation':'Auth GET/user',
+        'fixture_algorithm':'HS256','fixture_pair_claim_difference':'exp',
+        'asymmetric_signature_verified_locally':False}
 
 
 def account_denial(status, body):
@@ -162,10 +179,15 @@ class IndependentProbe(CorrectionProbe):
             self.control('independent_'+label+'_reassignment',foreign_denial(status,body),status=status)
         self.control('independent_foreign_mutations_stored_no_effect', self.snapshot(tables) == before_foreign)
 
-        # Expiry is measured with a real signed token and signature negative
-        # control, before disabling any of these independent actors.
-        twins = signed_twins(a['token'], self.status.get('JWT_SECRET'), a['uid'], int(time.time()))
-        self.control('independent_original_hs256_signature_verified', True)
+        # Auth verifies the actual issued token before we mint a local signed
+        # pair. CLI2.101.0's combined JWKS includes legacy HS256 with default
+        # signing_keys_path empty; the mandatory future200 control proves this
+        # specific runtime accepts the fixture key before expiry can pass.
+        status, user = self.request('GET','/auth/v1/user',token=a['token'])
+        self.control('independent_auth_provider_verified_identity',status == 200 and isinstance(user,dict) and user.get('id') == a['uid'],status=status)
+        twins = signed_twins(a['token'], self.status.get('JWT_SECRET'), a['uid'], int(time.time()), user['id'])
+        token_metadata = twins[3]
+        self.control('independent_verified_issuer_to_local_signed_pair', True, **token_metadata)
         status, rows = self.request('GET','/rest/v1/tenants?id=eq.'+a['tenant'],token=twins[0])
         self.control('independent_future_signed_twin_active',status == 200 and isinstance(rows,list) and len(rows) == 1 and rows[0]['id'] == a['tenant'],status=status)
         for label, token, classifier in [('expired',twins[1],expiry_denial),('tampered',twins[2],signature_denial)]:
@@ -195,7 +217,7 @@ class IndependentProbe(CorrectionProbe):
         self.control('independent_final_financial_zero',all(final[t] == 0 for t in FINANCE_TABLES))
         self.control('independent_exact_final_dummy_counts',{k:final[k] for k in ('users','tenants','profiles','roles')} == {'users':8,'tenants':4,'profiles':8,'roles':8})
         self.control('independent_tracked_source_unchanged',subprocess.run(['git','diff','--quiet','HEAD','--']).returncode == 0)
-        result = {'outcome':SUCCESS,'source_sha':self.source,'reviewer_owned_oracle':True,'checks':self.controls,'migration_versions':versions,'initial_counts':initial,'final_counts':final,'history_before':before_lifecycle,'history_after':self.snapshot(tables),'integration_accepted':False,'missing_coverage':['MCP transport','nonempty financial history','active financial writes','concurrent/in-flight transactions','production-scale performance','hard-delete cascade/history semantics','naturally elapsed Auth-issued token; expiry twins are locally minted from verified issued claims']}
+        result = {'outcome':SUCCESS,'source_sha':self.source,'reviewer_owned_oracle':True,'checks':self.controls,'migration_versions':versions,'initial_counts':initial,'final_counts':final,'history_before':before_lifecycle,'history_after':self.snapshot(tables),'token_fixture_metadata':token_metadata,'integration_accepted':False,'missing_coverage':['MCP transport','nonempty financial history','active financial writes','concurrent/in-flight transactions','production-scale performance','hard-delete cascade/history semantics','naturally elapsed Auth-issued token; expiry twins are locally HS256 minted from provider-verified issued claims','local verification of asymmetric issuer signature; Auth provider verification is used']}
         (self.evidence_dir/'independent-result.json').write_text(json.dumps(result,indent=2)+'\n')
         print(json.dumps({'outcome':SUCCESS,'checks_passed':len(self.controls),'integration_accepted':False}))
 

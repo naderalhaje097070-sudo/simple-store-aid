@@ -21,24 +21,37 @@ class IndependentOracleTest(unittest.TestCase):
 
     def test_twins_change_only_expiry_and_keep_real_verified_signature(self):
         original = self.token()
-        future, expired, invalid = signed_twins(original,self.secret,self.uid,1000)
+        future, expired, invalid, provenance = signed_twins(original,self.secret,self.uid,1000,self.uid)
         source_claims = json.loads(decoded(original.split('.')[1]))
         for token, expected_exp in [(future,1600),(expired,700)]:
             head,payload,sig = token.split('.')
-            self.assertEqual(head,original.split('.')[0])
+            self.assertEqual(json.loads(decoded(head)),{'alg':'HS256','typ':'JWT'})
             self.assertEqual(json.loads(decoded(payload)),dict(source_claims,exp=expected_exp))
             self.assertTrue(hmac.compare_digest(decoded(sig),hmac.new(self.secret.encode(),(head+'.'+payload).encode(),hashlib.sha256).digest()))
         self.assertEqual(invalid.split('.')[:2],future.split('.')[:2])
         self.assertNotEqual(decoded(invalid.split('.')[2]),decoded(future.split('.')[2]))
+        self.assertEqual(provenance['issuer_algorithm'],'HS256')
 
     def test_unsupported_alg_missing_secret_and_unverified_identity_fail_closed(self):
         for token, secret, uid in [(self.token({'alg':'none'}),self.secret,self.uid),
-                (self.token({'alg':'RS256'}),self.secret,self.uid),
+                (self.token({'alg':'unknown'}),self.secret,self.uid),
                 (self.token(),None,self.uid),(self.token(),self.secret+'wrong',self.uid),
                 (self.token(),self.secret,'other-uid'),(self.token(role='service_role'),self.secret,self.uid),
                 (self.token(exp=999),self.secret,self.uid),('bad-token',self.secret,self.uid)]:
             with self.subTest(token_shape=token.count('.'),secret_present=secret is not None):
-                with self.assertRaises(HarnessFailure):signed_twins(token,secret,uid,1000)
+                with self.assertRaises(HarnessFailure):signed_twins(token,secret,uid,1000,self.uid)
+
+    def test_asymmetric_claim_fixture_requires_provider_verification_and_clean_hs_header(self):
+        original = self.token({'alg':'ES256','kid':'unit-only-issuer-kid'})
+        for provider_uid in [None,'different-uid']:
+            with self.assertRaises(HarnessFailure):signed_twins(original,self.secret,self.uid,1000,provider_uid)
+        # Offline input represents claims only, not an ECDSA verification proof.
+        future, expired, _, provenance = signed_twins(original,self.secret,self.uid,1000,self.uid)
+        self.assertEqual(provenance['issuer_algorithm'],'ES256')
+        self.assertFalse(provenance['asymmetric_signature_verified_locally'])
+        self.assertEqual(provenance['issuer_validation'],'Auth GET/user')
+        for token in (future,expired):
+            self.assertEqual(json.loads(decoded(token.split('.')[0])),{'alg':'HS256','typ':'JWT'})
 
     def test_lifecycle_denial_never_accepts_expiry_or_generic_permissions(self):
         good = {'code':'42501','message':'account_inactive'}

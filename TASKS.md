@@ -1,3 +1,28 @@
+## Forward verifier correction after actual issuer mismatch — 2026-10-11
+
+InitialPR60 source7f6a6c991c7de4767c13f38485709e01ac0b1bf8: Quality349 SUCCESS,
+focused3/run38120052208 attempt1 originalcorrection fresh210/210/upgrade212/212 PASS.
+Both independent steps FAILED after44 controls because actual Auth issuer signing
+is asymmetric; initialHS256-assumption was false. No independent expiry/softdelete
+or acceptance is claimed. Failures/progress retained under evidence/hardening-initial;
+ZIP digests verified and cleanup succeeded. No unchanged historical rerun.
+
+Forward test-only correction verifies originalJWT through Auth GET/user exactidentity
+and uses CLI-source-verified combined JWKS legacyHS key for clean-header signedfixture
+twins. Mandatory futurepositive /expired303 /tampered301; provider-verification,
+local-signing and naturallyelapsed-token limitations explicit. No new dependency
+or cryptographic implementation; real softdelete remains gated on actual freshresult.
+Artifact names include run_attempt for distinct independent replay evidence.
+
+Final source/job/counts/independent receipt and protocolverdict recorded in PR60/#55;
+no selfapproval/pending-as-pass. All43 migrations/application/finance/main unchanged.
+ONE NEXT: complete currentfocusedverification and independentlyinitiatedreplay, then
+reconcile remaining L01–L15 isolation requirements before financial execution.
+
+Earlier checkpoints below remain historical evidence.
+
+---
+
 ## Verification hardening after independent review — 2026-10-11
 
 Owner «قم بذلك» approves bounded PR59 review followup. Independent review5482207278

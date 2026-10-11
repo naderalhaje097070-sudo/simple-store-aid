@@ -1,5 +1,6 @@
 """Focused live enforcement tests; baseline oracle remains immutable."""
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -19,6 +20,25 @@ COMPENSATION = '20261010225012_avoid_profile_policy_sublink_recursion.sql'
 SUCCESS = 'ENV_NATIVE_01_FOCUSED_CORRECTION_GREEN'
 
 
+def advisory_summary(report):
+    """Pinned CLI list contract; malformed output and ERROR findings fail closed."""
+    if not isinstance(report, list):
+        raise HarnessFailure('invalid local advisory report')
+    counts = dict.fromkeys(('ERROR', 'WARN', 'INFO'), 0)
+    keys = []
+    for finding in report:
+        if (not isinstance(finding, dict) or finding.get('level') not in counts
+                or not isinstance(finding.get('cache_key'), str) or not finding['cache_key']):
+            raise HarnessFailure('invalid local advisory finding')
+        counts[finding['level']] += 1
+        keys.append(finding['cache_key'])
+    if len(keys) != len(set(keys)):
+        raise HarnessFailure('duplicate local advisory finding')
+    if counts['ERROR']:
+        raise HarnessFailure('local advisory ERROR findings')
+    return {'counts': counts, 'cache_keys': sorted(keys)}
+
+
 def strict_guard_denial(status, body):
     return status == 403 and isinstance(body, dict) and body.get('code') == '42501' and body.get('message') == 'account_inactive'
 
@@ -30,6 +50,9 @@ def green_result(checks):
     required = {f'banned_{actor}_{case}' for actor in ('owner','staff') for case in
                 ('old_jwt_own_tenant','old_jwt_own_profiles','old_jwt_own_user_roles','summary','direct_rls')}
     required |= {'active_after_ban_owner_A','active_after_ban_staff_A','public_history_preserved'}
+    required |= {'advisors_initial_exact_schema_no_errors','advisors_final_exact_schema_no_errors',
+                 'advisors_no_new_findings','active_expected_fixture_bindings_before','cross_tenant_stored_no_effect'}
+    required |= {f'active_{n}_foreign_stored_no_effect' for n in range(4)}
     if not required.issubset(names):
         raise HarnessFailure('named correction controls missing')
     return SUCCESS
@@ -67,6 +90,38 @@ def rpc_payloads(actor, other):
 
 
 class CorrectionProbe(Probe):
+    def capture_advisors(self, stack, phase, expected_versions):
+        stack = stack.resolve()
+        if stack != (Path(os.environ['RUNNER_TEMP']) / 'monjez-lifecycle-correction').resolve():
+            raise HarnessFailure('advisory stack path mismatch')
+        versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
+        if versions != expected_versions:
+            raise HarnessFailure('advisory migration provenance mismatch')
+        help_result = subprocess.run(['supabase', 'db', 'advisors', '--help'], capture_output=True, text=True)
+        if help_result.returncode or '--local' not in help_result.stdout:
+            raise HarnessFailure('pinned CLI local advisory capability missing')
+        result = subprocess.run(['supabase', '--workdir', str(stack), 'db', 'advisors', '--local', '-o', 'json'],
+                                capture_output=True, text=True)
+        if result.returncode:
+            raise HarnessFailure('local advisory command failed')
+        # Retain actual output before validation, including ERROR reports.
+        raw = result.stdout
+        (self.evidence_dir / ('advisors-' + phase + '.json')).write_text(raw)
+        try:
+            summary = advisory_summary(json.loads(raw))
+        except json.JSONDecodeError as error:
+            raise HarnessFailure('non-JSON local advisory report') from error
+        provenance = {'source_sha': self.source, 'phase': phase, 'migration_versions': versions,
+                      'report_sha256': hashlib.sha256(raw.encode()).hexdigest(), **summary}
+        (self.evidence_dir / ('advisors-' + phase + '-provenance.json')).write_text(json.dumps(provenance, indent=2) + '\n')
+        self.control('advisors_' + phase + '_exact_schema_no_errors', True, migration_count=len(versions), counts=summary['counts'])
+        return summary
+
+    def fixture_bindings(self):
+        return self.query("""select jsonb_build_object(
+          'tenants',(select jsonb_agg(jsonb_build_object('id',id,'name',name,'owner',owner_user_id) order by id) from public.tenants),
+          'profiles',(select jsonb_agg(jsonb_build_object('id',id,'tenant',tenant_id) order by id) from public.profiles));""")
+
     def sql(self, sql):
         result=subprocess.run(_psql_command(self.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),
                               input=sql,capture_output=True,text=True,env=_psql_env(self.config))
@@ -135,6 +190,7 @@ class CorrectionProbe(Probe):
         expected = files if mode == 'fresh' else [f for f in files if f.name not in (MIGRATION,COMPENSATION)]
         versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
         self.control('initial_exact_migration_chain', len(files) == 43 and versions == [p.name.split('_')[0] for p in expected])
+        initial_advisors = self.capture_advisors(stack, 'initial', [p.name.split('_')[0] for p in expected])
         a, b = self.fixture('owner_A'), self.fixture('owner_B')
         s1, s2 = self.fixture('staff_A', a['tenant'], True), self.fixture('staff_B', b['tenant'], True)
         if mode=='fresh':
@@ -157,6 +213,13 @@ class CorrectionProbe(Probe):
             self.control('prior_42p17_profile_recursion_reproduced',True)
         # Existing-schema membership only; no product/admin contract added.
         self.sql(f"insert into public.platform_admins(user_id) values ('{a['uid']}'),('{b['uid']}');")
+        before_foreign = self.history_all(tables)
+        bindings_before = self.fixture_bindings()
+        expected_tenants = sorted([
+            {'id': a['tenant'], 'name': 'Fixture owner_A', 'owner': a['uid']},
+            {'id': b['tenant'], 'name': 'Fixture owner_B', 'owner': b['uid']}], key=lambda row: row['id'])
+        expected_profiles = sorted([{'id': actor['uid'], 'tenant': actor['tenant']} for actor in (a,b,s1,s2)], key=lambda row: row['id'])
+        self.control('active_expected_fixture_bindings_before', bindings_before == {'tenants': expected_tenants, 'profiles': expected_profiles})
         for n, actor in enumerate([a,b,s1,s2]):
             status, rows = self.own_rows(actor, 'tenants')
             self.control(f'active_{n}_own_tenant', status == 200 and isinstance(rows,list) and len(rows)==1, status=status)
@@ -166,6 +229,11 @@ class CorrectionProbe(Probe):
                 self.control(f'active_{n}_foreign_{method}', denial(status,body),status=status)
             status, body = self.request('PATCH','/rest/v1/profiles?id=eq.'+actor['uid'],{'tenant_id':foreign},token=actor['token'])
             self.control(f'active_{n}_tenant_reassignment',denial(status,body),status=status)
+            self.control(f'active_{n}_foreign_stored_no_effect', self.history_all(tables) == before_foreign and self.fixture_bindings() == bindings_before)
+        self.control('cross_tenant_stored_no_effect', self.history_all(tables) == before_foreign and self.fixture_bindings() == bindings_before)
+        (self.evidence_dir/'cross-tenant-storage.json').write_text(json.dumps({
+            'source_sha': self.source, 'history_before': before_foreign, 'history_after': self.history_all(tables),
+            'bindings_before': bindings_before, 'bindings_after': self.fixture_bindings()}, indent=2)+'\n')
         for name, actor in [('A',a),('B',b)]:
             status, body=self.request('POST','/rest/v1/rpc/get_tenant_today_estimate',{},token=actor['token'])
             self.control('active_summary_'+name,status==200 and isinstance(body,dict) and 'sales' in body,status=status)
@@ -186,6 +254,8 @@ class CorrectionProbe(Probe):
             self.migrate_upgrade(stack,before,tables)
         versions=self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
         self.control('final_exact_43_chain',versions==[p.name.split('_')[0] for p in files])
+        final_advisors = self.capture_advisors(stack, 'final', [p.name.split('_')[0] for p in files])
+        self.control('advisors_no_new_findings', final_advisors == initial_advisors)
         self.export_catalog(files)
         current=json.loads((self.evidence_dir/'catalog.json').read_text())
         old=[p for p in current['policies'] if p['policyname']!='monjez_live_actor']

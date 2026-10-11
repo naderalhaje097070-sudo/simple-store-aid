@@ -1,11 +1,45 @@
 import importlib.util
 from pathlib import Path
+import json
+import os
+import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 
-from correction_probe import HarnessFailure, SUCCESS, green_result, rpc_payloads, strict_guard_denial
+from correction_probe import CorrectionProbe, HarnessFailure, SUCCESS, advisory_summary, green_result, rpc_payloads, strict_guard_denial
 
 
 class CorrectionContractTest(unittest.TestCase):
+    def test_advisory_errors_malformed_unknown_and_duplicate_findings_fail_closed(self):
+        self.assertEqual(advisory_summary([])['counts'], {'ERROR':0,'WARN':0,'INFO':0})
+        self.assertEqual(advisory_summary([{'level':'WARN','cache_key':'known'}])['cache_keys'], ['known'])
+        for report in ({}, [None], [{'level':'ERROR','cache_key':'error'}],
+                       [{'level':'NEW','cache_key':'other'}], [{'level':'WARN'}],
+                       [{'level':'WARN','cache_key':'same'}]*2):
+            with self.subTest(report=report):
+                with self.assertRaises(HarnessFailure): advisory_summary(report)
+
+    def test_advisory_provenance_mismatch_stops_before_cli(self):
+        probe = CorrectionProbe.__new__(CorrectionProbe)
+        probe.query = lambda sql: ['41']
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {'RUNNER_TEMP':tmp}), patch('correction_probe.subprocess.run') as run:
+            with self.assertRaisesRegex(HarnessFailure,'provenance mismatch'):
+                probe.capture_advisors(Path(tmp)/'monjez-lifecycle-correction', 'final', ['43'])
+            run.assert_not_called()
+
+    def test_advisory_error_report_is_retained_without_success_receipt(self):
+        probe = CorrectionProbe.__new__(CorrectionProbe)
+        probe.query = lambda sql: ['43']
+        raw = json.dumps([{'level':'ERROR','cache_key':'unsafe'}])
+        with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {'RUNNER_TEMP':tmp}), patch('correction_probe.subprocess.run', side_effect=[
+                SimpleNamespace(returncode=0,stdout='--local'), SimpleNamespace(returncode=0,stdout=raw)]):
+            probe.evidence_dir = Path(tmp)
+            with self.assertRaisesRegex(HarnessFailure,'ERROR findings'):
+                probe.capture_advisors(Path(tmp)/'monjez-lifecycle-correction', 'final', ['43'])
+            self.assertEqual((Path(tmp)/'advisors-final.json').read_text(), raw)
+            self.assertFalse((Path(tmp)/'advisors-final-provenance.json').exists())
+
     def test_rpc_denial_requires_named_guard_not_generic_permission_or_server_error(self):
         good={'code':'42501','message':'account_inactive'}
         self.assertTrue(strict_guard_denial(403,good))
@@ -16,6 +50,9 @@ class CorrectionContractTest(unittest.TestCase):
         names={f'banned_{a}_{c}' for a in ('owner','staff') for c in
                ('old_jwt_own_tenant','old_jwt_own_profiles','old_jwt_own_user_roles','summary','direct_rls')}
         names|={'active_after_ban_owner_A','active_after_ban_staff_A','public_history_preserved'}
+        names|={'advisors_initial_exact_schema_no_errors','advisors_final_exact_schema_no_errors',
+                'advisors_no_new_findings','active_expected_fixture_bindings_before','cross_tenant_stored_no_effect'}
+        names|={f'active_{n}_foreign_stored_no_effect' for n in range(4)}
         checks=[{'name':n,'passed':True} for n in names]
         self.assertEqual(green_result(checks),SUCCESS)
         for i in range(len(checks)):

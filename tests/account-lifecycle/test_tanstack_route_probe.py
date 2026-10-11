@@ -1,7 +1,10 @@
 """Adversarial acceptance checks for the route runner; no live-path auth stubs."""
 import copy
 import unittest
-from tanstack_route_probe import lifecycle_accepted, exact_catalog, contains_credentials
+import json
+from pathlib import Path
+import tempfile
+from tanstack_route_probe import lifecycle_accepted, exact_catalog, contains_credentials, publish_result
 from mcp_probe import TOOLS, tool_success, account_tool_denial
 
 
@@ -55,6 +58,26 @@ class RouteAcceptanceTest(unittest.TestCase):
                               ('sb_secret_unknownvalue', []), ('oauth-refresh-sensitive', ['oauth-refresh-sensitive'])]:
             self.assertTrue(contains_credentials(text, secrets))
         self.assertFalse(contains_credentials('{"outcome":"passed","sha":"abc"}', ['sensitive']))
+
+    def test_detected_artifact_is_quarantined_before_always_upload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            evidence = Path(directory)/'route-evidence'
+            evidence.mkdir()
+            (evidence/'progress.json').write_text('{"leak":"known-sensitive-refresh"}')
+            result = publish_result(evidence, {'full_local_route_accepted': True}, ['known-sensitive-refresh'])
+            self.assertFalse(result['full_local_route_accepted'])
+            self.assertFalse(result['evidence_no_credentials'])
+            self.assertEqual([p.name for p in evidence.iterdir()], ['route-result.json'])
+            self.assertNotIn('known-sensitive-refresh', (evidence/'route-result.json').read_text())
+            self.assertTrue((Path(directory)/'route-evidence-private-quarantine/private-0').exists())
+
+    def test_detected_result_is_replaced_by_fixed_failure_receipt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            evidence = Path(directory)/'route-evidence'
+            evidence.mkdir()
+            result = publish_result(evidence, {'full_local_route_accepted': True, 'body': 'sb_secret_unknownvalue'}, [])
+            self.assertFalse(result['full_local_route_accepted'])
+            self.assertNotIn('sb_secret_', json.dumps(result))
 
 
 if __name__ == '__main__':

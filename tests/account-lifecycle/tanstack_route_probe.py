@@ -35,6 +35,24 @@ def exact_catalog(body):
             and {tool.get('name') for tool in tools} == set(TOOLS))
 
 
+def publish_result(evidence_dir, result, secrets):
+    """Detected credential material is quarantined outside the always-upload sink."""
+    files = [p for p in evidence_dir.rglob('*') if p.is_file()]
+    artifact_leak = contains_credentials(json.dumps(result), secrets) or any(
+        contains_credentials(p.read_text(errors='replace'), secrets) for p in files)
+    if artifact_leak:
+        quarantine = evidence_dir.parent / 'route-evidence-private-quarantine'
+        quarantine.mkdir(mode=0o700, exist_ok=True)
+        for index, p in enumerate(files):
+            shutil.move(str(p), str(quarantine / ('private-' + str(index))))
+        result = {'full_local_route_accepted': False, 'integration_accepted': False,
+                  'evidence_no_credentials': False, 'failure_stage': 'credential_evidence_quarantined'}
+    else:
+        result['evidence_no_credentials'] = True
+    (evidence_dir / 'route-result.json').write_text(json.dumps(result, indent=2) + '\n')
+    return result
+
+
 def lifecycle_accepted(observations):
     expected = [(actor, phase, name) for actor, phase in
                 [('A', 'active'), ('B', 'active'), ('B', 'banned_old_jwt'), ('A', 'unaffected_active')]
@@ -311,13 +329,10 @@ class TanStackRouteProbe(McpProbe):
                     secrets += [actor[k] for k in ('token', 'session_token', 'refresh', 'password') if k in actor]
             private_paths = list(Path(os.environ['RUNNER_TEMP']).glob('route-*-private.log'))
             log_leak = any(contains_credentials(p.read_text(), secrets) for p in private_paths)
-            artifact_leak = contains_credentials(json.dumps(result), secrets) or any(
-                contains_credentials(p.read_text(), secrets) for p in self.evidence_dir.glob('*.json'))
             result['private_logs_no_known_credentials'] = not log_leak
-            result['evidence_no_credentials'] = not artifact_leak
-            result['full_local_route_accepted'] = accepted and not log_leak and not artifact_leak
-            (self.evidence_dir / 'route-result.json').write_text(json.dumps(result, indent=2) + '\n')
-            print(json.dumps({'full_local_route_accepted': result['full_local_route_accepted'], 'failure_stage': failure,
+            result['full_local_route_accepted'] = accepted and not log_leak
+            result = publish_result(self.evidence_dir, result, secrets)
+            print(json.dumps({'full_local_route_accepted': result['full_local_route_accepted'], 'failure_stage': result['failure_stage'],
                               'checks': len(self.controls)}))
         return 0 if result['full_local_route_accepted'] else 2
 

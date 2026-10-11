@@ -1,0 +1,203 @@
+name: MCP TanStack Route
+on:
+  pull_request:
+    paths:
+      - 'tests/account-lifecycle/tanstack_route_*'
+      - 'tests/account-lifecycle/test_tanstack_route_probe.py'
+      - 'tests/account-lifecycle/mcp_probe.py'
+      - 'tests/account-lifecycle/live_probe.py'
+      - 'tests/e2e/write_harness_guard.py'
+      - 'src/server.ts'
+      - 'src/routes/**'
+      - 'src/lib/mcp/**'
+      - 'config/supabase-build-config.ts'
+      - 'vite.config.ts'
+      - 'package.json'
+      - 'bun.lock'
+      - 'supabase/migrations/**'
+      - '.github/workflows/mcp-tanstack-route.yml'
+permissions:
+  contents: read
+jobs:
+  tanstack-route:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: route-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check shared oracle and route acceptance
+        run: |
+          python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py -v
+          python -m unittest discover -s tests/account-lifecycle -p test_tanstack_route_probe.py -v
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Setup native Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install exact locked dependencies
+        run: bun install --frozen-lockfile > "$RUNNER_TEMP/route-install-private.log" 2>&1
+      - name: Check existing cryptographic issuer contract
+        run: bun test tests/unit/mcp-issuer.test.ts
+      - name: Setup pinned Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - name: Inspect CLI and validate isolated intent
+        run: |
+          set -euo pipefail
+          test "$(supabase --version)" = '2.101.0'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          supabase --help > "$RUNNER_TEMP/route-cli-help.txt"
+          grep -q -- '--workdir' "$RUNNER_TEMP/route-cli-help.txt"
+          python tests/e2e/write_harness_guard.py --preflight-only
+      - name: Install local test prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/route-psql-private.log" 2>&1
+      - name: Prove real process containment before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo useradd --system --no-create-home --shell /usr/sbin/nologin mcp-route
+          uid="$(id -u mcp-route)"
+          sudo iptables -N MCP_ROUTE
+          sudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT
+          sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable
+          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j MCP_ROUTE
+          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+          sudo install -d -m 755 -o mcp-route "$RUNNER_TEMP/route-runtime"
+          sudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \
+            MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE="$RUNNER_TEMP/route-runtime/preflight.json" \
+            "$(command -v node)" --import "$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs" \
+            --input-type=module -e ''
+          sudo iptables -nvxL MCP_ROUTE > "$RUNNER_TEMP/route-firewall.txt"
+          sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
+          ROUTE_UID="$uid" python - <<'PYFIREWALL'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          lines = (root/'route-firewall.txt').read_text().splitlines()
+          rejected = [int(line.split()[0]) for line in lines if 'REJECT' in line]
+          assert len(rejected) == 1 and rejected[0] > 0, 'Native redirect not blocked by UID firewall'
+          receipt = {'uid': int(os.environ['ROUTE_UID']), 'ipv4_reject_packets': rejected[0],
+                     'ipv6_rule_installed': True, 'credential_free_preflight': True,
+                     'policy': 'dedicated UID: IPv4 exact loopback only; IPv6 rejected'}
+          (root/'route-firewall.json').write_text(json.dumps(receipt))
+          print(json.dumps(receipt))
+          PYFIREWALL
+      - name: Start fresh disposable Supabase with real OAuth
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-tanstack-route"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/route-init-private.log" 2>&1
+          STACK_CONFIG="$stack/supabase/config.toml" python - <<'PYCONFIG'
+          import os
+          from pathlib import Path
+          p = Path(os.environ['STACK_CONFIG'])
+          s = p.read_text()
+          old = '[auth.oauth_server]\n# Enable OAuth server functionality\nenabled = false'
+          assert old in s, 'Pinned local OAuth configuration changed'
+          p.write_text(s.replace(old, old.replace('enabled = false', 'enabled = true'), 1))
+          PYCONFIG
+          mkdir -p "$stack/supabase/migrations"
+          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/route-start-private.log" 2>&1; then
+            echo 'ROUTE_STACK_START_FAILED: private output withheld'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/route-status.json"
+          chmod 600 "$RUNNER_TEMP/route-status.json"
+          # CLI start can print disposable keys; keep no credential-bearing log.
+          python - <<'PYSCRUB'
+          import json, os, re
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          status=json.loads((root/'route-status.json').read_text())
+          p=root/'route-start-private.log'
+          text=p.read_text()
+          for key,value in status.items():
+            if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and value:
+              text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')
+          text=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)
+          text=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_KEY]', text)
+          p.write_text(text)
+          PYSCRUB
+      - name: Build unchanged actual application for local Node runtime
+        run: python tests/account-lifecycle/tanstack_route_build.py
+      - name: Test complete real HTTP route
+        run: |
+          python tests/account-lifecycle/tanstack_route_probe.py \
+            --status-file "$RUNNER_TEMP/route-status.json" \
+            --evidence-dir "$RUNNER_TEMP/route-evidence" \
+            --expected-source "$EXPECTED_SOURCE"
+      - name: Cleanup local processes stack and credential files
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if id mcp-route >/dev/null 2>&1; then
+            sudo pkill -TERM -u mcp-route || true
+          fi
+          rm -f "$RUNNER_TEMP/route-status.json"
+          if [[ -d "$RUNNER_TEMP/monjez-tanstack-route/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-tanstack-route" stop --no-backup > "$RUNNER_TEMP/route-stop-private.log" 2>&1
+          fi
+          mkdir -p "$RUNNER_TEMP/route-evidence"
+          python - <<'PYCLEAN'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          receipt = {'status_file_removed': not (root/'route-status.json').exists(),
+                     'application_processes_removed': subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1,
+                     'stack_containers_removed': 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}
+          (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))
+          assert all(receipt.values()), 'Disposable cleanup incomplete'
+          PYCLEAN
+      - name: Print allowlisted receipts
+        if: always()
+        run: |
+          python - <<'PYRECEIPTS'
+          import os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])/'route-evidence'
+          for name in ['build.json','route-result.json','route-harness-failure.json','progress.json','cleanup.json']:
+            p=root/name
+            if p.exists():
+              print('ROUTE_RECEIPT_BEGIN '+name)
+              print(p.read_text())
+              print('ROUTE_RECEIPT_END '+name)
+          PYRECEIPTS
+      - name: Upload sanitized route evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp-tanstack-route-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/route-evidence/
+          retention-days: 7
+          if-no-files-found: warn

@@ -1,0 +1,6 @@
+# Security impact
+Explicit destructive-test intent guard before keys; fresh43migration local stack. Dedicated unprivileged server UID is firewalled before any credentials. Credential-free native HTTP302 follow attempt must fail ECONNREFUSED and increment OS reject counter; manual mode observes302 without following. IPv6 OUTPUT rejected for UID.
+Inside actual Node server preload: exact http://127.0.0.1:54321 fetch origin and manual redirects, pathname counters only. No handler/auth/tools stubs. Service-role and Lovable keys excluded from process environment; proxy and NODE_OPTIONS routing removed.
+Real missing/malformed/clientclaimless bearer negatives; successful real OAuth JWT; hostile Host/X-Forwarded-Host/Proto/Forwarded cannot select trusted issuer/JWKS or cause unexpected outbound. Generated trustForwardedHost behavior may affect advertised resource and must be recorded, not represented as hardened proxy policy.
+Runtime/build project mismatch tested separately with500, exact recorded config error and zero downstream; never counted as account denial.
+Strict MCP body/isError checks; preban B JWT reused; account_inactive only. Private logs checked for known keys/tokens/passwords before result acceptance. No raw requests/headers/HTTP bodies/logs uploaded.

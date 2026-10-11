@@ -6,7 +6,12 @@ if (process.env.CI_ISOLATED_SUPABASE !== '1' || status.API_URL !== 'http://127.0
 }
 process.env.SUPABASE_URL = status.API_URL;
 process.env.SUPABASE_PUBLISHABLE_KEY = status.ANON_KEY;
+process.env.MONGEZZ_DEPLOY_TARGET = 'ci';
+process.env.VITE_SUPABASE_URL = status.API_URL;
+process.env.VITE_SUPABASE_PUBLISHABLE_KEY = status.ANON_KEY;
 process.env.VITE_SUPABASE_PROJECT_ID = 'monjez-mcp-ci';
+process.env.SUPABASE_PROJECT_ID = 'monjez-mcp-ci';
+delete process.env.LOVABLE_API_KEY;
 delete process.env.SUPABASE_SERVICE_ROLE_KEY;
 const sdk = JSON.parse(readFileSync('node_modules/@lovable.dev/mcp-js/package.json', 'utf8'));
 if (sdk.version !== '0.20.1') throw new Error('MCP_TEST_SDK_VERSION');
@@ -21,7 +26,9 @@ globalThis.fetch = (input, init) => {
     else state.blocked_other_requests++;
     throw new Error('MCP_TEST_REMOTE_NETWORK_BLOCKED');
   }
-  return nativeFetch(input, init);
+  const request = new Request(input, init);
+  // Never let a redirect escape containment through the native fetch implementation.
+  return nativeFetch(request, { redirect: 'manual' });
 };
 const { createMcpProtocolHandler } = await import('@lovable.dev/mcp-js/protocols/mcp');
 const { default: definition } = await import('../../src/lib/mcp/index.ts');
@@ -33,7 +40,10 @@ const server = Bun.serve({
     if (path === '/test-health' && request.method === 'GET') {
       return Response.json({ ready: true, sdk_version: sdk.version,
         source_definition: 'src/lib/mcp/index.ts',
-        source_derived_issuer: 'https://monjez-mcp-ci.supabase.co/auth/v1', ...state });
+        source_derived_issuer: definition.auth.issuer,
+        source_jwks_uri: definition.auth.jwksUri,
+        oauth_client_claim_required: definition.auth.requireOAuthClientClaim !== false,
+        session_mode: 'stateless', ...state });
     }
     if (path !== '/mcp') return new Response('', { status: 404 });
     try { return await handler(request); }
@@ -41,3 +51,4 @@ const server = Bun.serve({
   },
 });
 process.on('SIGTERM', () => { server.stop(true); process.exit(0); });
+

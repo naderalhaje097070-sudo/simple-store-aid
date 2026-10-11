@@ -1,3 +1,14 @@
+## 2026-10-11 — validated MCP issuer selection (draft PR62)
+
+Use the existing approved Supabase build/runtime endpoint contract for MCP issuer
+selection; do not construct a remote host from project ID, request Host or JWT.
+Pin JWKS to that validated provider issuer; retain authenticated audience and strict
+SDK0.20.1 OAuth-client binding. Real local code/PKCE tokens are test prerequisites.
+Empty finance results do not prove explicit tool denial after ban. Direct handler
+proof is distinct from full TanStack route proof. Draft/unmerged; no release decision.
+
+---
+
 ## 2026-10-11 — MCP L10 verification candidate
 
 Owner «قم بالاختبار» authorizes the next bounded test-only batch after PR60 evidence

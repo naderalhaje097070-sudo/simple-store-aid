@@ -22,25 +22,8 @@ jobs:
         with:
           bun-version: '1.2.14'
       - run: bun install --frozen-lockfile
-      - name: Inspect exact SDK contract before implementation
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import json
-          root=Path('node_modules/@lovable.dev/mcp-js')
-          package=json.loads((root/'package.json').read_text())
-          assert package['version']=='0.20.1'
-          print(json.dumps(package))
-          print((root/'README.md').read_text())
-          for p in sorted(root.rglob('*')):
-              if p.is_file() and p.suffix in ('.js','.ts') and (p.name == 'types-CPkhCRxc.d.ts' or (p.suffix == '.js' and any(s in p.read_text() for s in ['jwtVerify(', 'requireOAuthClientClaim', 'function defineMcp(', 'function createMcpProtocolHandler(']))):
-                  print('SDK_FILE',str(p))
-                  print(p.read_text())
-          PY
-      - name: Local issuer regression (must fail before repair)
-        env:
-          MONGEZZ_DEPLOY_TARGET: ci
-          VITE_SUPABASE_URL: http://127.0.0.1:54321
-          VITE_SUPABASE_PUBLISHABLE_KEY: issuer-contract-placeholder
-          VITE_SUPABASE_PROJECT_ID: monjez-mcp-ci
+      - name: Verify locked SDK version
+        run: test "$(bun -e 'console.log(require("./node_modules/@lovable.dev/mcp-js/package.json").version)')" = '0.20.1'
+      - name: Validated actual application issuer regression
         run: bun test tests/unit/mcp-issuer.test.ts
+

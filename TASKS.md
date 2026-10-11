@@ -1,3 +1,24 @@
+## 2026-10-11 — PR62 bounded local MCP issuer candidate
+
+Owner authorizes this issuer/configuration batch on PR61 head
+315751c46678fa18ffc35dae1e8d6e2cb9b30335, stacked on draft PR60. Main remains
+43d6edbccb66fb06ce0fcb93734ad59532d1aeae. PR62 / branch
+fix/mcp-local-issuer-2026-10-11 is draft, unmerged and not release approval.
+Execution claim: issue55 comment6109194766; no competing visible claim.
+
+Actual definition regression failed before repair on3771dcb (run38140972804).
+Reuse validated build environment to select issuer/JWKS; preserve direct production,
+strict SDK auth and outbound containment. Real local OAuth/PKCE replaces unsuitable
+password JWTs only in the test fixture. Do not count empty financial lists as explicit
+ban denial. Focused verification and independent review are pending for this candidate;
+final exact-source results override this pending note in PR62 and issue55.
+No dependencies/migrations/financial policy/production/merge/deploy changes.
+
+Packet: changes/mcp-local-issuer/. ONE NEXT: inspect focused acceptance and required
+Quality on the final candidate, retain any blocker, and submit to planning review.
+
+---
+
 ## 2026-10-11 — MCP L10 verification candidate
 
 Owner «قم بالاختبار» authorizes the next bounded test-only batch after PR60 evidence

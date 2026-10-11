@@ -26,5 +26,16 @@ class McpBoundaryTest(unittest.TestCase):
         self.assertEqual(protocol_body(('event: message\ndata: '+json.dumps(body)+'\n\n').encode()), body)
         with self.assertRaises(Exception): protocol_body(b'not-json')
 
+    def test_empty_finance_rows_are_not_explicit_ban_denial(self):
+        for name, field in [('list_products', 'products'), ('list_customers', 'customers'),
+                            ('list_recent_orders', 'orders')]:
+            body = {'result': {'structuredContent': {field: []}}}
+            self.assertTrue(tool_success(200, body, name))
+            self.assertFalse(account_tool_denial(200, body, name))
+
+    def test_initialized_notification_empty_response(self):
+        self.assertIsNone(protocol_body(b''))
+
 
 if __name__ == '__main__': unittest.main()
+

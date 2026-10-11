@@ -7,6 +7,8 @@ on:
       - 'tests/account-lifecycle/live_probe.py'
       - 'tests/e2e/write_harness_guard.py'
       - 'src/lib/mcp/**'
+      - 'config/supabase-build-config.ts'
+      - 'vite.config.ts'
       - 'src/routes/mcp.ts'
       - 'supabase/migrations/**'
       - 'package.json'
@@ -75,6 +77,17 @@ jobs:
           stack="$RUNNER_TEMP/monjez-mcp-lifecycle"
           mkdir -p "$stack"
           supabase --workdir "$stack" init > "$RUNNER_TEMP/mcp-init.log" 2>&1
+          # Enable the already-supported OAuth server only in this disposable test config.
+          # Keep dynamic registration disabled; clients are created by fixture administration.
+          STACK_CONFIG="$stack/supabase/config.toml" python - <<'PYCONFIG'
+          import os
+          from pathlib import Path
+          p = Path(os.environ['STACK_CONFIG'])
+          s = p.read_text()
+          old = '[auth.oauth_server]\n# Enable OAuth server functionality\nenabled = false'
+          assert old in s, 'Pinned CLI OAuth configuration changed'
+          p.write_text(s.replace(old, old.replace('enabled = false', 'enabled = true'), 1))
+          PYCONFIG
           mkdir -p "$stack/supabase/migrations"
           cp supabase/migrations/*.sql "$stack/supabase/migrations/"
           if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/mcp-start.log" 2>&1; then
@@ -93,6 +106,15 @@ jobs:
             --status-file "$RUNNER_TEMP/mcp-status.json" \
             --evidence-dir "$RUNNER_TEMP/mcp-evidence" \
             --expected-source "$EXPECTED_SOURCE"
+      - name: Print allowlisted sanitized receipt
+        if: always()
+        run: |
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/mcp-result.json" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/mcp-result.json"
+          fi
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/progress.json" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/progress.json"
+          fi
       - name: Upload sanitized MCP evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -109,3 +131,4 @@ jobs:
           if [[ -d "$RUNNER_TEMP/monjez-mcp-lifecycle/supabase" ]]; then
             supabase --workdir "$RUNNER_TEMP/monjez-mcp-lifecycle" stop --no-backup > "$RUNNER_TEMP/mcp-stop.log" 2>&1
           fi
+

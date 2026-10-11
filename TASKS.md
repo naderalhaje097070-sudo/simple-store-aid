@@ -1,3 +1,24 @@
+## 2026-10-11 — PR60 second failure retained; signature classifier diagnosed
+
+Candidate9cc230b7f17de92f69a7ec2d59f0e0f3735a6dde: Quality350 SUCCESS; focused4
+run38120549060 attempt1 correction fresh210/210 andupgrade212/212 PASS. Independent
+steps both FAILED at tampered_jwt_reason: actual issuerES256/providerGET200,
+future signedHS256 fixture200 andexpired401 passed, tampered401 received but old
+exactbody was not retained. No soft-delete/fullindependent receipt claimed.
+Raw progress/failure preserved under changes/env-native-01/evidence/hardening-followup.
+Actual pinned PostgREST14.10/jose-jwt0.10.0 decode contract explains strict harness
+expectation mismatch: failed individual key verification yields KeyError with
+exact None-of-keys details. Reviewer-owned additive classifier correction accepts
+ONLY401/PGRST301/exactmessage+details, with same-token future200 control; missing
+configured-key details remain denied. Sanitized allowlisted constants are now
+retained. Fifteen focused units PASS locally; new source actual CI and
+independent replay receipt are required before bounded approval. No unchanged
+rerun, application/migration/dependency change, merge or deployment.
+ONE NEXT: inspect exact-source new controls and independent reviewer replay,
+then reconcile explicit remaining lifecycle/isolation gates in PR60/#55.
+
+---
+
 ## Forward verifier correction after actual issuer mismatch — 2026-10-11
 
 InitialPR60 source7f6a6c991c7de4767c13f38485709e01ac0b1bf8: Quality349 SUCCESS,

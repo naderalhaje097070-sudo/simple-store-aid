@@ -4,7 +4,7 @@ import hmac
 import json
 import unittest
 
-from independent_probe import (HarnessFailure, account_denial, decoded, encoded, foreign_denial,
+from independent_probe import (HarnessFailure, account_denial, decoded, encoded, foreign_denial, decode_diagnostic,
                                expiry_denial, metadata_denial, signature_denial, signed_twins)
 
 
@@ -62,12 +62,21 @@ class IndependentOracleTest(unittest.TestCase):
 
     def test_expiry_and_signature_error_are_distinct_strict_provider_reasons(self):
         expired = {'code':'PGRST303','message':'JWT expired'}
-        tampered = {'code':'PGRST301','message':'JWT cryptographic operation failed'}
+        tampered = {'code':'PGRST301','message':'No suitable key or wrong key type','details':'None of the keys was able to decode the JWT'}
         self.assertTrue(expiry_denial(401,expired));self.assertTrue(signature_denial(401,tampered))
         self.assertFalse(signature_denial(401,expired));self.assertFalse(expiry_denial(401,tampered))
+        self.assertFalse(signature_denial(401,dict(tampered,details='No suitable key was found to decode the JWT')))
+        self.assertFalse(signature_denial(401,dict(tampered,details=None)))
         for status, body in [(500,expired),(403,expired),(401,{'code':'PGRST301','message':'JWT expired'}),
                             (401,{'code':'PGRST301','message':'unknown JWT error'}),(401,[])]:
             with self.subTest(status=status):self.assertFalse(expiry_denial(status,body))
+
+    def test_provider_diagnostic_cannot_persist_raw_token_or_key_text(self):
+        unsafe = {'code':'SECRET_TOKEN','message':'JWT abc.def.signature','details':'runtime-secret-or-token'}
+        self.assertEqual(set(decode_diagnostic(unsafe).values()),{'unrecognized'})
+        self.assertEqual(set(decode_diagnostic({'code':[],'message':[],'details':{}}).values()),{'unrecognized'})
+        actual = {'code':'PGRST301','message':'No suitable key or wrong key type','details':'None of the keys was able to decode the JWT'}
+        self.assertEqual(decode_diagnostic(actual),{'provider_code':actual['code'],'provider_message':actual['message'],'provider_details':actual['details']})
 
     def test_active_foreign_policy_denial_is_distinct_from_lifecycle_guard(self):
         ordinary_rls = {'code':'42501','message':'new row violates row-level security policy'}

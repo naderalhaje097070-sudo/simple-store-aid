@@ -125,3 +125,29 @@ ONE NEXT after verification: reconcile independent receipt and explicit remainin
 lifecycle/isolation gaps against L01–L15 before opening financial write execution.
 If a new failure appears, diagnose retained source-linked evidence rather than
 repeat unchanged tests. Main remains unchanged until separate human approval.
+
+## Retained second failure and exact JOSE decode contract
+
+Candidate9cc230b7f17de92f69a7ec2d59f0e0f3735a6dde: Quality350/run38120549075
+SUCCESS; focused4/run38120549060 attempt1 fresh correction210/210 andupgrade212/212
+PASS. Both independent steps failed at tampered_jwt_reason after actual issuerES256,
+Auth GET/user200, future localHS256 fixture200 andexpired401 controls passed.
+The tampered request received401, but its exactbody was not previously retained.
+Do not infer the historical body or claim soft-delete/complete independent acceptance.
+Raw progress/failure retained under evidence/hardening-followup; both cleanup steps
+succeeded, ZIP digests verified. Source evidence, not an unchanged retry, drives
+this forward correction.
+
+PostgREST14.10 [dependency lock](https://github.com/PostgREST/postgrest/blob/v14.10/stack.yaml.lock)
+pins jose-jwt0.10.0 (hackage SHA256
+6ed175a01c721e317ceea15eb251a81de145c03711a977517935633a5cdec1d4).
+Its exact [decodeWithJws source](https://github.com/tekul/jose-jwt/blob/0.10.0/Jose/Jwt.hs)
+turns each failed JWS verification into Nothing, then raises KeyError with details
+`None of the keys was able to decode the JWT`. PostgREST maps this to401/PGRST301
+and `No suitable key or wrong key type`. Require all four exactfields, plus the
+mandatory same-header/claims future200 control before signature-only tampering.
+Reject the different configured-missing-key details, generic errors and5xx.
+Allowlisted provider constants are retained, never raw token/key interpolation.
+Fifteen local unit methods including diagnostics redaction PASS;
+actual final source must confirm exact provider constants before independent replay
+and a bounded PR60 verdict. Broad PR59/financial/release gates stay open.

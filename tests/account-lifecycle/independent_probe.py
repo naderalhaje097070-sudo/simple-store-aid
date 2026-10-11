@@ -100,8 +100,23 @@ def expiry_denial(status, body):
 
 
 def signature_denial(status, body):
+    # jose-jwt0.10.0 decode tries suitable keys, maps individual BadCrypto to
+    # Nothing, then reports this exact KeyError when none verifies. Distinguish
+    # failed verification from no suitable configured key using exact details.
     return (status == 401 and isinstance(body, dict) and body.get('code') == 'PGRST301'
-            and body.get('message') == 'JWT cryptographic operation failed')
+            and body.get('message') == 'No suitable key or wrong key type'
+            and body.get('details') == 'None of the keys was able to decode the JWT')
+
+
+def decode_diagnostic(body):
+    """Persist only provider constants, never raw JWT/key/error interpolation."""
+    if not isinstance(body, dict):
+        return {'provider_code':'unrecognized','provider_message':'unrecognized','provider_details':'unrecognized'}
+    messages = {'JWT expired','JWT cryptographic operation failed','No suitable key or wrong key type'}
+    details = {'None of the keys was able to decode the JWT','No suitable key was found to decode the JWT'}
+    return {'provider_code':body.get('code') if body.get('code') in ('PGRST301','PGRST303') else 'unrecognized',
+            'provider_message':body.get('message') if isinstance(body.get('message'),str) and body.get('message') in messages else 'unrecognized',
+            'provider_details':body.get('details') if body.get('details') is None or (isinstance(body.get('details'),str) and body.get('details') in details) else 'unrecognized'}
 
 
 class IndependentProbe(CorrectionProbe):
@@ -192,7 +207,7 @@ class IndependentProbe(CorrectionProbe):
         self.control('independent_future_signed_twin_active',status == 200 and isinstance(rows,list) and len(rows) == 1 and rows[0]['id'] == a['tenant'],status=status)
         for label, token, classifier in [('expired',twins[1],expiry_denial),('tampered',twins[2],signature_denial)]:
             status, body = self.request('GET','/rest/v1/tenants?id=eq.'+a['tenant'],token=token)
-            self.control('independent_'+label+'_jwt_reason',classifier(status,body),status=status)
+            self.control('independent_'+label+'_jwt_reason',classifier(status,body),status=status,**decode_diagnostic(body))
 
         # Delete a separate unbanned actor, keeping all public rows and IDs.
         self.control('independent_deleted_actor_initially_unbanned', self.sql(f"select (deleted_at is null and (banned_until is null or banned_until<=now()))::text from auth.users where id='{deleted['uid']}';") == 'true')

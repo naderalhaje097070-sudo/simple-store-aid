@@ -1,0 +1,11 @@
+{
+  "source_sha": "fe7a8749d0e509ec11206648edd1dfbaf4973388",
+  "run": 38220144250,
+  "job": 114714140015,
+  "stage": "installed_verifier_contract_before_credentials",
+  "reason": "SDK has explicit clockTolerance; initial inspector assumed omission and failed closed",
+  "cleanup_issue": "pgrep -u nonexistent user returns2, initial oracle wrongly expected1; no process/stack/credentials had been created",
+  "artifact_id": 11733900775,
+  "artifact_sha256": "82a0a48469f6b969275863835c0918b99f090a0857612df1e32c32b8f1376d97",
+  "live_test_executed": false
+}

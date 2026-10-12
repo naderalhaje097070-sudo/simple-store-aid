@@ -76,6 +76,8 @@ class NaturalExpiryProbe(TanStackRouteProbe):
         self.flow_counts = {'password': 0, 'authorization_code': 0, 'refresh_token': 0}
         self.crypto_receipts = []
         self.old_digest = None
+        contract = json.loads((self.evidence_dir / 'expiry-contract.json').read_text())
+        self.leeway = max(POSTGREST_SKEW, contract['sdk_clock_tolerance_seconds'])
 
     def request(self, method, path, payload=None, token=None, admin=False):
         if (method in ('DELETE', 'PUT') or 'logout' in path
@@ -128,7 +130,7 @@ class NaturalExpiryProbe(TanStackRouteProbe):
         for path in PATHS:
             checked = time.time()
             same = hashlib.sha256(token.encode()).hexdigest() == self.old_digest
-            if negative and (not same or checked <= crypto['exp'] + POSTGREST_SKEW):
+            if negative and (not same or checked <= crypto['exp'] + self.leeway):
                 raise HarnessFailure('expired replay timing or token identity invalid')
             challenge, reason = '', None
             if path == 'rest':
@@ -207,12 +209,12 @@ class NaturalExpiryProbe(TanStackRouteProbe):
             self.control('initial_active_users_and_session', active and exists)
             self.positive(old, 'B', 'before', crypto)
             self.timing.update(iat=crypto['iat'], exp=crypto['exp'], positive_finished=time.time(),
-                               max_verifier_leeway=POSTGREST_SKEW, wait_margin=WAIT_MARGIN)
+                               max_verifier_leeway=self.leeway, wait_margin=WAIT_MARGIN)
             self.control('enough_validity_for_positives', self.timing['positive_finished'] < crypto['exp'])
             self.failure_stage = 'natural_wall_time_wait'
-            target = crypto['exp'] + POSTGREST_SKEW + WAIT_MARGIN
+            target = crypto['exp'] + self.leeway + WAIT_MARGIN
             wall, mono = time.time(), time.monotonic()
-            if not 0 < target - wall < TTL + POSTGREST_SKEW + WAIT_MARGIN:
+            if not 0 < target - wall < TTL + self.leeway + WAIT_MARGIN:
                 raise HarnessFailure('natural wait outside fixed budget')
             # No clock/exp changes. CI runs asynchronously while real time passes.
             # Bounded 30-second chunks keep cancellation responsive.
@@ -222,7 +224,7 @@ class NaturalExpiryProbe(TanStackRouteProbe):
             self.timing.update(real_wait_seconds=elapsed, monotonic_wait_seconds=elapsed_mono,
                                clock_drift_seconds=abs(elapsed - elapsed_mono), negative_started=time.time())
             self.control('real_time_elapsed_without_clock_shift', abs(elapsed - elapsed_mono) <= 2
-                         and time.time() > crypto['exp'] + POSTGREST_SKEW)
+                         and time.time() > crypto['exp'] + self.leeway)
             self.failure_stage = 'B_expired'
             expired = self.verify(old, 'B_expired')
             self.control('same_signed_token_now_expired', expired['digest'] == self.old_digest

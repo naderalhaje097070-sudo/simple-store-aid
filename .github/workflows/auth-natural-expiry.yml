@@ -192,7 +192,7 @@ jobs:
           from pathlib import Path
           root = Path(os.environ['RUNNER_TEMP'])
           receipt = {'status_file_removed': not (root/'route-status.json').exists(),
-                     'application_processes_removed': subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1,
+                     'application_processes_removed': (subprocess.run(['id','mcp-route'],capture_output=True).returncode != 0 or subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1),
                      'stack_containers_removed': 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}
           (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))
           assert all(receipt.values()), 'Disposable cleanup incomplete'

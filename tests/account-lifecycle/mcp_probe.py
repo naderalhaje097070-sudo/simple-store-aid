@@ -115,10 +115,17 @@ class McpProbe(Probe):
                          safe_authorization_id(authorization_id))
         status, details = self.request('GET', '/auth/v1/oauth/authorizations/' + authorization_id,
                                        token=actor['token'])
-        self.control('oauth_details_' + label, status == 200
-                     and details.get('client', {}).get('id') == client_id)
-        status, approved = self.request('POST', '/auth/v1/oauth/authorizations/' + authorization_id + '/consent',
-                                        {'action': 'approve'}, token=actor['token'])
+        if isinstance(details, dict) and isinstance(details.get('redirect_url'), str):
+            # Auth2.188.1 OAuthServerGetAuthorization auto-approves an existing
+            # consent and returns the SAME ConsentResponse shape. The common
+            # callback/state/code/PKCE/client checks below remain mandatory.
+            self.control('oauth_existing_consent_' + label, status == 200)
+            approved = details
+        else:
+            self.control('oauth_details_' + label, status == 200
+                         and details.get('client', {}).get('id') == client_id)
+            status, approved = self.request('POST', '/auth/v1/oauth/authorizations/' + authorization_id + '/consent',
+                                            {'action': 'approve'}, token=actor['token'])
         redirect = urllib.parse.urlparse(approved.get('redirect_url', ''))
         params = urllib.parse.parse_qs(redirect.query)
         self.control('oauth_consent_' + label, status == 200
@@ -301,4 +308,5 @@ if __name__ == '__main__':
         (args.evidence_dir / 'mcp-harness-failure.json').write_text(json.dumps({'outcome': 'ENV_NATIVE_01_MCP_HARNESS_FAILURE', 'mcp_accepted': False, 'integration_accepted': False}) + '\n')
         print('ENV_NATIVE_01_MCP_HARNESS_FAILURE: sanitized evidence retained')
         raise SystemExit(2)
+
 

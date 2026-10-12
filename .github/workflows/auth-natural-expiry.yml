@@ -4,6 +4,7 @@ on:
     paths:
       - 'tests/account-lifecycle/natural_expiry_*'
       - 'tests/account-lifecycle/test_natural_expiry_probe.py'
+      - 'tests/account-lifecycle/test_oauth_consent_fixture.py'
       - 'tests/account-lifecycle/tanstack_route_*'
       - 'tests/account-lifecycle/mcp_probe.py'
       - 'tests/account-lifecycle/live_probe.py'
@@ -55,6 +56,7 @@ jobs:
         run: |
           python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py -v
           python -m unittest discover -s tests/account-lifecycle -p test_natural_expiry_probe.py -v
+          python -m unittest discover -s tests/account-lifecycle -p test_oauth_consent_fixture.py -v
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:

@@ -1,3 +1,34 @@
+## 2026-10-13 Africa/Tripoli — OWNER-RETENTION-VERIFY-01 evidence disposition
+
+OWNER-RETENTION-01 remains the owner's approved closure policy from the block below;
+duration/erasure of personal data still requires a separate decision. Owner's later task
+authorized one isolated database catalog verification plus tools/tests/docs/review only;
+claim #55/6133382681, Draft PR66 above PR65/f37885b1. That authorization did not approve
+closure implementation, financial fixtures, deletion, production, merge or deployment.
+
+Observed source9a5a58f6a8556f009880437c0cf95ac91c38c770, catalogrun38314670848:
+owner->tenant/business/audit CASCADE and surviving actorSETNULL confirmed structurally;
+all30reviewed public FKs and14apptrigger declarations match. 5initialCHECK validation
+expectations refined by later dynamicVALIDATE; raw234MATCH/5DIFFERENCE retained.
+authenticatedTRUNCATE on21publictables is an effective privilege concern, not a proved
+ordinary-userAPI exploit; no destructive statement executed by the verification probe.
+Existing active-actor body lacks persisted closure state. Structure != closure behavior.
+
+Decision disposition: accept recording verified catalog observations, no policy expansion
+or runtime compliance approval. Independent reviewer accepts evidence/planning handoff;
+13offline tests+recorded reconciliation rerun, originalCI logs read, no independentlive run.
+closure_verified=false; integration_accepted=false. Full limitations/report/review and
+one proposed next implementation intake: changes/owner-retention-verify/.
+
+**ONE NEXT proposal, not implementation authorization:** OWNER-CLOSURE-IMPLEMENT-01.
+Persistent private closure marker + existing active-actor guard + scoped owner action;
+resolve account/store cardinality, idempotence and destructive privilege scope first.
+Nonempty fixture testing remains gated and must preserve exact balances/rights/obligations/
+audit links. No hard-delete/transfer/new access/retention duration is silently approved.
+The historical policy/pending/source notices below remain preserved, not current scheduling.
+
+---
+
 ## 2026-10-12 — OWNER-RETENTION-01: سياسة إغلاق حساب المالك معتمدة؛ التنفيذ غير مثبت
 
 **الحالة: Approved policy / documentation only.** أقر المالك هذا القرار صراحة في

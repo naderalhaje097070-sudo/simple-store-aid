@@ -1,3 +1,49 @@
+## 2026-10-13 Africa/Tripoli — OWNER-RETENTION-VERIFY-01 tested catalog candidate, Draft PR66
+
+Owner-authorized task received2026-10-12; claim #55/6133382681; live checkpoint6133571113.
+Branch test/owner-retention-catalog-2026-10-12 above PR65/f37885b1ff5dcc9ab113e5cbee4516b485cedadd.
+Tested runnable source9a5a58f6a8556f009880437c0cf95ac91c38c770. main remains
+43d6edbccb66fb06ce0fcb93734ad59532d1aeae; Draft stack unmerged/unreleased.
+
+Actual fixture-free local Supabase catalog run38314670848/job115028337892 SUCCESS:
+CLI2.101.0/PG17.6(Auth2.188.1/PostgREST14.10/Storage1.54.1), full43unchanged migrations.
+56FK/242triggers/193constraints/51functions/80policies and effective grants inventoried.
+239comparison rows:234MATCH +5raw DIFFERENCE preserved. The5initialNOTVALID declarations
+are validated on this fresh empty stack by later20260626233231 dynamicVALIDATE block;
+source-expectation refinement documented, not a schema fix or239automatic matches.
+Public30FK/14apptrigger/42latestbody/58oldpolicy+22restrictivepolicy/66privilege rows checked;
+provider/inline/PK/UNIQUE/role/default/schema inventories have no complete prior oracle.
+Standalone indexes and actual lifecycle/RLS/trigger execution remain unverified.
+
+authenticatedTRUNCATE on21publictables confirmed by effective privileges; no DELETE/TRUNCATE
+executed by the probe, no normal-user API/SQL exploit established. DELETEtenants/finance
+not granted to authenticated. Original finance7zero; Auth/tenant fixtures0; public22digests
+unchanged (original email_send_state seed only nonempty public baseline). Credential scan,
+UIDpsqlunexpectedegress0 andcleanup3/3PASS; complete provider-service egress not claimed.
+Artifact11775803747 ZIPsha256da00685345c6ad613c016d702a150cb043168de39d17b1b8bbfd9a36f0793bb0.
+
+Quality38314670777/job115028337953 SUCCESS:66tests/159assertions,8wrapper+67browserboundary
+scenarios; merge-ref559d45e tree7037e184 equals tested candidate tree. 13focused offline oracle
+testsPASS locally andCI. Independent separate reviewer reproduced13offline tests+239recorded
+catalog comparisons, verifiedZIP/hashes and fetched original logs; did NOT replay liveDB/CI.
+Accepted evidence/planning handoff only; no merge or populated retention acceptance.
+
+No app/migration/dependency/financial or provider-policy fix, account deletion/ban/financial
+fixture. Existing harness reused; only dedicated catalog+Quality actually ran. Final docs/state
+commit [skip ci] avoids out-of-scope automatic MCPban; preserves tested runnable blobs.
+Exact final SHA/CI state/source-equivalence and closure claim are in PR66/#55final handoff.
+Full report/table/limits/review: changes/owner-retention-verify/.
+
+OWNER-RETENTION-01 approved policy remains; no persisted closure state/action proven.
+Status: Tested catalog candidate only; closure_verified=false; integration_accepted=false.
+**ONE NEXT proposed:** planning scope/authorize OWNER-CLOSURE-IMPLEMENT-01 per NEXT_BATCH.md:
+persistent private closure state + existing active-actor predicate + least-privilege self-owner
+action, retained store/finance/audit and separate financial fixture/isolation approval.
+Resolve account/store scope, idempotent repeat and excessTRUNCATE disposition before implementation.
+Retention duration/erasure controls still separate. Stop here; no next implementation/merge/deploy.
+
+---
+
 ## 2026-10-12 — OWNER-RETENTION-01 policy documentation completed; next verification proposed
 
 - Completed in this documentation candidate: record the owner's explicit bounded policy

@@ -23,6 +23,12 @@ PATHS = ['rest', 'rpc', 'initialize', *TOOLS]
 PHASES = [('B', 'before'), ('B', 'expired'), ('A', 'fresh'), ('B', 'new'), ('B', 'old_again')]
 
 
+def credential_values(body):
+    # token_type='bearer' is a public scheme label, not secret token material.
+    return [body[key] for key in ('access_token', 'refresh_token', 'id_token')
+            if isinstance(body, dict) and isinstance(body.get(key), str) and body[key]]
+
+
 def expired_rest(status, body):
     return (status == 401 and isinstance(body, dict) and body.get('code') == 'PGRST303'
             and body.get('message') == 'JWT expired')
@@ -94,9 +100,7 @@ class NaturalExpiryProbe(TanStackRouteProbe):
         elif path == '/auth/v1/token?grant_type=password':
             self.flow_counts['password'] += 1
         status, body = super().request(method, path, payload, token, admin)
-        if isinstance(body, dict):
-            self.all_secrets.extend(value for key, value in body.items()
-                                   if 'token' in key and isinstance(value, str))
+        self.all_secrets.extend(credential_values(body))
         if isinstance(payload, dict):
             self.all_secrets.extend(payload[key] for key in ('password', 'code', 'code_verifier') if key in payload)
         return status, body

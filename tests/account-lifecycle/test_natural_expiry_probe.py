@@ -2,7 +2,8 @@
 import copy
 import unittest
 
-from natural_expiry_probe import expiry_accepted, expired_mcp, expired_rest, PHASES, PATHS, APP, METADATA
+from natural_expiry_probe import expiry_accepted, expired_mcp, expired_rest, PHASES, PATHS, APP, METADATA, credential_values
+from tanstack_route_probe import contains_credentials
 
 
 def good_receipt():
@@ -24,6 +25,15 @@ def good_receipt():
 
 
 class NaturalExpiryTests(unittest.TestCase):
+    def test_scheme_is_not_secret_but_access_refresh_id_tokens_are(self):
+        body = {'token_type': 'bearer', 'access_token': 'synthetic-access-credential',
+                'refresh_token': 'synthetic-refresh-credential', 'id_token': 'synthetic-id-credential'}
+        values = credential_values(body)
+        self.assertEqual(len(values), 3)
+        self.assertFalse(contains_credentials('public scheme bearer', values))
+        for value in values:
+            self.assertTrue(contains_credentials('prefix ' + value, values))
+
     def test_complete_receipt(self):
         self.assertTrue(expiry_accepted(*good_receipt()))
 

@@ -1,3 +1,43 @@
+## 2026-10-12 — L13 natural provider token expiry candidate, Draft PR64
+
+Task #55/6119851247; sole implementer claim6119904934.
+Branch test/auth-natural-expiry-2026-10-12 above PR63 final3cb0d82afe31eb2d81538fd7ae631c10fdfa0357.
+main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae; the entire stack remains unmerged.
+
+Tested candidate source44a0d221e635340b8450334ed9484c3f39f48205:
+Auth Natural Expiry run38227740249/job114739300263 PASS,79/79 controls/35 ordered requests.
+B genuine OAuth/PKCE initially succeeds7/7 (own REST, read-only summary RPC, initialize and4tools).
+Actual signed exp-iat180; SDK0.20.1 default tolerance30, PostgREST14.10 skew30, Auth2.188.1 leeway0.
+Real wait to exp+35 with wall/monotonic agreement: same unchanged B token gives7/7 expired denials,
+fresh A7/7 successful, new B7/7 successful, original B still7/7 expired denials.
+REST/RPC401/PGRST303/JWT expired. MCP public401/invalid_token is generic; causal proof adds
+same-token signature/identity/exp-specific cryptographic error, locked verifier source correspondence
+and zero downstream user/tool access. Do not claim MCP publicly exposed ERR_JWT_EXPIRED.
+Accounts remain active and original B session exists;4password/3authorization_code/0refresh requests.
+Public22 fingerprints unchanged,finance7empty,zero unexpected IPv4/IPv6/fetch,secret scan+cleanupPASS.
+
+Quality367/run38227740311 PASS on merge-ref0ce34c6 with tree equal to candidateeeaa24e5.
+12expiry+4consent fixture offline tests pass. Independent agents re-ran focused offline checks and
+reviewed original receipts; final-head closure verdict lives in PR64/#55. No independent live replay.
+All application/dependencies/43migrations/Auth policy/proxy/financial code untouched.
+Shared PKCE test helper alone now supports Auth's existing-consent autoapproved ConsentResponse;
+callback/state/code/PKCE/client verification preserved. Configured MCP consumer regressions ran
+automatically for this helper change (not added to expiry counts), bothPASS. No historical210/212/78 reruns.
+
+Four failed attempts preserved: two pre-credential source inspector assumptions, token_type scheme
+misclassified as credential and quarantined, then existing-consent fixture shape mismatch.
+None accepted as natural-expiry success; no application defect or test weakening.
+Evidence packet changes/auth-natural-expiry/evidence/native-44a0; permanent final source/run/review
+receipts are in PR64/#55. This additive checkpoint preserves every earlier source/evidence statement;
+final-source gates must be reconciled at closure, never inferred from this ancestor run.
+
+Status: Implemented/Tested candidate; not Merged/Released; integration_accepted=false.
+Broader L13/lifecycle,nonempty finance/foreign data,concurrency,Cloudflare/proxy/production/release unverified.
+ONE NEXT: planning reviews PR64 final evidence/review and selects the next bounded lifecycle gate.
+Stop after closure; no merge/deploy/finance/production/cost/history rewrite.
+
+---
+
 ## 2026-10-11 — local full TanStack route proof is a separate acceptance
 
 PR63 tests the native built Node preset of the unchanged application, including
@@ -477,4 +517,5 @@ Candidate status only: native29 tests/typecheck/build pass; existing lint, broad
 - Record actual41 fresh migrations,60 unit tests/125 expectations, isolated build, bounded two-tenant metadata and matching-browser desktop/mobile Auth results. Preserve two fixture-role conflicts; separately verify the existing owner trigger rather than rewriting failed results.
 - ENV-NATIVE-01: a banned account's old JWT still reads its own tenant. Strict disabled-account acceptance is not met; no exception or UI-only mitigation is approved. A focused gated server/database lifecycle fix and independent review are next.
 - Stop the temporary runner after retrieving sanitized evidence. Do not promote bounded tests to comprehensive tenant/RPC/financial or hosted-check acceptance. Financial write tests remain blocked until the isolation gate is accepted.
+
 

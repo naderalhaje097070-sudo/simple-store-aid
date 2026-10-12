@@ -8,3 +8,5 @@ New focused workflow consumes same dependencies, config/source routes/build/lock
 No new SDK/server architecture. The only client POST grants are password and authorization_code;
 refresh grants and revocation endpoints rejected. Both old/new credentials are kept separately.
 
+
+Small shared PKCE fixture compatibility correction: handle200autoapproved redirect_url for existing consent. No app or provider policy changes. Offline consent tests4; configured consumers regressions run automatically.

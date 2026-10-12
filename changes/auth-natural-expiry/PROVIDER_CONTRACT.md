@@ -20,3 +20,5 @@ Current official docs confirm supported local auth.jwt_expiry; tagged/installed 
 Current changelog OAuth-token HTTP200 change is consistent with pinned existing exchange.
 No provider token minted locally or time changed. Config TTL180 is verified against actual signed claims.
 
+
+Actual SDK default30 verified in native-44a0 artifact. Auth OAuthServerGetAuthorization auto-approves existing consent and returns ConsentResponse redirect_url; same callback/state/code/PKCE checks apply. Source: https://github.com/supabase/auth/blob/v2.188.1/internal/api/oauthserver/authorize.go

@@ -1,3 +1,17 @@
+## 2026-10-12 — Historical design notice after OWNER-RETENTION-01 approval
+
+The owner has now approved closure preserving store/finance/audit links, no automatic
+erasure or balance/rights/obligation change, with hard-delete/transfer/new access requiring
+separate explicit approval. This is not perpetual personal-data retention.
+See DECISIONS.md and [current planning handoff](OWNER_RETENTION_HANDOFF.md).
+The original conditional specification below is preserved as intake history, not the
+current ONE NEXT or permission to choose a destructive branch. No test was executed.
+Current proposal: isolated catalog-only reconciliation first; actual closure enforcement
+and populated financial testing still require a separately scoped design/authorization.
+Policy approval is documentation only and does not establish current runtime compliance.
+
+---
+
 # Minimum next isolated deletion verification — DESIGN ONLY
 
 This document is a proposed test specification, **not executed tests, not deletion permission and not a retention policy**. Its decisive prerequisite is OWNER-RETENTION-01 (REPORT_AR.md). Source-predicted CASCADE is an observation, never the product pass oracle. No runnable new script, workflow, fixture, API or cleanup RPC is added here.

@@ -1,3 +1,30 @@
+## 2026-10-12 — OWNER-RETENTION-01 policy documentation completed; next verification proposed
+
+- Completed in this documentation candidate: record the owner's explicit bounded policy
+  in DECISIONS, distinguish it from unverified runtime behavior, and deliver the policy/code
+  gap with acceptance criteria. Claim #55/6133251051; PR65 prior head41cf1a0d2b7f6dca4d8fc197cdd87f76e00cea3b.
+- Resolved: pending OWNER-RETENTION-01 policy choice. Closure preserves store/finance/audit,
+  stops owner access, causes no automatic erasure or balance/rights/obligation change.
+  Hard-delete/transfer/new access need explicit approval; no perpetual personal-data retention.
+- Outstanding: effective FK/trigger/grant catalog reconciliation; chosen closure surface,
+  permission/state/error contract; populated history preservation and old-token access denial.
+  Personal-data retention duration/erasure controls remain a separate owner decision.
+- No implementation/deletion/DB query/write/fixture/live test/merge/deploy authorized or done.
+  Existing source audit and prior test counts remain bounded historical evidence.
+- Proposed ONE NEXT: OWNER-RETENTION-VERIFY-01, fresh disposable catalog-only verification;
+  no lifecycle calls or financial fixtures. Scope/acceptance/stopping point in
+  changes/account-deletion-safety-intake/OWNER_RETENTION_HANDOFF.md.
+  Planning must select/authorize that batch; this policy approval alone does not launch it.
+- Subsequent closure enforcement and populated financial test need separate intake/permission;
+  do not use hard-delete, expiry, accidental FK rejection or blanket denial as closure proof.
+- integration_accepted=false; main43d6edbccb66fb06ce0fcb93734ad59532d1aeae;
+  PR65 remains Draft above PR64, not merged/released. [skip ci] is not GREEN/gate waiver.
+
+This current block supersedes the pending-decision/ONE NEXT notices below only;
+all earlier evidence and unresolved financial/release gates are preserved.
+
+---
+
 ## 2026-10-12 — ACCOUNT-DELETION-SAFETY-INTAKE, S2.4 documentation candidate
 
 Task #55/6125519471; sole claim6125791464. Branch

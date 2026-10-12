@@ -1,3 +1,34 @@
+## 2026-10-12 — OWNER-RETENTION-01 approved policy; documentation handoff
+
+Owner explicitly approved the bounded policy at23:47:15 Africa/Tripoli:
+closure stops owner access while preserving the store, financial history and audit links;
+no automatic record erasure or change to balances, rights or obligations. Hard-delete,
+ownership transfer and new access grants need separate explicit approval. This is not
+perpetual personal-data retention; retention duration/erasure controls need a later decision.
+Exact owner wording and scope: DECISIONS.md top block; #55/6133251051.
+
+Policy decision blocker resolved; **runtime compliance remains NOT VERIFIED**.
+PR65 source audit at41cf1a0d2b7f6dca4d8fc197cdd87f76e00cea3b identifies no verified account-closure UI/RPC.
+Owner Auth hard-delete reaches business/audit CASCADE and surviving actor SET NULL;
+triggers/CHECKs may abort it. No live deletion or populated-history result exists.
+Earlier ban/soft-delete/expiry evidence is limited and does not prove closure retention.
+
+This batch: additive documentation on PR65 branch above PR64/2ae95ed6175e0859b4c0a1d36d1110f99f19c792.
+main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae; Draft stack unmerged.
+No app/schema/migration/dependency/test/workflow change or DB/runtime action.
+Final SHA/path verification and #55handoff are recorded at closure. [skip ci] respects
+the no-live-test scope; pending/skipped is not GREEN or a quality-gate waiver.
+Previous intake/source checks/review remain historical; no new independent/live review claimed.
+
+Status: Approved policy / documented candidate; not implemented, live Tested, Merged or Released.
+integration_accepted=false; financial/isolation/release gates remain in force.
+**ONE NEXT:** planning scope/authorize OWNER-RETENTION-VERIFY-01, isolated catalog-only
+verification per changes/account-deletion-safety-intake/OWNER_RETENTION_HANDOFF.md.
+Proposal only, not permission to run it. Closure enforcement/populated finance testing and
+personal-data retention/erasure design require separate boundaries. Do not start deletion.
+
+---
+
 ## 2026-10-12 — ACCOUNT-DELETION-SAFETY-INTAKE, S2.4 documentation candidate
 
 Task #55/6125519471; sole claim6125791464. Branch

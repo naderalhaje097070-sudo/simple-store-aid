@@ -1,3 +1,42 @@
+## 2026-10-12 — Owner deletion contract is pending, not inferred
+
+Task #55/6125519471; sole claim6125791464. Branch
+`docs/account-deletion-safety-intake-2026-10-12` directly above Draft PR64
+`2ae95ed6175e0859b4c0a1d36d1110f99f19c792`. Source-map checkpoint
+`f03ae6563243956bf82986485eac09094950414c`, #55/6125888048.
+Final head/PR/independent factual verdict are recorded in this batch's PR/#55closure.
+main remains`43d6edbccb66fb06ce0fcb93734ad59532d1aeae`; draft stack unmerged.
+
+Implemented documentation / offline source checks only:139fetched blobs match Git,
+43ordered migrations,30retained public FKs,14source trigger declarations; original41
+catalog migration hashes preserved. Catalog proves prior function/policy/grants,
+not effective current FK/trigger rows. No fresh DB queried; no deletion/fixture/financial
+write or live/history suite run. Prior soft-delete/ban/expiry receipts remain bounded
+historical evidence, not hard-delete retention proof.
+
+Owner hard-delete reaches tenant/business/audit CASCADE plus surviving actor SET NULL
+references. Financial audit trigger append to deleted tenant can abort deletion;
+customer/courier CHECKs can block SET NULL. Success/data loss is untested.
+Non-owner deletion, role unlink, soft-delete and ban differ; raw audit UUID retention
+is not retained human identity. No account/store deletion UI/RPC exists. Later DELETE
+revoke defeats early owner DELETE grants; historical authenticated TRUNCATE needs
+catalog/reachability reconciliation without executing it. No production incident inferred.
+
+**Pending OWNER-RETENTION-01:** decide owner/store/financial-audit identity retention
+and post-closure access. Existing employee disable/unlink rule and pending employee
+hard-delete identity decision do not decide owner policy or retention period.
+Proposed test in`changes/account-deletion-safety-intake/TEST_SPEC.md` is DESIGN ONLY;
+nonempty fixtures/destructive action require a separately approved boundary.
+
+Final docs commit uses`[skip ci]` because unchanged MCP workflow would launch live tests
+for state-file edits, outside this batch. No workflow/test modification or gate waiver;
+skipped/pending is not GREEN. No merge/deploy/production/cost/contracts/history rewrite.
+Status: Implemented documentation candidate, offline checked, not live Tested/Merged/Released.
+Broader isolation/integration_accepted=false and financial/release gates remain blocked.
+**ONE NEXT:** concrete owner decision OWNER-RETENTION-01; do not execute deletion/test yet.
+
+---
+
 ## 2026-10-12 — L13 natural provider token expiry candidate, Draft PR64
 
 Task #55/6119851247; sole implementer claim6119904934.

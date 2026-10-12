@@ -8,7 +8,7 @@ from natural_expiry_probe import expiry_accepted, expired_mcp, expired_rest, PHA
 def good_receipt():
     timing = {'iat': 1000, 'exp': 1180, 'positive_finished': 1010,
               'negative_started': 1215, 'real_wait_seconds': 205,
-              'monotonic_wait_seconds': 205, 'clock_drift_seconds': 0}
+              'monotonic_wait_seconds': 205, 'clock_drift_seconds': 0, 'max_verifier_leeway': 30}
     continuity = {key: True for key in ('accounts_active', 'old_session_exists',
                   'no_auto_refresh', 'same_old_token', 'new_token_distinct')}
     observations = []
@@ -37,6 +37,17 @@ class NaturalExpiryTests(unittest.TestCase):
         data = good_receipt()
         data[1]['negative_started'] = 1200
         self.assertFalse(expiry_accepted(*data))
+
+    def test_sdk_leeway_requires_wait_beyond_provider_skew(self):
+        data = good_receipt()
+        data[1]['max_verifier_leeway'] = 60
+        self.assertFalse(expiry_accepted(*data))
+        data[1]['negative_started'] = 1245
+        data[1]['real_wait_seconds'] = data[1]['monotonic_wait_seconds'] = 235
+        for item in data[0]:
+            if item['phase'] in ('expired', 'old_again'):
+                item['checked_at'] = 1245
+        self.assertTrue(expiry_accepted(*data))
         data = good_receipt()
         data[0][7]['checked_at'] = 1210
         self.assertFalse(expiry_accepted(*data))

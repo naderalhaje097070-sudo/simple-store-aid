@@ -39,6 +39,9 @@ def expired_mcp(status, body, challenge, crypto):
 
 
 def expiry_accepted(observations, timing, continuity):
+    leeway = timing.get('max_verifier_leeway')
+    if type(leeway) is not int or not POSTGREST_SKEW <= leeway <= 120:
+        return False
     expected = [(actor, phase, path) for actor, phase in PHASES for path in PATHS]
     if (len(observations) != len(expected)
             or [(x.get('actor'), x.get('phase'), x.get('path')) for x in observations] != expected
@@ -49,8 +52,8 @@ def expiry_accepted(observations, timing, continuity):
     if (not isinstance(timing.get('iat'), int) or not isinstance(timing.get('exp'), int)
             or timing['exp'] - timing['iat'] != TTL
             or timing.get('positive_finished', float('inf')) >= timing['exp']
-            or timing.get('negative_started', 0) <= timing['exp'] + POSTGREST_SKEW
-            or timing.get('real_wait_seconds', 0) < timing['exp'] + POSTGREST_SKEW - timing['positive_finished']
+            or timing.get('negative_started', 0) <= timing['exp'] + leeway
+            or timing.get('real_wait_seconds', 0) < timing['exp'] + leeway - timing['positive_finished']
             or timing.get('monotonic_wait_seconds', 0) < timing['real_wait_seconds'] - 2
             or timing.get('clock_drift_seconds', float('inf')) > 2):
         return False
@@ -60,7 +63,7 @@ def expiry_accepted(observations, timing, continuity):
             return False
         if negative:
             if (x.get('status') != 401 or x.get('expiration_proven') is not True
-                    or x.get('checked_at', 0) <= timing['exp'] + POSTGREST_SKEW
+                    or x.get('checked_at', 0) <= timing['exp'] + leeway
                     or x.get('same_old_token') is not True):
                 return False
         elif x.get('status') != 200 or x.get('checked_at', float('inf')) >= x.get('token_exp', 0):
@@ -78,6 +81,7 @@ class NaturalExpiryProbe(TanStackRouteProbe):
         self.old_digest = None
         contract = json.loads((self.evidence_dir / 'expiry-contract.json').read_text())
         self.leeway = max(POSTGREST_SKEW, contract['sdk_clock_tolerance_seconds'])
+        self.sdk_leeway = contract['sdk_clock_tolerance_seconds']
 
     def request(self, method, path, payload=None, token=None, admin=False):
         if (method in ('DELETE', 'PUT') or 'logout' in path
@@ -99,7 +103,8 @@ class NaturalExpiryProbe(TanStackRouteProbe):
 
     def verify(self, actor, label):
         receipt = subprocess.run(['node', 'tests/account-lifecycle/natural_expiry_crypto.mjs'],
-            input=json.dumps({'token': actor['token'], 'uid': actor['uid'], 'client_id': self.client}),
+            input=json.dumps({'token': actor['token'], 'uid': actor['uid'], 'client_id': self.client,
+                              'clock_tolerance': self.sdk_leeway}),
             capture_output=True, text=True, timeout=20, check=True)
         value = json.loads(receipt.stdout)
         self.control('crypto_' + label, value.get('signature_verified') is True
@@ -187,6 +192,8 @@ class NaturalExpiryProbe(TanStackRouteProbe):
         self.control('actual_built_app', build['source_sha'] == self.source and build['exit_code'] == 0
                      and all(build['compiled_contract_markers'].values()) and build['tracked_source_unchanged']
                      and build['standalone_copy_hashes_match'])
+        self.control('pinned_live_provider_versions', any('gotrue:v2.188.1' in x for x in build['runtime_images'])
+                     and any('postgrest:v14.10' in x for x in build['runtime_images']))
         try:
             self.failure_stage = 'fixtures'
             a, b = self.fixture('expiry_A'), self.fixture('expiry_B')

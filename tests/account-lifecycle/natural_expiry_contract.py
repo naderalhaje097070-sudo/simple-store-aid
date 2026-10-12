@@ -34,6 +34,8 @@ def inspect():
     excerpts = []
     sdk_tolerance = []
     for p, s in relevant:
+        default = re.search(r'(?:var|const|let)\s+DEFAULT_CLOCK_TOLERANCE_SECONDS\s*=\s*(\d+)', s)
+        print(json.dumps({'sdk_default_clock_declaration': default[0] if default else None}))
         snippets = [s[max(0, m.start()-100):m.end()+650] for m in re.finditer(r'jwtVerify\s*\(', s)]
         print(json.dumps({'verifier_file': str(p.relative_to(root)), 'calls': snippets,
                          'clock_context': [s[max(0, m.start()-120):m.end()+180]
@@ -44,8 +46,13 @@ def inspect():
         for call in snippets:
             if 'clockTolerance' in call:
                 value = re.search(r'clockTolerance:\s*(\d+)', call)
-                assert value, 'Dynamic SDK leeway requires explicit source reconciliation'
-                sdk_tolerance.append(int(value[1]))
+                if value:
+                    sdk_tolerance.append(int(value[1]))
+                else:
+                    assert 'clockTolerance: auth.clockToleranceSeconds ?? DEFAULT_CLOCK_TOLERANCE_SECONDS' in call and default
+                    # Actual app definition supplies no clockToleranceSeconds override.
+                    assert 'clockToleranceSeconds' not in Path('src/lib/mcp/index.ts').read_text()
+                    sdk_tolerance.append(int(default[1]))
             else:
                 sdk_tolerance.append(0)
         excerpts.append({'file': str(p.relative_to(root)), 'sha256': hashlib.sha256(s.encode()).hexdigest(),

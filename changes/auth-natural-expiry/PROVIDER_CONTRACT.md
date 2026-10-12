@@ -7,8 +7,8 @@ signed by provider configured key; OAuth service uses the same token service.
 Auth internal/api/auth.go uses golang-jwt/v5.2.2 with valid methods but no WithLeeway, default0.
 PostgRESTv14.10 src/PostgREST/Auth/Jwt.hs: allowedSkewSeconds30,
 floor(now)-30 > exp. Error.hs: JwtClaimsErr PGRST303, JWTExpired message JWT expired, HTTP401.
-Existing SDK0.20.1 installed source inspected before live, jwtVerify issuer/audience and no clockTolerance;
-jose6.2.3 jwt_claims_set default0. Fail closed if installed source cannot be reconciled.
+Existing SDK0.20.1 source inspects jwtVerify issuer/audience, explicit clockToleranceSeconds fallback and its default declaration;
+jose6.2.3 jwt_claims_set default0, overridden by the unchanged SDK setting in diagnostic verification. Fail closed if installed source cannot be reconciled.
 Reference source URLs:
 - https://github.com/supabase/cli/blob/v2.101.0/apps/cli-go/pkg/config/templates/config.toml
 - https://github.com/supabase/cli/blob/v2.101.0/apps/cli-go/internal/start/start.go

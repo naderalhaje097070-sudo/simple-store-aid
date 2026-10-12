@@ -7,6 +7,9 @@ const input = JSON.parse(readFileSync(0, "utf8"));
 const issuer = "http://127.0.0.1:54321/auth/v1";
 const jwks = createRemoteJWKSet(new URL(issuer + "/.well-known/jwks.json"));
 const raw = input.token;
+if (!Number.isInteger(input.clock_tolerance) || input.clock_tolerance < 0 || input.clock_tolerance > 120) {
+  throw new Error("UNVERIFIED_CLOCK_TOLERANCE");
+}
 const digest = createHash("sha256").update(raw).digest("hex");
 let receipt = { digest, signature_verified: false, identity_verified: false, expired: false };
 try {
@@ -21,7 +24,8 @@ try {
   receipt.session_id = claims.session_id;
   receipt.checked_at = Date.now() / 1000;
   try {
-    await jwtVerify(raw, jwks, { issuer, audience: "authenticated", clockTolerance: 0 });
+    await jwtVerify(raw, jwks, { issuer: [issuer, issuer + "/"], audience: "authenticated",
+      requiredClaims: ["sub", "exp"], clockTolerance: input.clock_tolerance });
     receipt.time_valid = true;
   } catch (error) {
     receipt.time_valid = false;

@@ -1,0 +1,11 @@
+{
+  "source_sha": "e0f9298b4c63827eefa5b0133c8914f37ecdd722",
+  "run": 38220409018,
+  "job": 114715011113,
+  "stage": "installed_verifier_contract_before_credentials",
+  "reason": "source inspection revealed dynamic SDK auth.clockToleranceSeconds ?? DEFAULT_CLOCK_TOLERANCE_SECONDS; second inspector accepted literals only and failed closed",
+  "observed_source": "clockTolerance: auth.clockToleranceSeconds ?? DEFAULT_CLOCK_TOLERANCE_SECONDS",
+  "cleanup": "passed; stack/app/credentials never created",
+  "live_test_executed": false,
+  "correction": "parse source default declaration and verify actual app supplies no override; receipt oracle enforces maximum verifier leeway"
+}

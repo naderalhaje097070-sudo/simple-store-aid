@@ -9,7 +9,7 @@ Risk: test harness identity/time/false-positive and credential evidence; product
 No ban/delete/logout/revoke, token minting/exp/clock overrides, automatic refresh, financial writes,
 application/auth-policy/proxy/dependency/migration changes, merge/deploy/cost/production/history rewriting.
 Supported local CLI auth.jwt_expiry180 only in disposable config; verify actual signed exp-iat180.
-Use source-inspected SDK/jose leeway0, Auth0, PostgREST30; wait to exp+35, compare monotonic/wall clocks.
+Use source-inspected SDK leeway from its installed default declaration, Auth0, PostgREST30; wait to exp+max(leeway)+5, compare monotonic/wall clocks.
 Provider identity+cryptographic signature, exact own metadata/read-only summary, initialize/initialized/catalog
 and4tools positive B; same B REST/RPC/initialize/4tools expired; fresh A same paths; new B same paths;
 old B remains expired. Require known expired errors, signed identity, unchanged digest and active accounts/session.

@@ -3,3 +3,7 @@
 Authenticated self-owner only, deny by default, no target argument, safe definer search_path, private table no client DML, active-state lookup ignores user_metadata. Closed actor token remains valid at Auth provider but application RLS/RPC/full-route tools deny access. Repeat constant result cannot override ban/delete. No destructive privilege regrant.
 
 Contract and authorization: [IMPLEMENTATION_INTAKE.md](IMPLEMENTATION_INTAKE.md).
+
+Final scope: application DB/REST/RPC/MCP denial only. OC-APP-01 Medium: Paddle price
+resolution server function has JWT-only middleware; no live call, lifecycle protection
+or broad all-app deny claim. Merge requires owner disposition. See FINDINGS.md.

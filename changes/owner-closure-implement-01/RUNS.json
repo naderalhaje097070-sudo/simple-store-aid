@@ -1,0 +1,44 @@
+{
+  "baseline": {
+    "source_sha": "0cc350f0edec445535c52dc5896f06cb0321d251",
+    "run_id": 38443099739,
+    "job_id": 115454448096,
+    "artifact_id": 11837921437,
+    "sha256": "621232b8b6ed3ef0722fb9477f632ad194a00e791e4ec7274b630381ac32221b",
+    "observations": 69,
+    "outcome": "expected-red missing entry"
+  },
+  "fresh": {
+    "source_sha": "df9221e20b026ad82f6a8365ab203c9023b9963d",
+    "run_id": 38477410108,
+    "job_id": 115571408117,
+    "artifact_id": 11856225276,
+    "sha256": "6415bf3dd58ecece8e885dd3f52fde64c4160f92cda67a5be4add5bc73df9df0",
+    "observations": 166,
+    "distinct_names": 165,
+    "closure_verified_within_matrix": true
+  },
+  "upgrade": {
+    "source_sha": "df9221e20b026ad82f6a8365ab203c9023b9963d",
+    "run_id": 38477410108,
+    "job_id": 115571408327,
+    "artifact_id": 11857090115,
+    "sha256": "081d9c8065f0bad92b3a4bb606c903139fb5cd34adcaa3e33db875dae284bc48",
+    "observations": 171,
+    "distinct_names": 170,
+    "closure_verified_within_matrix": true
+  },
+  "quality": {
+    "source_sha": "df9221e20b026ad82f6a8365ab203c9023b9963d",
+    "run_id": 38477410108,
+    "job_id": 115571407764,
+    "unit_tests": 66,
+    "expectations": 159,
+    "wrapper_scenarios": 8,
+    "browser_scenarios": 67,
+    "result": "success"
+  },
+  "integration_accepted": false,
+  "all_application_access_denied": false,
+  "merge_accepted": false
+}

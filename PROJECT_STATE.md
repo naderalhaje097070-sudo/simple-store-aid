@@ -1,3 +1,39 @@
+## 2026-10-14 — OWNER-CLOSURE-IMPLEMENT-01 tested bounded candidate
+
+Resumed owner-authorized claim #55/6151753298; original fixture blocker resolved by owner
+continuation using existing product REST/RLS only; sale/items/payment/audit stay on currentRPC.
+Same branch `docs/owner-closure-blocker-2026-10-13`, samePR69 abovePR68/00923287.
+Runnable tested SHA `df9221e20b026ad82f6a8365ab203c9023b9963d`; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae.
+Final documentation SHA/equivalence/review/handoff and closed claim will be recorded in #55.
+
+One forward migration45 private user-PK/AuthRESTRICT/RLS marker + existingactivepredicate
+body + zeroarg self-owner closure entry. Independent live Auth check before constant repeat,
+oneevent/transaction, no public/financialhistory mutation.44previousmigrations and financial
+bodies/signatures/ACL preserved. Baseline native44 expected-red69observations; actualpg_index
+onlytenantPK(id), no one-storeassumption. Full fake sale/order/item/payment/audit/counter.
+
+Run38477410108 fresh45 and populated44→45 upgrade passed166/171 observations (165/170
+unique names; before/after TRUNCATE duplicated); Quality66units/159assertions,8wrappers,
+67browserboundaryscenarios and builds/typecheck passed.2focusedoraclePASS. Old exact valid
+and new genuine OAuth tokens deny protected REST/RPC/fullMCP; activeA unaffected; stored
+public22/identity state and counterbaseline stable; oneprivateevent;45exactversions; cleanup3/3.
+Source, rawfiles, ZIPdigests, detailed commands and limits: changes/owner-closure-implement-01/.
+Independent reviewer reproduced2offlineoracles/hash/raw/link checks and read original logs;
+no reviewer live DB/CI/Quality replay. No production/cost/merge/deploy.
+
+Status: Implemented/Testedcandidate **within specified REST/RPC/MCP matrix only**; notonmain.
+closure_verified applies only to that bounded matrix; integration_accepted=false.
+OC-APP-01 Medium remains OPEN: resolvePaddlePrice serverfunction uses getClaims without
+lifecyclemarker; broad all-app deny and merge/release acceptance remain blocked pending owner
+disposition. No Paddle call/repair or generatedmiddleware change. OC-EVID-02 Low is deferred
+and tracked: phase-qualify duplicate before/after TRUNCATE observation names on next relevant
+harness change, preserving raw/runnable source. Counts are observations, not unique scenarios.
+Same-tenantstaff/multistore/membership/concurrency/Cloudflare/erasure/broaderfinance unverified.
+
+ONE NEXT for planning: resolve OC-APP-01 with a separate bounded lifecycle-serverfunction
+scope or explicit scope decision before merge. Stop at handoff; do not expand this batch.
+No automatic rollback clears closure/reopens users. OWNER-RETENTION-01 policy unchanged.
+
 ## 2026-10-13 — OWNER-CLOSURE-IMPLEMENT-01 blocked before implementation
 
 Owner approved planning #55/6151090438 and instructed this worker to execute; sole

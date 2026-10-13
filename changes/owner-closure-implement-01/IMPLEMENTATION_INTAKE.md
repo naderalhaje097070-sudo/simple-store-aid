@@ -17,7 +17,8 @@ existing project runner approach; every target is loopback, fake data only, no b
 
 The existing policy says account closure stops owner's application access while retaining
 stores/identity/history. Interpret this as account-wide: every token for that identity
-loses application access, including all owned stores and existing memberships. It does
+is rejected by the existing DB/REST/RPC/MCP active-actor boundaries. Account-wide UID semantics
+cover owned stores/memberships in source; runtime proof uses one store per owner. It does
 not close any store, change rights/ownership/obligations or affect other identities.
 No assumption of one store per owner is allowed. Observe actual pg_index on baseline44
 before implementing; source only suggests no unique owner index. If inconsistent stop.
@@ -55,3 +56,11 @@ REST/RPC and full Nitro/TanStack MCP route, and expected-red PGRST202 missing cl
 Fresh45 and populated44→45 upgrade will follow only after this baseline/design check.
 If approved-source fixture or actual index assumptions fail, save failure without financial repair.
 Independent design/source/runtime-evidence review and final-source equivalence remain required.
+
+## Final bounded acceptance clarification
+
+Runtime acceptance covers the specified REST/RPC/full Nitro/TanStack MCP matrix only.
+`resolvePaddlePrice` server function consumes getClaims without a live marker check
+(OC-APP-01 Medium, source-reviewed, no Paddle call). Auth sign-in, UI/static routes and
+all server functions are not claimed disabled. Broad application denial and merge remain
+blocked pending explicit owner disposition/future scope; no billing/financial repair here.

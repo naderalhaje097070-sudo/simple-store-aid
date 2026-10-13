@@ -1,0 +1,425 @@
+{
+  "task": "OWNER-CLOSURE-IMPLEMENT-01",
+  "base_sha": "00923287d804f99faa1b70d28cece17f9f33eac3",
+  "planning_comment": 6151090438,
+  "claim_comment": 6151326852,
+  "evidence_level": "source-reviewed; reused historic structure-observed, not current runtime-tested",
+  "verified_source_files": [
+    {
+      "path": "changes/owner-retention-verify/evidence/native-9a5a/catalog-result.json",
+      "git_blob_sha": "838c5d44834e6123a2dee62edc381b727c82efc9"
+    },
+    {
+      "path": "changes/owner-retention-verify/evidence/native-9a5a/catalog.json",
+      "git_blob_sha": "ca8de3b9c422ffd6a3f2214f95bc48c11dd8cff8"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "git_blob_sha": "c5877e881ec5f3acd4308cd02dc48e2b902ecc9f"
+    },
+    {
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "git_blob_sha": "3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29"
+    },
+    {
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "git_blob_sha": "b7746f47b990dd4b50089d56b751bd4a78e17fc7"
+    },
+    {
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "git_blob_sha": "a585730de455ddc5a78dc9f3e09fd3e93ca02e79"
+    },
+    {
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "git_blob_sha": "7d5426e64c1fd8d9dad78f42d56d061be778a0ed"
+    },
+    {
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "git_blob_sha": "abda83bdb5295dfa6d51d8f5af7d75688631eee0"
+    },
+    {
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "git_blob_sha": "0dc22071a5448abdb0a95a56c97d24adbf2019df"
+    },
+    {
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "git_blob_sha": "88fd9836826e875faa98fde0bc6311c1672b69f1"
+    },
+    {
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "git_blob_sha": "eb128740f70e1adf13146b7f7ab5182fbbefb13b"
+    },
+    {
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "git_blob_sha": "268a59b85f26e7556e539920327102fe520420be"
+    },
+    {
+      "path": "supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "git_blob_sha": "f5f2f721207a778d60eee35ddc14bd0990b76bdf"
+    },
+    {
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "git_blob_sha": "06ea226cbffa018e831e8a3f9dc784813e588bd6"
+    },
+    {
+      "path": "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "git_blob_sha": "1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948"
+    },
+    {
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "git_blob_sha": "664530b175a3e0e2707f374906840ca8fda26dae"
+    },
+    {
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "git_blob_sha": "a15606bb8d4b287cf0def00b402e16c9b89afdb8"
+    },
+    {
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "git_blob_sha": "7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231"
+    },
+    {
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "git_blob_sha": "83b0aeb7693c3228d003d55c20000963f0725200"
+    },
+    {
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "git_blob_sha": "c7e5df32149acd8a3227651f88bdc7d83c6e5c04"
+    },
+    {
+      "path": "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "git_blob_sha": "2164cfdb56c1479e208e2cea4c28aaf425cc4919"
+    },
+    {
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "git_blob_sha": "d0ea200dde8b88134593c59f2d419da234721ffd"
+    },
+    {
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "git_blob_sha": "a98ca8632905061be5501dbfe86dd7b880dd51c4"
+    },
+    {
+      "path": "supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+      "git_blob_sha": "b1431806f4db21019257c9a4e2c80b5c07097e5c"
+    },
+    {
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "git_blob_sha": "85a67ecfbc006125496e9afebef0d629e0db6199"
+    },
+    {
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "git_blob_sha": "df5f868ba59ca95f75d179eceb96e4b81fae342f"
+    },
+    {
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "git_blob_sha": "07048605f67628ed5b54c5bafd0bb3c388509b76"
+    },
+    {
+      "path": "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "git_blob_sha": "2df0d72d4d6626196451b284721b3e08bc83603f"
+    },
+    {
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "git_blob_sha": "55ce1238fecfb08c39a2c7d9bf1849d927c2733e"
+    },
+    {
+      "path": "supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+      "git_blob_sha": "1c69a97c145c8530c44d941f6b418aad9fb8e60a"
+    },
+    {
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "git_blob_sha": "9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef"
+    },
+    {
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "git_blob_sha": "d9c5c0341d063533bd00cded2447e46e96c3a3dd"
+    },
+    {
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "git_blob_sha": "ad099717609b3c27c8fd66be5975d49a489a28f2"
+    },
+    {
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "git_blob_sha": "9b5a7f75e6343fc761267ff9123c490add1ebb05"
+    },
+    {
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "git_blob_sha": "6c35e58bcef2781750fba2d79cc154fcb0293f28"
+    },
+    {
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "git_blob_sha": "0cf75d0764d058057439b540a29883235ade7942"
+    },
+    {
+      "path": "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "git_blob_sha": "2f6bd895abf01ea11fa4147f2793f2598f27e6bb"
+    },
+    {
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "git_blob_sha": "d2892a0adb6e567aa11a9a98795f5bc348a833cd"
+    },
+    {
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "git_blob_sha": "381d968d10f1265a909fc0fdb66f77adbf79af4f"
+    },
+    {
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "git_blob_sha": "37d81c014f40e53626ba09714c843b976fdac7eb"
+    },
+    {
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "git_blob_sha": "dfb505f8f0f7de742b04c9ebe295f7466c800dea"
+    },
+    {
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "git_blob_sha": "0aa11bba4ba0c4d95c42f37aaf957a1d007f7011"
+    },
+    {
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "git_blob_sha": "661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5"
+    },
+    {
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "git_blob_sha": "81d0bfa72c2a59333591ed2236931c4623a740f3"
+    },
+    {
+      "path": "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "git_blob_sha": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe"
+    },
+    {
+      "path": "supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+      "git_blob_sha": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f"
+    },
+    {
+      "path": "supabase/migrations/20261013120223_sec_truncate_01.sql",
+      "git_blob_sha": "ccab1b2f5bb2922d75210b538656f948fa7003d8"
+    },
+    {
+      "path": "tests/account-lifecycle/owner_catalog.sql",
+      "git_blob_sha": "e2af6dc8c364888b985056b550a9f21630b76810"
+    }
+  ],
+  "verified_source_file_count": 48,
+  "migration_count": 44,
+  "public_catalog_functions": [
+    {
+      "name": "public._assert_owner",
+      "arguments": "_tid uuid",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public._assert_platform_admin",
+      "arguments": "",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public._assert_staff",
+      "arguments": "_tid uuid",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public._fin_audit_trigger",
+      "arguments": "",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public._log_platform_admin_action",
+      "arguments": "p_action text, p_details jsonb",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public.close_day",
+      "arguments": "p_note text",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.collect_order_debt",
+      "arguments": "p_order_id uuid, p_amount numeric, p_method payment_method",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.create_sale_with_items",
+      "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.current_tenant_id",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.current_tenant_timezone",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.delete_email",
+      "arguments": "queue_name text, message_id bigint",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.delete_order_with_restore_stock",
+      "arguments": "p_order_id uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.delete_product_safe",
+      "arguments": "p_product_id uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.enqueue_email",
+      "arguments": "queue_name text, payload jsonb",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_admin_audit_log",
+      "arguments": "p_limit integer, p_offset integer",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_admin_overview",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_courier_custody_health",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_day_close_health",
+      "arguments": "p_limit integer",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_financial_health",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_financial_health_rows",
+      "arguments": "p_check_key text, p_limit integer",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_system_health",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_platform_tenants_health",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.get_tenant_today_estimate",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.handle_new_tenant",
+      "arguments": "",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public.handle_new_user",
+      "arguments": "",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public.has_owner_role",
+      "arguments": "_uid uuid, _tid uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.has_role",
+      "arguments": "_user_id uuid, _tenant_id uuid, _role app_role",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.has_staff_or_owner_role",
+      "arguments": "_uid uuid, _tid uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.is_platform_admin",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.move_to_dlq",
+      "arguments": "source_queue text, dlq_name text, message_id bigint, payload jsonb",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.next_order_number",
+      "arguments": "_tid uuid",
+      "authenticated_execute": false
+    },
+    {
+      "name": "public.read_email_batch",
+      "arguments": "queue_name text, batch_size integer, vt integer",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.return_courier_order",
+      "arguments": "p_order_id uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.run_security_scan",
+      "arguments": "p_triggered_by text",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.settle_courier_orders",
+      "arguments": "p_courier_id uuid, p_order_ids uuid[]",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.tenant_has_active_subscription",
+      "arguments": "_tenant_id uuid, _check_env text",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.tenant_today",
+      "arguments": "_tid uuid",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.touch_updated_at",
+      "arguments": "",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.update_courier_order_state",
+      "arguments": "p_order_id uuid, p_state text, p_collected numeric",
+      "authenticated_execute": true
+    },
+    {
+      "name": "public.update_updated_at_column",
+      "arguments": "",
+      "authenticated_execute": true
+    }
+  ],
+  "catalog_product_insert_functions": [],
+  "catalog_migration_count": 43,
+  "historical_catalog_source_sha": "9a5a58f6a8556f009880437c0cf95ac91c38c770",
+  "product_creation_path": {
+    "file": "src/lib/db.ts",
+    "function": "useAddProduct",
+    "surface": "authenticated REST table insert; not RPC"
+  },
+  "financial_fixture_mutations": 0,
+  "closure_implementation": false,
+  "closure_verified": false,
+  "integration_accepted": false,
+  "not_verified": [
+    "live full-chain owner standalone indexes",
+    "fresh/upgrade closure",
+    "old/new JWT denial due to persisted closure",
+    "populated retention",
+    "independent live replay"
+  ],
+  "historic_43_migration_sha256_matches": 43
+}

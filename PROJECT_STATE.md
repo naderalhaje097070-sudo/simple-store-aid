@@ -1,3 +1,34 @@
+## 2026-10-13 — OWNER-CLOSURE-IMPLEMENT-01 blocked before implementation
+
+Owner approved planning #55/6151090438 and instructed this worker to execute; sole
+claim6151326852. Source PR68/00923287d804f99faa1b70d28cece17f9f33eac3;
+main observed43d6edbccb66fb06ce0fcb93734ad59532d1aeae. Branch
+`docs/owner-closure-blocker-2026-10-13`; final SHA/PR and claim closure will be recorded in #55 at handoff.
+
+Confirmed OC-FIXTURE-01: the planning card requires product/order/items/payment/audit
+via approved RPCs, but selected source creates products through authenticated REST
+with price/cost/stock; no product creation RPC exists. No fixture shortcut/new RPC/
+financial repair or borrowingPR49/50 taken. Owner authorization already exists; this
+is an allowed-surface mismatch, not another missing generic approval.
+
+48 selected exact Git blobs and43 historic migration digests match; all44 migration
+sources searched and relevant effective definitions reviewed. Native43 catalog is historical structure, not a new live44 receipt.
+Existing16 privilege-oracle tests PASS; not closure proof. Separate non-implementing
+reviewer confirmed the blocker; no reviewer live DB/CI/test rerun.
+
+No application/schema/workflow/financial contract change, closure action or financial
+fixture. No merge/deploy. Closure remains Planned / implementation Blocked;
+closure_verified=false; integration_accepted=false. Account scope, actual standalone
+indexes, retry exception and all live implementation acceptance remain open.
+
+ONE NEXT for planning: resolve OC-FIXTURE-01 by considering explicit permission for
+one synthetic product via the existing owner REST/RLS path on the disposable stack,
+while order/items/payment/audit remain on existing approved RPC/trigger paths only.
+This is proposed, not approved or executed. Resume this same task/packet after resolution
+and source/claim recheck; no repeated SEC-TRUNCATE or assumption that drafts are main.
+Evidence, exact boundary, limitations and independent review:
+`changes/owner-closure-implement-01/`. OWNER-RETENTION-01 policy is unchanged.
+
 ## 2026-10-13 — SEC-TRUNCATE-01 tested candidate, unmerged
 
 Planning #55/6139631421; execution claim6144887293. Resumed after checking

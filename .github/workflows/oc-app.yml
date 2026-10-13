@@ -22,7 +22,7 @@ jobs:
       PGDATABASE: postgres
       PGPASSWORD: postgres
       PYTHONDONTWRITEBYTECODE: '1'
-      OC_APP_MODE: baseline
+      OC_APP_MODE: fixed
     steps:
     - name: Checkout exact source
       uses: actions/checkout@v4
@@ -97,18 +97,19 @@ jobs:
         \ --workdir \"$stack\" init > \"$RUNNER_TEMP/route-init-private.log\" 2>&1\nSTACK_CONFIG=\"$stack/supabase/config.toml\"\
         \ python - <<'PYCONFIG'\nimport os\nfrom pathlib import Path\np = Path(os.environ['STACK_CONFIG'])\ns =\
         \ p.read_text()\nold = '[auth.oauth_server]\\n# Enable OAuth server functionality\\nenabled = false'\nassert\
-        \ old in s, 'Pinned local OAuth configuration changed'\np.write_text(s.replace(old, old.replace('enabled\
-        \ = false', 'enabled = true'), 1))\nPYCONFIG\nmkdir -p \"$stack/supabase/migrations\"\ncp supabase/migrations/*.sql\
-        \ \"$stack/supabase/migrations/\"\nif ! supabase --workdir \"$stack\" start > \"$RUNNER_TEMP/route-start-private.log\"\
-        \ 2>&1; then\n  echo 'ROUTE_STACK_START_FAILED: private output withheld'\n  exit 1\nfi\nsupabase --workdir\
-        \ \"$stack\" status -o json > \"$RUNNER_TEMP/route-status.json\"\nchmod 600 \"$RUNNER_TEMP/route-status.json\"\
-        \n# CLI start can print disposable keys; keep no credential-bearing log.\npython - <<'PYSCRUB'\nimport json,\
-        \ os, re\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])\nstatus=json.loads((root/'route-status.json').read_text())\n\
-        p=root/'route-start-private.log'\ntext=p.read_text()\nfor key,value in status.items():\n  if ('KEY' in key\
-        \ or 'PASSWORD' in key) and isinstance(value,str) and value:\n    text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')\n\
-        text=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)\n\
-        text=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_KEY]', text)\np.write_text(text)\n\
-        PYSCRUB\n"
+        \ old in s, 'Pinned local OAuth configuration changed'\nassert 'jwt_expiry = 3600' in s, 'Pinned local expiry\
+        \ configuration changed'\ns=s.replace('jwt_expiry = 3600','jwt_expiry = 60',1)\np.write_text(s.replace(old,\
+        \ old.replace('enabled = false', 'enabled = true'), 1))\nPYCONFIG\nmkdir -p \"$stack/supabase/migrations\"\
+        \ncp supabase/migrations/*.sql \"$stack/supabase/migrations/\"\nif ! supabase --workdir \"$stack\" start\
+        \ > \"$RUNNER_TEMP/route-start-private.log\" 2>&1; then\n  echo 'ROUTE_STACK_START_FAILED: private output\
+        \ withheld'\n  exit 1\nfi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/route-status.json\"\
+        \nchmod 600 \"$RUNNER_TEMP/route-status.json\"\n# CLI start can print disposable keys; keep no credential-bearing\
+        \ log.\npython - <<'PYSCRUB'\nimport json, os, re\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])\n\
+        status=json.loads((root/'route-status.json').read_text())\np=root/'route-start-private.log'\ntext=p.read_text()\n\
+        for key,value in status.items():\n  if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and\
+        \ value:\n    text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')\ntext=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\\\
+        .[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)\ntext=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',\
+        \ '[REDACTED_LOCAL_KEY]', text)\np.write_text(text)\nPYSCRUB\n"
     - name: Build unchanged actual application for local Node runtime
       run: python tests/account-lifecycle/tanstack_route_build.py
     - name: Focused actual price server function
@@ -160,4 +161,70 @@ jobs:
         name: oc-app-${{ env.OC_APP_MODE }}-attempt${{ github.run_attempt }}
         path: ${{ runner.temp }}/route-evidence/
         retention-days: 7
+        if-no-files-found: warn
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Install dependencies
+      run: bun install --frozen-lockfile
+    - name: Typecheck
+      run: bun run typecheck
+    - name: Lint changed source files
+      shell: bash
+      env:
+        BASE_SHA: 92ebd529c79ae1df98ec02245d3c22d6bcfc557f
+      run: "set -euo pipefail\nbase=\"$BASE_SHA\"\nif [[ -z \"$base\" || \"$base\" =~ ^0+$ ]]; then\n  base=\"$(git\
+        \ rev-parse HEAD^)\"\nfi\nmapfile -t files < <(git diff --name-only --diff-filter=ACMR \"$base\" HEAD |\
+        \ grep -E '\\.(ts|tsx|js|jsx)$' || true)\nprintf '%s\\n' \"${files[@]}\" | tee /tmp/lint-files.txt\nif ((\
+        \ ${#files[@]} == 0 )); then\n  echo \"No changed JavaScript or TypeScript files to lint.\"\n  exit 0\n\
+        fi\nset -o pipefail\nbunx eslint \"${files[@]}\" 2>&1 | tee /tmp/lint.log\n"
+    - name: Unit tests
+      run: bun run test:unit
+    - name: Offline server environment boundary
+      run: bun tests/gate4/sec-env/server-boundary.ts
+    - name: Setup Python for browser containment regression
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install pinned browser test tooling
+      run: 'python -m pip install -r tests/gate4/sec-env/requirements.txt
+
+        python -m playwright install chromium --only-shell --with-deps
+
+        '
+    - name: Verify browser redirect, WebSocket and origin containment
+      env:
+        PYTHONDONTWRITEBYTECODE: '1'
+      run: python tests/gate4/sec-env/browser-network.py
+    - name: Build from mode-specific env file
+      shell: bash
+      run: "set -euo pipefail\ntrap 'rm -f .env.sec-env-contract' EXIT\ncat > .env.sec-env-contract <<'EOF'\nMONGEZZ_DEPLOY_TARGET=ci\n\
+        VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder\nVITE_SUPABASE_PROJECT_ID=quality-env-file\n\
+        EOF\n\nenv \\\n  -u MONGEZZ_DEPLOY_TARGET \\\n  -u VITE_SUPABASE_URL \\\n  -u VITE_SUPABASE_PUBLISHABLE_KEY\
+        \ \\\n  -u VITE_SUPABASE_PROJECT_ID \\\n  bunx vite build --mode sec-env-contract\n"
+    - name: Build
+      env:
+        MONGEZZ_DEPLOY_TARGET: ci
+        VITE_SUPABASE_URL: http://127.0.0.1:54321
+        VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+        VITE_SUPABASE_PROJECT_ID: quality-build
+      run: bun run build
+    - name: Upload quality diagnostics
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-diagnostics
+        path: '/tmp/lint-files.txt
+
+          /tmp/lint.log
+
+          '
         if-no-files-found: warn

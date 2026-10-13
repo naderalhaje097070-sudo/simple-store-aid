@@ -15,7 +15,7 @@ Current actor predicate reuses live Auth ban/delete and private permanent closur
 Exact42501/account_inactive denial -> account_inactive. Any other error/throw/bounded timeout -> account_state_unavailable before gateway. Await guard first; deadline/abort in finally. No success fallback.
 No migration/backfill/schema/RPC modification;45 immutable sources preserved.
 
-Callers: src/lib/paddle.ts resolvePriceId -> resolvePaddlePrice; initializePaddle frontend flow unchanged. Only createServerFn occurrence in application is this entry (rg inventory). middleware establishes context.supabase/userId/claims. gatewayFetch reads provider keys only on call.
+Callers: src/lib/paddle.ts getPaddlePriceId -> resolvePaddlePrice; initializePaddle frontend flow unchanged. Only createServerFn occurrence in application is this entry (rg inventory). middleware establishes context.supabase/userId/claims. gatewayFetch reads provider keys only on call.
 Compatibility: method GET, input shape priceId/environment, encoding, returned firstpriceid and Price not found preserved. Guard only adds lifecycle/service refusal.
 Rollback: close unmerged candidate; additive revert of helper/import/await restores known vulnerability, therefore no production rollback recommendation. Do not clear closure or revoke retention.
 
@@ -25,3 +25,6 @@ After fix: A/B active, no-tenant staff, live/sandbox selection and escaped/missi
 Acceptance requires actual local runtime evidence, not source review or generic500. Serialized named Error is required; status alone insufficient.
 Not claimed: allappsurfaces/Cloudflare/production, in-flight revocation/TOCTOU, finance acceptance, release integration. integration_accepted=false.
 Independent design review confirmed existingRPC reuse with no tenant constraint; requested live no-tenant positive and exact errors/deadline. Final source/evidence review pending.
+
+## Baseline completed before application patch
+6807c1985ad12ac1cffc34ca47d65f235283dc14/run38481928957/job115586302827 SUCCESS:76 observations and4locked protocol roundtrips. Expected-red closedB old/new returns dummyprice, each gateway delta1; active no-tenant included. Prior two failures were decoder harness failures, retained separately. Only after this result were helper and handler await applied. Fixed harness adds exact activityRPC counters/invalidsignature/real60s expiry/fault boundaries.

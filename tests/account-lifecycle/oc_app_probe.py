@@ -85,20 +85,29 @@ class PriceProbe(TanStackRouteProbe):
 
     def check_price(self, label, token, expected, calls, **kwargs):
         before = self.gateway_count()
+        activity_before=self.state()["activity_checks"]
         result = self.price(token, **kwargs)
         after = self.gateway_count()
         self.control(label, result.get('result') == expected if expected == 'pri_oc_app_dummy'
                      else result.get('error') == expected, response=result, gateway_before=before,
-                     gateway_after=after, expected_gateway_delta=calls)
+                     gateway_after=after, expected_gateway_delta=calls, activity_before=activity_before,
+                     activity_after=self.state()["activity_checks"])
         self.control(label+'_gateway_delta', after-before == calls)
+        expected_activity=0 if self.mode=='baseline' or expected.startswith('Unauthorized:') else 1
+        self.control(label+'_activity_delta',self.state()['activity_checks']-activity_before==expected_activity)
 
     def state_snapshot(self):
         return {'public': self.snapshot(), 'auth': self.query("select jsonb_agg(jsonb_build_object("
             "'id',id,'deleted_at',deleted_at,'banned_until',banned_until) order by id) from auth.users;")}
 
     def run_price(self, mode):
+        self.mode=mode
         self.control('empty_initial_stack', all(x == 0 for x in self.counts().values()))
         files = sorted(Path('supabase/migrations').glob('*.sql'))
+        manifest=json.loads(Path('changes/oc-app-01/SOURCE.json').read_text())
+        self.control('all45_migration_blobs_immutable',len(manifest['migration_blobs'])==45 and all(
+            hashlib.sha1(b'blob '+str(len(Path(x['path']).read_bytes())).encode()+b'\0'+Path(x['path']).read_bytes()).hexdigest()==x['git_blob_sha']
+            for x in manifest['migration_blobs']))
         self.control('exact45_applied', len(files) == 45 and self.query(
             'select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;') ==
             [x.name.split('_')[0] for x in files])
@@ -139,6 +148,10 @@ class PriceProbe(TanStackRouteProbe):
             self.check_price('missing_price_unchanged',a['token'],'Price not found',1,price='oc-app-missing')
             self.check_price('missing_token',None,'Unauthorized: No authorization header provided',0)
             self.check_price('invalid_token','invalid','Unauthorized: Invalid token',0)
+            parts=a['token'].split('.')
+            # Same three-part shape with a corrupted signature, never a minted identity.
+            parts[2]=('A' if parts[2][0]!='A' else 'B')+parts[2][1:]
+            self.check_price('invalid_signature','.'.join(parts),'Unauthorized: Invalid token',0)
             old=b['token'];digest=hashlib.sha256(old.encode()).hexdigest()
             status,body=self.request('POST','/rest/v1/rpc/close_owner_account',{},token=old)
             self.control('self_owner_closed',status==200 and body=={'status':'closed'})
@@ -164,6 +177,22 @@ class PriceProbe(TanStackRouteProbe):
                     try:self.check_price('state_failure_'+fault,a['token'],'account_state_unavailable',0)
                     finally:subprocess.run(['sudo','rm','-f',str(faultpath)],check=True)
                     if fault=='timeout':self.control('timeout_bounded',2<=time.monotonic()-t<10)
+            if mode!='baseline':
+                self.control('faults_reached_exact_boundaries',self.state()['injected_faults']==['database','transport','timeout'])
+                expired=a['token']
+                expiry=json.loads(__import__('base64').urlsafe_b64decode(expired.split('.')[1]+'=='))['exp']
+                wait=expiry-time.time()+1
+                self.control('local_token_lifetime_bounded',0<=wait<=65)
+                # This wait is inside the disposable workflow, not an agent blocking sleep.
+                if wait>0:time.sleep(wait)
+                self.control('genuine_token_expired',time.time()>expiry,exp=expiry)
+                self.check_price('expired_token',expired,'Unauthorized: Invalid token',0)
+                self.control('expired_test_kept_token_bytes',a['token']==expired)
+                status,session=self.request('POST','/auth/v1/token?grant_type=password',
+                    {'email':a['email'],'password':a['password']})
+                self.control('renew_active_session_after_expiry',status==200 and bool(session.get('access_token')))
+                a['token']=session['access_token'];self.secrets.append(a['token'])
+                self.oauth_token(a,'A_after_expiry',self.client_id);self.secrets.append(a['token'])
             self.check_price('A_unaffected_after',a['token'],'pri_oc_app_dummy',1)
             self.control('public_and_auth_unchanged',self.state_snapshot()==before)
             self.control('one_closure_only',self.sql('select count(*) from monjez_private.owner_account_closures;')=='1')

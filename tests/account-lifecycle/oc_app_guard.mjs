@@ -30,6 +30,7 @@ const state = {
   downstream: {},
   gateway_calls: [],
   injected_faults: [],
+  activity_checks: 0,
   runtime_conflict_errors: 0,
 };
 const statePath = process.env.MCP_ROUTE_STATE;
@@ -79,6 +80,7 @@ globalThis.fetch = (input, init) => {
       ? [] : [{ id: "pri_oc_app_dummy" }] }));
   }
   if (url.origin === "http://127.0.0.1:54321" && url.pathname === "/rest/v1/rpc/current_tenant_id") {
+    state.activity_checks++; save();
     const faultPath = statePath.replace(/\.json$/, ".fault");
     const fault = existsSync(faultPath) ? readFileSync(faultPath, "utf8").trim() : "";
     if (fault) {
@@ -86,6 +88,7 @@ globalThis.fetch = (input, init) => {
       if (fault === "database") return Promise.resolve(Response.json({ code: "XX000", message: "dummy database fault" }, { status: 500 }));
       if (fault === "transport") return Promise.reject(new Error("dummy transport fault"));
       if (fault === "timeout") return new Promise((resolve, reject) => {
+        if (request.signal.aborted) { reject(request.signal.reason); return; }
         request.signal.addEventListener("abort", () => reject(request.signal.reason), { once: true });
       });
       throw new Error("OC_APP_UNKNOWN_FAULT");

@@ -1,0 +1,36 @@
+{
+  "source_sha": "c233f156220b4551e82edccec3eaff9161c20ba3",
+  "mode": "fresh",
+  "migration_file": "20261013120223_sec_truncate_01.sql",
+  "migration_sha256": "e2f2fa5d102a0667ec6035040a96307d08fb3b32f5201117d1f750d4ab520429",
+  "checks": {
+    "fresh_structure_matches_prior_baseline_except_target_ACLs": true,
+    "client_TRUNCATE_denied_all_22": true,
+    "explicit_PUBLIC_and_inheritance_checked": true,
+    "original_financial_7_empty": true,
+    "future_postgres_public_table_client_TRUNCATE_denied": true,
+    "default_probe_object_rolled_back": true,
+    "all_43_migrations_unchanged": true,
+    "no_TRUNCATE_DELETE_or_lifecycle_executed": true
+  },
+  "candidate_accepted": true,
+  "postgres_version": "17.6",
+  "cli_version": "2.101.0",
+  "runtime_images": [
+    "ghcr.io/supabase/studio:2026.04.28-sha-89d08a2",
+    "ghcr.io/supabase/postgres-meta:v0.96.4",
+    "ghcr.io/supabase/edge-runtime:v1.73.13",
+    "ghcr.io/supabase/storage-api:v1.54.1",
+    "ghcr.io/supabase/postgrest:v14.10",
+    "ghcr.io/supabase/realtime:v2.86.3",
+    "ghcr.io/supabase/mailpit:v1.22.3",
+    "ghcr.io/supabase/gotrue:v2.188.1",
+    "ghcr.io/supabase/kong:2.8.1",
+    "ghcr.io/supabase/vector:0.53.0-alpine",
+    "ghcr.io/supabase/logflare:1.39.1",
+    "ghcr.io/supabase/postgres:17.6.1.106"
+  ],
+  "closure_verified": false,
+  "integration_accepted": false,
+  "evidence_no_credentials": true
+}

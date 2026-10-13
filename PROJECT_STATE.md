@@ -1,3 +1,47 @@
+## 2026-10-13 — SEC-TRUNCATE-01 tested candidate, unmerged
+
+Planning #55/6139631421; execution claim6144887293. Resumed after checking
+existing branches/PRs/comments: no prior SEC-TRUNCATE-01 execution or duplicate fix.
+Base PR66/9d30064d0d42667bf4b1de6469c319e625b9f33d; branch
+fix/sec-truncate-01-2026-10-13. Runnable source tested:
+c233f156220b4551e82edccec3eaff9161c20ba3. main remains
+43d6edbccb66fb06ce0fcb93734ad59532d1aeae. No merge/deploy.
+
+One CLI-generated forward migration20261013120223_sec_truncate_01.sql revokes
+only client TRUNCATE on22 application tables and postgres/public table defaults.
+authenticated21→0/22; anon/PUBLIC0/22. Other rights, service/owner/maintenance,
+roles/memberships, provider schemas/defaults and43 prior migrations preserved.
+Future-default protection is scoped to postgres-created public tables; unexpected
+global client table-default grants (including inherited grants) outside public
+stop the migration; remaining effective inherited table grants fail acceptance.
+
+Fresh44 and upgrade43→44 passed in run38394692253. Dedicated push Quality job
+115286889333 ran the existing13 Quality steps (only push BASE_SHA differs):
+66unit/159assertions,8wrapper and67browser containment scenarios passed.
+16focused oracle tests passed. The original PR workflows were deliberately not
+run: final docs [skip ci] avoids historical lifecycle suites outside this batch;
+a skipped docs head is not a green live-tested head or a merge-gate waiver.
+CLI2.101.0; PG17.6/image17.6.1.106; Auth2.188.1; PostgREST14.10; Storage1.54.1.
+
+All22 public fingerprints stable; original finance7, auth users and tenants empty.
+No TRUNCATE/DELETE or financial fixtures executed by the test. Only empty default
+probe CREATE TABLE inside ROLLBACK; cleanup3/3 and credential screening passed in
+both environments. UID unexpected egress0; not a complete provider-egress audit.
+Initial pre-DB generator failure38394158093 is preserved, corrected generation
+38394370225 succeeded. Artifacts, matrix, hashes and limits:
+changes/sec-truncate-01/REPORT_AR.md, RUNS.json and INDEPENDENT_REVIEW.md.
+
+Independent reviewer /root/sec_truncate_review reran16 offline tests, reconciled
+raw catalog/ACL/data and verified original GitHub logs/ZIPs; no live DB or Quality
+replay. Final documentation preserves the tested runnable blobs.
+closure_verified=false; integration_accepted=false. OWNER-RETENTION-01 policy
+remains approved; actual closure and nonempty financial retention remain unproved.
+
+ONE NEXT: planning reviews this security candidate, then defines one separate
+owner-closure batch with account/store/idempotence and isolated fixture acceptance
+criteria. No closure implementation, automatic regrant rollback, merge or deploy
+is authorized by this completed batch.
+
 ## 2026-10-13 Africa/Tripoli — OWNER-RETENTION-VERIFY-01 tested catalog candidate, Draft PR66
 
 Owner-authorized task received2026-10-12; claim #55/6133382681; live checkpoint6133571113.

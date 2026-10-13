@@ -1,0 +1,3 @@
+# SEC-TRUNCATE-01 verification
+
+16focusedofflineoracle tests. Actualmatrixfresh/upgrade, allroleprivilege andexpandedACLpreservation, futurepostgres/publicemptytabledefaults, public22datahashes andfinance7empty, network/secrets/cleanup, independentreview. Dedicatedpushworkflow executescopiedexistingQuality13steps unchangedexceptpushBASE_SHA. FirstgeneratorfailurebeforeDBpreserved. Do notlaunchlegacylifecycle/financialsuites onPRmigrationglob; finalskipciDraftstatusnotGREEN. Actualrunids/results recordedatseparateclosure. [Intake](INTAKE.md).

@@ -1,7 +1,7 @@
 """Focused privilege-delta regressions; no database, data DML or client identity switch."""
 import copy
 import unittest
-from truncate_probe import TABLES, TEMPLATE, HarnessFailure, validate_privilege_delta, validate_sql
+from truncate_probe import TABLES, TEMPLATE, HarnessFailure, validate_privilege_delta, validate_sql, remove_client_truncate
 
 
 def fixture():
@@ -61,6 +61,9 @@ class PermissionOracle(unittest.TestCase):
         with self.assertRaises(HarnessFailure):validate_sql(TEMPLATE.read_text().replace('REVOKE TRUNCATE','REVOKE ALL'))
     def test_global_default_change_rejected(self):
         with self.assertRaises(HarnessFailure):validate_sql(TEMPLATE.read_text().replace('FOR ROLE postgres IN SCHEMA public','FOR ROLE postgres'))
+    def test_raw_acl_only_clients_lose_truncate(self):
+        self.assertEqual(remove_client_truncate('{postgres=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}'),
+            '{postgres=arwdDxtm/postgres,authenticated=arwdxtm/postgres,service_role=arwdDxtm/postgres}')
 
 
 if __name__=='__main__':unittest.main()

@@ -46,7 +46,7 @@ If the effective denial needs broader authority, retain failure and stop.
 
 ## Safety net and CI strategy (Gate4)
 
-Focused15offline tests cover missing matrix, inherited/PUBLIC permission, service/owner
+Focused16offline tests cover missing matrix, inherited/PUBLIC permission, service/owner
 or unrelatedright change, provider/globaldefault mutation, identity switch, SQL scope
 and destructive statement. An initial missing-delimiter IndexError was corrected before
 publication; incomplete source must fail with HarnessFailure, not be accepted.

@@ -56,6 +56,31 @@ def structural(catalog):
     return value
 
 
+def remove_client_truncate(acl):
+    if acl is None:return acl
+    entries=[]
+    for entry in acl.strip('{}').split(','):
+        grantee,tail=entry.split('=',1)
+        rights,grantor=tail.split('/',1)
+        if grantee in ('anon','authenticated',''):
+            rights=re.sub(r'D\*?','',rights)
+        entries.append(grantee+'='+rights+'/'+grantor)
+    return '{'+','.join(entries)+'}'
+
+
+def fresh_expected_catalog(prior):
+    value=copy.deepcopy(prior)
+    value.pop('migration_versions')
+    for r in value['relations']:
+        if r['relation'] in TABLES:
+            r['acl']=remove_client_truncate(r['acl'])
+            for role in ('anon','authenticated'):r['privileges'][role]['TRUNCATE']=False
+    for acl in value['default_acls']:
+        if acl['role']=='postgres' and acl['schema']=='public' and acl['object_type']=='r':
+            acl['acl']=remove_client_truncate(acl['acl'])
+    return value
+
+
 def eligible_acl(row):
     return row['relation'] in TABLES and row['grantee'] in CLIENTS and row['privilege']=='TRUNCATE'
 
@@ -196,7 +221,7 @@ ROLLBACK;"""
         else:
             # Reuse the prior full catalog baseline; compare targeted change only.
             prior=json.loads(BASE_CATALOG.read_text())
-            left=structural(prior);right=structural(result['catalog'])
+            left=fresh_expected_catalog(prior);right=copy.deepcopy(result['catalog']);right.pop('migration_versions')
             # Internal RI trigger names include installation-local OIDs.
             for value in (left,right):
                 for t in value['triggers']:

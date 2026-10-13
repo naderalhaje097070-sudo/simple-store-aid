@@ -1,0 +1,309 @@
+{
+  "source_sha": "0cc350f0edec445535c52dc5896f06cb0321d251",
+  "checks": [
+    {
+      "name": "initial_empty_synthetic_stack",
+      "passed": true
+    },
+    {
+      "name": "initial_exact_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "live_tenant_indexes_observed",
+      "passed": true
+    },
+    {
+      "name": "owner_not_uniquely_constrained",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "closure_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_staff_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_staff_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "existing_owner_rest_product_created",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "approved_sale_rpc_succeeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_product_values",
+      "passed": true
+    },
+    {
+      "name": "independent_direct_cash_order",
+      "passed": true
+    },
+    {
+      "name": "independent_item_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "independent_payment_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "nonempty_actor_linked_financial_audit",
+      "passed": true
+    },
+    {
+      "name": "counter_present_at_real_baseline",
+      "passed": true
+    },
+    {
+      "name": "genuine_local_oauth_client",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_B",
+      "passed": true
+    },
+    {
+      "name": "before_A_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_A_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_A_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_A",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_A",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_A",
+      "passed": true
+    },
+    {
+      "name": "before_A_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_B_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_B_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_B",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_B",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_B",
+      "passed": true
+    },
+    {
+      "name": "before_B_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "named_missing_closure_expected_red",
+      "passed": true
+    },
+    {
+      "name": "expected_red_does_not_mutate_fixture",
+      "passed": true
+    },
+    {
+      "name": "app_no_native_outbound_attempts",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ]
+}

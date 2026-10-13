@@ -58,15 +58,24 @@ class ClosureProbe(TanStackRouteProbe):
     def index_inventory(self):
         result = self.query("""select jsonb_agg(jsonb_build_object(
           'name',ic.relname,'unique',i.indisunique,'primary',i.indisprimary,
-          'valid',i.indisvalid,'definition',pg_get_indexdef(i.indexrelid)) order by ic.relname)
+          'valid',i.indisvalid,'definition',pg_get_indexdef(i.indexrelid),
+          'key_columns',(select jsonb_agg(a.attname order by k.pos)
+            from unnest(i.indkey::smallint[]) with ordinality k(num,pos)
+            left join pg_attribute a on a.attrelid=i.indrelid and a.attnum=k.num
+            where k.pos<=i.indnkeyatts),
+          'predicate',pg_get_expr(i.indpred,i.indrelid),
+          'expressions',pg_get_expr(i.indexprs,i.indrelid)) order by ic.relname)
           from pg_index i join pg_class c on c.oid=i.indrelid
           join pg_namespace n on n.oid=c.relnamespace
           join pg_class ic on ic.oid=i.indexrelid
           where n.nspname='public' and c.relname='tenants';""")
         self.record('live_tenant_indexes_observed', isinstance(result, list) and bool(result))
-        self.record('owner_not_uniquely_constrained', not any(
-            x['unique'] and 'owner_user_id' in x['definition'] for x in result))
         (self.evidence_dir / 'tenant-indexes.json').write_text(json.dumps(result, indent=2) + '\n')
+        self.record('owner_not_uniquely_constrained', not any(
+            x['unique'] and x['valid'] and x['key_columns'] == ['owner_user_id']
+            and x['predicate'] is None and x['expressions'] is None for x in result))
+        self.record('no_unresolved_unique_expression_index', not any(
+            x['unique'] and x['expressions'] is not None for x in result))
         return result
 
     def no_truncate(self):
@@ -149,6 +158,37 @@ class ClosureProbe(TanStackRouteProbe):
     def marker(self):
         return self.query("select coalesce(jsonb_agg(to_jsonb(c) order by user_id),'[]'::jsonb) "
                           "from monjez_private.owner_account_closures c;")
+
+    def closure_catalog(self):
+        result = self.query("""select jsonb_build_object(
+          'marker_rls',(select relrowsecurity from pg_class where oid='monjez_private.owner_account_closures'::regclass),
+          'marker_client_rights',(select jsonb_agg(jsonb_build_object('role',r,'select',
+            has_table_privilege(r,'monjez_private.owner_account_closures','SELECT'),'insert',
+            has_table_privilege(r,'monjez_private.owner_account_closures','INSERT'),'update',
+            has_table_privilege(r,'monjez_private.owner_account_closures','UPDATE'),'delete',
+            has_table_privilege(r,'monjez_private.owner_account_closures','DELETE'),'truncate',
+            has_table_privilege(r,'monjez_private.owner_account_closures','TRUNCATE')) order by r)
+            from unnest(array['anon','authenticated','service_role']) r),
+          'marker_fk',(select confdeltype::text from pg_constraint
+            where conrelid='monjez_private.owner_account_closures'::regclass and contype='f'),
+          'entry',(select jsonb_build_object('definer',prosecdef,'config',proconfig,'arguments',
+             pg_get_function_identity_arguments(oid),'anon_execute',has_function_privilege('anon',oid,'EXECUTE'),
+             'authenticated_execute',has_function_privilege('authenticated',oid,'EXECUTE'),
+             'service_execute',has_function_privilege('service_role',oid,'EXECUTE'))
+             from pg_proc where oid='public.close_owner_account()'::regprocedure),
+          'active_guard_acl',(select proacl::text from pg_proc where oid='monjez_private.actor_is_active()'::regprocedure));""")
+        self.record('private_marker_rls_and_restrict_reference', result['marker_rls'] is True and result['marker_fk'] == 'r')
+        self.record('private_marker_clients_no_dml', all(not any(v for k,v in row.items() if k != 'role')
+                    for row in result['marker_client_rights']))
+        entry = result['entry']
+        self.record('exact_self_entry_acl_and_search_path', entry['definer'] is True
+                    and entry['arguments'] == '' and entry['authenticated_execute'] is True
+                    and entry['anon_execute'] is False and entry['service_execute'] is False
+                    and entry['config'] == ['search_path=""'])
+        previous = json.loads(Path('changes/owner-retention-verify/evidence/native-9a5a/catalog.json').read_text())
+        acl = next(x['acl'] for x in previous['functions'] if x['name'] == 'monjez_private.actor_is_active')
+        self.record('existing_active_guard_acl_preserved', result['active_guard_acl'] == acl)
+        (self.evidence_dir / 'closure-catalog.json').write_text(json.dumps(result, indent=2) + '\n')
 
     def negative_requests(self, a, b, staff):
         before = self.state_snapshot()
@@ -262,6 +302,12 @@ class ClosureProbe(TanStackRouteProbe):
         self.record('initial_empty_synthetic_stack', all(x == 0 for x in self.counts().values()))
         versions = self.query("select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;")
         files = sorted(Path('supabase/migrations').glob('*.sql'))
+        manifest = json.loads(Path('changes/owner-closure-implement-01/SOURCE_EVIDENCE.json').read_text())
+        immutable = [x for x in manifest['verified_source_files']
+                     if x['path'].startswith('supabase/migrations/')]
+        self.record('all44_prior_migration_bytes_immutable', len(immutable) == 44 and all(
+            hashlib.sha1(b'blob ' + str(len(Path(x['path']).read_bytes())).encode() + b'\0'
+                         + Path(x['path']).read_bytes()).hexdigest() == x['git_blob_sha'] for x in immutable))
         expected = [p.name.split('_')[0] for p in files if not (mode in ('baseline', 'upgrade')
                      and p.name.endswith('_owner_closure_01.sql'))]
         self.record('initial_exact_migration_chain', versions == expected
@@ -310,10 +356,17 @@ class ClosureProbe(TanStackRouteProbe):
                         break
                     time.sleep(.1)
             if mode != 'baseline':
+                for _ in range(40):
+                    status, body = self.request('POST', RPC, {}, token=staff['token'])
+                    if status != 404 or body.get('code') != 'PGRST202':
+                        break
+                    time.sleep(.25)
+                self.record('postgrest_new_entry_ready_staff_denied', status == 403
+                            and body.get('code') == '42501' and body.get('message') == 'owner_required')
+                self.closure_catalog()
                 self.negative_requests(a, b, staff)
                 result.update(self.closed_controls(a, b, sale, before))
                 self.no_truncate()
-                result['closure_verified'] = True
             else:
                 result['outcome'] = 'OWNER_CLOSURE_EXPECTED_RED_MISSING_ENTRY'
             self.firewall_after('app')
@@ -322,10 +375,14 @@ class ClosureProbe(TanStackRouteProbe):
             result['process_containment'] = self.state()
             result['firewall'] = self.firewall_observations
             result['migration_versions'] = self.query("select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;")
+            self.record('exact_final_migration_chain', result['migration_versions'] ==
+                        [p.name.split('_')[0] for p in files] and len(files) == (44 if mode == 'baseline' else 45))
+            result['closure_verified'] = mode != 'baseline'
             result['migration_sha256'] = {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
             result['not_verified'] = ['concurrency/in-flight operations', 'Cloudflare/production',
                 'broader financial contracts', 'provider sign-in blocking', 'retention duration/erasure',
                 'full provider-service egress audit', 'release acceptance']
+            result['not_verified'].append('same-tenant staff access continuity after owner closure')
             self.record('tracked_source_unchanged', subprocess.run(['git','diff','--quiet','HEAD','--']).returncode == 0)
             result['checks'] = self.controls
             result = publish_result(self.evidence_dir, result, self.secrets + self.oauth_refresh_tokens)

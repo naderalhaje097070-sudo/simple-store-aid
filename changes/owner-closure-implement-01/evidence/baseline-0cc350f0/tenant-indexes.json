@@ -1,0 +1,9 @@
+[
+  {
+    "name": "tenants_pkey",
+    "valid": true,
+    "unique": true,
+    "primary": true,
+    "definition": "CREATE UNIQUE INDEX tenants_pkey ON public.tenants USING btree (id)"
+  }
+]

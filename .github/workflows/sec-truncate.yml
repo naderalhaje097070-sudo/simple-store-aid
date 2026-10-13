@@ -39,16 +39,7 @@ jobs:
             cp changes/sec-truncate-01/REVOKE_TRUNCATE.sql "$generated"
             mkdir -p "$RUNNER_TEMP/generated-migration"
             cp "$generated" "$RUNNER_TEMP/generated-migration/"
-            GENERATED_FILE="$generated" python - <<'PYGEN'
-            import os,hashlib,json
-            from pathlib import Path
-            p=Path(os.environ['GENERATED_FILE'])
-            r={'filename':p.name,'cli_version':'2.101.0','command':'supabase migration new sec_truncate_01',
-               'source_sha':os.environ['GITHUB_SHA'],'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
-               'no_database_started':True}
-            (Path(os.environ['RUNNER_TEMP'])/'generated-migration/generator.json').write_text(json.dumps(r))
-            print(json.dumps(r))
-            PYGEN
+            GENERATED_FILE="$generated" python -c 'import os,hashlib,json; from pathlib import Path; p=Path(os.environ["GENERATED_FILE"]); r={"filename":p.name,"cli_version":"2.101.0","command":"supabase migration new sec_truncate_01","source_sha":os.environ["GITHUB_SHA"],"sha256":hashlib.sha256(p.read_bytes()).hexdigest(),"no_database_started":True}; (Path(os.environ["RUNNER_TEMP"])/"generated-migration/generator.json").write_text(json.dumps(r)); print(json.dumps(r))'
           else
             echo 'SEC_TRUNCATE_DUPLICATE_MIGRATION'; exit 2
           fi

@@ -1,0 +1,374 @@
+name: SEC TRUNCATE Contract
+on:
+  push:
+    branches: ['fix/sec-truncate-01-2026-10-13']
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      has_migration: ${{ steps.detect.outputs.has_migration }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - id: detect
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(supabase --version)" = '2.101.0'
+          supabase migration new --help > "$RUNNER_TEMP/migration-new-help.txt"
+          supabase migration up --help > "$RUNNER_TEMP/migration-up-help.txt"
+          grep -q -- '--local' "$RUNNER_TEMP/migration-up-help.txt"
+          count="$(find supabase/migrations -name '*_sec_truncate_01.sql' | wc -l)"
+          if [[ "$count" == 1 ]]; then
+            echo "has_migration=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$count" == 0 ]]; then
+            echo "has_migration=false" >> "$GITHUB_OUTPUT"
+            work="$RUNNER_TEMP/sec-truncate-generator"
+            mkdir -p "$work"
+            supabase --workdir "$work" init > "$RUNNER_TEMP/generator-init-private.log" 2>&1
+            supabase --workdir "$work" migration new sec_truncate_01 > "$RUNNER_TEMP/generator-new-private.log" 2>&1
+            generated="$(find "$work/supabase/migrations" -name '*_sec_truncate_01.sql')"
+            test -n "$generated"
+            cp changes/sec-truncate-01/REVOKE_TRUNCATE.sql "$generated"
+            mkdir -p "$RUNNER_TEMP/generated-migration"
+            cp "$generated" "$RUNNER_TEMP/generated-migration/"
+            GENERATED_FILE="$generated" python - <<'PYGEN'
+            import os,hashlib,json
+            from pathlib import Path
+            p=Path(os.environ['GENERATED_FILE'])
+            r={'filename':p.name,'cli_version':'2.101.0','command':'supabase migration new sec_truncate_01',
+               'source_sha':os.environ['GITHUB_SHA'],'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+               'no_database_started':True}
+            (Path(os.environ['RUNNER_TEMP'])/'generated-migration/generator.json').write_text(json.dumps(r))
+            print(json.dumps(r))
+            PYGEN
+          else
+            echo 'SEC_TRUNCATE_DUPLICATE_MIGRATION'; exit 2
+          fi
+      - name: Upload CLI generated filename and SQL
+        if: steps.detect.outputs.has_migration == 'false'
+        uses: actions/upload-artifact@v4
+        with:
+          name: sec-truncate-generated-migration
+          path: ${{ runner.temp }}/generated-migration/
+          retention-days: 7
+  contract:
+    needs: prepare
+    if: needs.prepare.outputs.has_migration == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [fresh, upgrade]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: catalog-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+      CONTRACT_MODE: ${{ matrix.mode }}
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Focused privilege oracle regressions
+        run: python -m unittest discover -s tests/account-lifecycle -p test_truncate_probe.py -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - name: Verify pinned local setup
+        run: |
+          set -euo pipefail
+          test "$(supabase --version)" = '2.101.0'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          supabase --help > "$RUNNER_TEMP/catalog-cli-help.txt"
+          grep -q -- '--workdir' "$RUNNER_TEMP/catalog-cli-help.txt"
+          supabase start --help > "$RUNNER_TEMP/catalog-start-help.txt"
+          supabase stop --help > "$RUNNER_TEMP/catalog-stop-help.txt"
+          grep -q -- '--no-backup' "$RUNNER_TEMP/catalog-stop-help.txt"
+          python tests/e2e/write_harness_guard.py --preflight-only
+      - name: Install existing local verification prerequisites
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/catalog-psql-private.log" 2>&1
+      - name: Prove real process containment before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo useradd --system --no-create-home --shell /usr/sbin/nologin mcp-route
+          uid="$(id -u mcp-route)"
+          sudo iptables -N MCP_ROUTE
+          sudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT
+          sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable
+          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j MCP_ROUTE
+          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+          # Hosted runner workspace ancestors may be private to runner. Copy only
+          # the containment preload, then later the exact standalone build output.
+          sudo install -d -m 755 -o mcp-route /tmp/monjez-tanstack-route
+          sudo install -m 644 tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
+          cmp tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
+          if sudo -u mcp-route test -r "$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs"; then
+            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=true'
+          else
+            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=false'
+          fi
+          sudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \
+            MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json \
+            "$(command -v node)" --import /tmp/monjez-tanstack-route/guard.mjs \
+            --input-type=module -e ''
+          sudo iptables -nvxL MCP_ROUTE > "$RUNNER_TEMP/route-firewall.txt"
+          sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
+          ROUTE_UID="$uid" python - <<'PYFIREWALL'
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          lines = (root/'route-firewall.txt').read_text().splitlines()
+          rejected = [int(line.split()[0]) for line in lines if 'REJECT' in line]
+          assert len(rejected) == 1 and rejected[0] > 0, 'Native redirect not blocked by UID firewall'
+          receipt = {'uid': int(os.environ['ROUTE_UID']), 'ipv4_reject_packets': rejected[0],
+                     'ipv6_rule_installed': True, 'credential_free_preflight': True,
+                     'policy': 'dedicated UID: IPv4 exact loopback only; IPv6 rejected'}
+          (root/'route-firewall.json').write_text(json.dumps(receipt))
+          print(json.dumps(receipt))
+          PYFIREWALL
+      - name: Start fresh fixture-free disposable Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-tanstack-route"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/route-init-private.log" 2>&1
+          mkdir -p "$stack/supabase/migrations"
+          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          if [[ "$CONTRACT_MODE" == upgrade ]]; then
+            rm "$stack"/supabase/migrations/*_sec_truncate_01.sql
+          fi
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/route-start-private.log" 2>&1; then
+            echo 'ROUTE_STACK_START_FAILED: private output withheld'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/route-status.json"
+          chmod 600 "$RUNNER_TEMP/route-status.json"
+          # CLI start can print disposable keys; keep no credential-bearing log.
+          python - <<'PYSCRUB'
+          import json, os, re
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          status=json.loads((root/'route-status.json').read_text())
+          p=root/'route-start-private.log'
+          text=p.read_text()
+          for key,value in status.items():
+            if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and value:
+              text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')
+          text=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)
+          text=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_KEY]', text)
+          p.write_text(text)
+          PYSCRUB
+      - name: Baseline and exact isolated permission-only upgrade
+        if: matrix.mode == 'upgrade'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python tests/account-lifecycle/truncate_probe.py \
+            --status-file "$RUNNER_TEMP/route-status.json" \
+            --evidence-dir "$RUNNER_TEMP/route-evidence" \
+            --expected-source "$EXPECTED_SOURCE" --phase before --mode upgrade
+          cp supabase/migrations/*_sec_truncate_01.sql "$RUNNER_TEMP/monjez-tanstack-route/supabase/migrations/"
+          supabase --workdir "$RUNNER_TEMP/monjez-tanstack-route" migration up --local > "$RUNNER_TEMP/upgrade-private.log" 2>&1
+      - name: Verify after rights defaults and unchanged data
+        run: |
+          python tests/account-lifecycle/truncate_probe.py \
+            --status-file "$RUNNER_TEMP/route-status.json" \
+            --evidence-dir "$RUNNER_TEMP/route-evidence" \
+            --expected-source "$EXPECTED_SOURCE" --phase after --mode "$CONTRACT_MODE"
+      - name: Verify no unexpected catalog-process egress
+        if: always()
+        run: |
+          python - <<'PYNET'
+          import json, os, subprocess
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP'])
+          if (root/'route-firewall.json').exists():
+              baseline=json.loads((root/'route-firewall.json').read_text())
+              lines=subprocess.run(['sudo','iptables','-nvxL','MCP_ROUTE'],capture_output=True,text=True,check=True).stdout.splitlines()
+              rejected=[int(line.split()[0]) for line in lines if 'REJECT' in line]
+              ipv6=subprocess.run(['sudo','ip6tables','-nvxL','OUTPUT'],capture_output=True,text=True,check=True).stdout.splitlines()
+              v6=[int(line.split()[0]) for line in ipv6 if 'owner UID match' in line and 'REJECT' in line]
+              result={'ipv4_preflight_rejected':baseline['ipv4_reject_packets'],
+                      'ipv4_unexpected_reject_packets':rejected[0]-baseline['ipv4_reject_packets'],
+                      'ipv6_rejected_packets':sum(v6),'catalog_psql_uid_contained':True,
+                      'scope':'credential-free Node preflight + psql UID; provider services not a complete egress audit'}
+              out=root/'route-evidence';out.mkdir(exist_ok=True)
+              (out/'network.json').write_text(json.dumps(result))
+              assert result['ipv4_unexpected_reject_packets']==0 and result['ipv6_rejected_packets']==0
+          PYNET
+      - name: Cleanup local processes stack and credential files
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if id mcp-route >/dev/null 2>&1; then
+            sudo pkill -TERM -u mcp-route || true
+          fi
+          rm -f "$RUNNER_TEMP/route-status.json"
+          if [[ -d "$RUNNER_TEMP/monjez-tanstack-route/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-tanstack-route" stop --no-backup > "$RUNNER_TEMP/route-stop-private.log" 2>&1
+          fi
+          mkdir -p "$RUNNER_TEMP/route-evidence"
+          python - <<'PYCLEAN'
+          import json, os, subprocess
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP'])
+          receipt = {'status_file_removed': not (root/'route-status.json').exists(),
+                     'application_processes_removed': (subprocess.run(['id','mcp-route'],capture_output=True).returncode != 0 or subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1),
+                     'stack_containers_removed': 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}
+          (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))
+          assert all(receipt.values()), 'Disposable cleanup incomplete'
+          PYCLEAN
+      - name: Scan final evidence before publication
+        if: always()
+        run: |
+          python - <<'PYSCAN'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'tests/account-lifecycle')
+          from tanstack_route_probe import publish_result
+          out=Path(os.environ['RUNNER_TEMP'])/'route-evidence'
+          out.mkdir(exist_ok=True)
+          result=publish_result(out,{'catalog_complete':False,'integration_accepted':False},[])
+          if not result.get('evidence_no_credentials'):raise SystemExit(2)
+          (out/'route-result.json').unlink()
+          PYSCAN
+      - name: Print safe compact receipts only
+        if: always()
+        run: |
+          python - <<'PYPRINT'
+          import json,os
+          from pathlib import Path
+          out=Path(os.environ['RUNNER_TEMP'])/'route-evidence'
+          for name in ['truncate-result.json','truncate-failure.json','network.json','cleanup.json']:
+              p=out/name
+              if p.exists():
+                  d=json.loads(p.read_text())
+                  print('TRUNCATE_RECEIPT_BEGIN '+name)
+                  print(json.dumps(d))
+                  print('TRUNCATE_RECEIPT_END '+name)
+          PYPRINT
+      - name: Upload sanitized catalog evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sec-truncate-${{ matrix.mode }}-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/route-evidence/
+          retention-days: 7
+          if-no-files-found: warn
+
+  quality:
+    needs: prepare
+    if: needs.prepare.outputs.has_migration == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Lint changed source files
+        shell: bash
+        env:
+          BASE_SHA: '9d30064d0d42667bf4b1de6469c319e625b9f33d'
+        run: |
+          set -euo pipefail
+          base="$BASE_SHA"
+          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
+            base="$(git rev-parse HEAD^)"
+          fi
+          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx)$' || true)
+          printf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt
+          if (( ${#files[@]} == 0 )); then
+            echo "No changed JavaScript or TypeScript files to lint."
+            exit 0
+          fi
+          set -o pipefail
+          bunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log
+      - name: Unit tests
+        run: bun run test:unit
+      - name: Offline server environment boundary
+        run: bun tests/gate4/sec-env/server-boundary.ts
+      - name: Setup Python for browser containment regression
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install pinned browser test tooling
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt
+          python -m playwright install chromium --only-shell --with-deps
+      - name: Verify browser redirect, WebSocket and origin containment
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python tests/gate4/sec-env/browser-network.py
+      - name: Build from mode-specific env file
+        shell: bash
+        run: |
+          set -euo pipefail
+          trap 'rm -f .env.sec-env-contract' EXIT
+          cat > .env.sec-env-contract <<'EOF'
+          MONGEZZ_DEPLOY_TARGET=ci
+          VITE_SUPABASE_URL=http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder
+          VITE_SUPABASE_PROJECT_ID=quality-env-file
+          EOF
+
+          env \
+            -u MONGEZZ_DEPLOY_TARGET \
+            -u VITE_SUPABASE_URL \
+            -u VITE_SUPABASE_PUBLISHABLE_KEY \
+            -u VITE_SUPABASE_PROJECT_ID \
+            bunx vite build --mode sec-env-contract
+      - name: Build
+        env:
+          MONGEZZ_DEPLOY_TARGET: ci
+          VITE_SUPABASE_URL: http://127.0.0.1:54321
+          VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+          VITE_SUPABASE_PROJECT_ID: quality-build
+        run: bun run build
+      - name: Upload quality diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-diagnostics
+          path: |
+            /tmp/lint-files.txt
+            /tmp/lint.log
+          if-no-files-found: warn

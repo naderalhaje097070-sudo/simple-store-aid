@@ -43,6 +43,8 @@ jobs:
         node-version: '22'
     - name: Install exact locked dependencies
       run: bun install --frozen-lockfile > "$RUNNER_TEMP/route-install-private.log" 2>&1
+    - name: Locked price wire protocol
+      run: node tests/account-lifecycle/oc_app_wire.test.mjs
     - name: Setup pinned Supabase CLI
       uses: supabase/setup-cli@v2
       with:

@@ -68,3 +68,12 @@ Use one outcome:
 - Blocked pending missing evidence.
 
 Review approval does not perform merge or deployment. Those actions remain explicit human decisions.
+
+## Coverage, evidence and coordinated review
+
+Apply [SECURITY_REVIEW_METHOD.md](SECURITY_REVIEW_METHOD.md) to the affected scope.
+Reuse the existing batch packet for the coverage ledger and findings register;
+record evidence levels, reachability limits and any cross-boundary exploit-chain
+hypotheses. Reviewers must disclose what they reran and what they only inspected.
+This supplements the questions and severity/merge rules above; it does not add
+a mandatory whole-project audit or waive any existing acceptance gate.

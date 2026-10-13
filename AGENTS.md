@@ -84,3 +84,12 @@ Do not access production data or secrets, perform destructive production actions
   ending a batch. Routine authorized steps proceed without repeated permission.
 - Written rules are not proof of CI enforcement. Record missing enforcement and
   actual check outcomes. Existing financial and release gates remain in force.
+
+## Scoped security-review method — 2026-10-13
+
+For security-sensitive changes, follow [SECURITY_REVIEW_METHOD](docs/governance/SECURITY_REVIEW_METHOD.md)
+alongside the existing review and testing policies. Reuse the batch's coverage
+ledger and evidence; distinguish source review, observed structure and runtime
+proof. Check cross-boundary chains and disclose independent-review limits.
+Scale review to the affected risk; do not restart historical suites or require
+a fixed agent count. This method grants no extra test, data or release authority.

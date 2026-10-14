@@ -1,0 +1,20 @@
+{
+  "job_id": 115996388720,
+  "run_id": 38605846901,
+  "sha": "7d30e65c7bfb454fda4bf6bc6224e8510174c200",
+  "status": "completed",
+  "conclusion": "cancelled",
+  "log_selected": [
+    "2026-10-14T17:20:44.0129114Z Download action repository 'supabase/setup-cli@v2' (SHA:afb1b15109756ea5cf9d8985a359d9095235ca2b)",
+    "2026-10-14T17:21:36.0409775Z Obtained version 1.3.10 from /home/runner/work/_actions/supabase/setup-cli/v2/.bun-version",
+    "2026-10-14T17:21:37.6818519Z ##[end-action id=__supabase_setup-cli.__oven-sh_setup-bun;outcome=success;conclusion=success;duration_ms=1848]",
+    "2026-10-14T17:21:37.9072978Z ##[end-action id=__supabase_setup-cli.__run_2;outcome=success;conclusion=success;duration_ms=225]",
+    "2026-10-14T17:21:37.9078695Z ##[start-action display=Setup Supabase CLI;id=__supabase_setup-cli.setup-cli]",
+    "2026-10-14T17:45:55.7238133Z ##[error]The operation was canceled.",
+    "2026-10-14T17:45:55.7244608Z ##[end-action id=__supabase_setup-cli.setup-cli;outcome=cancelled;conclusion=cancelled;duration_ms=1457816]",
+    "2026-10-14T17:45:55.9477048Z AssertionError: cleanup failed",
+    "2026-10-14T17:45:55.9674115Z \u001b[36;1mprint('G01_EVIDENCE_CREDENTIAL_SCAN_PASS')\u001b[0m",
+    "2026-10-14T17:45:56.0316149Z G01_EVIDENCE_CREDENTIAL_SCAN_PASS",
+    "2026-10-14T17:45:57.9268103Z Terminate orphan process: pid (3029) (bun)"
+  ]
+}

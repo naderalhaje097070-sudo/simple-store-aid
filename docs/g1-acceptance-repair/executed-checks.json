@@ -1,0 +1,30 @@
+[
+  {
+    "job_id": 115996388677,
+    "sha": "7d30e65c7bfb454fda4bf6bc6224e8510174c200",
+    "run_id": 38605846901,
+    "log_selected": [
+      "2026-10-14T17:20:49.9686157Z Ran 17 tests in 0.082s",
+      "2026-10-14T17:20:49.9686343Z OK",
+      "2026-10-14T17:20:52.0496757Z SEC_ENV_G4_TARGET_GREEN_CONFIRMED",
+      "2026-10-14T17:20:52.0948396Z SEC_ENV_REST_ROUTING_GUARD_CONFIRMED",
+      "2026-10-14T17:20:52.8609695Z SEC_ENV_PROXY_GUARD_CONFIRMED",
+      "2026-10-14T17:20:52.9051115Z SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED",
+      "2026-10-14T17:20:52.9935305Z SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED",
+      "2026-10-14T17:20:52.9938411Z {\"before_after_origin_and_violations\": true, \"context_wiring\": true, \"fatal_navigation\": true, \"policy_cases\": 13, \"shared_navigation_forwarding\": true}",
+      "2026-10-14T17:20:54.3706648Z SEC_ENV_VISUAL_HARNESS_CONFIRMED"
+    ]
+  },
+  {
+    "job_id": 115996426036,
+    "sha": "7d30e65c7bfb454fda4bf6bc6224e8510174c200",
+    "run_id": 38605858018,
+    "log_selected": [
+      "2026-10-14T17:21:21.3747235Z  60 pass",
+      "2026-10-14T17:21:21.3747454Z  0 fail",
+      "2026-10-14T17:21:21.3747700Z  125 expect() calls",
+      "2026-10-14T17:21:21.4286834Z SEC_ENV_SERVER_BOUNDARY_GREEN: 8 actual wrapper scenarios, stub app entry, no network/database",
+      "2026-10-14T17:22:05.8791059Z BROWSER_TRANSPORT_REGRESSION: 67 scenarios; 0 failures; dummy loopback fixtures only"
+    ]
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "source_sha": "7d30e65c7bfb454fda4bf6bc6224e8510174c200",
+  "kind": "identity",
+  "base_source": "57fb508b9d239aaf4676352dd97654341416c46a",
+  "base_blob_count": 383,
+  "all_base_blobs_unchanged": false,
+  "all_original_application_blobs_unchanged": true,
+  "approved_base_changes": [
+    {
+      "path": ".github/workflows/sec-env-gate4-probe.yml",
+      "original": "9aa350ec29b96e39c8d290dbbc4d0da8c1026d74",
+      "approved": "039c7308cc67e1daf91bd49bdadab08fcb9ad36e"
+    },
+    {
+      "path": "DECISIONS.md",
+      "original": "3216de75ce4e449b22de8d6688ff9914c023c94f",
+      "approved": "fd8aca4a38f50f4e026ea77e342eddc9eea3e9ad"
+    },
+    {
+      "path": "PROJECT_STATE.md",
+      "original": "2b29f362e89f2006edce9977ff44665e3ac8f444",
+      "approved": "3760c7735075829f3b52c80ba76bafa959a2318e"
+    },
+    {
+      "path": "TASKS.md",
+      "original": "2be01cd8fd755a4c3ddbaa00396fd51f63a76585",
+      "approved": "9cf46ee419be683d704693e44a5d73d634e6864c"
+    }
+  ],
+  "migration_count": 41
+}

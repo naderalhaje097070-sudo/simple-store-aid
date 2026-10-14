@@ -1,3 +1,9 @@
+## Final handoff — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
+
+Existing Draft PR72 retained; main43d6edbccb66fb06ce0fcb93734ad59532d1aeae and original48/51–54 unchanged. Tested source7d30e65c7bfb454fda4bf6bc6224e8510174c200: semantic CI17tests/6safechecks and automatic Quality PASS. Runtime38605846901 CANCELLED during CLI setup before DB/SSR; cleanup receipt3/4, process oracle failed for a user never created. No new liveSSR/after-state/native-counter acceptance. Exact reports, raw receipts and independent review: docs/g1-acceptance-repair/REPORT.md and REVIEW.md. These supersede the intake status below.
+
+Outcome: Blocked pending missing evidence; G0/G1 unaccepted. #48 stays open without formal superseded. All application/auth/dependency/41SQL/financial contracts preserved. Delivery is metadata/evidence only above tested7d; root fingerprints updated explicitly, no executable test change or failure waiver. #55/6173791297 closes only in the final linked handoff. ONE NEXT: bounded installer diagnosis plus absent-user cleanup-oracle proof and exact SSR/after-state/counter execution; no blind version upgrade, account/financial expansion, merge or deploy.
+
 ## Current queue — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
 
 Owner-authorized continuation claim #55/6173791297 on existing PR72. ONE NEXT: semantic visual CI proof plus exact named SSR/after-state evidence and independent review only; no unrelated tests, financial writes, dependency updates or blanket formatter. G0 full lint/advisory disposition and known G2 remain open. Do not treat previous root queue/source checkpoints as a new authorization; all prior entries below are historical.

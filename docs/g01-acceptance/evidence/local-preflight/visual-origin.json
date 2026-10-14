@@ -1,0 +1,11 @@
+{
+  "source54": "57fb508b9d239aaf4676352dd97654341416c46a",
+  "application_candidate": "89838e82244932f62b467fdf4d5a4ca76ec5139a",
+  "runtime": "scratch-local Python Python 3.12.14",
+  "original_workflow_step": "Independently prove visual smoke uses canonical non-production origins",
+  "original_body_sha256": "4cbcfda14d46ccf270614541f2137becac2a0aa1512727981349b0d307022e6b",
+  "exit": 0,
+  "sentinel": "SEC_ENV_VISUAL_HARNESS_CONFIRMED",
+  "stdout_sha256": "5c479f8c30d3e20fd3600262795e8fadaffa2b43f61d5b4528ee38b047a4b1aa",
+  "execution": "preflight-only; no browser/Auth/provider/financial body"
+}

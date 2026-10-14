@@ -1,0 +1,259 @@
+{
+  "main": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "source54": "57fb508b9d239aaf4676352dd97654341416c46a",
+  "initial_sha": "e535b6a0eb7b3f309f26c56dc329142e7deb34c3",
+  "initial_run": 38531691158,
+  "retry_sha": "89838e82244932f62b467fdf4d5a4ca76ec5139a",
+  "retry_run": 38532631519,
+  "original_checks": {
+    "48": [
+      {
+        "name": "candidate-financial",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078212,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071066/job/95013078212"
+      },
+      {
+        "name": "policy-contract",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078074,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071066/job/95013078074"
+      },
+      {
+        "name": "financial-rules",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078069,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071062/job/95013078069"
+      },
+      {
+        "name": "authenticated-ui",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078057,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071059/job/95013078057"
+      },
+      {
+        "name": "candidate-auth",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078056,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071066/job/95013078056"
+      },
+      {
+        "name": "environment-contract",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013078040,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071058/job/95013078040"
+      },
+      {
+        "name": "quality",
+        "sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+        "id": 95013077996,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/31885071061/job/95013077996"
+      }
+    ],
+    "51": [
+      {
+        "name": "financial-rules",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114308757421,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094669/job/114308757421"
+      },
+      {
+        "name": "authenticated-ui",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042449456,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094778/job/114042449456"
+      },
+      {
+        "name": "candidate-auth",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042449267,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094755/job/114042449267"
+      },
+      {
+        "name": "policy-contract",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042449065,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094755/job/114042449065"
+      },
+      {
+        "name": "candidate-financial",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042448928,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094755/job/114042448928"
+      },
+      {
+        "name": "environment-contract",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042448908,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094692/job/114042448908"
+      },
+      {
+        "name": "quality",
+        "sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+        "id": 114042448827,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37996094682/job/114042448827"
+      }
+    ],
+    "52": [
+      {
+        "name": "quality",
+        "sha": "13d81250122c890a98b0c94e4f07f2745bdb40ed",
+        "id": 114050420320,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/37998474344/job/114050420320"
+      }
+    ],
+    "53": [
+      {
+        "name": "quality",
+        "sha": "54c930166a776828566876771efdec86a997fa53",
+        "id": 114193466155,
+        "conclusion": "failure",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/38045287059/job/114193466155"
+      }
+    ],
+    "54": [
+      {
+        "name": "quality",
+        "sha": "57fb508b9d239aaf4676352dd97654341416c46a",
+        "id": 114311070422,
+        "conclusion": "success",
+        "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/38080476062/job/114311070422"
+      }
+    ]
+  },
+  "protection_reads": [
+    {
+      "error": "GitHub API error 403: {\"message\":\"Resource not accessible by integration\",\"documentation_url\":\"https://docs.github.com/rest/branches/branch-protection#get-branch-protection\",\"status\":\"403\"}",
+      "error_code": "FORBIDDEN",
+      "error_data": {
+        "message": "Resource not accessible by integration",
+        "documentation_url": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+        "status": "403"
+      }
+    },
+    {
+      "error": "GitHub API error 403: {\"message\":\"Upgrade to GitHub Pro or make this repository public to enable this feature.\",\"documentation_url\":\"https://docs.github.com/rest/repos/rules#get-all-repository-rulesets\",\"status\":\"403\"}",
+      "error_code": "FORBIDDEN",
+      "error_data": {
+        "message": "Upgrade to GitHub Pro or make this repository public to enable this feature.",
+        "documentation_url": "https://docs.github.com/rest/repos/rules#get-all-repository-rulesets",
+        "status": "403"
+      }
+    }
+  ],
+  "diff_stats": [
+    {
+      "comparison": "g01diff48",
+      "commits": 100,
+      "paths": 18,
+      "additions": 2809,
+      "deletions": 338,
+      "source_files": [
+        "src/server.ts"
+      ],
+      "migration_files": []
+    },
+    {
+      "comparison": "g01diff51",
+      "commits": 1,
+      "paths": 6,
+      "additions": 289,
+      "deletions": 0,
+      "source_files": [],
+      "migration_files": []
+    },
+    {
+      "comparison": "g01diff52",
+      "commits": 1,
+      "paths": 22,
+      "additions": 797,
+      "deletions": 406,
+      "source_files": [
+        "src/routeTree.gen.ts",
+        "src/routes/__root.tsx",
+        "src/routes/_authenticated/app.tsx"
+      ],
+      "migration_files": []
+    },
+    {
+      "comparison": "g01diff53",
+      "commits": 6,
+      "paths": 29,
+      "additions": 1286,
+      "deletions": 163,
+      "source_files": [],
+      "migration_files": []
+    },
+    {
+      "comparison": "g01diff54",
+      "commits": 5,
+      "paths": 102,
+      "additions": 7044,
+      "deletions": 337,
+      "source_files": [
+        "src/server.ts"
+      ],
+      "migration_files": []
+    },
+    {
+      "comparison": "g01cumulative54",
+      "commits": 13,
+      "paths": 147,
+      "additions": 9384,
+      "deletions": 874,
+      "source_files": [
+        "src/routeTree.gen.ts",
+        "src/routes/__root.tsx",
+        "src/routes/_authenticated/app.tsx",
+        "src/server.ts"
+      ],
+      "migration_files": []
+    }
+  ],
+  "fresh_evidence": {
+    "initial_run": 38531691158,
+    "initial_sha": "e535b6a0eb7b3f309f26c56dc329142e7deb34c3",
+    "initial_jobs": {
+      "security": 115744819199,
+      "environment": 115744819101,
+      "runtime": 115744819351
+    },
+    "supplemental_run": 38532631519,
+    "supplemental_sha": "89838e82244932f62b467fdf4d5a4ca76ec5139a",
+    "supplemental_job": 115747865883,
+    "supplemental_observations": 34,
+    "supplemental_passed": 33,
+    "supplemental_failed": "real_SSR_conflict_named_denial",
+    "artifacts": [
+      {
+        "id": 11878063487,
+        "sha256": "da70fe35ad8ed47b9d4e3e1b57e1267c78cd9dd49dbdb662595349d66afcb28a"
+      },
+      {
+        "id": 11878532930,
+        "sha256": "8302d57d0c5a13ca251e4dbed770d158c95b2ae6b0dc03041dcbdfd0abb96310"
+      },
+      {
+        "id": 11878389476,
+        "sha256": "953f1a8b5d6eee790f55c5c9e7ce905225d57f1d7ea010268925d6b3a029bb45"
+      }
+    ],
+    "all383_source54_blobs_unchanged": true,
+    "mandatory_gate_accepted": false
+  }
+}

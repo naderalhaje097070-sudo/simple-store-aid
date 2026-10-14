@@ -1,0 +1,16 @@
+{
+  "base_sha": "92ebd529c79ae1df98ec02245d3c22d6bcfc557f",
+  "tested_sha": "708e43f3e11bbb0882b4930e0b18b7b598c0b36a",
+  "base_blob_count": 604,
+  "untouched_base_blobs": 603,
+  "changed_existing": [
+    "src/utils/payments.functions.ts"
+  ],
+  "new_application": [
+    "src/lib/account-state.server.ts"
+  ],
+  "migration_count": 45,
+  "generated_auth_unchanged": true,
+  "paddle_server_unchanged": true,
+  "no_tree_truncation": true
+}

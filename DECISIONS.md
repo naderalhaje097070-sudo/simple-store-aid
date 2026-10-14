@@ -1,3 +1,15 @@
+## 2026-10-14 — OC-APP-01 tested price lifecycle candidate
+
+Owner-approved #55/6156792432 +6156803010; sole claim6156865890.
+Branchfix/oc-app-01-2026-10-14 abovePR69/92ebd529, runnable708e43f3e11bbb0882b4930e0b18b7b598c0b36a.
+DraftPR/finalSHA/independentreview/closedclaim postedin#55atdelivery. main43d6edbccb66fb06ce0fcb93734ad59532d1aeae unchanged.
+Non-generated helper awaits existingcurrent_tenant_id explicit liveactivity assertion before pricegateway/keys;no nullabletenant/role restriction/cache. Namedinactive vsstateunavailable;3sdeadline/abort/finally.45migrations/generatedAuth/Paddle/finance bytes unchanged.
+Baseline6807/run38481928957 provedclosedold/newpriceallowed;76unique observations. Two prior decoderfailures preserved separately.
+Fixed708/run38482491689 price/Quality SUCCESS:121uniqueobservations,4wirecases,70unit/172expect,8wrapperstub/67browserdummy/typecheck/lint/builds.
+Closedold/newunexpiredprovider-validJWT +ban/delete deniedgateway0;no/invalid/signature/genuineexpiryJWT gateway0;DB/transport/timeout injections distinctstateunavailable/gateway0. Aafter/no-tenantstaffallowed.7gatewaystubcalls/14activitychecks;no realPaddle;public22/definedAuthsnapshotstable/privateevent1/financeempty/45blobs/egress0/cleanup3/3.
+OC-APP-01 addressed as **unmerged tested candidate in this function only**; remains unfixed onmain. No fullapp/inflight/Cloudflare/production/finance/release acceptance;integration_accepted=false.OC-EVID-02remainsdeferred.
+Evidence/report/review:changes/oc-app-01/. ONE NEXT: planningreviewofOC-APP-01withinG5/#70. Stopatdelivery;no merge/deploy/historyrewrite.
+
 ## 2026-10-14 — OWNER-CLOSURE-IMPLEMENT-01 tested bounded candidate
 
 Resumed owner-authorized claim #55/6151753298; original fixture blocker resolved by owner

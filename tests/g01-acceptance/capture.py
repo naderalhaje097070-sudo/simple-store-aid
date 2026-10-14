@@ -1,0 +1,77 @@
+"""Keep actual command failures, publish bounded noncredential receipts only."""
+import argparse
+from collections import Counter
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+
+parser = argparse.ArgumentParser()
+parser.add_argument('kind', choices=['frozen', 'audit', 'lint', 'identity'])
+args = parser.parse_args()
+root = Path(os.environ['RUNNER_TEMP'])
+out = root/'g01-evidence'
+out.mkdir(exist_ok=True)
+receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
+if args.kind == 'identity':
+    manifest = json.loads(Path('tests/g01-acceptance/source54.json').read_text())
+    matched = []
+    for item in manifest['base_blobs']:
+        p = Path(item['path']); data = p.read_bytes()
+        digest = hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        matched.append(digest == item['git_blob_sha'])
+    receipt.update(base_source=manifest['source_sha'], base_blob_count=len(matched),
+                   all_base_blobs_unchanged=all(matched), migration_count=len(list(Path('supabase/migrations').glob('*.sql'))))
+    (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    assert len(matched) == 383 and all(matched)
+    print(json.dumps(receipt));raise SystemExit(0)
+
+commands = {'frozen':['bun','install','--frozen-lockfile'],
+            'audit':['bun','audit','--json'],
+            'lint':['bunx','--no-install','eslint','.','--format','json']}
+private = root/('g01-'+args.kind+'-private.log')
+with private.open('wb') as log:
+    result = subprocess.run(commands[args.kind],stdout=log,stderr=subprocess.STDOUT,timeout=240)
+data = private.read_bytes()
+receipt.update(command=commands[args.kind], exit_code=result.returncode,
+               stdout_sha256=hashlib.sha256(data).hexdigest(),
+               bun_version=subprocess.run(['bun','--version'],capture_output=True,text=True,check=True).stdout.strip(),
+               node_version=subprocess.run(['node','--version'],capture_output=True,text=True,check=True).stdout.strip())
+if args.kind == 'audit':
+    text = data.decode(errors='replace')
+    start = text.find('{')
+    audit = json.JSONDecoder().raw_decode(text[start:])[0] if start >= 0 else None
+    if not isinstance(audit,dict):raise RuntimeError('Audit did not produce structured result')
+    counts = Counter()
+    records = []
+    for key,value in audit.get('advisories',{}).items():
+        counts[value['severity']]+=1
+        records.append({k:value[k] for k in ['id','module_name','severity','title','url','vulnerable_versions','patched_versions'] if k in value})
+    if not records and all(isinstance(value,list) for value in audit.values()):
+        for name,values in audit.items():
+            for value in values:
+                counts[value['severity']]+=1
+                records.append({'module_name':name,**{k:value[k] for k in ['id','severity','title','url','vulnerable_versions'] if k in value}})
+    if not records and 'vulnerabilities' in audit:
+        for name,value in audit['vulnerabilities'].items():
+            counts[value['severity']]+=1
+            records.append({'module_name':name,'severity':value['severity'],'via':value.get('via'),'range':value.get('range')})
+    receipt.update(severity_counts=dict(counts), audit_records=records,
+                   raw_exit_preserved=True, accepted=False)
+    assert records or result.returncode == 0, 'Empty audit cannot hide a failure'
+elif args.kind == 'lint':
+    text = data.decode(errors='replace');start = text.find('[{')
+    if start < 0:start=text.find('[\n')
+    rows = json.JSONDecoder().raw_decode(text[start:])[0] if start >= 0 else None
+    if not isinstance(rows,list):raise RuntimeError('Full lint did not produce structured result')
+    rules=Counter()
+    for row in rows:
+        for message in row['messages']:rules[str(message.get('ruleId'))]+=1
+    receipt.update(error_count=sum(x['errorCount'] for x in rows), warning_count=sum(x['warningCount'] for x in rows),
+                   rule_counts=dict(rules), files_with_diagnostics=[{'path':str(Path(x['filePath']).relative_to(Path.cwd())),
+                     'errors':x['errorCount'],'warnings':x['warningCount']} for x in rows if x['messages']], accepted=result.returncode==0)
+(out/(args.kind+'.json')).write_text(json.dumps(receipt,indent=2)+'\n')
+print(json.dumps({k:v for k,v in receipt.items() if k not in ['audit_records','files_with_diagnostics','rule_counts']}))
+# Do not convert CLI audit/lint failures into a successful gate.
+raise SystemExit(result.returncode)

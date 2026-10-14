@@ -14,7 +14,7 @@ import uuid
 from guard_receipt import receipt as guard_receipt
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
-record={'source_sha':os.environ['EXPECTED_SOURCE'],'checks':[],'integration_accepted':False}
+record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'G1-ACCEPTANCE-REPAIR-01','checks':[],'integration_accepted':False}
 private_secrets=[]
 process=None
 

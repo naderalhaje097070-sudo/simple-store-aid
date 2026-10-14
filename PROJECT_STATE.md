@@ -1,3 +1,11 @@
+## Current checkpoint — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
+
+Canonical repository naderalhaje097070-sudo/simple-store-aid; owner continued after G0/G1 delivery. PR72/eef73a0ad14cce993741c5880bcefc4c0ad46b0a is the starting candidate; main43d6edbccb66fb06ce0fcb93734ad59532d1aeae remains unchanged. #55/6173791297 is the single active continuation claim. Prior delivery #55/6169708623 remains valid historical failed evidence, not acceptance.
+
+One outcome: repair the stale visual CI test contract and diagnose/complete exact named SSR denial plus after-state/native counters. Application/auth/dependencies/41migrations/financial contracts remain unchanged; original CI run body changes only for equivalent stronger semantic proof. No G0 waiver, broad lint cleanup, dependency upgrade, account chain or financial candidates. G0 remains unaccepted (1117errors/13warnings and11Moderate/5Low); existing G2 preissued-banned-JWT defect remains known. See docs/g1-acceptance-repair/INTAKE.md.
+
+Status: bounded implementation/verification in progress, not accepted. ONE NEXT: complete affected G1 evidence and independent review, save exact SHA and handoff, then stop without merge/deploy. Historical checkpoints below are preserved.
+
 ## Current execution checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
 
 A capable disposable Vercel sandbox executed exact PR54 source `84c3444fcdf5fa2825809192cda5b15561c950cf`, preserving reviewed implementation0e616d0013fd72de244686f10c8de5a12488f312. All356 tracked blobs matched before and after execution. Main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae; no merge/deployment occurred.

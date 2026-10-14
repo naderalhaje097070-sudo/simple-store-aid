@@ -1,3 +1,7 @@
+## Current queue — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
+
+Owner-authorized continuation claim #55/6173791297 on existing PR72. ONE NEXT: semantic visual CI proof plus exact named SSR/after-state evidence and independent review only; no unrelated tests, financial writes, dependency updates or blanket formatter. G0 full lint/advisory disposition and known G2 remain open. Do not treat previous root queue/source checkpoints as a new authorization; all prior entries below are historical.
+
 ## Current queue checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
 
 - [x] Exact PR54 head84c3444 snapshot: all356 blobs match GitHub before/after execution.

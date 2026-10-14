@@ -1,4 +1,4 @@
-name: G1 Supplemental Runtime Receipt
+name: G1 Bounded Acceptance Repair
 'on':
   push:
     branches:
@@ -6,6 +6,12 @@ name: G1 Supplemental Runtime Receipt
     paths:
     - tests/g01-acceptance/runtime.py
     - .github/workflows/g01-runtime-retry.yml
+    - tests/g01-acceptance/guard_receipt.py
+    - tests/g01-acceptance/test_g1_contracts.py
+    - tests/g01-acceptance/capture.py
+    - tests/g01-acceptance/g1-source-overrides.json
+    - tests/gate4/sec-env/visual-runtime-contract.py
+    - .github/workflows/sec-env-gate4-probe.yml
 permissions:
   contents: read
 jobs:
@@ -44,8 +50,10 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.2.14
-    - name: Prove all383 PR54 blobs unchanged
-      run: python tests/g01-acceptance/capture.py identity
+    - name: Prove original383-path contract with explicit CI and state changes
+      run: |
+        python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_g1_contracts.py
     - name: Frozen existing runtime dependencies
       run: python tests/g01-acceptance/capture.py frozen
     - name: Pinned browser tools
@@ -133,6 +141,317 @@ jobs:
           shutil.move(str(out),str(root/'g01-evidence-private-quarantine'));raise SystemExit('G01_EVIDENCE_QUARANTINED')
         print('G01_EVIDENCE_CREDENTIAL_SCAN_PASS')
         PYSCAN
+    - name: Upload bounded evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: g01-${{ github.job }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/g01-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+  environment:
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+    steps:
+    - name: Checkout exact acceptance source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Setup existing Bun runtime
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Prove original383-path contract with explicit CI and state changes
+      run: |
+        python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_g1_contracts.py
+    - name: Run target-green environment isolation probe
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        bun tests/gate4/sec-env/probe.ts > /tmp/sec-env-g4.log 2>&1
+        cat /tmp/sec-env-g4.log
+
+        grep -Fq \
+          "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production" \
+          /tmp/sec-env-g4.log || {
+            echo "SEC_ENV_G4_HARNESS_FAIL: exact target-green sentinel missing"
+            exit 1
+          }
+
+        for unexpected in \
+          SEC_ENV_G4_E1_EXPECTED_RED \
+          SEC_ENV_G4_E2_EXPECTED_RED \
+          SEC_ENV_G4_E3_EXPECTED_RED \
+          SEC_ENV_G4_E4_EXPECTED_RED \
+          SEC_ENV_G4_E5_EXPECTED_RED \
+          SEC_ENV_G4_E6_EXPECTED_RED \
+          SEC_ENV_G4_E7_EXPECTED_RED \
+          SEC_ENV_G4_E8_EXPECTED_RED \
+          SEC_ENV_G4_E9_EXPECTED_RED \
+          SEC_ENV_G4_E10_EXPECTED_RED
+        do
+          if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then
+            echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"
+            exit 1
+          fi
+        done
+
+        echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
+    - name: Independently prove destructive REST routing ignores inherited environment and redirects
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        python3 - <<'PY'
+        import ast
+        from pathlib import Path
+
+        files = [
+            Path("tests/e2e/rapid-click-sale.py"),
+            Path("tests/e2e/sale-dashboard-close.py"),
+        ]
+
+        def attr_chain(node):
+            parts = []
+            while isinstance(node, ast.Attribute):
+                parts.append(node.attr)
+                node = node.value
+            if isinstance(node, ast.Name):
+                parts.append(node.id)
+                return list(reversed(parts))
+            return []
+
+        for path in files:
+            source = path.read_text()
+            tree = ast.parse(source, filename=str(path))
+            has_session_constructor = False
+            has_trust_env_false = False
+            session_write_calls = 0
+
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call):
+                    chain = attr_chain(node.func)
+
+                    if chain == ["requests", "Session"]:
+                        has_session_constructor = True
+
+                    if chain in (["requests", "post"], ["requests", "delete"]):
+                        raise SystemExit(
+                            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} contains direct {'.'.join(chain)}"
+                        )
+
+                    if chain in (
+                        ["self", "session", "post"],
+                        ["self", "session", "delete"],
+                        ["api", "session", "post"],
+                        ["api", "session", "delete"],
+                    ):
+                        session_write_calls += 1
+                        redirect_kw = next(
+                            (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),
+                            None,
+                        )
+                        if not (
+                            redirect_kw
+                            and isinstance(redirect_kw.value, ast.Constant)
+                            and redirect_kw.value.value is False
+                        ):
+                            raise SystemExit(
+                                f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} has {'.'.join(chain)} without allow_redirects=False"
+                            )
+
+                if isinstance(node, ast.Assign):
+                    if not (
+                        isinstance(node.value, ast.Constant)
+                        and node.value.value is False
+                    ):
+                        continue
+                    for target in node.targets:
+                        chain = attr_chain(target)
+                        if chain in (
+                            ["self", "session", "trust_env"],
+                            ["api", "session", "trust_env"],
+                        ):
+                            has_trust_env_false = True
+
+            if not has_session_constructor:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not construct requests.Session()"
+                )
+            if not has_trust_env_false:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not set session.trust_env=False"
+                )
+            if session_write_calls == 0:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: no session-backed destructive REST writes found in {path}"
+                )
+            if "300 <=" not in source or "status_code < 400" not in source:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not reject HTTP 3xx responses"
+                )
+
+        print("SEC_ENV_REST_ROUTING_GUARD_CONFIRMED")
+        PY
+    - name: Independently prove destructive preflights reject inherited proxies
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+
+        safe_env=/tmp/sec-env-proxy-safe.env
+        cat > "$safe_env" <<'EOF'
+        VITE_SUPABASE_URL=http://127.0.0.1:54321
+        VITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key
+        EOF
+
+        proxy_vars=(HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy)
+
+        assert_proxy_blocked() {
+          local script="$1"
+          local sentinel="$2"
+          local proxy_name="$3"
+          local safe_name
+          safe_name="${script//\//-}-${proxy_name}"
+          local log="/tmp/${safe_name}.log"
+
+          set +e
+          env \
+            -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY \
+            -u http_proxy -u https_proxy -u all_proxy \
+            "$proxy_name=http://203.0.113.10:8080" \
+            MONGEZZ_E2E_WRITE_TEST=1 \
+            MONGEZZ_DEPLOY_TARGET=ci \
+            MONGEZZ_E2E_ENV_FILE="$safe_env" \
+            PGHOST=127.0.0.1 \
+            PGPORT=54322 \
+            PGUSER=postgres \
+            PGDATABASE=postgres \
+            python3 "$script" --preflight-only \
+            > "$log" 2>&1
+          local status=$?
+          set -e
+
+          if [[ "$status" -eq 0 ]] || ! grep -Fq "$sentinel" "$log"; then
+            echo "SEC_ENV_PROXY_GUARD_FAIL: ${script} accepted ${proxy_name}"
+            cat "$log"
+            exit 1
+          fi
+        }
+
+        for proxy_name in "${proxy_vars[@]}"; do
+          assert_proxy_blocked \
+            tests/e2e/rapid-click-sale.py \
+            SEC_ENV_RAPID_CLICK_BLOCKED \
+            "$proxy_name"
+          assert_proxy_blocked \
+            tests/e2e/sale-dashboard-close.py \
+            SEC_ENV_WRITE_HARNESS_BLOCKED \
+            "$proxy_name"
+        done
+
+        echo "SEC_ENV_PROXY_GUARD_CONFIRMED"
+    - name: Independently prove routing-protected browser contexts block service workers
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        python3 - <<'PY'
+        import ast
+        from pathlib import Path
+
+        files = [
+            Path("tests/e2e/rapid-click-sale.py"),
+            Path("tests/e2e/sale-dashboard-close.py"),
+            Path("tests/e2e/isolated-auth-smoke.py"),
+            Path("tests/visual/mobile-rtl-smoke.py"),
+        ]
+
+        for path in files:
+            tree = ast.parse(path.read_text(), filename=str(path))
+            context_calls = []
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                func = node.func
+                if not (
+                    isinstance(func, ast.Attribute)
+                    and func.attr == "new_context"
+                    and isinstance(func.value, ast.Name)
+                    and func.value.id == "browser"
+                ):
+                    continue
+                context_calls.append(node)
+
+            if not context_calls:
+                raise SystemExit(
+                    f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: no browser.new_context call found in {path}"
+                )
+
+            for node in context_calls:
+                service_workers_kw = next(
+                    (keyword for keyword in node.keywords if keyword.arg == "service_workers"),
+                    None,
+                )
+                if not (
+                    service_workers_kw
+                    and isinstance(service_workers_kw.value, ast.Constant)
+                    and service_workers_kw.value.value == "block"
+                ):
+                    raise SystemExit(
+                        f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: {path} has browser.new_context without service_workers='block'"
+                    )
+
+        print("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")
+        PY
+    - name: Independently prove visual runtime isolation failures are fatal and origin-pinned
+      shell: bash
+      run: |
+        set -euo pipefail
+        python tests/gate4/sec-env/visual-runtime-contract.py > /tmp/sec-env-visual-runtime.log
+        cat /tmp/sec-env-visual-runtime.log
+        grep -Fq SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED /tmp/sec-env-visual-runtime.log
+    - name: Independently prove visual smoke uses canonical non-production origins
+      shell: bash
+      run: "mkdir -p \"$RUNNER_TEMP/g01-evidence\"\nset -euo pipefail\n\nassert_blocked() {\n  local name=\"$1\"\n  local\
+        \ target=\"$2\"\n  local base_url=\"$3\"\n  local log=\"/tmp/visual-${name}.log\"\n\n  set +e\n  MONGEZZ_DEPLOY_TARGET=\"\
+        $target\" \\\n  MONGEZZ_VISUAL_TEST_BASE_URL=\"$base_url\" \\\n    python3 tests/visual/mobile-rtl-smoke.py --preflight-only\
+        \ \\\n    > \"$log\" 2>&1\n  local status=$?\n  set -e\n\n  if [[ \"$status\" -eq 0 ]] || ! grep -Fq \"SEC_ENV_VISUAL_SMOKE_BLOCKED\"\
+        \ \"$log\"; then\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: ${name} was accepted\"\n    cat \"$log\"\n    exit 1\n \
+        \ fi\n}\n\nset +e\nenv -u MONGEZZ_DEPLOY_TARGET -u MONGEZZ_VISUAL_TEST_BASE_URL \\\n  python3 tests/visual/mobile-rtl-smoke.py\
+        \ --preflight-only \\\n  > /tmp/visual-missing.log 2>&1\nmissing_status=$?\nset -e\n\nif [[ \"$missing_status\" -eq\
+        \ 0 ]] || \\\n   ! grep -Fq \"SEC_ENV_VISUAL_SMOKE_BLOCKED\" /tmp/visual-missing.log; then\n  echo \"SEC_ENV_VISUAL_HARNESS_FAIL:\
+        \ missing target/base URL did not fail closed\"\n  exit 1\nfi\n\nassert_blocked production-app preview \\\n  'https://simple-store-aid.lovable.app'\n\
+        assert_blocked production-supabase preview \\\n  'https://dahzkekdirrngnkcxinv.supabase.co'\nassert_blocked unicode-production\
+        \ preview \\\n  'https://simple-store-aid\u3002lovable.app'\nassert_blocked backslash-production preview \\\n  'https://simple-store-aid.lovable.app\\\
+        preview.example'\nassert_blocked encoded-production-app preview \\\n  'https://simple-store-aid%2elovable.app'\nassert_blocked\
+        \ encoded-production-supabase preview \\\n  'https://dahzkekdirrngnkcxinv%2esupabase.co'\nassert_blocked trailing-dot-production\
+        \ preview \\\n  'https://simple-store-aid.lovable.app.'\nassert_blocked preview-custom-port preview \\\n  'https://preview.example:443'\n\
+        assert_blocked ipv4-canonical preview \\\n  'https://127.0.0.1'\nassert_blocked ipv4-octal preview \\\n  'https://0177.0.0.1'\n\
+        assert_blocked ipv4-hex preview \\\n  'https://0x7f.0.0.1'\nassert_blocked ipv4-short preview \\\n  'https://127.1'\n\
+        assert_blocked ipv4-integer preview \\\n  'https://2130706433'\nassert_blocked ipv6-literal preview \\\n  'https://[::1]'\n\
+        assert_blocked numeric-ending-decimal preview \\\n  'https://preview.127'\nassert_blocked numeric-ending-invalid-octal\
+        \ preview \\\n  'https://preview.09'\nassert_blocked numeric-ending-out-of-range preview \\\n  'https://1.2.3.999'\n\
+        assert_blocked numeric-ending-hex preview \\\n  'https://preview.0x7f'\nassert_blocked invalid-punycode-alabel preview\
+        \ \\\n  'https://xn--a.example'\nassert_blocked whatwg-invalid-punycode-alabel preview \\\n  'https://xn--ksa.example'\n\
+        assert_blocked canonical-punycode-alabel preview \\\n  'https://xn--bcher-kva.example'\n\nMONGEZZ_DEPLOY_TARGET=ci\
+        \ \\\nMONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \\\n  python3 tests/visual/mobile-rtl-smoke.py --preflight-only\
+        \ \\\n  > /tmp/visual-safe-ci.log 2>&1\ngrep -Fq \\\n  \"SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production\
+        \ visual target verified\" \\\n  /tmp/visual-safe-ci.log || {\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: isolated CI\
+        \ visual target was rejected\"\n    exit 1\n  }\n\nMONGEZZ_DEPLOY_TARGET=preview \\\nMONGEZZ_VISUAL_TEST_BASE_URL=https://preview.example\
+        \ \\\n  python3 tests/visual/mobile-rtl-smoke.py --preflight-only \\\n  > /tmp/visual-safe-preview.log 2>&1\ngrep\
+        \ -Fq \\\n  \"SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified\" \\\n  /tmp/visual-safe-preview.log\
+        \ || {\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected\"\n    exit 1\n  }\n\n\
+        echo \"SEC_ENV_VISUAL_HARNESS_CONFIRMED\"\n"
     - name: Upload bounded evidence
       if: always()
       uses: actions/upload-artifact@v4

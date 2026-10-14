@@ -1,3 +1,7 @@
+## DEC-G1-ACCEPTANCE-REPAIR-01 — preserve safety oracles and failed evidence
+
+2026-10-14; owner continued after PR72 handoff. Reuse the existing PR/source/evidence. Replace the stale visual-file literal coupling with actual pure policy, shared navigation forwarding, context wiring before pages and fatal before/after origin checks, protected by negative mutation cases. Runtime accepts only the same complete named config mismatch AND500; formatting normalization may remove ANSI/whitespace only. Drain logs and publish static categories/hashes; keep private logs/credentials private. A mismatch failure may collect final snapshots/counters but must still fail the job. No app/auth/dependency/SQL/financial contract change, original history rewrite, merge or deployment. G0/G2 acceptance is not granted.
+
 ## DEC-020 — Runtime feasibility and unchanged cloud boundary (2026-10-10)
 
 - Status: authorized runner investigation; documentation candidate only.

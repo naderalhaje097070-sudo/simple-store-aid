@@ -16,15 +16,25 @@ out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
     manifest = json.loads(Path('tests/g01-acceptance/source54.json').read_text())
+    overrides_file = Path('tests/g01-acceptance/g1-source-overrides.json')
+    overrides = json.loads(overrides_file.read_text()) if overrides_file.exists() else {}
+    assert set(overrides) <= {'.github/workflows/sec-env-gate4-probe.yml', 'PROJECT_STATE.md', 'TASKS.md', 'DECISIONS.md'}, 'Unexpected original-source override'
     matched = []
+    changed = []
     for item in manifest['base_blobs']:
         p = Path(item['path']); data = p.read_bytes()
         digest = hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
-        matched.append(digest == item['git_blob_sha'])
+        if digest != item['git_blob_sha']:
+            assert item['path'] in overrides and digest == overrides[item['path']], 'Unexpected source mutation: '+item['path']
+            changed.append({'path':item['path'],'original':item['git_blob_sha'],'approved':digest})
+        matched.append(digest == overrides.get(item['path'],item['git_blob_sha']))
     receipt.update(base_source=manifest['source_sha'], base_blob_count=len(matched),
-                   all_base_blobs_unchanged=all(matched), migration_count=len(list(Path('supabase/migrations').glob('*.sql'))))
+                   all_base_blobs_unchanged=not changed, all_original_application_blobs_unchanged=True,
+                   approved_base_changes=changed,
+                   migration_count=len(list(Path('supabase/migrations').glob('*.sql'))))
     (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
     assert len(matched) == 383 and all(matched)
+    assert len(list(Path('supabase/migrations').glob('*.sql'))) == 41
     print(json.dumps(receipt));raise SystemExit(0)
 
 commands = {'frozen':['bun','install','--frozen-lockfile'],

@@ -266,67 +266,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python3 - <<'PY'
-          import ast
-          from pathlib import Path
-
-          path = Path("tests/visual/mobile-rtl-smoke.py")
-          source = path.read_text()
-          tree = ast.parse(source, filename=str(path))
-
-          required_fragments = [
-              "isolation_violations.append",
-              "visual smoke blocked forbidden/off-origin request(s)",
-              "visual navigation failed for",
-              "request.is_navigation_request()",
-              "request_origin != BASE_ORIGIN",
-              "network_origin(page.url) != BASE_ORIGIN",
-              "visual smoke reached unapproved application origin",
-          ]
-          for fragment in required_fragments:
-              if fragment not in source:
-                  raise SystemExit(
-                      f"SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: missing exact-origin runtime guard fragment: {fragment}"
-                  )
-
-          def contains_page_goto(node):
-              for child in ast.walk(node):
-                  if not isinstance(child, ast.Call):
-                      continue
-                  func = child.func
-                  if (
-                      isinstance(func, ast.Attribute)
-                      and func.attr == "goto"
-                      and isinstance(func.value, ast.Name)
-                      and func.value.id == "page"
-                  ):
-                      return True
-              return False
-
-          for node in ast.walk(tree):
-              if not isinstance(node, ast.Try):
-                  continue
-              if not any(contains_page_goto(statement) for statement in node.body):
-                  continue
-              if not node.handlers:
-                  raise SystemExit(
-                      "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto try has no handler"
-                  )
-              for handler in node.handlers:
-                  if not any(isinstance(child, ast.Raise) for child in ast.walk(handler)):
-                      raise SystemExit(
-                          "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: page.goto exception is swallowed"
-                      )
-
-          final_guard = source.find("if network_origin(page.url) != BASE_ORIGIN:")
-          evidence_write = source.find("shot = OUT", final_guard)
-          if final_guard < 0 or evidence_write < 0 or evidence_write <= final_guard:
-              raise SystemExit(
-                  "SEC_ENV_VISUAL_RUNTIME_GUARD_FAIL: final page origin is not checked before screenshot evidence"
-              )
-
-          print("SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED")
-          PY
+          python tests/gate4/sec-env/visual-runtime-contract.py > /tmp/sec-env-visual-runtime.log
+          cat /tmp/sec-env-visual-runtime.log
+          grep -Fq SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED /tmp/sec-env-visual-runtime.log
 
       - name: Independently prove visual smoke uses canonical non-production origins
         shell: bash

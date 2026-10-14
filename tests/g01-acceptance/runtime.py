@@ -11,16 +11,17 @@ import time
 import urllib.error
 import urllib.request
 import uuid
+from guard_receipt import receipt as guard_receipt
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
 record={'source_sha':os.environ['EXPECTED_SOURCE'],'checks':[],'integration_accepted':False}
 private_secrets=[]
 process=None
 
-def check(name,passed,**fields):
+def check(name,passed,defer=False,**fields):
     record['checks'].append({'name':name,'passed':bool(passed),**fields})
     (out/'runtime-progress.json').write_text(json.dumps(record,indent=2)+'\n')
-    if not passed:raise RuntimeError(name)
+    if not passed and not defer:raise RuntimeError(name)
 
 def query(sql):
     result=subprocess.run(['psql','-X','-h','127.0.0.1','-p','54322','-U','postgres','-d','postgres','-At','-v','ON_ERROR_STOP=1','-c',sql],capture_output=True,text=True,check=True)
@@ -151,8 +152,12 @@ try:
         smoke=subprocess.run(['python','tests/e2e/isolated-auth-smoke.py'],env=smokeenv,stdout=log,stderr=subprocess.STDOUT,timeout=180)
     check('existing_actual_Auth_UI_desktop_mobile',smoke.returncode==0 and 'PASS: isolated authenticated UI smoke' in (root/'g01-auth-private.log').read_text())
     stop();code,body,log=start(True)
-    check('real_SSR_conflict_named_denial',code==500 and 'SEC_ENV_CONFIG_ERROR: runtime Supabase configuration does not match baked build configuration' in log.read_text())
+    # Drain the native process log before inspecting it; publish only static codes/hashes.
     stop()
+    denial=guard_receipt(code,body,log.read_text())
+    record['conflict_guard_receipt']=denial
+    check('real_SSR_conflict_named_denial',denial['passed'],defer=True,
+          status=code,log_drained_before_classification=True)
     check('public_fixture_unchanged',snapshot()==before);record['after']=snapshot()
     check('finance_zero_at_end',all(query('select count(*) from public.'+x+';')=='0' for x in ['orders','order_items','products','payments','expenses','financial_audit_log']))
     check('native_unexpected_outbound_zero',counters()==firewall_before,native_before=firewall_before,native_after=counters())
@@ -161,6 +166,9 @@ try:
     record['g2_known_unfixed']='preissued banned JWT still has old access on source54; original native evidence retained, not retested/imported'
     record['financial_flow_executed']=False
     check('credential_free_receipt',not any(x and x in json.dumps(record) for x in private_secrets))
+    # A deferred mismatch failure still fails the job after collecting end-state evidence.
+    if any(not item['passed'] for item in record['checks']):
+        raise RuntimeError('real_SSR_conflict_named_denial')
     (out/'runtime-result.json').write_text(json.dumps(record,indent=2)+'\n')
     print(json.dumps({'checks':len(record['checks']),'passed':all(x['passed'] for x in record['checks']),'source_sha':record['source_sha']}))
 except Exception as error:

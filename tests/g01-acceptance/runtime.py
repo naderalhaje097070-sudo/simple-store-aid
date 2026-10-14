@@ -75,8 +75,12 @@ def start(conflict=False):
     runtime=Path('/tmp/g01-runtime');runtime.mkdir(exist_ok=True)
     values={k:buildenv[k] for k in ['MONGEZZ_DEPLOY_TARGET','VITE_SUPABASE_URL','SUPABASE_URL','VITE_SUPABASE_PUBLISHABLE_KEY','SUPABASE_PUBLISHABLE_KEY','VITE_SUPABASE_PROJECT_ID','SUPABASE_PROJECT_ID']}
     if conflict:values['VITE_SUPABASE_PROJECT_ID']=values['SUPABASE_PROJECT_ID']='g01-conflict'
-    envfile=runtime/'worker.env';envfile.write_text('\n'.join(k+'='+v for k,v in values.items())+'\n');envfile.chmod(0o600)
-    subprocess.run(['sudo','chown','g01-app:g01-app',str(envfile)],check=True)
+    envfile=runtime/'worker.env'
+    staged=root/'g01-worker-private.env';staged.write_text('\n'.join(k+'='+v for k,v in values.items())+'\n');staged.chmod(0o600)
+    try:
+        subprocess.run(['sudo','install','-m','600','-o','g01-app','-g','g01-app',str(staged),str(envfile)],check=True)
+    finally:
+        staged.unlink(missing_ok=True)
     log=root/('g01-conflict-private.log' if conflict else 'g01-app-private.log')
     command=['sudo','-u','g01-app','env','-i','PATH=/usr/bin:/bin','WRANGLER_SEND_METRICS=false',
              shutil.which('node'),'/tmp/g01-tools/node_modules/wrangler/bin/wrangler.js','dev','--local',
@@ -161,6 +165,7 @@ try:
     print(json.dumps({'checks':len(record['checks']),'passed':all(x['passed'] for x in record['checks']),'source_sha':record['source_sha']}))
 except Exception as error:
     record['failure_type']=type(error).__name__
+    record['failed_phase']='after_'+(record['checks'][-1]['name'] if record['checks'] else 'start')
     if isinstance(error,RuntimeError):record['reason']=str(error)
     (out/'runtime-failure.json').write_text(json.dumps(record,indent=2)+'\n')
     print(json.dumps({'failure_type':type(error).__name__,'reason':record.get('reason')}));raise SystemExit(2)

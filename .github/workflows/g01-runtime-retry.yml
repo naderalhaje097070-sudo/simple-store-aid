@@ -1,0 +1,143 @@
+name: G1 Supplemental Runtime Receipt
+'on':
+  push:
+    branches:
+    - test/g0-g1-acceptance-runtime-2026-10-14
+    paths:
+    - tests/g01-acceptance/runtime.py
+    - .github/workflows/g01-runtime-retry.yml
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      CI_ISOLATED_SUPABASE: '1'
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: g01-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+    - name: Checkout exact acceptance source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Setup maintained Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Setup existing Bun runtime
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Prove all383 PR54 blobs unchanged
+      run: python tests/g01-acceptance/capture.py identity
+    - name: Frozen existing runtime dependencies
+      run: python tests/g01-acceptance/capture.py frozen
+    - name: Pinned browser tools
+      run: |-
+        python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/g01-browser-install-private.log" 2>&1
+        python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/g01-browser-install-private.log" 2>&1
+    - name: Pinned existing emulator test tool
+      run: |-
+        npm install --prefix /tmp/g01-tools wrangler@4.149.0 --no-audit --no-fund > "$RUNNER_TEMP/g01-emulator-install-private.log" 2>&1
+        node /tmp/g01-tools/node_modules/wrangler/bin/wrangler.js --help > "$RUNNER_TEMP/g01-wrangler-help.txt"
+    - name: Pinned repository Supabase CLI
+      uses: supabase/setup-cli@v2
+      with:
+        version: 2.101.0
+    - name: Install local database and firewall tools
+      run: |-
+        sudo apt-get update -qq
+        sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/g01-native-install-private.log" 2>&1
+    - name: Validate scope and native containment before credentials
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(supabase --version)" = 2.101.0
+        supabase --help > "$RUNNER_TEMP/g01-cli-help.txt"
+        python tests/e2e/write_harness_guard.py --preflight-only
+        sudo useradd --system --create-home --home-dir /tmp/g01-app --shell /usr/sbin/nologin g01-app
+        uid="$(id -u g01-app)"
+        sudo iptables -N G01_APP
+        sudo iptables -A G01_APP -o lo -d 127.0.0.1/32 -j ACCEPT
+        sudo iptables -A G01_APP -j REJECT --reject-with icmp-port-unreachable
+        sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j G01_APP
+        sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+        set +e
+        sudo -u g01-app env -i PATH=/usr/bin:/bin curl --noproxy '*' --connect-timeout 2 http://198.51.100.1/g01-canary > /dev/null 2>&1
+        canary_status=$?
+        set -e
+        test "$canary_status" = 7
+        sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
+        chmod -R a+rX /tmp/g01-tools
+    - name: Fresh disposable41 schema only
+      shell: bash
+      run: |
+        set -euo pipefail
+        umask 077
+        stack="$RUNNER_TEMP/g01-stack"
+        mkdir -p "$stack"
+        supabase --workdir "$stack" init > "$RUNNER_TEMP/g01-init-private.log" 2>&1
+        mkdir -p "$stack/supabase/migrations"
+        cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+        if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/g01-start-private.log" 2>&1; then
+          echo 'G01_LOCAL_STACK_FAILED: private output withheld'
+          exit 1
+        fi
+        supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/g01-status.json"
+        chmod 600 "$RUNNER_TEMP/g01-status.json"
+    - name: Actual Cloudflare SSR target agreement and nonfinancial Auth UI
+      run: python tests/g01-acceptance/runtime.py
+    - name: Remove isolated processes containers and credentials
+      if: always()
+      shell: bash
+      run: |
+        set -euo pipefail
+        if id g01-app >/dev/null 2>&1; then sudo pkill -TERM -u g01-app || true; fi
+        sudo rm -f /tmp/g01-runtime/worker.env
+        rm -f "$RUNNER_TEMP/g01-status.json"
+        if [[ -d "$RUNNER_TEMP/g01-stack/supabase" ]]; then supabase --workdir "$RUNNER_TEMP/g01-stack" stop --no-backup > "$RUNNER_TEMP/g01-stop-private.log" 2>&1; fi
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        python - <<'PYCLEAN'
+        import json,os,subprocess
+        from pathlib import Path
+        r=Path(os.environ['RUNNER_TEMP'])
+        v={'status_removed':not (r/'g01-status.json').exists(),'worker_env_removed':not Path('/tmp/g01-runtime/worker.env').exists(),'processes_removed':subprocess.run(['pgrep','-u','g01-app'],capture_output=True).returncode==1,'containers_removed':'g01-stack' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}
+        (r/'g01-evidence/cleanup.json').write_text(json.dumps(v,indent=2)+'\n')
+        assert all(v.values()),'cleanup failed'
+        PYCLEAN
+    - name: Quarantine any credential-bearing evidence
+      if: always()
+      run: |
+        python - <<'PYSCAN'
+        import os,re,shutil
+        from pathlib import Path
+        root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
+        for p in out.rglob('*'):
+         if p.is_file() and re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',p.read_text(errors='replace')):
+          shutil.move(str(out),str(root/'g01-evidence-private-quarantine'));raise SystemExit('G01_EVIDENCE_QUARANTINED')
+        print('G01_EVIDENCE_CREDENTIAL_SCAN_PASS')
+        PYSCAN
+    - name: Upload bounded evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: g01-${{ github.job }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/g01-evidence/
+        retention-days: 7
+        if-no-files-found: warn

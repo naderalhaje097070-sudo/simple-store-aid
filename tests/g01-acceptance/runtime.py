@@ -107,7 +107,9 @@ def start(conflict=False):
         subprocess.run(['sudo','install','-m','600','-o','g01-app','-g','g01-app','/dev/null',str(runtime/(label+'-'+suffix+'.log'))],check=True)
     uid=int(subprocess.run(['id','-u','g01-app'],capture_output=True,text=True,check=True).stdout)
     trace_state=(label,int(time.time()*1000),counters(),ProcessMap(uid))
+    # Pinned Miniflare setupCf returns its same fallback before cache/fetch with this official flag.
     command=['sudo','-u','g01-app','env','-i','PATH=/usr/bin:/bin','WRANGLER_SEND_METRICS=false','WRANGLER_HIDE_BANNER=true',
+             'CLOUDFLARE_CF_FETCH_ENABLED=false',
              'LD_PRELOAD=/tmp/g01-runtime/dns_trace.so',
              'NODE_OPTIONS=--require=/tmp/g01-runtime/dns_trace.cjs',
              'G1_NATIVE_DNS_LOG='+str(runtime/(label+'-native-dns.log')),

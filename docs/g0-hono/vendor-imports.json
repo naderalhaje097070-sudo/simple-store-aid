@@ -1,0 +1,119 @@
+[
+  {
+    "path": "node_modules/hono/dist/cjs/hono-base.js",
+    "sha256": "064e5fbfb282762b948887994b84534f88c2ef6b454108ee7b347c295c5cf956",
+    "imports": [
+      "hono",
+      "hono",
+      "hono/service-worker"
+    ]
+  },
+  {
+    "path": "node_modules/hono/dist/hono-base.js",
+    "sha256": "e77830d42ef43d2a58815923b306405754fb66c4f15f8a2fafa132d68bb09f7d",
+    "imports": [
+      "hono",
+      "hono",
+      "hono/service-worker"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/examples/server/honoWebStandardStreamableHttp.js",
+    "sha256": "551041b579d3ed2b3251f60ccc3ace0bbe6053973763e138cc23a34631eed952",
+    "imports": [
+      "hono",
+      "hono/cors"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/experimental/index.js",
+    "sha256": "112b971bdd7d22a1076f87e3d1203055567476366d19da31c7d3d633cdeafe6a",
+    "imports": [
+      "@modelcontextprotocol/sdk/experimental"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/validation/ajv-provider.js",
+    "sha256": "697c11d91d249750a3e44d4423c415264f102631b4fe755ff998ccc9b8402bff",
+    "imports": [
+      "@modelcontextprotocol/sdk/validation/ajv",
+      "@modelcontextprotocol/sdk/validation/ajv"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/validation/index.js",
+    "sha256": "55c377e413d2237738a7fea50b6456676664268f4f65a5b3fee48c4f86be0dbc",
+    "imports": [
+      "@modelcontextprotocol/sdk/validation/ajv",
+      "@modelcontextprotocol/sdk/validation/cfworker"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/examples/server/honoWebStandardStreamableHttp.js",
+    "sha256": "ec244f1e0323271839afa3eec030268a1f2499a3921d94fa7be5958721c92e26",
+    "imports": [
+      "hono",
+      "hono/cors"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/experimental/index.js",
+    "sha256": "4d76bf6f056f784621441e1d5fe06310b1621bfcf0fe75e033ee3eabbb792501",
+    "imports": [
+      "@modelcontextprotocol/sdk/experimental"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/validation/ajv-provider.js",
+    "sha256": "1893726b2b43d0688e8c37ce48b3c5f87a55eb93ca370433f882ae81c09c491a",
+    "imports": [
+      "@modelcontextprotocol/sdk/validation/ajv",
+      "@modelcontextprotocol/sdk/validation/ajv"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/validation/index.js",
+    "sha256": "3d6ecbe8cb24e8207754e1f32016b92797cb4c932442395a6ed203f82ab3b3e8",
+    "imports": [
+      "@modelcontextprotocol/sdk/validation/ajv",
+      "@modelcontextprotocol/sdk/validation/cfworker"
+    ]
+  },
+  {
+    "path": "node_modules/@hono/node-server/dist/serve-static.js",
+    "sha256": "d0156679f773b58a0151bb06c9e368af9f43a4ceb40631eea22631878dd20d67",
+    "imports": [
+      "hono/utils/mime"
+    ]
+  },
+  {
+    "path": "node_modules/@hono/node-server/dist/serve-static.mjs",
+    "sha256": "752227d0d6ca109d769ade073c7def411892f8f1acb5436eb2c3b565bc2f252c",
+    "imports": [
+      "hono/utils/mime"
+    ]
+  },
+  {
+    "path": "node_modules/@lovable.dev/mcp-js/dist/chunk-H7W77K6V.js",
+    "sha256": "cb7c2d4428e15ced3f2240ccf049a906be05cdb6fea6d8555617a6a47ad53592",
+    "imports": [
+      "@modelcontextprotocol/sdk/server/zod-compat.js"
+    ]
+  },
+  {
+    "path": "node_modules/@lovable.dev/mcp-js/dist/chunk-IUWLXNFW.js",
+    "sha256": "290e4274aab15bac7a0694e39cc4ade0f9587825765364a1240452b3d50056c9",
+    "imports": [
+      "@modelcontextprotocol/sdk/server/mcp.js",
+      "@modelcontextprotocol/sdk/server/webStandardStreamableHttp.js"
+    ]
+  },
+  {
+    "path": "node_modules/@lovable.dev/mcp-js/dist/chunk-PTPLMKOV.js",
+    "sha256": "ef8b52aa0eafacbfa04672e16677f6b53a4a93762e6ad4d79b054ef89619f9dc",
+    "imports": [
+      "@modelcontextprotocol/sdk/server/zod-compat.js",
+      "@modelcontextprotocol/sdk/server/zod-json-schema-compat.js"
+    ]
+  }
+]

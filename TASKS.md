@@ -1,3 +1,14 @@
+## Current queue checkpoint — G0-HONO-01, 2026-10-15
+
+- [x] Bounded Draft72 candidate: Hono4.13.7 paired pins and generator-owned lock53af322, no SDK/Lovable/other package changes. Tested e38cf18d007ebaa6f9a9c0e314283a33960d89db.
+- [x] All-copy stable4.x security guard plus four negative mutations; frozen/graph/MCP/typecheck/build/environment fixtures verified, Quality38791533893 SUCCESS61unit/129expect.
+- [x] Full audit saved: eight targeted GHSA gone; eight others4Low/4Moderate remain, no new/CH in this scan. Final38791526145 retains audit exit1/FAIL. Initial unsupported Bun1.2 audit and manifest-before-lock frozen failures preserved.
+- [x] Missing CJS/app measurement:16+41 format errors; app main/current340/1 with matched diagnostics except fix ranges. No full-lint acceptance or code formatting.
+- [x] Independent focused review and permanent evidence in docs/g0-hono; reviewer replay is static/Python/hash/raw-evidence, not independent Bun/DB execution.
+- [ ] G0 acceptance: inherited lint and eight remaining advisories require separate scoped engineering/risk decisions; no waivers here.
+- [ ] Before any future G1 on the new lock: explicit baseline/identity reconciliation and affected-runtime proof. Old40/40 is not promoted; legacy guard retained fail-closed.
+- [ ] ONE NEXT: planning reviews this handoff and chooses one next separate G0 batch. No implementation starts automatically. Claim55/6199980098 closes through final55/70 handoff; no merge/deploy, finance/account/migration changes.
+
 ## Bounded handoff — G1-EGRESS-TRACE-01, 2026-10-15
 
 Executed affected G1 on dbc870fcc278781b650860273ac4e1116f629f85:38742289056 PASS40/40, cleanup4/4 and zero unexpected native packet delta. Official cf-fetch opt-out removes proved workers.cloudflare.com DNS attempts; same firewall and acceptance, actual-vendor3case fixture PASS. Prior diagnostic+16 and two precredential oracle failures preserved. Quality38742298220 PASS; independent focused review/evidence in docs/g1-egress-trace. No application/financial/account/schema/dependency change. G0/G2 and #48 disposition remain separate, no merge/deploy or release acceptance. Claim6188008835 closes at linked delivery. ONE NEXT planning review only; stop.

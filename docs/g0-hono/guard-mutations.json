@@ -1,0 +1,22 @@
+[
+  {
+    "case": "patched",
+    "exit_code": 0
+  },
+  {
+    "case": "old",
+    "exit_code": 1
+  },
+  {
+    "case": "prerelease",
+    "exit_code": 1
+  },
+  {
+    "case": "unreviewed-major",
+    "exit_code": 1
+  },
+  {
+    "case": "nested-old",
+    "exit_code": 1
+  }
+]

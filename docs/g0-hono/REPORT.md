@@ -76,3 +76,5 @@ Independent review is in REVIEW.md: distinguish commands the reviewer actually r
 Candidate rollback: additive revert of this batch followed by frozen install and adapter/typecheck/build verification; no schema/data compensation. It restores vulnerable Hono and is not an acceptable production remedy. Production was never changed.
 
 **ONE NEXT:** planning reviews this bounded result and chooses the next separate G0 remediation/risk disposition, preserving remaining audit/lint and future G1 identity requirements. The worker stops after55/70 handoff; no automatic next phase, merge or deploy.
+
+Publication records this report and archived proofs on PR72; the final SHA and final-head Quality observation are recorded in the linked55/70 handoff. All executable/package/lock blobs remain identical to e38cf18d; the legacy G1 identity manifest is intentionally unchanged, not silently broadened.

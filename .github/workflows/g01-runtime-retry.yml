@@ -7,6 +7,10 @@ name: G1 Bounded Acceptance Repair
     - tests/g01-acceptance/cleanup.py
     - tests/g01-acceptance/test_cleanup.py
     - tests/g01-acceptance/diagnose_cli.py
+    - tests/g01-acceptance/egress_trace.py
+    - tests/g01-acceptance/dns_trace.c
+    - tests/g01-acceptance/dns_trace.cjs
+    - tests/g01-acceptance/test_egress_trace.py
     - tests/g01-acceptance/runtime.py
     - .github/workflows/g01-runtime-retry.yml
     - tests/g01-acceptance/guard_receipt.py
@@ -89,7 +93,11 @@ jobs:
     - name: Install local database and firewall tools
       run: |-
         sudo apt-get update -qq
-        sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/g01-native-install-private.log" 2>&1
+        sudo apt-get install -y postgresql-client iptables strace libssl-dev > "$RUNNER_TEMP/g01-native-install-private.log" 2>&1
+    - name: Verify pointer-only tracer before credentials
+      run: |
+        python tests/g01-acceptance/test_egress_trace.py
+        python tests/g01-acceptance/test_egress_trace.py --live-strace
     - name: Validate scope and native containment before credentials
       shell: bash
       run: |

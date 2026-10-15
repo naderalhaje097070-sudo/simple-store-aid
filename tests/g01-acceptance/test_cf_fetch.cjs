@@ -35,6 +35,10 @@ async function run(setting, explicitCf) {
   for (const [, module, method] of functions.join('\n').matchAll(/\b(import_[\w$]+)\.(readFile|fetch|dim)\b/g)) {
     (globals[module] ??= {})[method] = {readFile, fetch, dim: x => x}[method];
   }
+  // The installed bundle renames bundled imports (observed dim2). Keep vendor code intact.
+  for (const [, name, method] of functions.join('\n').matchAll(/\b((readFile|fetch|dim)\d*)\s*\(/g)) {
+    globals[name] = {readFile, fetch, dim: x => x}[method];
+  }
   const context = vm.createContext(globals);
   vm.runInContext(functions.join('\n'), context, {timeout: 1000});
   const result = await context.setupCf({warn() {}, debug() {}}, explicitCf);

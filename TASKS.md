@@ -1,6 +1,6 @@
-## Current bounded task — G1-CLI-CLEANUP-01, 2026-10-15
+## Final bounded result — G1-CLI-CLEANUP-01, 2026-10-15
 
-Owner-authorized sole claim #55/6187165138 resumes Draft72/f2e54d3 on test/g0-g1-acceptance-runtime-2026-10-14. One diagnostic attempt instruments official pinned setup-cli afb1b151 with120s timeout, unchanged CLI2.101.0/actionBun1.3.10; fail-closed absent-user/process-read cleanup regression. Then unchanged exact namedSSR500/after-state/counters if installer completes. Intake/impact: docs/g1-cli-cleanup. Independent review pending. Prior failures preserved; G0/G1/G2 unaccepted, #48 open; nofinancial/account-chain/production/merge/deploy. This checkpoint supersedes only the old scheduling entry.
+Implemented/tested on Draft72, not merged/released. Installer now bounded and operational in both new runs; historical root cause unresolved. Absent-user/process-error cleanup oracle fixed with6fixtures and hosted4/4 receipts. Final source819291c85825d73854262d76d2030736470ef92b executes39checks/38PASS; only native zero-outbound conditionFAIL(+16blocked IPv4packets,0IPv6). Full named mismatch+500,after-state/finance-zero/source/secret pass; Quality38702796165 PASS. docs/g1-cli-cleanup/REPORT.md and REVIEW.md hold actual evidence and limits. No G1 acceptance, no G0 waiver, no account/financial imports, no #48 closure, no merge/deploy. ONE NEXT for planning, not this worker: separately scoped emulator-startup attribution under unchanged firewall. Close claim6187165138 at final #55/#70 links and stop.
 
 ## Final handoff — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
 

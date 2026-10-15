@@ -1,0 +1,13 @@
+{
+  "source_sha": "d4eeee0d6c392ce19fb0eeac1b69a0d4a9832ddb",
+  "kind": "frozen",
+  "command": [
+    "bun",
+    "install",
+    "--frozen-lockfile"
+  ],
+  "exit_code": 0,
+  "stdout_sha256": "d7d5ea9ca880fd96bb4d5d28da6925196fbe3d3412b948ef0622ea5242217728",
+  "bun_version": "1.2.14",
+  "node_version": "v22.23.3"
+}

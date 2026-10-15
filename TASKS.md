@@ -1,3 +1,14 @@
+## Current queue checkpoint — G0-QS-01, 2026-10-15
+
+- [x] Draft72 qs-only6.15.3→6.16.0 pins and officially generated lockae751828; no Express/body-parser/SDK/Hono/other package change. Testedfc6d621e955d3666ecc0e7fbc79dd402f39b3ee8.
+- [x] Actual installed baseline15cases12PASS/3specificFAIL with rawexit1 retained; patched15/15PASS includes both advisory defects, ordinary parser/serializer and real loopback Express/body-parser compatibility. No mocks/live app/DB.
+- [x] Every-copy stable6.x floor and sixguardcontrols including retained Hono floor; frozen/graph/affected-new-test lint/source-invariance PASS.
+- [x] Full supported audit: both qsGHSA absent;6others2Moderate/4Low remain, noNew/CH in scan, actualexit1 and38799630354FAIL retained. No fixed residual-count rule or waiver.
+- [x] Quality38799635683SUCCESS62unit/133expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck; matching synthetic tree. Independent static/hash/receipt/log review completed, no independent Bun/DB replay; docs/g0-qs.
+- [ ] G0 acceptance: six other advisories and inherited lint remain separate engineering/risk decisions. No lint cleanup here.
+- [ ] Future new-lock G1/integration acceptance: explicitly reconcile source54 identity baseline and execute affected real transport/runtime/isolation proof, rather than reusing old40/40. Guard remains unchanged fail-closed.
+- [ ] ONE NEXT: planning chooses one separate G0 batch/disposition after55/70 handoff. Claim6201151721 closes there; worker stops. No finance/lifecycle/migration/production/merge/deploy.
+
 ## Current queue checkpoint — G0-HONO-01, 2026-10-15
 
 - [x] Bounded Draft72 candidate: Hono4.13.7 paired pins and generator-owned lock53af322, no SDK/Lovable/other package changes. Tested e38cf18d007ebaa6f9a9c0e314283a33960d89db.

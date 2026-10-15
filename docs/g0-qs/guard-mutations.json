@@ -1,0 +1,26 @@
+[
+  {
+    "case": "patched",
+    "exit_code": 0
+  },
+  {
+    "case": "qs-old",
+    "exit_code": 1
+  },
+  {
+    "case": "qs-prerelease",
+    "exit_code": 1
+  },
+  {
+    "case": "qs-major7",
+    "exit_code": 1
+  },
+  {
+    "case": "qs-nested-old",
+    "exit_code": 1
+  },
+  {
+    "case": "hono-old",
+    "exit_code": 1
+  }
+]

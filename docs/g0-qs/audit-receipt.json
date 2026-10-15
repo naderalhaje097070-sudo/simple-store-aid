@@ -1,0 +1,10 @@
+{
+  "command": [
+    "bun",
+    "audit",
+    "--json"
+  ],
+  "exit_code": 1,
+  "stdout_sha256": "fcfc023b4edfffe1c1b539c919162e328c0ee572a9d689073c29d17c614c84e3",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

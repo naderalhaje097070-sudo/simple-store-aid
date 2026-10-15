@@ -1,0 +1,22 @@
+{
+  "archives": [
+    {
+      "path": "preparation.zip",
+      "sha256": "8f5b31b14267779105933e3099c5bec5a56cbfced2d0d4cbace85a8e513366a5",
+      "members": 16
+    },
+    {
+      "path": "verification.zip",
+      "sha256": "8df6e660fd2b334961b03cbb6914e8b14ae3007bc6ef050e0e9645467f4ea74e",
+      "members": 39
+    },
+    {
+      "path": "job-logs.zip",
+      "sha256": "df700cd8fb6841705e0de1b1237d9fb27041e371a803e853363f91066b3408a7",
+      "members": 1
+    }
+  ],
+  "credential_pattern_scan": "PASS",
+  "scope": "JWT/provider-key/private-key patterns in every uncompressed member, not a universal detector. No project credentials or production/customer/DB connections were used.",
+  "baseline_expected_red_retained": true
+}

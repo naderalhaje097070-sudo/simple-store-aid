@@ -1,6 +1,6 @@
-## Current bounded task — G1-EGRESS-TRACE-01, 2026-10-15
+## Bounded decision — G1-EGRESS-TRACE-01, 2026-10-15
 
-Owner-authorized sole claim #55/6188008835 resumes Draft72/b4a6440d on test/g0-g1-acceptance-runtime-2026-10-14. One bounded private metadata-only process/connect/DNS trace under unchanged firewall and zero-delta acceptance. Reuse prior39/38 evidence. Diagnose once; only source-proved minimal test-tool correction may follow; otherwise blocked handoff. No G0/finance/account/app/dependency/migration/production/Paddle/merge/deploy. Intake/impact docs/g1-egress-trace; independent review pending. Stop at linked #55/#70 handoff.
+Treat blocked packet counts, syscall calls, resolver invocations and unique connections separately. Diagnostic16 IPv4 packets are Node/getaddrinfo resolver attempts to127.0.0.53:53 for public hostname workers.cloudflare.com, not demonstrated external delivery. Pinned Miniflare setupCf source identifies optional cf.json metadata fetch and official CLOUDFLARE_CF_FETCH_ENABLED=false early fallback. Apply only that literal in isolated test env; no destination allow/reset/DNS stub/version or app change. Actual installed-vendor3case fixture and dbc870/run38742289056 PASS40/40 prove zero delta with unchanged named500/SSR/Auth/data/source/secrets/cleanup. Preload control retains same16 in diagnostic; corrected untraced execution is not claimed. Preserve failed evidence and all coverage limits. No global gate/release approval; hand off then stop.
 
 ## DEC-G1-CLI-CLEANUP-01 — preserve failed network gate and source identity
 

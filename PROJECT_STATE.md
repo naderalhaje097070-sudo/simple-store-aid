@@ -1,6 +1,8 @@
-## Current bounded task — G1-EGRESS-TRACE-01, 2026-10-15
+## Bounded handoff — G1-EGRESS-TRACE-01, 2026-10-15
 
-Owner-authorized sole claim #55/6188008835 resumes Draft72/b4a6440d on test/g0-g1-acceptance-runtime-2026-10-14. One bounded private metadata-only process/connect/DNS trace under unchanged firewall and zero-delta acceptance. Reuse prior39/38 evidence. Diagnose once; only source-proved minimal test-tool correction may follow; otherwise blocked handoff. No G0/finance/account/app/dependency/migration/production/Paddle/merge/deploy. Intake/impact docs/g1-egress-trace; independent review pending. Stop at linked #55/#70 handoff.
+Draft72 remains above54 on test/g0-g1-acceptance-runtime-2026-10-14. Tested dbc870fcc278781b650860273ac4e1116f629f85 / runtime38742289056:40/40 PASS, cleanup4/4, secrets PASS. Native IPv4 REJECT stays1 at every phase, IPv6zero. Diagnostic e3be/run38708299333 preserves+16 blocked packets and attributes Node getaddrinfo to workers.cloudflare.com via127.0.0.53:53. Pinned Miniflare source plus actual-vendor3case fixture proves optional cf metadata fetch; one official CLOUDFLARE_CF_FETCH_ENABLED=false test-env literal suppresses it. Same firewall/counters, no DNS stub or exception. Exact named mismatch+500, realSSR/Auth desktop/mobile,22table invariance, financezero/source PASS. Quality38742298220 PASS. Two precredential vendor-oracle failures remain documented, not runtime passes. All app/dependency/41SQL unchanged. Report/review/durable evidence: docs/g1-egress-trace.
+
+Only this missing G1 portion is executed and passing; no global G0/G1/G2 or launch acceptance. G0 lint/advisories and G2 remain separate; #48 stays open. No production/Paddle/finance/account/merge/deploy. Sole claim #55/6188008835 closes at linked #55/#70 delivery. ONE NEXT belongs to planning: review bounded G1 evidence and dispose of separate G0/release blockers; no next implementation. Stop after handoff.
 
 ## Final handoff — G1-CLI-CLEANUP-01, 2026-10-15
 

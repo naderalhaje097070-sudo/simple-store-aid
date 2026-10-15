@@ -1,0 +1,531 @@
+{
+  "source_sha": "e3be246eb2499c0cc509ab6860301ea9a22e02db",
+  "verification_batch": "G1-ACCEPTANCE-REPAIR-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    },
+    {
+      "name": "exact41_migrations",
+      "passed": true
+    },
+    {
+      "name": "initial_empty_finance_auth",
+      "passed": true
+    },
+    {
+      "name": "A_auth_created",
+      "passed": true
+    },
+    {
+      "name": "A_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "A_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "A_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "A_real_login",
+      "passed": true
+    },
+    {
+      "name": "B_auth_created",
+      "passed": true
+    },
+    {
+      "name": "B_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "B_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "B_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "B_real_login",
+      "passed": true
+    },
+    {
+      "name": "0_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "0_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "1_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "1_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "actual_default_Cloudflare_build",
+      "passed": true
+    },
+    {
+      "name": "real_SSR_matching_target",
+      "passed": true
+    },
+    {
+      "name": "existing_actual_Auth_UI_desktop_mobile",
+      "passed": true
+    },
+    {
+      "name": "real_SSR_conflict_named_denial",
+      "passed": true,
+      "status": 500,
+      "log_drained_before_classification": true
+    },
+    {
+      "name": "public_fixture_unchanged",
+      "passed": true
+    },
+    {
+      "name": "finance_zero_at_end",
+      "passed": true
+    },
+    {
+      "name": "native_unexpected_outbound_zero",
+      "passed": false,
+      "native_before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "native_after": {
+        "ipv4": 17,
+        "ipv6": 0
+      }
+    },
+    {
+      "name": "bounded_egress_trace_collected",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    },
+    {
+      "name": "credential_free_receipt",
+      "passed": true
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    },
+    "matching_ready": {
+      "ipv4": 9,
+      "ipv6": 0
+    },
+    "after_auth_ui": {
+      "ipv4": 9,
+      "ipv6": 0
+    },
+    "after_conflict_stopped": {
+      "ipv4": 17,
+      "ipv6": 0
+    }
+  },
+  "before": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "941576c3c33ef2f91b7df9febe92ab8c"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "77610a8c015984569574537c6b0da44d"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "2dbe1dfbadc53b3a433ddd860644f8d2"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "7aea16a262d3b63ab243e06ad298034a"
+    }
+  },
+  "build_warnings": {
+    "precache_zero": true
+  },
+  "build_sha256": {
+    ".output/package-lock.json": "04aa29e6ad5c6ce21c2c76c03e58fed8fabb50302c681bcb87d5d2f2952ac079",
+    ".output/package.json": "f8ac46a1418fb2a7fd30470a75cbf5778f782f7c9803432bae7ec61a2d745d9e",
+    ".output/nitro.json": "e5efd6fdd006b05c58e257515408d0a4232377ba7ee29e6545e39db66e8163c6",
+    ".output/server/_._lovable.oauth.consent-xFk8FKFL.mjs": "1a458ef9d559f222ff863cdf6dd9c8b2f3438946e6da84b84e7c3aaee3fda8bd",
+    ".output/server/_._lovable.oauth.consent-DS_MDyUZ.mjs": "2d47701457affa1ae824ac20169ab2b53fd5b8ecf5118002c0a982e024165c4e",
+    ".output/server/index.mjs": "efa726af9737dea916c9a36676ec99b6aeb3a6cefdc7744ee8e04c8e572c9f06",
+    ".output/server/_tanstack-start-manifest_v-B5hS_rbI.mjs": "c4a55711be8712ca5c0df1dc55734a80f5ba359b02ee2bc648fc3e90091b817d",
+    ".output/server/wrangler.json": "f088165cba0f99323ff263a3217a5f91164b107b906d306a77913a202ded104d",
+    ".output/server/__23tanstack-start-server-fn-resolver-DAGxUOcY.mjs": "326b5faf283063b6b3ce9eb388537f3b9a51531c40b2542837071ad883d84aba",
+    ".output/server/_._lovable.oauth.consent-BPHozSpo.mjs": "77dd3e4c6937fc2d3e8745c5a6c47b4c93ebd9bb7859bf651592eff8743aedaf",
+    ".output/server/_runtime.mjs": "b990f83c9b8ee56c3c569e7041b32437efb46473e24951c077307cf8cf71538f",
+    ".output/public/favicon.svg": "a851d67cb92db6d6b40652a52ef9492d1736dd66e913135f012a8ee269002ec6",
+    ".output/public/offline.html": "9317fe3feedecbd7917a182f49fae4f4631a23eeb6e7c7dd666304ff6c3f43c9",
+    ".output/public/manifest.webmanifest": "8ef3c70b729cb18dcbc29896e8bad76422eab993984efc70dd70f0bc60bca1b5",
+    ".output/public/llms.txt": "f873184e93b829cb405c9f36bf6f598cf023f2f01c2e389951e4403129c948e0",
+    ".output/public/robots.txt": "9703f23c55c4795b376b9916c2d74478cb3e4f5fe6ed4d3917024811622c3f19",
+    ".output/public/_headers": "8986b1072b0e2a0646b4787388991bb50bc2b87b69a037d8531a62ff4d2c2ff3",
+    ".output/public/og-image.jpg": "8964d7fb385834b3e14deee658cecc4ba7a23cfb8917195dfc6b5e7adc413241",
+    ".output/server/_chunks/ssr-renderer.mjs": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+    ".output/server/_ssr/paddle.server-DUFMhm_W.mjs": "0ca681303f5d6861414246a4d0c0e2abcaabb3ba138ec2cd976dc68c17cb4836",
+    ".output/server/_ssr/route-Dwk34S1l.mjs": "54d10346550e31280128a5b8b13e8618e638b470cd16d23a8fa7d3ec99e26e8a",
+    ".output/server/_ssr/useTheme-11HVCO0w.mjs": "0bb409bda13fe92b291fd41ec60fefb1b2cee791d2c07222da8a29f357ceedd7",
+    ".output/server/_ssr/server-CNI6xyWc.mjs": "3557d7dc48fd082431ec27a1c7804d79109a453502492afe48733e670f5c3602",
+    ".output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs": "ee1957ac485b923838aecb47c3427e91eb7275698cefcda4a6c9018e6cdb1c9e",
+    ".output/server/_ssr/auth-BxuGa1sP.mjs": "532540174dab28eced521a4c48fdb4587c508abd6fcd386fb33d0913dc145275",
+    ".output/server/_ssr/ssr.mjs": "3324c29f34db43876aa711677fc0fbe44928482cae3aa20301de709868c326a2",
+    ".output/server/_ssr/pwa-register-B1ZRVBaA.mjs": "5b4d715badc882af15b2ba344a559deb66e75362fff9adc5834f849a19fe3ada",
+    ".output/server/_ssr/workbox-window.prod.es5-CkHxznpn.mjs": "8846b49ccda706239754bd66b5a0ce6425433ce2148d0eb3b7d264e836fc2893",
+    ".output/server/_ssr/routes-CXUJB8pU.mjs": "568a06c51171a1ef835585623a6851ec8cfb0d74fbfeef833b73c91311b4e508",
+    ".output/server/_ssr/start-j6Be_FnK.mjs": "910db3ccf2bf4b19e83fb058db7e7812c536b6ebdd3cd420324a7d9416e66189",
+    ".output/server/_ssr/onboarding-D7BxgfTG.mjs": "a042d5f1808deba3a08c70370e726c54fdaae4dee2ff39be9a0d98f161418c72",
+    ".output/server/_ssr/client-CmoNCQC_.mjs": "a4ac6787cf173ef54cede7d93dcc13dddc0b9288e4747c1d8db32d89a5694400",
+    ".output/server/_ssr/billing-D3ZG3GBT.mjs": "513dd4d66f244aa6ad1e79bf5ae27323b212f70587ffbc60c418cd8f6a3a1b7c",
+    ".output/server/_ssr/platform-admin-DgDdThRs.mjs": "02509391e55894149dfceff1683c73fba8b932a77eb11283b674264f44b7fb76",
+    ".output/server/_ssr/router-DJBiM-xh.mjs": "85f5831067f805adb63dda8011e1a23951c99b738cff5ba5cee3ce0d7823cbc8",
+    ".output/server/_ssr/db-Dv5YLvBM.mjs": "fc1507d60c72891bd421a7c4bad58d66179ad466ce679ab75323f98a4fd68ea6",
+    ".output/server/_ssr/payments.functions-DKJYDotv.mjs": "f950163f1a45dd1b54fe48533d7da5ef23475cd9a744f8a5cd6d831b20ea8711",
+    ".output/server/_ssr/auth-CLWWB-ks.mjs": "8c1744338d0ec37756adc650eff2406f1b77ec61a1b1ac244073198bb8a012c9",
+    ".output/server/_ssr/virtual_pwa-register-BG3HAM5h.mjs": "39ffd08829c6e6e38515ea1a10e2780fd8023fb03c51f1398fcd48b9f016c93a",
+    ".output/server/_ssr/createStart-Dt05N14y.mjs": "6ad424cee4c013f03dde0d43f9aec28b8cf025f92b2683363f8edf27b1b2557e",
+    ".output/server/_ssr/guide-UAaiXopt.mjs": "876b15bd72bc0df57a76525ebeec78ef0aca2aa4684753ff95b573728b17c6a0",
+    ".output/server/_ssr/auth-middleware-BFa9aFrh.mjs": "4af20044f0aeb3983dcd08cfba6de858b80f1daa560a8ceb503b123b76b3c157",
+    ".output/server/_ssr/esm-B8uG0sol.mjs": "95859ce37a679ad1fa0f0697c4b7e2a3c5088d622a31035490def77542e2f4e9",
+    ".output/server/_ssr/app-CM8H2GxL.mjs": "ec672a2868441d1f924505bf4c16157d434dfcfdc21a44e1c6996ba529bd6f06",
+    ".output/server/_ssr/app-7MxVv-Tv.mjs": "38ea4c0413a31744e245198be4ae9e6dc1c361d7e3306a816b5f4eb777576e1d",
+    ".output/server/_libs/supabase__auth-js+tslib.mjs": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+    ".output/server/_libs/pngjs.mjs": "b5abac65b20b3a4b46f38c9dc2f858376df84fc2aa54b68cb3f32d0a52e97a93",
+    ".output/server/_libs/hookable.mjs": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+    ".output/server/_libs/supabase__supabase-js.mjs": "e3817cc1307671eb40c3004c9d2687e217789e108ce0e4d3d3658ee1845133d8",
+    ".output/server/_libs/zod.mjs": "5168a9d05ef47abdcc2cec644dfc60379578ad532a30bfa9d643cd7027f3c007",
+    ".output/server/_libs/react+tanstack__react-query.mjs": "11dffa81aeddd644b51df3a74791c0f11e5b771977b2dc875da9d899f0d2b844",
+    ".output/server/_libs/babel__runtime.mjs": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+    ".output/server/_libs/supabase__postgrest-js.mjs": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+    ".output/server/_libs/fast-png+iobuffer+pako.mjs": "ae43bbaa1c161d92975b72bf782b5aedcf4f599295d7a4875df4a4b1ce776a8a",
+    ".output/server/_libs/supabase__realtime-js+unenv.mjs": "ffb293af75113c58c16dce88d14dd5469ea00fde748ffb3d2300a74b5fbbad64",
+    ".output/server/_libs/h3-v2+srvx.mjs": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+    ".output/server/_libs/supabase__phoenix.mjs": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+    ".output/server/_libs/tanstack__query-core.mjs": "8f416416b5a81069c43c560a3d0fb9746704c4177f4e8e4488ce0dd727ca4d1c",
+    ".output/server/_libs/qrcode.mjs": "735ca1326d5716a372481f7b421f9807f010f79ff5499d19f26dc0d3e747be57",
+    ".output/server/_libs/lucide-react.mjs": "367832e32cff2c537e249e62c158b29af453cf8e7af145de34b77bb289ef1f92",
+    ".output/server/_libs/html2canvas.mjs": "2c047ae860f03af8497791c91ca941862380024bb132f2f7a149d96a4f07320d",
+    ".output/server/_libs/canvg+[...].mjs": "2d1a552dcb6fff27ba643a2e5e40ad1197fa3c2f40770bb01327ef0542a357fe",
+    ".output/server/_libs/jspdf.mjs": "bfc3dc958c7bf4db762e9114bd7b363ddb3887f3da531d8449bc52efa6b4e506",
+    ".output/server/_libs/paddle__paddle-node-sdk.mjs": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+    ".output/server/_libs/dijkstrajs.mjs": "d53e624b13ce260f4bb7bfd14d5818b680bae6115dd2ead449dbb284a241734c",
+    ".output/server/_libs/lovable.dev__email-js.mjs": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+    ".output/server/_libs/lovable.dev__cloud-auth-js.mjs": "f03ccc203c221b26c849059f343df6894695ee1bbef2b981e80cf92ecda93b90",
+    ".output/server/_libs/h3+rou3+srvx.mjs": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+    ".output/server/_libs/supabase__functions-js.mjs": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+    ".output/server/_libs/tanstack__history.mjs": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+    ".output/server/_libs/dompurify.mjs": "c0660efa24e6d1a6166eb4e3782e25eabecde6386d728c5fe9100a91059250c6",
+    ".output/server/_libs/fflate.mjs": "d718044f7888a255d00314cb3089778c2c606d7ad12bf50923148516aa5d7474",
+    ".output/server/_libs/@supabase/storage-js+[...].mjs": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+    ".output/server/_libs/@tanstack/react-router+[...].mjs": "7455c1aeba3d336331119e6bb807dec35ae70c399876771ab55485733888fb0a",
+    ".output/server/_libs/@tanstack/router-core+[...].mjs": "b12d691ee5e5e41c2f1e5bbda32f8ed19c6ca07e5d97c7d1ee9e019caefd9025",
+    ".output/server/_libs/@lovable.dev/mcp-js+[...].mjs": "f467849dfcac03fa84e2794d1bf8395b75eb0b1274a7b150340a3435143e202d",
+    ".output/public/icons/icon-512.png": "2214f9ef7c5883701ad6be692e226f37925a34403bf3bdebd50b30fbadb261f9",
+    ".output/public/icons/apple-touch-icon.png": "97ac6dc44304302cdcf96b9d5826c8bad4dd52713cb422f5a4e624147ac00867",
+    ".output/public/icons/icon-192.png": "d80e5de3c116c8385bf59ef0934f52cc3b589059fbde9d409ca058e1d52dc4ae",
+    ".output/public/icons/icon-maskable-512.png": "9528540e3192397e1b0b04c8ad4d88b5a5566b5de1c2611e3cc5c290fac27a6c",
+    ".output/public/assets/not-found-DIgawKw1.js": "ac8e8967ff892a5b649d743b4cb012a73eb22845ecac5325129d4ec5c99c83fc",
+    ".output/public/assets/html2canvas-BcNQkB7u.js": "f583d233b95515a59066b279b5a02d2d811ddb9eb04ce71fd3e0ed542028af51",
+    ".output/public/assets/matchContext-C7c66U70.js": "e9cccce6fb58a1b17c4136109e85f4b1f58fca263f5c2e226ff80df334c947b4",
+    ".output/public/assets/sparkles-CKpZVJuT.js": "a72545f8a3d7cb3dd883fb10ef4e2222723fc9567016fecd3520386333ceb657",
+    ".output/public/assets/db-Dr56FOjn.js": "2de124aa2482d8cf5e5da52190e6723205cbefe16082ebda8340271e5b1f94d7",
+    ".output/public/assets/chunk-QTnfLwEv.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+    ".output/public/assets/index.es-CW48MJ1v.js": "ec680fc2379465d59adea731011734e2710c30ec0ae3d3238f5113a99740337e",
+    ".output/public/assets/guide-CFoYQQew.js": "3f90b0034a027aa15dab47c92d2e5e68bc71353c220a240e36a39e72b6a6c381",
+    ".output/public/assets/react-xd4aoMiW.js": "225257421cbb44ee9c4de584d51184036bac71fff8c41a812cd6986e4babad09",
+    ".output/public/assets/x-DkWJGFpE.js": "f5c91f1489969a0dcf89298cdb4eff80bbb4a19c90dda28e59ce1057ac93a43d",
+    ".output/public/assets/client-C7hbw76Y.js": "a718037aff9f915636a7603ebdade8f57f9419603362ec22c124c44c59d434af",
+    ".output/public/assets/link-DepuAy0Q.js": "40d3833754eb59bbf27b4727fcda7887367246d43374a0c3913f8816cd513c93",
+    ".output/public/assets/_._lovable.oauth.consent-D5KX02Fx.js": "3d03088d9d905b5e73311ee0821d4a8527c6468769b7243e5e63b749179bee08",
+    ".output/public/assets/jsx-runtime-DsKLSDJq.js": "5f5a23dc4cb2df790b3239a0555430e442928f1cbedac75653e0b9ee69ba5c69",
+    ".output/public/assets/virtual_pwa-register-B8IV-JXw.js": "990105f4c1e17c0c1f24a79786f3197c1aa2dfce187582e66c40395aec985793",
+    ".output/public/assets/app-Bf7areJ6.js": "d2534d49f2b376f0a69eea63815102a52c22d3137cf3953823b8b23669a5f5db",
+    ".output/public/assets/createLucideIcon-CJP-tiyj.js": "8cdd9b1f9223073407dcc3923eab87e04100148895f146d2f1b4982dd95e6e87",
+    ".output/public/assets/useRouter-taNZoCdo.js": "6c50300194939c39fd1532f11b5a7b78bbba506890d7650fedf0b6dfa657b176",
+    ".output/public/assets/routes-D6z_gI90.js": "ff5f7226a8636ac76057d14b6a8b969c774d6a8748cd5f21d0a980a4d44b3c01",
+    ".output/public/assets/platform-admin-jsj46pSf.js": "2cdc23ead83bacd49b0beaa60b96d5a2002a2d644a3faaa4490ff71c32d4bece",
+    ".output/public/assets/onboarding-BAxBWjLu.js": "3cbbed6e025428e4e19f849d94e655258f51f1fb1d85e1b7b4089755aa0515d4",
+    ".output/public/assets/route-eUxFtJsc.js": "797d35f4fb6c3df819e441d508b0a83a6bfe872dac2dad6ce75b132e78b945e5",
+    ".output/public/assets/app-DKZseGew.js": "9dc386ff48a73f2e20aea0613a0b503d9dd76e957cfa656de5b323059b4c83ff",
+    ".output/public/assets/auth-CBsiWPs3.js": "a7938033b22bb3b11c6a04ed2720b4b6ffb62a0c78345ad328560ad8a4cebe63",
+    ".output/public/assets/styles-BU_4IDtB.css": "7d034d724cdf352a768b368fc23e85edcc16fedfcfa4edc9b76915d7fb6697a1",
+    ".output/public/assets/arrow-left-D_POL03-.js": "36f34b7e274f0b51c9cd25a7c54c2a4cba640e82a221f7a5deda8e4aa69cbb30",
+    ".output/public/assets/index-DhKEpcVm.js": "8e9d18b58a061727ea03d517ee2d99927adc3e964c65780d270656f3a1cf987a",
+    ".output/public/assets/useSelector-BarC7cIn.js": "8b42b07f280fb99e306bab6e01e6a9981053d0cbe791a83cc77de19c2895f251",
+    ".output/public/assets/preload-helper-zJ_50EbN.js": "0c88c6aaef07b19239a2eac9faef82584f9e733114f85dc190e98dcea60b1753",
+    ".output/public/assets/purify.es-Bu4Grnl0.js": "51f65479bcffd7d9d60bf0e9297531907934bc08321ffabfad37586112480921",
+    ".output/public/assets/_._lovable.oauth.consent-DYfses92.js": "3768c9d6f09c70d11bd1facd16eb3a83b6a324351acd0bdecee94491d661ab09",
+    ".output/public/assets/typeof-B5XbjTb1.js": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+    ".output/public/assets/workbox-window.prod.es5-Bd17z0YL.js": "17bcc17d60dc78f927834b880c39649b03af46fd1f5cdbb8c42c5ae2b515dce9",
+    ".output/public/assets/pwa-register-DwekqpFs.js": "b231bd47cc2cdb4124ddfacf32d826c09daf2d62ba2fd72fa55c99f84668bfde",
+    ".output/public/assets/billing-D8SE-Yni.js": "8c1c1688a15e02e2a5e04ac7a1b11c8be6c98f833a38d058f4855fd27aadd0d7",
+    ".output/public/assets/invariant-CgFvOqN2.js": "9581f7b30cfddeea2063d0f9ee9c4712ebd265221d0caa1b8b78828399b5e883"
+  },
+  "egress_trace": {
+    "matching": {
+      "complete": true,
+      "lineage_read_failed": false,
+      "trace_failed": null
+    },
+    "conflict": {
+      "complete": true,
+      "lineage_read_failed": false,
+      "trace_failed": null
+    }
+  },
+  "conflict_guard_receipt": {
+    "status": 500,
+    "response_sha256": "7bda1ad24ab9d11b6b7039b1296d95982eee5cd6812224564749812b040c010a",
+    "private_log_sha256": "a375987da3fa037dd87ccd6623eb75ff8c2f60821fe0484da3f129a7d10ea562",
+    "exact_expected_guard_present": true,
+    "known_guard_categories": [
+      "build_runtime_supabase_mismatch"
+    ],
+    "unclassified_error": false,
+    "passed": true,
+    "format_only_normalization": "ANSI controls removed; whitespace collapsed; full phrase unchanged"
+  },
+  "after": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "941576c3c33ef2f91b7df9febe92ab8c"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "77610a8c015984569574537c6b0da44d"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "2dbe1dfbadc53b3a433ddd860644f8d2"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "7aea16a262d3b63ab243e06ad298034a"
+    }
+  },
+  "runtime": {
+    "supabase_cli": "2.101.0",
+    "wrangler": "4.149.0",
+    "playwright": "1.62.0",
+    "node": "v22.23.3"
+  },
+  "g2_known_unfixed": "preissued banned JWT still has old access on source54; original native evidence retained, not retested/imported",
+  "financial_flow_executed": false,
+  "failure_type": "RuntimeError",
+  "failed_phase": "after_credential_free_receipt",
+  "reason": "deferred_acceptance_checks_failed"
+}

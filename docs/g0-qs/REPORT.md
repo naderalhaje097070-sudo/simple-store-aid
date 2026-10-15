@@ -67,3 +67,5 @@ Independent focused review is in REVIEW.md; it separates actual reviewer reexecu
 Rollback: additive revert of this batch's candidate pins/generated lock/guards/test tooling, then frozen install and parent/MCP/typecheck/build verification. This restores vulnerable qs and is not an acceptable production remedy. Production was unchanged; no data compensation is applicable.
 
 **ONE NEXT:** planning reviews this bounded candidate and selects one separate remaining G0 remediation/risk disposition. The worker closes the claim in55/70 and stops; no automatic next phase or G1 rerun.
+
+Publication retains the baseline red control, patched proof and complete audit on PR72. The final SHA/final-head automatic Quality observation are recorded in55/70. Every executable/package/lock and the legacy G1 identity manifest remains identical to testedfc6d621; delivery adds only documentation, evidence and root checkpoints.

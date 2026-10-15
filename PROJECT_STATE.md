@@ -1,3 +1,7 @@
+## Current bounded task — G1-CLI-CLEANUP-01, 2026-10-15
+
+Owner-authorized sole claim #55/6187165138 resumes Draft72/f2e54d3 on test/g0-g1-acceptance-runtime-2026-10-14. One diagnostic attempt instruments official pinned setup-cli afb1b151 with120s timeout, unchanged CLI2.101.0/actionBun1.3.10; fail-closed absent-user/process-read cleanup regression. Then unchanged exact namedSSR500/after-state/counters if installer completes. Intake/impact: docs/g1-cli-cleanup. Independent review pending. Prior failures preserved; G0/G1/G2 unaccepted, #48 open; nofinancial/account-chain/production/merge/deploy. This checkpoint supersedes only the old scheduling entry.
+
 ## Final handoff — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
 
 Existing Draft PR72 retained; main43d6edbccb66fb06ce0fcb93734ad59532d1aeae and original48/51–54 unchanged. Tested source7d30e65c7bfb454fda4bf6bc6224e8510174c200: semantic CI17tests/6safechecks and automatic Quality PASS. Runtime38605846901 CANCELLED during CLI setup before DB/SSR; cleanup receipt3/4, process oracle failed for a user never created. No new liveSSR/after-state/native-counter acceptance. Exact reports, raw receipts and independent review: docs/g1-acceptance-repair/REPORT.md and REVIEW.md. These supersede the intake status below.

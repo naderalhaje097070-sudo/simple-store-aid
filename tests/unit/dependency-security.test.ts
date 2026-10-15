@@ -23,6 +23,8 @@ const patchedPackages = [
 ];
 
 const patchedPackageMajors = new Map([
+  // G0-HONO-01: all copies must stay on the reviewed, patched stable 4.x line.
+  ["hono", new Map([[4, [4, 13, 7]]])],
   [
     "brace-expansion",
     new Map([

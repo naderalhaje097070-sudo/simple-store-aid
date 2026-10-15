@@ -88,7 +88,9 @@ async function withServer(app, run) {
   try {
     await run(server);
   } finally {
-    await new Promise((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
+    await new Promise((resolve, reject) =>
+      server.close((error) => (error ? reject(error) : resolve())),
+    );
   }
 }
 
@@ -125,7 +127,11 @@ test("locked Express extended query parser handles arrays and nested values", as
   app.set("query parser", "extended");
   app.get("/query", (req, res) => res.json(req.query));
   await withServer(app, async (server) => {
-    const response = await localRequest(server, "GET", "/query?ids[]=1&ids[]=2&filter[city]=Tripoli");
+    const response = await localRequest(
+      server,
+      "GET",
+      "/query?ids[]=1&ids[]=2&filter[city]=Tripoli",
+    );
     assert.equal(response.status, 200);
     assert.deepEqual(JSON.parse(response.body), {
       ids: ["1", "2"],
@@ -136,11 +142,18 @@ test("locked Express extended query parser handles arrays and nested values", as
 
 test("locked body-parser extended form parser preserves nested arrays", async () => {
   const app = express();
-  app.post("/form", bodyParser.urlencoded({ extended: true, parameterLimit: 20, depth: 5 }), (req, res) =>
-    res.json(req.body),
+  app.post(
+    "/form",
+    bodyParser.urlencoded({ extended: true, parameterLimit: 20, depth: 5 }),
+    (req, res) => res.json(req.body),
   );
   await withServer(app, async (server) => {
-    const response = await localRequest(server, "POST", "/form", "ids[]=1&ids[]=2&filter[city]=Tripoli");
+    const response = await localRequest(
+      server,
+      "POST",
+      "/form",
+      "ids[]=1&ids[]=2&filter[city]=Tripoli",
+    );
     assert.equal(response.status, 200);
     assert.deepEqual(JSON.parse(response.body), {
       ids: ["1", "2"],

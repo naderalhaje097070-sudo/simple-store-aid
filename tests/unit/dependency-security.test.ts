@@ -23,6 +23,8 @@ const patchedPackages = [
 ];
 
 const patchedPackageMajors = new Map([
+  // G0-QS-01: preserve the reviewed stable 6.x parser/serializer security floor.
+  ["qs", new Map([[6, [6, 16, 0]]])],
   // G0-HONO-01: all copies must stay on the reviewed, patched stable 4.x line.
   ["hono", new Map([[4, [4, 13, 7]]])],
   [

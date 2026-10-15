@@ -112,7 +112,8 @@
     "source-map-js": "1.2.2",
     "seroval": "1.6.7",
     "seroval-plugins": "^1.5.6",
-    "hono": "4.13.7"
+    "hono": "4.13.7",
+    "qs": "6.16.0"
   },
   "resolutions": {
     "@modelcontextprotocol/sdk": "1.31.0",
@@ -127,6 +128,7 @@
     "source-map-js": "1.2.2",
     "seroval": "1.6.7",
     "seroval-plugins": "^1.5.6",
-    "hono": "4.13.7"
+    "hono": "4.13.7",
+    "qs": "6.16.0"
   }
 }

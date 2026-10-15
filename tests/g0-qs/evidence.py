@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 spec = importlib.util.spec_from_file_location('hono_evidence', 'tests/g0-hono/verify.py')
 evidence = importlib.util.module_from_spec(spec)
@@ -62,6 +63,31 @@ def graph():
         evidence.save(package.replace('/', '_').replace('@', '') + '-installed.json', data)
 
 
+def guards():
+    original = Path('bun.lock').read_text()
+    source = Path('tests/unit/dependency-security.test.ts').read_text()
+    cases = {
+        'patched': original,
+        'qs-old': original.replace('qs@6.16.0', 'qs@6.15.3'),
+        'qs-prerelease': original.replace('qs@6.16.0', 'qs@6.16.0-rc.1'),
+        'qs-major7': original.replace('qs@6.16.0', 'qs@7.0.0'),
+        'qs-nested-old': original.replace('"packages": {', '"packages": {\n "fixture/qs": ["qs@6.15.3", "", {}],', 1),
+        'hono-old': original.replace('hono@4.13.7', 'hono@4.13.6'),
+    }
+    results = []
+    with tempfile.TemporaryDirectory() as directory:
+        root = Path(directory)
+        test = root / 'tests/unit/dependency-security.test.ts'
+        test.parent.mkdir(parents=True)
+        test.write_text(source)
+        for name, lock in cases.items():
+            (root / 'bun.lock').write_text(lock)
+            result = evidence.command('guard-' + name, ['bun', 'test', str(test)])
+            results.append({'case': name, 'exit_code': result.returncode})
+            assert (result.returncode == 0) == (name == 'patched'), results
+    evidence.save('guard-mutations.json', results)
+
+
 if __name__ == '__main__':
     mode = sys.argv[1]
     if mode == 'baseline':
@@ -70,6 +96,8 @@ if __name__ == '__main__':
         contracts()
     elif mode == 'graph':
         graph()
+    elif mode == 'guards':
+        guards()
     elif mode == 'audit':
         evidence.audit()
     else:

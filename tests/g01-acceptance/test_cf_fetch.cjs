@@ -53,4 +53,8 @@ async function run(setting, explicitCf) {
     bundle_sha256: crypto.createHash('sha256').update(source).digest('hex'),
     functions_sha256: crypto.createHash('sha256').update(functions.join('\n')).digest('hex'),
     miniflare_version: JSON.parse(fs.readFileSync('/tmp/g01-tools/node_modules/miniflare/package.json', 'utf8')).version}));
-})().catch(() => { console.error('vendor_cf_fixture: FAIL'); process.exitCode = 1; });
+})().catch(error => {
+  // This fixture runs before credentials and evaluates only pinned public vendor source.
+  console.error('vendor_cf_fixture: FAIL', error.stack);
+  process.exitCode = 1;
+});

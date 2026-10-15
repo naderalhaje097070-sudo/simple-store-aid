@@ -12,11 +12,13 @@ import urllib.error
 import urllib.request
 import uuid
 from guard_receipt import receipt as guard_receipt
+from egress_trace import collect as collect_trace, ProcessMap
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
 record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'G1-ACCEPTANCE-REPAIR-01','checks':[],'integration_accepted':False}
 private_secrets=[]
 process=None
+trace_state=None
 
 def check(name,passed,defer=False,**fields):
     record['checks'].append({'name':name,'passed':bool(passed),**fields})
@@ -66,13 +68,28 @@ def counters():
     return {'ipv4':rows[0],'ipv6':ipv6[0]}
 
 def stop():
-    global process
+    global process,trace_state
     subprocess.run(['sudo','pkill','-TERM','-u','g01-app'],capture_output=True)
     if process:process.wait(timeout=15)
     process=None
+    if trace_state:
+        label,started,before,monitor=trace_state;trace_state=None
+        lineage=monitor.stop()
+        try:
+            evidence=collect_trace(label,started,before,counters())
+            evidence['lineage']=lineage
+            mapped={p['tid'] for p in lineage['processes']}
+            evidence['unmapped_nonloopback_tids']=sorted({e['tid'] for e in evidence['syscalls']['events']
+                if e.get('loopback') is False and e['tid'] not in mapped})
+            evidence['trace_complete']=evidence['trace_complete'] and not evidence['unmapped_nonloopback_tids']
+        except Exception as error:
+            evidence={'phase':label,'trace_failed':type(error).__name__,'lineage':lineage}
+        (out/('egress-'+label+'.json')).write_text(json.dumps(evidence,indent=2)+'\n')
+        record.setdefault('egress_trace',{})[label]={'complete':evidence.get('trace_complete',False),
+            'lineage_read_failed':lineage['read_failed'] or not lineage['monitor_stopped'],'trace_failed':evidence.get('trace_failed')}
 
 def start(conflict=False):
-    global process
+    global process,trace_state
     runtime=Path('/tmp/g01-runtime');runtime.mkdir(exist_ok=True)
     values={k:buildenv[k] for k in ['MONGEZZ_DEPLOY_TARGET','VITE_SUPABASE_URL','SUPABASE_URL','VITE_SUPABASE_PUBLISHABLE_KEY','SUPABASE_PUBLISHABLE_KEY','VITE_SUPABASE_PROJECT_ID','SUPABASE_PROJECT_ID']}
     if conflict:values['VITE_SUPABASE_PROJECT_ID']=values['SUPABASE_PROJECT_ID']='g01-conflict'
@@ -85,7 +102,18 @@ def start(conflict=False):
     log=root/('g01-conflict-private.log' if conflict else 'g01-app-private.log')
     # Wrangler4.149.0's banner independently checks npm even with metrics disabled.
     # The official early-return flag suppresses that tooling request; firewall stays exact.
+    label='conflict' if conflict else 'matching'
+    for suffix in ['strace','node-dns','native-dns']:
+        subprocess.run(['sudo','install','-m','600','-o','g01-app','-g','g01-app','/dev/null',str(runtime/(label+'-'+suffix+'.log'))],check=True)
+    uid=int(subprocess.run(['id','-u','g01-app'],capture_output=True,text=True,check=True).stdout)
+    trace_state=(label,int(time.time()*1000),counters(),ProcessMap(uid))
     command=['sudo','-u','g01-app','env','-i','PATH=/usr/bin:/bin','WRANGLER_SEND_METRICS=false','WRANGLER_HIDE_BANNER=true',
+             'LD_PRELOAD=/tmp/g01-runtime/dns_trace.so',
+             'NODE_OPTIONS=--require=/tmp/g01-runtime/dns_trace.cjs',
+             'G1_NATIVE_DNS_LOG='+str(runtime/(label+'-native-dns.log')),
+             'G1_NODE_DNS_LOG='+str(runtime/(label+'-node-dns.log')),
+             '/usr/bin/strace','-f','-ttt','-Y','-e','trace=connect,sendto,sendmsg,sendmmsg,getsockopt',
+             '-e','raw=sendto,sendmsg,sendmmsg','-o',str(runtime/(label+'-strace.log')),
              shutil.which('node'),'/tmp/g01-tools/node_modules/wrangler/bin/wrangler.js','dev','--local',
              '--config','/tmp/g01-runtime/.output/server/wrangler.json','--env-file',str(envfile),
              '--compatibility-date','2026-08-08','--ip','127.0.0.1','--port','8080']
@@ -146,6 +174,9 @@ try:
     record['build_warnings']={'precache_zero':bool(re.search(r'precache\s+.*0 entries',(root/'g01-build-private.log').read_text()))}
     subprocess.run(['sudo','mkdir','-p','/tmp/g01-runtime'],check=True)
     subprocess.run(['sudo','cp','-a','.output','/tmp/g01-runtime/'],check=True)
+    subprocess.run(['sudo','cp','tests/g01-acceptance/dns_trace.cjs','/tmp/g01-runtime/dns_trace.cjs'],check=True)
+    subprocess.run(['cc','-shared','-fPIC','-O2','-o','/tmp/g01-dns-trace.so','tests/g01-acceptance/dns_trace.c','-ldl','-lcrypto','-pthread'],check=True)
+    subprocess.run(['sudo','cp','/tmp/g01-dns-trace.so','/tmp/g01-runtime/dns_trace.so'],check=True)
     subprocess.run(['sudo','chown','-R','g01-app:g01-app','/tmp/g01-runtime'],check=True)
     record['build_sha256']={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('.output').rglob('*') if p.is_file()}
     code,body,log=start()
@@ -167,6 +198,7 @@ try:
     check('public_fixture_unchanged',snapshot()==before);record['after']=snapshot()
     check('finance_zero_at_end',all(query('select count(*) from public.'+x+';')=='0' for x in ['orders','order_items','products','payments','expenses','financial_audit_log']))
     check('native_unexpected_outbound_zero',counters()==firewall_before,defer=True,native_before=firewall_before,native_after=counters())
+    check('bounded_egress_trace_collected',len(record.get('egress_trace',{}))==2 and all(v['complete'] and not v['lineage_read_failed'] and not v['trace_failed'] for v in record.get('egress_trace',{}).values()),defer=True)
     check('tracked_source_unchanged',subprocess.run(['git','diff','--quiet','HEAD','--']).returncode==0)
     record['runtime']={'supabase_cli':'2.101.0','wrangler':'4.149.0','playwright':'1.62.0','node':subprocess.run(['node','--version'],capture_output=True,text=True).stdout.strip()}
     record['g2_known_unfixed']='preissued banned JWT still has old access on source54; original native evidence retained, not retested/imported'

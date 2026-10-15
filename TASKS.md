@@ -1,3 +1,7 @@
+## Current bounded task — G1-EGRESS-TRACE-01, 2026-10-15
+
+Owner-authorized sole claim #55/6188008835 resumes Draft72/b4a6440d on test/g0-g1-acceptance-runtime-2026-10-14. One bounded private metadata-only process/connect/DNS trace under unchanged firewall and zero-delta acceptance. Reuse prior39/38 evidence. Diagnose once; only source-proved minimal test-tool correction may follow; otherwise blocked handoff. No G0/finance/account/app/dependency/migration/production/Paddle/merge/deploy. Intake/impact docs/g1-egress-trace; independent review pending. Stop at linked #55/#70 handoff.
+
 ## Final bounded result — G1-CLI-CLEANUP-01, 2026-10-15
 
 Implemented/tested on Draft72, not merged/released. Installer now bounded and operational in both new runs; historical root cause unresolved. Absent-user/process-error cleanup oracle fixed with6fixtures and hosted4/4 receipts. Final source819291c85825d73854262d76d2030736470ef92b executes39checks/38PASS; only native zero-outbound conditionFAIL(+16blocked IPv4packets,0IPv6). Full named mismatch+500,after-state/finance-zero/source/secret pass; Quality38702796165 PASS. docs/g1-cli-cleanup/REPORT.md and REVIEW.md hold actual evidence and limits. No G1 acceptance, no G0 waiver, no account/financial imports, no #48 closure, no merge/deploy. ONE NEXT for planning, not this worker: separately scoped emulator-startup attribution under unchanged firewall. Close claim6187165138 at final #55/#70 links and stop.

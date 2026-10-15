@@ -40,6 +40,16 @@ jobs:
         run: |
           python tests/g0-hono/verify.py lint
           git diff --exit-code -- src/routes/_authenticated/app.tsx
+      # CI Bun1.2.14 has no audit subcommand; use the already verified approved tool.
+      - name: Setup supported audit scanner
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Verify scanner identity
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision | tee evidence/g0-hono/audit-bun-revision.txt
+          grep -q 34cbb9a40 evidence/g0-hono/audit-bun-revision.txt
       - name: Full audit including remaining G0 findings
         if: success()
         run: python tests/g0-hono/verify.py audit

@@ -83,7 +83,9 @@ def start(conflict=False):
     finally:
         staged.unlink(missing_ok=True)
     log=root/('g01-conflict-private.log' if conflict else 'g01-app-private.log')
-    command=['sudo','-u','g01-app','env','-i','PATH=/usr/bin:/bin','WRANGLER_SEND_METRICS=false',
+    # Wrangler4.149.0's banner independently checks npm even with metrics disabled.
+    # The official early-return flag suppresses that tooling request; firewall stays exact.
+    command=['sudo','-u','g01-app','env','-i','PATH=/usr/bin:/bin','WRANGLER_SEND_METRICS=false','WRANGLER_HIDE_BANNER=true',
              shutil.which('node'),'/tmp/g01-tools/node_modules/wrangler/bin/wrangler.js','dev','--local',
              '--config','/tmp/g01-runtime/.output/server/wrangler.json','--env-file',str(envfile),
              '--compatibility-date','2026-08-08','--ip','127.0.0.1','--port','8080']
@@ -103,6 +105,7 @@ try:
         check('clean_'+name,not os.environ.get(name))
     check('native_canary_rejected',counters()['ipv4']>0)
     firewall_before=counters()
+    record['native_phase_counters']={'before':firewall_before}
     status=json.loads((root/'g01-status.json').read_text())
     check('exact_local_API',status['API_URL']=='http://127.0.0.1:54321')
     private_secrets=[status['ANON_KEY'],status['SERVICE_ROLE_KEY']]
@@ -146,21 +149,24 @@ try:
     subprocess.run(['sudo','chown','-R','g01-app:g01-app','/tmp/g01-runtime'],check=True)
     record['build_sha256']={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in Path('.output').rglob('*') if p.is_file()}
     code,body,log=start()
+    record['native_phase_counters']['matching_ready']=counters()
     check('real_SSR_matching_target',code==200 and b'<!DOCTYPE html' in body or code==200 and b'<!doctype html' in body)
     smokeenv=dict(buildenv);smokeenv.update(PILOT_QA_EMAIL=actors[0]['email'],PILOT_QA_PASSWORD=actors[0]['password'])
     with (root/'g01-auth-private.log').open('wb') as log:
         smoke=subprocess.run(['python','tests/e2e/isolated-auth-smoke.py'],env=smokeenv,stdout=log,stderr=subprocess.STDOUT,timeout=180)
     check('existing_actual_Auth_UI_desktop_mobile',smoke.returncode==0 and 'PASS: isolated authenticated UI smoke' in (root/'g01-auth-private.log').read_text())
+    record['native_phase_counters']['after_auth_ui']=counters()
     stop();code,body,log=start(True)
     # Drain the native process log before inspecting it; publish only static codes/hashes.
     stop()
     denial=guard_receipt(code,body,log.read_text())
+    record['native_phase_counters']['after_conflict_stopped']=counters()
     record['conflict_guard_receipt']=denial
     check('real_SSR_conflict_named_denial',denial['passed'],defer=True,
           status=code,log_drained_before_classification=True)
     check('public_fixture_unchanged',snapshot()==before);record['after']=snapshot()
     check('finance_zero_at_end',all(query('select count(*) from public.'+x+';')=='0' for x in ['orders','order_items','products','payments','expenses','financial_audit_log']))
-    check('native_unexpected_outbound_zero',counters()==firewall_before,native_before=firewall_before,native_after=counters())
+    check('native_unexpected_outbound_zero',counters()==firewall_before,defer=True,native_before=firewall_before,native_after=counters())
     check('tracked_source_unchanged',subprocess.run(['git','diff','--quiet','HEAD','--']).returncode==0)
     record['runtime']={'supabase_cli':'2.101.0','wrangler':'4.149.0','playwright':'1.62.0','node':subprocess.run(['node','--version'],capture_output=True,text=True).stdout.strip()}
     record['g2_known_unfixed']='preissued banned JWT still has old access on source54; original native evidence retained, not retested/imported'
@@ -168,7 +174,7 @@ try:
     check('credential_free_receipt',not any(x and x in json.dumps(record) for x in private_secrets))
     # A deferred mismatch failure still fails the job after collecting end-state evidence.
     if any(not item['passed'] for item in record['checks']):
-        raise RuntimeError('real_SSR_conflict_named_denial')
+        raise RuntimeError('deferred_acceptance_checks_failed')
     (out/'runtime-result.json').write_text(json.dumps(record,indent=2)+'\n')
     print(json.dumps({'checks':len(record['checks']),'passed':all(x['passed'] for x in record['checks']),'source_sha':record['source_sha']}))
 except Exception as error:

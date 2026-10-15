@@ -11,6 +11,7 @@ name: G1 Bounded Acceptance Repair
     - tests/g01-acceptance/dns_trace.c
     - tests/g01-acceptance/dns_trace.cjs
     - tests/g01-acceptance/test_egress_trace.py
+    - tests/g01-acceptance/test_cf_fetch.cjs
     - tests/g01-acceptance/runtime.py
     - .github/workflows/g01-runtime-retry.yml
     - tests/g01-acceptance/guard_receipt.py
@@ -72,6 +73,8 @@ jobs:
       run: |-
         npm install --prefix /tmp/g01-tools wrangler@4.149.0 --no-audit --no-fund > "$RUNNER_TEMP/g01-emulator-install-private.log" 2>&1
         node /tmp/g01-tools/node_modules/wrangler/bin/wrangler.js --help > "$RUNNER_TEMP/g01-wrangler-help.txt"
+    - name: Verify official cf-fetch opt-out on actual installed bundle before credentials
+      run: node tests/g01-acceptance/test_cf_fetch.cjs
     - name: Checkout exact observed official CLI installer
       uses: actions/checkout@v4
       with:

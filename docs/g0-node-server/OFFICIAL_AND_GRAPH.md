@@ -59,3 +59,13 @@ follows that per-request lifecycle, logs RPC responses and fails on unexpected
 transport/cleanup errors. Fresh CI saves installed source for hash reconciliation.
 No SDK/application upgrade or static-security oracle change. Failed ZIP/log
 retained; this run is not labeled a successful expected-red baseline.
+
+Native Windows baseline38951595338 at80d2b11be455f2050b2001de8c6b85ea64a3f218
+completed with all8cases:6PASS and exactly2documented security FAIL; raw Node
+exit1 retained, controller/job success only after validating that exact failure
+set. Both variants return200/protected-marker with zero prefix calls. Benign
+static, auth, HEAD/range, negative paths, adapter errors and real SDKRPC pass.
+ZIP12069042774 SHA256edb020fb51c6e5d16cf1ea8d4bd2a16408a61130f53d41023a89dbca5d835ef6.
+All3actual installedSDKsource hashes match the previously read diagnostic copy.
+The complete generated lock is now adopted without byte edits, only after
+this baseline proof. Patched Windows/Linux checks and full audit follow.

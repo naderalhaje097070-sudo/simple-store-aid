@@ -23,6 +23,8 @@ const patchedPackages = [
 ];
 
 const patchedPackageMajors = new Map([
+  // G0-NODE-SERVER-01: include nested copies and keep the reviewed stable 1.x line.
+  ["@hono/node-server", new Map([[1, [1, 19, 15]]])],
   // G0-BABEL-01: all copies must stay on the stable patched Babel 7.x line.
   ["@babel/core", new Map([[7, [7, 29, 6]]])],
   // G0-DOMPURIFY-01: cover every optional or nested stable 3.x sanitizer copy.

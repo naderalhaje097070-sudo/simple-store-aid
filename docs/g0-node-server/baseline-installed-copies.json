@@ -1,0 +1,44 @@
+{
+  "locked": [
+    {
+      "path": "@hono/node-server",
+      "record": [
+        "@hono/node-server@1.19.14",
+        "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@hono/node-server/-/node-server-1.19.14.tgz",
+        {
+          "peerDependencies": {
+            "hono": "^4"
+          }
+        },
+        "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw=="
+      ]
+    }
+  ],
+  "physical": [
+    {
+      "path": "D:\\a\\simple-store-aid\\simple-store-aid\\node_modules\\@hono\\node-server\\package.json",
+      "version": "1.19.14",
+      "engines": {
+        "node": ">=18.14.1"
+      }
+    }
+  ],
+  "sdk": "1.31.0",
+  "parent_checks": {
+    "rows": [
+      {
+        "name": "@modelcontextprotocol/sdk",
+        "kind": "dependencies",
+        "range": "^1.19.9 || ^2.0.5"
+      }
+    ],
+    "node": "v22.23.3",
+    "hono": "4.13.7",
+    "engines": {
+      "node": ">=18.14.1"
+    },
+    "peer": {
+      "hono": "^4"
+    }
+  }
+}

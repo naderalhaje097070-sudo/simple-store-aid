@@ -1,0 +1,76 @@
+name: G0 node-server actual adapter and native Windows verification
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-node-server-verify.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    env:
+      PYTHONUTF8: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Frozen install exact graph and all actual installed copies
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-node-server
+          git rev-parse HEAD > evidence/g0-node-server/source.txt
+          bun --revision > evidence/g0-node-server/frozen-bun-revision.txt
+          node -p 'JSON.stringify({platform:process.platform,node:process.version})' > evidence/g0-node-server/platform.json
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-node-server/frozen.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-node-server/evidence.py graph
+          python tests/g0-node-server/evidence.py installed 1.19.15
+      - name: Real adapter and SDK HTTP contracts with native filesystem
+        env:
+          REQUIRE_NATIVE_WINDOWS: ${{ runner.os == 'Windows' && '1' || '0' }}
+        run: python tests/g0-node-server/evidence.py contracts
+      - name: All-copy security guard and retained patch regression controls
+        if: runner.os == 'Linux'
+        run: python tests/g0-node-server/evidence.py guards
+      - name: Affected lint without source rewriting
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          bunx --no-install eslint tests/g0-node-server/contracts.test.cjs tests/g0-node-server/probe.cjs tests/unit/dependency-security.test.ts 2>&1 | tee evidence/g0-node-server/affected-lint.log
+      - name: Supported full audit scanner
+        if: runner.os == 'Linux'
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Full audit preserves actual remaining findings and exit code
+        if: runner.os == 'Linux'
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision | tee evidence/g0-node-server/audit-bun-revision.txt
+          grep -q 34cbb9a40 evidence/g0-node-server/audit-bun-revision.txt
+          python tests/g0-node-server/evidence.py audit
+      - name: Tracked source is intact
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-node-server-verification-${{ runner.os }}
+          path: evidence/g0-node-server
+          if-no-files-found: error

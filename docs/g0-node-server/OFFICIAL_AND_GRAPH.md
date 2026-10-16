@@ -33,3 +33,17 @@ No direct dependency, manual generated entry or broader compatibility change.
 Preparation ZIP12067079686 SHA256:
 77854013e68cce505394ae5d2aa08dcecc2259f79aef6e82de862bc2d2953ff5.
 Native Windows expected-red behavior must be saved before root dependency adoption.
+
+Published-file comparison covers all55files in each tarball: only package.json
+version and dist/serve-static.js + .mjs differ. No files added or removed, exports
+and declarations identical. The built fix exactly matches the official commit.
+The chosen1.x patch avoids the2.x Node>=20/removed vercel export changes.
+
+Generated complete lock blob `1a0791b4bfb849e2345d087ddfebde2c33a59f74`;
+SHA256 is recorded exactly in sha256.txt and checked before adoption.
+
+Initial native Windows run38950329394 froze the old lock successfully but failed
+before contracts: Python inherited cp1252 while reading UTF8 SDK source, raising
+UnicodeDecodeError. This is harness encoding, not an adapter result. The failed
+ZIP and log are preserved. Explicit UTF8 reads/PYTHONUTF8 correct only evidence
+collection; security assertions, packages and application remain unchanged.

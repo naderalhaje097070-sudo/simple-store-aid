@@ -1,0 +1,24 @@
+{
+  "selected": "1.19.15",
+  "fixed1": [
+    "1.19.15",
+    "1.19.17"
+  ],
+  "published": "2026-07-24T00:46:09.652Z",
+  "tarballs": [
+    {
+      "version": "1.19.14",
+      "url": "https://registry.npmjs.org/@hono/node-server/-/node-server-1.19.14.tgz",
+      "status": 200,
+      "bytes": 28908,
+      "integrity": "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw=="
+    },
+    {
+      "version": "1.19.15",
+      "url": "https://registry.npmjs.org/@hono/node-server/-/node-server-1.19.15.tgz",
+      "status": 200,
+      "bytes": 28918,
+      "integrity": "sha512-Za2ai6TLdKjUvnur+eenO6nuYYipVAEhyCAdaV8IRvmU9kK8crOZUSYvIXn72E4f8fJqyAbpcJuTsYYmZp9Deg=="
+    }
+  ]
+}

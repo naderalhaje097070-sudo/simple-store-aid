@@ -7,6 +7,8 @@ permissions:
   contents: read
 jobs:
   baseline:
+    env:
+      PYTHONUTF8: '1'
     runs-on: windows-latest
     timeout-minutes: 10
     defaults:

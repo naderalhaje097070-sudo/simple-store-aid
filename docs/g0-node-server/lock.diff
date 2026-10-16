@@ -1,0 +1,19 @@
+--- /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-node-server/base-bun.lock	2026-10-16 18:47:06.464249713 +0000
++++ /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-node-server/bun.lock	2026-10-16 18:47:06.454318690 +0000
+@@ -94,6 +94,7 @@
+   },
+   "overrides": {
+     "@babel/core": "7.29.7",
++    "@hono/node-server": "1.19.15",
+     "@modelcontextprotocol/sdk": "1.31.0",
+     "browserslist": "4.29.3",
+     "dompurify": "3.4.16",
+@@ -385,7 +386,7 @@
+ 
+     "@floating-ui/utils": ["@floating-ui/utils@0.2.11", "", {}, "sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg=="],
+ 
+-    "@hono/node-server": ["@hono/node-server@1.19.14", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@hono/node-server/-/node-server-1.19.14.tgz", { "peerDependencies": { "hono": "^4" } }, "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw=="],
++    "@hono/node-server": ["@hono/node-server@1.19.15", "", { "peerDependencies": { "hono": "^4" } }, "sha512-Za2ai6TLdKjUvnur+eenO6nuYYipVAEhyCAdaV8IRvmU9kK8crOZUSYvIXn72E4f8fJqyAbpcJuTsYYmZp9Deg=="],
+ 
+     "@hookform/resolvers": ["@hookform/resolvers@5.2.2", "", { "dependencies": { "@standard-schema/utils": "^0.3.0" }, "peerDependencies": { "react-hook-form": "^7.55.0" } }, "sha512-A/IxlMLShx3KjV/HeTcTfaMxdwy690+L/ZADoeaTltLx+CVuzkeVIPuybK3jrRfw7YZnmdKsVVHAlEPIAEUNlA=="],
+ 

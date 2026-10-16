@@ -21,7 +21,7 @@ def contracts(baseline=False):
     text = result.stdout.decode()
     failed = re.findall(r'^not ok \d+ - (.*)$', text, re.M)
     counts = dict(re.findall(r'^# (tests|pass|fail|skipped) (\d+)$', text, re.M))
-    observations = json.loads((evidence.OUT/'http-observations.json').read_text())
+    observations = json.loads((evidence.OUT/'http-observations.json').read_text(encoding='utf-8'))
     security = [x for x in observations if 'case' in x]
     assert len(security) == 2 and counts.get('skipped') == '0', text
     evidence.save('contracts-summary.json', {'baseline_control': baseline, 'exit_code': result.returncode,
@@ -45,12 +45,12 @@ def installed():
     assert locked and all(x['record'][0] == '@hono/node-server@'+expected for x in locked), locked
     physical = []
     for p in Path('node_modules').rglob('@hono/node-server/package.json'):
-        obj = json.loads(p.read_text())
+        obj = json.loads(p.read_text(encoding='utf-8'))
         physical.append({'path': str(p.resolve()), 'version': obj['version'], 'engines': obj.get('engines')})
     assert physical and all(x['version'] == expected for x in physical), physical
     # Current graph is one copy; refuse to silently leave a new copy unexercised.
     assert len(locked) == len(physical) == 1, (locked, physical)
-    sdk = json.loads(Path('node_modules/@modelcontextprotocol/sdk/package.json').read_text())
+    sdk = json.loads(Path('node_modules/@modelcontextprotocol/sdk/package.json').read_text(encoding='utf-8'))
     assert sdk['version'] == '1.31.0'
     result = evidence.command('installed-parent-ranges', ['node', '-e', r'''
 const fs=require('node:fs'),semver=require('semver');
@@ -67,10 +67,10 @@ console.log(JSON.stringify({rows,node:process.version,hono:hono.version,engines:
     evidence.save('installed-copies.json', {'locked': locked, 'physical': physical, 'sdk': sdk['version'], 'parent_checks': json.loads(result.stdout)})
     for name in ['@hono/node-server', '@modelcontextprotocol/sdk']:
         root = Path('node_modules')/name
-        evidence.save(name.replace('@','').replace('/','_')+'-manifest.json',json.loads((root/'package.json').read_text()))
+        evidence.save(name.replace('@','').replace('/','_')+'-manifest.json',json.loads((root/'package.json').read_text(encoding='utf-8')))
     imports=[]
     for p in Path('node_modules/@modelcontextprotocol/sdk/dist').rglob('*.js'):
-        data=p.read_text()
+        data=p.read_text(encoding='utf-8')
         if '@hono/node-server' in data: imports.append({'path':str(p),'imports':re.findall(r'''["'](@hono/node-server[^"']*)["']''',data)})
     assert imports, 'SDK adapter consumption must be observed'
     evidence.save('sdk-adapter-imports.json',imports)
@@ -85,7 +85,7 @@ def graph():
     assert old[0] == '@hono/node-server@1.19.14' and new[0] == '@hono/node-server@1.19.15'
     assert after['overrides'].pop('@hono/node-server') == '1.19.15'
     assert before == after, 'Unrelated generated graph change'
-    manifest=json.loads(Path('package.json').read_text())
+    manifest=json.loads(Path('package.json').read_text(encoding='utf-8'))
     for key in ['overrides','resolutions']: assert manifest[key].pop('@hono/node-server') == '1.19.15'
     assert manifest == json.loads(evidence.git_file(BASE,'package.json'))
     assert Path('bunfig.toml').read_bytes() == evidence.git_file(BASE,'bunfig.toml')
@@ -93,8 +93,8 @@ def graph():
 
 
 def guards():
-    original=Path('bun.lock').read_text()
-    source=Path('tests/unit/dependency-security.test.ts').read_text()
+    original=Path('bun.lock').read_text(encoding='utf-8')
+    source=Path('tests/unit/dependency-security.test.ts').read_text(encoding='utf-8')
     cases={'patched':original,
         'old':original.replace('@hono/node-server@1.19.15','@hono/node-server@1.19.14'),
         'prerelease':original.replace('@hono/node-server@1.19.15','@hono/node-server@1.19.15-rc.1'),
@@ -115,8 +115,22 @@ def guards():
     evidence.save('guard-mutations.json',rows)
 
 
+def audit():
+    try:
+        evidence.audit()
+    except SystemExit as actual:
+        current=json.loads((evidence.OUT/'audit-summary.json').read_text(encoding='utf-8'))
+        previous=json.loads(Path('docs/g0-babel/audit-summary.json').read_text(encoding='utf-8'))
+        before=set(previous['all_reported_ids']);after=set(current['all_reported_ids'])
+        evidence.save('audit-delta.json',{'previous_ids':sorted(before),'current_ids':sorted(after),
+            'removed':sorted(before-after),'new':sorted(after-before),'actual_exit_code':actual.code})
+        assert not after-before, 'New advisory requires separate disposition'
+        assert before-after == evidence.TARGETS, 'Unexpected advisory delta'
+        raise
+
+
 if __name__ == '__main__':
     mode=sys.argv[1]
     if mode=='baseline': contracts(True)
     elif mode=='contracts': contracts()
-    else: {'installed':installed,'graph':graph,'guards':guards,'audit':evidence.audit}[mode]()
+    else: {'installed':installed,'graph':graph,'guards':guards,'audit':audit}[mode]()

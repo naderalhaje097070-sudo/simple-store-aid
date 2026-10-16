@@ -62,10 +62,17 @@ async def main():
             async with page.expect_download(timeout=30000) as info:
                 await page.evaluate('window.runLocalInvoice()')
             download = await info.value
-            assert download.suggested_filename == 'mongezz-invoice-00017.pdf'
             pdf_path = OUT / 'synthetic-invoice.pdf'
             await download.save_as(pdf_path)
             pdf = pdf_path.read_bytes()
+            receipt = {'actual_filename': download.suggested_filename,
+                       'expected_filename': 'mongezz-invoice-00017.pdf',
+                       'bytes': len(pdf), 'sha256': hashlib.sha256(pdf).hexdigest()}
+            (OUT / 'download-receipt.json').write_text(json.dumps(receipt, indent=2)+'\n')
+            (OUT / 'network.json').write_text(json.dumps({'violations': violations,
+                'font_stubs': stubs, 'all_http_fulfilled_or_aborted_no_fetch_continue': True}, indent=2)+'\n')
+            print(json.dumps(receipt))
+            assert download.suggested_filename == 'mongezz-invoice-00017.pdf', receipt
             assert pdf.startswith(b'%PDF-') and pdf.rstrip().endswith(b'%%EOF')
             pages = len(re.findall(rb'/Type /Page\b', pdf))
             images = len(re.findall(rb'/Subtype /Image\b', pdf))

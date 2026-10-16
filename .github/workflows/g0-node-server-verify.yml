@@ -19,6 +19,9 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Preserve exact repository bytes on the disposable Windows runner
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}

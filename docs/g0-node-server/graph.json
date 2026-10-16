@@ -1,0 +1,27 @@
+{
+  "base": "5cbf198d88b0f091a30371676fb09abf92903dc8",
+  "changed_paths": [
+    "@hono/node-server"
+  ],
+  "old": [
+    "@hono/node-server@1.19.14",
+    "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@hono/node-server/-/node-server-1.19.14.tgz",
+    {
+      "peerDependencies": {
+        "hono": "^4"
+      }
+    },
+    "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw=="
+  ],
+  "new": [
+    "@hono/node-server@1.19.15",
+    "",
+    {
+      "peerDependencies": {
+        "hono": "^4"
+      }
+    },
+    "sha512-Za2ai6TLdKjUvnur+eenO6nuYYipVAEhyCAdaV8IRvmU9kK8crOZUSYvIXn72E4f8fJqyAbpcJuTsYYmZp9Deg=="
+  ],
+  "all_other_records_identical": true
+}

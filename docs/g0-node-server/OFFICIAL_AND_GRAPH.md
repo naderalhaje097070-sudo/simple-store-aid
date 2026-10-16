@@ -69,3 +69,12 @@ ZIP12069042774 SHA256edb020fb51c6e5d16cf1ea8d4bd2a16408a61130f53d41023a89dbca5d8
 All3actual installedSDKsource hashes match the previously read diagnostic copy.
 The complete generated lock is now adopted without byte edits, only after
 this baseline proof. Patched Windows/Linux checks and full audit follow.
+
+First corrected matrix38952058603:Linux passes all behavioral/guard/lint checks,
+then full audit exits1 for sole remaining esbuildLow. Windows frozen succeeds
+but exact bunfig byte comparison fails before contracts because Git checkout
+converts LF to CRLF. Native1.19.15 behavior is not credited for this failed run.
+Set core.autocrlf=false only on the disposable Windows runner before checkout;
+the byte assertion and all contract oracles remain unchanged. This preserves
+canonical source bytes rather than relaxing identity. Failed artifact/log are
+retained. New matrix and Quality will identify their own exact source.

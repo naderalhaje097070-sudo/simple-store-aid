@@ -1,0 +1,44 @@
+{
+  "locked": [
+    {
+      "path": "@hono/node-server",
+      "record": [
+        "@hono/node-server@1.19.15",
+        "",
+        {
+          "peerDependencies": {
+            "hono": "^4"
+          }
+        },
+        "sha512-Za2ai6TLdKjUvnur+eenO6nuYYipVAEhyCAdaV8IRvmU9kK8crOZUSYvIXn72E4f8fJqyAbpcJuTsYYmZp9Deg=="
+      ]
+    }
+  ],
+  "physical": [
+    {
+      "path": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@hono/node-server/package.json",
+      "version": "1.19.15",
+      "engines": {
+        "node": ">=18.14.1"
+      }
+    }
+  ],
+  "sdk": "1.31.0",
+  "parent_checks": {
+    "rows": [
+      {
+        "name": "@modelcontextprotocol/sdk",
+        "kind": "dependencies",
+        "range": "^1.19.9 || ^2.0.5"
+      }
+    ],
+    "node": "v22.23.3",
+    "hono": "4.13.7",
+    "engines": {
+      "node": ">=18.14.1"
+    },
+    "peer": {
+      "hono": "^4"
+    }
+  }
+}

@@ -113,7 +113,8 @@
     "seroval": "1.6.7",
     "seroval-plugins": "^1.5.6",
     "hono": "4.13.7",
-    "qs": "6.16.0"
+    "qs": "6.16.0",
+    "dompurify": "3.4.16"
   },
   "resolutions": {
     "@modelcontextprotocol/sdk": "1.31.0",
@@ -129,6 +130,7 @@
     "seroval": "1.6.7",
     "seroval-plugins": "^1.5.6",
     "hono": "4.13.7",
-    "qs": "6.16.0"
+    "qs": "6.16.0",
+    "dompurify": "3.4.16"
   }
 }

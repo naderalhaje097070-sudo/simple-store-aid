@@ -32,7 +32,10 @@ async () => {
         config,
       );
       assert(!clean.includes("data-note"), "custom post-element policy skipped");
-      assert(seen.includes("X-NOTE") && clean.includes("<x-note>safe</x-note>"), "custom element not visited or lost");
+      assert(
+        seen.includes("X-NOTE") && clean.includes("<x-note>safe</x-note>"),
+        "custom element not visited or lost",
+      );
       return { clean, seen };
     });
   }
@@ -42,13 +45,27 @@ async () => {
     const root = document.createElement("div");
     root.innerHTML = `<footer><img src="${image}" onload="window.__localMarker++"></footer><div>safe</div>`;
     const img = root.querySelector("img");
-    if (hook) DOMPurify.addHook(hook, (node) => { if (node.nodeName === "FOOTER") node.remove(); });
-    DOMPurify.sanitize(root, { IN_PLACE: true, ALLOWED_TAGS: hook ? ["div", "footer", "#text"] : ["div", "#text"] });
+    if (hook)
+      DOMPurify.addHook(hook, (node) => {
+        if (node.nodeName === "FOOTER") node.remove();
+      });
+    DOMPurify.sanitize(root, {
+      IN_PLACE: true,
+      ALLOWED_TAGS: hook ? ["div", "footer", "#text"] : ["div", "#text"],
+    });
     document.body.append(root);
     await new Promise((resolve) => setTimeout(resolve, 120));
-    const details = { html: root.innerHTML, handler: img.getAttribute("onload"), fired: window.__localMarker, connected: img.isConnected };
+    const details = {
+      html: root.innerHTML,
+      handler: img.getAttribute("onload"),
+      fired: window.__localMarker,
+      connected: img.isConnected,
+    };
     assert(details.html === "<div>safe</div>" && !details.connected, "removed subtree escaped");
-    assert(details.handler === null && details.fired === 0, "detached resource handler not neutralized");
+    assert(
+      details.handler === null && details.fired === 0,
+      "detached resource handler not neutralized",
+    );
     return details;
   };
   for (const hook of ["beforeSanitizeElements", "uponSanitizeElement"]) {
@@ -63,7 +80,10 @@ async () => {
     try {
       returned = DOMPurify.sanitize(root, { IN_PLACE: true });
     } catch (error) {
-      assert(error instanceof TypeError && /in.place|remov|root/i.test(error.message), "unexpected sanitizer exception");
+      assert(
+        error instanceof TypeError && /in.place|remov|root/i.test(error.message),
+        "unexpected sanitizer exception",
+      );
       return { failClosed: error.message };
     }
     const probe = document.createElement("div");
@@ -79,14 +99,19 @@ async () => {
     return { clean };
   });
   await check("ordinary-dangerous-attributes", () => {
-    const clean = DOMPurify.sanitize('<p onclick="window.__localMarker++">ok</p><a href="javascript:void(0)">link</a>');
+    const clean = DOMPurify.sanitize(
+      '<p onclick="window.__localMarker++">ok</p><a href="javascript:void(0)">link</a>',
+    );
     assert(clean === "<p>ok</p><a>link</a>", "event or script URI survived");
     return { clean };
   });
   await check("ordinary-in-place-node", () => {
     const root = document.createElement("div");
     root.innerHTML = "<b>safe</b>";
-    assert(DOMPurify.sanitize(root, { IN_PLACE: true }) === root && root.innerHTML === "<b>safe</b>", "ordinary in-place contract changed");
+    assert(
+      DOMPurify.sanitize(root, { IN_PLACE: true }) === root && root.innerHTML === "<b>safe</b>",
+      "ordinary in-place contract changed",
+    );
     return { html: root.outerHTML };
   });
   await check("ordinary-rawtext-dom-output", () => {
@@ -97,4 +122,4 @@ async () => {
     return { children: fragment.childNodes.length };
   });
   return { version: DOMPurify.version, results };
-}
+};

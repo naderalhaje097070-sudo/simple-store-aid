@@ -1,3 +1,15 @@
+## Current queue checkpoint — G0-NODE-SERVER-01, 2026-10-16
+
+- [x] Existing Draft72 adapter1.19.14→1.19.15 only; official npm availability/tarball/fix and SDK1.31.0/Node/Hono compatibility proved. No2.x/SDK/app upgrade. Paired constraints and generator-owned complete lock1a0791b4 preserve all other graph records and prior fixes.
+- [x] Native Windows old baseline8 cases,6PASS+2specific securityFAIL; patched Windows8/8 and Linux8/8 on tested15688194725fdb2c25e53d55d63cfe605295ec68. Actual installed adapter/SDK HTTP/errors, all-copy inventory, frozen/graph,10 Bun guard controls/affected lint/source invariance pass. Harness encoding/lifecycle/checkout failures retained, no weakened oracles.
+- [x] Source Quality38952653426 SUCCESS65unit/145expect,4 MCP,8wrapper,67dummybrowser,typecheck/two builds; matching synthetic tree. Independent review with actual replay limits and complete raw evidence in docs/g0-node-server.
+- [x] Full supported audit removes exactly target GHSA-frvp-7c67-39w9; only esbuildLow remains, no new/CH. Raw exit1 and audit jobFAIL preserved; no G0 waiver.
+- [ ] G0 acceptance: separate esbuild remediation/disposition and inherited lint work remain. No current full-repo lint total inferred.
+- [ ] Integration on final lock: explicitly reconcile unchanged source54 identity guard/manifest and rerun affected actual runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. Old40/40 is historical, not this lock's evidence; no automatic live G1 run.
+- [ ] Merge/release/production/finance/account/migration changes are not authorized or performed. PR48 remains open.
+
+ONE NEXT is planning of a separate remaining G0 task while retaining G1 prerequisites. Sole claim55/6222380561 closes in final linked #55/#70 handoff; worker stops there. Earlier queues below are historical.
+
 ## Current queue checkpoint — G0-BABEL-01, 2026-10-16
 
 - [x] Draft72 root @babel/core7.29.0→7.29.7; existing safe7.29.7 copies retain version and deduplicate. No Vite/TanStack/Workbox or non-Babel package changes. Approved necessary Babel dependency minima/223path hoisting explained in docs/g0-babel; zero new versions, exact6old removals.

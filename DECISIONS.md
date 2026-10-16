@@ -1,3 +1,13 @@
+## DEC-G0-NODE-SERVER-01 — prove published 1.x patch and native Windows boundary
+
+2026-10-16 owner task authorizes the smallest adapter correction above PR72/5cbf198. Official npm packument and verified actual tarball prove1.19.15 is available, so the permitted2.0.5 fallback is unnecessary. SDK1.31.0 accepts1.19.15 without any SDK/app change; adapter engines/peer/exports unchanged. Use paired1.19.15 constraints and approved official whole-lock generation; byte-exact lock1a0791b4 changes only adapter and override. Preserve Hono/qs/DOMPurify/Babel/esbuild and every other package.
+
+Windows URL-prefix/decoded-backslash behavior must be proved on native Windows with real installed package and dummy files, not inferred from Linux. Same8 cases give old6PASS+exact2specificFAIL and patched8/8 on both OSes, with benign auth/static/HEAD/range/negative paths and actual SDK Node HTTP/errors. Static library reproduction does not prove application exploitation. Preserve real old Node exit1 and complete scanner exit1; audit leaves esbuildLow, so G0 stays open.
+
+Harness failures are evidence: explicit UTF8 corrects Windows collection; fresh per-request server/transport follows the locked SDK's single-use stateless contract; disposable Windows checkout retains canonical LF while keeping strict byte assertions. No assertion weakening, SDK upgrade or application workaround. Tests, graph, frozen,10 Bun guard controls and Quality38952653426 pass on source1568819. Independent review states actual hash/raw-evidence/Node-adapted guard replays and limits.
+
+No live G1 rerun or old40/40 promotion. Before integration acceptance, explicitly reconcile unchanged source54 identity guard/manifest to reviewed final source/lock and run affected real runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. All app/SQL and financial/auth/state contracts unchanged. No merge, deployment, production or further implementation; hand off in #55/#70 and stop for planning.
+
 ## DEC-G0-BABEL-01 — preserve safe copies and source-map behavior
 
 2026-10-16 owner task authorizes GHSA-4x5r-pxfx-6jf8 remediation on PR72 starting86d5. Official first fixed7.29.6 is not a valid shared global pin because existing safe7.29.7/TanStack^7.29.7 would regress. Use paired7.29.7 constraints and the approved official whole-lock generator; retain stable7.x guard floor7.29.6. No new direct dependency, lockformat/CI toolchain change or safe-copy downgrade.

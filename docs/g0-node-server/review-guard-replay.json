@@ -1,0 +1,110 @@
+{
+  "method": "Existing test source in Node VM; imports, lock read and TS non-null syntax adapted; actual Bun and installed adapter NOT executed",
+  "cases": [
+    {
+      "case": "patched",
+      "passed": 19,
+      "failed": []
+    },
+    {
+      "case": "newerStable1x",
+      "passed": 19,
+      "failed": []
+    },
+    {
+      "case": "nestedSafe",
+      "passed": 19,
+      "failed": []
+    },
+    {
+      "case": "old",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@hono/node-server has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@hono/node-server',\n+   safe: false,\n-   safe: true,\n    version: '1.19.14'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "prerelease",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@hono/node-server has no vulnerable locked copy",
+          "error": "The input did not match the regular expression /^\\d+\\.\\d+\\.\\d+$/. Input:\n\n'1.19.15-rc.1'\n"
+        }
+      ]
+    },
+    {
+      "case": "major2",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@hono/node-server has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@hono/node-server',\n+   supportedMajor: false,\n-   supportedMajor: true,\n    version: '2.0.5'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "nestedOld",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@hono/node-server has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@hono/node-server',\n+   safe: false,\n-   safe: true,\n    version: '1.19.14'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "missing",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@hono/node-server has no vulnerable locked copy",
+          "error": "The expression evaluated to a falsy value:\n\n  assert(actual > minimum)\n"
+        }
+      ]
+    },
+    {
+      "case": "honoOld",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "hono has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'hono',\n+   safe: false,\n-   safe: true,\n    version: '4.13.6'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "qsOld",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "qs has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'qs',\n+   safe: false,\n-   safe: true,\n    version: '6.15.3'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "dompurifyOld",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "dompurify has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'dompurify',\n+   safe: false,\n-   safe: true,\n    version: '3.4.15'\n  }\n"
+        }
+      ]
+    },
+    {
+      "case": "babelOld",
+      "passed": 18,
+      "failed": [
+        {
+          "title": "@babel/core has no vulnerable locked copy",
+          "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@babel/core',\n+   safe: false,\n-   safe: true,\n    version: '7.29.0'\n  }\n"
+        }
+      ]
+    }
+  ]
+}

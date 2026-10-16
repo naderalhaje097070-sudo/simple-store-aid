@@ -5,6 +5,8 @@ starting `5cbf198d88b0f091a30371676fb09abf92903dc8`. This satisfies the CMF inta
 approval for this scope. Canonical repository is naderalhaje097070-sudo/simple-store-aid;
 historical owner names do not select a different repository. Claim #55/6222380561.
 
+Change type: transitive dependency security patch. Urgency: current bounded G0 remediation.
+
 Goal: remove GHSA-frvp-7c67-39w9 from every resolved adapter copy with the
 smallest officially available compatible update. Risk: moderate, transitive HTTP
 adapter and Windows static authorization boundary. First prove published 1.x;

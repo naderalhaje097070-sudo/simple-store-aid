@@ -1,5 +1,5 @@
 name: G0 DOMPurify bounded browser and PDF verification
-# Preserve local PDF/download diagnostics before any output assertion.
+# Serve local synthetic HTML and its browser bundle explicitly as UTF-8.
 on:
   push:
     branches: [test/g0-g1-acceptance-runtime-2026-10-14]

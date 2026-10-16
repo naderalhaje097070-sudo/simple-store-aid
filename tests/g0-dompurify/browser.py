@@ -25,9 +25,10 @@ async def main():
         async def route_http(route):
             req = route.request
             if req.method == 'GET' and req.url == 'http://127.0.0.1:19871/':
-                await route.fulfill(status=200, content_type='text/html', body='<html lang="ar"><body></body></html>')
+                await route.fulfill(status=200, content_type='text/html; charset=utf-8',
+                    body='<html lang="ar"><head><meta charset="utf-8"></head><body></body></html>')
             elif not baseline and req.method == 'GET' and req.url == 'http://127.0.0.1:19871/invoice.js':
-                await route.fulfill(status=200, content_type='text/javascript', body=bundle.read_bytes())
+                await route.fulfill(status=200, content_type='text/javascript; charset=utf-8', body=bundle.read_bytes())
             elif req.method == 'GET' and req.url == FONT and req.resource_type == 'stylesheet' and not req.is_navigation_request():
                 stubs.append('exact-cairo-css-offline')
                 await route.fulfill(status=200, content_type='text/css', body='/* offline fallback fonts */')
@@ -41,6 +42,7 @@ async def main():
         await context.route_web_socket('**/*', route_ws)
         page = await context.new_page()
         await page.goto('http://127.0.0.1:19871/')
+        assert await page.evaluate('document.characterSet') == 'UTF-8'
         dist = Path('node_modules/dompurify/dist/purify.js')
         assert dist.is_file(), 'Optional DOMPurify absent: cannot pass'
         await page.add_script_tag(path=str(dist))
@@ -67,6 +69,7 @@ async def main():
             pdf = pdf_path.read_bytes()
             receipt = {'actual_filename': download.suggested_filename,
                        'expected_filename': 'mongezz-invoice-00017.pdf',
+                       'document_charset': await page.evaluate('document.characterSet'),
                        'bytes': len(pdf), 'sha256': hashlib.sha256(pdf).hexdigest()}
             (OUT / 'download-receipt.json').write_text(json.dumps(receipt, indent=2)+'\n')
             (OUT / 'network.json').write_text(json.dumps({'violations': violations,

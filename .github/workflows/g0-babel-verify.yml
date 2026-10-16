@@ -1,0 +1,62 @@
+name: G0 Babel bounded sourcemap verification
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-babel-verify.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Frozen installation and exact graph
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-babel
+          git rev-parse HEAD > evidence/g0-babel/source.txt
+          bun --revision > evidence/g0-babel/frozen-bun-revision.txt
+          node --version > evidence/g0-babel/node-version.txt
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-babel/frozen.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-babel/evidence.py graph
+      - name: Actual installed Babel copies and source-map security contracts
+        run: |
+          python tests/g0-babel/evidence.py installed 7.29.7
+          python tests/g0-babel/evidence.py contracts
+      - name: All-copy Babel and retained Hono qs DOMPurify guard mutations
+        run: python tests/g0-babel/evidence.py guards
+      - name: Lint the new fixture and affected security guard without writing
+        run: |
+          set -euo pipefail
+          bunx --no-install eslint tests/g0-babel/contracts.test.cjs tests/unit/dependency-security.test.ts 2>&1 | tee evidence/g0-babel/affected-lint.log
+      - name: Setup supported audit scanner
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Full audit with actual G0 findings and exit code
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision | tee evidence/g0-babel/audit-bun-revision.txt
+          grep -q 34cbb9a40 evidence/g0-babel/audit-bun-revision.txt
+          python tests/g0-babel/evidence.py audit
+      - name: Verification did not alter tracked source
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-babel-verification
+          path: evidence/g0-babel
+          if-no-files-found: error

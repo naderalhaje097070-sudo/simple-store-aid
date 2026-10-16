@@ -23,6 +23,8 @@ const patchedPackages = [
 ];
 
 const patchedPackageMajors = new Map([
+  // G0-BABEL-01: all copies must stay on the stable patched Babel 7.x line.
+  ["@babel/core", new Map([[7, [7, 29, 6]]])],
   // G0-DOMPURIFY-01: cover every optional or nested stable 3.x sanitizer copy.
   ["dompurify", new Map([[3, [3, 4, 16]]])],
   // G0-QS-01: preserve the reviewed stable 6.x parser/serializer security floor.

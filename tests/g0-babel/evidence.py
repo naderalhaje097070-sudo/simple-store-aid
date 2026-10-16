@@ -75,6 +75,17 @@ def graph():
     assert changed == allowed['changed_paths'], changed
     assert all(after['packages'].get(k) == v for k,v in allowed['after_records'].items())
     assert all(before['packages'].get(k) == v for k,v in allowed['before_records'].items())
+    old_versions = {v[0]:v for v in before['packages'].values()}
+    new_versions = {v[0]:v for v in after['packages'].values()}
+    assert not new_versions.keys() - old_versions.keys(), 'Unapproved new package version'
+    assert all(old_versions[k] == new_versions[k] for k in new_versions), 'Retained package metadata changed'
+    assert old_versions.keys() - new_versions.keys() == {
+        '@babel/core@7.29.0', '@babel/compat-data@7.29.0',
+        '@babel/helper-compilation-targets@7.28.6', '@babel/helper-module-transforms@7.28.6',
+        '@babel/helper-validator-option@7.27.1', '@babel/helpers@7.29.2'}
+    for key in changed:
+        assert all(v is None or v[0].startswith('@babel/')
+                   for v in [before['packages'].get(key), after['packages'].get(key)]), key
     manifest = json.loads(Path('package.json').read_text())
     for key in ['overrides','resolutions']:assert manifest[key].pop('@babel/core') == '7.29.7'
     assert manifest == json.loads(evidence.git_file(BASE, 'package.json'))

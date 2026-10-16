@@ -1,0 +1,230 @@
+[
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "outside-relative",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_outside_relative_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "outside-absolute",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_outside_absolute_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "sibling-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_sibling_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "parent-within-package",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_parent_within_package_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "inline-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_inline_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.0",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build"
+    ],
+    "kind": "plain-source",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "outside-relative",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=../../outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "outside-absolute",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=/tmp/g0-babel-map-odRSTS/outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "sibling-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_sibling_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "parent-within-package",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_parent_within_package_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "inline-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_inline_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/router-plugin/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/router-plugin"
+    ],
+    "kind": "plain-source",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "outside-relative",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=../../outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "outside-absolute",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=/tmp/g0-babel-map-zUvDbx/outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "sibling-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_sibling_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "parent-within-package",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_parent_within_package_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "inline-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_inline_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@tanstack/start-plugin-core/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "plain-source",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;"
+    ]
+  }
+]

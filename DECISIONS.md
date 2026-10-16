@@ -1,3 +1,13 @@
+## DEC-G0-BABEL-01 — preserve safe copies and source-map behavior
+
+2026-10-16 owner task authorizes GHSA-4x5r-pxfx-6jf8 remediation on PR72 starting86d5. Official first fixed7.29.6 is not a valid shared global pin because existing safe7.29.7/TanStack^7.29.7 would regress. Use paired7.29.7 constraints and the approved official whole-lock generator; retain stable7.x guard floor7.29.6. No new direct dependency, lockformat/CI toolchain change or safe-copy downgrade.
+
+Necessary Babel internal changes were explained before adoption: generator reuses existing patched versions, removes exactly six obsolete versions and moves/hoists Babel paths; no new versions, retained metadata changes or non-Babel package changes. Exact inventory and independent graph invariants are saved, not hand-edited generated entries. Vite/TanStack/Workbox/node-server/esbuild versions remain fixed.
+
+Actual transform tests leave automatic inputSourceMap enabled and sourceMaps true; two outside-root dummy-map disclosure oracles fail only on old7.29.0, legitimate map/plain controls pass. Same6cases per distribution pass on corrected shared7.29.7;18→6tests reflects3→1physicaldistributions, not weakened coverage. No application sourcemap config or financial/schema/auth contract change.
+
+Tested1e80 source passes frozen/graph/installed/all-copy/affectedlint and Quality64unit/141expect. Full audit still exits1 for two other findings; G0 stays open. Independent review actually reruns Python/Node adapter/semver/hash/receipt/log checks, not actual compiler/Bun/browser/DB. LegacyG1 source54 identity stays fail-closed; explicit final-lock/source reconciliation and affected real-runtime proof are required before integration acceptance. No release or merge approval.
+
 ## DEC-G0-DOMPURIFY-01 — prove optional sanitizer correction and original PDF compatibility
 
 2026-10-15 authorization, 2026-10-16 handoff. Owner approved DOMPurify3.4.11→3.4.16 alone on PR72 starting5623. Official jsPDF4.2.1 optional^3.3.1 accepts3.4.16; no direct dependency, parent upgrade or unrelated graph delta. Approved Bun1.4.0 generates the whole lock under paired constraints, with every-copy stable3.x floor>=3.4.16 and all Hono/qs/previous guards preserved. Package absence cannot stand in for remediation.

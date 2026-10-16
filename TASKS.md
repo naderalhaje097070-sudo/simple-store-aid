@@ -1,3 +1,16 @@
+## Current queue checkpoint — G0-BABEL-01, 2026-10-16
+
+- [x] Draft72 root @babel/core7.29.0→7.29.7; existing safe7.29.7 copies retain version and deduplicate. No Vite/TanStack/Workbox or non-Babel package changes. Approved necessary Babel dependency minima/223path hoisting explained in docs/g0-babel; zero new versions, exact6old removals.
+- [x] Official complete lock9d67e2d under paired constraints; all-copy stable7.x>=7.29.6 floor, prior Hono/qs/DOMPurify guards retained. Frozen1.2.14/graph/80parent ranges/9guard controls/affectedlint/sourceinvariance PASS.
+- [x] Actual local installed behavior: baseline18tests16PASS/2outside-rootFAIL; corrected6/6 on1deduplicated distribution, all5parents same7.29.7, zero skips. Legitimate sibling/within-package-parent/inline/plain maps preserved; inputSourceMap/config unchanged.
+- [x] Audit target removed exactly,2remaining1Moderate/1Low/noNew/CH; rawexit1/job38896279667FAIL preserved. Quality38896289565SUCCESS64unit/141expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck. Tested1e80a33d5f0c766c89259aad9b9db4fce2492fdd.
+- [x] Actual separate reviewer static/Python/Node/semver/hash/receipt/log checks saved; no independent Bun/Babel/compiler/browser/DB rerun. No new engineering finding in this batch.
+- [ ] G0 acceptance: node-server/esbuild and inherited lint require separate engineering/risk disposition; no waiver/cleanup here.
+- [ ] Final-lock G1: explicitly reconcile/review/freeze source54 identity against approved manifest/lock/tests/checkpoints; execute affected runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. No silent guard expansion or historical40/40 credit.
+- [ ] Merge/release/pilot remain protected and unapproved. PR48 open; app/financial/account/SQL excluded.
+
+ONE NEXT belongs to planning: select one separate remaining G0 disposition and preserve G1 requirements. Close sole claim55/6214726307 at linked55/70 handoff and stop. Older queues remain historical.
+
 ## Current queue checkpoint — G0-DOMPURIFY-01, 2026-10-16
 
 - [x] Draft72 DOMPurify-only3.4.11→3.4.16 approved paired constraints/generated wholelockd630ca04; no jsPDF/Hono/qs/other graph change. Testeda5edd17a420814133bba559911efb871f4b0633e.

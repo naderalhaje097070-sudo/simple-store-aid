@@ -1,0 +1,699 @@
+{
+  "baseline": "86d5a87bc8b38c1bd0c173a0fb28987c0291dfa0",
+  "baseline_blobs": 605,
+  "missing": [],
+  "modified": [
+    "bun.lock",
+    "package.json",
+    "tests/unit/dependency-security.test.ts"
+  ],
+  "added": [
+    ".github/workflows/g0-babel-prepare.yml",
+    ".github/workflows/g0-babel-verify.yml",
+    "docs/g0-babel/API_COMPATIBILITY.md",
+    "docs/g0-babel/DATA_IMPACT.md",
+    "docs/g0-babel/DEPENDENCY_MAP.md",
+    "docs/g0-babel/GRAPH_ANALYSIS.md",
+    "docs/g0-babel/IMPACT_ANALYSIS.md",
+    "docs/g0-babel/INTAKE.md",
+    "docs/g0-babel/MIGRATION_IMPACT.md",
+    "docs/g0-babel/ROLLBACK_IMPACT.md",
+    "docs/g0-babel/SECURITY_IMPACT.md",
+    "docs/g0-babel/TEST_IMPACT.md",
+    "docs/g0-babel/approved-graph-delta.json",
+    "docs/g0-babel/parent-ranges.json",
+    "docs/g0-babel/version-comparison.json",
+    "tests/g0-babel/__pycache__/evidence.cpython-312.pyc",
+    "tests/g0-babel/contracts.test.cjs",
+    "tests/g0-babel/evidence.py"
+  ],
+  "lock_blob": "9d67e2d531d27fc7e5204204526e01a71bc477b6",
+  "changed_lock_paths": 223,
+  "added_unique_versions": [],
+  "removed_unique_versions": [
+    "@babel/compat-data@7.29.0",
+    "@babel/core@7.29.0",
+    "@babel/helper-compilation-targets@7.28.6",
+    "@babel/helper-module-transforms@7.28.6",
+    "@babel/helper-validator-option@7.27.1",
+    "@babel/helpers@7.29.2"
+  ],
+  "retained_metadata_identical": true,
+  "nonbabel_records_changed": [],
+  "core_records": {
+    "@babel/core": "@babel/core@7.29.7"
+  },
+  "tested_source": "1e80a33d5f0c766c89259aad9b9db4fce2492fdd",
+  "tested_source_blobs": 622,
+  "tested_source_hash_mismatches": [],
+  "node_syntax": "PASS",
+  "python_ast": "PASS",
+  "guard_adapter_cases": {
+    "method": "Existing test source in Node VM; Bun import/readFileSync/TS nonnull adapted; actual Bun runner and installed Babel NOT executed",
+    "cases": [
+      {
+        "case": "patched",
+        "passed": 18,
+        "failed": []
+      },
+      {
+        "case": "firstPatched",
+        "passed": 18,
+        "failed": []
+      },
+      {
+        "case": "nestedSafe",
+        "passed": 18,
+        "failed": []
+      },
+      {
+        "case": "nestedOld",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "@babel/core has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@babel/core',\n+   safe: false,\n-   safe: true,\n    version: '7.29.0'\n  }\n"
+          }
+        ]
+      },
+      {
+        "case": "old",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "@babel/core has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@babel/core',\n+   safe: false,\n-   safe: true,\n    version: '7.29.0'\n  }\n"
+          }
+        ]
+      },
+      {
+        "case": "prerelease",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "@babel/core has no vulnerable locked copy",
+            "error": "The input did not match the regular expression /^\\d+\\.\\d+\\.\\d+$/. Input:\n\n'7.29.7-rc.1'\n"
+          }
+        ]
+      },
+      {
+        "case": "major8",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "@babel/core has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: '@babel/core',\n+   supportedMajor: false,\n-   supportedMajor: true,\n    version: '8.0.0'\n  }\n"
+          }
+        ]
+      },
+      {
+        "case": "missing",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "@babel/core has no vulnerable locked copy",
+            "error": "The expression evaluated to a falsy value:\n\n  assert(actual>minimum)\n"
+          }
+        ]
+      },
+      {
+        "case": "honoOld",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "hono has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'hono',\n+   safe: false,\n-   safe: true,\n    version: '4.13.6'\n  }\n"
+          }
+        ]
+      },
+      {
+        "case": "qsOld",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "qs has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'qs',\n+   safe: false,\n-   safe: true,\n    version: '6.15.3'\n  }\n"
+          }
+        ]
+      },
+      {
+        "case": "dompurifyOld",
+        "passed": 17,
+        "failed": [
+          {
+            "name": "dompurify has no vulnerable locked copy",
+            "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  {\n    package: 'dompurify',\n+   safe: false,\n-   safe: true,\n    version: '3.4.15'\n  }\n"
+          }
+        ]
+      }
+    ]
+  },
+  "independent_semver": {
+    "semverLibrary": "7.8.5",
+    "checkedParentCoreRanges": 80,
+    "parents": [
+      {
+        "parent": "@babel/helper-create-class-features-plugin",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/helper-create-regexp-features-plugin",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/helper-define-polyfill-provider",
+        "kind": "peerDependencies",
+        "range": "^7.4.0 || ^8.0.0-0 <8.0.0"
+      },
+      {
+        "parent": "@babel/helper-module-transforms",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/helper-remap-async-to-generator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/helper-replace-supers",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-firefox-class-in-computed-class-key",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-safari-class-field-initializer-scope",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-safari-rest-destructuring-rhs-array",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining",
+        "kind": "peerDependencies",
+        "range": "^7.13.0"
+      },
+      {
+        "parent": "@babel/plugin-bugfix-v8-static-class-fields-redefine-readonly",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-proposal-private-property-in-object",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-syntax-import-assertions",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-syntax-import-attributes",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-syntax-unicode-sets-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-transform-arrow-functions",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-async-generator-functions",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-async-to-generator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-block-scoped-functions",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-block-scoping",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-class-properties",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-class-static-block",
+        "kind": "peerDependencies",
+        "range": "^7.12.0"
+      },
+      {
+        "parent": "@babel/plugin-transform-classes",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-computed-properties",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-destructuring",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-dotall-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-duplicate-keys",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-duplicate-named-capturing-groups-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-transform-dynamic-import",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-explicit-resource-management",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-exponentiation-operator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-export-namespace-from",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-for-of",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-function-name",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-json-strings",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-literals",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-logical-assignment-operators",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-member-expression-literals",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-modules-amd",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-modules-commonjs",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-modules-systemjs",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-modules-umd",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-named-capturing-groups-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-transform-new-target",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-nullish-coalescing-operator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-numeric-separator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-object-rest-spread",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-object-super",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-optional-catch-binding",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-optional-chaining",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-parameters",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-private-methods",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-private-property-in-object",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-property-literals",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-react-jsx-self",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-react-jsx-source",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-regenerator",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-regexp-modifiers",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/plugin-transform-reserved-words",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-shorthand-properties",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-spread",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-sticky-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-template-literals",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-typeof-symbol",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-unicode-escapes",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-unicode-property-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-unicode-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/plugin-transform-unicode-sets-regex",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@babel/preset-env",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0"
+      },
+      {
+        "parent": "@babel/preset-modules",
+        "kind": "peerDependencies",
+        "range": "^7.0.0-0 || ^8.0.0-0 <8.0.0"
+      },
+      {
+        "parent": "@rollup/plugin-babel",
+        "kind": "peerDependencies",
+        "range": "^7.0.0"
+      },
+      {
+        "parent": "@tanstack/router-plugin",
+        "kind": "dependencies",
+        "range": "^7.29.7"
+      },
+      {
+        "parent": "@tanstack/start-plugin-core",
+        "kind": "dependencies",
+        "range": "^7.29.7"
+      },
+      {
+        "parent": "@vitejs/plugin-react",
+        "kind": "dependencies",
+        "range": "^7.29.0"
+      },
+      {
+        "parent": "babel-dead-code-elimination",
+        "kind": "dependencies",
+        "range": "^7.23.7"
+      },
+      {
+        "parent": "babel-plugin-polyfill-corejs2",
+        "kind": "peerDependencies",
+        "range": "^7.4.0 || ^8.0.0-0 <8.0.0"
+      },
+      {
+        "parent": "babel-plugin-polyfill-corejs3",
+        "kind": "peerDependencies",
+        "range": "^7.4.0 || ^8.0.0-0 <8.0.0"
+      },
+      {
+        "parent": "babel-plugin-polyfill-regenerator",
+        "kind": "peerDependencies",
+        "range": "^7.4.0 || ^8.0.0-0 <8.0.0"
+      },
+      {
+        "parent": "workbox-build",
+        "kind": "dependencies",
+        "range": "^7.24.4"
+      }
+    ],
+    "necessaryBabelTransitiveChanges": [
+      {
+        "name": "@babel/helper-compilation-targets",
+        "oldVersion": "7.28.6",
+        "resolvedVersion": "7.29.7",
+        "requiredBy": "@babel/core",
+        "requiredRange": "^7.29.7",
+        "oldRejected": true
+      },
+      {
+        "name": "@babel/helper-module-transforms",
+        "oldVersion": "7.28.6",
+        "resolvedVersion": "7.29.7",
+        "requiredBy": "@babel/core",
+        "requiredRange": "^7.29.7",
+        "oldRejected": true
+      },
+      {
+        "name": "@babel/helpers",
+        "oldVersion": "7.29.2",
+        "resolvedVersion": "7.29.10",
+        "requiredBy": "@babel/core",
+        "requiredRange": "^7.29.7",
+        "oldRejected": true
+      },
+      {
+        "name": "@babel/compat-data",
+        "oldVersion": "7.29.0",
+        "resolvedVersion": "7.29.7",
+        "requiredBy": "@babel/helper-compilation-targets",
+        "requiredRange": "^7.29.7",
+        "oldRejected": true
+      },
+      {
+        "name": "@babel/helper-validator-option",
+        "oldVersion": "7.27.1",
+        "resolvedVersion": "7.29.7",
+        "requiredBy": "@babel/helper-compilation-targets",
+        "requiredRange": "^7.29.7",
+        "oldRejected": true
+      }
+    ]
+  },
+  "independent_raw_evidence": {
+    "babel-preparation": {
+      "receipt_hashes_validated": 2,
+      "receipts": [
+        {
+          "name": "contracts",
+          "exit_code": 1
+        },
+        {
+          "name": "installed",
+          "exit_code": 0
+        }
+      ],
+      "unique_installed_distributions": 3,
+      "observations_checked": 18
+    },
+    "babel-verification": {
+      "receipt_hashes_validated": 12,
+      "receipts": [
+        {
+          "name": "audit",
+          "exit_code": 1
+        },
+        {
+          "name": "contracts",
+          "exit_code": 0
+        },
+        {
+          "name": "guard-dompurify-old",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-hono-old",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-major8",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-missing",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-nested-old",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-old",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-patched",
+          "exit_code": 0
+        },
+        {
+          "name": "guard-prerelease",
+          "exit_code": 1
+        },
+        {
+          "name": "guard-qs-old",
+          "exit_code": 1
+        },
+        {
+          "name": "installed",
+          "exit_code": 0
+        }
+      ],
+      "unique_installed_distributions": 1,
+      "observations_checked": 6
+    },
+    "audit_compare": {
+      "removed": [
+        "GHSA-4x5r-pxfx-6jf8"
+      ],
+      "added": [],
+      "remaining": [
+        "GHSA-frvp-7c67-39w9",
+        "GHSA-g7r4-m6w7-qqqr"
+      ],
+      "actual_exit": 1
+    },
+    "verification_zip_sha256": "1169fc232b43d51f312ee4e266611c51143f4b7e616ffe8a6326ea4a4e426eb8",
+    "verification_zip_files": 48,
+    "source_match": "1e80a33d5f0c766c89259aad9b9db4fce2492fdd"
+  },
+  "quality_source_identity": {
+    "synthetic": "9ba97d4324b266edd29cac2dc2a38b4d080c3cf8",
+    "tree": "4c28eb6b86369774f554f8cc1c16b097a34d813a",
+    "tested_source": "1e80a33d5f0c766c89259aad9b9db4fce2492fdd",
+    "tested_tree": "4c28eb6b86369774f554f8cc1c16b097a34d813a",
+    "trees_equal": true,
+    "quality_run": 38896289565,
+    "quality_job": 116957437990
+  },
+  "quality_log_sha256": "56ce49ea212cec5f1af2a1d9fd8f218215d491f94444032d0a921e8d21665fb9",
+  "outcome": "Blocked pending missing evidence",
+  "new_implementation_findings": [],
+  "independent_bun_execution": false,
+  "independent_installed_babel_execution": false
+}

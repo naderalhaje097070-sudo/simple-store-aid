@@ -1,0 +1,24 @@
+{
+  "tested_source": "1e80a33d5f0c766c89259aad9b9db4fce2492fdd",
+  "archives": [
+    {
+      "path": "preparation.zip",
+      "bytes": 234279,
+      "sha256": "6949e7c9a417f850828cf8670f6191bad5a2557777b0e4cba89311819378f45c",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "verification.zip",
+      "bytes": 23580,
+      "sha256": "1169fc232b43d51f312ee4e266611c51143f4b7e616ffe8a6326ea4a4e426eb8",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "job-logs.zip",
+      "bytes": 41864,
+      "sha256": "5fc0222bf1e77cd052321596a9a737467e69b8de91abda3095ec34bf6bfd6460",
+      "secret_pattern_matches": []
+    }
+  ],
+  "scan_scope": "new archives private-key/provider-secret/JWT/OpenAI-key patterns; bounded pattern scan, not comprehensive secret detection"
+}

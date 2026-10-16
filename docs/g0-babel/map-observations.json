@@ -1,0 +1,98 @@
+[
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "outside-relative",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=../../outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "outside-absolute",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;\n//# sourceMappingURL=/tmp/g0-babel-map-szmwLN/outside.map"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "sibling-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_sibling_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "parent-within-package",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_parent_within_package_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "inline-map",
+    "containsMarker": true,
+    "sourcesContent": [
+      "LOCAL_ONLY_inline_map_MARKER"
+    ]
+  },
+  {
+    "entry": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@babel/core/lib/index.js",
+    "version": "7.29.7",
+    "parents": [
+      "@vitejs/plugin-react",
+      "babel-dead-code-elimination",
+      "workbox-build",
+      "@tanstack/router-plugin",
+      "@tanstack/start-plugin-core"
+    ],
+    "kind": "plain-source",
+    "containsMarker": false,
+    "sourcesContent": [
+      "const answer = 42;"
+    ]
+  }
+]

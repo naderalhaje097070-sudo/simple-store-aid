@@ -1,3 +1,11 @@
+## DEC-G0-DOMPURIFY-01 — prove optional sanitizer correction and original PDF compatibility
+
+2026-10-15 authorization, 2026-10-16 handoff. Owner approved DOMPurify3.4.11→3.4.16 alone on PR72 starting5623. Official jsPDF4.2.1 optional^3.3.1 accepts3.4.16; no direct dependency, parent upgrade or unrelated graph delta. Approved Bun1.4.0 generates the whole lock under paired constraints, with every-copy stable3.x floor>=3.4.16 and all Hono/qs/previous guards preserved. Package absence cannot stand in for remediation.
+
+Actual browser contracts distinguish five old targeted failures from five ordinary successes and require all10 on patched package. Original src/lib/invoice-pdf.ts is imported unchanged in a browser-only synthetic bundle; actual export, output structure/exactfilename/cleanup and offline networking are checked separately from the library defect. Independent reviewer reproduced missing-charset mojibake filename in the harness; explicit UTF8 response/meta/check corrects only that fixture. No weakened filename/security assertion or application/financial change.
+
+Testeda5edd17 source passes bounded frozen/graph/installed/browser/PDF/guards/lint and Quality63unit/137expect. Supported full audit still returns1 with Babel/node-server/esbuild findings, so G0 stays open. No financial/schema/auth/tenant contract changed, production or G1 live execution. Legacy source54 identity stays fail-closed; explicit reviewed final-lock reconciliation and affected runtime proof are required before future integration acceptance. Preserve failed runs, full audit and exact independent reexecution scope; no release or human-merge approval inferred.
+
 ## DEC-G0-QS-01 — demonstrate library defects before bounded patch
 
 2026-10-15; owner explicitly authorized qs6.15.3→6.16.0 only on PR72 starting15710. Actual installed old graph must fail exactly the three targeted contracts while normal cases pass; the same assertions must pass on patched graph. Full encoded round-trip preservation and actual parent resolution/loopback query/form parsing prevent no-throw/version-only compatibility claims. OfficialBun1.4.0 generates the complete lock under paired overrides/resolutions; whole graph comparison permits only qs, preserves all Hono/other floors and parent versions. No direct dependency or manual generated entries.

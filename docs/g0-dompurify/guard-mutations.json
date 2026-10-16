@@ -1,0 +1,34 @@
+[
+  {
+    "case": "patched",
+    "exit_code": 0
+  },
+  {
+    "case": "old",
+    "exit_code": 1
+  },
+  {
+    "case": "prerelease",
+    "exit_code": 1
+  },
+  {
+    "case": "major4",
+    "exit_code": 1
+  },
+  {
+    "case": "nested-old",
+    "exit_code": 1
+  },
+  {
+    "case": "missing",
+    "exit_code": 1
+  },
+  {
+    "case": "hono-old",
+    "exit_code": 1
+  },
+  {
+    "case": "qs-old",
+    "exit_code": 1
+  }
+]

@@ -1,3 +1,16 @@
+## Current queue checkpoint — G0-DOMPURIFY-01, 2026-10-16
+
+- [x] Draft72 DOMPurify-only3.4.11→3.4.16 approved paired constraints/generated wholelockd630ca04; no jsPDF/Hono/qs/other graph change. Testeda5edd17a420814133bba559911efb871f4b0633e.
+- [x] Optional package actually present on both graphs; installed all-copy+parent contract. Baseline5ordinaryPASS/5specificFAIL, fixed10/10actualbrowserPASS; no inferred app exploitability.
+- [x] Real unchanged synthetic invoice PDF110539bytes/1page/1image/exactfilename/UTF8/iframecleanup/network0. IndependentR1 harnesscharset defect resolved without changing assertions or app; retain bothfailedPDF runs and initialnewfixturelintfailure.
+- [x] Frozen/graph/8guardcontrols/affectedlint/sourceinvariance PASS; Quality38887419454SUCCESS63unit/137expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck. Full audit exactly3DPIDsremoved,3others2Low/1Moderate/noNew/CH; rawexit1/job38887412161FAIL preserved.
+- [x] Independent focused review and actual replay scope saved in docs/g0-dompurify/REVIEW.md; static/Python/Node/hash/rawreceipts/log review, no independent Bun/browser/DB execution.
+- [ ] G0 acceptance: Babel/node-server/esbuild advisories plus inherited lint remain separate engineering/risk decisions; no waiver or new full-lint total.
+- [ ] New-lock G1 integration: explicitly reconcile unchanged source54 identity guard/manifest against approved final package/lock/tests/checkpoints, then affected actual runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. No silent allowlist expansion or reuse of old40/40 as this lock's acceptance.
+- [ ] Merge/release/pilot: not authorized or performed. PR48 remains open; financial/account chain excluded.
+
+ONE NEXT belongs to planning: choose one separate remaining G0 disposition, preserve G1 requirements. Sole claim55/6202123085 closes at linked55/70hand-off; stop there. Older queues remain historical.
+
 ## Current queue checkpoint — G0-QS-01, 2026-10-15
 
 - [x] Draft72 qs-only6.15.3→6.16.0 pins and officially generated lockae751828; no Express/body-parser/SDK/Hono/other package change. Testedfc6d621e955d3666ecc0e7fbc79dd402f39b3ee8.

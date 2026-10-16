@@ -1,0 +1,75 @@
+{
+  "reviewer": "independent read-only agent",
+  "baseline": "5623a6ea09101dfa97f36909a66d8ea3a81956f4",
+  "baseline_blob_count": 565,
+  "unchanged_source_files": 122,
+  "unchanged_sql_files": 43,
+  "unchanged_migrations": 41,
+  "baseline_modified_paths": [
+    "bun.lock",
+    "package.json",
+    "tests/unit/dependency-security.test.ts"
+  ],
+  "only_graph_record_changed": [
+    "dompurify"
+  ],
+  "generated_lock_sha1_blob": "d630ca04096a126cbeb021d083ee248085f2efea",
+  "generated_lock_sha256": "ee1f5da0c882776472dd6a074b1c6df8547ca3b37ca1cf7fe1863588ba5c5496",
+  "independently_executed": [
+    "all baseline blobs hash/scope comparison",
+    "JSONC whole dependency graph comparison",
+    "paired pin manifest comparison",
+    "generated artifact byte equality",
+    "Python AST parsing",
+    "baseline result/installed/containment receipt assertions"
+  ],
+  "not_executed": [
+    "Bun",
+    "browser",
+    "PDF runtime",
+    "audit network request",
+    "CI",
+    "G1/live DB/financial/production"
+  ],
+  "baseline_browser_pass": 5,
+  "baseline_browser_failed_expected": [
+    "55q2-detach-beforeSanitizeElements",
+    "55q2-detach-uponSanitizeElement",
+    "6688-rawtext-return-reparse",
+    "c2j3-custom-function",
+    "c2j3-custom-regex"
+  ],
+  "final_tested_source": "a5edd17a420814133bba559911efb871f4b0633e",
+  "final_tested_tree": "8d8cf609ebeadf485b5f2a3a071b81b7e35a8c33",
+  "final_tested_blobs_verified": 580,
+  "final_tested_blob_mismatches": [],
+  "reviewer_codec_reproduction_matches_actual_failure": true,
+  "utf8_harness_fix_static_review": "PASS; exact original filename/structure/cleanup/containment assertions retained; added explicit charset and receipt",
+  "final_artifact_sha256": "e93a2c846a5ba435093682e5b8da3dcff7d0686af7bade96344dabf002246e9f",
+  "final_browser_contracts": 10,
+  "final_installed_copy_versions": [
+    "3.4.16"
+  ],
+  "final_pdf_sha256": "bf4608cc8bd62595790eaedd0910e381731abd05c51be61e88137dce64b1bd97",
+  "audit_exit_code": 1,
+  "audit_remaining": {
+    "low": 2,
+    "moderate": 1
+  },
+  "audit_exact_target_removal_no_new": true,
+  "R1": "closed by corrected exact-source hosted browser/PDF evidence; independent hash/receipt checks pass",
+  "final_guard_mutants": 8,
+  "final_Quality": {
+    "run": 38887419454,
+    "job": 116928450006,
+    "conclusion": "success (implementer API receipt; reviewer read matching raw log)",
+    "unit_pass": 63,
+    "unit_expectations": 137,
+    "browser_dummy_cases": 67,
+    "quality_log_sha256": "1ded795b86d30ce2a9d4ca1faa5d8bfe19c03a4af05b6f7869b937c91e08fc3e",
+    "synthetic_sha": "9bc591ac225e24b709f6e224bacada0bd26b2338",
+    "synthetic_tree": "8d8cf609ebeadf485b5f2a3a071b81b7e35a8c33",
+    "source_tree_equal": true,
+    "synthetic_parent_metadata_verified": true
+  }
+}

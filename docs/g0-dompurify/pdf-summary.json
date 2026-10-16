@@ -1,0 +1,12 @@
+{
+  "entry": "src/lib/invoice-pdf.ts:downloadInvoicePdf unchanged",
+  "filename": "mongezz-invoice-00017.pdf",
+  "bytes": 110539,
+  "pages": 1,
+  "images": 1,
+  "sha256": "bf4608cc8bd62595790eaedd0910e381731abd05c51be61e88137dce64b1bd97",
+  "iframe_cleanup": true,
+  "offline_font_stubs": 3,
+  "financial_or_database_writes": 0,
+  "font_parity": "fallback only; no external Cairo download"
+}

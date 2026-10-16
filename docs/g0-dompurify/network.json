@@ -1,0 +1,11 @@
+{
+  "violations": [],
+  "font_stubs": [
+    "exact-cairo-css-offline",
+    "exact-cairo-css-offline",
+    "exact-cairo-css-offline"
+  ],
+  "all_http_fulfilled_or_aborted_no_fetch_continue": true,
+  "service_workers": "blocked",
+  "websockets": "intercepted before page creation"
+}

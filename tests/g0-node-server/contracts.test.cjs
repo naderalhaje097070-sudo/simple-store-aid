@@ -184,27 +184,38 @@ test("locked SDK Node transport uses real adapter for initialize list invoke and
     "@modelcontextprotocol/sdk/server/streamableHttp.js",
   );
   const { z } = sdkRequire("zod");
-  const mcp = new McpServer({ name: "local-adapter-fixture", version: "1.0.0" });
   let calls = 0;
-  mcp.registerTool("echo", { inputSchema: { value: z.string() } }, async ({ value }) => {
-    calls++;
-    return { content: [{ type: "text", text: value }] };
-  });
-  const transport = new StreamableHTTPServerTransport({
-    sessionIdGenerator: undefined,
-    enableJsonResponse: true,
-  });
-  await mcp.connect(transport);
+  const pairs = [];
+  const unexpected = [];
   const sdkServer = http.createServer((req, res) => {
-    void transport.handleRequest(req, res).catch(() => {
+    // SDK1.31.0 stateless transports are single-request objects, as its example shows.
+    const mcp = new McpServer({ name: "local-adapter-fixture", version: "1.0.0" });
+    mcp.registerTool("echo", { inputSchema: { value: z.string() } }, async ({ value }) => {
+      calls++;
+      return { content: [{ type: "text", text: value }] };
+    });
+    const transport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+      enableJsonResponse: true,
+    });
+    const pair = { close: () => (pair.closing ||= mcp.close()) };
+    pairs.push(pair);
+    res.once("close", () => {
+      void pair.close().catch((error) => unexpected.push(error.message));
+    });
+    void (async () => {
+      await mcp.connect(transport);
+      await transport.handleRequest(req, res);
+    })().catch((error) => {
+      unexpected.push(error.message);
       if (!res.headersSent) res.writeHead(500);
       res.end();
     });
   });
   sdkServer.listen(0, "127.0.0.1");
   await once(sdkServer, "listening");
-  const rpc = (method, params) =>
-    request(sdkServer, "/mcp", {
+  const rpc = async (method, params) => {
+    const response = await request(sdkServer, "/mcp", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -212,6 +223,9 @@ test("locked SDK Node transport uses real adapter for initialize list invoke and
       },
       body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }),
     });
+    observations.push({ sdkMethod: method, ...response });
+    return response;
+  };
   try {
     const init = await rpc("initialize", {
       protocolVersion: "2025-03-26",
@@ -221,6 +235,7 @@ test("locked SDK Node transport uses real adapter for initialize list invoke and
     assert.equal(init.status, 200);
     assert.equal(JSON.parse(init.body).result.serverInfo.name, "local-adapter-fixture");
     const listed = await rpc("tools/list", {});
+    assert.equal(listed.status, 200);
     assert.equal(JSON.parse(listed.body).result.tools[0].name, "echo");
     const invoked = await rpc("tools/call", { name: "echo", arguments: { value: "dummy-marker" } });
     assert.deepEqual(JSON.parse(invoked.body).result.content, [
@@ -239,12 +254,14 @@ test("locked SDK Node transport uses real adapter for initialize list invoke and
       },
       body: "{",
     });
+    observations.push({ sdkMethod: "malformed-json", ...malformed });
     assert.equal(malformed.status, 400);
     assert.ok(JSON.parse(malformed.body).error);
   } finally {
-    await mcp.close();
     sdkServer.closeAllConnections();
     await new Promise((resolve) => sdkServer.close(resolve));
+    await Promise.all(pairs.map((pair) => pair.close()));
+    assert.deepEqual(unexpected, []);
   }
 });
 after(async () => {

@@ -47,3 +47,15 @@ before contracts: Python inherited cp1252 while reading UTF8 SDK source, raising
 UnicodeDecodeError. This is harness encoding, not an adapter result. The failed
 ZIP and log are preserved. Explicit UTF8 reads/PYTHONUTF8 correct only evidence
 collection; security assertions, packages and application remain unchanged.
+
+Second native Windows run38950795504 froze the old lock and executed8cases:5PASS,
+2expected security failures (HTTP200 protected-marker with zero prefix calls),
+and1unexpected SDK fixture failure (reusing a single-use stateless transport).
+The SDK1.31.0 built webStandard transport explicitly rejects reuse, and its
+published simpleStatelessStreamableHttp example constructs a fresh pair for
+each request. A local existing copy of exactlySDK1.31.0 was read for diagnosis
+only, not executed or credited as candidate verification. The corrected fixture
+follows that per-request lifecycle, logs RPC responses and fails on unexpected
+transport/cleanup errors. Fresh CI saves installed source for hash reconciliation.
+No SDK/application upgrade or static-security oracle change. Failed ZIP/log
+retained; this run is not labeled a successful expected-red baseline.

@@ -23,7 +23,7 @@ def contracts(baseline=False):
     counts = dict(re.findall(r'^# (tests|pass|fail|skipped) (\d+)$', text, re.M))
     observations = json.loads((evidence.OUT/'http-observations.json').read_text(encoding='utf-8'))
     security = [x for x in observations if 'case' in x]
-    assert len(security) == 2 and counts.get('skipped') == '0', text
+    assert len(security) == 2 and counts.get('skipped') == '0' and counts.get('tests') == '8', text
     evidence.save('contracts-summary.json', {'baseline_control': baseline, 'exit_code': result.returncode,
         'counts': counts, 'failed_tests': failed, 'native_platform': observations[0]['platform'],
         'version': observations[0]['version']})
@@ -74,6 +74,11 @@ console.log(JSON.stringify({rows,node:process.version,hono:hono.version,engines:
         if '@hono/node-server' in data: imports.append({'path':str(p),'imports':re.findall(r'''["'](@hono/node-server[^"']*)["']''',data)})
     assert imports, 'SDK adapter consumption must be observed'
     evidence.save('sdk-adapter-imports.json',imports)
+    for rel in ['server/streamableHttp.js','server/webStandardStreamableHttp.js','examples/server/simpleStatelessStreamableHttp.js']:
+        src=Path('node_modules/@modelcontextprotocol/sdk/dist/cjs')/rel
+        dest=evidence.OUT/'sdk-vendor'/rel
+        dest.parent.mkdir(parents=True,exist_ok=True)
+        dest.write_bytes(src.read_bytes())
 
 
 def graph():

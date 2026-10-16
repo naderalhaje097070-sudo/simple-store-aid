@@ -1,0 +1,470 @@
+﻿2026-10-16T18:53:38.0006864Z Current runner version: '2.337.0'
+2026-10-16T18:53:38.0039822Z ##[group]Runner Image Provisioner
+2026-10-16T18:53:38.0041046Z Hosted Compute Agent
+2026-10-16T18:53:38.0041644Z Version: 20261002.596
+2026-10-16T18:53:38.0042263Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-16T18:53:38.0043920Z Build Date: 2026-10-02T22:28:27Z
+2026-10-16T18:53:38.0044866Z Worker ID: {fbc655d7-d150-4820-b52e-5bdcd8ed192e}
+2026-10-16T18:53:38.0045569Z Region: westus
+2026-10-16T18:53:38.0046814Z Cloud: Azure
+2026-10-16T18:53:38.0047747Z ##[endgroup]
+2026-10-16T18:53:38.0049721Z ##[group]Operating System
+2026-10-16T18:53:38.0051177Z Microsoft Windows Server 2025
+2026-10-16T18:53:38.0052163Z 10.0.26100
+2026-10-16T18:53:38.0052742Z Datacenter
+2026-10-16T18:53:38.0053249Z ##[endgroup]
+2026-10-16T18:53:38.0053777Z ##[group]Runner Image
+2026-10-16T18:53:38.0054393Z Image: windows-2025-vs2026
+2026-10-16T18:53:38.0054972Z Version: 20261007.264.1
+2026-10-16T18:53:38.0056724Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261007.264/images/windows/Windows2025-VS2026-Readme.md
+2026-10-16T18:53:38.0058357Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261007.264
+2026-10-16T18:53:38.0059330Z ##[endgroup]
+2026-10-16T18:53:38.0060420Z ##[group]GITHUB_TOKEN Permissions
+2026-10-16T18:53:38.0062708Z Contents: read
+2026-10-16T18:53:38.0063332Z Metadata: read
+2026-10-16T18:53:38.0063889Z ##[endgroup]
+2026-10-16T18:53:38.0066454Z Secret source: Actions
+2026-10-16T18:53:38.0067375Z Cache mode: write
+2026-10-16T18:53:38.0068236Z Prepare workflow directory
+2026-10-16T18:53:38.0603560Z Prepare all required actions
+2026-10-16T18:53:38.0653959Z Getting action download info
+2026-10-16T18:53:38.4413610Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-16T18:53:38.6302741Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-16T18:53:38.8333446Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-16T18:53:39.1384932Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-16T18:53:39.6014720Z Complete job name: baseline
+2026-10-16T18:53:39.8041544Z ##[group]Run actions/checkout@v4
+2026-10-16T18:53:39.8042617Z with:
+2026-10-16T18:53:39.8043056Z   fetch-depth: 0
+2026-10-16T18:53:39.8043721Z   persist-credentials: false
+2026-10-16T18:53:39.8044614Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-16T18:53:39.8050320Z   token: ***
+2026-10-16T18:53:39.8050804Z   ssh-strict: true
+2026-10-16T18:53:39.8051266Z   ssh-user: git
+2026-10-16T18:53:39.8051719Z   clean: true
+2026-10-16T18:53:39.8052484Z   sparse-checkout-cone-mode: true
+2026-10-16T18:53:39.8053322Z   fetch-tags: false
+2026-10-16T18:53:39.8053792Z   show-progress: true
+2026-10-16T18:53:39.8054262Z   lfs: false
+2026-10-16T18:53:39.8054686Z   submodules: false
+2026-10-16T18:53:39.8055173Z   set-safe-directory: true
+2026-10-16T18:53:39.8055673Z   allow-unsafe-pr-checkout: false
+2026-10-16T18:53:39.8056533Z env:
+2026-10-16T18:53:39.8056944Z   PYTHONUTF8: 1
+2026-10-16T18:53:39.8057366Z ##[endgroup]
+2026-10-16T18:53:40.8684368Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-16T18:53:40.8693620Z ##[group]Getting Git version info
+2026-10-16T18:53:40.8699755Z Working directory is 'D:\a\simple-store-aid\simple-store-aid'
+2026-10-16T18:53:40.8705217Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-16T18:53:40.8710349Z git version 2.56.0.windows.2
+2026-10-16T18:53:40.8715543Z ##[endgroup]
+2026-10-16T18:53:40.8724478Z Temporarily overriding HOME='D:\a\_temp\59169943-6f80-4538-9e14-e3394a6a4174' before making global git config changes
+2026-10-16T18:53:40.8728633Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T18:53:40.8732495Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\simple-store-aid\simple-store-aid
+2026-10-16T18:53:40.8739031Z Deleting the contents of 'D:\a\simple-store-aid\simple-store-aid'
+2026-10-16T18:53:40.8741492Z ##[group]Initializing the repository
+2026-10-16T18:53:40.8743239Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\simple-store-aid\simple-store-aid
+2026-10-16T18:53:41.7950989Z Initialized empty Git repository in D:/a/simple-store-aid/simple-store-aid/.git/
+2026-10-16T18:53:41.7954183Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-16T18:53:41.7956792Z ##[endgroup]
+2026-10-16T18:53:41.7957588Z ##[group]Disabling automatic garbage collection
+2026-10-16T18:53:41.7959352Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-10-16T18:53:41.7960844Z ##[endgroup]
+2026-10-16T18:53:41.7961284Z ##[group]Setting up auth
+2026-10-16T18:53:41.7961962Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T18:53:41.7963418Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-16T18:53:43.1261811Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T18:53:43.1943622Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-16T18:53:43.9095220Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T18:53:43.9510749Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-16T18:53:44.6001789Z [command]"C:\Program Files\Git\bin\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-10-16T18:53:44.6490161Z ##[endgroup]
+2026-10-16T18:53:44.6511546Z ##[group]Fetching the repository
+2026-10-16T18:53:44.6537544Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-16T18:53:46.8589587Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-16T18:53:46.8595410Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-16T18:53:46.8598420Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-16T18:53:46.8601205Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-16T18:53:46.8613271Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-16T18:53:46.8615144Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-16T18:53:46.8619256Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-16T18:53:46.8641290Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-16T18:53:46.8648936Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-16T18:53:46.8669000Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-16T18:53:46.8671472Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-16T18:53:46.8673160Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-16T18:53:46.8710502Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-16T18:53:46.8735596Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-16T18:53:46.8740465Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-16T18:53:46.8741879Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-16T18:53:46.8743537Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-16T18:53:46.8744900Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-16T18:53:46.8746271Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-16T18:53:46.8747657Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-16T18:53:46.8748923Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-16T18:53:46.8750258Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-16T18:53:46.8751776Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-16T18:53:46.8753058Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-16T18:53:46.8754197Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-16T18:53:46.8755182Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-16T18:53:46.8756285Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-16T18:53:46.8758058Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-16T18:53:46.8759442Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-16T18:53:46.8764546Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-16T18:53:46.8765707Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-16T18:53:46.8767599Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-16T18:53:46.8769384Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-16T18:53:46.8770661Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-16T18:53:46.8772217Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-16T18:53:46.8773199Z  * [new branch]      main                    -> origin/main
+2026-10-16T18:53:46.8774173Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-16T18:53:46.8776807Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-16T18:53:46.8779520Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-16T18:53:46.8780988Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-16T18:53:46.8901319Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-16T18:53:46.8902512Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-16T18:53:46.8903814Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-16T18:53:46.8904944Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-16T18:53:46.8906118Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-16T18:53:46.8907854Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-16T18:53:46.8909565Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-16T18:53:46.8910827Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-16T18:53:46.8911910Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-16T18:53:46.8913038Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-16T18:53:46.8914185Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-16T18:53:46.8916869Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-16T18:53:46.8938804Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-16T18:53:46.8941157Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-16T18:53:46.8943845Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-16T18:53:46.8945302Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-16T18:53:46.8946509Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-16T18:53:46.8947755Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-16T18:53:46.8949056Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-16T18:53:46.8950322Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-16T18:53:46.8951447Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-16T18:53:46.8952828Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-16T18:53:46.8954620Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-16T18:53:46.8956136Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-16T18:53:46.8957525Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-16T18:53:46.8958773Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-16T18:53:46.8959831Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-16T18:53:46.8961189Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-16T18:53:46.8962310Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-16T18:53:46.8965138Z [command]"C:\Program Files\Git\bin\git.exe" branch --list --remote origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-16T18:53:46.9381822Z   origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-16T18:53:46.9439315Z [command]"C:\Program Files\Git\bin\git.exe" rev-parse refs/remotes/origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-16T18:53:46.9894892Z 94b4be00e1d73a7a593b62bd5351a4fe9ad2cfbd
+2026-10-16T18:53:47.0151819Z ##[endgroup]
+2026-10-16T18:53:47.0175173Z ##[group]Determining the checkout info
+2026-10-16T18:53:47.0264485Z ##[endgroup]
+2026-10-16T18:53:47.0266658Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-10-16T18:53:47.0673456Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-10-16T18:53:47.1351098Z ##[group]Checking out the ref
+2026-10-16T18:53:47.1373588Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force -B test/g0-g1-acceptance-runtime-2026-10-14 refs/remotes/origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-16T18:53:47.4430643Z Switched to a new branch 'test/g0-g1-acceptance-runtime-2026-10-14'
+2026-10-16T18:53:47.4546076Z branch 'test/g0-g1-acceptance-runtime-2026-10-14' set up to track 'origin/test/g0-g1-acceptance-runtime-2026-10-14'.
+2026-10-16T18:53:47.4602809Z ##[endgroup]
+2026-10-16T18:53:47.5274284Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-10-16T18:53:47.5877076Z 94b4be00e1d73a7a593b62bd5351a4fe9ad2cfbd
+2026-10-16T18:53:47.5929330Z ##[group]Removing auth
+2026-10-16T18:53:47.5940110Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T18:53:47.6397273Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-16T18:53:48.3419474Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T18:53:48.3813717Z http.https://github.com/.extraheader
+2026-10-16T18:53:48.3868763Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all http.https://github.com/.extraheader
+2026-10-16T18:53:48.4321713Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-16T18:53:49.1168015Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T18:53:49.1649032Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-16T18:53:49.8284208Z ##[endgroup]
+2026-10-16T18:53:49.8779600Z ##[group]Run actions/setup-node@v4
+2026-10-16T18:53:49.8779951Z with:
+2026-10-16T18:53:49.8780256Z   node-version: 22
+2026-10-16T18:53:49.8780589Z   always-auth: false
+2026-10-16T18:53:49.8780934Z   check-latest: false
+2026-10-16T18:53:49.8784376Z   token: ***
+2026-10-16T18:53:49.8784584Z env:
+2026-10-16T18:53:49.8784755Z   PYTHONUTF8: 1
+2026-10-16T18:53:49.8784940Z ##[endgroup]
+2026-10-16T18:53:50.0973137Z Found in cache @ C:\hostedtoolcache\windows\node\22.23.3\x64
+2026-10-16T18:53:50.0980861Z (node:6856) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T18:53:50.0982259Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T18:53:50.0985492Z ##[group]Environment details
+2026-10-16T18:53:58.8768367Z node: v22.23.3
+2026-10-16T18:53:58.8769515Z npm: 10.9.9
+2026-10-16T18:53:58.8769941Z yarn: 1.22.22
+2026-10-16T18:53:58.8770922Z ##[endgroup]
+2026-10-16T18:53:58.9231482Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-16T18:53:58.9231845Z with:
+2026-10-16T18:53:58.9232045Z   bun-version: 1.2.14
+2026-10-16T18:53:58.9232347Z   no-cache: false
+2026-10-16T18:53:58.9238414Z   token: ***
+2026-10-16T18:53:58.9238754Z env:
+2026-10-16T18:53:58.9239074Z   PYTHONUTF8: 1
+2026-10-16T18:53:58.9239408Z ##[endgroup]
+2026-10-16T18:53:59.7043049Z Downloading a new version of Bun: https://github.com/oven-sh/bun/releases/download/bun-v1.2.14/bun-windows-x64.zip
+2026-10-16T18:54:01.1559672Z [command]"C:\Program Files\PowerShell\7\pwsh.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.ZipFile } catch { } ; try { [System.IO.Compression.ZipFile]::ExtractToDirectory('D:\a\_temp\8e8aa687-166d-466b-9dba-4e67a7dda792.zip', 'D:\a\_temp\475a7dc1-6d12-4c4c-aa83-91dd3b47fe85', $true) } catch { if (($_.Exception.GetType().FullName -eq 'System.Management.Automation.MethodException') -or ($_.Exception.GetType().FullName -eq 'System.Management.Automation.RuntimeException') ){ Expand-Archive -LiteralPath 'D:\a\_temp\8e8aa687-166d-466b-9dba-4e67a7dda792.zip' -DestinationPath 'D:\a\_temp\475a7dc1-6d12-4c4c-aa83-91dd3b47fe85' -Force } else { throw $_ } } ;"
+2026-10-16T18:54:02.0820594Z [command]C:\Users\runneradmin\.bun\bin\bun.exe --revision
+2026-10-16T18:54:02.6763972Z 1.2.14+6a363a38d
+2026-10-16T18:54:02.7197642Z ##[group]Run set -euo pipefail
+2026-10-16T18:54:02.7198049Z [36;1mset -euo pipefail[0m
+2026-10-16T18:54:02.7198338Z [36;1mmkdir -p evidence/g0-node-server[0m
+2026-10-16T18:54:02.7198726Z [36;1mgit rev-parse HEAD > evidence/g0-node-server/source.txt[0m
+2026-10-16T18:54:02.7199407Z [36;1mnode -p 'JSON.stringify({platform:process.platform,node:process.version})' > evidence/g0-node-server/platform.json[0m
+2026-10-16T18:54:02.7200183Z [36;1mbun install --frozen-lockfile 2>&1 | tee evidence/g0-node-server/frozen-baseline.log[0m
+2026-10-16T18:54:02.7200733Z [36;1mgit diff --exit-code -- package.json bun.lock bunfig.toml[0m
+2026-10-16T18:54:02.7201204Z [36;1mpython tests/g0-node-server/evidence.py installed 1.19.14[0m
+2026-10-16T18:54:02.7221396Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-16T18:54:02.7221795Z env:
+2026-10-16T18:54:02.7221971Z   PYTHONUTF8: 1
+2026-10-16T18:54:02.7222164Z ##[endgroup]
+2026-10-16T18:54:03.3135015Z bun install v1.2.14 (6a363a38)
+2026-10-16T18:56:52.1601495Z 
+2026-10-16T18:56:52.1763098Z + @eslint/js@9.39.4
+2026-10-16T18:56:52.1763948Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-16T18:56:52.1767067Z + @types/node@22.19.17
+2026-10-16T18:56:52.1767805Z + @types/qrcode@1.5.6
+2026-10-16T18:56:52.1768433Z + @types/react@19.2.14
+2026-10-16T18:56:52.1769135Z + @types/react-dom@19.2.3
+2026-10-16T18:56:52.1769897Z + @vitejs/plugin-react@5.2.0
+2026-10-16T18:56:52.1770606Z + eslint@9.39.4
+2026-10-16T18:56:52.1771253Z + eslint-config-prettier@10.1.8
+2026-10-16T18:56:52.1772065Z + eslint-plugin-prettier@5.5.5
+2026-10-16T18:56:52.1772932Z + eslint-plugin-react-hooks@5.2.0
+2026-10-16T18:56:52.1773961Z + eslint-plugin-react-refresh@0.4.26
+2026-10-16T18:56:52.1774815Z + globals@15.15.0
+2026-10-16T18:56:52.1775512Z + nitro@3.0.260603-beta
+2026-10-16T18:56:52.1776203Z + prettier@3.8.3
+2026-10-16T18:56:52.1776794Z + seroval@1.6.7
+2026-10-16T18:56:52.1777463Z + typescript@5.9.3
+2026-10-16T18:56:52.1778568Z + typescript-eslint@8.59.0
+2026-10-16T18:56:52.1779142Z + vite@8.0.16
+2026-10-16T18:56:52.1779656Z + vite-plugin-pwa@1.3.0
+2026-10-16T18:56:52.1780157Z + workbox-window@7.4.1
+2026-10-16T18:56:52.1780697Z + @hookform/resolvers@5.2.2
+2026-10-16T18:56:52.1781292Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-16T18:56:52.1781894Z + @lovable.dev/email-js@0.1.0
+2026-10-16T18:56:52.1782463Z + @lovable.dev/mcp-js@0.20.1
+2026-10-16T18:56:52.1783135Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-16T18:56:52.1783773Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-16T18:56:52.1784408Z + @radix-ui/react-accordion@1.2.12
+2026-10-16T18:56:52.1785081Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-16T18:56:52.1785766Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-16T18:56:52.1786434Z + @radix-ui/react-avatar@1.1.11
+2026-10-16T18:56:52.1787066Z + @radix-ui/react-checkbox@1.3.3
+2026-10-16T18:56:52.1787689Z + @radix-ui/react-collapsible@1.1.12
+2026-10-16T18:56:52.1788344Z + @radix-ui/react-context-menu@2.2.16
+2026-10-16T18:56:52.1789071Z + @radix-ui/react-dialog@1.1.15
+2026-10-16T18:56:52.1789810Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-16T18:56:52.1790505Z + @radix-ui/react-hover-card@1.1.15
+2026-10-16T18:56:52.1791092Z + @radix-ui/react-label@2.1.8
+2026-10-16T18:56:52.1791693Z + @radix-ui/react-menubar@1.1.16
+2026-10-16T18:56:52.1792332Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-16T18:56:52.1792996Z + @radix-ui/react-popover@1.1.15
+2026-10-16T18:56:52.1793606Z + @radix-ui/react-progress@1.1.8
+2026-10-16T18:56:52.1794220Z + @radix-ui/react-radio-group@1.3.8
+2026-10-16T18:56:52.1797682Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-16T18:56:52.1798767Z + @radix-ui/react-select@2.2.6
+2026-10-16T18:56:52.1799563Z + @radix-ui/react-separator@1.1.8
+2026-10-16T18:56:52.1800113Z + @radix-ui/react-slider@1.3.6
+2026-10-16T18:56:52.1800405Z + @radix-ui/react-slot@1.2.4
+2026-10-16T18:56:52.1800692Z + @radix-ui/react-switch@1.2.6
+2026-10-16T18:56:52.1800964Z + @radix-ui/react-tabs@1.1.13
+2026-10-16T18:56:52.1806407Z + @radix-ui/react-toggle@1.1.10
+2026-10-16T18:56:52.1807696Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-16T18:56:52.1808276Z + @radix-ui/react-tooltip@1.2.8
+2026-10-16T18:56:52.1808766Z + @supabase/supabase-js@2.110.5
+2026-10-16T18:56:52.1809232Z + @tailwindcss/vite@4.2.4
+2026-10-16T18:56:52.1810727Z + @tanstack/react-query@5.100.1
+2026-10-16T18:56:52.1811076Z + @tanstack/react-router@1.170.41
+2026-10-16T18:56:52.1833917Z + @tanstack/react-start@1.168.60
+2026-10-16T18:56:52.1835449Z + @tanstack/router-plugin@1.168.42
+2026-10-16T18:56:52.1835977Z + class-variance-authority@0.7.1
+2026-10-16T18:56:52.1836394Z + clsx@2.1.1
+2026-10-16T18:56:52.1836691Z + cmdk@1.1.1
+2026-10-16T18:56:52.1836985Z + date-fns@4.1.0
+2026-10-16T18:56:52.1837344Z + embla-carousel-react@8.6.0
+2026-10-16T18:56:52.1837723Z + html2canvas@1.4.1
+2026-10-16T18:56:52.1838168Z + input-otp@1.4.2
+2026-10-16T18:56:52.1838760Z + jspdf@4.2.1
+2026-10-16T18:56:52.1839105Z + lucide-react@0.575.0
+2026-10-16T18:56:52.1839439Z + qrcode@1.5.4
+2026-10-16T18:56:52.1839736Z + react@19.2.5
+2026-10-16T18:56:52.1840073Z + react-day-picker@9.14.0
+2026-10-16T18:56:52.1840477Z + react-dom@19.2.5
+2026-10-16T18:56:52.1840829Z + react-hook-form@7.73.1
+2026-10-16T18:56:52.1841255Z + react-resizable-panels@4.10.0
+2026-10-16T18:56:52.1841631Z + recharts@2.15.4
+2026-10-16T18:56:52.1841842Z + sonner@2.0.7
+2026-10-16T18:56:52.1842066Z + tailwind-merge@3.5.0
+2026-10-16T18:56:52.1842300Z + tailwindcss@4.2.4
+2026-10-16T18:56:52.1842527Z + tw-animate-css@1.4.0
+2026-10-16T18:56:52.1842738Z + vaul@1.1.2
+2026-10-16T18:56:52.1842965Z + vite-tsconfig-paths@6.1.1
+2026-10-16T18:56:52.1843205Z + zod@4.4.3
+2026-10-16T18:56:52.1843318Z 
+2026-10-16T18:56:52.1925775Z 820 packages installed [168.93s]
+2026-10-16T18:56:56.1012492Z ##[group]Run python tests/g0-node-server/evidence.py baseline
+2026-10-16T18:56:56.1013024Z [36;1mpython tests/g0-node-server/evidence.py baseline[0m
+2026-10-16T18:56:56.1030766Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-16T18:56:56.1031175Z env:
+2026-10-16T18:56:56.1031364Z   PYTHONUTF8: 1
+2026-10-16T18:56:56.1031571Z   REQUIRE_NATIVE_WINDOWS: 1
+2026-10-16T18:56:56.1031792Z ##[endgroup]
+2026-10-16T18:56:57.9887794Z Traceback (most recent call last):
+2026-10-16T18:56:57.9890039Z   File "D:\a\simple-store-aid\simple-store-aid\tests\g0-node-server\evidence.py", line 134, in <module>
+2026-10-16T18:56:57.9891054Z     if mode=='baseline': contracts(True)
+2026-10-16T18:56:58.0022290Z                          ^^^^^^^^^^^^^^^
+2026-10-16T18:56:58.0024485Z   File "D:\a\simple-store-aid\simple-store-aid\tests\g0-node-server\evidence.py", line 32, in contracts
+2026-10-16T18:56:58.0078752Z     assert result.returncode == 1 and len(failed) == 2 and counts['fail'] == '2', text
+2026-10-16T18:56:58.0079658Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-16T18:56:58.0080305Z AssertionError: TAP version 13
+2026-10-16T18:56:58.0081088Z # Subtest: actual installed adapter resolves identically from SDK and root
+2026-10-16T18:56:58.0082084Z ok 1 - actual installed adapter resolves identically from SDK and root
+2026-10-16T18:56:58.0082739Z   ---
+2026-10-16T18:56:58.0083083Z   duration_ms: 1.8531
+2026-10-16T18:56:58.0083445Z   type: 'test'
+2026-10-16T18:56:58.0083759Z   ...
+2026-10-16T18:56:58.0084405Z # Subtest: ordinary public and authorized protected files remain readable
+2026-10-16T18:56:58.0085381Z ok 2 - ordinary public and authorized protected files remain readable
+2026-10-16T18:56:58.0086007Z   ---
+2026-10-16T18:56:58.0086336Z   duration_ms: 266.9101
+2026-10-16T18:56:58.0086713Z   type: 'test'
+2026-10-16T18:56:58.0087426Z   ...
+2026-10-16T18:56:58.0088065Z # Subtest: encoded-backslash-%5C must not bypass prefix authorization
+2026-10-16T18:56:58.0088970Z not ok 3 - encoded-backslash-%5C must not bypass prefix authorization
+2026-10-16T18:56:58.0089571Z   ---
+2026-10-16T18:56:58.0089877Z   duration_ms: 23.5616
+2026-10-16T18:56:58.0090506Z   type: 'test'
+2026-10-16T18:56:58.0120501Z   location: 'D:\\a\\simple-store-aid\\simple-store-aid\\tests\\g0-node-server\\contracts.test.cjs:117:3'
+2026-10-16T18:56:58.0121450Z   failureType: 'testCodeFailure'
+2026-10-16T18:56:58.0121890Z   error: |-
+2026-10-16T18:56:58.0150960Z     Expected values to be strictly equal:
+2026-10-16T18:56:58.0151438Z     
+2026-10-16T18:56:58.0151846Z     200 !== 404
+2026-10-16T18:56:58.0152145Z     
+2026-10-16T18:56:58.0179937Z   code: 'ERR_ASSERTION'
+2026-10-16T18:56:58.0180346Z   name: 'AssertionError'
+2026-10-16T18:56:58.0180727Z   expected: 404
+2026-10-16T18:56:58.0181050Z   actual: 200
+2026-10-16T18:56:58.0241158Z   operator: 'strictEqual'
+2026-10-16T18:56:58.0241555Z   stack: |-
+2026-10-16T18:56:58.0242516Z     TestContext.<anonymous> (D:\a\simple-store-aid\simple-store-aid\tests\g0-node-server\contracts.test.cjs:133:12)
+2026-10-16T18:56:58.0271880Z     process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-10-16T18:56:58.0273943Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-10-16T18:56:58.0274806Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-10-16T18:56:58.0304542Z   ...
+2026-10-16T18:56:58.0305495Z # Subtest: encoded-backslash-%5c must not bypass prefix authorization
+2026-10-16T18:56:58.0333597Z not ok 4 - encoded-backslash-%5c must not bypass prefix authorization
+2026-10-16T18:56:58.0334231Z   ---
+2026-10-16T18:56:58.0334539Z   duration_ms: 7.7769
+2026-10-16T18:56:58.0334899Z   type: 'test'
+2026-10-16T18:56:58.0335705Z   location: 'D:\\a\\simple-store-aid\\simple-store-aid\\tests\\g0-node-server\\contracts.test.cjs:117:3'
+2026-10-16T18:56:58.0336623Z   failureType: 'testCodeFailure'
+2026-10-16T18:56:58.0339741Z   error: |-
+2026-10-16T18:56:58.0340216Z     Expected values to be strictly equal:
+2026-10-16T18:56:58.0340670Z     
+2026-10-16T18:56:58.0340960Z     200 !== 404
+2026-10-16T18:56:58.0341257Z     
+2026-10-16T18:56:58.0341559Z   code: 'ERR_ASSERTION'
+2026-10-16T18:56:58.0341937Z   name: 'AssertionError'
+2026-10-16T18:56:58.0342309Z   expected: 404
+2026-10-16T18:56:58.0342631Z   actual: 200
+2026-10-16T18:56:58.0342960Z   operator: 'strictEqual'
+2026-10-16T18:56:58.0343342Z   stack: |-
+2026-10-16T18:56:58.0344228Z     TestContext.<anonymous> (D:\a\simple-store-aid\simple-store-aid\tests\g0-node-server\contracts.test.cjs:133:12)
+2026-10-16T18:56:58.0346154Z     process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-10-16T18:56:58.0347232Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-10-16T18:56:58.0348082Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-10-16T18:56:58.0348807Z   ...
+2026-10-16T18:56:58.0349576Z # Subtest: traversal repeated separators malformed encoding and missing file are rejected
+2026-10-16T18:56:58.0350773Z ok 5 - traversal repeated separators malformed encoding and missing file are rejected
+2026-10-16T18:56:58.0351492Z   ---
+2026-10-16T18:56:58.0351792Z   duration_ms: 20.113
+2026-10-16T18:56:58.0352141Z   type: 'test'
+2026-10-16T18:56:58.0352450Z   ...
+2026-10-16T18:56:58.0353150Z # Subtest: static HEAD and byte-range responses retain their body and header contracts
+2026-10-16T18:56:58.0354249Z ok 6 - static HEAD and byte-range responses retain their body and header contracts
+2026-10-16T18:56:58.0354915Z   ---
+2026-10-16T18:56:58.0355209Z   duration_ms: 7.8054
+2026-10-16T18:56:58.0355546Z   type: 'test'
+2026-10-16T18:56:58.0355852Z   ...
+2026-10-16T18:56:58.0356545Z # Subtest: actual adapter preserves HTTP POST status headers JSON and handled errors
+2026-10-16T18:56:58.0357633Z ok 7 - actual adapter preserves HTTP POST status headers JSON and handled errors
+2026-10-16T18:56:58.0358619Z   ---
+2026-10-16T18:56:58.0358917Z   duration_ms: 28.1218
+2026-10-16T18:56:58.0359261Z   type: 'test'
+2026-10-16T18:56:58.0359567Z   ...
+2026-10-16T18:56:58.0360296Z # Subtest: locked SDK Node transport uses real adapter for initialize list invoke and errors
+2026-10-16T18:56:58.0391786Z not ok 8 - locked SDK Node transport uses real adapter for initialize list invoke and errors
+2026-10-16T18:56:58.0392554Z   ---
+2026-10-16T18:56:58.0422299Z   duration_ms: 498.9708
+2026-10-16T18:56:58.0422683Z   type: 'test'
+2026-10-16T18:56:58.0423514Z   location: 'D:\\a\\simple-store-aid\\simple-store-aid\\tests\\g0-node-server\\contracts.test.cjs:181:1'
+2026-10-16T18:56:58.0455554Z   failureType: 'testCodeFailure'
+2026-10-16T18:56:58.0456148Z   error: 'Unexpected end of JSON input'
+2026-10-16T18:56:58.0456629Z   code: 'ERR_TEST_FAILURE'
+2026-10-16T18:56:58.0457024Z   name: 'SyntaxError'
+2026-10-16T18:56:58.0489194Z   stack: |-
+2026-10-16T18:56:58.0489620Z     JSON.parse (<anonymous>)
+2026-10-16T18:56:58.0490638Z     TestContext.<anonymous> (D:\a\simple-store-aid\simple-store-aid\tests\g0-node-server\contracts.test.cjs:224:23)
+2026-10-16T18:56:58.0493021Z     process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+2026-10-16T18:56:58.0493954Z     async Test.run (node:internal/test_runner/test:1054:7)
+2026-10-16T18:56:58.0506128Z     async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+2026-10-16T18:56:58.0506847Z   ...
+2026-10-16T18:56:58.0507151Z 1..8
+2026-10-16T18:56:58.0507472Z # tests 8
+2026-10-16T18:56:58.0507776Z # suites 0
+2026-10-16T18:56:58.0508078Z # pass 5
+2026-10-16T18:56:58.0508369Z # fail 3
+2026-10-16T18:56:58.0508685Z # cancelled 0
+2026-10-16T18:56:58.0509000Z # skipped 0
+2026-10-16T18:56:58.0509302Z # todo 0
+2026-10-16T18:56:58.0509651Z # duration_ms 1510.4907
+2026-10-16T18:56:58.0509908Z 
+2026-10-16T18:56:58.0620165Z ##[error]Process completed with exit code 1.
+2026-10-16T18:56:58.0831626Z ##[group]Run git diff --exit-code --
+2026-10-16T18:56:58.0832023Z [36;1mgit diff --exit-code --[0m
+2026-10-16T18:56:58.0851859Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-10-16T18:56:58.0852266Z env:
+2026-10-16T18:56:58.0852444Z   PYTHONUTF8: 1
+2026-10-16T18:56:58.0852644Z ##[endgroup]
+2026-10-16T18:56:58.4849357Z ##[group]Run actions/upload-artifact@v4
+2026-10-16T18:56:58.4849723Z with:
+2026-10-16T18:56:58.4849933Z   name: g0-node-server-windows-baseline
+2026-10-16T18:56:58.4850227Z   path: evidence/g0-node-server
+2026-10-16T18:56:58.4850472Z   if-no-files-found: error
+2026-10-16T18:56:58.4850696Z   compression-level: 6
+2026-10-16T18:56:58.4850911Z   overwrite: false
+2026-10-16T18:56:58.4851122Z   include-hidden-files: false
+2026-10-16T18:56:58.4851342Z env:
+2026-10-16T18:56:58.4851504Z   PYTHONUTF8: 1
+2026-10-16T18:56:58.4851683Z ##[endgroup]
+2026-10-16T18:57:01.4045184Z (node:2688) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-16T18:57:01.4049370Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-16T18:57:01.4308655Z With the provided path, there will be 15 files uploaded
+2026-10-16T18:57:01.4312541Z Artifact name is valid!
+2026-10-16T18:57:01.4313278Z Root directory input is valid!
+2026-10-16T18:57:01.9540249Z Beginning upload of artifact content to blob storage
+2026-10-16T18:57:02.0755229Z (node:2688) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-16T18:57:02.7437821Z Uploaded bytes 8776
+2026-10-16T18:57:02.7440791Z Finished uploading artifact content to blob storage!
+2026-10-16T18:57:02.7442041Z SHA256 digest of uploaded artifact zip is 902cae26ecb4e1d36aca5ef1d8ddef3ceb303e9cda91162565490ddd0ed7eb2d
+2026-10-16T18:57:02.7444822Z Finalizing artifact upload
+2026-10-16T18:57:02.7447309Z Artifact g0-node-server-windows-baseline.zip successfully finalized. Artifact ID 12069041856
+2026-10-16T18:57:02.7448922Z Artifact g0-node-server-windows-baseline has been successfully uploaded! Final size is 8776 bytes. Artifact ID is 12069041856
+2026-10-16T18:57:02.7450801Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/38950795504/artifacts/12069041856
+2026-10-16T18:57:02.7878059Z Post job cleanup.
+2026-10-16T18:57:03.2117510Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-10-16T18:57:03.2908421Z git version 2.56.0.windows.2
+2026-10-16T18:57:03.2932235Z Temporarily overriding HOME='D:\a\_temp\064ee4bf-6405-4d84-aede-837eb8db146e' before making global git config changes
+2026-10-16T18:57:03.2933664Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-16T18:57:03.2935505Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\simple-store-aid\simple-store-aid
+2026-10-16T18:57:03.3761181Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-10-16T18:57:03.4175458Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-10-16T18:57:05.3632591Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-16T18:57:05.3635780Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-10-16T18:57:05.3643108Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-16T18:57:05.3645411Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-10-16T18:57:06.0353600Z Cleaning up orphan processes
+2026-10-16T18:57:06.2710256Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

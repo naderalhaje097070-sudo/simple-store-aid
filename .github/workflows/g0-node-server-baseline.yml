@@ -1,4 +1,5 @@
 name: G0 node-server native Windows baseline
+# SDK stateless fixture creates a server and transport per request.
 on:
   push:
     branches: [test/g0-g1-acceptance-runtime-2026-10-14]

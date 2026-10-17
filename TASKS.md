@@ -1,3 +1,14 @@
+## Current queue checkpoint — G0-APP-LINT-01, 2026-10-17
+
+- [x] Bounded draft candidate removes17app errors(16any+1expression), retains1useMemo warning; actual types derive from existing contracts, no financial calculations/calls/Hook deps changed.
+- [x] Source e58bc5db7e09defe9a07011ae712c484d5778301/appblobde992dbc; Quality39072945731 attempt1SUCCESS: frozen/typecheck/changedlint/66unit174expect/8wrapper/67browser/twoisolatedbuilds/generationinvariance. Synthetic checkout tree equals source.
+- [x] Independent focused review/replay and exact before/after/raw evidence/rollback in docs/g0-app-lint-01; no new source blocker for this bounded lint candidate, wider approval remains Changes required.
+- [ ] **Separate existing Medium: APP-DEBT-MISSING-CUSTOMER** — DebtsScreen find can return undefined for a visible debt row; click fails TypeError before navigation on both versions (new explicit diagnostic message only). Decide loading/missing/deleted-customer behavior and add targeted regression independently. Never silently drop debt rows/totals or assert an unproved invariant. No behavioral fix in this batch.
+- [ ] Existing useMemo tenantTz warning, remaining whole-repo lint and .cjs coverage remain separate. No new global count;887 was previous baseline only.
+- [ ] G0/final-source reconciliation/affectedG1/integration/release acceptance remain open; source54 guard unchanged. No automatic G1 or merge/deploy. Main/production and dependencies/lock unchanged.
+
+ONE NEXT: planning reviews this bounded handoff, selects remaining lint work and disposition of the separate missing-customer finding; stable-source identity/G1 follows cleanup. Final head/claim closure in #70/#55; stop after handoff.
+
 ## G0-LINT-FORMAT-01 — bounded formatter candidate, 2026-10-17
 
 Owner-approved one-file formatting on Draft72: intakeff7a0daa; preparation source6e1bb937 / post-format appblobbd154115c1e782521fe4299cc7cc558e88eafff7; published3c6d611ce3f616c2c519a3acdc2a9f743837fab2 tree059dcc3cdd4898b0ae9c463159fd6ffae97fe783 equals reconstructed preparation tree+that app. LockedPrettier3.8.3 only in src/routes/_authenticated/app.tsx. Current full lint1210→887errors,13warnings unchanged; prettier1148→825, app323→0format with17othererrors/1warning unchanged. Source/type/runtime JSX AST/comments and all other diagnostics preserved; no types/Hooks/logic/rules/ignores/dependencies/lock/esbuild exception/generated-source change.

@@ -89,7 +89,6 @@ describe("TanStack server-function XSS dependency boundary", () => {
   }
 });
 
-
 // G0-ESBUILD-COMPAT-PROOF-01: exact owner-authorized exception beyond MCP ^0.27.0.
 // Every JS wrapper and platform binary stays on the same reviewed fixed version.
 test("esbuild exception has no vulnerable or mismatched locked copy", () => {

@@ -2,7 +2,12 @@ name: G0 esbuild explicit compatibility exception proof
 on:
   push:
     branches: [test/g0-g1-acceptance-runtime-2026-10-14]
-    paths: [.github/workflows/g0-esbuild-verify.yml]
+    paths:
+      - .github/workflows/g0-esbuild-verify.yml
+      - tests/g0-esbuild/**
+      - tests/unit/dependency-security.test.ts
+      - package.json
+      - bun.lock
 permissions:
   contents: read
 jobs:

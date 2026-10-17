@@ -1,5 +1,5 @@
 import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
-import { useMemo, useState, useEffect, useRef } from "react";
+import { useMemo, useState, useEffect, useRef, type Dispatch, type SetStateAction } from "react";
 import {
   Home,
   ReceiptText,
@@ -36,6 +36,7 @@ import {
   Printer,
   Crown,
   Loader2,
+  type LucideIcon,
 } from "lucide-react";
 import {
   downloadInvoicePdf,
@@ -70,6 +71,7 @@ import {
   useUpdateTenantBusinessType,
   useMyRole,
   tenantTodayKey,
+  type CreateSaleInput,
 } from "@/lib/db";
 import { BUSINESS_TYPES, businessTypeLabel } from "@/lib/business-types";
 import { DateRangeFilter, useDateRange, inRange } from "@/components/DateRangeFilter";
@@ -156,6 +158,19 @@ import { CouriersScreen } from "@/features/couriers/CouriersScreen";
 import { InvoiceDetailScreen } from "@/features/invoices/InvoiceDetailScreen";
 import { InvoicesScreen } from "@/features/invoices/InvoicesScreen";
 
+type AppScreenContext = Omit<AppCtx, "addCustomerAsync" | "createSaleAsync" | "closeDayAsync"> & {
+  addCustomerAsync: ReturnType<typeof useAddCustomer>["mutateAsync"];
+  createSaleAsync: ReturnType<typeof useCreateSale>["mutateAsync"];
+  closeDayAsync: ReturnType<typeof useCloseDay>["mutateAsync"];
+};
+
+type PaymentDetails = Omit<CreateSaleInput, "items" | "total">;
+type PaymentSheetProps = Pick<AppScreenContext, "customers" | "couriers" | "addCustomerAsync"> & {
+  subtotal: number;
+  onClose: () => void;
+  onSave: (details: PaymentDetails) => Promise<void>;
+};
+
 // Phase 3: كل البيانات تأتي من قاعدة بيانات المحل عبر hooks في src/lib/db.ts
 
 /* HELPERS: Money + fmt moved to src/features/shared/Money.tsx (R4a) */
@@ -194,7 +209,7 @@ function MongezzApp() {
   const invoices = (dbInvoices ?? []) as unknown as Invoice[];
   const payments = (dbPayments ?? []) as unknown as Payment[];
   const expenses = (dbExpenses ?? []) as Expense[];
-  const setCustomers = (_: any) => {};
+  const setCustomers: Dispatch<SetStateAction<Customer[]>> = (_) => {};
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);
@@ -325,7 +340,7 @@ function MongezzApp() {
     const list: {
       id: string;
       tone: "warn" | "debt" | "info";
-      icon: any;
+      icon: LucideIcon;
       text: string;
       onClick: () => void;
     }[] = [];
@@ -414,7 +429,7 @@ function MongezzApp() {
     outStock,
   ]);
 
-  const ctx: AppCtx = {
+  const ctx: AppScreenContext = {
     products,
     customers,
     setCustomers,
@@ -645,7 +660,7 @@ function MongezzApp() {
 /* ProfitScreen + CollectedScreen: moved to src/features/reports/ (R4b) */
 
 /* --------------- DEBTS --------------- */
-function DebtsScreen(p: any) {
+function DebtsScreen(p: AppScreenContext) {
   const map = new Map<string, number>();
   p.invoices.forEach((i: Invoice) => {
     const debt = getCustomerDebtForInvoice(i);
@@ -670,6 +685,8 @@ function DebtsScreen(p: any) {
             <button
               key={i}
               onClick={() => {
+                // Preserve the existing missing-customer failure before any navigation.
+                if (r.customer === undefined) throw new TypeError("Debt customer is unavailable");
                 p.setOpenCustomerId(r.customer.id);
                 p.go("debt_customer");
               }}
@@ -693,7 +710,7 @@ function DebtsScreen(p: any) {
   );
 }
 
-function DebtCustomerScreen(p: any) {
+function DebtCustomerScreen(p: AppScreenContext) {
   const cust: Customer | undefined = p.customers.find((c: Customer) => c.id === p.openCustomerId);
   // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
   const invs = p.invoices.filter(
@@ -745,7 +762,7 @@ function DebtCustomerScreen(p: any) {
 }
 
 /* --------------- COURIER CUSTODY --------------- */
-function CourierCustodyScreen(p: any) {
+function CourierCustodyScreen(p: AppScreenContext) {
   const [courierId, setCourierId] = useState<string>(p.openCourierId ?? p.couriers[0]?.id ?? "");
   const [markOrder, setMarkOrder] = useState<Invoice | null>(null);
   const [markMode, setMarkMode] = useState<
@@ -1045,7 +1062,7 @@ function CourierCustodyScreen(p: any) {
 }
 
 /* --------------- SETTLEMENTS --------------- */
-function SettlementsScreen(p: any) {
+function SettlementsScreen(p: AppScreenContext) {
   const courier = p.couriers.find((c: Courier) => c.id === p.openCourierId) ?? p.couriers[0];
   const collected = courier
     ? p.invoices.filter(
@@ -1071,7 +1088,8 @@ function SettlementsScreen(p: any) {
   const toggle = (id: string) =>
     setSelected((s) => {
       const n = new Set(s);
-      n.has(id) ? n.delete(id) : n.add(id);
+      if (n.has(id)) n.delete(id);
+      else n.add(id);
       return n;
     });
   const net = collected
@@ -1218,7 +1236,7 @@ function SettlementsScreen(p: any) {
 }
 
 /* --------------- EXPENSES --------------- */
-function ExpensesScreen(p: any) {
+function ExpensesScreen(p: AppScreenContext) {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("");
@@ -1363,7 +1381,7 @@ function ExpensesScreen(p: any) {
 
 /* --------------- SALE --------------- */
 type CartItem = { productId: string; qty: number };
-function SaleScreen(p: any) {
+function SaleScreen(p: AppScreenContext) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [q, setQ] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
@@ -1587,7 +1605,14 @@ function SaleScreen(p: any) {
   );
 }
 
-function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose, onSave }: any) {
+function PaymentSheet({
+  subtotal,
+  customers,
+  addCustomerAsync,
+  couriers,
+  onClose,
+  onSave,
+}: PaymentSheetProps) {
   const [status, setStatus] = useState<"paid" | "partial" | "debt">("paid");
   const [paidStr, setPaidStr] = useState(String(subtotal));
   const [customerId, setCustomerId] = useState<string | undefined>(undefined);
@@ -1634,15 +1659,17 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
         <div>
           <label className="text-xs font-bold text-muted-foreground">حالة الدفع</label>
           <div className="mt-1 grid grid-cols-3 gap-2">
-            {[
-              { id: "paid", l: "مدفوع" },
-              { id: "partial", l: "جزئياً" },
-              { id: "debt", l: "دين" },
-            ].map((s) => (
+            {(
+              [
+                { id: "paid", l: "مدفوع" },
+                { id: "partial", l: "جزئياً" },
+                { id: "debt", l: "دين" },
+              ] satisfies { id: Invoice["status"]; l: string }[]
+            ).map((s) => (
               <button
                 key={s.id}
                 onClick={() => {
-                  setStatus(s.id as any);
+                  setStatus(s.id);
                   if (s.id === "paid") setPaidStr(String(subtotal));
                   if (s.id === "debt") setPaidStr("0");
                   if (s.id === "partial") setPaidStr("");
@@ -1841,8 +1868,12 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
                       setNewName("");
                       setNewPhone("");
                       setPickCustomer(false);
-                    } catch (err: any) {
-                      console.warn(err?.message);
+                    } catch (err: unknown) {
+                      console.warn(
+                        err === null || err === undefined
+                          ? undefined
+                          : Reflect.get(Object(err), "message", err),
+                      );
                     }
                   }}
                   className="mt-2 w-full rounded-xl bg-primary text-primary-foreground py-2 text-sm font-bold"
@@ -1874,7 +1905,7 @@ function PaymentSheet({ subtotal, customers, addCustomerAsync, couriers, onClose
   );
 }
 
-function SaleSuccessScreen(p: any) {
+function SaleSuccessScreen(p: AppScreenContext) {
   const s = p.lastSaleSummary;
   const [secondsLeft, setSecondsLeft] = useState(5);
   const [undone, setUndone] = useState(false);
@@ -1960,7 +1991,7 @@ function SaleSuccessScreen(p: any) {
 }
 
 /* --------------- SALE QUICK (cash, full-paid, no customer) --------------- */
-function SaleQuickScreen(p: any) {
+function SaleQuickScreen(p: AppScreenContext) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [q, setQ] = useState("");
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
@@ -2285,7 +2316,7 @@ function SaleQuickScreen(p: any) {
 }
 
 /* --------------- DAY CLOSE --------------- */
-function DayCloseScreen(p: any) {
+function DayCloseScreen(p: AppScreenContext) {
   // Day close always reflects TODAY only — independent of dashboard period filter.
   // This matches the close_day RPC which computes today's snapshot server-side.
   const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
@@ -2430,7 +2461,7 @@ function DayCloseScreen(p: any) {
                   await p.closeDayAsync({});
                   p.showToast("تم حفظ إقفال اليوم");
                   p.back();
-                } catch (e: any) {
+                } catch {
                   p.showToast("تعذّر الحفظ");
                 }
               }}
@@ -2527,7 +2558,7 @@ function MoneyDetailsSheet({
   onClose,
   onOpenProfit,
 }: {
-  totals: any;
+  totals: AppCtx["totals"];
   period: Period;
   onClose: () => void;
   onOpenProfit: () => void;

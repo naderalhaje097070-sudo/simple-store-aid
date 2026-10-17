@@ -336,7 +336,7 @@ jobs:
       github.event_name == 'pull_request_review' && github.event.action == 'submitted' &&
       github.event.review.state == 'commented' &&
       github.event.review.user.login == 'naderalhaje097070-sudo' &&
-      github.event.review.body == 'MONJEZ G0-ESBUILD-COMPAT-PROOF-01 PREPARE 1' &&
+      github.event.review.body == 'MONJEZ G0-ESBUILD-COMPAT-PROOF-01 PREPARE 2' &&
       github.event.review.commit_id == github.event.pull_request.head.sha &&
       github.event.pull_request.number == 72 &&
       github.event.pull_request.head.repo.full_name == github.repository &&
@@ -359,9 +359,11 @@ jobs:
       - name: Inspect verified official archives without executing MCP
         run: |
           set -euo pipefail
-          node tests/g0-esbuild/official.cjs
-          python tests/g0-esbuild/unpack.py evidence/g0-esbuild
-          rg -n 'esbuild|buildSync|transformSync|context\(|\.serve\(' evidence/g0-esbuild/baseline-files > evidence/g0-esbuild/esbuild-callsites.txt
+          python - <<'PYCOPY'
+          import zipfile
+          with zipfile.ZipFile('docs/g0-esbuild/preparation-failed.zip') as z:z.extractall('evidence/g0-esbuild')
+          PYCOPY
+          python tests/g0-esbuild/collect.py
       - name: Official bounded lock generation in disposable directory
         run: |
           set -euo pipefail
@@ -398,5 +400,62 @@ jobs:
         if: always()
         with:
           name: g0-esbuild-preparation
+          path: evidence/g0-esbuild
+          if-no-files-found: error
+
+  esbuild-windows-baseline:
+    if: >-
+      github.event_name == 'pull_request_review' && github.event.action == 'submitted' &&
+      github.event.review.state == 'commented' &&
+      github.event.review.user.login == 'naderalhaje097070-sudo' &&
+      github.event.review.body == 'MONJEZ G0-ESBUILD-COMPAT-PROOF-01 PREPARE 2' &&
+      github.event.review.commit_id == github.event.pull_request.head.sha &&
+      github.event.pull_request.number == 72 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'test/g0-g1-acceptance-runtime-2026-10-14' &&
+      github.run_attempt == 1
+    runs-on: windows-latest
+    timeout-minutes: 10
+    env:
+      PYTHONUTF8: '1'
+      REQUIRE_NATIVE_WINDOWS: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Clean frozen vulnerable baseline outside source checkout
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-esbuild
+          git rev-parse HEAD > evidence/g0-esbuild/harness-source.txt
+          echo 1b7a1a016f793c49d6b60f513c3241bb687681f3 > evidence/g0-esbuild/baseline-source.txt
+          baseline_dir="$(mktemp -d)"
+          for f in package.json bun.lock bunfig.toml; do
+            git show "1b7a1a016f793c49d6b60f513c3241bb687681f3:$f" > "$baseline_dir/$f"
+          done
+          cd "$baseline_dir"
+          bun install --frozen-lockfile 2>&1 | tee "$GITHUB_WORKSPACE/evidence/g0-esbuild/frozen-baseline.log"
+          echo "ESBUILD_ROOT=$(cygpath -w "$baseline_dir/node_modules/esbuild")" >> "$GITHUB_ENV"
+      - name: Exact native Windows old regression failures
+        run: python tests/g0-esbuild/evidence.py baseline
+      - name: Tracked source intact
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-esbuild-windows-baseline
           path: evidence/g0-esbuild
           if-no-files-found: error

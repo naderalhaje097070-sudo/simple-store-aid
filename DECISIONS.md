@@ -1,3 +1,9 @@
+## G0-MCP-JS-COMPAT-01 — official decision checkpoint, 2026-10-17
+
+Completed the owner-authorized read-only version investigation using exactly one diagnostic run39011125934/attempt1/SUCCESS on56170b8792337649458c3cbb6bc1aee7a8d03bc3. Official HTTP200 metadata contains33 newer stable+48 newer prereleases; all81 requireesbuild^0.27.0 and reject published patched0.28.1/0.28.2. No compatible official candidate exists in this captured snapshot. No candidate archive/install or binary comparison was performed. docs/g0-mcp-js/REPORT.md and exact raw official-inspection.zip preserve receipts, commands, source/run/artifact identity and limits.
+
+Project package/lock and all prior security floors remain unchanged. Diagnostic trigger and temporary scripts are retired in this delivery; normal SEC-CI workflow restored to0540e266. No Quality/G1, finance/account/SQL, main, merge/deploy or billing configuration change. Decision investigation complete; remediation/G0/integration remain blocked. ONE NEXT for planning: a separately authorized design/source-inspection packet for a narrowly scoped parent contract patch/upstream option, not broad mcp-js/SDK upgrade or silent override. Stop after55/70 handoff.
+
 ## DEC-G0-NODE-SERVER-01 — prove published 1.x patch and native Windows boundary
 
 2026-10-16 owner task authorizes the smallest adapter correction above PR72/5cbf198. Official npm packument and verified actual tarball prove1.19.15 is available, so the permitted2.0.5 fallback is unnecessary. SDK1.31.0 accepts1.19.15 without any SDK/app change; adapter engines/peer/exports unchanged. Use paired1.19.15 constraints and approved official whole-lock generation; byte-exact lock1a0791b4 changes only adapter and override. Preserve Hono/qs/DOMPurify/Babel/esbuild and every other package.

@@ -1,8 +1,6 @@
 name: SEC-CI Gate 4 Probe
 
 on:
-  pull_request_review:
-    types: [submitted]
   pull_request:
     branches:
       - main
@@ -12,7 +10,6 @@ permissions:
 
 jobs:
   policy-contract:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -53,7 +50,6 @@ jobs:
           echo "SEC_CI_G4_TARGET_GREEN_CONFIRMED"
 
   candidate-financial:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -164,7 +160,6 @@ jobs:
         run: supabase stop --no-backup > /dev/null 2>&1 || true
 
   candidate-auth:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -329,66 +324,3 @@ jobs:
         run: |
           rm -f /tmp/mongezz-worker.env
           supabase stop --no-backup > /dev/null 2>&1 || true
-
-  mcp-package-inspection:
-    if: github.event_name == 'pull_request_review' && github.event.action == 'submitted' && github.event.review.state == 'commented' && github.event.review.user.login == 'naderalhaje097070-sudo' && github.event.review.body == 'G0-MCP-JS-COMPAT-01 RUN-ONCE 20261017-0843. Operational trigger only; no review approval.' && github.event.review.commit_id == github.event.pull_request.head.sha && github.event.pull_request.number == 72 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'test/g0-g1-acceptance-runtime-2026-10-14' && github.run_attempt == 1
-    runs-on: ubuntu-latest
-    timeout-minutes: 6
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
-          persist-credentials: false
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Fetch official metadata and integrity-checked archives without installation
-        shell: bash
-        env:
-          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
-          DIAGNOSTIC_RUN_ID: ${{ github.run_id }}
-          DIAGNOSTIC_ATTEMPT: ${{ github.run_attempt }}
-          DIAGNOSTIC_WORKFLOW: ${{ github.workflow_ref }}
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "9aee2639bf467c1a6e46f3f66397e532ba0a738a"
-          out="$RUNNER_TEMP/g0-mcp-js-inspection"
-          mkdir -p "$out"
-          cp tests/g0-mcp-js-inspection/inspect.cjs tests/g0-mcp-js-inspection/unpack.py "$out/"
-          cp .github/workflows/sec-ci-gate4-probe.yml "$out/workflow.yml"
-          git rev-parse HEAD > "$out/source.txt"
-          node --version > "$out/node-version.txt"
-          npm --version > "$out/npm-version.txt"
-          export NPM_GLOBAL_ROOT="$(npm root -g)"
-          printf '%s\n' 'NPM_GLOBAL_ROOT="$(npm root -g)" node tests/g0-mcp-js-inspection/inspect.cjs "$out"' 'python3 tests/g0-mcp-js-inspection/unpack.py "$out"' 'git diff --exit-code -- package.json bun.lock bunfig.toml' > "$out/commands.txt"
-          set +e
-          node tests/g0-mcp-js-inspection/inspect.cjs "$out" > "$out/inspect.stdout" 2> "$out/inspect.stderr"
-          raw_exit=$?
-          set -e
-          echo "$raw_exit" > "$out/inspect.exit"
-          cat "$out/inspect.stdout" "$out/inspect.stderr"
-          unpack_exit=0
-          if [ "$raw_exit" -eq 0 ]; then
-            set +e
-            python3 tests/g0-mcp-js-inspection/unpack.py "$out" > "$out/unpack.stdout" 2> "$out/unpack.stderr"
-            unpack_exit=$?
-            set -e
-            echo "$unpack_exit" > "$out/unpack.exit"
-            cat "$out/unpack.stdout" "$out/unpack.stderr"
-          fi
-          set +e
-          git diff --exit-code -- package.json bun.lock bunfig.toml > "$out/source-invariance.txt" 2>&1
-          graph_exit=$?
-          set -e
-          echo "$graph_exit" > "$out/source-invariance.exit"
-          if [ "$raw_exit" -ne 0 ]; then exit "$raw_exit"; fi
-          if [ "$unpack_exit" -ne 0 ]; then exit "$unpack_exit"; fi
-          exit "$graph_exit"
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: g0-mcp-js-official-inspection
-          path: ${{ runner.temp }}/g0-mcp-js-inspection
-          if-no-files-found: error
-          retention-days: 7

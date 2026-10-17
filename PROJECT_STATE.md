@@ -1,3 +1,9 @@
+## G0-MCP-JS-COMPAT-01 — official decision checkpoint, 2026-10-17
+
+Completed the owner-authorized read-only version investigation using exactly one diagnostic run39011125934/attempt1/SUCCESS on56170b8792337649458c3cbb6bc1aee7a8d03bc3. Official HTTP200 metadata contains33 newer stable+48 newer prereleases; all81 requireesbuild^0.27.0 and reject published patched0.28.1/0.28.2. No compatible official candidate exists in this captured snapshot. No candidate archive/install or binary comparison was performed. docs/g0-mcp-js/REPORT.md and exact raw official-inspection.zip preserve receipts, commands, source/run/artifact identity and limits.
+
+Project package/lock and all prior security floors remain unchanged. Diagnostic trigger and temporary scripts are retired in this delivery; normal SEC-CI workflow restored to0540e266. No Quality/G1, finance/account/SQL, main, merge/deploy or billing configuration change. Decision investigation complete; remediation/G0/integration remain blocked. ONE NEXT for planning: a separately authorized design/source-inspection packet for a narrowly scoped parent contract patch/upstream option, not broad mcp-js/SDK upgrade or silent override. Stop after55/70 handoff.
+
 ## Bounded candidate handoff — G0-NODE-SERVER-01, 2026-10-16
 
 Owner-authorized adapter remediation on existing Draft PR72 above54, starting `5cbf198d88b0f091a30371676fb09abf92903dc8`. Authoritative tested source `15688194725fdb2c25e53d55d63cfe605295ec68`, tree `a2405b8051fbeeba6e966188369c180c7e3e57c6`. Final publication identity and sole claim55/6222380561 closure are recorded in #55/#70. This block supersedes lower scheduling; main remains43d6edbccb66fb06ce0fcb93734ad59532d1aeae.

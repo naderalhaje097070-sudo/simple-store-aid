@@ -1,13 +1,8 @@
 name: SEC-CI Gate 4 Probe
 
 on:
-  workflow_dispatch:
-    inputs:
-      inspection:
-        description: One owner-authorized public npm inspection; no package execution
-        required: true
-        type: choice
-        options: [G0-MCP-JS-COMPAT-01]
+  pull_request_review:
+    types: [submitted]
   pull_request:
     branches:
       - main
@@ -17,7 +12,7 @@ permissions:
 
 jobs:
   policy-contract:
-    if: github.event_name != 'workflow_dispatch'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -58,7 +53,7 @@ jobs:
           echo "SEC_CI_G4_TARGET_GREEN_CONFIRMED"
 
   candidate-financial:
-    if: github.event_name != 'workflow_dispatch'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -169,7 +164,7 @@ jobs:
         run: supabase stop --no-backup > /dev/null 2>&1 || true
 
   candidate-auth:
-    if: github.event_name != 'workflow_dispatch'
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -336,13 +331,13 @@ jobs:
           supabase stop --no-backup > /dev/null 2>&1 || true
 
   mcp-package-inspection:
-    if: github.event_name == 'workflow_dispatch' && inputs.inspection == 'G0-MCP-JS-COMPAT-01' && github.ref == 'refs/heads/test/g0-g1-acceptance-runtime-2026-10-14'
+    if: github.event_name == 'pull_request_review' && github.event.action == 'submitted' && github.event.review.state == 'commented' && github.event.review.user.login == 'naderalhaje097070-sudo' && github.event.review.body == 'G0-MCP-JS-COMPAT-01 RUN-ONCE 20261017-0843. Operational trigger only; no review approval.' && github.event.review.commit_id == github.event.pull_request.head.sha && github.event.pull_request.number == 72 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'test/g0-g1-acceptance-runtime-2026-10-14' && github.run_attempt == 1
     runs-on: ubuntu-latest
     timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 2
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -351,13 +346,13 @@ jobs:
       - name: Fetch official metadata and integrity-checked archives without installation
         shell: bash
         env:
-          SOURCE_SHA: ${{ github.sha }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
           DIAGNOSTIC_RUN_ID: ${{ github.run_id }}
           DIAGNOSTIC_ATTEMPT: ${{ github.run_attempt }}
           DIAGNOSTIC_WORKFLOW: ${{ github.workflow_ref }}
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = "0540e266d86278cd4f98249dc08a3d6b09524cb5"
+          test "$(git rev-parse HEAD^)" = "9aee2639bf467c1a6e46f3f66397e532ba0a738a"
           out="$RUNNER_TEMP/g0-mcp-js-inspection"
           mkdir -p "$out"
           cp tests/g0-mcp-js-inspection/inspect.cjs tests/g0-mcp-js-inspection/unpack.py "$out/"

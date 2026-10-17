@@ -1,3 +1,11 @@
+## G0-ESBUILD-COMPAT-PROOF-01 — bounded candidate tested, 2026-10-17
+
+Owner explicitly authorized exact esbuild0.28.1 override beyond unchanged mcp-js0.20.1^0.27.0; this is project compatibility evidence, not publisher support. Start1b7a1a01; tested source73e133b25a8a5167c6730eb82cf364268ad44373/tree0704600984e277d6090d87c5d3c53777f6cf86f7. Official complete Bun1.4-generated lock8db84562 changes only esbuild+26platforms plus override; all prior security fixes/SDK/app/SQL preserved. Final delivery identity is in70/55/PR72, documentation/evidence-only after tested source.
+
+Native Windows0.27.7 baseline39025616246:5cases3PASS/2specific traversalFAIL, rawexit1/controller0. Final Windows and Linux39026053191 each5/5, clean frozen1.2.14, real resolved/native versions,57officialMCPfilehashes/wholegraph/source invariance pass. Linux3actual MCP generator/CLI contracts,4adapter/SDK contracts,11guardcontrols/affectedlint pass. Quality39026056460 SUCCESS:66unit/174expect,8stubwrapper/67dummybrowser,typecheck/changedlint/twoisolatedbuilds/post-generation sourceinvariance. Synthetic Quality checkout tree equals tested source; not actual merge. Full supported audit raw{} exit0; exactly last esbuild advisory removed/no new. Missing-rg preparation and new-fixture formatting failures retained. docs/g0-esbuild contains report/raw/source/run/review/rollback.
+
+Targeted dependency advisory item proved on draft only. G0/integration remain open: inherited full-repo lint not accepted, liveG1 not rerun, source54 fail-closed identity guard/manifest untouched; final-source reconciliation and remaining affected runtime/transport/SSR/auth/isolation/state/counter/secrets/cleanup proof need separate packet. No finance/account/SQL/production/main/merge/deploy/fork publication or billing configuration changes. ONE NEXT is planning that remaining evidence packet; close current claim after70/55 handoff and stop.
+
 ## G0-MCP-JS-COMPAT-01 — official decision checkpoint, 2026-10-17
 
 Completed the owner-authorized read-only version investigation using exactly one diagnostic run39011125934/attempt1/SUCCESS on56170b8792337649458c3cbb6bc1aee7a8d03bc3. Official HTTP200 metadata contains33 newer stable+48 newer prereleases; all81 requireesbuild^0.27.0 and reject published patched0.28.1/0.28.2. No compatible official candidate exists in this captured snapshot. No candidate archive/install or binary comparison was performed. docs/g0-mcp-js/REPORT.md and exact raw official-inspection.zip preserve receipts, commands, source/run/artifact identity and limits.
@@ -490,3 +498,4 @@ Employee identity, RBAC, assignment, personal custody, employee UI, and employee
 - Customer required only when customer debt is created.
 - Courier-collected money remains custody until settlement.
 - No UI-only authorization or UI-only duplicate-write protection is accepted as the financial safety boundary.
+

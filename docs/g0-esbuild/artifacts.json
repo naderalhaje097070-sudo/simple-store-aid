@@ -1,0 +1,65 @@
+[
+  {
+    "id": 12098681243,
+    "name": "g0-esbuild-preparation",
+    "bytes": 266951,
+    "digest": "sha256:b01014a3213976b226c591010b00f0ff36f7c9832751c8880d87ddf32a33bc2f",
+    "run": 39025469473,
+    "source": "0b2f9c1f63d2d0cb04363779c12226ba9675e865",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12098681243"
+  },
+  {
+    "id": 12098447496,
+    "name": "g0-esbuild-windows-baseline",
+    "bytes": 3270,
+    "digest": "sha256:6c516fa4df06b8c55a2e00081fadb7001220fbe0d3b714bde70af15e0ef3716a",
+    "run": 39025616246,
+    "source": "f1ed954ce91813d3d9a87edce256f109741f319d",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12098447496"
+  },
+  {
+    "id": 12098018975,
+    "name": "g0-esbuild-preparation",
+    "bytes": 482537,
+    "digest": "sha256:0260a3b253f70a4ed2e50465bbdd2d193d98c02318b09c0fb8399810dab8b414",
+    "run": 39025616246,
+    "source": "f1ed954ce91813d3d9a87edce256f109741f319d",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12098018975"
+  },
+  {
+    "id": 12097993134,
+    "name": "g0-esbuild-verification-Windows",
+    "bytes": 8496,
+    "digest": "sha256:ca3ee3a2eb998bbd80ab19b9b93572c7c4fd1fed8fe5b5b98e3fe370bfb7e495",
+    "run": 39025876411,
+    "source": "6886c65b3352c9e4e0a05a0b90384f7a514c57e7",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12097993134"
+  },
+  {
+    "id": 12097773529,
+    "name": "g0-esbuild-verification-Linux",
+    "bytes": 32738,
+    "digest": "sha256:e9cae5c86a1e2af2dfc9d0faa4d0fd14f59ff5572fe1d3ae632d0f3036e5ff4c",
+    "run": 39025876411,
+    "source": "6886c65b3352c9e4e0a05a0b90384f7a514c57e7",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12097773529"
+  },
+  {
+    "id": 12098946030,
+    "name": "g0-esbuild-verification-Windows",
+    "bytes": 8494,
+    "digest": "sha256:dedf296e47bff5fb1d58b6cf92d74102a1ffb3108223daff87c213268dfcf157",
+    "run": 39026053191,
+    "source": "73e133b25a8a5167c6730eb82cf364268ad44373",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12098946030"
+  },
+  {
+    "id": 12098506735,
+    "name": "g0-esbuild-verification-Linux",
+    "bytes": 28807,
+    "digest": "sha256:b3d8e04cacba9074d3abad5beb35c0608b98342a8b85e20d84c9ab2d8953b5b9",
+    "run": 39026053191,
+    "source": "73e133b25a8a5167c6730eb82cf364268ad44373",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12098506735"
+  }
+]

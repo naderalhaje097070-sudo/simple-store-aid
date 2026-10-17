@@ -1,0 +1,19 @@
+[
+  {
+    "platform": "win32",
+    "node": "v22.23.3",
+    "version": "0.27.7"
+  },
+  {
+    "case": "raw-backslash",
+    "rawPath": "/..\\sentinel.txt",
+    "status": 200,
+    "body": "outside-web-root-dummy-marker"
+  },
+  {
+    "case": "encoded-backslash",
+    "rawPath": "/%2e%2e%5csentinel.txt",
+    "status": 200,
+    "body": "outside-web-root-dummy-marker"
+  }
+]

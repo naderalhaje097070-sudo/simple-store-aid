@@ -1,0 +1,19 @@
+[
+  {
+    "platform": "win32",
+    "node": "v22.23.3",
+    "version": "0.28.1"
+  },
+  {
+    "case": "raw-backslash",
+    "rawPath": "/..\\sentinel.txt",
+    "status": 400,
+    "body": "400 - Bad Request"
+  },
+  {
+    "case": "encoded-backslash",
+    "rawPath": "/%2e%2e%5csentinel.txt",
+    "status": 400,
+    "body": "400 - Bad Request"
+  }
+]

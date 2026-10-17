@@ -324,4 +324,3 @@ jobs:
         run: |
           rm -f /tmp/mongezz-worker.env
           supabase stop --no-backup > /dev/null 2>&1 || true
-

@@ -51,6 +51,56 @@ jobs:
             if (!v || typeof v !== "object") return v;
             return Object.fromEntries(Object.entries(v).filter(([k]) => !["start","end","loc","extra","comments","leadingComments","innerComments","trailingComments","tokens","errors"].includes(k)).map(([k, v]) => [k, norm(v)]));
           };
+          const coalesce = (items, text) => {
+            const out=[];
+            for(const item of items){
+              const value=text(item);
+              if(value === "") continue;
+              if(typeof value==="string" && out.length && typeof text(out[out.length-1])==="string"){
+                out[out.length-1]={type:"StringLiteral",value:text(out[out.length-1])+value};
+              }else out.push(typeof value==="string"?{type:"StringLiteral",value}:item);
+            }
+            return out;
+          };
+          const runtimeNormalize = v => {
+            if(Array.isArray(v))return v.map(runtimeNormalize);
+            if(!v||typeof v!=="object")return v;
+            v=Object.fromEntries(Object.entries(v).map(([k,x])=>[k,runtimeNormalize(x)]));
+            if(v.type==="CallExpression" && v.callee?.type==="MemberExpression" &&
+               v.callee.object?.name==="React" && v.callee.property?.name==="createElement" &&
+               v.arguments[0]?.type==="StringLiteral"){
+              v.arguments=[...v.arguments.slice(0,2),...coalesce(v.arguments.slice(2),x=>x?.type==="StringLiteral"?x.value:undefined)];
+            }
+            return v;
+          };
+          const jsxText = value => {
+            const lines=value.split(/\r\n|\n|\r/);
+            let last=0;for(let i=0;i<lines.length;i++)if(/[^ \t]/.test(lines[i]))last=i;
+            let result="";
+            for(let i=0;i<lines.length;i++){
+              let line=lines[i].replace(/\t/g," ");
+              if(i!==0)line=line.replace(/^ +/,"");
+              if(i!==lines.length-1)line=line.replace(/ +$/,"");
+              if(line){result+=line;if(i!==last)result+=" ";}
+            }
+            return result;
+          };
+          const sourceNormalize = v => {
+            if(Array.isArray(v))return v.map(sourceNormalize);
+            if(!v||typeof v!=="object")return v;
+            v=Object.fromEntries(Object.entries(v).map(([k,x])=>[k,sourceNormalize(x)]));
+            if(v.type==="JSXElement"||v.type==="JSXFragment"){
+              const isHost=v.type==="JSXElement" && v.openingElement.name.type==="JSXIdentifier" &&
+                /^[a-z]/.test(v.openingElement.name.name);
+              const text=x=>x?.type==="JSXText"?jsxText(x.value):
+                x?.type==="JSXExpressionContainer"&&x.expression?.type==="StringLiteral"?x.expression.value:
+                x?.type==="StringLiteral"?x.value:undefined;
+              if(isHost)v.children=coalesce(v.children,text);
+              else v.children=v.children.map(x=>typeof text(x)==="string"?{type:"StringLiteral",value:text(x)}:x).filter(x=>!(x.type==="StringLiteral"&&x.value===""));
+            }
+            return v;
+          };
+          const sourceAST = source => sourceNormalize(norm(parser.parse(source,{sourceType:"module",plugins:["typescript","jsx"]})));
           const semantic = (source) => {
             const r = ts.transpileModule(source, {
               fileName: "app.tsx",
@@ -58,7 +108,7 @@ jobs:
               reportDiagnostics: true,
             });
             assert.equal(r.diagnostics.filter(d => d.category === ts.DiagnosticCategory.Error).length, 0);
-            return norm(parser.parse(r.outputText, { sourceType: "module" }));
+            return runtimeNormalize(norm(parser.parse(r.outputText, { sourceType: "module" })));
           };
           const comments = source => parser.parse(source, { sourceType:"module", plugins:["typescript","jsx"] }).comments.map(c=>({type:c.type,value:c.value}));
           const diagnostics = rs => rs.flatMap(r => r.messages.filter(m=>m.ruleId!=="prettier/prettier").map(m => ({
@@ -76,6 +126,9 @@ jobs:
           };
           (async()=>{
           const eslint = new ESLint();
+          const cliBefore=cp.spawnSync("./node_modules/.bin/eslint",[".","--format","json"],{encoding:"utf8",maxBuffer:30e6});
+          write("cli-before.json",cliBefore.stdout);write("cli-before.stderr",cliBefore.stderr);write("cli-before.exit",String(cliBefore.status)+"\n");
+          assert.ok([0,1].includes(cliBefore.status),"CLI baseline failed to execute");
           const before = await eslint.lintFiles(["."]);
           write("lint-before.json",before);
           write("lint-before.exit",before.some(r=>r.errorCount)? "1\n":"0\n");
@@ -99,13 +152,23 @@ jobs:
           assert.notEqual(original,formatted);
           assert.equal(await prettier.check(formatted,{...config,filepath:target}),true);
           assert.equal(await prettier.format(formatted,{...config,filepath:target}),formatted);
+          write("app.before.tsx",original);write("app.after.tsx",formatted);
+          write("source-ast-raw-before.json",norm(parser.parse(original,{sourceType:"module",plugins:["typescript","jsx"]})));
+          write("source-ast-raw-after.json",norm(parser.parse(formatted,{sourceType:"module",plugins:["typescript","jsx"]})));
+          const sourceA=sourceAST(original),sourceB=sourceAST(formatted);
+          write("source-ast-before.json",sourceA);write("source-ast-after.json",sourceB);
+          assert.deepEqual(sourceA,sourceB,"TS/source AST including types and meaningful JSX changed");
           const a=semantic(original),b=semantic(formatted);
+          write("ast-before.json",a);write("ast-after.json",b);
           assert.deepEqual(a,b,"Emitted JS AST including runtime JSX child strings changed");
           assert.deepEqual(comments(original),comments(formatted),"Comments changed");
           write("ast-before.json",a);write("ast-after.json",b);
           write("comments.json",comments(original));
           fs.writeFileSync(target,formatted);
           write("app.before.tsx",original);write("app.after.tsx",formatted);
+          const cliAfter=cp.spawnSync("./node_modules/.bin/eslint",[".","--format","json"],{encoding:"utf8",maxBuffer:30e6});
+          write("cli-after.json",cliAfter.stdout);write("cli-after.stderr",cliAfter.stderr);write("cli-after.exit",String(cliAfter.status)+"\n");
+          assert.ok([0,1].includes(cliAfter.status),"CLI formatted failed to execute");
           const after=await eslint.lintFiles(["."]);
           write("lint-after.json",after);
           write("lint-after.exit",after.some(r=>r.errorCount)?"1\n":"0\n");
@@ -119,7 +182,7 @@ jobs:
           assert.deepEqual(cp.execFileSync("git",["diff","--name-only"],{encoding:"utf8"}).trim().split("\n"),[target]);
           const hashes={};
           for(const p of ["package.json","bun.lock","bunfig.toml","eslint.config.js",".prettierrc",".prettierignore"])hashes[p]=cp.execFileSync("git",["hash-object",p],{encoding:"utf8"}).trim();
-          const result={target,before:summaryBefore,after:summarize(after),targetBefore:{errors:old.errorCount,warnings:old.warningCount,format:old.messages.filter(m=>m.ruleId==="prettier/prettier").length},targetAfter:{errors:current.errorCount,warnings:current.warningCount,format:0},originalSha256:hash(original),formattedSha256:hash(formatted),formattedBlob:cp.execFileSync("git",["hash-object",target],{encoding:"utf8"}).trim(),emittedASTSha256:hash(JSON.stringify(a)),sameEmittedAST:true,sameComments:true,nonformatDiagnosticsEqual:true,otherDiagnosticsByteEqual:true,protectedBlobs:hashes};
+          const result={target,before:summaryBefore,after:summarize(after),targetBefore:{errors:old.errorCount,warnings:old.warningCount,format:old.messages.filter(m=>m.ruleId==="prettier/prettier").length},targetAfter:{errors:current.errorCount,warnings:current.warningCount,format:0},originalSha256:hash(original),formattedSha256:hash(formatted),formattedBlob:cp.execFileSync("git",["hash-object",target],{encoding:"utf8"}).trim(),emittedASTSha256:hash(JSON.stringify(a)),sameSourceAST:true,sourceASTSha256:hash(JSON.stringify(sourceA)),textNormalization:"Coalesce only contiguous text children on intrinsic host JSX/createElement; no custom component segmentation normalization",sameEmittedAST:true,sameComments:true,nonformatDiagnosticsEqual:true,otherDiagnosticsByteEqual:true,protectedBlobs:hashes};
           write("result.json",result);
           write("app.diff",cp.execFileSync("git",["diff","--",target],{encoding:"utf8",maxBuffer:10e6}));
           console.log(JSON.stringify({target,targetBefore:result.targetBefore,targetAfter:result.targetAfter,beforeErrors:summaryBefore.errors,afterErrors:result.after.errors,ast:result.emittedASTSha256}));

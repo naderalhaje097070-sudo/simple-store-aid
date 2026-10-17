@@ -116,7 +116,8 @@
     "qs": "6.16.0",
     "dompurify": "3.4.16",
     "@babel/core": "7.29.7",
-    "@hono/node-server": "1.19.15"
+    "@hono/node-server": "1.19.15",
+    "esbuild": "0.28.1"
   },
   "resolutions": {
     "@modelcontextprotocol/sdk": "1.31.0",
@@ -135,6 +136,7 @@
     "qs": "6.16.0",
     "dompurify": "3.4.16",
     "@babel/core": "7.29.7",
-    "@hono/node-server": "1.19.15"
+    "@hono/node-server": "1.19.15",
+    "esbuild": "0.28.1"
   }
 }

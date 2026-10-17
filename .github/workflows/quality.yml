@@ -81,6 +81,8 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
           VITE_SUPABASE_PROJECT_ID: quality-build
         run: bun run build
+      - name: Verify generation leaves tracked application files intact
+        run: git diff --exit-code --
       - name: Upload quality diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -90,3 +92,4 @@ jobs:
             /tmp/lint-files.txt
             /tmp/lint.log
           if-no-files-found: warn
+

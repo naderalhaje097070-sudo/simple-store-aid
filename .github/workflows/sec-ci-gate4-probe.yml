@@ -1,6 +1,8 @@
 name: SEC-CI Gate 4 Probe
 
 on:
+  pull_request_review:
+    types: [submitted]
   pull_request:
     branches:
       - main
@@ -10,6 +12,7 @@ permissions:
 
 jobs:
   policy-contract:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -50,6 +53,7 @@ jobs:
           echo "SEC_CI_G4_TARGET_GREEN_CONFIRMED"
 
   candidate-financial:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -160,6 +164,7 @@ jobs:
         run: supabase stop --no-backup > /dev/null 2>&1 || true
 
   candidate-auth:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -324,3 +329,74 @@ jobs:
         run: |
           rm -f /tmp/mongezz-worker.env
           supabase stop --no-backup > /dev/null 2>&1 || true
+
+
+  esbuild-prepare:
+    if: >-
+      github.event_name == 'pull_request_review' && github.event.action == 'submitted' &&
+      github.event.review.state == 'commented' &&
+      github.event.review.user.login == 'naderalhaje097070-sudo' &&
+      github.event.review.body == 'MONJEZ G0-ESBUILD-COMPAT-PROOF-01 PREPARE 1' &&
+      github.event.review.commit_id == github.event.pull_request.head.sha &&
+      github.event.pull_request.number == 72 &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.head.ref == 'test/g0-g1-acceptance-runtime-2026-10-14' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Inspect verified official archives without executing MCP
+        run: |
+          set -euo pipefail
+          node tests/g0-esbuild/official.cjs
+          python tests/g0-esbuild/unpack.py evidence/g0-esbuild
+          rg -n 'esbuild|buildSync|transformSync|context\(|\.serve\(' evidence/g0-esbuild/baseline-files > evidence/g0-esbuild/esbuild-callsites.txt
+      - name: Official bounded lock generation in disposable directory
+        run: |
+          set -euo pipefail
+          out="$PWD/evidence/g0-esbuild"
+          gen_dir="$(mktemp -d)"
+          cp package.json bun.lock bunfig.toml "$gen_dir/"
+          python - "$gen_dir/package.json" <<'PYGEN'
+          import json,sys
+          from pathlib import Path
+          p=Path(sys.argv[1]);d=json.loads(p.read_text())
+          for key in ['overrides','resolutions']:d[key]['esbuild']='0.28.1'
+          p.write_text(json.dumps(d,indent=2)+'\n')
+          PYGEN
+          cd "$gen_dir"
+          npm pack @oven/bun-linux-x64-baseline@1.4.0 --ignore-scripts --json > "$out/bun-tool-pack.json"
+          node - "$out/bun-tool-pack.json" <<'JS'
+          const fs=require('node:fs');const [p]=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+          if(p.integrity!=='sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==')throw Error('Unapproved generator integrity');
+          JS
+          tar -xzf oven-bun-linux-x64-baseline-1.4.0.tgz
+          tool="$gen_dir/package/bin/bun"
+          test "$("$tool" --version)" = 1.4.0
+          "$tool" --revision | tee "$out/generator-revision.txt"
+          grep -q 34cbb9a40 "$out/generator-revision.txt"
+          timeout 120 "$tool" update esbuild --lockfile-only --ignore-scripts 2>&1 | tee "$out/generator.log"
+          cp bun.lock package.json bunfig.toml "$out/"
+          sha256sum bun.lock package.json bunfig.toml > "$out/generated-sha256.txt"
+          git hash-object bun.lock > "$out/lock-blob.txt"
+          cd "$GITHUB_WORKSPACE"
+          cp bun.lock "$out/base-bun.lock"
+          diff -u bun.lock "$out/bun.lock" > "$out/lock.diff" || test "$?" = 1
+          git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-esbuild-preparation
+          path: evidence/g0-esbuild
+          if-no-files-found: error

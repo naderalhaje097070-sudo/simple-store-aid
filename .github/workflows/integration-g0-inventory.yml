@@ -1,0 +1,82 @@
+name: Integration G0 inventory
+on:
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths:
+      - .github/workflows/integration-g0-inventory.yml
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact diagnostic source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Assert unchanged candidate source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code 6da4dadbe9391bb48c8c4c41dcb688728003fb81 HEAD -- . ':!.github/workflows/integration-g0-inventory.yml' ':!changes/integration-g0-g1/INTAKE.md'
+          git rev-parse HEAD
+          git rev-parse HEAD^{tree}
+      - name: Setup locked project Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Consume frozen dependencies
+        run: bun install --frozen-lockfile
+      - name: Capture current complete lint without modifying source
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,os,re,subprocess
+          from collections import Counter
+          from pathlib import Path
+          root=Path.cwd()
+          out=Path(os.environ['RUNNER_TEMP'])/'integration-inventory'
+          out.mkdir()
+          run=subprocess.run(['bunx','--no-install','eslint','.','--format','json'],capture_output=True,timeout=240)
+          text=run.stdout.decode()
+          rows=json.loads(text)
+          assert isinstance(rows,list)
+          data={'source':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+                'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
+                'baseline':'6da4dadbe9391bb48c8c4c41dcb688728003fb81',
+                'exit_code':run.returncode,'stdout_sha256':hashlib.sha256(run.stdout).hexdigest(),
+                'stderr_sha256':hashlib.sha256(run.stderr).hexdigest(),
+                'format':'ESLint parsed JSON, source field excluded; raw stdout stays runner-private',
+                'files':[]}
+          for row in rows:
+            entry={k:row[k] for k in ('errorCount','warningCount','fatalErrorCount','fixableErrorCount','fixableWarningCount','messages','suppressedMessages') if k in row}
+            entry['path']=str(Path(row['filePath']).relative_to(root))
+            data['files'].append(entry)
+          serialized=json.dumps(data,ensure_ascii=False,indent=2)
+          assert not re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',serialized),'receipt quarantined'
+          (out/'lint.json').write_text(serialized+'\n')
+          summary={'exit_code':run.returncode,
+                   'errors':sum(x['errorCount'] for x in rows),
+                   'warnings':sum(x['warningCount'] for x in rows),
+                   'rules':dict(Counter(str(m.get('ruleId')) for x in rows for m in x['messages'])),
+                   'files':[{'path':x['path'],'errors':x['errorCount'],'warnings':x['warningCount']} for x in data['files'] if x['errorCount'] or x['warningCount']],
+                   'cjs_files_scanned':[x['path'] for x in data['files'] if x['path'].endswith('.cjs')]}
+          (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          print('INTEGRATION_LINT_SUMMARY='+json.dumps(summary))
+          raise SystemExit(run.returncode)
+          PY
+      - name: Verify no tracked mutation
+        if: always()
+        run: git diff --exit-code
+      - name: Upload parsed diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-g0-inventory
+          path: ${{ runner.temp }}/integration-inventory/
+          retention-days: 7
+          if-no-files-found: warn

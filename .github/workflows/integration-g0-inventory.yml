@@ -1,82 +1,98 @@
-name: Integration G0 inventory
+name: Integration G0 preparation
 on:
   push:
     branches: [integration/g0-g1-reconcile-2026-10-18]
-    paths:
-      - .github/workflows/integration-g0-inventory.yml
+    paths: [.github/workflows/integration-g0-inventory.yml]
 permissions:
   contents: read
 jobs:
-  inventory:
+  prepare:
     runs-on: ubuntu-latest
     timeout-minutes: 12
+    env:
+      FORMAT_WORK: ${{ runner.temp }}/format
     steps:
-      - name: Checkout exact diagnostic source
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
           fetch-depth: 0
-      - name: Assert unchanged candidate source
-        shell: bash
-        run: |
-          set -euo pipefail
-          git diff --exit-code 6da4dadbe9391bb48c8c4c41dcb688728003fb81 HEAD -- . ':!.github/workflows/integration-g0-inventory.yml' ':!changes/integration-g0-g1/INTAKE.md'
-          git rev-parse HEAD
-          git rev-parse HEAD^{tree}
-      - name: Setup locked project Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Prove pinned candidate unchanged
+        run: git diff --exit-code 6da4dadbe9391bb48c8c4c41dcb688728003fb81 HEAD -- . ':!.github/workflows/integration-g0-inventory.yml' ':!changes/integration-g0-g1/INTAKE.md'
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: '1.2.14'
-      - name: Consume frozen dependencies
-        run: bun install --frozen-lockfile
-      - name: Capture current complete lint without modifying source
-        shell: bash
+      - run: bun install --frozen-lockfile
+      - name: Stage existing semantic proof and finite handwritten scope
         run: |
-          set -euo pipefail
           python3 - <<'PY'
-          import hashlib,json,os,re,subprocess
-          from collections import Counter
+          import json,os
           from pathlib import Path
-          root=Path.cwd()
-          out=Path(os.environ['RUNNER_TEMP'])/'integration-inventory'
-          out.mkdir()
-          run=subprocess.run(['bunx','--no-install','eslint','.','--format','json'],capture_output=True,timeout=240)
-          text=run.stdout.decode()
-          rows=json.loads(text)
-          assert isinstance(rows,list)
-          data={'source':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
-                'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
-                'baseline':'6da4dadbe9391bb48c8c4c41dcb688728003fb81',
-                'exit_code':run.returncode,'stdout_sha256':hashlib.sha256(run.stdout).hexdigest(),
-                'stderr_sha256':hashlib.sha256(run.stderr).hexdigest(),
-                'format':'ESLint parsed JSON, source field excluded; raw stdout stays runner-private',
-                'files':[]}
-          for row in rows:
-            entry={k:row[k] for k in ('errorCount','warningCount','fatalErrorCount','fixableErrorCount','fixableWarningCount','messages','suppressedMessages') if k in row}
-            entry['path']=str(Path(row['filePath']).relative_to(root))
-            data['files'].append(entry)
-          serialized=json.dumps(data,ensure_ascii=False,indent=2)
-          assert not re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',serialized),'receipt quarantined'
-          (out/'lint.json').write_text(serialized+'\n')
-          summary={'exit_code':run.returncode,
-                   'errors':sum(x['errorCount'] for x in rows),
-                   'warnings':sum(x['warningCount'] for x in rows),
-                   'rules':dict(Counter(str(m.get('ruleId')) for x in rows for m in x['messages'])),
-                   'files':[{'path':x['path'],'errors':x['errorCount'],'warnings':x['warningCount']} for x in data['files'] if x['errorCount'] or x['warningCount']],
-                   'cjs_files_scanned':[x['path'] for x in data['files'] if x['path'].endswith('.cjs')]}
-          (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
-          print('INTEGRATION_LINT_SUMMARY='+json.dumps(summary))
-          raise SystemExit(run.returncode)
+          root=Path.cwd();w=Path(os.environ['FORMAT_WORK']);(w/'evidence').mkdir(parents=True)
+          files=json.loads("[\"docs/g0-node-server/review-guard-replay.cjs\",\"src/components/DateRangeFilter.tsx\",\"src/domain/finance/invoice-selectors.ts\",\"src/features/inventory/AddProductSheet.tsx\",\"src/features/invoices/InvoiceDetailScreen.tsx\",\"src/features/layout/TopBar.tsx\",\"src/features/shared/EmptyState.tsx\",\"src/features/shared/Sheet.tsx\",\"src/features/shared/StatusChip.tsx\",\"src/features/shared/Toast.tsx\",\"src/hooks/useTheme.ts\",\"src/lib/business-types.ts\",\"src/lib/db.ts\",\"src/lib/invoice-pdf.ts\",\"src/lib/mcp/tools/list-customers.ts\",\"src/lib/mcp/tools/list-products.ts\",\"src/lib/mcp/tools/list-recent-orders.ts\",\"src/lib/mcp/tools/today-summary.ts\",\"src/lib/paddle.server.ts\",\"src/lib/pwa-register.ts\",\"src/routes/[.]lovable.oauth.consent.tsx\",\"src/routes/_authenticated/billing.tsx\",\"src/routes/api/public/payments/webhook.ts\",\"src/routes/guide.tsx\",\"src/routes/lovable/email/queue/process.ts\",\"tests/g01-acceptance/dns_trace.cjs\",\"tests/g01-acceptance/test_cf_fetch.cjs\",\"tests/unit/invoice-selectors.test.ts\"]")
+          (w/'files.txt').write_text('\n'.join(files)+'\n')
+          for f in files:
+            p=w/'before'/f;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes((root/f).read_bytes())
+          (w/'proof.cjs').write_text("const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');\nconst {createRequire}=require('node:module');\nconst root=process.cwd(),work=process.env.FORMAT_WORK;\nassert(work,'FORMAT_WORK is required');\nconst project=createRequire(root+'/package.json');\nconst parser=project('@babel/parser'),ts=project('typescript'),prettier=project('prettier');\nconst hash=s=>crypto.createHash('sha256').update(s).digest('hex');\nconst excluded=new Set(['start','end','loc','extra','leadingComments','trailingComments','innerComments','comments','tokens','errors']);\nconst clean=x=>Array.isArray(x)?x.map(clean):x&&typeof x==='object'?Object.fromEntries(Object.entries(x).filter(([k])=>!excluded.has(k)).map(([k,v])=>[k,clean(v)])):x;\nconst parse=s=>parser.parse(s,{sourceType:'module',plugins:['typescript','jsx']});\nfunction emit(s){const r=ts.transpileModule(s,{fileName:'probe.tsx',compilerOptions:{target:ts.ScriptTarget.ESNext,module:ts.ModuleKind.ESNext,jsx:ts.JsxEmit.React,removeComments:true},reportDiagnostics:true});assert.equal(r.diagnostics.filter(d=>d.category===ts.DiagnosticCategory.Error).length,0);return r.outputText;}\nfunction cook(raw){const expr=clean(parse(emit('const x=<x>'+raw+'</x>;'))).program.body[0].declarations[0].init;const args=expr.arguments.slice(2);assert(args.every(x=>x.type==='StringLiteral'));return args.map(x=>x.value).join('');}\nfunction sourceCanonical(x){\n if(Array.isArray(x))return x.map(sourceCanonical);\n if(!x||typeof x!=='object')return x;\n const y=Object.fromEntries(Object.entries(x).map(([k,v])=>[k,sourceCanonical(v)]));\n if(y.type==='JSXElement'||y.type==='JSXFragment'){\n  const host=y.type==='JSXElement'&&y.openingElement.name.type==='JSXIdentifier'&&/^[a-z]/.test(y.openingElement.name.name);\n  const children=[];\n  for(const c of y.children){\n   const value=c.type==='JSXText'?cook(c.value):c.type==='JSXExpressionContainer'&&c.expression.type==='StringLiteral'?c.expression.value:null;\n   if(value===null)children.push(c);\n   else if(value!==''){\n    if(host&&children.length&&children.at(-1).type==='StringLiteral')children.at(-1).value+=value;\n    else children.push({type:'StringLiteral',value});\n   }\n  }\n  y.children=children;\n }\n return y;\n}\nfunction runtimeCanonical(x){\n if(Array.isArray(x))return x.map(runtimeCanonical);\n if(!x||typeof x!=='object')return x;\n const y=Object.fromEntries(Object.entries(x).map(([k,v])=>[k,runtimeCanonical(v)]));\n if(y.type==='CallExpression'&&y.callee.type==='MemberExpression'&&y.callee.object.name==='React'&&y.callee.property.name==='createElement'&&y.arguments[0].type==='StringLiteral'){\n  const args=y.arguments.slice(0,2);\n  for(const c of y.arguments.slice(2)){\n   if(c.type==='StringLiteral'&&args.length>2&&args.at(-1).type==='StringLiteral')args.at(-1).value+=c.value;\n   else args.push(c);\n  }\n  y.arguments=args;\n }\n return y;\n}\nconst sourceAST=s=>sourceCanonical(clean(parse(s)));\nconst runtimeAST=s=>runtimeCanonical(clean(parse(emit(s))));\nconst comments=s=>parse(s).comments.map(c=>({type:c.type,value:c.value}));\n(async()=>{\n const receipt={versions:{prettier:prettier.version,typescript:ts.version,babelParser:project('@babel/parser/package.json').version,eslint:project('eslint/package.json').version},method:'TypeScript-cooked JSX text; contiguous text coalescing on intrinsic host elements only; custom component/fragment segmentation preserved',negativeControls:[],files:[],excluded:[]};\n assert.equal(prettier.version,'3.8.3');\n for(const [name,a,b] of [\n  ['type','type A=string;','type A=number;'],\n  ['meaningful host whitespace','const a=<span>a b</span>;','const a=<span>ab</span>;'],\n  ['custom child segmentation','const a=<Custom>ab</Custom>;','const a=<Custom>a{\"b\"}</Custom>;'],\n  ['callback','const a=()=>fetch(\"/a\");','const a=()=>fetch(\"/b\");'],\n  ['hook dependencies','useEffect(()=>run(),[a]);','useEffect(()=>run(),[b]);']\n ]){assert.notDeepEqual(sourceAST(a),sourceAST(b));receipt.negativeControls.push(name);}\n const files=fs.readFileSync(work+'/files.txt','utf8').trim().split('\\n');\n const pending=[];\n for(const file of files){\n  const before=fs.readFileSync(work+'/before/'+file,'utf8');\n  const current=fs.readFileSync(root+'/'+file,'utf8');\n  assert(!/(?:auto[- ]?generated|do not edit|@generated)/i.test(before.slice(0,1600)),'Generated file must be excluded');\n  const config=await prettier.resolveConfig(root+'/'+file);\n  const after=await prettier.format(before,{...config,filepath:root+'/'+file});\n  try{\n   assert(current===before||current===after,'Only captured base or already-proven exact output may be written');\n   assert.notEqual(before,after);\n   assert.equal(await prettier.check(after,{...config,filepath:root+'/'+file}),true);\n   assert.equal(await prettier.format(after,{...config,filepath:root+'/'+file}),after);\n   const sourceA=sourceAST(before),sourceB=sourceAST(after);\n   assert.deepEqual(sourceA,sourceB,'Source/type/meaningful JSX AST differs');\n   const runtimeA=runtimeAST(before),runtimeB=runtimeAST(after);\n   assert.deepEqual(runtimeA,runtimeB,'Runtime AST/JSX text differs');\n   assert.deepEqual(comments(before),comments(after),'Comment contents/order differs');\n   const out=work+'/after/'+file;fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,after);\n   receipt.files.push({file,beforeSha256:hash(before),afterSha256:hash(after),sourceASTSha256:hash(JSON.stringify(sourceA)),runtimeASTSha256:hash(JSON.stringify(runtimeA)),sameSourceTypesAST:true,sameRuntimeAST:true,sameComments:true,prettierExactOutput:true,idempotent:true,config});\n   pending.push([file,after]);\n  }catch(error){receipt.excluded.push({file,reason:error.message.slice(0,1000)});}\n }\n fs.writeFileSync(work+'/evidence/proof.json',JSON.stringify(receipt,null,2)+'\\n');\n for(const [file,after] of pending)fs.writeFileSync(root+'/'+file,after);\n console.log(JSON.stringify(receipt,null,2));\n assert(receipt.files.length>0,'No proven file eligible for publication');\n})().catch(error=>{console.error(error);process.exitCode=1;});\n")
           PY
-      - name: Verify no tracked mutation
+      - name: Produce only formatter outputs with source type runtime and text equivalence
+        run: node "$FORMAT_WORK/proof.cjs"
+      - name: Assert nonformat diagnostics and existing suppressions unchanged
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';import assert from 'node:assert/strict';import {ESLint} from 'eslint';
+          const w=process.env.FORMAT_WORK,r=JSON.parse(fs.readFileSync(w+'/evidence/proof.json'));
+          const lint=new ESLint();const norm=m=>({ruleId:m.ruleId,severity:m.severity,message:m.message,messageId:m.messageId,nodeType:m.nodeType,suppressions:m.suppressions});
+          const evidence=[];
+          for(const item of r.files){
+            const f=item.file,a=fs.readFileSync(w+'/before/'+f,'utf8'),b=fs.readFileSync(f,'utf8');
+            const [la]=await lint.lintText(a,{filePath:f}),[lb]=await lint.lintText(b,{filePath:f});
+            assert.deepEqual(la.messages.filter(x=>x.ruleId!=='prettier/prettier').map(norm),lb.messages.map(norm),f);
+            assert.deepEqual(la.suppressedMessages.map(norm),lb.suppressedMessages.map(norm),f+' suppressions');
+            evidence.push({file:f,before:la.errorCount,after:lb.errorCount,warningsBefore:la.warningCount,warningsAfter:lb.warningCount});
+          }
+          fs.writeFileSync(w+'/evidence/diagnostics.json',JSON.stringify(evidence,null,2));
+          console.log(JSON.stringify({accepted:r.files.length,excluded:r.excluded,diagnostics:evidence}));
+          JS
+      - name: Inspect installed generator ownership without modifying generated files
+        run: |
+          python3 - <<'PY'
+          import os,json,hashlib
+          from pathlib import Path
+          w=Path(os.environ['FORMAT_WORK']);root=Path('node_modules/@lovable.dev')
+          found=[]
+          for p in root.rglob('*.js'):
+            try:s=p.read_text()
+            except (UnicodeError,OSError):continue
+            needles=[x for x in ('auth-middleware.ts','auth-attacher.ts','client.server.ts','This file is automatically generated') if x in s]
+            if needles:
+              dst=w/'generator-sources'/p;dst.parent.mkdir(parents=True,exist_ok=True);dst.write_bytes(p.read_bytes())
+              found.append({'path':str(p),'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'needles':needles})
+          (w/'evidence/generator-locations.json').write_text(json.dumps(found,indent=2))
+          print('GENERATOR_LOCATIONS='+json.dumps(found))
+          PY
+      - name: Quarantine credential-like output before upload
         if: always()
-        run: git diff --exit-code
-      - name: Upload parsed diagnostic evidence
+        run: |
+          python3 - <<'PY'
+          import os,re
+          from pathlib import Path
+          w=Path(os.environ['FORMAT_WORK'])
+          if w.exists():
+            for p in w.rglob('*'):
+              if p.is_file() and re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',p.read_text(errors='replace')):
+                w.rename(w.with_name('format-private-quarantine'));raise SystemExit('OUTPUT_QUARANTINED')
+          print('OUTPUT_SCAN_PASS')
+          PY
+      - name: Upload finite preparation with original failed proof retained
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: integration-g0-inventory
-          path: ${{ runner.temp }}/integration-inventory/
+          name: integration-g0-preparation
+          path: |
+            ${{ runner.temp }}/format/after/
+            ${{ runner.temp }}/format/evidence/
+            ${{ runner.temp }}/format/generator-sources/
+            ${{ runner.temp }}/format/proof.cjs
           retention-days: 7
           if-no-files-found: warn

@@ -37,7 +37,10 @@ async function verifyTenantOwnership(
   return true;
 }
 
-async function handleSubscriptionCreated(data: SubscriptionData<EventName.SubscriptionCreated>, env: PaddleEnv) {
+async function handleSubscriptionCreated(
+  data: SubscriptionData<EventName.SubscriptionCreated>,
+  env: PaddleEnv,
+) {
   const { id, customerId, items, status, currentBillingPeriod, customData } = data;
   const userId = customData?.userId;
   const tenantId = customData?.tenantId;
@@ -87,7 +90,10 @@ async function handleSubscriptionCreated(data: SubscriptionData<EventName.Subscr
     .eq("id", tenantId);
 }
 
-async function handleSubscriptionUpdated(data: SubscriptionData<EventName.SubscriptionUpdated>, env: PaddleEnv) {
+async function handleSubscriptionUpdated(
+  data: SubscriptionData<EventName.SubscriptionUpdated>,
+  env: PaddleEnv,
+) {
   const { id, status, currentBillingPeriod, scheduledChange } = data;
   const supabase = getSupabase();
   await supabase
@@ -108,7 +114,10 @@ async function handleSubscriptionUpdated(data: SubscriptionData<EventName.Subscr
     .eq("paddle_subscription_id", id);
 }
 
-async function handleSubscriptionCanceled(data: SubscriptionData<EventName.SubscriptionCanceled>, env: PaddleEnv) {
+async function handleSubscriptionCanceled(
+  data: SubscriptionData<EventName.SubscriptionCanceled>,
+  env: PaddleEnv,
+) {
   const supabase = getSupabase();
   await supabase
     .from("subscriptions")

@@ -1,0 +1,52 @@
+{
+  "formatter": "3.8.3",
+  "source": "efe57f320b03d359df7619fa58872438c9e91af8",
+  "proof_run": 39170259625,
+  "files": [
+    {
+      "path": "src/integrations/lovable/index.ts",
+      "beforeSha256": "ff6990c9a3d111edb6efff4171c1ef971b5481a25d2af0bf2134d321cc0ba369",
+      "afterSha256": "ed4c315b40f5f97640da9c41cfb85360471cd8d6c3918cb921003baee7817361"
+    },
+    {
+      "path": "src/integrations/supabase/auth-attacher.ts",
+      "beforeSha256": "24d0dbdf8dc0fd49b391a948bd04e1db43b97a1d851acc391dd3d1b13b9797fd",
+      "afterSha256": "6f3a336700721b5cbf9235fb18b9575cdb5d1f55e4656b2f4a3cadc7ae81b8eb"
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "beforeSha256": "0fc042c2ec276b8d7f4c7c573f39137baca7841e2849c36aab29dc6f1616e91f",
+      "afterSha256": "3a3095c529924a4663ee2eb110c2c01ac9e8e7ec678ed9691a37722a837ddbde"
+    },
+    {
+      "path": "src/integrations/supabase/client.server.ts",
+      "beforeSha256": "f3b4c85383ade973fa5f5cb21e913beda4ac0d7205c536c53bc58e7f831dc580",
+      "afterSha256": "a0e67c35be0648dddc2e4646cc5fe7d4f345406e272a0474b2d6e94781178b1f"
+    },
+    {
+      "path": "src/integrations/supabase/client.ts",
+      "beforeSha256": "b72ff69394b80cfc28a76820fd9bd9fa8311df83f99475c97242447b52843385",
+      "afterSha256": "1aefd6de51f1b3cfb570636f376a35da86ab21ade7c9cd7c1f67053622d27834"
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "beforeSha256": "b03a93ec85a825b62f6f682f77761ce38011e48777c8b7db10625e88d79db484",
+      "afterSha256": "b13ea7fa83dc6eda13cb7ca6738b029715416ffd4aa6d39f8bd0caf1ac94c936"
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "beforeSha256": "4422149dde63eed11e62093a190edf2185b74ffeb5638dfb9161a740b947d5d0",
+      "afterSha256": "d9091c6fdb21174dc63335dd8b2d681177ea25f93625e4db00bf927ae215777d"
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "beforeSha256": "6c27da6ba40e461119fd65b63d77fa21833b434d0c21f06077d685606b4a6fef",
+      "afterSha256": "56b9e00dea2c053af9408b7e34cd2c1aca44a67f7bedf9e04444d738915f16de"
+    },
+    {
+      "path": "src/routes/mcp.ts",
+      "beforeSha256": "015ee546b020cfaca50d6b5bd59ed2ab6d7944f67b24fff05fe50f211e9954ab",
+      "afterSha256": "901b6b33d9d0b270bc3781bd92e51980d1aae343f564a395a2526034b7bdbbca"
+    }
+  ]
+}

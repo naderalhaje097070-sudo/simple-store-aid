@@ -114,7 +114,8 @@ function BillingPage() {
     },
   });
 
-  const trialEndsAt = (tenant as (typeof tenant & { trial_ends_at?: string }))?.trial_ends_at;
+  type TrialTenant = typeof tenant & { trial_ends_at?: string };
+  const trialEndsAt = (tenant as TrialTenant)?.trial_ends_at;
   const subStatus = sub.data?.status as string | undefined;
   const isActive = subStatus === "active" || subStatus === "trialing";
 

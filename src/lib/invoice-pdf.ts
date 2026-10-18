@@ -166,7 +166,6 @@ export function ensureFont(): Promise<void> {
 
       if (document.fonts && document.fonts.load) {
         Promise.all([
-
           document.fonts.load('700 16px "Cairo"'),
 
           document.fonts.load('400 14px "Cairo"'),
@@ -372,7 +371,9 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
     if (doc.fonts && doc.fonts.ready) {
       try {
         await doc.fonts.ready;
-      } catch { /* Continue with the existing fallback font. */ }
+      } catch {
+        /* Continue with the existing fallback font. */
+      }
     }
     await new Promise((r) => setTimeout(r, 120));
     const root = doc.body.firstElementChild as HTMLElement;

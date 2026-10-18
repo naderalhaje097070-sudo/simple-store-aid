@@ -27,13 +27,15 @@ type NullableRpcArguments = {
 };
 type ApplicationRpcs = {
   [Name in keyof GeneratedRpcs]: {
-    Args: GeneratedRpcs[Name]["Args"] extends never ? never : {
-      [Arg in keyof GeneratedRpcs[Name]["Args"]]: Name extends keyof NullableRpcArguments
-        ? Arg extends NullableRpcArguments[Name]
-          ? GeneratedRpcs[Name]["Args"][Arg] | null
-          : GeneratedRpcs[Name]["Args"][Arg]
-        : GeneratedRpcs[Name]["Args"][Arg];
-    };
+    Args: GeneratedRpcs[Name]["Args"] extends never
+      ? never
+      : {
+          [Arg in keyof GeneratedRpcs[Name]["Args"]]: Name extends keyof NullableRpcArguments
+            ? Arg extends NullableRpcArguments[Name]
+              ? GeneratedRpcs[Name]["Args"][Arg] | null
+              : GeneratedRpcs[Name]["Args"][Arg]
+            : GeneratedRpcs[Name]["Args"][Arg];
+        };
     Returns: Name extends keyof RpcResults ? RpcResults[Name] : GeneratedRpcs[Name]["Returns"];
   };
 };
@@ -107,10 +109,7 @@ export function useUpdateTenantBusinessType(tenantId: string | null | undefined)
   return useMutation({
     mutationFn: async (business_type: string | null) => {
       if (!tenantId) throw new Error("no tenant");
-      const { error } = await supabase
-        .from("tenants")
-        .update({ business_type })
-        .eq("id", tenantId);
+      const { error } = await supabase.from("tenants").update({ business_type }).eq("id", tenantId);
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["tenant", tenantId] }),
@@ -122,10 +121,7 @@ export function useUpdateTenantTimezone(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (timezone: string) => {
       if (!tenantId) throw new Error("no tenant");
-      const { error } = await supabase
-        .from("tenants")
-        .update({ timezone })
-        .eq("id", tenantId);
+      const { error } = await supabase.from("tenants").update({ timezone }).eq("id", tenantId);
       if (error) throw error;
     },
     onSuccess: () => {

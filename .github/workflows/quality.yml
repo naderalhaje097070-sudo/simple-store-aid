@@ -20,6 +20,8 @@ jobs:
           bun-version: "1.2.14"
       - name: Install dependencies
         run: bun install --frozen-lockfile
+      - name: Check reviewed generated source formatting
+        run: bun run format:generated -- --check
       - name: Typecheck
         run: bun run typecheck
       - name: Lint changed source files
@@ -32,7 +34,7 @@ jobs:
           if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
             base="$(git rev-parse HEAD^)"
           fi
-          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx)$' || true)
+          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx|mjs|cjs)$' || true)
           printf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt
           if (( ${#files[@]} == 0 )); then
             echo "No changed JavaScript or TypeScript files to lint."

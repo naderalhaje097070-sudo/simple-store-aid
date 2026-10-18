@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "test:unit": "bun test tests/unit"
+    "test:unit": "bun test tests/unit",
+    "format:generated": "node scripts/format-generated.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -422,7 +422,7 @@ export function useAddCourier(tenantId: string | null | undefined) {
 
 /* ---------- invoices (orders + items) ---------- */
 export type DBInvoiceItem = {
-  productId: string;
+  productId: Database["public"]["Tables"]["order_items"]["Row"]["product_id"];
   name: string;
   qty: number;
   price: number;

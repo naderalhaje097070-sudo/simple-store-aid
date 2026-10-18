@@ -19,10 +19,13 @@ export type InvoiceItem = {
   price: number;
   cost: number;
 };
+// Historical order items may retain their snapshot after a product link is null.
+// New sale/cart lines still require InvoiceItem.productId to be a string.
+export type StoredInvoiceItem = Omit<InvoiceItem, "productId"> & { productId: string | null };
 export type Invoice = {
   id: string;
   number: string;
-  items: InvoiceItem[];
+  items: StoredInvoiceItem[];
   total: number;
   paid: number;
   customerId?: string;

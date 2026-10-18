@@ -159,6 +159,7 @@ import { InvoiceDetailScreen } from "@/features/invoices/InvoiceDetailScreen";
 import { InvoicesScreen } from "@/features/invoices/InvoicesScreen";
 
 type AppScreenContext = Omit<AppCtx, "addCustomerAsync" | "createSaleAsync" | "closeDayAsync"> & {
+  customersLoading: ReturnType<typeof useCustomers>["isLoading"];
   addCustomerAsync: ReturnType<typeof useAddCustomer>["mutateAsync"];
   createSaleAsync: ReturnType<typeof useCreateSale>["mutateAsync"];
   closeDayAsync: ReturnType<typeof useCloseDay>["mutateAsync"];
@@ -180,7 +181,7 @@ type PaymentSheetProps = Pick<AppScreenContext, "customers" | "couriers" | "addC
 function MongezzApp() {
   const { data: tenantId } = useTenantId();
   const { data: dbProducts } = useProducts(tenantId);
-  const { data: dbCustomers } = useCustomers(tenantId);
+  const { data: dbCustomers, isLoading: customersLoading } = useCustomers(tenantId);
   const { data: dbCouriers } = useCouriers(tenantId);
   const { data: dbInvoices } = useInvoices(tenantId);
   const { data: dbPayments } = usePayments(tenantId);
@@ -432,6 +433,7 @@ function MongezzApp() {
   const ctx: AppScreenContext = {
     products,
     customers,
+    customersLoading,
     setCustomers,
     couriers,
     invoices,
@@ -684,9 +686,9 @@ function DebtsScreen(p: AppScreenContext) {
           {rows.map((r, i) => (
             <button
               key={i}
+              disabled={!r.customer}
               onClick={() => {
-                // Preserve the existing missing-customer failure before any navigation.
-                if (r.customer === undefined) throw new TypeError("Debt customer is unavailable");
+                if (!r.customer) return;
                 p.setOpenCustomerId(r.customer.id);
                 p.go("debt_customer");
               }}
@@ -696,7 +698,10 @@ function DebtsScreen(p: AppScreenContext) {
                 {r.customer?.name?.[0]}
               </div>
               <div className="flex-1">
-                <div className="font-bold text-sm">{r.customer?.name}</div>
+                <div className="font-bold text-sm">
+                  {r.customer?.name ??
+                    (p.customersLoading ? "جارٍ تحميل بيانات العميل…" : "بيانات العميل غير متاحة")}
+                </div>
                 <div className="text-xs text-muted-foreground">
                   {r.customer?.phone ?? "بدون رقم"}
                 </div>
@@ -714,27 +719,43 @@ function DebtCustomerScreen(p: AppScreenContext) {
   const cust: Customer | undefined = p.customers.find((c: Customer) => c.id === p.openCustomerId);
   // Exclude courier orders still pending (not yet delivered) — they aren't customer debt yet.
   const invs = p.invoices.filter(
-    (i: Invoice) => i.customerId === cust?.id && getCustomerDebtForInvoice(i) > 0,
+    (i: Invoice) =>
+      !!p.openCustomerId && i.customerId === p.openCustomerId && getCustomerDebtForInvoice(i) > 0,
   );
   const total = invs.reduce((s: number, i: Invoice) => s + getCustomerDebtForInvoice(i), 0);
   return (
     <>
       <TopBar title={cust?.name ?? "عميل"} onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
-        <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
-          <div>
-            <div className="text-xs text-muted-foreground">إجمالي المستحق</div>
-            <Money v={total} className="text-xl text-debt" />
-          </div>
-          <div className="flex gap-2">
-            <button className="p-2 rounded-full bg-primary-soft text-primary">
-              <Phone className="w-4 h-4" />
+        {!cust && (
+          <div role="status" className="rounded-2xl bg-card border border-border p-4 space-y-2">
+            <div className="font-bold text-sm">
+              {p.customersLoading ? "جارٍ تحميل بيانات العميل…" : "بيانات العميل غير متاحة"}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              عدم توفر بيانات العميل لا يعني سداد الدين. يمكنك الرجوع إلى قائمة الديون.
+            </p>
+            <button onClick={p.back} className="text-sm font-bold text-primary underline">
+              الرجوع إلى الديون
             </button>
-            <button className="p-2 rounded-full bg-success-soft text-success">
-              <MessageCircle className="w-4 h-4" />
-            </button>
           </div>
-        </div>
+        )}
+        {(cust || invs.length > 0) && (
+          <div className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between">
+            <div>
+              <div className="text-xs text-muted-foreground">إجمالي المستحق</div>
+              <Money v={total} className="text-xl text-debt" />
+            </div>
+            <div className="flex gap-2">
+              <button disabled={!cust} className="p-2 rounded-full bg-primary-soft text-primary">
+                <Phone className="w-4 h-4" />
+              </button>
+              <button disabled={!cust} className="p-2 rounded-full bg-success-soft text-success">
+                <MessageCircle className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
         <div className="text-xs font-bold text-muted-foreground">الفواتير المدينة</div>
         {invs.map((inv: Invoice) => (
           <div key={inv.id} className="rounded-2xl bg-card border border-border p-3">
@@ -746,7 +767,9 @@ function DebtCustomerScreen(p: AppScreenContext) {
               متبقي <span className="num">{fmt(getCustomerDebtForInvoice(inv))}</span> د.ل
             </div>
             <button
+              disabled={!cust}
               onClick={() => {
+                if (!cust) return;
                 p.setOpenInvoiceId(inv.id);
                 p.go("invoice_detail");
               }}

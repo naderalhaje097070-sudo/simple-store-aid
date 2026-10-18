@@ -1,0 +1,5 @@
+# Safety net and tests
+
+Reuse the preserved before-fix actual React screen/Chromium reproduction and exact application SHA256. Add a narrowly scoped UI regression: missing row, initial loading then appearance, loading ending absent, present customer and original collection navigation, missing details/back, disappearance during details/back, details recovery, missing selection without invented zero, unrelated/unassigned/returned/pending invoice exclusion. Expected60 is independent of selector implementation. Check no unexpected effects/writes/HTTP/WebSocket/page errors. Existing actual isLoading wiring is additionally typechecked and source-reviewed.
+
+Run affected ESLint, typecheck and existing Quality steps including66 unit tests,8 offline server-boundary cases,67 browser containment cases,two explicit isolated builds and tracked generation invariance. New component tests are standalone commands, not claimed wired into unchanged CI. No G1 or historical security suite. Capture failures and exact runtime/tool differences; independent focused review required. Repository full-lint cleanup/.cjs coverage remain separate.

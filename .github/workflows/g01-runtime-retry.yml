@@ -2,8 +2,11 @@ name: G1 Bounded Acceptance Repair
 'on':
   push:
     branches:
-    - test/g0-g1-acceptance-runtime-2026-10-14
+    - integration/g0-g1-reconcile-2026-10-18
     paths:
+    - tests/g01-acceptance/integrated-source.json
+    - tests/g01-acceptance/integrated_identity.py
+    - tests/g01-acceptance/test_integrated_identity.py
     - tests/g01-acceptance/cleanup.py
     - tests/g01-acceptance/test_cleanup.py
     - tests/g01-acceptance/diagnose_cli.py
@@ -58,9 +61,10 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.2.14
-    - name: Prove original383-path contract with explicit CI and state changes
+    - name: Prove reviewed integrated source and original41 migration identities
       run: |
         python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_integrated_identity.py
         python tests/g01-acceptance/test_g1_contracts.py
         python tests/g01-acceptance/test_cleanup.py
     - name: Frozen existing runtime dependencies
@@ -174,6 +178,7 @@ jobs:
   environment:
     runs-on: ubuntu-latest
     env:
+      PYTHONDONTWRITEBYTECODE: '1'
       EXPECTED_SOURCE: ${{ github.sha }}
     steps:
     - name: Checkout exact acceptance source
@@ -190,9 +195,10 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.2.14
-    - name: Prove original383-path contract with explicit CI and state changes
+    - name: Prove reviewed integrated source and original41 migration identities
       run: |
         python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_integrated_identity.py
         python tests/g01-acceptance/test_g1_contracts.py
     - name: Run target-green environment isolation probe
       shell: bash

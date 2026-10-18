@@ -75,7 +75,7 @@ jobs:
             -u VITE_SUPABASE_URL \
             -u VITE_SUPABASE_PUBLISHABLE_KEY \
             -u VITE_SUPABASE_PROJECT_ID \
-            bunx vite build --mode sec-env-contract
+            node scripts/build.mjs --mode sec-env-contract
       - name: Build
         env:
           MONGEZZ_DEPLOY_TARGET: ci

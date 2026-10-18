@@ -25,7 +25,10 @@ const allowed = new Set([
 assert.equal(prettier.version, manifest.formatter, "Unreviewed formatter version");
 assert.equal(manifest.files.length, allowed.size, "Generated scope must contain nine unique paths");
 const check = process.argv.includes("--check");
-assert(process.argv.slice(2).every((arg) => arg === "--check"), "Unknown argument");
+assert(
+  process.argv.slice(2).every((arg) => arg === "--check"),
+  "Unknown argument",
+);
 const digest = (data) => createHash("sha256").update(data).digest("hex");
 const pending = [];
 for (const item of manifest.files) {

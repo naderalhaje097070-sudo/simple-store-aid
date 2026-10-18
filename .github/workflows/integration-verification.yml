@@ -1,26 +1,27 @@
-name: Integration verification subset
+name: Integrated G0 verification
 'on':
   push:
     branches:
     - integration/g0-g1-reconcile-2026-10-18
     paths:
-    - .github/workflows/integration-verification.yml
     - src/**
     - tests/**
+    - scripts/**
     - config/**
     - package.json
     - bun.lock
+    - .github/workflows/integration-verification.yml
 permissions:
   contents: read
 jobs:
-  verification:
+  quality:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.sha }}
         fetch-depth: 0
+        ref: ${{ github.sha }}
         persist-credentials: false
     - name: Setup Bun
       uses: oven-sh/setup-bun@v2
@@ -28,10 +29,29 @@ jobs:
         bun-version: 1.2.14
     - name: Install dependencies
       run: bun install --frozen-lockfile
+    - name: Check reviewed generated source formatting
+      run: node scripts/format-generated.mjs --check
+    - name: Exact integrated source identity and fail-closed mutations
+      run: 'python tests/g01-acceptance/capture.py identity
+
+        python tests/g01-acceptance/test_integrated_identity.py'
     - name: Typecheck
       run: bun run typecheck
+    - name: Full repository lint including CommonJS and ESM
+      shell: bash
+      run: 'set -euo pipefail
+
+        bun run lint 2>&1 | tee /tmp/lint.log
+
+        '
+    - name: Read-only existing CI policy contract
+      run: bun tests/gate4/sec-ci/probe.ts
     - name: Unit tests
       run: bun run test:unit
+    - name: Type erasure and actual hook callback wire replay
+      run: node tests/g0-integrated-types/runtime.cjs
+    - name: Build entry failure and forwarding contracts
+      run: python tests/g0-integrated-types/test_build_entry.py
     - name: Offline server environment boundary
       run: bun tests/gate4/sec-env/server-boundary.ts
     - name: Setup Python for browser containment regression
@@ -53,7 +73,7 @@ jobs:
       run: "set -euo pipefail\ntrap 'rm -f .env.sec-env-contract' EXIT\ncat > .env.sec-env-contract <<'EOF'\nMONGEZZ_DEPLOY_TARGET=ci\n\
         VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder\nVITE_SUPABASE_PROJECT_ID=quality-env-file\n\
         EOF\n\nenv \\\n  -u MONGEZZ_DEPLOY_TARGET \\\n  -u VITE_SUPABASE_URL \\\n  -u VITE_SUPABASE_PUBLISHABLE_KEY\
-        \ \\\n  -u VITE_SUPABASE_PROJECT_ID \\\n  bunx vite build --mode sec-env-contract\n"
+        \ \\\n  -u VITE_SUPABASE_PROJECT_ID \\\n  node scripts/build.mjs --mode sec-env-contract\n"
     - name: Build
       env:
         MONGEZZ_DEPLOY_TARGET: ci
@@ -63,5 +83,53 @@ jobs:
       run: bun run build
     - name: Verify generation leaves tracked application files intact
       run: git diff --exit-code --
-    timeout-minutes: 15
+    - name: Recheck complete protected source after both builds
+      run: python tests/g01-acceptance/capture.py identity
+    - name: Upload quality diagnostics
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-diagnostics
+        path: '/tmp/lint-files.txt
 
+          /tmp/lint.log
+
+          '
+        if-no-files-found: warn
+    - name: Upload source identity receipt
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-source-identity
+        path: ${{ runner.temp }}/g01-evidence/identity.json
+        retention-days: 7
+        if-no-files-found: warn
+    timeout-minutes: 15
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      PYTHONDONTWRITEBYTECODE: '1'
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.4.0
+    - name: Complete supported audit with actual exit preserved
+      shell: bash
+      run: 'set -euo pipefail
+
+        bun audit --json 2>&1 | tee /tmp/integration-audit.log
+
+        '
+    - name: Upload complete audit output
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-full-audit
+        path: /tmp/integration-audit.log
+        retention-days: 7

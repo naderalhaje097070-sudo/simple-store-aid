@@ -1,8 +1,5 @@
-name: Integration G0 tool proof
-on:
-  push:
-    branches: [integration/g0-g1-reconcile-2026-10-18]
-    paths: [.github/workflows/integration-g0-inventory.yml]
+name: Integration G0 tool proof (historical)
+on: workflow_dispatch
 permissions:
   contents: read
 jobs:

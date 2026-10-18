@@ -15,6 +15,11 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    if Path('tests/g01-acceptance/integrated-source.json').exists():
+        from integrated_identity import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     manifest = json.loads(Path('tests/g01-acceptance/source54.json').read_text())
     overrides_file = Path('tests/g01-acceptance/g1-source-overrides.json')
     overrides = json.loads(overrides_file.read_text()) if overrides_file.exists() else {}

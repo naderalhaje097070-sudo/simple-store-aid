@@ -1,3 +1,13 @@
+## G0-LINT-FORMAT-02 — bounded batch, 2026-10-18
+
+- [x] Saved handwritten ranking reused, no global reclassification. Fresh five-file diagnostics186formatter→0, other errors/warnings0→0; files/counts in docs/g0-lint-format-02/REPORT.md.
+- [x] Exact locked formatter/source-type/runtime AST/meaningful JSX/comments/idempotence proof, unchanged inherited suppressed diagnostics and independent batch review. app.tsx and generated files excluded; no application tests/workflow/config/rule/dependency changes.
+- [x] Local frozen/typecheck/targetedlint PASS. Existing native Quality39121437943 SUCCESS on dcd3688de41cd3aef422eb22792566c9b9434d10; all steps metadata successful. Native raw-log download failed, exact native counts/checkout not claimed; current synthetic tree equals source, no actual merge.
+- [x] Sole claim55/6248999708 after live head/claim verification; final docs-only source reconciliation and linked55/70 handoff/closure recorded there. No merge/deploy or G1/advisory/audit rerun.
+- [ ] Remaining lint/.cjs/generated/other-rule work and G0/final-source identity/affectedG1/integration/release acceptance remain separate/open. No whole-project remaining count inferred from186.
+
+ONE NEXT: planning chooses remaining bounded G0 cleanup after this handoff. Additive rollback restores only the five table paths froma9915102 and preserves all earlier security/UI fixes. Stop after delivery; no next batch automatically. Historical checkpoints below are retained.
+
 ## APP-DEBT-MISSING-CUSTOMER-01 — bounded candidate delivered, 2026-10-18
 
 - [x] Owner-authorized missing-customer UI remedy on existing Draft72: executable82623c7189de21c0a03c5e4b3b6539ff5c74320e; known debt60 retained, clear loading/unavailable states, invalid navigation/collection blocked, no invented ID/zero.

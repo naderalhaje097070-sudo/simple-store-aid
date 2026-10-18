@@ -2033,7 +2033,7 @@ function SaleQuickScreen(p: AppScreenContext) {
 
   // Recently sold products (from invoices), latest first, unique, in-stock
   const recentProducts: Product[] = useMemo(() => {
-    const seen = new Set<string>();
+    const seen = new Set<Invoice["items"][number]["productId"]>();
     const out: Product[] = [];
     for (let i = 0; i < p.invoices.length && out.length < 6; i++) {
       for (const it of (p.invoices[i] as Invoice).items) {

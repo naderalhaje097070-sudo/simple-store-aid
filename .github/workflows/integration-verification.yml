@@ -1,0 +1,67 @@
+name: Integration verification subset
+'on':
+  push:
+    branches:
+    - integration/g0-g1-reconcile-2026-10-18
+    paths:
+    - .github/workflows/integration-verification.yml
+    - src/**
+    - tests/**
+    - config/**
+    - package.json
+    - bun.lock
+permissions:
+  contents: read
+jobs:
+  verification:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Install dependencies
+      run: bun install --frozen-lockfile
+    - name: Typecheck
+      run: bun run typecheck
+    - name: Unit tests
+      run: bun run test:unit
+    - name: Offline server environment boundary
+      run: bun tests/gate4/sec-env/server-boundary.ts
+    - name: Setup Python for browser containment regression
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install pinned browser test tooling
+      run: 'python -m pip install -r tests/gate4/sec-env/requirements.txt
+
+        python -m playwright install chromium --only-shell --with-deps
+
+        '
+    - name: Verify browser redirect, WebSocket and origin containment
+      env:
+        PYTHONDONTWRITEBYTECODE: '1'
+      run: python tests/gate4/sec-env/browser-network.py
+    - name: Build from mode-specific env file
+      shell: bash
+      run: "set -euo pipefail\ntrap 'rm -f .env.sec-env-contract' EXIT\ncat > .env.sec-env-contract <<'EOF'\nMONGEZZ_DEPLOY_TARGET=ci\n\
+        VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder\nVITE_SUPABASE_PROJECT_ID=quality-env-file\n\
+        EOF\n\nenv \\\n  -u MONGEZZ_DEPLOY_TARGET \\\n  -u VITE_SUPABASE_URL \\\n  -u VITE_SUPABASE_PUBLISHABLE_KEY\
+        \ \\\n  -u VITE_SUPABASE_PROJECT_ID \\\n  bunx vite build --mode sec-env-contract\n"
+    - name: Build
+      env:
+        MONGEZZ_DEPLOY_TARGET: ci
+        VITE_SUPABASE_URL: http://127.0.0.1:54321
+        VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+        VITE_SUPABASE_PROJECT_ID: quality-build
+      run: bun run build
+    - name: Verify generation leaves tracked application files intact
+      run: git diff --exit-code --
+    timeout-minutes: 15
+

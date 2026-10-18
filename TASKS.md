@@ -1,3 +1,13 @@
+## APP-DEBT-MISSING-CUSTOMER-01 — bounded candidate delivered, 2026-10-18
+
+- [x] Owner-authorized missing-customer UI remedy on existing Draft72: executable82623c7189de21c0a03c5e4b3b6539ff5c74320e; known debt60 retained, clear loading/unavailable states, invalid navigation/collection blocked, no invented ID/zero.
+- [x] Before-fix actual React/Chromium reproduction; local9/9 + independent9/9 regression; affectedlint0errors1useMemowarning/typecheck/66unit/8wrapper/67containment/twoisolatedbuilds/generationinvariance.
+- [x] Existing Quality39120188797 SUCCESS, every required step successful per API; native raw-log storage403 and count/checkout evidence limits explicit. Current synthetic tree equals tested source, no actual merge. No app/test changes after source826.
+- [x] Source/claims reconciled after API recovery before upload; sole claim55/6248860942. Linked55/70 handoff carries final documentation head and closure; no merge/deploy.
+- [ ] Main-branch/integration/release acceptance NOT granted. Remaining lint/.cjs coverage and separate incomplete invoice-read handling remain open. No G1/historical advisory/audit rerun.
+
+See docs/app-debt-missing-customer-01 for actual source/evidence/review/rollback and changes/app-debt-missing-customer-01 for scope. New component tests are standalone, not wired into unchanged CI. ONE NEXT: planning chooses remaining bounded G0 lint; no automatic expansion or source/G1 reconciliation in this batch. Older missing-customer deferral below is historical; this candidate supersedes it only within the reviewed UI scope, not on main.
+
 ## Current queue checkpoint — G0-APP-LINT-01, 2026-10-17
 
 - [x] Bounded draft candidate removes17app errors(16any+1expression), retains1useMemo warning; actual types derive from existing contracts, no financial calculations/calls/Hook deps changed.

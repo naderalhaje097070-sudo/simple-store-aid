@@ -1,0 +1,128 @@
+{
+  "archive": {
+    "bytes": 68580,
+    "sha256": "0453fbafefc900503a4d2e526a095396aa554bf947907c50b218eb24bb26ed9b"
+  },
+  "files": {
+    "baseline-lint.json": {
+      "bytes": 109438,
+      "sha256": "306a9536c1c7c1981fae817690e02d8e80af3d0d2d7da40b7cf82c15582cc507"
+    },
+    "baseline-typecheck.log": {
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "baseline-unit.log": {
+      "bytes": 6918,
+      "sha256": "c0e11f8ce89ac228dac93e4fcae7346139993f51941dfd64ce776d86a255c965"
+    },
+    "baseline.json": {
+      "bytes": 626,
+      "sha256": "0e23f1c10a2d0331181cbaa495944d7d6e4d9aa3670e27ff5da23e3c4d356214"
+    },
+    "browser-containment-pinned.log": {
+      "bytes": 116,
+      "sha256": "bb81fdb042fd26b56e40671bbe74b1070097bf0c9a143b002d252a6ebc21f284"
+    },
+    "browser-containment-system.log": {
+      "bytes": 116,
+      "sha256": "bb81fdb042fd26b56e40671bbe74b1070097bf0c9a143b002d252a6ebc21f284"
+    },
+    "browser-containment.log": {
+      "bytes": 2834,
+      "sha256": "eff703205fc1af998d45263c6457b7fcd6050f3d322974ebcfcdda7832aaa426"
+    },
+    "browser-results.json": {
+      "bytes": 1028,
+      "sha256": "7a8b2dc9dd8c941b8a27b0e119364fc09447fffcc84f3891a570364c60266931"
+    },
+    "browser-ui.log": {
+      "bytes": 814,
+      "sha256": "f21e6a9b381a328c3f3d2f5867e1bbc02a8ae3a2c843f2f65c49d397752ec323"
+    },
+    "build-env.log": {
+      "bytes": 17601,
+      "sha256": "dcb46cc57293a078c85e1a329dab1e2e67b7ed56ae78be3c9a61d51c82384c22"
+    },
+    "build.log": {
+      "bytes": 17289,
+      "sha256": "867bada443ae6125fdeefa8c4203f0d9b06fe60b0c9be5e122841526af200e1a"
+    },
+    "bundle-source.json": {
+      "bytes": 250,
+      "sha256": "32eed9f2ca0a4dd58c096c3fa8e9d275234aa2c128f54e23b7e87cfc02f11880"
+    },
+    "claim-receipt.json": {
+      "bytes": 160,
+      "sha256": "7fe211e16134f529633c8e6226d38e055dd4bc68d18ccae48005704feb4bac89"
+    },
+    "frozen-install.log": {
+      "bytes": 82,
+      "sha256": "97f2cb202320d224f4134b04411248b2b859ceacab9c78ba8b0b64e789badf3a"
+    },
+    "generation-invariance.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "hosted-jobs-full.json": {
+      "bytes": 4188,
+      "sha256": "fc6fccd90a782d91dc79b843b4491584bc7df3494f04e472d59217cab6acbed2"
+    },
+    "hosted-run.json": {
+      "bytes": 302,
+      "sha256": "dcf86a38e0ecf94a19a2f86e343898cb04d10fde8a492d68dff6e60364328e24"
+    },
+    "independent-browser-results.json": {
+      "bytes": 1028,
+      "sha256": "7a8b2dc9dd8c941b8a27b0e119364fc09447fffcc84f3891a570364c60266931"
+    },
+    "independent-bundle-source.json": {
+      "bytes": 250,
+      "sha256": "32eed9f2ca0a4dd58c096c3fa8e9d275234aa2c128f54e23b7e87cfc02f11880"
+    },
+    "lint-after.json": {
+      "bytes": 110857,
+      "sha256": "25941a20e3c5c87e545d1d42fa20c3986954247357da5547a597470495575725"
+    },
+    "original-baseline-browser.txt": {
+      "bytes": 2852,
+      "sha256": "5add9705f8e2d2200bb506e0658020e8fd598f0ad8fe124d3320bc5cb5117303"
+    },
+    "original-baseline-builder.txt": {
+      "bytes": 2519,
+      "sha256": "af30b5d4437c3dfd7dc44da1b2fa12bb11566f7381f4cdf8939d9dd233e7b4b5"
+    },
+    "pr72-recheck.json": {
+      "bytes": 380,
+      "sha256": "883040f5ea3dd7537dd9f9b87c613d3d7ed23e24994c22629cb331c09de3d3e1"
+    },
+    "python-tooling.log": {
+      "bytes": 1591,
+      "sha256": "ec37a7a70b4e4c185e4a37d6e753a08910da1015fddcc0a32b0de28628e11c68"
+    },
+    "quality-lint-files.txt": {
+      "bytes": 182,
+      "sha256": "c902b7455644a112ebac6d3486ef2cdac924a183c9e6fffacaf21c4e17ef3793"
+    },
+    "quality-lint.log": {
+      "bytes": 255,
+      "sha256": "ed9e3c727cbbb8443c957a503e70bb9be566016d41a951ad50a338479bf4c520"
+    },
+    "server-boundary.log": {
+      "bytes": 95,
+      "sha256": "26d2ed57a22497f8c6c8dd636dbeb2074c8c7a1d7c88fd613bb8a59313247c93"
+    },
+    "source-reconciliation.json": {
+      "bytes": 428,
+      "sha256": "73a9c11f572f5cafeb055b0d1d83ea4e680664f418854189c8c52257f0ceb5f3"
+    },
+    "typecheck.log": {
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "unit.log": {
+      "bytes": 6909,
+      "sha256": "8aadd847eaef17801c34b8045402f750776758cf3fea95ffce455f4869f1b2e9"
+    }
+  }
+}

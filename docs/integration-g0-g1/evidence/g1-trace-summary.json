@@ -1,0 +1,568 @@
+{
+  "source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b",
+  "kind": "derived_summary_from_original_sanitized_artifact12153176856",
+  "phases": {
+    "matching": {
+      "trace_complete": true,
+      "unmapped_nonloopback_tids": [],
+      "native_counters_before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "native_counters_after": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "lineage": {
+        "processes": [
+          {
+            "tid": 8654,
+            "tgid": 8654,
+            "parent_pid": 8653,
+            "uid": 999,
+            "first_seen_ms": 1792363173960,
+            "executable": "strace"
+          },
+          {
+            "tid": 8657,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173969,
+            "executable": "node"
+          },
+          {
+            "tid": 8658,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173969,
+            "executable": "node"
+          },
+          {
+            "tid": 8659,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173969,
+            "executable": "node"
+          },
+          {
+            "tid": 8660,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173969,
+            "executable": "node"
+          },
+          {
+            "tid": 8661,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173970,
+            "executable": "node"
+          },
+          {
+            "tid": 8662,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173970,
+            "executable": "node"
+          },
+          {
+            "tid": 8663,
+            "tgid": 8657,
+            "parent_pid": 8654,
+            "uid": 999,
+            "first_seen_ms": 1792363173970,
+            "executable": "node"
+          },
+          {
+            "tid": 8665,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173977,
+            "executable": "node"
+          },
+          {
+            "tid": 8666,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8667,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8668,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8669,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8670,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8671,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363173978,
+            "executable": "node"
+          },
+          {
+            "tid": 8679,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363174912,
+            "executable": "node"
+          },
+          {
+            "tid": 8680,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363174912,
+            "executable": "node"
+          },
+          {
+            "tid": 8681,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363174912,
+            "executable": "node"
+          },
+          {
+            "tid": 8682,
+            "tgid": 8665,
+            "parent_pid": 8657,
+            "uid": 999,
+            "first_seen_ms": 1792363174912,
+            "executable": "node"
+          },
+          {
+            "tid": 8683,
+            "tgid": 8683,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363174921,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 8684,
+            "tgid": 8683,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363174921,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 8685,
+            "tgid": 8683,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363174921,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 8686,
+            "tgid": 8683,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363174921,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 8687,
+            "tgid": 8683,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363174922,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 8690,
+            "tgid": 8690,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363175036,
+            "executable": "workerd"
+          },
+          {
+            "tid": 8693,
+            "tgid": 8690,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363175143,
+            "executable": "workerd"
+          },
+          {
+            "tid": 8735,
+            "tgid": 8735,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363175472,
+            "executable": "workerd"
+          },
+          {
+            "tid": 8736,
+            "tgid": 8735,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363175472,
+            "executable": "workerd"
+          },
+          {
+            "tid": 8737,
+            "tgid": 8735,
+            "parent_pid": 8665,
+            "uid": 999,
+            "first_seen_ms": 1792363175473,
+            "executable": "workerd"
+          }
+        ],
+        "read_failed": false,
+        "monitor_stopped": true,
+        "read_failures": [],
+        "terminal_tasks": [
+          {
+            "tid": 8665,
+            "tgid": 8665,
+            "state": "Z"
+          },
+          {
+            "tid": 8683,
+            "tgid": 8683,
+            "state": "Z"
+          },
+          {
+            "tid": 8690,
+            "tgid": 8690,
+            "state": "Z"
+          },
+          {
+            "tid": 8735,
+            "tgid": 8735,
+            "state": "Z"
+          }
+        ]
+      },
+      "private_trace_sha256": {
+        "strace": "1eac0559f96ea0136e9ba2c68c7f6c2961a47858601c3352b37d948e62908fbd",
+        "node-dns": "5de22378e247f05043f7bde7cd63a1a699e1c8889421afc894f5f14a7a4cd57c",
+        "native-dns": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "conflict": {
+      "trace_complete": true,
+      "unmapped_nonloopback_tids": [],
+      "native_counters_before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "native_counters_after": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "lineage": {
+        "processes": [
+          {
+            "tid": 9151,
+            "tgid": 9151,
+            "parent_pid": 9150,
+            "uid": 999,
+            "first_seen_ms": 1792363181706,
+            "executable": "strace"
+          },
+          {
+            "tid": 9154,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9155,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9156,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9157,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9158,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9159,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9160,
+            "tgid": 9154,
+            "parent_pid": 9151,
+            "uid": 999,
+            "first_seen_ms": 1792363181715,
+            "executable": "node"
+          },
+          {
+            "tid": 9161,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181724,
+            "executable": "node"
+          },
+          {
+            "tid": 9162,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9163,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9164,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9165,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9166,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9167,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363181725,
+            "executable": "node"
+          },
+          {
+            "tid": 9175,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363182659,
+            "executable": "node"
+          },
+          {
+            "tid": 9176,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363182659,
+            "executable": "node"
+          },
+          {
+            "tid": 9177,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363182659,
+            "executable": "node"
+          },
+          {
+            "tid": 9178,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363182659,
+            "executable": "node"
+          },
+          {
+            "tid": 9179,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9180,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9181,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9182,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9183,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9184,
+            "tgid": 9179,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182668,
+            "executable": "other_executable"
+          },
+          {
+            "tid": 9187,
+            "tgid": 9187,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182784,
+            "executable": "workerd"
+          },
+          {
+            "tid": 9188,
+            "tgid": 9187,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363182784,
+            "executable": "workerd"
+          },
+          {
+            "tid": 9191,
+            "tgid": 9191,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363183111,
+            "executable": "workerd"
+          },
+          {
+            "tid": 9194,
+            "tgid": 9191,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363183215,
+            "executable": "workerd"
+          },
+          {
+            "tid": 9195,
+            "tgid": 9191,
+            "parent_pid": 9161,
+            "uid": 999,
+            "first_seen_ms": 1792363183215,
+            "executable": "workerd"
+          },
+          {
+            "tid": 9197,
+            "tgid": 9161,
+            "parent_pid": 9154,
+            "uid": 999,
+            "first_seen_ms": 1792363183528,
+            "executable": "node"
+          }
+        ],
+        "read_failed": false,
+        "monitor_stopped": true,
+        "read_failures": [],
+        "terminal_tasks": [
+          {
+            "tid": 9179,
+            "tgid": 9179,
+            "state": "Z"
+          },
+          {
+            "tid": 9191,
+            "tgid": 9191,
+            "state": "Z"
+          }
+        ]
+      },
+      "private_trace_sha256": {
+        "strace": "7e64a5a6125fb4a9f0b6c19c65e0a0f70bf6a101b0496da1c23876e0f38ea43c",
+        "node-dns": "22b42a80af1dcf0ac0eb92d3b2a1fca06e3bba4df1c904a8a7b1ad3bcb0480cd",
+        "native-dns": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  }
+}

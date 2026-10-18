@@ -1,3 +1,13 @@
+## 2026-10-18 — Candidate integration mechanics, no protected policy change
+
+Standing owner authorization allows routine preparation on isolated integration/g0-g1-reconcile-2026-10-18; no merge/deploy authorization. Candidate823cbcaf passes native mechanicalG0/affectedG1 on oneSHA, but is not on main and has no freshGate6independent review. integration_accepted=false.
+
+Use exact committed279blob integrated source snapshot instead of expanding legacy383path overrides; validate original41SQL unchanged. Existing54manifest/history preserved. Scope label reviewed_integrated_source is source reconciliation, not independent acceptance. Any source change requires a new exact manifest and affected evidence.
+
+Nine known generator outputs normalized by reviewed hash pairs/pinnedPrettier after successful realVite build; unknown output fails before writes, nonzero build/postprocess exits preserved. This is explicit output postprocessing, not a patch to the upstreamLovable generator. Real tracked-source invariance remains mandatory. API/SQL/finance/authority/dependencyversions unchanged; same-wire types plus truthful nullable stored references and explicit nullTypeError diagnostics are reviewed candidate changes.
+
+ProcessMap terminal/liveworker repair preserves sticky failures/unmappednonloopback/network/trace/secret/cleanup gates. EarlierfailedG1 retained; its exactreadcause unknown despite reproduced observer bug and later40/40success. Nofinancial/account lifecycle/production/Pilot acceptance inferred. Fresh independent review required before a highriskmerge proposal; ownerretention/subscription/financial/merge/deploy approvals unchanged. See docs/integration-g0-g1 for rationale,actualresults,remainingrisks and additive rollback.
+
 ## G0-APP-LINT-01 — preserve behavior while tightening local screen contracts
 
 2026-10-17 owner task authorizes17inherited app lint fixes only, on existing Draft72. Refine local shared context mutation signatures from actual hooks instead of changing shared AppContext or coercing data. Derive payment/status/icon/totals contracts from current sources. Keep tenantTz Hook warning and existing conversions outside scope. Explicit Set if/else preserves discarded-expression semantics. Unknown thrown-value message access preserves original receiver/nullish behavior. Strict types expose an existing missing-customer click failure; retain explicit TypeError before navigation with clarified message, and record APP-DEBT-MISSING-CUSTOMER separately rather than inventing an invariant or filtering financial rows. No financial/business/API/schema change or release approval. Evidence Quality39072945731 on e58bc5db plus scoped independent review; G0/integration remain open. Final metadata in70/55.

@@ -1,0 +1,252 @@
+{
+  "versions": {
+    "prettier": "3.8.3",
+    "typescript": "5.9.3",
+    "babelParser": "7.29.7",
+    "eslint": "9.39.4"
+  },
+  "method": "TypeScript-cooked JSX text; contiguous text coalescing on intrinsic host elements only; custom component/fragment segmentation preserved",
+  "negativeControls": [
+    "type",
+    "meaningful host whitespace",
+    "custom child segmentation",
+    "callback",
+    "hook dependencies"
+  ],
+  "files": [
+    {
+      "file": "src/integrations/lovable/index.ts",
+      "beforeSha256": "ff6990c9a3d111edb6efff4171c1ef971b5481a25d2af0bf2134d321cc0ba369",
+      "afterSha256": "ed4c315b40f5f97640da9c41cfb85360471cd8d6c3918cb921003baee7817361",
+      "sourceASTSha256": "2bfcb307009d35002441c1535e0f73598018cd7993d2caf4c705c4be2878fba7",
+      "runtimeASTSha256": "3745cd305242e07a7f179c81e1f1b41d3d3a9f0975cdd3b2de9ef4f3f73d1b10",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/integrations/supabase/auth-attacher.ts",
+      "beforeSha256": "24d0dbdf8dc0fd49b391a948bd04e1db43b97a1d851acc391dd3d1b13b9797fd",
+      "afterSha256": "6f3a336700721b5cbf9235fb18b9575cdb5d1f55e4656b2f4a3cadc7ae81b8eb",
+      "sourceASTSha256": "f6434c5671b51ead374336797962254d1cc3f27040e95cd807a6452dfe6a57bb",
+      "runtimeASTSha256": "f6434c5671b51ead374336797962254d1cc3f27040e95cd807a6452dfe6a57bb",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/integrations/supabase/auth-middleware.ts",
+      "beforeSha256": "0fc042c2ec276b8d7f4c7c573f39137baca7841e2849c36aab29dc6f1616e91f",
+      "afterSha256": "3a3095c529924a4663ee2eb110c2c01ac9e8e7ec678ed9691a37722a837ddbde",
+      "sourceASTSha256": "572bc3fc0c1df8e04c31288941edf0688dc8a6e2f183054391c8b847510ac5b5",
+      "runtimeASTSha256": "952ddbcca4d530920946b4b92d4bf5f7c2b1e13eb5cacd0c90242e4ed2d58613",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/integrations/supabase/client.server.ts",
+      "beforeSha256": "f3b4c85383ade973fa5f5cb21e913beda4ac0d7205c536c53bc58e7f831dc580",
+      "afterSha256": "a0e67c35be0648dddc2e4646cc5fe7d4f345406e272a0474b2d6e94781178b1f",
+      "sourceASTSha256": "e47f94527aad1533d8b1718440cb2255e29f81bae61c45bbf0d822eddac32bac",
+      "runtimeASTSha256": "ce3daca3281bbde9bb761ba33a309e2de5dd3ae24ae106d1953707007faaa05c",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/integrations/supabase/client.ts",
+      "beforeSha256": "b72ff69394b80cfc28a76820fd9bd9fa8311df83f99475c97242447b52843385",
+      "afterSha256": "1aefd6de51f1b3cfb570636f376a35da86ab21ade7c9cd7c1f67053622d27834",
+      "sourceASTSha256": "02c4d6011a34eb16ac230b3019b27fd425774140b1763870ddb8d1982e4e36ff",
+      "runtimeASTSha256": "9bc2986b8b35f2c4002de78e05205a221097519f9c17295f6084336b2ae30307",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "beforeSha256": "b03a93ec85a825b62f6f682f77761ce38011e48777c8b7db10625e88d79db484",
+      "afterSha256": "b13ea7fa83dc6eda13cb7ca6738b029715416ffd4aa6d39f8bd0caf1ac94c936",
+      "sourceASTSha256": "c6fc1c5282132c3e60daf6141df81ac2206b443321be9f5e06ca875b6d551889",
+      "runtimeASTSha256": "c6fc1c5282132c3e60daf6141df81ac2206b443321be9f5e06ca875b6d551889",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/[.mcp]/list-tools.ts",
+      "beforeSha256": "4422149dde63eed11e62093a190edf2185b74ffeb5638dfb9161a740b947d5d0",
+      "afterSha256": "d9091c6fdb21174dc63335dd8b2d681177ea25f93625e4db00bf927ae215777d",
+      "sourceASTSha256": "0cb660a7a5ed2a00ba4a15b31a3981436d79cfa617802a3610e09f92ed8d6286",
+      "runtimeASTSha256": "0cb660a7a5ed2a00ba4a15b31a3981436d79cfa617802a3610e09f92ed8d6286",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "beforeSha256": "6c27da6ba40e461119fd65b63d77fa21833b434d0c21f06077d685606b4a6fef",
+      "afterSha256": "56b9e00dea2c053af9408b7e34cd2c1aca44a67f7bedf9e04444d738915f16de",
+      "sourceASTSha256": "5bd6b40327de79649202e61acb55fd8e8c527b5028c079f90684fb56754db1f7",
+      "runtimeASTSha256": "5bd6b40327de79649202e61acb55fd8e8c527b5028c079f90684fb56754db1f7",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/mcp.ts",
+      "beforeSha256": "015ee546b020cfaca50d6b5bd59ed2ab6d7944f67b24fff05fe50f211e9954ab",
+      "afterSha256": "901b6b33d9d0b270bc3781bd92e51980d1aae343f564a395a2526034b7bdbbca",
+      "sourceASTSha256": "78e14db2834cb0c19fc65072bc72f76c315b4baeb078beb7d2211ed9073c59d0",
+      "runtimeASTSha256": "78e14db2834cb0c19fc65072bc72f76c315b4baeb078beb7d2211ed9073c59d0",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/db.ts",
+      "beforeSha256": "ad96976cf5318be136a436c5c8001e1d2923c3cc9341f95ed66f9bf61bb67be0",
+      "afterSha256": "3bda26f6b6b286b46ea82081bc4983bb1dad60e24cdf3d6e7dffed8afb90ded6",
+      "sourceASTSha256": "4f9c823c7756afcec407558e8572065c6cb4e65a6b224c4b4e8789b6e8ece8fb",
+      "runtimeASTSha256": "c48cd787d98bf31f2ef21da6b31033869b059ff492e06355fd705ca1cc1764bc",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/invoice-pdf.ts",
+      "beforeSha256": "35875a93e75e5a4319fa68647b0274e49a4279de4bcca2f891574b9744a5b513",
+      "afterSha256": "66b53021a75b7b3fddcaccf99db60d5a1d3bfa73a29db81168cb7d0198c5df93",
+      "sourceASTSha256": "f4902031cb398d5e5139a939ebc99bff50b8bcb95050614444eaaf93381caa9c",
+      "runtimeASTSha256": "4172b5f920f03096714e2d3ae16e8250d36e587646b86c107c456d5af30f1875",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/api/public/payments/webhook.ts",
+      "beforeSha256": "54b089fcfa3761307424944dc49313abf37a01927e69a27208c217f9a6032be9",
+      "afterSha256": "86edf9727ba5f5c415fedec9f2e3f51e0ba4cf5f91d5dd755b2d941b74aed568",
+      "sourceASTSha256": "7c1f84a4cb90dc1bb06dd10a95a87138e4f8eb2ccf40aed94c7648cd2f9bc94c",
+      "runtimeASTSha256": "891861594ec1a2c0995501d6fc2ad70799a18e7431123538b0fe66032ee06ee7",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    }
+  ],
+  "excluded": [
+    {
+      "file": "src/lib/paddle.ts",
+      "reason": "Expected \"actual\" to be strictly unequal to:\n\n'import { resolvePaddlePrice } from \"@/utils/payments.functions\";\\n' +\n  '\\n' +\n  'const clientToken = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN;\\n' +\n  '\\n' +\n  'declare global {\\n' +\n  '  interface Window {\\n' +\n  '    Paddle: {\\n' +\n  '      Environment: { set(environment: \"sandbox\" | \"production\"): void };\\n' +\n  '      Initialize(options: { token: string }): void;\\n' +\n  '      Checkout: {\\n' +\n  '        open(options: {\\n' +\n  '          items: { priceId: string; quantity: number }[];\\n' +\n  '          customer?: { email: string };\\n' +\n  '          customData?: Record<string, string>;\\n' +\n  '          settings: {\\n' +\n  '            displayMode: \"overlay\";\\n' +\n  '            successUrl: string;\\n' +\n  '            allowLogout: boolean;\\n' +\n  '            variant: \"one-page\";\\n' +\n  '            locale: string;\\n' +\n  '          };\\n' +\n  '        }): void;\\n' +\n  '      };\\n' +\n  '    };\\n' +\n  '  }\\n' +\n  '}\\n' +\n  '\\n' +\n  'exp"
+    },
+    {
+      "file": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "reason": "Expected \"actual\" to be strictly unequal to:\n\n'import { useState, useEffect } from \"react\";\\n' +\n  'import {\\n' +\n  '  Info,\\n' +\n  '  AlertTriangle,\\n' +\n  '  CheckCircle2,\\n' +\n  '  Clock,\\n' +\n  '  TrendingUp,\\n' +\n  '  FileDown,\\n' +\n  '  Printer,\\n' +\n  '} from \"lucide-react\";\\n' +\n  'import {\\n' +\n  '  downloadInvoicePdf,\\n' +\n  '  printInvoice,\\n' +\n  '  ensureFont as ensureInvoiceFont,\\n' +\n  '  type InvoicePdfData,\\n' +\n  '} from \"@/lib/invoice-pdf\";\\n' +\n  'import { useTenantId, useTenant } from \"@/lib/db\";\\n' +\n  'import type { Invoice, Customer, Courier, Payment } from \"@/features/shared/types\";\\n' +\n  'import type { AppCtx } from \"@/features/shared/AppContext\";\\n' +\n  'import { StatusChip } from \"@/features/shared/StatusChip\";\\n' +\n  'import { Sheet } from \"@/features/shared/Sheet\";\\n' +\n  'import { Money, fmt } from \"@/features/shared/Money\";\\n' +\n  'import { TopBar } from \"@/features/layout/TopBar\";\\n' +\n  'import {\\n' +\n  '  canCollectCustomerDebtForInvoice,\\n' +\n  '  g"
+    },
+    {
+      "file": "src/routes/_authenticated/billing.tsx",
+      "reason": "Source/type/meaningful JSX AST differs\n+ actual - expected\n... Skipped lines\n\n  {\n    program: {\n      body: [\n        {\n          attributes: [],\n...\n                        typeAnnotation: {\n+                         type: 'TSParenthesizedType',\n+                         typeAnnotation: {\n+                           type: 'TSIntersectionType',\n+                           types: [\n+                             {\n+                               exprName: {\n+                                 name: 'tenant',\n+                                 type: 'Identifier'\n+                               },\n+                               type: 'TSTypeQuery'\n-                         type: 'TSIntersectionType',\n-                         types: [\n-                           {\n-                             exprName: {\n-                               name: 'tenant',\n-                               type: 'Identifier'\n                              },\n+                             {\n+                       "
+    },
+    {
+      "file": "src/routes/lovable/email/queue/process.ts",
+      "reason": "Expected \"actual\" to be strictly unequal to:\n\n'import { sendLovableEmail } from \"@lovable.dev/email-js\";\\n' +\n  'import { createClient, type SupabaseClient } from \"@supabase/supabase-js\";\\n' +\n  'import { createFileRoute } from \"@tanstack/react-router\";\\n' +\n  'import type { Database, Json } from \"@/integrations/supabase/types\";\\n' +\n  '\\n' +\n  '// Queue payloads are the JSON transport of the installed sender contract.\\n' +\n  'type QueuedEmailPayload = Omit<Parameters<typeof sendLovableEmail>[0], \"to\"> & {\\n' +\n  '  to: string;\\n' +\n  '  queued_at?: string;\\n' +\n  '  [key: string]: Json | undefined;\\n' +\n  '};\\n' +\n  'type QueueMessage = {\\n' +\n  '  msg_id: number;\\n' +\n  '  message: QueuedEmailPayload;\\n' +\n  '  enqueued_at: string;\\n' +\n  '  read_ct: number;\\n' +\n  '};\\n' +\n  '\\n' +\n  'const MAX_RETRIES = 5;\\n' +\n  'const DEFAULT_BATCH_SIZE = 10;\\n' +\n  'const DEFAULT_SEND_DELAY_MS = 200;\\n' +\n  'const DEFAULT_AUTH_TTL_MINUTES = 15;\\n' +\n  'const DEFAULT_TRANSACTIONAL_TTL_MINUTES = 6"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+# Selected exact native log lines; full original job logs are linked in REPORT.md.
+2026-10-18T22:35:40.6406461Z {"source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "kind": "identity", "scope": "reviewed_integrated_source", "base_source": "44df8e888c966e12ae26900e254b41c7fe1b17d0", "head_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "protected_blob_count": 279, "all_integrated_blobs_match": true, "migration_count": 41, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}
+2026-10-18T22:35:41.3401480Z Ran 16 tests in 0.611s
+2026-10-18T22:35:41.5900954Z Ran 17 tests in 0.086s
+2026-10-18T22:35:41.6590002Z Ran 6 tests in 0.000s
+2026-10-18T22:36:34.6480252Z Ran 10 tests in 0.008s
+2026-10-18T22:36:35.1071289Z Ran 9 tests in 0.386s
+2026-10-18T22:36:35.2587557Z G1_EGRESS_POINTER_ONLY_TRACER_CONFIRMED
+2026-10-18T22:39:46.6602590Z {"checks": 40, "passed": true, "source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b"}
+2026-10-18T22:40:07.8010970Z {"status_removed": true, "worker_env_removed": true, "processes_removed": true, "containers_removed": true, "process_state": "no_processes", "container_state": "absent", "source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "passed": true}

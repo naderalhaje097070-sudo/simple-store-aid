@@ -1,0 +1,15 @@
+# Selected exact native log lines; full original job logs are linked in REPORT.md.
+2026-10-18T22:35:45.0067942Z GENERATED_FORMAT_CHECK_PASS: 9
+2026-10-18T22:35:45.3829956Z {"source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "kind": "identity", "scope": "reviewed_integrated_source", "base_source": "44df8e888c966e12ae26900e254b41c7fe1b17d0", "head_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "protected_blob_count": 279, "all_integrated_blobs_match": true, "migration_count": 41, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}
+2026-10-18T22:35:46.8383855Z Ran 16 tests in 1.202s
+2026-10-18T22:36:09.7704934Z ✖ 13 problems (0 errors, 13 warnings)
+2026-10-18T22:36:10.4213291Z  66 pass
+2026-10-18T22:36:10.4213670Z  0 fail
+2026-10-18T22:36:10.4214062Z  174 expect() calls
+2026-10-18T22:36:12.2299942Z {"files":9,"intentionalAliasesAndGuards":{"clientAlias":1,"nullGuard":2,"messageAlias":1,"messageRename":1},"callbackScenarios":10,"negativeWireMutation":true,"databaseOrProviderCalls":0}
+2026-10-18T22:36:12.5766116Z Ran 1 test in 0.263s
+2026-10-18T22:36:12.6454110Z SEC_ENV_SERVER_BOUNDARY_GREEN: 8 actual wrapper scenarios, stub app entry, no network/database
+2026-10-18T22:36:55.7353158Z BROWSER_TRANSPORT_REGRESSION: 67 scenarios; 0 failures; dummy loopback fixtures only
+2026-10-18T22:37:10.7108039Z GENERATED_FORMAT_WRITE_PASS: 9
+2026-10-18T22:37:25.2082315Z GENERATED_FORMAT_WRITE_PASS: 9
+2026-10-18T22:37:25.4752046Z {"source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "kind": "identity", "scope": "reviewed_integrated_source", "base_source": "44df8e888c966e12ae26900e254b41c7fe1b17d0", "head_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b", "protected_blob_count": 279, "all_integrated_blobs_match": true, "migration_count": 41, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}

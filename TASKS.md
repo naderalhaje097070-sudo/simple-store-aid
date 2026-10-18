@@ -1,3 +1,16 @@
+## INTEGRATION-RESUME checkpoint — 2026-10-18
+
+- [x] Candidate-only G0: native full lint0errors/13warnings and fullaudit exit0 on823cbcaf; locked contracts/types/generator/build invariance and mjs/cjs coverage; run39172903511.
+- [x] Candidate-only affected G1: native40/40, stable279source/41SQL,22data fingerprints, fixed counters, full traces/secrets/cleanup4/4; run39172903470. Historical failed39/40 preserved; exact old observer error unknown.
+- [ ] **ONE NEXT / Gate6:** fresh independent adversarial review of823cbcaf and inheritedDraft72 scope using docs/integration-g0-g1/REVIEW_REQUEST.md; no implementation self-review accepted as independent. Resolve findings before merge proposal. Current original72/main unchanged.
+- [ ] After review, traceable promotion to existing72 without a duplicatePR; protected main merge/deploy still owner-controlled. No PR closure until accepted coverage documented.
+- [ ] Reconcile downstream account-chain/G2; old54preissuedbannedJWT access remains known here. Preserve prior59–71 evidence without claiming integration on this candidate.
+- [ ] Financial49/50 + October effectiveRPC/ACL/RLS: fresh and populatedupgrade, independent persisted balances, duplicate items/retries/concurrency/partialfailure/returns/settlement/storeisolation; preserve Sale≠cash and Delivered≠Settled.
+- [ ] Review13visible lintwarnings (10refresh,AddProductSheet initial/app tenantTz Hooks,1unuseddisable); Hooks not declared harmless. Track inherited build/precache/offline/performance warnings beforePilot.
+- [ ] Restore/operations/provider/subscription/retention decisions and fullsingleSHA RC/Pilot gates remain unverified; integration_accepted=false.
+
+Report/rollback/source and sanitized receipts: docs/integration-g0-g1. Historical records below retained; this block supersedes older ONE NEXT selections.
+
 ## G0-LINT-FORMAT-03 — bounded batch, 2026-10-18
 
 - [x] Ten accepted handwritten files117formatter→0/0warnings; no new whole-repository classification/count. Saved ranking reused; guide unmodified/excluded after failed method proof, onboarding replacement freshly linted. Initial133 not final117; raw baseline assembly/failures preserved.

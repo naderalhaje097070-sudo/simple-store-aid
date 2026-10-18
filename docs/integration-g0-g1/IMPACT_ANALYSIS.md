@@ -1,0 +1,9 @@
+# Impact consolidation
+
+Claim55/6255004200; standing owner authorization covers routine integration preparation, not merge/deploy. This document consolidates the recorded intake, TYPE_INTAKE and GENERATED_INTAKE; it does not retroactively claim an independent approval.
+
+One outcome: remove measured G0/G1 foundation acceptance blockers on an isolated descendant of Draft72. Current tested source823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b. Original72 and main unchanged. No feature addition. Medium integration risk: same-wire type refinements touch billing/webhook/email/DB consumers; build postprocessing and observer affect source identity/evidence. Broad formatter-only commits are kept separate from typed changes in history; this packet still requires focused independent scope review before any merge proposal.
+
+Existing behavior: native full lint567errors/13warnings, legacy383source guard rejects23updated original paths, actual MCP generator restores unformatted routes during builds. Expected: frozen source, complete full lint0errors with visible warnings, real builds leave source unchanged, affected runtime containment evidence on that source. No permission/formula/schema/business-state transition is intentionally changed.
+
+UI: formatting/type accuracy, stored invoice product reference may be null, no cart ID broadening. RPC/client: same Supabase instance/names/arguments/results; only explicit null-result TypeError messages. Auth/tenant: unchanged implementation, existing affected probes mandatory. Providers: installed SDK types only; no Paddle/email outbound call. Performance: bounded deterministic postbuild formatter and process monitor; production load not measured. Tests/CI: added identity/runtime/generator regression, mjs/cjs lint coverage, same strict network/data/secrets/cleanup gates. No new dependency version or service.

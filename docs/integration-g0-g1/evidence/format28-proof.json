@@ -1,0 +1,523 @@
+{
+  "versions": {
+    "prettier": "3.8.3",
+    "typescript": "5.9.3",
+    "babelParser": "7.29.7",
+    "eslint": "9.39.4"
+  },
+  "method": "TypeScript-cooked JSX text; contiguous text coalescing on intrinsic host elements only; custom component/fragment segmentation preserved",
+  "negativeControls": [
+    "type",
+    "meaningful host whitespace",
+    "custom child segmentation",
+    "callback",
+    "hook dependencies"
+  ],
+  "files": [
+    {
+      "file": "docs/g0-node-server/review-guard-replay.cjs",
+      "beforeSha256": "ed17f4856931a7731e0a913b792d0cd8e509ed93c13666b4dcce7f38e67140f3",
+      "afterSha256": "2aa35ed83ce93db149ca1436a0ce73c451c6d2a0299db35116f6a0bb2011ae5c",
+      "sourceASTSha256": "0c2678cc38ed83b40b1df78bf4ec0d6cb993d43041ad4612d96181704302819f",
+      "runtimeASTSha256": "0c2678cc38ed83b40b1df78bf4ec0d6cb993d43041ad4612d96181704302819f",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/components/DateRangeFilter.tsx",
+      "beforeSha256": "b3799a49d276ff95d9e43f5d59e2c3407baf9eb628b3ef409009ff7c259c9452",
+      "afterSha256": "13c6bac57b814a0aeee1235e0bdbca3934696a730e969de3ae38e386aae95a2d",
+      "sourceASTSha256": "31e27c977190c5e630c77ea30e4c85c9b1bc52f0b173515de0ea66c1e9f85853",
+      "runtimeASTSha256": "83c24060beda9ac008b92e879828993b2b0445babc7544019fa7b42036936b42",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/domain/finance/invoice-selectors.ts",
+      "beforeSha256": "7b3d7f202da8dcc9c5742fc2b8c250d217fc30cc4324f79534ac55a80cfdbaa9",
+      "afterSha256": "65f3c6dcffa0502ed7b17ca51f01cd2fa7348430efb22bbade73d9c21f69f3d0",
+      "sourceASTSha256": "f3c91f415fe2ae9ef92e5fc7efe1917bb174992461e8e6bec23776b9f3088208",
+      "runtimeASTSha256": "453f701669b6448f8a27c2456b4123405c49439b37d3b4f1c82451578317008d",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/inventory/AddProductSheet.tsx",
+      "beforeSha256": "e476d78deb34a8a2a304b57dd67df6d72103557ca3cdb98c59e722b1dd7f3fbc",
+      "afterSha256": "833f856b994cda6f4c6cd33c258767dc90c7a1b5d9388b9809eac52eda09e719",
+      "sourceASTSha256": "bb83aae78b54e56ee49057a52c0e8525be0c529657bbe2f8a1ff56b5a5660fcf",
+      "runtimeASTSha256": "18846277d1279dcf27b3d60521a40a28e39e4f0b0b4d5135844f97ec7960a5c9",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "beforeSha256": "f7aa4172eb45d9467cca3422884bc975e65a703334913a16fd119589ab16056d",
+      "afterSha256": "0e57a9baf8ac52ef5d24539b338ba7208009c61a1657124177804b77be43184b",
+      "sourceASTSha256": "a148cfe279b7f8582010a90bfbfcc25959d9783ff6d704122da4b8236672513d",
+      "runtimeASTSha256": "1a52e843041a561926ec2f4875c1f989c5bd1ac2fb42e80e1aa3da58acf3f731",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/layout/TopBar.tsx",
+      "beforeSha256": "5cd33352acc18f1c4aeca90e0a9577f21632e6f89f7c8530a5870e5ae6d5d20d",
+      "afterSha256": "2a8336246aa2319af56ee5183766d4019ad357899ae6a1769f424f749e5e3afb",
+      "sourceASTSha256": "3429b235a7a5da278061d29e9f6cc3218c330561291708e42e045b5709162e13",
+      "runtimeASTSha256": "21c33569a3c985f65e22d04e262cd9e8f271e5a54470152e24773b4accff21fe",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/shared/EmptyState.tsx",
+      "beforeSha256": "bc3bc2c41110093d6ed4133ea83fd2c565c31f2bd525cbaf4b42314a83d49d75",
+      "afterSha256": "1c4305e62b57c5a82cfda36ea39390fcef4c84c75589af399f9d490645a6bb01",
+      "sourceASTSha256": "fead6e9ff320e3ae0b506c059f0099d7cc3430c13a8d0dcff9b82c7fa390eca5",
+      "runtimeASTSha256": "d0a45f57dd325400c6f28c38b14ec5d8d339ca577ae506ce6cc9e2cc1a8ba370",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/shared/Sheet.tsx",
+      "beforeSha256": "29d1bb8d834450749427f02b9538efd9b35f7ed5ed9e2d0a7fed7314388cb198",
+      "afterSha256": "2ba7caa01acf03ac3219c0758a1751130720929089f43ed05560eb25484fa2af",
+      "sourceASTSha256": "e9d70f0349e2f6d79831b93b17cc114c91f8bad7f5ea993e5b588bd02c44ccf8",
+      "runtimeASTSha256": "23d5b988699d2b4cc03fbcd21acb74d6549ca17f729b9143b0537bc504e182e3",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/shared/StatusChip.tsx",
+      "beforeSha256": "b2c74a52856e2e204534de29b475ee79ad49fa0abff43bf087e3ebe7704b546e",
+      "afterSha256": "21ad290d8f63f634a945686af3a21e31bf483b2ad525495953123434dcb25db2",
+      "sourceASTSha256": "18fd229f3a4e86a5019725d2eaae7b68477b0290521dd549dd12d12793f59553",
+      "runtimeASTSha256": "931ca8da003ef0df60a4709ddc1760beb094af6632208608a401410ec0dc3dbf",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/features/shared/Toast.tsx",
+      "beforeSha256": "1f29681a1045672e6ea8741daded502749eee8322a465f0474a96bbdc015398d",
+      "afterSha256": "9bde5f2e9089a718eafe6b96c7de71bc88d2019a428730e0c6775c9dcc4b7ef8",
+      "sourceASTSha256": "1151f6dfb6ef0ca559b3c3886330859824adfca1d5c78c0aee2079f8f021165c",
+      "runtimeASTSha256": "2131dfe73797c2551939ce87817a553cfb135b36764570d332667d477a05504b",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/hooks/useTheme.ts",
+      "beforeSha256": "7ce068d124f81e502e341faddeee3c34ff3ed7dec8d67756e9591e6332d43fa6",
+      "afterSha256": "060c737f5698ca28d44199d2aca4a393da9042e4a112ed0069bcad65a96fde70",
+      "sourceASTSha256": "216c52dd933386c60b2bfbda5783044e0a88a489439e33d403a52c7e154de428",
+      "runtimeASTSha256": "013c4ebb95c3b568b4b037925800e58fa619e5166f701eadeb3b92e6315aebfb",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/business-types.ts",
+      "beforeSha256": "35faf02f62a9bb36b6fe6fe25db8f342f65eb1557b78363892846ae389d0ec57",
+      "afterSha256": "c29d22f527dd84f609cdf258df3994f5cf8d6f8d43367cb1a7e4832e291a3983",
+      "sourceASTSha256": "8348298fecd0dc5d53930a6b529f8bd3e4c729663e0481c9c33d2dd6a7a776f4",
+      "runtimeASTSha256": "e7431dfae5386b134d569021f5dcf84cbbab3de2ead6387b061c050e67641711",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/db.ts",
+      "beforeSha256": "6306671f7eef03f726aafc370be3600581acf097bd72b9f53af378c79300d886",
+      "afterSha256": "4b8e8b1da4e0825bba963b11401fb748a8c591ea7a8223d5c7b98a00fec1bca3",
+      "sourceASTSha256": "2c6a2064d7e41aec851d5b2fae18ee8466219604ce368296a416d592e34c3591",
+      "runtimeASTSha256": "8d5b2a6fabc6cac3c9a26f7e468432940c90c97a18b884db1267357e2db69225",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/invoice-pdf.ts",
+      "beforeSha256": "248abb7528442ee28078d9d67bd516aa1c3e135104716648ec249b4738b281a4",
+      "afterSha256": "197e89e30fdb261dcb16d703e39c79d079d13369c66a35c08ebaebe1a622b135",
+      "sourceASTSha256": "f4902031cb398d5e5139a939ebc99bff50b8bcb95050614444eaaf93381caa9c",
+      "runtimeASTSha256": "4172b5f920f03096714e2d3ae16e8250d36e587646b86c107c456d5af30f1875",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/mcp/tools/list-customers.ts",
+      "beforeSha256": "a35e5a7552e97ca274362dc029bec9429e0d2afc87e09afcb66bfaf0bbdca771",
+      "afterSha256": "37ec700ba258641cfb278fdbf086b46bf29df928d87812da5ab77dce7b7c83ba",
+      "sourceASTSha256": "f387414ef65d2304652ba69592da822b28cbd07eef1cf40610b0967087df5043",
+      "runtimeASTSha256": "254c9b7e361408f530848684fefa2b9b259cb972e5dd0aeda99479dfbc6199fd",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/mcp/tools/list-products.ts",
+      "beforeSha256": "fa1becb9da6a0e219773863946da85c44c77f9eb69902839bc7000470593cb26",
+      "afterSha256": "d97cf7cda83e7590d08427c70dc6ed79faf034c2f00f02cb7376967aeef19169",
+      "sourceASTSha256": "2649cde3dc8bf680beec4ed811ef9cb482e5a192e28a889eabff999355f06a23",
+      "runtimeASTSha256": "d0056a5c58a5371a38e5ae510c578f96d1fa639824126aef228588ddda78f774",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/mcp/tools/list-recent-orders.ts",
+      "beforeSha256": "0d4844b16cefb49782b37bfc794610a1876cec942dc97f6567bde4a8b8e671fc",
+      "afterSha256": "833011701903d942ddb63d97dd41137616188428a61eb626de366e8ad0d33176",
+      "sourceASTSha256": "ca94f2f58d036197386d6936192c38c1fdbcfdfcdf6654797620fedc23f3ca7c",
+      "runtimeASTSha256": "b6b09080d425005f8164659baeb38b2bbc12d65815f065964347ef057976bc26",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/mcp/tools/today-summary.ts",
+      "beforeSha256": "101a4a280e07acccd270abe20044c31c3921eb5c0e70407b91c3bf326a940545",
+      "afterSha256": "f2fdfeddf2dab777d2d2e84f4e39dce5a215fa14e1fdd699f54001953f5adee3",
+      "sourceASTSha256": "8d98c58c001f4a3ab182605ab9e760a4c1606a66fdd129216649d7077825a482",
+      "runtimeASTSha256": "51d0ba0b0d425e491577b3171955c4e60c2a713b5cd530ad3d9403d5b9182ade",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/paddle.server.ts",
+      "beforeSha256": "1fcd70ae7e5da3a438b6fdd9bc101b6d55bfc9558ebc7e3ad71a03f18ea8ccd6",
+      "afterSha256": "b90156195b9e187a68aeb4f0fef84d565f11e989f1a421e468797dca3efac969",
+      "sourceASTSha256": "fa043e4c59000e9743d6c77415633a6d3118991a2d4587b02de0b8de9e585366",
+      "runtimeASTSha256": "b474ac95b57e21b479c60cb4976a6747e2b3083e4a93445be105da47ab903d8c",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/lib/pwa-register.ts",
+      "beforeSha256": "e88e980bd48c7f8a8140e4724890985ce6975e60a150fa55f58006e3559e11c4",
+      "afterSha256": "6346669343fe0ac989ebbbea368607f888417fc7e86fdcbc4df739d72a37327e",
+      "sourceASTSha256": "e1122c5b946e0ea694b6d25d1ca7eb1ee6a3b11325ba487f3cd5bd8b36990026",
+      "runtimeASTSha256": "df284344a7cacfcac0928bebcc33cdf9fc6916d785689dd73ad6e6b66dd7b38a",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/[.]lovable.oauth.consent.tsx",
+      "beforeSha256": "5bbd0f12462f5e60ead2cb6b02813058cb181094cb5367e3cf47467b30c5f34e",
+      "afterSha256": "99e188baa9aceb6fb40449817155ac336c3dc231d6897e69a7108335ef9862fe",
+      "sourceASTSha256": "43ee2934f4aa1cec485e8d4f06fcc40eb5dd34d407f3714e6c1c56c00b245cd2",
+      "runtimeASTSha256": "ee9fd0eb7a268b8fee8ec1399714dcf1be57b3f931259cb936772debc2bce7ea",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/_authenticated/billing.tsx",
+      "beforeSha256": "7e797f967ad171a8807d9b17e520dde0342f7e854c30b38894c5f7c1d244c73f",
+      "afterSha256": "3a6557bdf32f3d864557e0fc195e4f5d2057ec84d988722780a59237ad7dbd2e",
+      "sourceASTSha256": "485f27287e2784ee3e6bf3c4f9d9a0eac0460c17b4373127ad22adaccc95ac06",
+      "runtimeASTSha256": "db3b4c39d885dd5b99895ee192e8a47d5c95db87c32eea4a5b3d15a2102b7111",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/api/public/payments/webhook.ts",
+      "beforeSha256": "93980d61e9fb468dea7321d035793a858ee23ad6bac57bbf1bea92d8d0b9d991",
+      "afterSha256": "1d16b6e352ff2432a9f7f8680d75f26fc403e639c5237fe4d976bcf0f3261cb8",
+      "sourceASTSha256": "b525c5686c36fc3bf11167e57b60df29d1fc7e9a6d354634b516b1ebea3f0e6e",
+      "runtimeASTSha256": "891861594ec1a2c0995501d6fc2ad70799a18e7431123538b0fe66032ee06ee7",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/guide.tsx",
+      "beforeSha256": "71ed115e74eabac79e6c98cb6b8ee7daec607924b573c095c00c9fe8c2e9524f",
+      "afterSha256": "27270152e942bcfff64dec7fdd82cc2406aebe2c7b29a5f31d5a9be26474e8f7",
+      "sourceASTSha256": "98cf38c44b9940ca183ec27dd68d623d10356d0d87d6851897fa2ba1240d8054",
+      "runtimeASTSha256": "e03bf4277747ef76612febcdae3b6c6095a22cfa317ffdfddaa0067fb7ea8219",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "src/routes/lovable/email/queue/process.ts",
+      "beforeSha256": "34d0efcafbc4278d7b44c1a685316f0f127c970069e1cc5b26d0966d2033a0de",
+      "afterSha256": "31dbb91638e42cf7b9bbc3eefcf16d7dc54b02a3874b559bbf7a5860ec286894",
+      "sourceASTSha256": "e3777a2b09d7eb188a2574d68ca555a3b226e1ef1b81e05690e20e6305f8110a",
+      "runtimeASTSha256": "23fd329d5a5bd2c800c2a3d3bf009eff61f166bb2b945624b5cae078a20c6dda",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "tests/g01-acceptance/dns_trace.cjs",
+      "beforeSha256": "89b7f619317edd3e35d9223adf9a4d3e3cd22c267356ade47f27f25f5c0d3ee7",
+      "afterSha256": "14a6c26b7bdcbc896d19bbf599eab6b2e95429005d1df5e7dcb250c67dd214cb",
+      "sourceASTSha256": "3a52fbdac2619515d9d5673271a63b3e9d6fcefba826ac0ad11092f93bf832fe",
+      "runtimeASTSha256": "3a52fbdac2619515d9d5673271a63b3e9d6fcefba826ac0ad11092f93bf832fe",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "tests/g01-acceptance/test_cf_fetch.cjs",
+      "beforeSha256": "b12bbd5bd5c1e06e7ab853d6f38ec91f0fb8b6c2989cf0e4e7767324559faa72",
+      "afterSha256": "2789bcdf948e32188892af30663695619bf4a248028941301d8dbe5c1204a316",
+      "sourceASTSha256": "69aa063a5a40ef29c8acf5ba4319160dc6b1387d5aef6cdc59f76a96064c8f51",
+      "runtimeASTSha256": "69aa063a5a40ef29c8acf5ba4319160dc6b1387d5aef6cdc59f76a96064c8f51",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    },
+    {
+      "file": "tests/unit/invoice-selectors.test.ts",
+      "beforeSha256": "5c9e7be00530cede890358fb27dffaf40f583738875b2654649d8c4ad6750ba5",
+      "afterSha256": "80932f455333873f7d93ee83f0e3f522e3169608930660888175d7d9592ea825",
+      "sourceASTSha256": "2712cb14389a03a88f1d2b53103d3302ef3a943ff764febeee54bd74e2730575",
+      "runtimeASTSha256": "12bc1d985c30fdcb202d24217a9423b5e00cf6056866a99cd0ee1bd493a95a32",
+      "sameSourceTypesAST": true,
+      "sameRuntimeAST": true,
+      "sameComments": true,
+      "prettierExactOutput": true,
+      "idempotent": true,
+      "config": {
+        "printWidth": 100,
+        "semi": true,
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    }
+  ],
+  "excluded": []
+}

@@ -52,10 +52,41 @@ function formatInvoiceNumber(raw: string): string {
 }
 
 /* ============ Arabic number → words (Libyan Dinar) ============ */
-const ONES = ["", "واحد", "اثنان", "ثلاثة", "أربعة", "خمسة", "ستة", "سبعة", "ثمانية", "تسعة", "عشرة",
-  "أحد عشر", "اثنا عشر", "ثلاثة عشر", "أربعة عشر", "خمسة عشر", "ستة عشر", "سبعة عشر", "ثمانية عشر", "تسعة عشر"];
+const ONES = [
+  "",
+  "واحد",
+  "اثنان",
+  "ثلاثة",
+  "أربعة",
+  "خمسة",
+  "ستة",
+  "سبعة",
+  "ثمانية",
+  "تسعة",
+  "عشرة",
+  "أحد عشر",
+  "اثنا عشر",
+  "ثلاثة عشر",
+  "أربعة عشر",
+  "خمسة عشر",
+  "ستة عشر",
+  "سبعة عشر",
+  "ثمانية عشر",
+  "تسعة عشر",
+];
 const TENS = ["", "", "عشرون", "ثلاثون", "أربعون", "خمسون", "ستون", "سبعون", "ثمانون", "تسعون"];
-const HUNDREDS = ["", "مئة", "مئتان", "ثلاثمئة", "أربعمئة", "خمسمئة", "ستمئة", "سبعمئة", "ثمانمئة", "تسعمئة"];
+const HUNDREDS = [
+  "",
+  "مئة",
+  "مئتان",
+  "ثلاثمئة",
+  "أربعمئة",
+  "خمسمئة",
+  "ستمئة",
+  "سبعمئة",
+  "ثمانمئة",
+  "تسعمئة",
+];
 
 function under1000(n: number): string {
   if (n === 0) return "";
@@ -111,15 +142,19 @@ function amountInWords(amount: number): string {
 const FONT_HREF =
   "https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap";
 
-const FONT_STACK =
-  "'Cairo', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
+const FONT_STACK = "'Cairo', 'Noto Naskh Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
 
 let fontLoaded: Promise<void> | null = null;
 export function ensureFont(): Promise<void> {
   if (fontLoaded) return fontLoaded;
   fontLoaded = new Promise<void>((resolve) => {
     let done = false;
-    const finish = () => { if (!done) { done = true; resolve(); } };
+    const finish = () => {
+      if (!done) {
+        done = true;
+        resolve();
+      }
+    };
     try {
       if (!document.querySelector('link[data-invoice-font="cairo"]')) {
         const link = document.createElement("link");
@@ -135,7 +170,9 @@ export function ensureFont(): Promise<void> {
           document.fonts.load('700 16px "Cairo"'),
           // @ts-ignore
           document.fonts.load('400 14px "Cairo"'),
-        ]).then(finish).catch(finish);
+        ])
+          .then(finish)
+          .catch(finish);
       } else {
         setTimeout(finish, 400);
       }
@@ -157,8 +194,7 @@ function buildHtml(d: InvoicePdfData, qrDataUrl: string | null): string {
     d.status === "paid" ? "مدفوعة" : d.status === "partial" ? "مدفوعة جزئياً" : "آجلة (دين)";
   const statusColor =
     d.status === "paid" ? "#15803d" : d.status === "partial" ? "#b45309" : "#b91c1c";
-  const methodLabel =
-    d.method === "cash" ? "نقدي" : d.method === "transfer" ? "تحويل" : "—";
+  const methodLabel = d.method === "cash" ? "نقدي" : d.method === "transfer" ? "تحويل" : "—";
 
   const { date, time } = formatDateTime(d);
   const invNo = formatInvoiceNumber(d.number);
@@ -278,8 +314,9 @@ function buildHtml(d: InvoicePdfData, qrDataUrl: string | null): string {
 }
 
 function escape(s: string): string {
-  return String(s ?? "").replace(/[&<>"']/g, (c) =>
-    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
+  return String(s ?? "").replace(
+    /[&<>"']/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!,
   );
 }
 
@@ -293,7 +330,9 @@ async function buildQr(d: InvoicePdfData): Promise<string | null> {
       `${date} ${time}`.trim(),
       `${money(d.total)} د.ل`,
       d.shopName || "",
-    ].filter(Boolean).join(" | ");
+    ]
+      .filter(Boolean)
+      .join(" | ");
     return await QRCode.toDataURL(payload, {
       errorCorrectionLevel: "M",
       margin: 1,
@@ -330,7 +369,11 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
       </head><body>${buildHtml(d, qrDataUrl)}</body></html>`);
     doc.close();
     // @ts-ignore
-    if (doc.fonts && doc.fonts.ready) { try { await doc.fonts.ready; } catch {} }
+    if (doc.fonts && doc.fonts.ready) {
+      try {
+        await doc.fonts.ready;
+      } catch {}
+    }
     await new Promise((r) => setTimeout(r, 120));
     const root = doc.body.firstElementChild as HTMLElement;
     const rootRect = root.getBoundingClientRect();

@@ -16,8 +16,10 @@ function isRefusedHost(): boolean {
   } catch {
     return true;
   }
-  if (new URLSearchParams(window.location.search).has("sw") &&
-      new URLSearchParams(window.location.search).get("sw") === "off") {
+  if (
+    new URLSearchParams(window.location.search).has("sw") &&
+    new URLSearchParams(window.location.search).get("sw") === "off"
+  ) {
     return true;
   }
   const h = window.location.hostname;

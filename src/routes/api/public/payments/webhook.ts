@@ -5,10 +5,7 @@ import { verifyWebhook, EventName, type PaddleEnv } from "@/lib/paddle.server";
 let _supabase: SupabaseClient | null = null;
 function getSupabase(): SupabaseClient {
   if (!_supabase) {
-    _supabase = createClient(
-      process.env.SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    );
+    _supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
   }
   return _supabase;
 }
@@ -56,9 +53,6 @@ async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
 
   const supabase = getSupabase();
   if (!(await verifyTenantOwnership(supabase, tenantId, userId))) return;
-
-
-
 
   await supabase.from("subscriptions").upsert(
     {

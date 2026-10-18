@@ -1,6 +1,19 @@
 import { useState, useEffect } from "react";
-import { Info, AlertTriangle, CheckCircle2, Clock, TrendingUp, FileDown, Printer } from "lucide-react";
-import { downloadInvoicePdf, printInvoice, ensureFont as ensureInvoiceFont, type InvoicePdfData } from "@/lib/invoice-pdf";
+import {
+  Info,
+  AlertTriangle,
+  CheckCircle2,
+  Clock,
+  TrendingUp,
+  FileDown,
+  Printer,
+} from "lucide-react";
+import {
+  downloadInvoicePdf,
+  printInvoice,
+  ensureFont as ensureInvoiceFont,
+  type InvoicePdfData,
+} from "@/lib/invoice-pdf";
 import { useTenantId, useTenant } from "@/lib/db";
 import type { Invoice, Customer, Courier, Payment } from "@/features/shared/types";
 import type { AppCtx } from "@/features/shared/AppContext";
@@ -27,9 +40,17 @@ export function InvoiceDetailScreen(p: AppCtx) {
   const [collectOpen, setCollectOpen] = useState(false);
   const [collectAmt, setCollectAmt] = useState("");
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
-  useEffect(() => { ensureInvoiceFont(); }, []);
+  useEffect(() => {
+    ensureInvoiceFont();
+  }, []);
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
-  if (!inv) return <><TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} /><div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div></>;
+  if (!inv)
+    return (
+      <>
+        <TopBar title="فاتورة" onBack={p.back} onHome={p.goHome} />
+        <div className="p-4 text-sm text-muted-foreground">لم يتم العثور على الفاتورة</div>
+      </>
+    );
   const cust = p.customers.find((c: Customer) => c.id === inv.customerId);
   const isReturned = isReturnedOrder(inv);
   const remaining = getInvoiceRemainingAmount(inv);
@@ -45,8 +66,15 @@ export function InvoiceDetailScreen(p: AppCtx) {
     const a = Number(collectAmt);
     if (!canCollectCustomerDebt || !a || a <= 0 || a > customerRemaining) return;
     try {
-      await p.collectDebtAsync({ orderId: inv.id, customerId: inv.customerId, amount: a, method: collectMethod });
-      setCollectOpen(false); setCollectAmt(""); setCollectMethod("cash");
+      await p.collectDebtAsync({
+        orderId: inv.id,
+        customerId: inv.customerId,
+        amount: a,
+        method: collectMethod,
+      });
+      setCollectOpen(false);
+      setCollectAmt("");
+      setCollectMethod("cash");
     } catch (e) {
       p.showToast?.(e instanceof Error ? e.message : "تعذّر التحصيل");
     }
@@ -59,22 +87,47 @@ export function InvoiceDetailScreen(p: AppCtx) {
         {isReturned && (
           <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex items-start gap-2">
             <Info className="w-4 h-4 shrink-0 mt-0.5" />
-            <span>هذه الفاتورة <b>أُرجعت</b> — رجعت البضاعة للمخزون، ولا يوجد دين على العميل ولا عهدة على المندوب.</span>
+            <span>
+              هذه الفاتورة <b>أُرجعت</b> — رجعت البضاعة للمخزون، ولا يوجد دين على العميل ولا عهدة
+              على المندوب.
+            </span>
           </div>
         )}
         <div className="rounded-2xl bg-card border border-border p-4">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs text-muted-foreground">العميل</div>
-              <div className="font-bold mt-0.5">{remaining > 0 ? (cust?.name ?? "—") : (cust?.name ?? "بدون عميل")}</div>
+              <div className="font-bold mt-0.5">
+                {remaining > 0 ? (cust?.name ?? "—") : (cust?.name ?? "بدون عميل")}
+              </div>
             </div>
-            {isReturned ? <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>أُرجعت</StatusChip> : <>
-              {inv.status === "paid" && <StatusChip kind="paid" icon={<CheckCircle2 className="w-3 h-3" />}>مدفوع</StatusChip>}
-              {inv.status === "partial" && <StatusChip kind="partial" icon={<Clock className="w-3 h-3" />}>جزئي</StatusChip>}
-              {inv.status === "debt" && <StatusChip kind="debt" icon={<AlertTriangle className="w-3 h-3" />}>دين</StatusChip>}
-            </>}
+            {isReturned ? (
+              <StatusChip kind="warn" icon={<AlertTriangle className="w-3 h-3" />}>
+                أُرجعت
+              </StatusChip>
+            ) : (
+              <>
+                {inv.status === "paid" && (
+                  <StatusChip kind="paid" icon={<CheckCircle2 className="w-3 h-3" />}>
+                    مدفوع
+                  </StatusChip>
+                )}
+                {inv.status === "partial" && (
+                  <StatusChip kind="partial" icon={<Clock className="w-3 h-3" />}>
+                    جزئي
+                  </StatusChip>
+                )}
+                {inv.status === "debt" && (
+                  <StatusChip kind="debt" icon={<AlertTriangle className="w-3 h-3" />}>
+                    دين
+                  </StatusChip>
+                )}
+              </>
+            )}
           </div>
-          <div className="text-xs text-muted-foreground mt-2">{inv.time} {inv.delivery === "courier" && "· توصيل عبر مندوب"}</div>
+          <div className="text-xs text-muted-foreground mt-2">
+            {inv.time} {inv.delivery === "courier" && "· توصيل عبر مندوب"}
+          </div>
         </div>
 
         <div className="rounded-2xl bg-card border border-border p-4">
@@ -82,7 +135,12 @@ export function InvoiceDetailScreen(p: AppCtx) {
           <div className="space-y-2">
             {inv.items.map((it, i) => (
               <div key={i} className="flex items-center justify-between text-sm">
-                <div>{it.name} <span className="text-muted-foreground">× <span className="num">{it.qty}</span></span></div>
+                <div>
+                  {it.name}{" "}
+                  <span className="text-muted-foreground">
+                    × <span className="num">{it.qty}</span>
+                  </span>
+                </div>
                 <Money v={it.qty * it.price} />
               </div>
             ))}
@@ -90,34 +148,60 @@ export function InvoiceDetailScreen(p: AppCtx) {
         </div>
 
         <div className="rounded-2xl bg-card border border-border p-4 space-y-2 text-sm">
-          <div className="flex justify-between"><span className="text-muted-foreground">الإجمالي</span><Money v={inv.total} /></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">المدفوع للصندوق</span><Money v={inv.paid} className="text-success" /></div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">الإجمالي</span>
+            <Money v={inv.total} />
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">المدفوع للصندوق</span>
+            <Money v={inv.paid} className="text-success" />
+          </div>
           {inv.delivery === "courier" && courierCustody > 0 && (
-            <div className="flex justify-between"><span className="text-muted-foreground">بيد المندوب (عهدة)</span><Money v={courierCustody} className="text-warn" /></div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">بيد المندوب (عهدة)</span>
+              <Money v={courierCustody} className="text-warn" />
+            </div>
           )}
-          <div className="flex justify-between"><span className="text-muted-foreground">المتبقي على العميل</span><Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} /></div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">المتبقي على العميل</span>
+            <Money v={customerRemaining} className={customerRemaining > 0 ? "text-debt" : ""} />
+          </div>
         </div>
 
         <div className="rounded-2xl bg-profit-soft border border-profit/20 p-4">
-          <div className="flex items-center gap-2 text-profit text-xs font-bold"><TrendingUp className="w-4 h-4" /> ربح الفاتورة (تقديري)</div>
-          <div className="mt-1"><Money v={profit} className="text-lg text-profit" /></div>
-          <div className="text-[11px] text-muted-foreground mt-1">التكلفة وقت البيع: <span className="num">{fmt(cogs)}</span> د.ل</div>
+          <div className="flex items-center gap-2 text-profit text-xs font-bold">
+            <TrendingUp className="w-4 h-4" /> ربح الفاتورة (تقديري)
+          </div>
+          <div className="mt-1">
+            <Money v={profit} className="text-lg text-profit" />
+          </div>
+          <div className="text-[11px] text-muted-foreground mt-1">
+            التكلفة وقت البيع: <span className="num">{fmt(cogs)}</span> د.ل
+          </div>
         </div>
 
         {/* Payment timeline */}
         {(() => {
-          const invPayments = (p.payments as Payment[]).filter(pm => pm.invoiceId === inv.id).sort((a, b) => a.time < b.time ? -1 : 1);
+          const invPayments = (p.payments as Payment[])
+            .filter((pm) => pm.invoiceId === inv.id)
+            .sort((a, b) => (a.time < b.time ? -1 : 1));
           if (invPayments.length === 0 && remaining === inv.total) return null;
           return (
             <div className="rounded-2xl bg-card border border-border p-4">
               <div className="text-xs font-bold text-muted-foreground mb-2">سجل الدفعات</div>
               <div className="space-y-1.5">
-                {invPayments.map(pm => (
+                {invPayments.map((pm) => (
                   <div key={pm.id} className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">
-                      {pm.kind === "sale" ? "بيع" : pm.kind === "debt_collection" ? "تحصيل دفعة" : "تسوية مندوب"}
-                      {" · "}{pm.method === "cash" ? "نقدي" : pm.method === "transfer" ? "تحويل" : "تسوية"}
-                      {" · "}{pm.time}
+                      {pm.kind === "sale"
+                        ? "بيع"
+                        : pm.kind === "debt_collection"
+                          ? "تحصيل دفعة"
+                          : "تسوية مندوب"}
+                      {" · "}
+                      {pm.method === "cash" ? "نقدي" : pm.method === "transfer" ? "تحويل" : "تسوية"}
+                      {" · "}
+                      {pm.time}
                     </span>
                     <Money v={pm.amount} className="text-success font-bold" />
                   </div>
@@ -134,8 +218,12 @@ export function InvoiceDetailScreen(p: AppCtx) {
         })()}
 
         {(() => {
-          const courierName = inv.courierId ? p.couriers.find((c: Courier) => c.id === inv.courierId)?.name : undefined;
-          const salePm = (p.payments as Payment[]).find(pm => pm.invoiceId === inv.id && pm.kind === "sale");
+          const courierName = inv.courierId
+            ? p.couriers.find((c: Courier) => c.id === inv.courierId)?.name
+            : undefined;
+          const salePm = (p.payments as Payment[]).find(
+            (pm) => pm.invoiceId === inv.id && pm.kind === "sale",
+          );
           const method = (salePm?.method ?? "cash") as "cash" | "transfer";
           const createdAt = (inv as any).createdAt ? new Date((inv as any).createdAt) : new Date();
           const dateText = createdAt.toLocaleDateString("en-GB");
@@ -143,12 +231,13 @@ export function InvoiceDetailScreen(p: AppCtx) {
             shopName: tenant?.name ?? "محلي",
             number: String(inv.number),
             issuedAt: createdAt,
-            dateText, timeText: inv.time,
+            dateText,
+            timeText: inv.time,
             customerName: cust?.name,
             customerPhone: (cust as any)?.phone,
             courierName,
             delivery: inv.delivery,
-            items: inv.items.map(it => ({ name: it.name, qty: it.qty, price: it.price })),
+            items: inv.items.map((it) => ({ name: it.name, qty: it.qty, price: it.price })),
             total: inv.total,
             paid: inv.paid,
             collectedByCourier: courierCustody,
@@ -158,21 +247,44 @@ export function InvoiceDetailScreen(p: AppCtx) {
           };
           const handlePdf = async () => {
             setPdfBusy(true);
-            try { await downloadInvoicePdf(data); p.showToast?.("تم تحميل الفاتورة"); }
-            catch (e) { console.error(e); p.showToast?.("تعذّر إنشاء PDF"); }
-            finally { setPdfBusy(false); }
+            try {
+              await downloadInvoicePdf(data);
+              p.showToast?.("تم تحميل الفاتورة");
+            } catch (e) {
+              console.error(e);
+              p.showToast?.("تعذّر إنشاء PDF");
+            } finally {
+              setPdfBusy(false);
+            }
           };
           return (
             <>
               <div className="grid grid-cols-2 gap-2">
-                <button disabled={pdfBusy} onClick={handlePdf} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5 disabled:opacity-50">
-                  <FileDown className="w-4 h-4" />{pdfBusy ? "..." : "تحميل PDF"}
+                <button
+                  disabled={pdfBusy}
+                  onClick={handlePdf}
+                  className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
+                >
+                  <FileDown className="w-4 h-4" />
+                  {pdfBusy ? "..." : "تحميل PDF"}
                 </button>
-                <button onClick={() => printInvoice(data)} className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5">
-                  <Printer className="w-4 h-4" />طباعة
+                <button
+                  onClick={() => printInvoice(data)}
+                  className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5"
+                >
+                  <Printer className="w-4 h-4" />
+                  طباعة
                 </button>
               </div>
-              {canCollectCustomerDebt && <button disabled={customerRemaining <= 0} onClick={() => setCollectOpen(true)} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تحصيل دفعة</button>}
+              {canCollectCustomerDebt && (
+                <button
+                  disabled={customerRemaining <= 0}
+                  onClick={() => setCollectOpen(true)}
+                  className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
+                >
+                  تحصيل دفعة
+                </button>
+              )}
             </>
           );
         })()}
@@ -181,17 +293,43 @@ export function InvoiceDetailScreen(p: AppCtx) {
       {collectOpen && (
         <Sheet onClose={() => setCollectOpen(false)} title="تحصيل دفعة">
           <div className="space-y-3">
-            <div className="text-sm text-muted-foreground">المتبقي: <Money v={customerRemaining} className="text-debt" /></div>
-            <input value={collectAmt} onChange={e => setCollectAmt(e.target.value)} inputMode="decimal" placeholder="المبلغ" className="w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right" />
-            {Number(collectAmt) > customerRemaining && <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>}
+            <div className="text-sm text-muted-foreground">
+              المتبقي: <Money v={customerRemaining} className="text-debt" />
+            </div>
+            <input
+              value={collectAmt}
+              onChange={(e) => setCollectAmt(e.target.value)}
+              inputMode="decimal"
+              placeholder="المبلغ"
+              className="w-full rounded-xl border border-border bg-background px-3 py-3 text-base num text-right"
+            />
+            {Number(collectAmt) > customerRemaining && (
+              <div className="text-xs text-debt">لا يمكن تحصيل أكثر من المتبقي</div>
+            )}
             <div>
               <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
               <div className="mt-1 grid grid-cols-2 gap-2">
-                <button onClick={() => setCollectMethod("cash")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>نقدي</button>
-                <button onClick={() => setCollectMethod("transfer")} className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}>تحويل</button>
+                <button
+                  onClick={() => setCollectMethod("cash")}
+                  className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                >
+                  نقدي
+                </button>
+                <button
+                  onClick={() => setCollectMethod("transfer")}
+                  className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                >
+                  تحويل
+                </button>
               </div>
             </div>
-            <button disabled={!Number(collectAmt) || Number(collectAmt) > customerRemaining} onClick={submitCollect} className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40">تأكيد التحصيل</button>
+            <button
+              disabled={!Number(collectAmt) || Number(collectAmt) > customerRemaining}
+              onClick={submitCollect}
+              className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
+            >
+              تأكيد التحصيل
+            </button>
           </div>
         </Sheet>
       )}

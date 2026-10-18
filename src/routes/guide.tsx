@@ -24,7 +24,10 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-20 border-t border-border pt-8 mt-8 first:border-0 first:pt-0 first:mt-0">
+    <section
+      id={id}
+      className="scroll-mt-20 border-t border-border pt-8 mt-8 first:border-0 first:pt-0 first:mt-0"
+    >
       <h2 className="text-xl font-bold text-foreground mb-4">{title}</h2>
       <div className="space-y-4 text-sm leading-7 text-foreground/90">{children}</div>
     </section>
@@ -86,21 +89,48 @@ function GuidePage() {
         <nav aria-label="فهرس" className="rounded-lg bg-muted/50 p-4 mb-6 text-sm">
           <div className="font-semibold mb-2">المحتويات</div>
           <ul className="grid grid-cols-2 gap-y-1 gap-x-3 text-primary">
-            <li><a href="#purpose" className="hover:underline">الغرض</a></li>
-            <li><a href="#journeys" className="hover:underline">الرحلات الأساسية</a></li>
-            <li><a href="#boundaries" className="hover:underline">الحدود المالية</a></li>
-            <li><a href="#words" className="hover:underline">كلمات الواجهة</a></li>
-            <li><a href="#alerts" className="hover:underline">التنبيهات</a></li>
-            <li><a href="#constraints" className="hover:underline">قيود لا تُكسر</a></li>
-            <li><a href="#review" className="hover:underline">ملاحظات المراجع</a></li>
+            <li>
+              <a href="#purpose" className="hover:underline">
+                الغرض
+              </a>
+            </li>
+            <li>
+              <a href="#journeys" className="hover:underline">
+                الرحلات الأساسية
+              </a>
+            </li>
+            <li>
+              <a href="#boundaries" className="hover:underline">
+                الحدود المالية
+              </a>
+            </li>
+            <li>
+              <a href="#words" className="hover:underline">
+                كلمات الواجهة
+              </a>
+            </li>
+            <li>
+              <a href="#alerts" className="hover:underline">
+                التنبيهات
+              </a>
+            </li>
+            <li>
+              <a href="#constraints" className="hover:underline">
+                قيود لا تُكسر
+              </a>
+            </li>
+            <li>
+              <a href="#review" className="hover:underline">
+                ملاحظات المراجع
+              </a>
+            </li>
           </ul>
         </nav>
 
-
         <Section id="purpose" title="الغرض">
           <p>
-            هذه النسخة هي <strong>المرجع البصري والسلوكي</strong> لتطبيق منجز —
-            ليست منتجًا تشغيليًا. الهدف: صاحب محل صغير يفتح التطبيق فيرى
+            هذه النسخة هي <strong>المرجع البصري والسلوكي</strong> لتطبيق منجز — ليست منتجًا
+            تشغيليًا. الهدف: صاحب محل صغير يفتح التطبيق فيرى
             <strong> ٣ أرقام فقط</strong>، ويُصدر فاتورة بيع في
             <strong> أقل من ١٠ ثوانٍ</strong>، ولا يرى أي رقم يخلط بين
             <em> ما بِيع</em> و<em> ما حُصِّل</em>.
@@ -123,9 +153,8 @@ function GuidePage() {
             <div>
               <h3 className="font-semibold mb-1">٢) التحصيل من عميل</h3>
               <p className="text-muted-foreground">
-                من الهوم → «العملاء المتأخرون» → فتح العميل → «استلام دفعة» →
-                المبلغ ينقص من <em>دين العميل</em> ويُضاف إلى <em>المحصّل اليوم</em>.
-                لا يُغيّر رقم «بِعت اليوم».
+                من الهوم → «العملاء المتأخرون» → فتح العميل → «استلام دفعة» → المبلغ ينقص من{" "}
+                <em>دين العميل</em> ويُضاف إلى <em>المحصّل اليوم</em>. لا يُغيّر رقم «بِعت اليوم».
               </p>
             </div>
 
@@ -140,8 +169,8 @@ function GuidePage() {
             <div>
               <h3 className="font-semibold mb-1">٤) إقفال اليوم (UX فقط)</h3>
               <p className="text-muted-foreground">
-                ملخّص اليوم: بِعت / محصّل / مصاريف / صافي الكاش. لا قفل
-                محاسبي — يمكن تعديل أي حركة بعد الإقفال.
+                ملخّص اليوم: بِعت / محصّل / مصاريف / صافي الكاش. لا قفل محاسبي — يمكن تعديل أي حركة
+                بعد الإقفال.
               </p>
             </div>
           </div>
@@ -152,13 +181,21 @@ function GuidePage() {
             <Row k="بِعت اليوم" v="مجموع الفواتير الصادرة (نقدًا + آجل)" />
             <Row k="محصّل اليوم" v="كاش دخل الدرج فعلًا (بيع نقدي + دفعات ديون)" />
             <Row k="دين العميل" v="ما على العميل من فواتير آجلة لم تُحصَّل" />
-            <Row k="عهدة المندوب" v="بضاعة/نقد مع المندوب لم تُسوَّ بعد" note="لا تُخصم من دين العملاء" />
+            <Row
+              k="عهدة المندوب"
+              v="بضاعة/نقد مع المندوب لم تُسوَّ بعد"
+              note="لا تُخصم من دين العملاء"
+            />
             <Row k="ربح تقديري" v="بِعت − تكلفة البضاعة (دفتري)" note="ليس كاش متاح" />
-            <Row k="ربح من المحصّل" v="حصة الربح من المبالغ التي دخلت فعلًا" note="هذا ما يمكن سحبه" />
+            <Row
+              k="ربح من المحصّل"
+              v="حصة الربح من المبالغ التي دخلت فعلًا"
+              note="هذا ما يمكن سحبه"
+            />
           </div>
           <p className="text-xs text-muted-foreground">
-            القاعدة: كل رقم على الواجهة يجب أن يُجيب على سؤال واحد فقط.
-            إن لزم الجمع، اعرض الرقمين بجانب بعض، لا تجمعهما في رقم ثالث.
+            القاعدة: كل رقم على الواجهة يجب أن يُجيب على سؤال واحد فقط. إن لزم الجمع، اعرض الرقمين
+            بجانب بعض، لا تجمعهما في رقم ثالث.
           </p>
         </Section>
 
@@ -213,15 +250,24 @@ function GuidePage() {
               <div className="font-medium mb-2 text-sm">النتيجة العامة</div>
               <div className="flex flex-wrap gap-6 text-sm">
                 <label className="inline-flex items-center gap-2">
-                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  <span
+                    className="inline-block w-4 h-4 border border-foreground/60 rounded-sm"
+                    aria-hidden
+                  />
                   Passed — جاهزة كمرجع
                 </label>
                 <label className="inline-flex items-center gap-2">
-                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  <span
+                    className="inline-block w-4 h-4 border border-foreground/60 rounded-sm"
+                    aria-hidden
+                  />
                   Needs Change — تعديلات قبل الاعتماد
                 </label>
                 <label className="inline-flex items-center gap-2">
-                  <span className="inline-block w-4 h-4 border border-foreground/60 rounded-sm" aria-hidden />
+                  <span
+                    className="inline-block w-4 h-4 border border-foreground/60 rounded-sm"
+                    aria-hidden
+                  />
                   Failed — لا تصلح كمرجع
                 </label>
               </div>
@@ -245,15 +291,24 @@ function GuidePage() {
                     <div>{label}</div>
                     <div className="flex gap-4 text-xs">
                       <label className="inline-flex items-center gap-1.5">
-                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        <span
+                          className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm"
+                          aria-hidden
+                        />
                         Pass
                       </label>
                       <label className="inline-flex items-center gap-1.5">
-                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        <span
+                          className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm"
+                          aria-hidden
+                        />
                         Needs Change
                       </label>
                       <label className="inline-flex items-center gap-1.5">
-                        <span className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm" aria-hidden />
+                        <span
+                          className="inline-block w-3.5 h-3.5 border border-foreground/60 rounded-sm"
+                          aria-hidden
+                        />
                         Fail
                       </label>
                     </div>
@@ -285,9 +340,7 @@ function GuidePage() {
         </Section>
 
         <footer className="mt-10 pt-6 border-t border-border text-xs text-muted-foreground">
-
-          هذه الصفحة هي المرجع الوحيد المعتمد لنقل النسخة إلى منجز الحقيقي
-          عبر PRs صغيرة ومستقلة.
+          هذه الصفحة هي المرجع الوحيد المعتمد لنقل النسخة إلى منجز الحقيقي عبر PRs صغيرة ومستقلة.
         </footer>
       </main>
     </div>

@@ -74,12 +74,7 @@ const PLANS: Plan[] = [
     cycle: "سنوياً",
     badge: "وفّر شهرين",
     icon: <Calendar className="w-5 h-5" />,
-    features: [
-      "كل مميزات Pro",
-      "دفعة واحدة سنوياً",
-      "خصم ما يعادل شهرين",
-      "أولوية في الدعم",
-    ],
+    features: ["كل مميزات Pro", "دفعة واحدة سنوياً", "خصم ما يعادل شهرين", "أولوية في الدعم"],
   },
 ];
 
@@ -180,7 +175,8 @@ function BillingPage() {
             <div>
               <div className="text-xl font-bold">في الفترة التجريبية المجانية</div>
               <div className="text-xs text-muted-foreground mt-2">
-                تنتهي التجربة في {new Date(trialEndsAt).toLocaleDateString("ar-LY")} — اشترك قبلها لتستمر بدون انقطاع.
+                تنتهي التجربة في {new Date(trialEndsAt).toLocaleDateString("ar-LY")} — اشترك قبلها
+                لتستمر بدون انقطاع.
               </div>
             </div>
           ) : (
@@ -199,9 +195,7 @@ function BillingPage() {
             <div
               key={plan.priceId}
               className={`rounded-2xl border p-5 flex flex-col ${
-                plan.highlight
-                  ? "border-primary bg-primary/5 shadow-lg"
-                  : "border-border bg-card"
+                plan.highlight ? "border-primary bg-primary/5 shadow-lg" : "border-border bg-card"
               }`}
             >
               {plan.badge && (

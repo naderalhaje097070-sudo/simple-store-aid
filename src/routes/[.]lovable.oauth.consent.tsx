@@ -10,9 +10,15 @@ type OAuthDetails = {
 } | null;
 
 type OAuthApi = {
-  getAuthorizationDetails: (id: string) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
-  approveAuthorization: (id: string) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
-  denyAuthorization: (id: string) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
+  getAuthorizationDetails: (
+    id: string,
+  ) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
+  approveAuthorization: (
+    id: string,
+  ) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
+  denyAuthorization: (
+    id: string,
+  ) => Promise<{ data: OAuthDetails; error: { message: string } | null }>;
 };
 
 function oauthApi(): OAuthApi {
@@ -83,7 +89,11 @@ function Consent() {
         <p className="text-sm text-muted-foreground">
           سيتيح هذا لـ {clientName} قراءة بيانات محلك في منجز نيابةً عنك.
         </p>
-        {error && <p role="alert" className="text-sm text-debt">{error}</p>}
+        {error && (
+          <p role="alert" className="text-sm text-debt">
+            {error}
+          </p>
+        )}
         <div className="flex gap-2">
           <button
             disabled={busy}

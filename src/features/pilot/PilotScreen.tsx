@@ -1,5 +1,12 @@
 import { Activity, ShieldCheck, AlertTriangle, Bell, CheckCircle2 } from "lucide-react";
-import type { Product, Customer, Courier, Invoice, Payment, Expense } from "@/features/shared/types";
+import type {
+  Product,
+  Customer,
+  Courier,
+  Invoice,
+  Payment,
+  Expense,
+} from "@/features/shared/types";
 import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { Money, fmt } from "@/features/shared/Money";
@@ -31,29 +38,43 @@ export function PilotScreen(p: AppCtx) {
   const DAY = 24 * 60 * 60 * 1000;
   const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
   const todayKey = tenantTodayKey(tenantTz);
-  const isToday = (iso?: string) => !!iso && tenantTodayKey(tenantTz) === new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso));
+  const isToday = (iso?: string) =>
+    !!iso &&
+    tenantTodayKey(tenantTz) ===
+      new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso));
 
   /* ---- broken rules (must be 0) ---- */
-  const paidOverTotal = invoices.filter(i => i.paid > i.total + 0.001).length;
-  const collectedOverTotal = invoices.filter(i => (i.collectedByCourier ?? 0) > i.total + 0.001).length;
-  const negStock = products.filter(p => p.stock < 0).length;
-  const courierMissingId = invoices.filter(i => i.delivery === "courier" && !i.courierId && i.courierState !== "returned").length;
-  const debtNoCustomer = invoices.filter(i => i.status !== "paid" && !i.customerId && i.delivery === "direct").length;
-  const brokenTotal = paidOverTotal + collectedOverTotal + negStock + courierMissingId + debtNoCustomer;
+  const paidOverTotal = invoices.filter((i) => i.paid > i.total + 0.001).length;
+  const collectedOverTotal = invoices.filter(
+    (i) => (i.collectedByCourier ?? 0) > i.total + 0.001,
+  ).length;
+  const negStock = products.filter((p) => p.stock < 0).length;
+  const courierMissingId = invoices.filter(
+    (i) => i.delivery === "courier" && !i.courierId && i.courierState !== "returned",
+  ).length;
+  const debtNoCustomer = invoices.filter(
+    (i) => i.status !== "paid" && !i.customerId && i.delivery === "direct",
+  ).length;
+  const brokenTotal =
+    paidOverTotal + collectedOverTotal + negStock + courierMissingId + debtNoCustomer;
 
   /* ---- warnings ---- */
-  const lowStock = products.filter(p => p.stock > 0 && p.stock <= p.lowAt).length;
-  const outStock = products.filter(p => p.stock === 0).length;
-  const oldPendingCourier = invoices.filter(i =>
-    i.delivery === "courier" &&
-    (i.courierState === "pending" || i.courierState === "delivered_partial") &&
-    now - new Date(i.createdAt).getTime() > 7 * DAY
+  const lowStock = products.filter((p) => p.stock > 0 && p.stock <= p.lowAt).length;
+  const outStock = products.filter((p) => p.stock === 0).length;
+  const oldPendingCourier = invoices.filter(
+    (i) =>
+      i.delivery === "courier" &&
+      (i.courierState === "pending" || i.courierState === "delivered_partial") &&
+      now - new Date(i.createdAt).getTime() > 7 * DAY,
   ).length;
-  const oldDebts = invoices.filter(i =>
-    i.delivery === "direct" && i.courierState !== "returned" && (i.status === "debt" || i.status === "partial") &&
-    now - new Date(i.createdAt).getTime() > 30 * DAY
+  const oldDebts = invoices.filter(
+    (i) =>
+      i.delivery === "direct" &&
+      i.courierState !== "returned" &&
+      (i.status === "debt" || i.status === "partial") &&
+      now - new Date(i.createdAt).getTime() > 30 * DAY,
   ).length;
-  const customersNoPhone = customers.filter(c => !c.phone).length;
+  const customersNoPhone = customers.filter((c) => !c.phone).length;
   const unsettledCustody = invoices.reduce((s, i) => s + getCourierCustodyForInvoice(i), 0);
   const lastClose = dayCloses[0]?.closedFor ?? null;
   const daysSinceClose = lastClose
@@ -61,26 +82,44 @@ export function PilotScreen(p: AppCtx) {
     : null;
 
   /* ---- usage metrics ---- */
-  const activeProducts = products.filter(p => p.is_active !== false).length;
-  const invoicesToday = invoices.filter(i => isToday(i.createdAt)).length;
-  const paymentsToday = payments.filter(pm => isToday(pm.createdAt));
+  const activeProducts = products.filter((p) => p.is_active !== false).length;
+  const invoicesToday = invoices.filter((i) => isToday(i.createdAt)).length;
+  const paymentsToday = payments.filter((pm) => isToday(pm.createdAt));
   const collectedToday = paymentsToday.reduce((s, pm) => s + pm.amount, 0);
-  const expensesToday = expenses.filter(e => isToday(e.createdAt)).reduce((s, e) => s + e.amount, 0);
+  const expensesToday = expenses
+    .filter((e) => isToday(e.createdAt))
+    .reduce((s, e) => s + e.amount, 0);
   const lifetimeSales = invoices.reduce((s, i) => s + i.total, 0);
   const lifetimeCollected = payments.reduce((s, pm) => s + pm.amount, 0);
 
   const HealthBadge = ({ ok }: { ok: boolean }) => (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${
-      ok ? "bg-success-soft text-success" : "bg-debt-soft text-debt"
-    }`}>
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold ${
+        ok ? "bg-success-soft text-success" : "bg-debt-soft text-debt"
+      }`}
+    >
       {ok ? <CheckCircle2 className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
       {ok ? "سليم" : "يحتاج مراجعة"}
     </span>
   );
 
-  const Rule = ({ label, value, tone = "debt" }: { label: string; value: number; tone?: "debt" | "warn" | "info" }) => {
+  const Rule = ({
+    label,
+    value,
+    tone = "debt",
+  }: {
+    label: string;
+    value: number;
+    tone?: "debt" | "warn" | "info";
+  }) => {
     const ok = value === 0;
-    const color = ok ? "text-success" : tone === "warn" ? "text-warn" : tone === "info" ? "text-info" : "text-debt";
+    const color = ok
+      ? "text-success"
+      : tone === "warn"
+        ? "text-warn"
+        : tone === "info"
+          ? "text-info"
+          : "text-debt";
     return (
       <div className="flex items-center justify-between py-2.5">
         <span className="text-sm flex-1">{label}</span>
@@ -89,7 +128,15 @@ export function PilotScreen(p: AppCtx) {
     );
   };
 
-  const Metric = ({ label, value, suffix }: { label: string; value: string | number; suffix?: string }) => (
+  const Metric = ({
+    label,
+    value,
+    suffix,
+  }: {
+    label: string;
+    value: string | number;
+    suffix?: string;
+  }) => (
     <div className="bg-card border border-border rounded-2xl p-3">
       <div className="text-[11px] text-muted-foreground mb-1">{label}</div>
       <div className="text-lg font-bold">
@@ -103,13 +150,16 @@ export function PilotScreen(p: AppCtx) {
     <>
       <TopBar title="صحة النظام" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 pb-8 space-y-4">
-
         {/* Overall health */}
-        <div className={`rounded-2xl p-4 border-2 ${
-          brokenTotal === 0 ? "bg-success-soft border-success/30" : "bg-debt-soft border-debt/40"
-        }`}>
+        <div
+          className={`rounded-2xl p-4 border-2 ${
+            brokenTotal === 0 ? "bg-success-soft border-success/30" : "bg-debt-soft border-debt/40"
+          }`}
+        >
           <div className="flex items-center gap-2">
-            <ShieldCheck className={`w-5 h-5 ${brokenTotal === 0 ? "text-success" : "text-debt"}`} />
+            <ShieldCheck
+              className={`w-5 h-5 ${brokenTotal === 0 ? "text-success" : "text-debt"}`}
+            />
             <div className="text-sm font-bold flex-1">حالة قواعد البيانات المالية</div>
             <HealthBadge ok={brokenTotal === 0} />
           </div>
@@ -149,13 +199,24 @@ export function PilotScreen(p: AppCtx) {
             <Rule label="عملاء بدون رقم هاتف" value={customersNoPhone} tone="info" />
             <div className="flex items-center justify-between py-2.5">
               <span className="text-sm flex-1">عهدة لم تُصفَّ بعد</span>
-              <Money v={unsettledCustody} className={unsettledCustody > 0 ? "text-warn" : "text-success"} />
+              <Money
+                v={unsettledCustody}
+                className={unsettledCustody > 0 ? "text-warn" : "text-success"}
+              />
             </div>
             <div className="flex items-center justify-between py-2.5">
               <span className="text-sm flex-1">أيام منذ آخر إغلاق يوم</span>
-              <span className={`num text-base font-bold ${
-                daysSinceClose === null ? "text-debt" : daysSinceClose === 0 ? "text-success" : daysSinceClose <= 2 ? "text-warn" : "text-debt"
-              }`}>
+              <span
+                className={`num text-base font-bold ${
+                  daysSinceClose === null
+                    ? "text-debt"
+                    : daysSinceClose === 0
+                      ? "text-success"
+                      : daysSinceClose <= 2
+                        ? "text-warn"
+                        : "text-debt"
+                }`}
+              >
                 {daysSinceClose === null ? "—" : fmt(daysSinceClose)}
               </span>
             </div>

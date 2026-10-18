@@ -6,7 +6,16 @@ export const Route = createFileRoute("/_authenticated/platform-admin")({
   component: PlatformAdminPage,
 });
 
-type TabKey = "overview" | "tenants" | "financial" | "system" | "dayclose" | "custody" | "alerts" | "security" | "audit";
+type TabKey =
+  | "overview"
+  | "tenants"
+  | "financial"
+  | "system"
+  | "dayclose"
+  | "custody"
+  | "alerts"
+  | "security"
+  | "audit";
 
 const TABS: { key: TabKey; label: string }[] = [
   { key: "overview", label: "نظرة عامة" },
@@ -49,7 +58,9 @@ function PlatformAdminPage() {
             <h1 className="text-xl font-bold">لوحة مشرف منصة منجز</h1>
             <p className="text-xs text-muted-foreground">داخلي — للقراءة فقط</p>
           </div>
-          <span className="text-xs px-2 py-1 rounded bg-primary/10 text-primary">Platform Admin</span>
+          <span className="text-xs px-2 py-1 rounded bg-primary/10 text-primary">
+            Platform Admin
+          </span>
         </div>
         <nav className="max-w-7xl mx-auto px-4 flex gap-1 overflow-x-auto">
           {TABS.map((t) => (
@@ -84,7 +95,10 @@ function PlatformAdminPage() {
 
 function Centered({ children }: { children: React.ReactNode }) {
   return (
-    <div dir="rtl" className="min-h-screen flex items-center justify-center text-sm text-muted-foreground">
+    <div
+      dir="rtl"
+      className="min-h-screen flex items-center justify-center text-sm text-muted-foreground"
+    >
       {children}
     </div>
   );
@@ -92,13 +106,18 @@ function Centered({ children }: { children: React.ReactNode }) {
 
 function Forbidden() {
   return (
-    <div dir="rtl" className="min-h-screen flex flex-col items-center justify-center gap-3 p-6 text-center">
+    <div
+      dir="rtl"
+      className="min-h-screen flex flex-col items-center justify-center gap-3 p-6 text-center"
+    >
       <div className="text-5xl">🔒</div>
       <h1 className="text-xl font-bold">ممنوع</h1>
       <p className="text-sm text-muted-foreground max-w-sm">
         هذه الصفحة مخصصة لمشغّل منصة منجز فقط.
       </p>
-      <a href="/app" className="text-sm text-primary hover:underline mt-2">العودة للتطبيق</a>
+      <a href="/app" className="text-sm text-primary hover:underline mt-2">
+        العودة للتطبيق
+      </a>
     </div>
   );
 }
@@ -122,7 +141,9 @@ function StatusBadge({ status }: { status: string }) {
     Critical: "حرج",
   };
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-medium ${map[status] ?? "bg-muted text-muted-foreground"}`}>
+    <span
+      className={`px-2 py-0.5 rounded text-xs font-medium ${map[status] ?? "bg-muted text-muted-foreground"}`}
+    >
       {label[status] ?? status}
     </span>
   );
@@ -137,7 +158,17 @@ const short = (s: string | null | undefined, n = 8) => (s ? s.slice(0, n) : "—
 const dt = (s: string | null | undefined) =>
   s ? new Date(s).toLocaleString("ar-LY", { dateStyle: "short", timeStyle: "short" }) : "—";
 
-function Card({ title, value, hint, tone = "neutral" }: { title: string; value: React.ReactNode; hint?: string; tone?: "neutral" | "warn" | "crit" | "ok" }) {
+function Card({
+  title,
+  value,
+  hint,
+  tone = "neutral",
+}: {
+  title: string;
+  value: React.ReactNode;
+  hint?: string;
+  tone?: "neutral" | "warn" | "crit" | "ok";
+}) {
   const tones: Record<string, string> = {
     neutral: "bg-card",
     warn: "bg-amber-50 border-amber-200",
@@ -168,7 +199,9 @@ function useRpc<T = unknown>(fn: string, args?: Record<string, unknown>) {
       else setData(d as T);
       setLoading(false);
     })();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fn, JSON.stringify(args ?? {})]);
   return { data, err, loading };
@@ -176,9 +209,16 @@ function useRpc<T = unknown>(fn: string, args?: Record<string, unknown>) {
 
 // ────────────────────── tabs ──────────────────────
 type Overview = {
-  total_tenants: number; active_tenants: number; total_products: number; total_customers: number;
-  total_orders: number; total_payments: number; open_customer_debts: number;
-  unsettled_courier_custody: number; expenses_today: number; day_close_count_today: number;
+  total_tenants: number;
+  active_tenants: number;
+  total_products: number;
+  total_customers: number;
+  total_orders: number;
+  total_payments: number;
+  open_customer_debts: number;
+  unsettled_courier_custody: number;
+  expenses_today: number;
+  day_close_count_today: number;
   critical_alerts: number;
 };
 
@@ -199,16 +239,29 @@ function OverviewTab() {
       <Card title="عهدة مناديب غير مسوّاة" value={dl(data.unsettled_courier_custody)} tone="warn" />
       <Card title="مصاريف اليوم" value={dl(data.expenses_today)} />
       <Card title="إغلاقات يوم اليوم" value={fmt(data.day_close_count_today)} />
-      <Card title="تنبيهات حرجة" value={fmt(data.critical_alerts)} tone={data.critical_alerts > 0 ? "crit" : "ok"} />
+      <Card
+        title="تنبيهات حرجة"
+        value={fmt(data.critical_alerts)}
+        tone={data.critical_alerts > 0 ? "crit" : "ok"}
+      />
     </div>
   );
 }
 
 type TenantRow = {
-  tenant_id: string; tenant_name: string; owner_user_id: string; created_at: string;
-  products_count: number; customers_count: number; orders_count: number;
-  total_sales: number; total_collected: number; open_debts: number;
-  unsettled_custody: number; last_activity: string | null; health: string;
+  tenant_id: string;
+  tenant_name: string;
+  owner_user_id: string;
+  created_at: string;
+  products_count: number;
+  customers_count: number;
+  orders_count: number;
+  total_sales: number;
+  total_collected: number;
+  open_debts: number;
+  unsettled_custody: number;
+  last_activity: string | null;
+  health: string;
 };
 
 function TenantsTab() {
@@ -250,7 +303,9 @@ function TenantsTab() {
               <td className="p-2">{dl(r.open_debts)}</td>
               <td className="p-2">{dl(r.unsettled_custody)}</td>
               <td className="p-2">{dt(r.last_activity)}</td>
-              <td className="p-2"><StatusBadge status={r.health} /></td>
+              <td className="p-2">
+                <StatusBadge status={r.health} />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -259,7 +314,12 @@ function TenantsTab() {
   );
 }
 
-type CheckRow = { check_key: string; explanation_ar: string; status: string; affected_count: number };
+type CheckRow = {
+  check_key: string;
+  explanation_ar: string;
+  status: string;
+  affected_count: number;
+};
 
 function FinancialTab() {
   const { data, err, loading } = useRpc<CheckRow[]>("get_platform_financial_health");
@@ -274,7 +334,9 @@ function FinancialTab() {
           <div className="p-3 flex items-center justify-between gap-2">
             <div className="flex-1">
               <div className="text-sm font-medium">{r.explanation_ar}</div>
-              <div className="text-[10px] text-muted-foreground font-mono mt-0.5">{r.check_key}</div>
+              <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+                {r.check_key}
+              </div>
             </div>
             <div className="text-sm font-bold tabular-nums">{fmt(r.affected_count)}</div>
             <StatusBadge status={r.status} />
@@ -297,23 +359,34 @@ function FinancialTab() {
 function AffectedRows({ checkKey }: { checkKey: string }) {
   const { data, err, loading } = useRpc<Record<string, unknown>[]>(
     "get_platform_financial_health_rows",
-    { p_check_key: checkKey, p_limit: 50 }
+    { p_check_key: checkKey, p_limit: 50 },
   );
   if (loading) return <div className="p-3 text-xs text-muted-foreground">جاري التحميل…</div>;
   if (err) return <div className="p-3 text-xs text-red-600">خطأ: {err}</div>;
   const rows = data ?? [];
-  if (rows.length === 0) return <div className="p-3 text-xs text-muted-foreground">لا توجد بيانات.</div>;
+  if (rows.length === 0)
+    return <div className="p-3 text-xs text-muted-foreground">لا توجد بيانات.</div>;
   const cols = Object.keys(rows[0]);
   return (
     <div className="border-t overflow-x-auto bg-muted/20">
       <table className="w-full text-[11px]">
         <thead>
-          <tr>{cols.map((c) => <th key={c} className="p-2 text-right font-medium">{c}</th>)}</tr>
+          <tr>
+            {cols.map((c) => (
+              <th key={c} className="p-2 text-right font-medium">
+                {c}
+              </th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
             <tr key={i} className="border-t">
-              {cols.map((c) => <td key={c} className="p-2 font-mono">{String(r[c] ?? "—")}</td>)}
+              {cols.map((c) => (
+                <td key={c} className="p-2 font-mono">
+                  {String(r[c] ?? "—")}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -324,7 +397,13 @@ function AffectedRows({ checkKey }: { checkKey: string }) {
 
 type SystemHealth = {
   rls: { table: string; rls_enabled: boolean; status: string }[];
-  rpcs: { rpc: string; exists: boolean; anon_can_execute: boolean; public_can_execute: boolean; status: string }[];
+  rpcs: {
+    rpc: string;
+    exists: boolean;
+    anon_can_execute: boolean;
+    public_can_execute: boolean;
+    status: string;
+  }[];
   grant_issues: { rpc: string; issue: string }[];
 };
 
@@ -343,7 +422,9 @@ function SystemTab() {
               <tr key={r.table} className="border-t">
                 <td className="p-2 font-mono">{r.table}</td>
                 <td className="p-2">{r.rls_enabled ? "مفعّل" : "معطّل"}</td>
-                <td className="p-2 text-left"><StatusBadge status={r.status} /></td>
+                <td className="p-2 text-left">
+                  <StatusBadge status={r.status} />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -358,9 +439,12 @@ function SystemTab() {
                 <td className="p-2 font-mono">{r.rpc}</td>
                 <td className="p-2">{r.exists ? "موجودة" : "مفقودة"}</td>
                 <td className="p-2 text-[10px] text-muted-foreground">
-                  {r.anon_can_execute ? "anon ⚠" : ""}{r.public_can_execute ? " PUBLIC ⚠" : ""}
+                  {r.anon_can_execute ? "anon ⚠" : ""}
+                  {r.public_can_execute ? " PUBLIC ⚠" : ""}
                 </td>
-                <td className="p-2 text-left"><StatusBadge status={r.status} /></td>
+                <td className="p-2 text-left">
+                  <StatusBadge status={r.status} />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -373,7 +457,9 @@ function SystemTab() {
         ) : (
           <ul className="text-xs space-y-1">
             {data.grant_issues.map((g, i) => (
-              <li key={i} className="font-mono">{g.rpc} → {g.issue}</li>
+              <li key={i} className="font-mono">
+                {g.rpc} → {g.issue}
+              </li>
             ))}
           </ul>
         )}
@@ -383,18 +469,32 @@ function SystemTab() {
 }
 
 type DayCloseRow = {
-  id: string; tenant_id: string; tenant_name: string; closed_for: string;
-  sales: number; collected: number; expenses: number; customer_debts: number;
-  unsettled_custody: number; realized_profit: number; created_at: string;
-  sales_diff: number; collected_diff: number; expenses_diff: number; status: string;
+  id: string;
+  tenant_id: string;
+  tenant_name: string;
+  closed_for: string;
+  sales: number;
+  collected: number;
+  expenses: number;
+  customer_debts: number;
+  unsettled_custody: number;
+  realized_profit: number;
+  created_at: string;
+  sales_diff: number;
+  collected_diff: number;
+  expenses_diff: number;
+  status: string;
 };
 
 function DayCloseTab() {
-  const { data, err, loading } = useRpc<DayCloseRow[]>("get_platform_day_close_health", { p_limit: 50 });
+  const { data, err, loading } = useRpc<DayCloseRow[]>("get_platform_day_close_health", {
+    p_limit: 50,
+  });
   if (loading) return <p className="text-sm text-muted-foreground">جاري التحميل…</p>;
   if (err) return <p className="text-sm text-red-600">خطأ: {err}</p>;
   const rows = data ?? [];
-  if (rows.length === 0) return <p className="text-sm text-muted-foreground">لا توجد إغلاقات يوم بعد.</p>;
+  if (rows.length === 0)
+    return <p className="text-sm text-muted-foreground">لا توجد إغلاقات يوم بعد.</p>;
   return (
     <div className="overflow-x-auto border rounded-lg bg-card">
       <table className="w-full text-xs">
@@ -425,10 +525,18 @@ function DayCloseTab() {
               <td className="p-2">{dl(r.customer_debts)}</td>
               <td className="p-2">{dl(r.unsettled_custody)}</td>
               <td className="p-2">{dl(r.realized_profit)}</td>
-              <td className={`p-2 ${Math.abs(r.sales_diff) > 0.01 ? "text-red-600" : ""}`}>{dl(r.sales_diff)}</td>
-              <td className={`p-2 ${Math.abs(r.collected_diff) > 0.01 ? "text-red-600" : ""}`}>{dl(r.collected_diff)}</td>
-              <td className={`p-2 ${Math.abs(r.expenses_diff) > 0.01 ? "text-red-600" : ""}`}>{dl(r.expenses_diff)}</td>
-              <td className="p-2"><StatusBadge status={r.status} /></td>
+              <td className={`p-2 ${Math.abs(r.sales_diff) > 0.01 ? "text-red-600" : ""}`}>
+                {dl(r.sales_diff)}
+              </td>
+              <td className={`p-2 ${Math.abs(r.collected_diff) > 0.01 ? "text-red-600" : ""}`}>
+                {dl(r.collected_diff)}
+              </td>
+              <td className={`p-2 ${Math.abs(r.expenses_diff) > 0.01 ? "text-red-600" : ""}`}>
+                {dl(r.expenses_diff)}
+              </td>
+              <td className="p-2">
+                <StatusBadge status={r.status} />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -438,8 +546,14 @@ function DayCloseTab() {
 }
 
 type CustodyRow = {
-  tenant_id: string; tenant_name: string; courier_id: string; courier_name: string;
-  unsettled_amount: number; orders_count: number; oldest_age_days: number; risk: string;
+  tenant_id: string;
+  tenant_name: string;
+  courier_id: string;
+  courier_name: string;
+  unsettled_amount: number;
+  orders_count: number;
+  oldest_age_days: number;
+  risk: string;
 };
 
 function CustodyTab() {
@@ -469,7 +583,9 @@ function CustodyTab() {
               <td className="p-2 font-semibold">{dl(r.unsettled_amount)}</td>
               <td className="p-2">{fmt(r.orders_count)}</td>
               <td className="p-2">{fmt(r.oldest_age_days)}</td>
-              <td className="p-2"><StatusBadge status={r.risk} /></td>
+              <td className="p-2">
+                <StatusBadge status={r.risk} />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -491,8 +607,10 @@ function AlertsTab() {
   const alerts: Alert[] = [];
 
   (checks.data ?? []).forEach((c) => {
-    if (c.status === "Critical") alerts.push({ level: "Critical", text: `${c.explanation_ar} (${c.affected_count})` });
-    else if (c.status === "Warning") alerts.push({ level: "Medium", text: `${c.explanation_ar} (${c.affected_count})` });
+    if (c.status === "Critical")
+      alerts.push({ level: "Critical", text: `${c.explanation_ar} (${c.affected_count})` });
+    else if (c.status === "Warning")
+      alerts.push({ level: "Medium", text: `${c.explanation_ar} (${c.affected_count})` });
   });
   (sys.data?.rls ?? []).forEach((r) => {
     if (!r.rls_enabled) alerts.push({ level: "High", text: `RLS معطّل على ${r.table}` });
@@ -503,14 +621,23 @@ function AlertsTab() {
     if (r.public_can_execute) alerts.push({ level: "High", text: `PUBLIC يمكنه تنفيذ ${r.rpc}` });
   });
   (custody.data ?? []).forEach((c) => {
-    if (c.oldest_age_days > 7) alerts.push({ level: "Medium", text: `عهدة قديمة (${c.oldest_age_days} يوم) عند ${c.courier_name ?? short(c.courier_id)}` });
-    else if (c.oldest_age_days > 3) alerts.push({ level: "Low", text: `عهدة (${c.oldest_age_days} يوم) عند ${c.courier_name ?? short(c.courier_id)}` });
+    if (c.oldest_age_days > 7)
+      alerts.push({
+        level: "Medium",
+        text: `عهدة قديمة (${c.oldest_age_days} يوم) عند ${c.courier_name ?? short(c.courier_id)}`,
+      });
+    else if (c.oldest_age_days > 3)
+      alerts.push({
+        level: "Low",
+        text: `عهدة (${c.oldest_age_days} يوم) عند ${c.courier_name ?? short(c.courier_id)}`,
+      });
   });
 
   const order: Record<Alert["level"], number> = { Critical: 0, High: 1, Medium: 2, Low: 3 };
   alerts.sort((a, b) => order[a.level] - order[b.level]);
 
-  if (alerts.length === 0) return <p className="text-sm text-emerald-700">لا توجد تنبيهات. النظام سليم.</p>;
+  if (alerts.length === 0)
+    return <p className="text-sm text-emerald-700">لا توجد تنبيهات. النظام سليم.</p>;
 
   const tone: Record<Alert["level"], string> = {
     Critical: "bg-red-50 border-red-200 text-red-900",
@@ -519,12 +646,18 @@ function AlertsTab() {
     Low: "bg-sky-50 border-sky-200 text-sky-900",
   };
   const labelAr: Record<Alert["level"], string> = {
-    Critical: "حرج", High: "مرتفع", Medium: "متوسط", Low: "منخفض",
+    Critical: "حرج",
+    High: "مرتفع",
+    Medium: "متوسط",
+    Low: "منخفض",
   };
   return (
     <div className="space-y-2">
       {alerts.map((a, i) => (
-        <div key={i} className={`border rounded-lg p-3 text-sm flex items-center justify-between ${tone[a.level]}`}>
+        <div
+          key={i}
+          className={`border rounded-lg p-3 text-sm flex items-center justify-between ${tone[a.level]}`}
+        >
           <span>{a.text}</span>
           <span className="text-xs font-bold">{labelAr[a.level]}</span>
         </div>
@@ -554,7 +687,10 @@ const ACTION_LABELS: Record<string, string> = {
 
 function AuditTab() {
   const [limit, setLimit] = useState(100);
-  const { data, err, loading } = useRpc<AuditRow[]>("get_platform_admin_audit_log", { p_limit: limit, p_offset: 0 });
+  const { data, err, loading } = useRpc<AuditRow[]>("get_platform_admin_audit_log", {
+    p_limit: limit,
+    p_offset: 0,
+  });
   if (loading) return <p className="text-sm text-muted-foreground">جاري التحميل…</p>;
   if (err) return <p className="text-sm text-red-600">خطأ: {err}</p>;
   const rows = data ?? [];
@@ -599,10 +735,14 @@ function AuditTab() {
                     <span className="px-2 py-0.5 rounded bg-primary/10 text-primary text-[11px]">
                       {ACTION_LABELS[r.action] ?? r.action}
                     </span>
-                    <div className="text-[10px] text-muted-foreground font-mono mt-0.5">{r.action}</div>
+                    <div className="text-[10px] text-muted-foreground font-mono mt-0.5">
+                      {r.action}
+                    </div>
                   </td>
                   <td className="p-2 font-mono text-[10px] text-muted-foreground max-w-[280px] truncate">
-                    {r.details && Object.keys(r.details).length > 0 ? JSON.stringify(r.details) : "—"}
+                    {r.details && Object.keys(r.details).length > 0
+                      ? JSON.stringify(r.details)
+                      : "—"}
                   </td>
                 </tr>
               ))}
@@ -674,7 +814,9 @@ function SecurityTab() {
   const runNow = async () => {
     setRunning(true);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { error } = await (supabase.rpc as any)("run_security_scan", { p_triggered_by: "manual" });
+    const { error } = await (supabase.rpc as any)("run_security_scan", {
+      p_triggered_by: "manual",
+    });
     if (error) setErr(error.message);
     setRunning(false);
     await load();
@@ -684,7 +826,7 @@ function SecurityTab() {
 
   const open = (findings ?? []).filter((f) => !f.resolved_at);
   const resolved = (findings ?? []).filter((f) => f.resolved_at);
-  const visible = showResolved ? findings ?? [] : open;
+  const visible = showResolved ? (findings ?? []) : open;
   const byLevel = (lv: string) => open.filter((f) => f.level === lv).length;
 
   const lvTone: Record<string, string> = {
@@ -700,12 +842,17 @@ function SecurityTab() {
         <div>
           <h2 className="text-sm font-semibold">فحوص الأمان الدورية</h2>
           <p className="text-xs text-muted-foreground">
-            يعمل أسبوعيًا (الأحد 3:00 صباحًا توقيت ليبيا) ويبحث عن جداول بدون RLS أو دوال SECURITY DEFINER مكشوفة.
+            يعمل أسبوعيًا (الأحد 3:00 صباحًا توقيت ليبيا) ويبحث عن جداول بدون RLS أو دوال SECURITY
+            DEFINER مكشوفة.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <label className="text-xs flex items-center gap-1">
-            <input type="checkbox" checked={showResolved} onChange={(e) => setShowResolved(e.target.checked)} />
+            <input
+              type="checkbox"
+              checked={showResolved}
+              onChange={(e) => setShowResolved(e.target.checked)}
+            />
             عرض المسوّاة
           </label>
           <button
@@ -721,8 +868,16 @@ function SecurityTab() {
       {err && <p className="text-sm text-debt">خطأ: {err}</p>}
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Card title="فحوص حرجة مفتوحة" value={fmt(byLevel("error"))} tone={byLevel("error") > 0 ? "crit" : "ok"} />
-        <Card title="تحذيرات مفتوحة" value={fmt(byLevel("warn"))} tone={byLevel("warn") > 0 ? "warn" : "ok"} />
+        <Card
+          title="فحوص حرجة مفتوحة"
+          value={fmt(byLevel("error"))}
+          tone={byLevel("error") > 0 ? "crit" : "ok"}
+        />
+        <Card
+          title="تحذيرات مفتوحة"
+          value={fmt(byLevel("warn"))}
+          tone={byLevel("warn") > 0 ? "warn" : "ok"}
+        />
         <Card title="إجمالي مفتوح" value={fmt(open.length)} />
         <Card title="تم تسويتها" value={fmt(resolved.length)} />
       </div>
@@ -730,7 +885,9 @@ function SecurityTab() {
       <section className="border rounded-lg bg-card">
         <div className="p-3 border-b text-sm font-semibold">آخر عمليات الفحص</div>
         {(runs ?? []).length === 0 ? (
-          <p className="p-3 text-xs text-muted-foreground">لا توجد عمليات فحص بعد. اضغط "تشغيل فحص الآن".</p>
+          <p className="p-3 text-xs text-muted-foreground">
+            لا توجد عمليات فحص بعد. اضغط "تشغيل فحص الآن".
+          </p>
         ) : (
           <table className="w-full text-xs">
             <thead className="bg-muted/50">
@@ -748,11 +905,15 @@ function SecurityTab() {
                   <td className="p-2 whitespace-nowrap">{dt(r.started_at)}</td>
                   <td className="p-2">{r.triggered_by === "cron" ? "تلقائي" : "يدوي"}</td>
                   <td className="p-2">
-                    <span className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-success-soft text-success" : "bg-warn-soft text-warn"}`}>
+                    <span
+                      className={`px-2 py-0.5 rounded text-[11px] ${r.status === "success" ? "bg-success-soft text-success" : "bg-warn-soft text-warn"}`}
+                    >
                       {r.status === "success" ? "ناجح" : r.status}
                     </span>
                   </td>
-                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-debt" : ""}`}>{fmt(r.new_count)}</td>
+                  <td className={`p-2 font-semibold ${r.new_count > 0 ? "text-debt" : ""}`}>
+                    {fmt(r.new_count)}
+                  </td>
                   <td className="p-2">{fmt(r.total_count)}</td>
                 </tr>
               ))}
@@ -771,12 +932,16 @@ function SecurityTab() {
           <ul className="divide-y">
             {visible.map((f) => (
               <li key={f.id} className="p-3 flex items-start gap-3">
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${lvTone[f.level]}`}>
+                <span
+                  className={`px-2 py-0.5 rounded text-[10px] font-bold shrink-0 ${lvTone[f.level]}`}
+                >
                   {lvLabel[f.level]}
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium">{f.title}</div>
-                  {f.detail && <div className="text-xs text-muted-foreground mt-0.5">{f.detail}</div>}
+                  {f.detail && (
+                    <div className="text-xs text-muted-foreground mt-0.5">{f.detail}</div>
+                  )}
                   <div className="text-[10px] text-muted-foreground font-mono mt-1">
                     {f.name} · أول ظهور {dt(f.first_seen_at)} · آخر ظهور {dt(f.last_seen_at)}
                     {f.resolved_at && ` · سُوّيت ${dt(f.resolved_at)}`}

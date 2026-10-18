@@ -2,6 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { verifyWebhook, EventName, type PaddleEnv } from "@/lib/paddle.server";
 
+type SubscriptionData<Event extends EventName> = Extract<
+  Awaited<ReturnType<typeof verifyWebhook>>,
+  { eventType: Event }
+>["data"];
+
 let _supabase: SupabaseClient | null = null;
 function getSupabase(): SupabaseClient {
   if (!_supabase) {
@@ -12,8 +17,8 @@ function getSupabase(): SupabaseClient {
 
 async function verifyTenantOwnership(
   supabase: SupabaseClient,
-  tenantId: string,
-  userId: string,
+  tenantId: unknown,
+  userId: unknown,
 ): Promise<boolean> {
   const { data, error } = await supabase
     .from("tenants")
@@ -32,7 +37,7 @@ async function verifyTenantOwnership(
   return true;
 }
 
-async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
+async function handleSubscriptionCreated(data: SubscriptionData<EventName.SubscriptionCreated>, env: PaddleEnv) {
   const { id, customerId, items, status, currentBillingPeriod, customData } = data;
   const userId = customData?.userId;
   const tenantId = customData?.tenantId;
@@ -82,7 +87,7 @@ async function handleSubscriptionCreated(data: any, env: PaddleEnv) {
     .eq("id", tenantId);
 }
 
-async function handleSubscriptionUpdated(data: any, env: PaddleEnv) {
+async function handleSubscriptionUpdated(data: SubscriptionData<EventName.SubscriptionUpdated>, env: PaddleEnv) {
   const { id, status, currentBillingPeriod, scheduledChange } = data;
   const supabase = getSupabase();
   await supabase
@@ -103,7 +108,7 @@ async function handleSubscriptionUpdated(data: any, env: PaddleEnv) {
     .eq("paddle_subscription_id", id);
 }
 
-async function handleSubscriptionCanceled(data: any, env: PaddleEnv) {
+async function handleSubscriptionCanceled(data: SubscriptionData<EventName.SubscriptionCanceled>, env: PaddleEnv) {
   const supabase = getSupabase();
   await supabase
     .from("subscriptions")

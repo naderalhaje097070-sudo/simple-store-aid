@@ -225,7 +225,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
             (pm) => pm.invoiceId === inv.id && pm.kind === "sale",
           );
           const method = (salePm?.method ?? "cash") as "cash" | "transfer";
-          const createdAt = (inv as any).createdAt ? new Date((inv as any).createdAt) : new Date();
+          const createdAt = inv.createdAt ? new Date(inv.createdAt) : new Date();
           const dateText = createdAt.toLocaleDateString("en-GB");
           const data: InvoicePdfData = {
             shopName: tenant?.name ?? "محلي",
@@ -234,7 +234,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
             dateText,
             timeText: inv.time,
             customerName: cust?.name,
-            customerPhone: (cust as any)?.phone,
+            customerPhone: cust?.phone,
             courierName,
             delivery: inv.delivery,
             items: inv.items.map((it) => ({ name: it.name, qty: it.qty, price: it.price })),

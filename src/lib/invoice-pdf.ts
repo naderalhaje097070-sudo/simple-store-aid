@@ -163,12 +163,12 @@ export function ensureFont(): Promise<void> {
         link.setAttribute("data-invoice-font", "cairo");
         document.head.appendChild(link);
       }
-      // @ts-ignore
+
       if (document.fonts && document.fonts.load) {
         Promise.all([
-          // @ts-ignore
+
           document.fonts.load('700 16px "Cairo"'),
-          // @ts-ignore
+
           document.fonts.load('400 14px "Cairo"'),
         ])
           .then(finish)
@@ -368,11 +368,11 @@ async function renderToCanvas(d: InvoicePdfData): Promise<RenderResult> {
       <style>html,body{margin:0;padding:0;background:#fff;color:#111;font-family:${FONT_STACK}}</style>
       </head><body>${buildHtml(d, qrDataUrl)}</body></html>`);
     doc.close();
-    // @ts-ignore
+
     if (doc.fonts && doc.fonts.ready) {
       try {
         await doc.fonts.ready;
-      } catch {}
+      } catch { /* Continue with the existing fallback font. */ }
     }
     await new Promise((r) => setTimeout(r, 120));
     const root = doc.body.firstElementChild as HTMLElement;

@@ -4,7 +4,24 @@ const clientToken = import.meta.env.VITE_PAYMENTS_CLIENT_TOKEN;
 
 declare global {
   interface Window {
-    Paddle: any;
+    Paddle: {
+      Environment: { set(environment: "sandbox" | "production"): void };
+      Initialize(options: { token: string }): void;
+      Checkout: {
+        open(options: {
+          items: { priceId: string; quantity: number }[];
+          customer?: { email: string };
+          customData?: Record<string, string>;
+          settings: {
+            displayMode: "overlay";
+            successUrl: string;
+            allowLogout: boolean;
+            variant: "one-page";
+            locale: string;
+          };
+        }): void;
+      };
+    };
   }
 }
 

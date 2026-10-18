@@ -1,6 +1,20 @@
 import { sendLovableEmail } from "@lovable.dev/email-js";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { createFileRoute } from "@tanstack/react-router";
+import type { Database, Json } from "@/integrations/supabase/types";
+
+// Queue payloads are the JSON transport of the installed sender contract.
+type QueuedEmailPayload = Omit<Parameters<typeof sendLovableEmail>[0], "to"> & {
+  to: string;
+  queued_at?: string;
+  [key: string]: Json | undefined;
+};
+type QueueMessage = {
+  msg_id: number;
+  message: QueuedEmailPayload;
+  enqueued_at: string;
+  read_ct: number;
+};
 
 const MAX_RETRIES = 5;
 const DEFAULT_BATCH_SIZE = 10;
@@ -36,9 +50,9 @@ function getRetryAfterSeconds(error: unknown): number {
 }
 
 async function moveToDlq(
-  supabase: SupabaseClient<any, any>,
+  supabase: SupabaseClient<Database>,
   queue: string,
-  msg: { msg_id: number; message: Record<string, unknown> },
+  msg: Pick<QueueMessage, "msg_id" | "message">,
   reason: string,
 ): Promise<void> {
   const payload = msg.message;
@@ -85,7 +99,7 @@ export const Route = createFileRoute("/lovable/email/queue/process")({
           return Response.json({ error: "Forbidden" }, { status: 403 });
         }
 
-        const supabase: SupabaseClient<any, any> = createClient(supabaseUrl, supabaseServiceKey);
+        const supabase: SupabaseClient<Database> = createClient(supabaseUrl, supabaseServiceKey);
 
         // 1. Check rate-limit cooldown and read queue config
         const { data: state } = await supabase
@@ -111,7 +125,7 @@ export const Route = createFileRoute("/lovable/email/queue/process")({
 
         // 2. Process auth_emails first (priority), then transactional_emails
         for (const queue of ["auth_emails", "transactional_emails"]) {
-          const { data: messages, error: readError } = await supabase.rpc("read_email_batch", {
+          const { data: rawMessages, error: readError } = await supabase.rpc("read_email_batch", {
             queue_name: queue,
             batch_size: batchSize,
             vt: 30,
@@ -122,13 +136,14 @@ export const Route = createFileRoute("/lovable/email/queue/process")({
             continue;
           }
 
+          const messages = rawMessages as QueueMessage[] | null;
           if (!messages?.length) continue;
 
           // Retry budget is based on real send failures, not pgmq read_ct.
           const messageIds = Array.from(
             new Set(
               messages
-                .map((msg: any) =>
+                .map((msg) =>
                   msg?.message?.message_id && typeof msg.message.message_id === "string"
                     ? msg.message.message_id
                     : null,

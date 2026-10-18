@@ -1,3 +1,13 @@
+## G0-LINT-FORMAT-03 — bounded batch, 2026-10-18
+
+- [x] Ten accepted handwritten files117formatter→0/0warnings; no new whole-repository classification/count. Saved ranking reused; guide unmodified/excluded after failed method proof, onboarding replacement freshly linted. Initial133 not final117; raw baseline assembly/failures preserved.
+- [x] Exact pinned formatter/source-types/runtime/comments/meaningfulJSX proof and independent nine-control review PASS; suppressions2+2 unchanged/not approved. Existing completed/app/generated/dependency/config/tests/workflow bytes fixed.
+- [x] Local frozen/typecheck/targetlint PASS; unchanged native Quality39123211326 SUCCESS on8916bec5ed6f14159b9323d860ee388b3b485a27, all19steps success perAPI. Rawlog download exit1/0bytes/no establishedHTTPcode; native counts/runnercheckout not claimed, no rerun. Current synthetic tree equals source, not actual merge.
+- [x] Source/claim reconciliation before upload, sole claim55/6249300481; final docs-only delta/manifest checked and linked70/55delivery/closure recorded there. No G1/historicalsecurity/audit/merge/deploy.
+- [ ] Lower saved formatter candidates, guide proof, mixed rules/Hook warnings/inherited suppressions/generated/.cjs and G0/finalsource/affectedG1/integration/release acceptance remain open. No remaining global total inferred.
+
+Report/table/exclusion/evidence/review/rollback in docs/g0-lint-format-03. Additive restore only ten accepted paths from3b4a312 to withdraw, preserving prior fixes. ONE NEXT belongs to planning remaining bounded cleanup, then stable-source identity/affectedG1. Stop after delivery; older checkpoints retained as history.
+
 ## G0-LINT-FORMAT-02 — bounded batch, 2026-10-18
 
 - [x] Saved handwritten ranking reused, no global reclassification. Fresh five-file diagnostics186formatter→0, other errors/warnings0→0; files/counts in docs/g0-lint-format-02/REPORT.md.

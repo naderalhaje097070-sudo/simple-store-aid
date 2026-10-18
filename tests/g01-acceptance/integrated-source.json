@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
-  "base_source": "1f4393e9f8972ecd234df8f8d9c2f250c828034e",
-  "snapshot_tree_before_manifest": "55f46d71a6b2c3d2b08f66b8c0a4ca59ad784d12",
+  "base_source": "44df8e888c966e12ae26900e254b41c7fe1b17d0",
+  "snapshot_tree_before_manifest": "fd35a55edcdf6b997e8d0223b3bf97048d1a6d33",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -70,7 +70,7 @@
     },
     {
       "path": ".github/workflows/g01-runtime-retry.yml",
-      "sha": "c0cb9db261f42fed340ee813ba522b53fcf050fb"
+      "sha": "13f911da2f60ad1ac08778e4348c207de02ab5e3"
     },
     {
       "path": ".github/workflows/integration-g0-inventory.yml",
@@ -609,28 +609,8 @@
       "sha": "a5ef193506d07d0459fec4f187af08283094d7c8"
     },
     {
-      "path": "src/routeTree.gen.ts",
-      "sha": "773224349572a5a572dc387329b846c973b24bab"
-    },
-    {
       "path": "src/router.tsx",
       "sha": "3423d598036579e62f42faec438f868b4bb0bb17"
-    },
-    {
-      "path": "src/routes/[.]lovable.oauth.consent.tsx",
-      "sha": "d59dbb0cb68b13f8085c8f702fb9672156b1c974"
-    },
-    {
-      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
-      "sha": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e"
-    },
-    {
-      "path": "src/routes/[.mcp]/list-tools.ts",
-      "sha": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3"
-    },
-    {
-      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
-      "sha": "ac78a6d33a40bbf0111db81c81a82202c1ffa708"
     },
     {
       "path": "src/routes/__root.tsx",
@@ -655,6 +635,22 @@
     {
       "path": "src/routes/_authenticated/route.tsx",
       "sha": "0eb206f28305c00fa0f9722cdfb7185e88673f1c"
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "sha": "d59dbb0cb68b13f8085c8f702fb9672156b1c974"
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "sha": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e"
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "sha": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3"
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "sha": "ac78a6d33a40bbf0111db81c81a82202c1ffa708"
     },
     {
       "path": "src/routes/api/public/payments/webhook.ts",
@@ -683,6 +679,10 @@
     {
       "path": "src/routes/sitemap[.]xml.ts",
       "sha": "5e45e999063d0feacd7db4e41751de38caa0e10c"
+    },
+    {
+      "path": "src/routeTree.gen.ts",
+      "sha": "773224349572a5a572dc387329b846c973b24bab"
     },
     {
       "path": "src/server.ts",
@@ -1018,7 +1018,7 @@
     },
     {
       "path": "tests/g01-acceptance/egress_trace.py",
-      "sha": "d7f7c359e6c54c19b124a31a27697d40e8d16cd7"
+      "sha": "80d164539a5fa57a052419cfb592c9676cfa5e54"
     },
     {
       "path": "tests/g01-acceptance/g1-source-overrides.json",
@@ -1059,6 +1059,10 @@
     {
       "path": "tests/g01-acceptance/test_integrated_identity.py",
       "sha": "8eb2ba1ab0fd2ec15ac8865c431c60b8130c4812"
+    },
+    {
+      "path": "tests/g01-acceptance/test_process_map.py",
+      "sha": "9a7595b19b8e8eae1b14e63c05b4606c12dcbc2e"
     },
     {
       "path": "tests/gate4/sec-ci/probe.ts",
@@ -1161,4 +1165,3 @@
     "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql": "81d0bfa72c2a59333591ed2236931c4623a740f3"
   }
 }
-

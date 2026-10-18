@@ -14,39 +14,85 @@ class ProcessMap:
     """Only UID, TID/TGID/parent and known executable basenames; no cmdline/env."""
     def __init__(self, uid):
         self.uid=uid; self.rows={}; self.exes={}; self.failed=False; self.done=threading.Event()
+        self.failures = []; self.terminal_tasks = {}
         self.thread=threading.Thread(target=self.monitor,daemon=True)
         self.thread.start()
+
+    def fail(self, reason, tid=None):
+        # Failure is sticky; retain categories/integers only, never stderr or paths.
+        self.failed = True
+        if len(self.failures) < 32:
+            self.failures.append({'reason': reason, 'tid': tid})
+
+    @staticmethod
+    def fields(task):
+        return dict(line.split(':', 1) for line in (task / 'status').read_text().splitlines() if ':' in line)
+
+    def terminal(self, fields, tid):
+        state = fields['State'].strip().split()[0]
+        if state not in {'Z', 'X', 'x'}:
+            return False
+        if tid not in self.terminal_tasks:
+            if len(self.terminal_tasks) >= 1024:
+                self.fail('terminal_observation_limit', tid)
+            else:
+                self.terminal_tasks[tid] = {'tid': tid, 'tgid': int(fields['Tgid']), 'state': state}
+        return True
 
     def monitor(self):
         while not self.done.is_set():
             try:
                 for proc in Path('/proc').iterdir():
-                    if not proc.name.isdigit(): continue
+                    if not proc.name.isdigit():
+                        continue
                     try:
-                        if proc.stat().st_uid != self.uid: continue
-                        if proc.name not in self.exes:
-                            result=subprocess.run(['sudo','readlink',str(proc/'exe')],capture_output=True,text=True,timeout=2)
-                            if result.returncode:
-                                if proc.exists(): self.failed=True
+                        if proc.stat().st_uid != self.uid:
+                            continue
+                        # A terminated leader may retain live threads. Inspect every
+                        # task and resolve the live task's exe, never skip its group.
+                        for task in (proc / 'task').iterdir():
+                            tid = int(task.name)
+                            try:
+                                fields = self.fields(task)
+                                if self.terminal(fields, tid) or tid in self.rows:
+                                    continue
+                                if proc.name not in self.exes:
+                                    result = subprocess.run(['sudo', 'readlink', str(task / 'exe')],
+                                                            capture_output=True, text=True, timeout=2)
+                                    if result.returncode:
+                                        # Only a confirmed exit race is nonfatal. A
+                                        # live task with unreadable identity fails.
+                                        current = self.fields(task)
+                                        if not self.terminal(current, tid):
+                                            self.fail('live_executable_unreadable', tid)
+                                        continue
+                                    self.exes[proc.name] = Path(result.stdout.strip()).name
+                                executable = self.exes[proc.name]
+                                self.rows[tid] = {'tid': tid, 'tgid': int(fields['Tgid']),
+                                    'parent_pid': int(fields['PPid']), 'uid': int(fields['Uid'].split()[0]),
+                                    'first_seen_ms': int(time.time()*1000),
+                                    'executable': executable if executable in {'node', 'workerd', 'strace'} else 'other_executable'}
+                                if len(self.rows) > 1024:
+                                    self.fail('process_map_limit', tid)
+                                    return
+                            except (FileNotFoundError, ProcessLookupError):
                                 continue
-                            self.exes[proc.name]=Path(result.stdout.strip()).name
-                        executable=self.exes[proc.name]
-                        for task in (proc/'task').iterdir():
-                            tid=int(task.name)
-                            if tid in self.rows: continue
-                            fields=dict(line.split(':',1) for line in (task/'status').read_text().splitlines() if ':' in line)
-                            self.rows[tid]={'tid':tid,'tgid':int(fields['Tgid']),'parent_pid':int(fields['PPid']),
-                                'uid':int(fields['Uid'].split()[0]),'first_seen_ms':int(time.time()*1000),
-                                'executable':executable if executable in {'node','workerd','strace'} else 'other_executable'}
-                            if len(self.rows)>1024: raise RuntimeError('process-map limit')
-                    except (FileNotFoundError,ProcessLookupError): continue
+                            except subprocess.TimeoutExpired:
+                                self.fail('executable_read_timeout', tid)
+                            except Exception:
+                                self.fail('task_metadata_unreadable', tid)
+                    except (FileNotFoundError, ProcessLookupError):
+                        continue
             except Exception:
-                self.failed=True; return
+                self.fail('process_scan_unreadable')
+                return
             self.done.wait(.1)
 
     def stop(self):
         self.done.set(); self.thread.join(timeout=2)
-        return {'processes':list(self.rows.values()),'read_failed':self.failed,'monitor_stopped':not self.thread.is_alive()}
+        return {'processes': list(self.rows.values()), 'read_failed': self.failed,
+                'monitor_stopped': not self.thread.is_alive(),
+                'read_failures': self.failures, 'terminal_tasks': list(self.terminal_tasks.values())}
 
 SAFE_NAMES = {'localhost', 'registry.npmjs.org', 'api.cloudflare.com', 'cloudflare.com',
               'www.cloudflare.com', 'dash.cloudflare.com', 'developers.cloudflare.com', 'hashed_hostname'}

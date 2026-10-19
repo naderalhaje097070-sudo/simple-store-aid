@@ -28,20 +28,7 @@ jobs:
         shell: bash
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: |
-          set -euo pipefail
-          base="$BASE_SHA"
-          if [[ -z "$base" || "$base" =~ ^0+$ ]]; then
-            base="$(git rev-parse HEAD^)"
-          fi
-          mapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx|mjs|cjs)$' || true)
-          printf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt
-          if (( ${#files[@]} == 0 )); then
-            echo "No changed JavaScript or TypeScript files to lint."
-            exit 0
-          fi
-          set -o pipefail
-          bunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log
+        run: bash scripts/lint-changed.sh
       - name: Unit tests
         run: bun run test:unit
       - name: Offline server environment boundary
@@ -94,4 +81,3 @@ jobs:
             /tmp/lint-files.txt
             /tmp/lint.log
           if-no-files-found: warn
-

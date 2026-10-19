@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-19",
+  "outcome": "Changes required",
+  "reviewed_source": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b",
+  "documents_source": "1028441558e7db7b0b25390f2b8ee452b702774b",
+  "integration_accepted": false,
+  "findings": [
+    {
+      "id": "APP-01",
+      "severity": "High",
+      "scope": "foundation823; inherited54/72",
+      "claim": "confirmed offline actual container/screens",
+      "summary": "Failed financial reads become healthy zero/no-debt",
+      "owner": "app",
+      "status": "open"
+    },
+    {
+      "id": "APP-02",
+      "severity": "High",
+      "scope": "foundation823; inherited54/72; before paid billing",
+      "claim": "confirmed offline actual webhook supplied-error",
+      "summary": "Persistence failures still acknowledge webhook success",
+      "owner": "app",
+      "status": "open"
+    },
+    {
+      "id": "FIN-01",
+      "severity": "High",
+      "scope": "inherited41schema and49/59",
+      "claim": "source+Postgres cast semantics; no native SQL",
+      "summary": "Fractional quantities do not preserve integer inventory",
+      "owner": "root+independent account peer",
+      "status": "open"
+    },
+    {
+      "id": "FIN-02",
+      "severity": "High",
+      "scope": "future composition49/50 +59/71",
+      "claim": "confirmed conflicting definitions+caller; no native SQL",
+      "summary": "October legacy courier setter overwrites guarded financial adapter",
+      "owner": "root+independent account peer",
+      "status": "open"
+    },
+    {
+      "id": "FIN-03",
+      "severity": "High",
+      "scope": "unmerged50client only",
+      "claim": "actual client callback with model transport; no real DB",
+      "summary": "Ambiguous sale retry silently loses its key after30minutes",
+      "owner": "root",
+      "status": "open"
+    },
+    {
+      "id": "APP-03",
+      "severity": "Medium",
+      "scope": "foundation823; inherited54/72",
+      "claim": "actual tenant query projection fixture",
+      "summary": "Active trial is displayed as expired",
+      "owner": "app",
+      "status": "open"
+    },
+    {
+      "id": "APP-04",
+      "severity": "Medium",
+      "scope": "foundation823; inherited54/72",
+      "claim": "actual day-close memo dependency replay",
+      "summary": "Timezone-only update leaves stale day-close preview",
+      "owner": "app",
+      "status": "open"
+    },
+    {
+      "id": "AC-01",
+      "severity": "Medium",
+      "scope": "final71; inherited scanner",
+      "claim": "source+archived native catalog, no exploit execution",
+      "summary": "Ordinary live users bypass platform scanner admin guard",
+      "owner": "account",
+      "status": "open"
+    },
+    {
+      "id": "AC-02",
+      "severity": "Medium",
+      "scope": "final71; inherited tenant privileges",
+      "claim": "source+archived native catalog; no enforced paywall proven",
+      "summary": "Owner-writable trial/billing fields undermine entitlement helper",
+      "owner": "account",
+      "status": "open"
+    },
+    {
+      "id": "CI-1",
+      "severity": "Medium",
+      "scope": "foundation823; inherited54/72",
+      "claim": "exact selector in temporary real Git fixture",
+      "summary": "Invalid diff base can skip lint successfully",
+      "owner": "ci",
+      "status": "open"
+    }
+  ]
+}

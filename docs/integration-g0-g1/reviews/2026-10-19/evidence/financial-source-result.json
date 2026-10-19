@@ -1,0 +1,34 @@
+{
+  "kind": "static_source_assertions_and_arithmetic_illustration_NOT_SQL_execution",
+  "native_database_or_provider_calls": 0,
+  "checks": {
+    "stock_integer_qty_numeric_schema": true,
+    "stock_nonnegative_constraint_preserved": true,
+    "numeric_qty_core_without_integer_rejection": true,
+    "core_inserts_numeric_line_then_assigns_integer_stock": true,
+    "49_legacy_state_delegates_v2": true,
+    "49_v2_preserves_monotonic_custody": true,
+    "59_replaces_same_legacy_state_with_direct_update": true,
+    "50_revokes_legacy_sale_execute_and59_does_not_regrant": true,
+    "direct_financial_DML_hypothesis_disproved": true,
+    "arithmetic_mismatch_illustration": true
+  },
+  "fractional_example": {
+    "start_stock": "10",
+    "qty": ".25",
+    "price": "100",
+    "line_qty": ".25",
+    "sale_total": "25",
+    "integer_stock_after": "10",
+    "exact_expected_stock_after": "9.75",
+    "four_quarter_lines_integer_stock_after": "10"
+  },
+  "state_collision_example": {
+    "previous": "delivered_full",
+    "stored_custody": 100,
+    "request": "pending",
+    "49_v2": "reject invalid_transition",
+    "59_legacy_source": "sets pending and collected_by_courier=0",
+    "native_execution": false
+  }
+}

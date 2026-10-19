@@ -1,3 +1,20 @@
+## REVIEW-ALL — 2026-10-19
+
+- [x] Complete fresh independent scoped reviews and28PR source/dependency ledger. Outcome: **Changes required**; no merge/release approval. Reports: docs/integration-g0-g1/reviews/2026-10-19.
+- [ ] **ONE NEXT: FIN-READ-FAIL-CLOSED-01 / APP-01 High.** Propagate financial read loading/error/completeness; retain known cached amounts with clear status; no healthy zero/no-debt state for incomplete reads. Actual container/screen regressions, no formula change.
+- [ ] APP-02 High before paid billing: durable, error-aware, retryable/idempotent webhook persistence; no200after failed required work. Test partial failure, replay, event order and environment separation.
+- [ ] FIN-01 High: decide/enforce whole-unit quantities or approved fractional inventory; prove persisted stock/line/return reconciliation on fresh and populated upgrade.
+- [ ] FIN-02 High: forward integration migration preserves both canonical courier transitions and live-actor checks; same effective body/ACL on fresh+upgrade; reject backward state/custody decrease without settlement.
+- [ ] FIN-03 High before Idempotency acceptance: unresolved logical sale key survives30minutes/reload/ambiguous result; explicit reconciliation/new-operation lifecycle; real isolated single-effect tests.
+- [ ] APP-03 Medium: truthful trial projection, loading/error/expired states.
+- [ ] APP-04 Medium: day-close timezone/date memo inputs and parent dependencies; compare preview with stored close.
+- [ ] AC-01 Medium: scanner trusted-caller/admin guard survives SECURITY DEFINER; preserve approved service/cron and inactive-account denial.
+- [ ] AC-02 Medium: reserve trusted billing/trial columns, including onboarding INSERT; trace consumers before claiming paywall protection.
+- [ ] CI-1 Medium: fail changed-file discovery on git errors; preserve valid no-source diffs and all six source extensions.
+- [ ] Compose accepted account/financial candidates, then prove one frozen RC: fresh/populated upgrade, concurrency, restore, operations and Pilot gates. No merge/deploy/closure approval; integration_accepted=false.
+
+Five High and five Medium distinct findings; the financial peer addendum does not double-count FIN-01/02. Exact source, evidence levels, actual tests, rejected hypotheses and rollback/limits in the four reports and findings.json. Native G0/G1 remain valid on823cbcaf only. Historical records below are preserved.
+
 ## INTEGRATION-RESUME checkpoint — 2026-10-18
 
 - [x] Candidate-only G0: native full lint0errors/13warnings and fullaudit exit0 on823cbcaf; locked contracts/types/generator/build invariance and mjs/cjs coverage; run39172903511.

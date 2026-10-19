@@ -1,0 +1,47 @@
+[
+  {
+    "path": "src/integrations/lovable/index.ts",
+    "sha256": "ed4c315b40f5f97640da9c41cfb85360471cd8d6c3918cb921003baee7817361",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/integrations/supabase/auth-attacher.ts",
+    "sha256": "6f3a336700721b5cbf9235fb18b9575cdb5d1f55e4656b2f4a3cadc7ae81b8eb",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/integrations/supabase/auth-middleware.ts",
+    "sha256": "3a3095c529924a4663ee2eb110c2c01ac9e8e7ec678ed9691a37722a837ddbde",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/integrations/supabase/client.server.ts",
+    "sha256": "a0e67c35be0648dddc2e4646cc5fe7d4f345406e272a0474b2d6e94781178b1f",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/integrations/supabase/client.ts",
+    "sha256": "1aefd6de51f1b3cfb570636f376a35da86ab21ade7c9cd7c1f67053622d27834",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+    "sha256": "b13ea7fa83dc6eda13cb7ca6738b029715416ffd4aa6d39f8bd0caf1ac94c936",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/routes/[.mcp]/list-tools.ts",
+    "sha256": "d9091c6fdb21174dc63335dd8b2d681177ea25f93625e4db00bf927ae215777d",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+    "sha256": "56b9e00dea2c053af9408b7e34cd2c1aca44a67f7bedf9e04444d738915f16de",
+    "exact_after_match": true
+  },
+  {
+    "path": "src/routes/mcp.ts",
+    "sha256": "901b6b33d9d0b270bc3781bd92e51980d1aae343f564a395a2526034b7bdbbca",
+    "exact_after_match": true
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "source": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b",
+  "all41_exact_git_blobs": true,
+  "source_cache_eof_transport_mismatches": [
+    "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+    "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+    "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+    "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+    "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+    "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+    "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+    "supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+    "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+    "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+    "supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+    "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+    "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+    "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+    "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+    "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+    "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+    "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+    "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+    "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql"
+  ],
+  "note": "Only reconstructed bytes whose full Git blob SHA exactly matches fresh remote tree were copied; no source/test/CI normalization."
+}

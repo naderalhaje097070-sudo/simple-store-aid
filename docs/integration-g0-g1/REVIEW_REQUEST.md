@@ -1,3 +1,5 @@
+> Review completed on2026-10-19: **Changes required**, not approval. See [independent review summary](reviews/2026-10-19/REVIEW_SUMMARY.md), exact-source subreviews and currentstate. The request below is retained as the historical handoff.
+
 # Independent review request — blocked until reviewed
 
 Review candidate823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b on integration/g0-g1-reconcile-2026-10-18, against original72 6da4dadbe9391bb48c8c4c41dcb688728003fb81, then its inherited delta against54/main. Read current55/70 claims first. Read-only review; do not implement/trigger new full historical suites/merge/deploy. Do not label implementation's own proof an independent review.

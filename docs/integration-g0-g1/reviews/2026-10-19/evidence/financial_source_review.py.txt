@@ -1,0 +1,46 @@
+"""Source assertions and arithmetic illustration only; never a PostgreSQL run."""
+from pathlib import Path
+from decimal import Decimal, ROUND_HALF_UP
+import hashlib
+import json
+
+root = Path(__file__).resolve().parent
+a = (root / 'supabase/migrations/20260815170000_fin_courier_pr_a.sql').read_text()
+b = (root / 'supabase/migrations/20260815171000_fin_idem_sale_create.sql').read_text()
+c = (root / 'supabase/migrations/20261010223557_enforce_live_account_state.sql').read_text()
+schema = root / 'schema/supabase/migrations'
+all_schema = '\n'.join(p.read_text() for p in sorted(schema.glob('*.sql')))
+checks = {}
+
+def check(name, condition):
+    assert condition, name
+    checks[name] = True
+
+check('stock_integer_qty_numeric_schema', 'stock integer NOT NULL' in all_schema and 'qty numeric(12,2) NOT NULL CHECK (qty > 0)' in all_schema)
+check('stock_nonnegative_constraint_preserved', 'CHECK (stock >= 0) NOT VALID' in all_schema)
+check('numeric_qty_core_without_integer_rejection', 'v_qty numeric(12,2);' in a and 'v_qty <= 0' in a and 'trunc(v_qty)' not in a)
+check('core_inserts_numeric_line_then_assigns_integer_stock', 'v_prod.name, v_qty, v_prod.price, v_prod.cost' in a and 'SET stock = stock - v_qty' in a)
+check('49_legacy_state_delegates_v2', 'RETURN public.update_courier_outcome_v2(p_order_id, v_state, p_collected, NULL)' in a)
+check('49_v2_preserves_monotonic_custody', 'custody_cannot_decrease' in a and "v_order.courier_state = 'delivered_partial' AND p_state = 'delivered_full'" in a)
+late = c[c.index('CREATE OR REPLACE FUNCTION public.update_courier_order_state('):]
+check('59_replaces_same_legacy_state_with_direct_update', 'UPDATE public.orders' in late and 'SET courier_state = v_state' in late and 'update_courier_outcome_v2' not in late and 'custody_cannot_decrease' not in late)
+check('50_revokes_legacy_sale_execute_and59_does_not_regrant', 'REVOKE EXECUTE ON FUNCTION public.create_sale_with_items(' in b and 'GRANT EXECUTE ON FUNCTION public.create_sale_with_items(' not in c)
+check('direct_financial_DML_hypothesis_disproved', all(f'REVOKE INSERT, UPDATE, DELETE ON public.{t}' in all_schema for t in ('orders', 'order_items', 'payments')))
+
+stock = Decimal('10')
+qty = Decimal('.25')
+stock_after_one = (stock - qty).quantize(Decimal('1'), rounding=ROUND_HALF_UP)
+stock_after_four = stock
+for _ in range(4):
+    stock_after_four = (stock_after_four - qty).quantize(Decimal('1'), rounding=ROUND_HALF_UP)
+check('arithmetic_mismatch_illustration', stock_after_one == 10 and stock_after_four == 10)
+result = {'kind': 'static_source_assertions_and_arithmetic_illustration_NOT_SQL_execution',
+          'native_database_or_provider_calls': 0, 'checks': checks,
+          'fractional_example': {'start_stock': '10', 'qty': '.25', 'price': '100',
+            'line_qty': '.25', 'sale_total': '25', 'integer_stock_after': str(stock_after_one),
+            'exact_expected_stock_after': str(stock-qty), 'four_quarter_lines_integer_stock_after': str(stock_after_four)},
+          'state_collision_example': {'previous': 'delivered_full', 'stored_custody': 100,
+            'request': 'pending', '49_v2': 'reject invalid_transition',
+            '59_legacy_source': 'sets pending and collected_by_courier=0', 'native_execution': False}}
+(root / 'financial-source-result.json').write_text(json.dumps(result, indent=2) + '\n')
+print(json.dumps({'static_assertions': len(checks), 'passed': all(checks.values()), 'native_database_calls': 0}))

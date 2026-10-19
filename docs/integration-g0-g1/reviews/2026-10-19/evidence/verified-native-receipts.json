@@ -1,0 +1,171 @@
+[
+  {
+    "label": "success",
+    "zip_sha256": "02ad1526cc023bff4c22af68752fd6fad3e53066a30ae79bf8e07e4aff87d458",
+    "source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b",
+    "checks": 40,
+    "passed_checks": 40,
+    "failed_checks": [],
+    "native_phase_counters": {
+      "before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "matching_ready": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "after_auth_ui": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "after_conflict_stopped": {
+        "ipv4": 1,
+        "ipv6": 0
+      }
+    },
+    "conflict_guard_receipt": {
+      "status": 500,
+      "response_sha256": "7bda1ad24ab9d11b6b7039b1296d95982eee5cd6812224564749812b040c010a",
+      "private_log_sha256": "1292ccb34e0e4acbd5fcf59535e056ecf985baf8471903dd6418ae55f06c683c",
+      "exact_expected_guard_present": true,
+      "known_guard_categories": [
+        "build_runtime_supabase_mismatch"
+      ],
+      "unclassified_error": false,
+      "passed": true,
+      "format_only_normalization": "ANSI controls removed; whitespace collapsed; full phrase unchanged"
+    },
+    "trace_summary": {
+      "matching": {
+        "trace_complete": true,
+        "unmapped_nonloopback_tids": [],
+        "read_failed": false,
+        "monitor_stopped": true,
+        "terminal_tasks": [
+          {
+            "tid": 8665,
+            "tgid": 8665,
+            "state": "Z"
+          },
+          {
+            "tid": 8683,
+            "tgid": 8683,
+            "state": "Z"
+          },
+          {
+            "tid": 8690,
+            "tgid": 8690,
+            "state": "Z"
+          },
+          {
+            "tid": 8735,
+            "tgid": 8735,
+            "state": "Z"
+          }
+        ],
+        "read_failures": []
+      },
+      "conflict": {
+        "trace_complete": true,
+        "unmapped_nonloopback_tids": [],
+        "read_failed": false,
+        "monitor_stopped": true,
+        "terminal_tasks": [
+          {
+            "tid": 9179,
+            "tgid": 9179,
+            "state": "Z"
+          },
+          {
+            "tid": 9191,
+            "tgid": 9191,
+            "state": "Z"
+          }
+        ],
+        "read_failures": []
+      }
+    },
+    "cleanup": {
+      "status_removed": true,
+      "worker_env_removed": true,
+      "processes_removed": true,
+      "containers_removed": true,
+      "process_state": "no_processes",
+      "container_state": "absent",
+      "source_sha": "823cbcaf4a83ae8b4bea44e314df4c1215a9ba3b",
+      "passed": true
+    }
+  },
+  {
+    "label": "failed",
+    "zip_sha256": "03a8366bf79cd9ce83efd87b02a85170116ce3d4a2543c2e957090b22906fd9e",
+    "source_sha": "44df8e888c966e12ae26900e254b41c7fe1b17d0",
+    "checks": 40,
+    "passed_checks": 39,
+    "failed_checks": [
+      {
+        "name": "bounded_egress_trace_collected",
+        "passed": false
+      }
+    ],
+    "native_phase_counters": {
+      "before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "matching_ready": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "after_auth_ui": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "after_conflict_stopped": {
+        "ipv4": 1,
+        "ipv6": 0
+      }
+    },
+    "conflict_guard_receipt": {
+      "status": 500,
+      "response_sha256": "7bda1ad24ab9d11b6b7039b1296d95982eee5cd6812224564749812b040c010a",
+      "private_log_sha256": "38610cac4116dc25529d8bf5587dbe2d18913dd95cc0557c6de19433dd41afe8",
+      "exact_expected_guard_present": true,
+      "known_guard_categories": [
+        "build_runtime_supabase_mismatch"
+      ],
+      "unclassified_error": false,
+      "passed": true,
+      "format_only_normalization": "ANSI controls removed; whitespace collapsed; full phrase unchanged"
+    },
+    "trace_summary": {
+      "matching": {
+        "trace_complete": true,
+        "unmapped_nonloopback_tids": [],
+        "read_failed": false,
+        "monitor_stopped": true,
+        "terminal_tasks": null,
+        "read_failures": null
+      },
+      "conflict": {
+        "trace_complete": true,
+        "unmapped_nonloopback_tids": [],
+        "read_failed": true,
+        "monitor_stopped": true,
+        "terminal_tasks": null,
+        "read_failures": null
+      }
+    },
+    "cleanup": {
+      "status_removed": true,
+      "worker_env_removed": true,
+      "processes_removed": true,
+      "containers_removed": true,
+      "process_state": "no_processes",
+      "container_state": "absent",
+      "source_sha": "44df8e888c966e12ae26900e254b41c7fe1b17d0",
+      "passed": true
+    }
+  }
+]

@@ -1,3 +1,11 @@
+## 2026-10-19 — independent review disposition
+
+Owner requested review of previous work. Three fresh independent scoped reviewers and the lead financial/dependency review recorded **Changes required** (5High,5Medium after deduplication) under docs/integration-g0-g1/reviews/2026-10-19. No approval for human merge or release. Current mechanical G0/G1 results remain valid on823cbcaf, while inherited defects and untested composition keep integration_accepted=false.
+
+Missing financial reads must not imply zero; successful webhook HTTP must not imply durable persistence; a same-key server contract does not prove that clients preserve unresolved logical keys; separate green migrations do not prove compatible final functions. Preserve explicit quantity/stock and courier-transition contracts. Static/catalog/offline fixtures are not new SQL/production execution. Reject direct-DML, unconditional integer duplicate oversell and permission-resurrection hypotheses where effective revokes/checks/ACL contradict them.
+
+ONE NEXT is bounded FIN-READ-FAIL-CLOSED-01 under standing owner execution authorization. That task must not change formulas, SQL, providers or quantity policy. Other findings require their own scope and gates. Medium dispositions must be explicit; High findings block their scoped acceptance. No quantity/trial/retention/provider policy, protected merge/deploy or new spending decision was made. Original PRs/main and runtime source/lock are untouched; publication is reports/evidence/state only and does not imply a new native CI run.
+
 ## 2026-10-18 — Candidate integration mechanics, no protected policy change
 
 Standing owner authorization allows routine preparation on isolated integration/g0-g1-reconcile-2026-10-18; no merge/deploy authorization. Candidate823cbcaf passes native mechanicalG0/affectedG1 on oneSHA, but is not on main and has no freshGate6independent review. integration_accepted=false.

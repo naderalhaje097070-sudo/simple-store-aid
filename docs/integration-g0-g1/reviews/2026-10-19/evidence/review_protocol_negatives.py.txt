@@ -1,0 +1,84 @@
+"""Independent offline protocol controls; formatter is an explicit deterministic stub."""
+import ast
+import hashlib
+import json
+from pathlib import Path
+import shutil
+import subprocess
+import tempfile
+from types import SimpleNamespace
+
+HERE = Path(__file__).resolve().parent
+SOURCE = HERE / 'source'
+results = []
+
+def digest(value):
+    return hashlib.sha256(value.encode()).hexdigest()
+
+manifest = json.loads((SOURCE/'scripts/generated-format-manifest.json').read_text())
+with tempfile.TemporaryDirectory(dir=HERE, prefix='format-protocol-') as temp:
+    root = Path(temp)
+    (root/'scripts').mkdir()
+    shutil.copyfile(SOURCE/'scripts/format-generated.mjs', root/'scripts/format-generated.mjs')
+    package = root/'node_modules/prettier'
+    package.mkdir(parents=True)
+    (package/'package.json').write_text(json.dumps({'name':'prettier','version':'3.8.3','type':'module','exports':'./index.mjs'}))
+    (package/'index.mjs').write_text('''import fs from 'node:fs';
+export const version = process.env.FIXTURE_VERSION || '3.8.3';
+export async function resolveConfig() { return {}; }
+export async function format(before, {filepath}) {
+  if (process.env.FIXTURE_THROW && filepath.endsWith(process.env.FIXTURE_THROW)) throw Error('fixture format failure');
+  return before.trim() + '\\n';
+}
+''')
+    fixture = {'formatter':'3.8.3','files':[]}
+    for i, item in enumerate(manifest['files']):
+        before=f' const fixture{i} = {i}; '
+        after=before.strip()+'\n'
+        fixture['files'].append({'path':item['path'],'beforeSha256':digest(before),'afterSha256':digest(after)})
+    def reset():
+        for i, item in enumerate(fixture['files']):
+            p=root/item['path'];p.parent.mkdir(parents=True,exist_ok=True)
+            if p.is_symlink(): p.unlink()
+            p.write_text(f' const fixture{i} = {i}; ')
+        (root/'scripts/generated-format-manifest.json').write_text(json.dumps(fixture))
+    def snapshot():
+        return {x['path']:(root/x['path']).read_bytes() for x in fixture['files']}
+    def run(name,args=(),env=None,should_pass=False):
+        import os
+        before=snapshot()
+        r=subprocess.run(['node',str(root/'scripts/format-generated.mjs'),*args],cwd=root,capture_output=True,text=True,
+                         env={**os.environ,**(env or {})},timeout=15)
+        assert (r.returncode==0)==should_pass,(name,r.stdout,r.stderr)
+        if not should_pass: assert snapshot()==before,name+' made partial writes'
+        results.append({'name':name,'passed':True,'exit_code':r.returncode,'writes_unchanged_on_failure':not should_pass})
+    reset();run('known_batch_writes',should_pass=True);run('idempotent_check',['--check'],should_pass=True)
+    reset();run('unknown_cli_argument',['--unknown'])
+    reset();run('formatter_version_drift',env={'FIXTURE_VERSION':'0.0.0'})
+    reset();last=root/fixture['files'][-1]['path'];last.write_text('unreviewed fixture')
+    run('late_unknown_input_no_partial_write')
+    reset();run('late_formatter_failure_no_partial_write',env={'FIXTURE_THROW':fixture['files'][-1]['path']})
+    reset();changed=json.loads(json.dumps(fixture));changed['files'][-1]['afterSha256']='0'*64
+    (root/'scripts/generated-format-manifest.json').write_text(json.dumps(changed));run('late_unexpected_output_no_partial_write')
+    reset();changed=json.loads(json.dumps(fixture));changed['files'][-1]=dict(changed['files'][0])
+    (root/'scripts/generated-format-manifest.json').write_text(json.dumps(changed));run('duplicate_scope_no_partial_write')
+    reset();last=root/fixture['files'][-1]['path'];target=root/'fixture-target';target.write_bytes(last.read_bytes());last.unlink();last.symlink_to(target)
+    run('symlink_no_partial_write')
+
+# Exercise the exact production stop() body without importing runtime side effects.
+tree=ast.parse((SOURCE/'tests/g01-acceptance/runtime.py').read_text())
+stop=next(x for x in tree.body if isinstance(x,ast.FunctionDef) and x.name=='stop')
+with tempfile.TemporaryDirectory(dir=HERE,prefix='stop-protocol-') as temp:
+    for address,mapped,expected in [(False,[],False),(False,[77],True),(True,[],True)]:
+        lineage={'processes':[{'tid':tid} for tid in mapped],'read_failed':False,'monitor_stopped':True,'terminal_tasks':[{'tid':77}]}
+        ns={'subprocess':SimpleNamespace(run=lambda *a,**k:None),'process':None,
+            'trace_state':('fixture',1,{},SimpleNamespace(stop=lambda:lineage)),
+            'collect_trace':lambda *a:{'trace_complete':True,'syscalls':{'events':[{'tid':77,'loopback':address}]}},
+            'counters':lambda:{},'out':Path(temp),'record':{},'json':json}
+        exec(compile(ast.Module(body=[stop],type_ignores=[]),'<candidate-stop>','exec'),ns)
+        ns['stop']();receipt=json.loads((Path(temp)/'egress-fixture.json').read_text())
+        assert receipt['trace_complete']==expected
+        results.append({'name':f'nonloopback_map_{address}_{bool(mapped)}','passed':True,'trace_complete':expected})
+
+(HERE/'independent-protocol-results.json').write_text(json.dumps({'formatter_is_stub':True,'results':results},indent=2)+'\n')
+print(json.dumps({'controls':len(results),'passed':True,'formatter_is_stub':True}))

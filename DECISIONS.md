@@ -1,3 +1,9 @@
+## FOUNDATION-A — preserve acceptance boundaries during resume, 2026-10-19
+
+Owner authorized resuming the existing A/B/C plan after Work stalled. Recovered local APP-01 is verified against canonical remote blobs and continued on the existing integration branch, without altering original72/main or creating another PR. Four bounded functional corrections have separate source commits; the final source snapshot/regrression wiring is fabb481. Evidence is additive.
+
+A source snapshot and local passing tests are not independent review, native acceptance or main completion. Whole-file equivalence is no longer claimed for intentionally changed read/trial/clock declarations: keep unchanged declarations/arithmetic/wire checks, targeted actual-source regressions and independent review of that proof change. Lock/dependencies and all41SQL remain unchanged. Native queue/browser availability and stored close-day comparison remain visible blockers. A6→A7→ownerA8 remains mandatory before B; no merge/deploy/policy/spending approval is inferred.
+
 ## 2026-10-19 — independent review disposition
 
 Owner requested review of previous work. Three fresh independent scoped reviewers and the lead financial/dependency review recorded **Changes required** (5High,5Medium after deduplication) under docs/integration-g0-g1/reviews/2026-10-19. No approval for human merge or release. Current mechanical G0/G1 results remain valid on823cbcaf, while inherited defects and untested composition keep integration_accepted=false.

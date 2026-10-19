@@ -1,3 +1,19 @@
+## FOUNDATION-A checkpoint — 2026-10-19
+
+Standing owner instruction: finish the existing28PRs through A8/B15/C5; no routine reconfirmation, protected merge/deploy/policy decisions remain owner-only. Canonical simple-store-aid on naderalhaje097070-sudo.
+
+- [x] A1 APP-01 candidate source preserved;34actual-source local read cases pass.
+- [x] A2 APP-03 candidate source preserved;13query/projection/billing cases pass.
+- [x] A3 APP-04 candidate source preserved;4stable-data clock/timezone cases pass.
+- [x] A4 CI-1 candidate source preserved;5Git/real-ESLint cases pass.
+- [x] A5 candidate regression wiring,288-path snapshot and unchanged41SQL/package/lock reconciliation recorded.
+- [ ] A6 exact fabb481 native G0/G1/browser/build/generation evidence; queued runs39281934875/39281934868. Stored isolated close-day result comparison also remains.
+- [ ] A7 fresh independent review including updated runtime compatibility proof; no self-approval.
+- [ ] A8 owner merge decision, then evidence-backed disposition of A's8PRs.
+- [ ] B15andC5 remain queued under70/6263266625; no accepted closure/release claimed.
+
+ONE NEXT: A6 only. Full report and actual failure/success receipts in docs/foundation-a-2026-10-19. Local browser403block and nonlocked build/invariance limits are explicit; do not reuse823native PASS for changed source.
+
 ## REVIEW-ALL — 2026-10-19
 
 - [x] Complete fresh independent scoped reviews and28PR source/dependency ledger. Outcome: **Changes required**; no merge/release approval. Reports: docs/integration-g0-g1/reviews/2026-10-19.

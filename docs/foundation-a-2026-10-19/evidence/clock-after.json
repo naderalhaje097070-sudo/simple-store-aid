@@ -1,0 +1,23 @@
+{
+  "results": [
+    {
+      "name": "parent timezone-only refresh recomputes stable financial arrays",
+      "passed": true
+    },
+    {
+      "name": "day-close timezone-only refresh recomputes stable props",
+      "passed": true
+    },
+    {
+      "name": "clock invalidates parent day at rollover without financial refetch",
+      "passed": true
+    },
+    {
+      "name": "day-close same timezone new day invalidates preview",
+      "passed": true
+    }
+  ],
+  "passed": 4,
+  "total": 4,
+  "scope": "Actual parent and DayClose memo bodies with persistent Object.is hook fixture, stable arrays, synthetic clock; no browser/database close RPC"
+}

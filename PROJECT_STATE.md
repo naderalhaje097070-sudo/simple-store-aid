@@ -1,3 +1,13 @@
+## FOUNDATION-A — implementation preserved; acceptance pending, 2026-10-19
+
+Canonical repository naderalhaje097070-sudo/simple-store-aid; existing integration/g0-g1-reconcile-2026-10-18. Owner continuation after stalled Work session recovered APP-01 and completed bounded APP-01/APP-03/APP-04/CI-1 source candidates. Final acceptance source fabb481836f2f79d8feeda5e407147a66b76ea25; source commits f72b452,5526025,d706b110,f44972c9 plus acceptance wiring/snapshot. Original72/main remain unchanged;28PRs open,0closed/merged in cleanup.
+
+Actual local: APP34/34,trial13/13,clock4/4,Git/ESLint5/5,identity16/16,callback10 and two unchanged financial memo bodies. Typecheck/changed-source lint pass on available local tooling. Native G0/G1 final-source runs39281934875/39281934868 queued without runner/steps at checkpoint; old823results are historical. Browser install403blocked;8browser cases wired in CI, not locally executed. Local build exit0 is not locked-native/invariance proof: available esbuild differs from lock and generator reordered routeTree, which was not published. No stored isolated close-day result comparison or fresh independent A7review.
+
+Report/impact/review request/failure and success receipts: docs/foundation-a-2026-10-19. Snapshot288protected blobs/41originalSQL; dependencies/SQL/RPC/formulas/providers unchanged. New snapshot pins identity only, not independent approval. Outcome Blocked pending missing evidence; integration_accepted=false. No merge/deploy/production, PR creation/closure, history rewrite or cost configuration.
+
+ONE NEXT: A6 final-source acceptance evidence on fabb481, then A7independent review and owner A8decision before B. The implementation claim is handed off without hidden file ownership; continuation must freshly verify head/claims. The approved A/B/C checklist70/6263266625 remains authoritative; do not restart triage or expand to B/C before A acceptance.
+
 ## REVIEW-ALL — independent review completed, 2026-10-19
 
 Owner requested review of previous work; read-only claim55/6262477661. Three fresh independent reviewers covered application/contracts, CI/source/generation/trace, and the account chain. The lead reviewed financial49/50 and dependencies; two financial source findings received an additional independent challenge. All28open PR relationships were reconciled. Reviewed sources: foundation823cbcaf/docs1028441558; account final71/7f74b704; financial49/3106b471→50/193412a0. These remain separate unmerged candidates.

@@ -1,0 +1,5 @@
+# Approved foundation A intake and design
+
+Authority: owner continuation on19October and checklist70/6263266625. Same canonical repo and integration branch; resume existing APP-01 work rather than duplicate it. Risk: high financial presentation/operation-precondition correctness; no financial formula, RPC/SQL/RLS/provider/dependency or commercial-policy change. Scope APP-01,APP-03,APP-04,CI-1 plus their acceptance wiring. Owner protected merge/deploy/policy/spending decisions remain unchanged.
+
+Baseline reproductions: failed-read4/16; trial3/13; timezone/day0/4; Git discovery4/5. Root causes and expected behavior in REPORT. Smallest design: reuse query statuses; explicit incomplete cached state; guard only dependent actions; fetch actual trial column; shared day/date invalidation with existing arithmetic; preserve git failure before filtering. Boundary tests precede each new repair; original failures retained. A7independent review and A8owner decision remain required. Rollback: additive restore of22source paths and snapshot together; no stored-data compensation. Applicable Gates0–5 are implementation records, not acceptance or independent approval.

@@ -110,6 +110,7 @@ export interface AppCtx {
   /* Tenant */
   tenantId: string | null | undefined;
   tenantTz: string;
+  todayKey: string;
   tenantSettings: TenantSettings;
 
   /* Mutations (loose Promise<any> to keep parity with current ctx) */

@@ -267,7 +267,17 @@ function MongezzApp() {
 
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
-  const todayKey = tenantTodayKey(tenantTz);
+  const [clockNow, setClockNow] = useState(() => Date.now());
+  useEffect(() => {
+    const refreshClock = () => setClockNow(Date.now());
+    const timer = setInterval(refreshClock, 30_000);
+    window.addEventListener("focus", refreshClock);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("focus", refreshClock);
+    };
+  }, []);
+  const todayKey = tenantTodayKey(tenantTz, new Date(clockNow));
   const dayCloses = dbDayCloses ?? [];
   const closedToday = dayCloses.some((d) => d.closedFor === todayKey);
   const setClosedToday = (_: boolean) => {};
@@ -298,13 +308,13 @@ function MongezzApp() {
   const tzDateKey = (iso?: string) =>
     iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
   const periodStart = useMemo(() => {
-    const d = new Date();
+    const d = new Date(clockNow);
     if (period === "day") return 0; // unused for day; filtering goes through tzDateKey
     const days = period === "week" ? 7 : 30;
     d.setDate(d.getDate() - days + 1);
     d.setHours(0, 0, 0, 0);
     return d.getTime();
-  }, [period]);
+  }, [period, clockNow]);
 
   const inPeriod = (iso?: string) => {
     if (!iso) return false;
@@ -365,7 +375,7 @@ function MongezzApp() {
       openOnYou,
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [invoices, expenses, payments, periodStart]);
+  }, [invoices, expenses, payments, periodStart, period, tenantTz, todayKey]);
 
   const scaledTotals = totals; // backward-compat alias; period filtering is now real
 
@@ -492,6 +502,7 @@ function MongezzApp() {
     dayCloses,
     tenantId,
     tenantTz,
+    todayKey,
     tenantSettings,
     closeDayAsync: async (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => {
       requireFinancialReads(allFinancialReads);
@@ -2421,7 +2432,7 @@ function DayCloseScreen(p: AppScreenContext) {
   const t = useMemo(() => {
     const tzKey = (iso?: string) =>
       iso ? new Intl.DateTimeFormat("en-CA", { timeZone: tenantTz }).format(new Date(iso)) : "";
-    const todayKey = tenantTodayKey(tenantTz);
+    const todayKey = p.todayKey;
     const isToday = (iso?: string) => !!iso && tzKey(iso) === todayKey;
     const invs: Invoice[] = (p.invoices ?? []).filter((i: Invoice) => isToday(i.createdAt));
     const pays: Payment[] = (p.payments ?? []).filter((pm: Payment) => isToday(pm.createdAt));
@@ -2456,7 +2467,7 @@ function DayCloseScreen(p: AppScreenContext) {
       unsettledCustody,
       cashToday,
     };
-  }, [p.invoices, p.payments, p.expenses, p.rawTotals, p.totals]);
+  }, [p.invoices, p.payments, p.expenses, p.rawTotals, p.totals, tenantTz, p.todayKey]);
   const Row = ({
     label,
     v,

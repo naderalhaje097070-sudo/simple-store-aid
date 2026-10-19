@@ -134,10 +134,10 @@ export function useUpdateTenantTimezone(tenantId: string | null | undefined) {
 }
 
 /* ---------- today helpers (tenant timezone) ---------- */
-export function tenantTodayKey(timezone: string | null | undefined): string {
+export function tenantTodayKey(timezone: string | null | undefined, at: Date = new Date()): string {
   const tz = timezone || "Africa/Tripoli";
   // en-CA returns YYYY-MM-DD
-  return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(new Date());
+  return new Intl.DateTimeFormat("en-CA", { timeZone: tz }).format(at);
 }
 
 export function useTenantTodayEstimate(tenantId: string | null | undefined) {

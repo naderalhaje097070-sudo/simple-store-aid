@@ -20,6 +20,7 @@ import type { AppCtx } from "@/features/shared/AppContext";
 import { StatusChip } from "@/features/shared/StatusChip";
 import { Sheet } from "@/features/shared/Sheet";
 import { Money, fmt } from "@/features/shared/Money";
+import { FinancialReadNotice } from "@/features/shared/FinancialReadBoundary";
 import { TopBar } from "@/features/layout/TopBar";
 import {
   canCollectCustomerDebtForInvoice,
@@ -43,6 +44,8 @@ export function InvoiceDetailScreen(p: AppCtx) {
   useEffect(() => {
     ensureInvoiceFont();
   }, []);
+  const canUseBalance = p.financialReads.invoices.complete;
+  const canExport = canUseBalance && p.financialReads.payments.complete;
   const inv: Invoice | undefined = p.invoices.find((i: Invoice) => i.id === p.openInvoiceId);
   if (!inv)
     return (
@@ -64,7 +67,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
 
   const submitCollect = async () => {
     const a = Number(collectAmt);
-    if (!canCollectCustomerDebt || !a || a <= 0 || a > customerRemaining) return;
+    if (!canUseBalance || !canCollectCustomerDebt || !a || a <= 0 || a > customerRemaining) return;
     try {
       await p.collectDebtAsync({
         orderId: inv.id,
@@ -246,6 +249,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
             status: inv.status,
           };
           const handlePdf = async () => {
+            if (!canExport) return;
             setPdfBusy(true);
             try {
               await downloadInvoicePdf(data);
@@ -259,9 +263,13 @@ export function InvoiceDetailScreen(p: AppCtx) {
           };
           return (
             <>
+              <FinancialReadNotice
+                reads={[p.financialReads.payments]}
+                onRetry={p.retryFinancialReads}
+              />
               <div className="grid grid-cols-2 gap-2">
                 <button
-                  disabled={pdfBusy}
+                  disabled={pdfBusy || !canExport}
                   onClick={handlePdf}
                   className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5 disabled:opacity-50"
                 >
@@ -269,7 +277,10 @@ export function InvoiceDetailScreen(p: AppCtx) {
                   {pdfBusy ? "..." : "تحميل PDF"}
                 </button>
                 <button
-                  onClick={() => printInvoice(data)}
+                  disabled={!canExport}
+                  onClick={() => {
+                    if (canExport) printInvoice(data);
+                  }}
                   className="rounded-2xl bg-card border border-border py-3 font-bold text-sm flex items-center justify-center gap-1.5"
                 >
                   <Printer className="w-4 h-4" />
@@ -278,7 +289,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
               </div>
               {canCollectCustomerDebt && (
                 <button
-                  disabled={customerRemaining <= 0}
+                  disabled={customerRemaining <= 0 || !canUseBalance}
                   onClick={() => setCollectOpen(true)}
                   className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
                 >
@@ -292,6 +303,10 @@ export function InvoiceDetailScreen(p: AppCtx) {
 
       {collectOpen && (
         <Sheet onClose={() => setCollectOpen(false)} title="تحصيل دفعة">
+          <FinancialReadNotice
+            reads={[p.financialReads.invoices]}
+            onRetry={p.retryFinancialReads}
+          />
           <div className="space-y-3">
             <div className="text-sm text-muted-foreground">
               المتبقي: <Money v={customerRemaining} className="text-debt" />
@@ -324,7 +339,9 @@ export function InvoiceDetailScreen(p: AppCtx) {
               </div>
             </div>
             <button
-              disabled={!Number(collectAmt) || Number(collectAmt) > customerRemaining}
+              disabled={
+                !canUseBalance || !Number(collectAmt) || Number(collectAmt) > customerRemaining
+              }
               onClick={submitCollect}
               className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
             >

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TopBar } from "@/features/layout/TopBar";
-import { Money } from "@/features/shared/Money";
+import { FinancialReadNotice, FinancialAmount } from "@/features/shared/FinancialReadBoundary";
 import type { Courier, Invoice } from "@/features/shared/types";
 import type { AppCtx } from "@/features/shared/AppContext";
 
@@ -20,6 +20,7 @@ export function CouriersScreen(p: AppCtx) {
     <>
       <TopBar title="المندوبون" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
+        <FinancialReadNotice reads={[p.financialReads.invoices]} onRetry={p.retryFinancialReads} />
         <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
           {p.couriers.map((c: Courier) => {
             const list = p.invoices.filter((i: Invoice) => i.courierId === c.id);
@@ -44,12 +45,22 @@ export function CouriersScreen(p: AppCtx) {
                 <div className="flex-1 min-w-0">
                   <div className="font-bold text-sm truncate">{c.name}</div>
                   <div className="text-xs text-muted-foreground">
-                    <span className="num">{list.length}</span> طلب
+                    {p.financialReads.invoices.hasData ? (
+                      <>
+                        <span className="num">{list.length}</span> طلب
+                      </>
+                    ) : (
+                      "عدد الطلبات غير متاح"
+                    )}
                   </div>
                 </div>
                 <div className="text-left">
                   <div className="text-[11px] text-muted-foreground">عهدة غير مصفّاة</div>
-                  <Money v={custody} className="text-warn font-bold text-sm" />
+                  <FinancialAmount
+                    read={p.financialReads.invoices}
+                    value={custody}
+                    className="text-warn font-bold text-sm"
+                  />
                 </div>
               </button>
             );

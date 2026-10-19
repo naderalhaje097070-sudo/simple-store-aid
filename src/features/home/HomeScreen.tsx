@@ -13,6 +13,7 @@ import {
 import type { Customer, Invoice, Period } from "@/features/shared/types";
 import type { AppCtx, AppAlert } from "@/features/shared/AppContext";
 import { Money, fmt } from "@/features/shared/Money";
+import { FinancialReadNotice, FinancialAmount } from "@/features/shared/FinancialReadBoundary";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { StatusChip } from "@/features/shared/StatusChip";
 
@@ -43,16 +44,19 @@ export function HomeScreen(p: AppCtx) {
     : alerts.length >= 2
       ? "ok"
       : "good";
-  const statusMeta = {
-    good: { l: "وضعك اليوم: جيد", color: "text-success", bg: "bg-success-soft", emoji: "👍" },
-    ok: { l: "وضعك اليوم: مقبول", color: "text-warn", bg: "bg-warn-soft", emoji: "🟡" },
-    attention: {
-      l: "وضعك اليوم: يحتاج انتباه",
-      color: "text-debt",
-      bg: "bg-debt-soft",
-      emoji: "⚠️",
-    },
-  }[status];
+  const summaryComplete = Object.values(p.financialReads).every((read) => read.complete);
+  const statusMeta = !summaryComplete
+    ? { l: "الملخص المالي غير مكتمل", color: "text-warn", bg: "bg-warn-soft", emoji: "⚠️" }
+    : {
+        good: { l: "وضعك اليوم: جيد", color: "text-success", bg: "bg-success-soft", emoji: "👍" },
+        ok: { l: "وضعك اليوم: مقبول", color: "text-warn", bg: "bg-warn-soft", emoji: "🟡" },
+        attention: {
+          l: "وضعك اليوم: يحتاج انتباه",
+          color: "text-debt",
+          bg: "bg-debt-soft",
+          emoji: "⚠️",
+        },
+      }[status];
 
   const periodLabel = period === "day" ? "اليوم" : period === "week" ? "هذا الأسبوع" : "هذا الشهر";
 
@@ -106,6 +110,12 @@ export function HomeScreen(p: AppCtx) {
         ))}
       </div>
 
+      <div className="px-4 pb-3">
+        <FinancialReadNotice
+          reads={Object.values(p.financialReads)}
+          onRetry={p.retryFinancialReads}
+        />
+      </div>
       {/* Status / answer card — 3 separated numbers: collected / customer debts / courier custody */}
       <div className="px-4">
         <div className={`rounded-2xl ${statusMeta.bg} p-5 border border-border/50`}>
@@ -119,18 +129,30 @@ export function HomeScreen(p: AppCtx) {
           <div className="mt-4 space-y-3 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-3">
             <div className="rounded-xl bg-card/60 p-3">
               <div className="text-[11px] text-muted-foreground">المحصّل فعليًا</div>
-              <Money v={totals.collected} className="text-2xl text-success font-bold" />
+              <FinancialAmount
+                read={p.financialReads.payments}
+                value={totals.collected}
+                className="text-2xl text-success font-bold"
+              />
               <div className="text-[10px] text-muted-foreground mt-0.5">دخل جيبك فعلًا</div>
             </div>
             <div className="grid grid-cols-2 gap-3 lg:contents">
               <div className="rounded-xl bg-card/60 p-3">
                 <div className="text-[11px] text-muted-foreground">ديون العملاء</div>
-                <Money v={totals.customerDebts} className="text-lg text-debt font-bold" />
+                <FinancialAmount
+                  read={p.financialReads.invoices}
+                  value={totals.customerDebts}
+                  className="text-lg text-debt font-bold"
+                />
                 <div className="text-[10px] text-muted-foreground mt-0.5">لم تدخل بعد</div>
               </div>
               <div className="rounded-xl bg-card/60 p-3">
                 <div className="text-[11px] text-muted-foreground">عهدة المندوب</div>
-                <Money v={totals.unsettledCustody} className="text-lg text-warn font-bold" />
+                <FinancialAmount
+                  read={p.financialReads.invoices}
+                  value={totals.unsettledCustody}
+                  className="text-lg text-warn font-bold"
+                />
                 <div className="text-[10px] text-muted-foreground mt-0.5">قيد التسوية</div>
               </div>
             </div>
@@ -241,7 +263,12 @@ export function HomeScreen(p: AppCtx) {
           </button>
         </div>
         <div className="space-y-2">
-          {recent.length === 0 && <EmptyState text="ابدأ يومك — لا مبيعات بعد" />}
+          {recent.length === 0 && p.financialReads.invoices.complete && (
+            <EmptyState text="ابدأ يومك — لا مبيعات بعد" />
+          )}
+          {!p.financialReads.invoices.hasData && (
+            <div className="text-sm text-muted-foreground">الفواتير غير متاحة الآن</div>
+          )}
           {recent.map((inv: Invoice) => (
             <InvoiceRow
               key={inv.id}

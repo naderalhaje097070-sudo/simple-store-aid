@@ -1,5 +1,13 @@
 import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
-import { useMemo, useState, useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import {
+  useMemo,
+  useState,
+  useEffect,
+  useRef,
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
+} from "react";
 import {
   Home,
   ReceiptText,
@@ -141,6 +149,15 @@ import { EmptyState } from "@/features/shared/EmptyState";
 import { Sheet } from "@/features/shared/Sheet";
 import { Toast } from "@/features/shared/Toast";
 import type { AppCtx } from "@/features/shared/AppContext";
+import {
+  FinancialReadBoundary,
+  FinancialReadNotice,
+} from "@/features/shared/FinancialReadBoundary";
+import {
+  financialReadState,
+  requireFinancialReads,
+  type FinancialRead,
+} from "@/features/shared/financial-read-state";
 import { TopBar } from "@/features/layout/TopBar";
 import { BottomNav } from "@/features/layout/BottomNav";
 import { DesktopSidebar } from "@/features/layout/DesktopSidebar";
@@ -179,13 +196,17 @@ type PaymentSheetProps = Pick<AppScreenContext, "customers" | "couriers" | "addC
 /* ============================== MAIN APP ============================== */
 
 function MongezzApp() {
-  const { data: tenantId } = useTenantId();
+  const tenantQuery = useTenantId();
+  const { data: tenantId } = tenantQuery;
   const { data: dbProducts } = useProducts(tenantId);
   const { data: dbCustomers, isLoading: customersLoading } = useCustomers(tenantId);
   const { data: dbCouriers } = useCouriers(tenantId);
-  const { data: dbInvoices } = useInvoices(tenantId);
-  const { data: dbPayments } = usePayments(tenantId);
-  const { data: dbExpenses } = useExpenses(tenantId);
+  const invoicesQuery = useInvoices(tenantId);
+  const { data: dbInvoices } = invoicesQuery;
+  const paymentsQuery = usePayments(tenantId);
+  const { data: dbPayments } = paymentsQuery;
+  const expensesQuery = useExpenses(tenantId);
+  const { data: dbExpenses } = expensesQuery;
   const addCustomerMut = useAddCustomer(tenantId);
   const addProductMut = useAddProduct(tenantId);
   const toggleActiveMut = useUpdateProductActive(tenantId);
@@ -211,6 +232,23 @@ function MongezzApp() {
   const payments = (dbPayments ?? []) as unknown as Payment[];
   const expenses = (dbExpenses ?? []) as Expense[];
   const setCustomers: Dispatch<SetStateAction<Customer[]>> = (_) => {};
+  const financialReads = {
+    invoices: financialReadState(invoicesQuery, !!tenantId, tenantQuery.isError),
+    payments: financialReadState(paymentsQuery, !!tenantId, tenantQuery.isError),
+    expenses: financialReadState(expensesQuery, !!tenantId, tenantQuery.isError),
+  };
+  const allFinancialReads = Object.values(financialReads);
+  const retryFinancialReads = async () => {
+    if (!tenantId) {
+      await tenantQuery.refetch();
+      return;
+    }
+    await Promise.allSettled([
+      invoicesQuery.refetch(),
+      paymentsQuery.refetch(),
+      expensesQuery.refetch(),
+    ]);
+  };
 
   const [screen, setScreen] = useState<Screen>("home");
   const [stack, setStack] = useState<Screen[]>([]);
@@ -439,6 +477,8 @@ function MongezzApp() {
     invoices,
     expenses,
     payments,
+    financialReads,
+    retryFinancialReads,
     myRole,
     totals: scaledTotals,
     rawTotals: totals,
@@ -453,8 +493,10 @@ function MongezzApp() {
     tenantId,
     tenantTz,
     tenantSettings,
-    closeDayAsync: (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) =>
-      closeDayMut.mutateAsync(input),
+    closeDayAsync: async (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => {
+      requireFinancialReads(allFinancialReads);
+      return closeDayMut.mutateAsync(input);
+    },
     go,
     back,
     setOpenInvoiceId,
@@ -505,22 +547,37 @@ function MongezzApp() {
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) =>
       createSaleMut.mutateAsync(input),
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
-    collectDebtAsync: (input: {
+    collectDebtAsync: async (input: {
       orderId: string;
       customerId?: string;
       amount: number;
       method: "cash" | "transfer";
-    }) => collectDebtMut.mutateAsync(input),
-    settleCourierAsync: (input: {
+    }) => {
+      requireFinancialReads([financialReads.invoices]);
+      return collectDebtMut.mutateAsync(input);
+    },
+    settleCourierAsync: async (input: {
       courierId: string;
       orders: { id: string; customerId?: string; collected?: number }[];
-    }) => settleCourierMut.mutateAsync(input),
-    updateCourierStateAsync: (input: {
+    }) => {
+      requireFinancialReads([financialReads.invoices]);
+      return settleCourierMut.mutateAsync(input);
+    },
+    updateCourierStateAsync: async (input: {
       orderId: string;
       state: "delivered_full" | "delivered_partial" | "delivered_none" | "returned" | "pending";
       collected?: number;
-    }) => updateCourierStateMut.mutateAsync(input),
+    }) => {
+      requireFinancialReads([financialReads.invoices]);
+      return updateCourierStateMut.mutateAsync(input);
+    },
   };
+
+  const financialScreen = (view: ReactNode, reads: FinancialRead[]) => (
+    <FinancialReadBoundary reads={reads} onRetry={retryFinancialReads} onBack={back}>
+      {view}
+    </FinancialReadBoundary>
+  );
 
   const hideNav = ["sale", "sale_quick", "sale_success", "day_close"].includes(screen);
 
@@ -587,24 +644,33 @@ function MongezzApp() {
 
           <div className="mx-auto w-full max-w-md md:max-w-[1400px] md:px-6 lg:px-10 xl:px-14 min-h-screen md:min-h-0 bg-background relative pb-24 md:pb-10 shadow-sm md:shadow-none">
             {screen === "home" && <HomeScreen {...ctx} />}
-            {screen === "invoices" && <InvoicesScreen {...ctx} />}
-            {screen === "invoice_detail" && <InvoiceDetailScreen {...ctx} />}
+            {screen === "invoices" &&
+              financialScreen(<InvoicesScreen {...ctx} />, [financialReads.invoices])}
+            {screen === "invoice_detail" &&
+              financialScreen(<InvoiceDetailScreen {...ctx} />, [financialReads.invoices])}
             {screen === "inventory" && <InventoryScreen {...ctx} />}
             {screen === "shop" && <ShopHubScreen {...ctx} />}
-            {screen === "profit" && <ProfitScreen {...ctx} />}
-            {screen === "collected" && <CollectedScreen {...ctx} />}
-            {screen === "debts" && <DebtsScreen {...ctx} />}
-            {screen === "debt_customer" && <DebtCustomerScreen {...ctx} />}
-            {screen === "courier_custody" && <CourierCustodyScreen {...ctx} />}
-            {screen === "settlements" && <SettlementsScreen {...ctx} />}
-            {screen === "expenses" && <ExpensesScreen {...ctx} />}
+            {screen === "profit" && financialScreen(<ProfitScreen {...ctx} />, allFinancialReads)}
+            {screen === "collected" &&
+              financialScreen(<CollectedScreen {...ctx} />, [financialReads.payments])}
+            {screen === "debts" &&
+              financialScreen(<DebtsScreen {...ctx} />, [financialReads.invoices])}
+            {screen === "debt_customer" &&
+              financialScreen(<DebtCustomerScreen {...ctx} />, [financialReads.invoices])}
+            {screen === "courier_custody" &&
+              financialScreen(<CourierCustodyScreen {...ctx} />, [financialReads.invoices])}
+            {screen === "settlements" &&
+              financialScreen(<SettlementsScreen {...ctx} />, [financialReads.invoices])}
+            {screen === "expenses" &&
+              financialScreen(<ExpensesScreen {...ctx} />, [financialReads.expenses])}
             {screen === "customers" && <CustomersScreen {...ctx} />}
             {screen === "couriers" && <CouriersScreen {...ctx} />}
             {screen === "settings" && <SettingsScreen {...ctx} />}
             {screen === "sale" && <SaleScreen {...ctx} />}
             {screen === "sale_quick" && <SaleQuickScreen {...ctx} />}
             {screen === "sale_success" && <SaleSuccessScreen {...ctx} />}
-            {screen === "day_close" && <DayCloseScreen {...ctx} />}
+            {screen === "day_close" &&
+              financialScreen(<DayCloseScreen {...ctx} />, allFinancialReads)}
             {screen === "pilot" && <PilotScreen {...ctx} />}
 
             {!hideNav && (
@@ -628,6 +694,8 @@ function MongezzApp() {
               <MoneyDetailsSheet
                 totals={scaledTotals}
                 period={period}
+                reads={allFinancialReads}
+                onRetry={retryFinancialReads}
                 onClose={() => setMoneyDetailsOpen(false)}
                 onOpenProfit={() => {
                   setMoneyDetailsOpen(false);
@@ -681,7 +749,9 @@ function DebtsScreen(p: AppScreenContext) {
           <div className="text-xs text-debt">إجمالي الديون المستحقة</div>
           <Money v={total} className="text-2xl text-debt mt-1" />
         </div>
-        {rows.length === 0 && <EmptyState text="لا ديون مستحقة — ممتاز 👍" />}
+        {rows.length === 0 && p.financialReads.invoices.complete && (
+          <EmptyState text="لا ديون مستحقة — ممتاز 👍" />
+        )}
         <div className="space-y-2">
           {rows.map((r, i) => (
             <button
@@ -767,9 +837,9 @@ function DebtCustomerScreen(p: AppScreenContext) {
               متبقي <span className="num">{fmt(getCustomerDebtForInvoice(inv))}</span> د.ل
             </div>
             <button
-              disabled={!cust}
+              disabled={!cust || !p.financialReads.invoices.complete}
               onClick={() => {
-                if (!cust) return;
+                if (!cust || !p.financialReads.invoices.complete) return;
                 p.setOpenInvoiceId(inv.id);
                 p.go("invoice_detail");
               }}
@@ -1005,6 +1075,10 @@ function CourierCustodyScreen(p: AppScreenContext) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="font-bold">تحديث حالة التسليم · #{markOrder.number}</div>
+            <FinancialReadNotice
+              reads={[p.financialReads.invoices]}
+              onRetry={p.retryFinancialReads}
+            />
             <div className="text-xs text-muted-foreground">
               قيمة الطلب: <Money v={markOrder.total} className="num font-bold text-foreground" />
             </div>
@@ -1068,6 +1142,7 @@ function CourierCustodyScreen(p: AppScreenContext) {
               <button
                 onClick={confirmMark}
                 disabled={
+                  !p.financialReads.invoices.complete ||
                   !markMode ||
                   (markMode === "delivered_partial" &&
                     (!Number(markAmount) || Number(markAmount) >= markOrder.total))
@@ -1247,7 +1322,7 @@ function SettlementsScreen(p: AppScreenContext) {
         </div>
 
         <button
-          disabled={net <= 0}
+          disabled={net <= 0 || !p.financialReads.invoices.complete}
           onClick={confirm}
           className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
         >
@@ -2479,6 +2554,7 @@ function DayCloseScreen(p: AppScreenContext) {
             </button>
           ) : (
             <button
+              disabled={!Object.values(p.financialReads).every((read) => read.complete)}
               onClick={async () => {
                 try {
                   await p.closeDayAsync({});
@@ -2578,11 +2654,15 @@ function QuickExpenseSheet({
 function MoneyDetailsSheet({
   totals,
   period,
+  reads,
+  onRetry,
   onClose,
   onOpenProfit,
 }: {
   totals: AppCtx["totals"];
   period: Period;
+  reads: FinancialRead[];
+  onRetry: () => Promise<unknown>;
   onClose: () => void;
   onOpenProfit: () => void;
 }) {
@@ -2608,41 +2688,43 @@ function MoneyDetailsSheet({
   );
   return (
     <Sheet onClose={onClose} title={`حركة ${periodLabel} المالية`}>
-      <div className="space-y-3">
-        <div className="rounded-xl bg-muted p-3 text-[11px] text-muted-foreground">
-          الفصل المالي: <b>بعت</b> = قيمة الفواتير. <b>محصّل</b> = ما دخل فعلًا. <b>دين</b> = على
-          العميل. <b>عهدة</b> = عند المندوب.
-        </div>
+      <FinancialReadBoundary reads={reads} onRetry={onRetry} onBack={onClose}>
+        <div className="space-y-3">
+          <div className="rounded-xl bg-muted p-3 text-[11px] text-muted-foreground">
+            الفصل المالي: <b>بعت</b> = قيمة الفواتير. <b>محصّل</b> = ما دخل فعلًا. <b>دين</b> = على
+            العميل. <b>عهدة</b> = عند المندوب.
+          </div>
 
-        <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
-          <Row label="بعت (قيمة الفواتير)" v={totals.sales} hint="شامل الديون — ليس كاش" />
-          <Row
-            label="المحصّل فعلًا"
-            v={totals.collected}
-            color="text-success"
-            hint="من بيع + تحصيل + تسوية"
-          />
-          <Row label="المصروفات" v={totals.expenseTotal} color="text-debt" />
-          <Row
-            label="صافي الكاش"
-            v={totals.cashToday}
-            color={totals.cashToday < 0 ? "text-debt font-bold" : "text-success font-bold"}
-            hint="المحصّل − المصروفات"
-          />
-        </div>
+          <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
+            <Row label="بعت (قيمة الفواتير)" v={totals.sales} hint="شامل الديون — ليس كاش" />
+            <Row
+              label="المحصّل فعلًا"
+              v={totals.collected}
+              color="text-success"
+              hint="من بيع + تحصيل + تسوية"
+            />
+            <Row label="المصروفات" v={totals.expenseTotal} color="text-debt" />
+            <Row
+              label="صافي الكاش"
+              v={totals.cashToday}
+              color={totals.cashToday < 0 ? "text-debt font-bold" : "text-success font-bold"}
+              hint="المحصّل − المصروفات"
+            />
+          </div>
 
-        <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
-          <Row label="ديون على العملاء" v={totals.customerDebts} color="text-debt" />
-          <Row label="عند المندوب (غير مصفّاة)" v={totals.unsettledCustody} color="text-warn" />
-        </div>
+          <div className="rounded-xl bg-card border border-border px-3 divide-y divide-border">
+            <Row label="ديون على العملاء" v={totals.customerDebts} color="text-debt" />
+            <Row label="عند المندوب (غير مصفّاة)" v={totals.unsettledCustody} color="text-warn" />
+          </div>
 
-        <button
-          onClick={onOpenProfit}
-          className="w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-muted-foreground hover:text-primary"
-        >
-          الربح في شاشة مستقلة ←
-        </button>
-      </div>
+          <button
+            onClick={onOpenProfit}
+            className="w-full rounded-xl bg-card border border-border py-2 text-xs font-bold text-muted-foreground hover:text-primary"
+          >
+            الربح في شاشة مستقلة ←
+          </button>
+        </div>
+      </FinancialReadBoundary>
     </Sheet>
   );
 }

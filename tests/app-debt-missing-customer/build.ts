@@ -52,7 +52,8 @@ function render() {
 window.fixture = {
   reset(overrides={}) {
     state={screen:'debts', customers:[], invoices:[invoice],
-      openCustomerId:customer.id, customersLoading:false, ...overrides};
+      openCustomerId:customer.id, customersLoading:false,
+      financialReads:{invoices:{hasData:true,complete:true,phase:'ready'}}, ...overrides};
     window.effects=[];
     render();
   },

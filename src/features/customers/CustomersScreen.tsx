@@ -3,7 +3,7 @@ import type { Customer, Invoice } from "@/features/shared/types";
 import type { AppCtx } from "@/features/shared/AppContext";
 import { TopBar } from "@/features/layout/TopBar";
 import { EmptyState } from "@/features/shared/EmptyState";
-import { Money } from "@/features/shared/Money";
+import { FinancialReadNotice, FinancialAmount } from "@/features/shared/FinancialReadBoundary";
 import { AddCustomerInline } from "./AddCustomerInline";
 import { getCustomerDebtForInvoice } from "@/domain/finance/invoice-selectors";
 
@@ -18,17 +18,19 @@ export function CustomersScreen(p: AppCtx) {
     const debt = getCustomerDebtForInvoice(i);
     if (debt > 0) debtMap.set(i.customerId, (debtMap.get(i.customerId) ?? 0) + debt);
   });
+  const activeFilter = p.financialReads.invoices.complete ? filter : "all";
   const list = p.customers.filter((c: Customer) => {
     if (q && !c.name.includes(q) && !(c.phone ?? "").includes(q)) return false;
     const has = !!debtMap.get(c.id);
-    if (filter === "debt") return has;
-    if (filter === "clear") return !has;
+    if (activeFilter === "debt") return has;
+    if (activeFilter === "clear") return !has;
     return true;
   });
   return (
     <>
       <TopBar title="العملاء" onBack={p.back} onHome={p.goHome} />
       <div className="px-4 pt-3 space-y-3">
+        <FinancialReadNotice reads={[p.financialReads.invoices]} onRetry={p.retryFinancialReads} />
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
@@ -43,8 +45,9 @@ export function CustomersScreen(p: AppCtx) {
           ].map((f) => (
             <button
               key={f.id}
+              disabled={f.id !== "all" && !p.financialReads.invoices.complete}
               onClick={() => setFilter(f.id as Filter)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${filter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap ${activeFilter === f.id ? "bg-primary text-primary-foreground" : "bg-card border border-border"}`}
             >
               {f.l}
             </button>
@@ -69,7 +72,13 @@ export function CustomersScreen(p: AppCtx) {
                 </div>
               </div>
               {debtMap.get(c.id) ? (
-                <Money v={debtMap.get(c.id)!} className="text-debt font-bold text-sm" />
+                <FinancialAmount
+                  read={p.financialReads.invoices}
+                  value={debtMap.get(c.id)!}
+                  className="text-debt font-bold text-sm"
+                />
+              ) : !p.financialReads.invoices.complete ? (
+                <span className="text-[11px] text-muted-foreground">الرصيد غير مؤكد</span>
               ) : (
                 <span className="text-[11px] text-success">لا دين</span>
               )}

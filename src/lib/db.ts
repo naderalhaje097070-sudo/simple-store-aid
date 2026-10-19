@@ -69,6 +69,7 @@ export type TenantSettings = {
   name: string;
   timezone: string;
   business_type: string | null;
+  trial_ends_at: string | null;
 };
 export function useTenant(tenantId: string | null | undefined) {
   return useQuery({
@@ -77,7 +78,7 @@ export function useTenant(tenantId: string | null | undefined) {
     queryFn: async (): Promise<TenantSettings | null> => {
       const { data, error } = await supabase
         .from("tenants")
-        .select("id,name,timezone,business_type")
+        .select("id,name,timezone,business_type,trial_ends_at")
         .eq("id", tenantId!)
         .maybeSingle();
       if (error) throw error;
@@ -87,6 +88,7 @@ export function useTenant(tenantId: string | null | undefined) {
         name: data.name,
         timezone: data.timezone ?? "Africa/Tripoli",
         business_type: data.business_type ?? null,
+        trial_ends_at: data.trial_ends_at,
       };
     },
   });

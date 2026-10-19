@@ -81,7 +81,8 @@ const PLANS: Plan[] = [
 function BillingPage() {
   const tenantQ = useTenantId();
   const tenantId = tenantQ.data ?? null;
-  const { data: tenant } = useTenant(tenantId);
+  const tenantDetailsQ = useTenant(tenantId);
+  const tenant = tenantDetailsQ.data;
   const env = getPaddleEnvironment();
   const { openCheckout, loading } = usePaddleCheckout();
   const [email, setEmail] = useState<string | undefined>();
@@ -114,8 +115,21 @@ function BillingPage() {
     },
   });
 
-  type TrialTenant = typeof tenant & { trial_ends_at?: string };
-  const trialEndsAt = (tenant as TrialTenant)?.trial_ends_at;
+  const trialEndsAt = tenant?.trial_ends_at;
+  const trialDate = trialEndsAt ? new Date(trialEndsAt) : null;
+  const statusError =
+    tenantQ.isError ||
+    tenantDetailsQ.isError ||
+    sub.isError ||
+    (!!trialDate && Number.isNaN(trialDate.getTime()));
+  const statusLoading =
+    tenantQ.isPending ||
+    tenantDetailsQ.isPending ||
+    sub.isPending ||
+    tenantQ.isFetching ||
+    tenantDetailsQ.isFetching ||
+    sub.isFetching;
+  const statusUnavailable = !statusLoading && (!tenantId || !tenant);
   const subStatus = sub.data?.status as string | undefined;
   const isActive = subStatus === "active" || subStatus === "trialing";
 
@@ -160,7 +174,15 @@ function BillingPage() {
         {/* Current status */}
         <section className="rounded-2xl border border-border bg-card p-5">
           <div className="text-sm text-muted-foreground mb-2">حالة الاشتراك الحالية</div>
-          {isActive && sub.data ? (
+          {statusError || statusUnavailable ? (
+            <div role="status" className="text-sm text-muted-foreground">
+              تعذّر تحميل حالة الاشتراك. حدّث الصفحة للمحاولة مجددًا.
+            </div>
+          ) : statusLoading ? (
+            <div role="status" className="text-sm text-muted-foreground">
+              جارٍ تحميل حالة الاشتراك…
+            </div>
+          ) : isActive && sub.data ? (
             <div>
               <div className="text-xl font-bold flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
@@ -172,14 +194,16 @@ function BillingPage() {
                 {sub.data.cancel_at_period_end && " — سيتم الإلغاء عند نهاية الفترة"}
               </div>
             </div>
-          ) : trialEndsAt && new Date(trialEndsAt) > new Date() ? (
+          ) : trialDate && trialDate > new Date() ? (
             <div>
               <div className="text-xl font-bold">في الفترة التجريبية المجانية</div>
               <div className="text-xs text-muted-foreground mt-2">
-                تنتهي التجربة في {new Date(trialEndsAt).toLocaleDateString("ar-LY")} — اشترك قبلها
+                تنتهي التجربة في {trialDate.toLocaleDateString("ar-LY")} — اشترك قبلها
                 لتستمر بدون انقطاع.
               </div>
             </div>
+          ) : !trialDate ? (
+            <div className="text-sm text-muted-foreground">لا توجد فترة تجريبية مسجلة.</div>
           ) : (
             <div>
               <div className="text-xl font-bold text-orange-600">انتهت التجربة المجانية</div>

@@ -239,7 +239,7 @@ function MongezzApp() {
   };
   const allFinancialReads = Object.values(financialReads);
   const retryFinancialReads = async () => {
-    if (!tenantId) {
+    if (!tenantId || tenantQuery.isError) {
       await tenantQuery.refetch();
       return;
     }

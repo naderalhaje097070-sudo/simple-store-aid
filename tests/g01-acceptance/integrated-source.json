@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
-  "base_source": "44df8e888c966e12ae26900e254b41c7fe1b17d0",
-  "snapshot_tree_before_manifest": "fd35a55edcdf6b997e8d0223b3bf97048d1a6d33",
+  "base_source": "d9aa04ac316bc1c2adaf021443bc42f42180b828",
+  "snapshot_tree_before_manifest": "e708f4cf6e8386121308ae694e7b11d22adcd545",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -78,7 +78,7 @@
     },
     {
       "path": ".github/workflows/integration-verification.yml",
-      "sha": "963e2d814d650341519ffe7aeb5165aa034f2313"
+      "sha": "726ab343909597297c5b1e79c9220b510714c4ae"
     },
     {
       "path": ".github/workflows/isolated-auth-smoke.yml",
@@ -86,7 +86,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "sha": "34971fd99d6f40b095570cb11b560438e25b387f"
+      "sha": "738e302162e384db009f9a07e8b2b49450303d24"
     },
     {
       "path": ".github/workflows/sec-ci-gate4-probe.yml",
@@ -219,6 +219,10 @@
     {
       "path": "scripts/generated-format-manifest.json",
       "sha": "36d4443fabeda1170407a27fc164d1edf9821347"
+    },
+    {
+      "path": "scripts/lint-changed.sh",
+      "sha": "fe7f850cc9976839112c446a7b36c14ef7e1a640"
     },
     {
       "path": "src/components/DateRangeFilter.tsx",
@@ -422,7 +426,7 @@
     },
     {
       "path": "src/features/couriers/CouriersScreen.tsx",
-      "sha": "c082a3277a06e89d66b6769eeebd251ef7ee6728"
+      "sha": "b4de869f12941f2af893ae475b96e6d6bd24f03c"
     },
     {
       "path": "src/features/customers/AddCustomerInline.tsx",
@@ -430,11 +434,11 @@
     },
     {
       "path": "src/features/customers/CustomersScreen.tsx",
-      "sha": "43aa85f4202642b3022067ff6a112181e3ef9a3a"
+      "sha": "5219d2f4cba049e33f1f7fefe58c05f5f153579a"
     },
     {
       "path": "src/features/home/HomeScreen.tsx",
-      "sha": "376c30468481edcdbeab1083cbb6a6d6ec672e04"
+      "sha": "f66d266be59beb149de56b272f10ef157d50bc47"
     },
     {
       "path": "src/features/inventory/AddProductSheet.tsx",
@@ -446,7 +450,7 @@
     },
     {
       "path": "src/features/invoices/InvoiceDetailScreen.tsx",
-      "sha": "bd7aa5e093d2f31f2952b3a9cce514dcfa78502c"
+      "sha": "b25f346fee598cdaff1be902d0b45b61a9f3b023"
     },
     {
       "path": "src/features/invoices/InvoicesScreen.tsx",
@@ -482,11 +486,19 @@
     },
     {
       "path": "src/features/shared/AppContext.ts",
-      "sha": "beddf031221f762591dd7e32551d38ceb154d95d"
+      "sha": "d795608badfab4848b51a5e536bb12c85feed578"
     },
     {
       "path": "src/features/shared/EmptyState.tsx",
       "sha": "31d9d514ae8e165ae7c07f1b7ac474d410a848af"
+    },
+    {
+      "path": "src/features/shared/financial-read-state.ts",
+      "sha": "eda1f3dfce05985fc78d4da6380d8a3835a34cec"
+    },
+    {
+      "path": "src/features/shared/FinancialReadBoundary.tsx",
+      "sha": "380c76602ab39604fb739dfb73b4974466d4afa1"
     },
     {
       "path": "src/features/shared/Money.tsx",
@@ -554,7 +566,7 @@
     },
     {
       "path": "src/lib/db.ts",
-      "sha": "e922ef51f34ec4e28ae39dccc44ebab3c022c813"
+      "sha": "16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f"
     },
     {
       "path": "src/lib/error-capture.ts",
@@ -618,11 +630,11 @@
     },
     {
       "path": "src/routes/_authenticated/app.tsx",
-      "sha": "61d86efce64af22c8a43c47e5c0d31eedcd875be"
+      "sha": "465638444a6583dcb1390b7cc98042917b040846"
     },
     {
       "path": "src/routes/_authenticated/billing.tsx",
-      "sha": "0bb2de22db2dd8bf161a161a31f3a2e0d8aa9be5"
+      "sha": "ab896a541cb4031400f5f311b2aedfa4bdc9d6f3"
     },
     {
       "path": "src/routes/_authenticated/onboarding.tsx",
@@ -878,7 +890,23 @@
     },
     {
       "path": "tests/app-debt-missing-customer/build.ts",
-      "sha": "59d63d23146c6d3316783b4eba9fd26a1cc432a0"
+      "sha": "eda5586ef63a16ebfeaf8b625d1926d72f1b891e"
+    },
+    {
+      "path": "tests/app-financial-read/browser.py",
+      "sha": "9a0f232c221063a99b5fdef506b4fb275c2ee5c0"
+    },
+    {
+      "path": "tests/app-financial-read/build.mjs",
+      "sha": "894c0567255b29669d8faa845d31834f82d931df"
+    },
+    {
+      "path": "tests/app-financial-read/replay.mjs",
+      "sha": "bdc659824efb58edfe52c27082204f32fd5c26b9"
+    },
+    {
+      "path": "tests/day-close-clock/replay.mjs",
+      "sha": "6eb866ebe59354acdc373a956f2ca4f085f9f5fb"
     },
     {
       "path": "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc",
@@ -970,7 +998,7 @@
     },
     {
       "path": "tests/g0-integrated-types/runtime.cjs",
-      "sha": "4a1672c3718fcbdeefd51e44a8f73fac49c97e91"
+      "sha": "cee921fe926ebf3c2688b72f0f0567ded78ef91b"
     },
     {
       "path": "tests/g0-integrated-types/test_build_entry.py",
@@ -1087,6 +1115,14 @@
     {
       "path": "tests/gate4/sec-env/visual-runtime-contract.py",
       "sha": "67b661c44fe9b9e195035f6fc7d5519feb4f732e"
+    },
+    {
+      "path": "tests/test_changed_lint.py",
+      "sha": "c163b0d5295a7d29c704686291544ddb7b113a80"
+    },
+    {
+      "path": "tests/trial-status/replay.mjs",
+      "sha": "e1f0745d5476893d2f551a2b94247e41c37d49cb"
     },
     {
       "path": "tests/unit/dependency-security.test.ts",

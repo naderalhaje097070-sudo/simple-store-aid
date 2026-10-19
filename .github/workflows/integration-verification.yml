@@ -52,6 +52,13 @@ jobs:
       run: node tests/g0-integrated-types/runtime.cjs
     - name: Build entry failure and forwarding contracts
       run: python tests/g0-integrated-types/test_build_entry.py
+    - name: Focused foundation read and CI regressions
+      run: |
+        node tests/app-financial-read/build.mjs "$RUNNER_TEMP/app-financial-read"
+        node tests/app-financial-read/replay.mjs "$RUNNER_TEMP/app-financial-read"
+        node tests/trial-status/replay.mjs "$RUNNER_TEMP/trial-status"
+        node tests/day-close-clock/replay.mjs "$RUNNER_TEMP/day-close-clock"
+        python tests/test_changed_lint.py "$RUNNER_TEMP/changed-lint"
     - name: Offline server environment boundary
       run: bun tests/gate4/sec-env/server-boundary.ts
     - name: Setup Python for browser containment regression
@@ -68,6 +75,8 @@ jobs:
       env:
         PYTHONDONTWRITEBYTECODE: '1'
       run: python tests/gate4/sec-env/browser-network.py
+    - name: Actual financial read UI and export regression
+      run: python tests/app-financial-read/browser.py "$RUNNER_TEMP/app-financial-read"
     - name: Build from mode-specific env file
       shell: bash
       run: "set -euo pipefail\ntrap 'rm -f .env.sec-env-contract' EXIT\ncat > .env.sec-env-contract <<'EOF'\nMONGEZZ_DEPLOY_TARGET=ci\n\

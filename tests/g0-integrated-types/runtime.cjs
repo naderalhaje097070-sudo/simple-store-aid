@@ -102,13 +102,103 @@ function canon(value, file, revised) {
       .map(([key, item]) => [key, canon(item, file, revised)]),
   );
 }
+// These declarations now intentionally change behavior (APP-01/03/04).
+// Their current bodies are exercised by the focused actual-source regressions;
+// the rest of each module and financial arithmetic must still compare exactly.
+const changedDeclarations = {
+  "src/lib/db.ts": new Set(["useTenant", "tenantTodayKey"]),
+  "src/routes/_authenticated/app.tsx": new Set([
+    "MongezzApp",
+    "DebtsScreen",
+    "DebtCustomerScreen",
+    "CourierCustodyScreen",
+    "SettlementsScreen",
+    "DayCloseScreen",
+    "MoneyDetailsSheet",
+  ]),
+  "src/features/invoices/InvoiceDetailScreen.tsx": new Set(["InvoiceDetailScreen"]),
+  "src/routes/_authenticated/billing.tsx": new Set(["BillingPage"]),
+};
+function unchangedModule(tree, file) {
+  const changed = changedDeclarations[file];
+  if (!changed) return tree;
+  tree.program.body = tree.program.body.filter((node) => {
+    const declaration = node.type === "ExportNamedDeclaration" ? node.declaration : node;
+    if (declaration?.type === "FunctionDeclaration" && changed.has(declaration.id.name))
+      return false;
+    return !(
+      node.type === "ImportDeclaration" &&
+      [
+        "@/features/shared/FinancialReadBoundary",
+        "@/features/shared/financial-read-state",
+      ].includes(node.source.value)
+    );
+  });
+  return tree;
+}
+function memoBody(source, functionName, variable) {
+  const tree = ts.createSourceFile(
+    "app.tsx",
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const fn = tree.statements.find(
+    (n) => ts.isFunctionDeclaration(n) && n.name?.text === functionName,
+  );
+  let result;
+  function visit(node) {
+    if (
+      ts.isVariableDeclaration(node) &&
+      node.name.getText(tree) === variable &&
+      node.initializer &&
+      ts.isCallExpression(node.initializer)
+    )
+      result = node.initializer.arguments[0].body.getText(tree);
+    ts.forEachChild(node, visit);
+  }
+  visit(fn);
+  assert(result, `Missing actual ${functionName}.${variable} formula`);
+  return result;
+}
 const sources = new Map();
 for (const file of files) {
   const before = cp.execFileSync("git", ["show", `${baseline}:${file}`], { encoding: "utf8" });
   const after = fs.readFileSync(file, "utf8");
   const a = emit(before, file),
     b = emit(after, file);
-  assert.deepEqual(canon(ast(a), file, false), canon(ast(b), file, true), file);
+  assert.deepEqual(
+    canon(unchangedModule(ast(a), file), file, false),
+    canon(unchangedModule(ast(b), file), file, true),
+    file,
+  );
+  if (file === "src/routes/_authenticated/app.tsx") {
+    const currentBase = cp.execFileSync(
+      "git",
+      ["show", `d9aa04ac316bc1c2adaf021443bc42f42180b828:${file}`],
+      { encoding: "utf8" },
+    );
+    for (const [name, variable] of [
+      ["MongezzApp", "totals"],
+      ["DayCloseScreen", "t"],
+    ]) {
+      const originalFormula = memoBody(currentBase, name, variable);
+      let currentFormula = memoBody(after, name, variable);
+      if (name === "DayCloseScreen") {
+        assert.equal((currentFormula.match(/const todayKey = p\.todayKey;/g) || []).length, 1);
+        currentFormula = currentFormula.replace(
+          "const todayKey = p.todayKey;",
+          "const todayKey = tenantTodayKey(tenantTz);",
+        );
+      }
+      assert.deepEqual(
+        canon(ast(emit(`function formula() ${originalFormula}`, file)), file, false),
+        canon(ast(emit(`function formula() ${currentFormula}`, file)), file, false),
+        `${name} arithmetic changed`,
+      );
+    }
+  }
   sources.set(file, { before: a, after: b });
 }
 assert.deepEqual(counters, { clientAlias: 1, nullGuard: 2, messageAlias: 1, messageRename: 1 });
@@ -232,6 +322,10 @@ async function scenario(kind, data, error) {
   console.log(
     JSON.stringify({
       files: files.length,
+      functionalDeclarationContracts: Object.fromEntries(
+        Object.entries(changedDeclarations).map(([file, names]) => [file, [...names]]),
+      ),
+      unchangedFinancialMemoBodies: 2,
       intentionalAliasesAndGuards: counters,
       callbackScenarios: 10,
       negativeWireMutation: true,

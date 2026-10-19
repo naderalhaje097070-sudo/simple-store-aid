@@ -198,8 +198,8 @@ function BillingPage() {
             <div>
               <div className="text-xl font-bold">في الفترة التجريبية المجانية</div>
               <div className="text-xs text-muted-foreground mt-2">
-                تنتهي التجربة في {trialDate.toLocaleDateString("ar-LY")} — اشترك قبلها
-                لتستمر بدون انقطاع.
+                تنتهي التجربة في {trialDate.toLocaleDateString("ar-LY")} — اشترك قبلها لتستمر بدون
+                انقطاع.
               </div>
             </div>
           ) : !trialDate ? (

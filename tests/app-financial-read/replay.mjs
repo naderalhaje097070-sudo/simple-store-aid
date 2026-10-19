@@ -182,6 +182,11 @@ await check("missing tenant retry resolves tenant before financial reads", async
   await ctx.retryFinancialReads();
   assert.deepEqual(effects, [["refetch", "tenant"]]);
 });
+await check("cached tenant-resolution failure retries tenant first", async () => {
+  const { ctx, effects } = render({ tenantError: true });
+  await ctx.retryFinancialReads();
+  assert.deepEqual(effects, [["refetch", "tenant"]]);
+});
 writeFileSync(
   resolve(directory, "replay.json"),
   JSON.stringify(

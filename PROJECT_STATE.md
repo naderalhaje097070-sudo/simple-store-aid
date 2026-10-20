@@ -1,3 +1,13 @@
+## FOUNDATION-A — final source51 tested and reviewed; A8 owner decision, 2026-10-20
+
+Final protected candidate51b09a6f33a672704f8424cbf2bbed7a2be682ca/tree923cd6035c5ee102e159e8035d520ba7e6fd1a3f. Native G0run39444611013 and G1run39444611354 attempt1 SUCCESS: full audit{}, frozen/typecheck/full lint/build/generation,43read,10Chromium,40G1,288source blobs/41SQL,22stable table fingerprints and complete cleanup. Independent supplemental review: Approved for human merge within A; see docs/foundation-a-acceptance-2026-10-20/review-ESBUILD_LIFECYCLE_REVIEW.md. Earlier421 acceptance remains historical, not relabeled.
+
+Final A8 preparation exposed historical esbuild proof39396201730 failing at its whole-package-manifest baseline on c789; scripts alone differ from original73e133, lock/dependencies remain identical. Source51 changes only that protected workflow and its manifest hash: manual historical proof, checkout fixed to73e133, all assertions/security/Windows/compatibility/audit unchanged. The failure stays failed; no new Windows runtime on51 is claimed. Current integrated gates remain and were actually rerun on51 by automatic source pushes. The app/tests/package/lock/all41SQL are unchanged from421.
+
+Existing integration branch and existing PR72/main represent A. Final documentation publication, exact preserved-source check and current automatic PR Quality are recorded in55/70/PR72. Canonical repo naderalhaje097070-sudo/simple-store-aid; main43d6edb unchanged;28PRs open/none closed or merged. Source51 full main delta865paths/153outside evidence/state; documentation descendants add evidence only. Coverage/28original design docs/PR48matrix7exact11successor retained.
+
+ONE NEXT: owner A8 merge decision for PR72/package A only, after final PR checks and independent documentation preservation confirmation. Then verify accepted coverage on main before settling8requests and proceeding to B. integration_accepted=false for the whole project; B/C and release/production/Pilot remain unaccepted. No merge/deploy/closure/production/cost/policy action is authorized by the review itself. Nothing is claimed fixed on main.
+
 ## FOUNDATION-A — tested source and focused review; owner A8 decision pending, 2026-10-20
 
 Canonical repository: naderalhaje097070-sudo/simple-store-aid. Existing integration/g0-g1-reconcile-2026-10-18 and existing PR72 represent package A (#32/#33/#48/#51/#52/#53/#54/#72). The approved A/B/C plan is #70/comment6263266625. Executable acceptance source421774f4bb2f6e541be8ca03faf3714e7c81bab8; documentation publication head is recorded in #55/#70/PR72. main43d6edbccb66fb06ce0fcb93734ad59532d1aeae is unchanged. Nothing is claimed fixed on main.

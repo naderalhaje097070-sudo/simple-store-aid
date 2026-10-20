@@ -1,0 +1,37 @@
+{
+  "source": "51b09a6f33a672704f8424cbf2bbed7a2be682ca",
+  "run": 39444611013,
+  "quality_job": 118703083356,
+  "audit_job": 118703082737,
+  "excerpts": [
+    "{\"source_sha\": \"51b09a6f33a672704f8424cbf2bbed7a2be682ca\", \"kind\": \"identity\", \"scope\": \"reviewed_integrated_source\", \"base_source\": \"d9aa04ac316bc1c2adaf021443bc42f42180b828\", \"head_sha\": \"51b09a6f33a672704f8424cbf2bbed7a2be682ca\", \"protected_blob_count\": 288, \"all_integrated_blobs_match\": true, \"migration_count\": 41, \"original54_migrations_unchanged\": true, \"legacy383_unchanged_claim\": false}",
+    "Ran 16 tests in 2.387s",
+    " 66 pass",
+    " 0 fail",
+    " 174 expect() calls",
+    "Ran 66 tests across 5 files. [344.00ms]",
+    "Ran 1 test in 0.181s",
+    "BROWSER_TRANSPORT_REGRESSION: 67 scenarios; 0 failures; dummy loopback fixtures only",
+    "{\"source_sha\": \"51b09a6f33a672704f8424cbf2bbed7a2be682ca\", \"kind\": \"identity\", \"scope\": \"reviewed_integrated_source\", \"base_source\": \"d9aa04ac316bc1c2adaf021443bc42f42180b828\", \"head_sha\": \"51b09a6f33a672704f8424cbf2bbed7a2be682ca\", \"protected_blob_count\": 288, \"all_integrated_blobs_match\": true, \"migration_count\": 41, \"original54_migrations_unchanged\": true, \"legacy383_unchanged_claim\": false}"
+  ],
+  "artifacts": [
+    {
+      "id": 12275414397,
+      "name": "quality-diagnostics",
+      "digest": "sha256:cee93a67e5209d2e3ad5bf2dae81107292eab6df27a7c86ca489ba53b03a6858",
+      "size_in_bytes": 2133
+    },
+    {
+      "id": 12275169596,
+      "name": "integration-full-audit",
+      "digest": "sha256:84e97a8b5ee534fa3a8a5dfcc8ea2da41d8002d9f4373ff695285495fd9c015e",
+      "size_in_bytes": 161
+    },
+    {
+      "id": 12274904691,
+      "name": "integration-source-identity",
+      "digest": "sha256:f0259e773be9e97ec4639cc3c352ef67ea347bb1e0786680805ab6fe959d9700",
+      "size_in_bytes": 371
+    }
+  ]
+}

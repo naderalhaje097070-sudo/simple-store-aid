@@ -1,5 +1,5 @@
 {
-  "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "source_sha": "51b09a6f33a672704f8424cbf2bbed7a2be682ca",
   "pr_heads": [
     {
       "number": 32,
@@ -325,5 +325,6 @@
       "current": "c87bea82550dc7a798b01ee99c934a1713f777c9",
       "exact": true
     }
-  ]
+  ],
+  "source_note": "Source421 runtime/package/test and all18 PR48 path identities remain unchanged; source51 changes only the separate historical esbuild workflow and its exact manifest entry. See lifecycle review and native acceptance on51."
 }

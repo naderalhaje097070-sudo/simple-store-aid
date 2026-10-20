@@ -1,3 +1,11 @@
+## FOUNDATION-A — final A8 candidate51, 2026-10-20
+
+- [x] A1–A6 requirements and current-source acceptance: source51b09a6f33a672704f8424cbf2bbed7a2be682ca, G0run39444611013/G1run39444611354 attempt1 SUCCESS. Native43read/10UI/40G1,full audit/frozen/lint/typecheck/build/generation/identity/cleanup receipts retained. The application is unchanged from reviewed421; stored close_day remains truthfully onfabb with its independent arithmetic bridge.
+- [x] A7 current source51 supplemental review: Approved for human merge within A. Historical esbuild workflow's accidental current-head rerun is corrected by manual fixed73e133 proof, without changing assertions or weakening current gates; original failure39396201730 retained. Exact source/main inventory865paths and eight-PR coverage are durable.
+- [ ] A8 protected owner decision: merge existing PR72/package A only after final automatic Quality and source-preserving documentation confirmation. Verify each coverage row on main, settle all8requests and update open count; then B. No closure based only on branch tests.
+
+ONE NEXT is that owner merge decision. Exact final publication/PR head, PR checks, independent preservation confirmation and claim6286335135 release are recorded at final55/70handoff. main43d6edb unchanged;28open. B1–B7/C1–C7/overall integration/release remain pending. Earlier state below is retained history, not the active ONE NEXT.
+
 ## FOUNDATION-A — A1–A7 source acceptance complete; A8 owner decision, 2026-10-20
 
 Authoritative checklist70/comment6263266625, same integration branch, package representative PR72. Executable source421774f4bb2f6e541be8ca03faf3714e7c81bab8. Actual commands/results, failures, source provenance, independent review and rollback are in docs/foundation-a-acceptance-2026-10-20. Documentation publication and PR head are recorded in55/70; main43d6edb remains unchanged.

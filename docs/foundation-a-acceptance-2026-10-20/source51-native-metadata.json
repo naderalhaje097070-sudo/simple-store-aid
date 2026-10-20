@@ -1,0 +1,570 @@
+{
+  "source": "51b09a6f33a672704f8424cbf2bbed7a2be682ca",
+  "tree": "923cd6035c5ee102e159e8035d520ba7e6fd1a3f",
+  "g0_run": 39444611013,
+  "g1_run": 39444611354,
+  "attempt": 1,
+  "g0_jobs": [
+    {
+      "id": 118703082737,
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39444611013,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Complete supported audit with actual exit preserved",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Upload complete audit output",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    },
+    {
+      "id": 118703083356,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39444611013,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Check reviewed generated source formatting",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Exact integrated source identity and fail-closed mutations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Full repository lint including CommonJS and ESM",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Read-only existing CI policy contract",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Type erasure and actual hook callback wire replay",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Build entry failure and forwarding contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Focused foundation read and CI regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Offline server environment boundary",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Install pinned browser test tooling",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Verify browser redirect, WebSocket and origin containment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Actual financial read UI and export regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Build from mode-specific env file",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Verify generation leaves tracked application files intact",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Recheck complete protected source after both builds",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Upload quality diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "Upload source identity receipt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Post Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 46
+        },
+        {
+          "name": "Post Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 47
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 48
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49
+        }
+      ]
+    }
+  ],
+  "g1_jobs": [
+    {
+      "id": 118703084345,
+      "name": "environment",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39444611354,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout exact acceptance source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Setup existing Bun runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Prove reviewed integrated source and original41 migration identities",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run target-green environment isolation probe",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Independently prove destructive REST routing ignores inherited environment and redirects",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Independently prove destructive preflights reject inherited proxies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Independently prove routing-protected browser contexts block service workers",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Independently prove visual runtime isolation failures are fatal and origin-pinned",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Independently prove visual smoke uses canonical non-production origins",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Upload bounded evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Post Setup existing Bun runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Post Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        },
+        {
+          "name": "Post Checkout exact acceptance source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 25
+        }
+      ]
+    },
+    {
+      "id": 118703085152,
+      "name": "runtime",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39444611354,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout exact acceptance source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Setup maintained Node",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Setup existing Bun runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Prove reviewed integrated source and original41 migration identities",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Frozen existing runtime dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Pinned browser tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Pinned existing emulator test tool",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Verify official cf-fetch opt-out on actual installed bundle before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Checkout exact observed official CLI installer",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Same installer Bun as failed run",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Frozen official installer dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Diagnose pinned CLI installer with bounded phase evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Install local database and firewall tools",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Verify pointer-only tracer before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Validate scope and native containment before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Fresh disposable41 schema only",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Actual Cloudflare SSR target agreement and nonfinancial Auth UI",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Remove isolated processes containers and credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Quarantine any credential-bearing evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Upload bounded evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Post Same installer Bun as failed run",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 39
+        },
+        {
+          "name": "Post Checkout exact observed official CLI installer",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 40
+        },
+        {
+          "name": "Post Setup existing Bun runtime",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 41
+        },
+        {
+          "name": "Post Setup maintained Node",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 42
+        },
+        {
+          "name": "Post Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 43
+        },
+        {
+          "name": "Post Checkout exact acceptance source",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 44
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 45
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12275414397,
+      "name": "quality-diagnostics",
+      "digest": "sha256:cee93a67e5209d2e3ad5bf2dae81107292eab6df27a7c86ca489ba53b03a6858",
+      "size_in_bytes": 2133
+    },
+    {
+      "id": 12275169596,
+      "name": "integration-full-audit",
+      "digest": "sha256:84e97a8b5ee534fa3a8a5dfcc8ea2da41d8002d9f4373ff695285495fd9c015e",
+      "size_in_bytes": 161
+    },
+    {
+      "id": 12274904691,
+      "name": "integration-source-identity",
+      "digest": "sha256:f0259e773be9e97ec4639cc3c352ef67ea347bb1e0786680805ab6fe959d9700",
+      "size_in_bytes": 371
+    },
+    {
+      "id": 12276810462,
+      "name": "g01-runtime-attempt1",
+      "digest": "sha256:2dc347165776ba8d312e18825be5c271c9a32d2e1d679264b405375ac4955288",
+      "size_in_bytes": 26029
+    },
+    {
+      "id": 12275144345,
+      "name": "g01-environment-attempt1",
+      "digest": "sha256:3f05329db461420e86a0f491d02fbd527fdd2767626f4d4c2d588109d5c0d3c2",
+      "size_in_bytes": 371
+    }
+  ],
+  "g1_actual_summary": "2026-10-20T15:06:21.0815347Z {\"checks\": 40, \"passed\": true, \"source_sha\": \"51b09a6f33a672704f8424cbf2bbed7a2be682ca\"}"
+}

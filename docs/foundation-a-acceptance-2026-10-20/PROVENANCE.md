@@ -1,3 +1,12 @@
+# Final source51 evidence boundary
+
+- Final protected candidate51b09a6f33a672704f8424cbf2bbed7a2be682ca changes only the historical esbuild workflow relative to the protected421 runtime; its exact manifest entry changes with it. No application/test/package/lock/SQL change.
+- Native G0/G1 run39444611013/39444611354 attempt1 both succeeded on51. New source51-prefixed ZIPs, actual JSON results, metadata and digests are independently preserved; prior421 receipts below remain historical.
+- Automatic historical proof39396201730 on c789 failed at its original whole-manifest assertion. Its receipt remains failed. The manual historical workflow pins original73e133; it does not confer a new Windows proof or accept51.
+- Source51 full-main inventory has865paths/153outside evidence/state. A later documentation-only publication requires an exact protected path/blob/mode/manifest check before inheriting review. The final publication/PR Quality result is recorded in55/70.
+
+## Earlier source421 provenance, retained
+
 # Evidence/source boundaries
 
 - Implementation source:421774f4bb2f6e541be8ca03faf3714e7c81bab8; manifest288protected paths,41original SQL. Documentation publication changes no protected byte and requires a separate tree-set check.

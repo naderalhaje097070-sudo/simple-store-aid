@@ -1,18 +1,18 @@
 [
   {
     "name": "PROVENANCE.md",
-    "size": 2188,
-    "sha256": "1d682624244275a2b32f2245f22a33b397f6845c87404c8cb61cd822173d8f0e"
+    "size": 3203,
+    "sha256": "bfb85ef7b7e57000859021ed51c069eac906cd0de0a8e71ebbcd438114086bfa"
   },
   {
     "name": "PR_COVERAGE.md",
-    "size": 5285,
-    "sha256": "53af13e5e014f6e8625678decccf9a3a89ad7d83e97cfa90a53bf7e406ea300a"
+    "size": 5440,
+    "sha256": "924ee3f9ddce5a14b93b1c547a07f01bb50f605cd357414549008e5f8cf7d41c"
   },
   {
     "name": "REPORT.md",
-    "size": 9853,
-    "sha256": "086c7ed1d455804d490ee31e8be057e45c5f1a51b610ffcfaa1ca678bd0421b3"
+    "size": 10872,
+    "sha256": "a8c4fe966a43bf10e03e9ee169183106e02fcfb23061ef8ca2bb8dd99e099f70"
   },
   {
     "name": "app-final-replay.json",
@@ -56,8 +56,18 @@
   },
   {
     "name": "coverage-proof.json",
-    "size": 10011,
-    "sha256": "91aba2cd5cebd44ff6aa87d81158b632b1a280be476ca3e4db40ea4809d6f8e4"
+    "size": 10253,
+    "sha256": "4e761aa5bbff6522d7b9f3acbaafb2729b599e69511553e42a1cd7af9f635836"
+  },
+  {
+    "name": "esbuild-workflow-failure-receipt.json",
+    "size": 2534,
+    "sha256": "9d4eec7ec9cfa2b7fcfff5d6c68437ffc2acb08bd1b9d25ccd2f9288fc4ffb2a"
+  },
+  {
+    "name": "esbuild-workflow-static.json",
+    "size": 459,
+    "sha256": "37b9e8acc46d5d85405d6aef44bbb74c472f251a928b6510f8900ea950fb110c"
   },
   {
     "name": "executed-close-day-preview.cjs.txt",
@@ -180,6 +190,11 @@
     "sha256": "34ec575bfca72e09149373c25418efed99a784d5c4d7549753a52b2ee50fdb68"
   },
   {
+    "name": "review-ESBUILD_LIFECYCLE_REVIEW.md",
+    "size": 3806,
+    "sha256": "9e7cd38ff7180b839f2f173bf43508898365afa1a2e446b628f8b81e47cc2596"
+  },
+  {
     "name": "review-FINAL_ADDENDUM.md",
     "size": 8809,
     "sha256": "e08ab77aa61dbe27ae05e4ea4c443a523a1c99139a0aef28cdd8c034ee81d91a"
@@ -288,6 +303,81 @@
     "name": "settings-read-build.mjs.txt",
     "size": 9493,
     "sha256": "6d875d0fca0f60b7e31131186cd4cbbbf8f70373d110203fee60c01783a4c2dc"
+  },
+  {
+    "name": "source51-audit-native.zip",
+    "size": 161,
+    "sha256": "84e97a8b5ee534fa3a8a5dfcc8ea2da41d8002d9f4373ff695285495fd9c015e"
+  },
+  {
+    "name": "source51-g0-native-receipt.json",
+    "size": 1898,
+    "sha256": "a518c2c1e089ee120bd569c3488f7e15cef7b58e39005f538305eeb530866cb3"
+  },
+  {
+    "name": "source51-g01-environment-attempt1.zip",
+    "size": 371,
+    "sha256": "3f05329db461420e86a0f491d02fbd527fdd2767626f4d4c2d588109d5c0d3c2"
+  },
+  {
+    "name": "source51-g01-runtime-attempt1.zip",
+    "size": 26029,
+    "sha256": "2dc347165776ba8d312e18825be5c271c9a32d2e1d679264b405375ac4955288"
+  },
+  {
+    "name": "source51-g1-cleanup.json",
+    "size": 262,
+    "sha256": "715729129b4e2ec31186ea5edf2ab4bcead3cfc61662ed631580a6d42c130ba1"
+  },
+  {
+    "name": "source51-g1-frozen.json",
+    "size": 315,
+    "sha256": "ef4445381230c2a353f6aa07810cdc1667e4e4904cc4eb599fb72c6b6a79b30e"
+  },
+  {
+    "name": "source51-g1-identity.json",
+    "size": 420,
+    "sha256": "2c2aed613e0dc56bc68a4fce3e272683c6a0dc7b0eb1117ef39e83ef255350d2"
+  },
+  {
+    "name": "source51-g1-runtime-result.json",
+    "size": 22684,
+    "sha256": "10d6a04db95625fe974facb8b819f98a3d64d1e37ce2f4f4269bbfffa9dc3997"
+  },
+  {
+    "name": "source51-identity-native.zip",
+    "size": 371,
+    "sha256": "f0259e773be9e97ec4639cc3c352ef67ea347bb1e0786680805ab6fe959d9700"
+  },
+  {
+    "name": "source51-main-tree-delta.json",
+    "size": 142836,
+    "sha256": "b7652d3ea5297b2aeab98ff570423a6bfe282f76df958ec270b898f48b2c33dd"
+  },
+  {
+    "name": "source51-native-browser.json",
+    "size": 1109,
+    "sha256": "5fa7cf75488a4c5f5184803e9512aea4132b030ddde13accc37a474dc269ba11"
+  },
+  {
+    "name": "source51-native-identity.json",
+    "size": 420,
+    "sha256": "2c2aed613e0dc56bc68a4fce3e272683c6a0dc7b0eb1117ef39e83ef255350d2"
+  },
+  {
+    "name": "source51-native-metadata.json",
+    "size": 15872,
+    "sha256": "5082cd68486c0ec6420996271071a3b919b9903230d21f17ab6568536a19becc"
+  },
+  {
+    "name": "source51-native-replay.json",
+    "size": 4774,
+    "sha256": "0a4338868ff5c9e09ad9dcc4794d7e958a9bd3da2d20f9967a4a2a7a2ca6bea1"
+  },
+  {
+    "name": "source51-quality-native.zip",
+    "size": 2133,
+    "sha256": "cee93a67e5209d2e3ad5bf2dae81107292eab6df27a7c86ca489ba53b03a6858"
   },
   {
     "name": "timezone-before-replay.json",

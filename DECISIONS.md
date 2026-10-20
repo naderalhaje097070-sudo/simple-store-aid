@@ -1,3 +1,11 @@
+## FOUNDATION-A — preserve bounded proofs across source evolution, 2026-10-20
+
+Final51 acceptance supersedes421 only for the proposed current-source snapshot, with actual new G0/G1run39444611013/39444611354 and independent supplemental approval. Do not relabel earlier native or stored-finance runs. Source51 alters one protected historical workflow and its matching manifest entry; app/tests/lock/package/SQL and existing current gates remain unchanged.
+
+A one-off exact-change verifier must not be presented as a general current-head gate after unrelated approved manifest scripts evolve. Preserve its original assertions and failed rerun, label it historical, require manual invocation and pin the actual accepted73e133 checkout. No adjustable source input, assertion relaxation, current Windows claim, ignored dependency advisory or bypass of current gates is introduced. Review verified both native failure logs, the scripts-only manifest difference, all-copy security guards and new integrated acceptance.
+
+The A8 proposal remains the existing PR72 against main via fast-forward, with documentation-only descendants inheriting review only after exact source/blob/mode/manifest preservation checks. Owner merge approval remains mandatory under the standing plan; no merge/deploy/closure/production/spending/policy authority is inferred from technical approval. Main43d6edb and28open requests remain unchanged until explicit decision. Main coverage precedes each conditional closure; B/C and product release stay open.
+
 ## FOUNDATION-A — scope of accepted evidence and owner merge boundary, 2026-10-20
 
 Standing plan70/comment6263266625 and owner «استمر وفق الخطة» authorize routine completion of A1–A7 and concrete A8 preparation on the existing integration branch/PR72, without another PR or rewritten history. The earlier A6-only original72-untouched restriction is superseded for fast-forward PR preparation, not for main/merge/deploy/closure. Explicit owner approval remains required to merge; Review Protocol approval does not perform that action.

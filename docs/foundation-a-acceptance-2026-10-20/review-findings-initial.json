@@ -1,0 +1,25 @@
+{
+  "reviewed_source": "fabb481836f2f79d8feeda5e407147a66b76ea25",
+  "reviewer": "foundation_a_independent_review",
+  "outcome": "Changes required",
+  "findings": [
+    {
+      "id": "A7-TZ-READ-01",
+      "severity": "High",
+      "classification": "inherited incomplete remediation of APP-01/04",
+      "status": "open",
+      "contract": "Period-bound financial read completeness requires available tenant timezone",
+      "evidence": "settings-paid-failure.json",
+      "required_fix": "Retain metadata read-state; prevent healthy zero/close-day action when timezone prerequisite is absent/failed; preserve independent all-time actions"
+    },
+    {
+      "id": "A7-CI-FILENAME-01",
+      "severity": "Medium",
+      "classification": "inherited option injection preserved by CI-1 extraction",
+      "status": "implemented at636afcb; independent local6/6 passed; native/final identity pending addendum",
+      "contract": "PR filenames must not be parsed as ESLint options",
+      "evidence": "leading-dash-negative.json",
+      "required_fix": "Use ESLint -- delimiter plus actual filename regression"
+    }
+  ]
+}

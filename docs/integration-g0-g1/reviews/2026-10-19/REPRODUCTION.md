@@ -1,0 +1,11 @@
+# Offline reproduction notes
+
+No installation, CI trigger, network/provider or database call is needed. Use a complete exact repository checkout that already contains the pinned commits; missing objects are a blocker, not permission to substitute another source. Source fixtures are synthetic, no credentials.
+
+The scripts are saved as **plaintext .txt attachments**, not executable project source and not part of CI. This preserves the reviewed279source snapshot; copy to an isolated temporary directory with the executable extension only for local replay. Never copy these fixtures into the app runtime or treat models as SQL evidence.
+
+1. Node24.19.0 client proof: copy client_retry_review.cjs.txt as client_retry_review.cjs; put exact `git show 193412a01938d752a98689d85acd727664e4dc8e:src/lib/db.ts` at the sibling src/lib/db.ts. Run node client_retry_review.cjs. Node builtin stripTypeScriptTypes erases the actual TS; VM replaces storage/clock/transport. Expected two output cases: within1sec samekey/model1effect; after1,800,001ms differentkey/model2effects; no DB/provider calls. The first helper attempt expected an unnormalized error message; the final helper asserts the actual application's Arabic generic message.
+2. Python source proof: copy financial_source_review.py.txt as financial_source_review.py. Put exact49/50/59migrations under supabase/migrations from refs listed in FINANCIAL_REVIEW.md. Put all41823baseline migrations under schema/supabase/migrations. Run python financial_source_review.py; expected10source/arithmetic assertions, native_database_calls0. This is not a PostgreSQL emulator, native SQL result, transaction/concurrency proof or production exploit.
+3. CI protocol negative script: review_protocol_negatives.py.txt is the independent reviewer's exact helper. It requires the candidate snapshot layout described by CI_REVIEW.md, and intentionally stubs the formatter. Follow its source-path contract in an isolated directory; do not infer real Prettier semantics from its12controls. Current native ZIP digests/receipts and changed-lint-invalid-base.json preserve independently observed evidence.
+
+Exactsource hashes, native IDs and source/fixture limitations in the four review reports take precedence over these convenience instructions. No live mutation was performed for the review.

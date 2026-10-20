@@ -1,0 +1,137 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "source": "fabb481836f2f79d8feeda5e407147a66b76ea25",
+  "protected_blobs": 288,
+  "original_sql_blobs_unchanged": 41,
+  "package_and_lock_unchanged": true,
+  "source_changed_paths": [
+    {
+      "path": ".github/workflows/integration-verification.yml",
+      "before": "963e2d814d650341519ffe7aeb5165aa034f2313",
+      "after": "726ab343909597297c5b1e79c9220b510714c4ae"
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "before": "34971fd99d6f40b095570cb11b560438e25b387f",
+      "after": "738e302162e384db009f9a07e8b2b49450303d24"
+    },
+    {
+      "path": "scripts/lint-changed.sh",
+      "before": null,
+      "after": "fe7f850cc9976839112c446a7b36c14ef7e1a640"
+    },
+    {
+      "path": "src/features/couriers/CouriersScreen.tsx",
+      "before": "c082a3277a06e89d66b6769eeebd251ef7ee6728",
+      "after": "b4de869f12941f2af893ae475b96e6d6bd24f03c"
+    },
+    {
+      "path": "src/features/customers/CustomersScreen.tsx",
+      "before": "43aa85f4202642b3022067ff6a112181e3ef9a3a",
+      "after": "5219d2f4cba049e33f1f7fefe58c05f5f153579a"
+    },
+    {
+      "path": "src/features/home/HomeScreen.tsx",
+      "before": "376c30468481edcdbeab1083cbb6a6d6ec672e04",
+      "after": "f66d266be59beb149de56b272f10ef157d50bc47"
+    },
+    {
+      "path": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "before": "bd7aa5e093d2f31f2952b3a9cce514dcfa78502c",
+      "after": "b25f346fee598cdaff1be902d0b45b61a9f3b023"
+    },
+    {
+      "path": "src/features/shared/AppContext.ts",
+      "before": "beddf031221f762591dd7e32551d38ceb154d95d",
+      "after": "d795608badfab4848b51a5e536bb12c85feed578"
+    },
+    {
+      "path": "src/features/shared/FinancialReadBoundary.tsx",
+      "before": null,
+      "after": "380c76602ab39604fb739dfb73b4974466d4afa1"
+    },
+    {
+      "path": "src/features/shared/financial-read-state.ts",
+      "before": null,
+      "after": "eda1f3dfce05985fc78d4da6380d8a3835a34cec"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "before": "e922ef51f34ec4e28ae39dccc44ebab3c022c813",
+      "after": "16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f"
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "before": "61d86efce64af22c8a43c47e5c0d31eedcd875be",
+      "after": "465638444a6583dcb1390b7cc98042917b040846"
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "before": "0bb2de22db2dd8bf161a161a31f3a2e0d8aa9be5",
+      "after": "ab896a541cb4031400f5f311b2aedfa4bdc9d6f3"
+    },
+    {
+      "path": "tests/app-debt-missing-customer/build.ts",
+      "before": "59d63d23146c6d3316783b4eba9fd26a1cc432a0",
+      "after": "eda5586ef63a16ebfeaf8b625d1926d72f1b891e"
+    },
+    {
+      "path": "tests/app-financial-read/browser.py",
+      "before": null,
+      "after": "9a0f232c221063a99b5fdef506b4fb275c2ee5c0"
+    },
+    {
+      "path": "tests/app-financial-read/build.mjs",
+      "before": null,
+      "after": "894c0567255b29669d8faa845d31834f82d931df"
+    },
+    {
+      "path": "tests/app-financial-read/replay.mjs",
+      "before": null,
+      "after": "bdc659824efb58edfe52c27082204f32fd5c26b9"
+    },
+    {
+      "path": "tests/day-close-clock/replay.mjs",
+      "before": null,
+      "after": "6eb866ebe59354acdc373a956f2ca4f085f9f5fb"
+    },
+    {
+      "path": "tests/g0-integrated-types/runtime.cjs",
+      "before": "4a1672c3718fcbdeefd51e44a8f73fac49c97e91",
+      "after": "cee921fe926ebf3c2688b72f0f0567ded78ef91b"
+    },
+    {
+      "path": "tests/g01-acceptance/integrated-source.json",
+      "before": "b087bcb4c08f8a3bac40abae28391070362aedf5",
+      "after": "038f1a27ea2cfba386e3e56d357fa270ba9494cb"
+    },
+    {
+      "path": "tests/test_changed_lint.py",
+      "before": null,
+      "after": "c163b0d5295a7d29c704686291544ddb7b113a80"
+    },
+    {
+      "path": "tests/trial-status/replay.mjs",
+      "before": null,
+      "after": "e1f0745d5476893d2f551a2b94247e41c37d49cb"
+    }
+  ],
+  "native_runs": [
+    {
+      "id": 39281934875,
+      "name": "Integrated G0 verification",
+      "status": "queued",
+      "conclusion": null
+    },
+    {
+      "id": 39281934868,
+      "name": "G1 Bounded Acceptance Repair",
+      "status": "queued",
+      "conclusion": null
+    }
+  ],
+  "acceptance": "Blocked pending missing evidence",
+  "independent_review": false,
+  "local_browser": false,
+  "stored_close_day_comparison": false
+}

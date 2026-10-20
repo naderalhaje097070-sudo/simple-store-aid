@@ -1,0 +1,19 @@
+--- /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-hono-preparation/base-bun.lock	2026-10-15 19:01:45.217654043 +0000
++++ /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-hono-preparation/bun.lock	2026-10-15 19:01:45.207405816 +0000
+@@ -96,6 +96,7 @@
+     "@modelcontextprotocol/sdk": "1.31.0",
+     "browserslist": "4.29.3",
+     "fast-uri": "3.1.8",
++    "hono": "4.13.7",
+     "ip-address": "10.7.3",
+     "js-yaml": "4.3.2",
+     "nanoid": "3.3.19",
+@@ -1217,7 +1218,7 @@
+ 
+     "hasown": ["hasown@2.0.3", "", { "dependencies": { "function-bind": "^1.1.2" } }, "sha512-ej4AhfhfL2Q2zpMmLo7U1Uv9+PyhIZpgQLGT1F9miIGmiCJIoCgSmczFdrc97mWT4kVY72KA+WnnhJ5pghSvSg=="],
+ 
+-    "hono": ["hono@4.12.27", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/hono/-/hono-4.12.27.tgz", {}, "sha512-1yrb/+w6HWQJrUCLkJ2IF5jNIPvvFkblV5RNOYl6bV+OA6p9GLcMpHFFGTosSvHvcAUibuUukRqhlYI4z32C7Q=="],
++    "hono": ["hono@4.13.7", "", {}, "sha512-c8/gF9ac8Y78/agExVocyLevgR+JlpNB444Py0FSX8pJoPdYUfUzRcXtYEYGwt6l19qIlVZPN5Mfsw9jFShmQQ=="],
+ 
+     "hookable": ["hookable@6.1.1", "", {}, "sha512-U9LYDy1CwhMCnprUfeAZWZGByVbhd54hwepegYTK7Pi5NvqEj63ifz5z+xukznehT7i6NIZRu89Ay1AZmRsLEQ=="],
+ 

@@ -1,0 +1,46 @@
+{
+  "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "passed": true,
+  "cases": [
+    {
+      "timezone": "UTC",
+      "matches_native_stored_fixture_preview": true,
+      "preview": {
+        "sales": 100,
+        "collected": 60,
+        "expenseTotal": 10,
+        "realizedProfit": 30,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 50
+      }
+    },
+    {
+      "timezone": "America/Los_Angeles",
+      "matches_native_stored_fixture_preview": true,
+      "preview": {
+        "sales": 0,
+        "collected": 0,
+        "expenseTotal": 0,
+        "realizedProfit": 0,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 0
+      }
+    },
+    {
+      "timezone": "Pacific/Kiritimati",
+      "matches_native_stored_fixture_preview": true,
+      "preview": {
+        "sales": 300,
+        "collected": 60,
+        "expenseTotal": 10,
+        "realizedProfit": 30,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 50
+      }
+    }
+  ],
+  "scope": "Actual final-source memo replay against previously executed native stored fixture; not a new DB invocation"
+}

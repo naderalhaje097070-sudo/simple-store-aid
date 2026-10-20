@@ -1,0 +1,14 @@
+{
+  "new_versions": [],
+  "removed_versions": [
+    "@babel/compat-data@7.29.0",
+    "@babel/core@7.29.0",
+    "@babel/helper-compilation-targets@7.28.6",
+    "@babel/helper-module-transforms@7.28.6",
+    "@babel/helper-validator-option@7.27.1",
+    "@babel/helpers@7.29.2"
+  ],
+  "retained_metadata_changed": [],
+  "outside_babel": [],
+  "changed_path_count": 223
+}

@@ -1,0 +1,228 @@
+{
+  "archive": {
+    "bytes": 153605,
+    "sha256": "f894b188c3202e56353bda4b593a6b60b9677b7dd1fd276f268f1fd578b29ab6"
+  },
+  "members": {
+    "after/src/features/customers/AddCustomerInline.tsx": {
+      "bytes": 2779,
+      "sha256": "fe6df2f9bc989cfc31da3d453c2c240f09bcef98ff625843414ce028cbc58315"
+    },
+    "after/src/features/customers/CustomersScreen.tsx": {
+      "bytes": 3535,
+      "sha256": "c944e3e5b20e8bbf79be1fe576d595aefc518b683b43eb94cf2aae7a9c5a0f1b"
+    },
+    "after/src/features/invoices/InvoicesScreen.tsx": {
+      "bytes": 3076,
+      "sha256": "6e3a87cbfc5c9f3de64d21294986c8c83e81cf8b4594c91d9534c787bb76144e"
+    },
+    "after/src/features/reports/CollectedScreen.tsx": {
+      "bytes": 4858,
+      "sha256": "e46586e9ed9f611b6d8312c8c9c6f12db85eb31c9a5b73cc5d9e563e0fa2b322"
+    },
+    "after/src/features/reports/ProfitScreen.tsx": {
+      "bytes": 3839,
+      "sha256": "5b77fdcbaa688d4d511e0904b9d4977e1cd6d707f9b228bcc3771b8b9b750fc2"
+    },
+    "after/src/features/settings/SettingsScreen.tsx": {
+      "bytes": 6198,
+      "sha256": "9a7091c6b465f76910eadd32c4b9db385b3981c10b856ffc81458df839804fa0"
+    },
+    "after/src/features/shared/types.ts": {
+      "bytes": 1736,
+      "sha256": "15b3d0b0724d0e8729d0c885f824c48cc6989026898fe3ee103574e700b6df05"
+    },
+    "after/src/features/shop/ShopHubScreen.tsx": {
+      "bytes": 3069,
+      "sha256": "69696aec4e3c9d6f1cc25286f7c7772c888b83fe9f007726925e1c5f5db540e3"
+    },
+    "after/src/routes/_authenticated/onboarding.tsx": {
+      "bytes": 4488,
+      "sha256": "e2186c6187b8a468c1e3c102c10cc078e3bcc86663d6469d97f92db195fd36cc"
+    },
+    "after/src/routes/index.tsx": {
+      "bytes": 34421,
+      "sha256": "d8e93b0f423982dcdc0437c32e6012b02d46e63605e2198e29bbaf80e9ae7623"
+    },
+    "before/src/features/customers/AddCustomerInline.tsx": {
+      "bytes": 2417,
+      "sha256": "e3c815aff6dd75095596110a1cdfc8083d04249c98d484d93185a8e1585ced91"
+    },
+    "before/src/features/customers/CustomersScreen.tsx": {
+      "bytes": 3114,
+      "sha256": "58676b39268d53115f52403a67fcd2f54b0b18a782992985983208f5f00014f2"
+    },
+    "before/src/features/invoices/InvoicesScreen.tsx": {
+      "bytes": 2703,
+      "sha256": "43494125601b397aae9554bc41834e4f18ad78583247bb5feddfaab5a1ab5638"
+    },
+    "before/src/features/reports/CollectedScreen.tsx": {
+      "bytes": 4584,
+      "sha256": "794a6cbdf46bcfbc5c997ca803dc79f7a1da4a20d4714c3b33b723c121a7181d"
+    },
+    "before/src/features/reports/ProfitScreen.tsx": {
+      "bytes": 3497,
+      "sha256": "56b6e0c6cf52a880221bb082265e84608857cff3a3f3a0b93780a5ed3f50f8fe"
+    },
+    "before/src/features/settings/SettingsScreen.tsx": {
+      "bytes": 5958,
+      "sha256": "a0e3557f6220c8a8d873f31db22a532b05f8b9744da326141ede18c7a8d21a8e"
+    },
+    "before/src/features/shared/types.ts": {
+      "bytes": 1661,
+      "sha256": "d69bd521db8e032906341011e6e1598add76e5a8afcce79743fc6394d8d0d05a"
+    },
+    "before/src/features/shop/ShopHubScreen.tsx": {
+      "bytes": 2922,
+      "sha256": "bfec2bbfaa57f0c47cc61070430721dbb9d02a543f7d5692e6238d6ea06aaa2a"
+    },
+    "before/src/routes/_authenticated/onboarding.tsx": {
+      "bytes": 4266,
+      "sha256": "7eb6017b27dc275c64a2d8c2fdad59328c11691963dd49515ae5f7715ade7fcf"
+    },
+    "before/src/routes/index.tsx": {
+      "bytes": 34691,
+      "sha256": "f0945c86185dce12fd4b740fee6b36ad373efb6005e2002064933db0c00a6c2c"
+    },
+    "excluded-before/src/routes/guide.tsx": {
+      "bytes": 15106,
+      "sha256": "71ed115e74eabac79e6c98cb6b8ee7daec607924b573c095c00c9fe8c2e9524f"
+    },
+    "parent/claim-adjusted.json": {
+      "bytes": 3158,
+      "sha256": "16b98eadf1d3e49244cebe917565daf6ea36b5a340e058b6471a4e07be3e4f73"
+    },
+    "parent/claim.json": {
+      "bytes": 124,
+      "sha256": "f726929eb29a4dacc14b60dfe170318a6ae094b5e8c5c0d6612d3f7c002e0527"
+    },
+    "parent/diagnostic-summary.json": {
+      "bytes": 2571,
+      "sha256": "d2a32b2e41c0ea129da9c429dcd7cfe27408205a962906bb793bdb657d42a4e6"
+    },
+    "parent/files.txt": {
+      "bytes": 376,
+      "sha256": "a3c8e671e0284ac382aacd3b51a9d3e0c7cbd34c93abaef0fcd6e58f49047bd2"
+    },
+    "parent/first-lint-after.json": {
+      "bytes": 34483,
+      "sha256": "767514c0fb99253d60b88eba795e068ac4917da25c4e72e2c44a502e0115a8f4"
+    },
+    "parent/first-proof.json": {
+      "bytes": 7085,
+      "sha256": "d58ba6fd2681f85074bfd1ae09d72130f15199710efefbd59cdbf4ff595b1eb5"
+    },
+    "parent/first-proof.log": {
+      "bytes": 7085,
+      "sha256": "d58ba6fd2681f85074bfd1ae09d72130f15199710efefbd59cdbf4ff595b1eb5"
+    },
+    "parent/frozen.log": {
+      "bytes": 82,
+      "sha256": "5c2028063724b44897e4abc0fe18c0208983f0688463c08f8d85d0da0cb0b4fa"
+    },
+    "parent/initial-candidates-before.json": {
+      "bytes": 234810,
+      "sha256": "ef40a34ccf1e8d10877fcbc42eaa338d608ba956b5b87d3b54001dac91196d9b"
+    },
+    "parent/lint-after.json": {
+      "bytes": 5100,
+      "sha256": "9cff17746896ea16028106ec31e90acaac9f2c4b271c3cb2a74806930a9e7350"
+    },
+    "parent/lint-before.json": {
+      "bytes": 194431,
+      "sha256": "53edd87f4f85109566920924a12baea541f90e7593a1185d208a17c65fd59b40"
+    },
+    "parent/merge-reconciliation.json": {
+      "bytes": 314,
+      "sha256": "49cee3c5801945158c7273f4b4f5ce5e5e3ea8ab65ea909fe74e5c69dfaa9476"
+    },
+    "parent/native-jobs.json": {
+      "bytes": 4188,
+      "sha256": "551014953eb54ad26b2ce392052c8adcaa84e27bb9d793986d607938370be9ec"
+    },
+    "parent/native-run.json": {
+      "bytes": 302,
+      "sha256": "2af86007710f29ca8f369f5c1abdfa84a525709c5f5cd27ad26adada63d8df37"
+    },
+    "parent/pr-before-source.json": {
+      "bytes": 80,
+      "sha256": "25083010ba2b2fc732b356ec8169657a89f2b6316adfdb6fd04e66f84bfb1a28"
+    },
+    "parent/proof.cjs": {
+      "bytes": 6024,
+      "sha256": "1fda73685331f35871f7df3a49885ac2e1f725af6e498512e74e4f1115c26b46"
+    },
+    "parent/proof.json": {
+      "bytes": 7689,
+      "sha256": "463f850bd439a9d109dca31afdcc8ab8ae052d76cab5dce3faa54ee705261e74"
+    },
+    "parent/proof.log": {
+      "bytes": 7689,
+      "sha256": "463f850bd439a9d109dca31afdcc8ab8ae052d76cab5dce3faa54ee705261e74"
+    },
+    "parent/protected-blobs.json": {
+      "bytes": 1050,
+      "sha256": "618cdb1a7e42a177f0d553960bbbf31b69724a5d52b1706027b3e0b19d43dc4d"
+    },
+    "parent/replacement-before.json": {
+      "bytes": 8376,
+      "sha256": "0916cfe49c6c2f099bb429406f275b221524aa4a0e88aea87f34d76b6649a84f"
+    },
+    "parent/selected.diff": {
+      "bytes": 50156,
+      "sha256": "376dc6d87498f6f42a30bed1dec2d60e2c0b5a3419569c77f4901491df7c5b1a"
+    },
+    "parent/selection.json": {
+      "bytes": 7547,
+      "sha256": "af116ee85a2d3d86913cc16db2a58ad2e4d1d1f1d1bd32fcfa36179e30cf2045"
+    },
+    "parent/source.json": {
+      "bytes": 2000,
+      "sha256": "e1af8bbf0526608ff4e1e0996ed5a7de46e496e039203a37f43d3d370462f41b"
+    },
+    "parent/typecheck.log": {
+      "bytes": 15,
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92"
+    },
+    "review/independent.cjs": {
+      "bytes": 6483,
+      "sha256": "20178eb4a1e084966f953f65d503f9a6bba01f8aea378711809039e5b307a67a"
+    },
+    "review/jobs.json": {
+      "bytes": 4188,
+      "sha256": "551014953eb54ad26b2ce392052c8adcaa84e27bb9d793986d607938370be9ec"
+    },
+    "review/native-log-status.json": {
+      "bytes": 327,
+      "sha256": "ec150fefa110421cb2bd07903010fbf3d86e26ad4a0452b2c095aa915f440c93"
+    },
+    "review/pr.json": {
+      "bytes": 204,
+      "sha256": "4b3ba902b694c1f32a19b8d515910495deb8db99b20018e2e82a1d7782c4ed9b"
+    },
+    "review/protected.json": {
+      "bytes": 1211,
+      "sha256": "bcea1fdd9dcac0f835e5cd4ee2c8d0c4fff8cc31567d9e4f9960bed4c4388349"
+    },
+    "review/result.json": {
+      "bytes": 7366,
+      "sha256": "2542a979fed6c282cc7b359e9b8fd9f5bf23c9ea9bdc0490c3643a9f9587d7ab"
+    },
+    "review/result.log": {
+      "bytes": 7366,
+      "sha256": "2542a979fed6c282cc7b359e9b8fd9f5bf23c9ea9bdc0490c3643a9f9587d7ab"
+    },
+    "review/run.json": {
+      "bytes": 15038,
+      "sha256": "b762b01f6e992987054d73d7fa6faaea14f53f975feacdb67d380f9a016fc497"
+    },
+    "review/saved-ranking.json": {
+      "bytes": 5313,
+      "sha256": "2abd3ece8211beb97e15f0bcdbb415c24d6e5468a268f676e44ee9ce8ca13344"
+    },
+    "review/synthetic.json": {
+      "bytes": 199,
+      "sha256": "85cec82a424f626d897b9f0158907b7dee8b95bca3c964bcd9e7e68de9dbaa73"
+    }
+  }
+}

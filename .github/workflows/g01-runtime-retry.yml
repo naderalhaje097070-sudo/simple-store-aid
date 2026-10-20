@@ -1,0 +1,493 @@
+name: G1 Bounded Acceptance Repair
+'on':
+  push:
+    branches:
+    - integration/g0-g1-reconcile-2026-10-18
+    paths:
+    - tests/g01-acceptance/integrated-source.json
+    - tests/g01-acceptance/integrated_identity.py
+    - tests/g01-acceptance/test_integrated_identity.py
+    - tests/g01-acceptance/cleanup.py
+    - tests/g01-acceptance/test_cleanup.py
+    - tests/g01-acceptance/diagnose_cli.py
+    - tests/g01-acceptance/egress_trace.py
+    - tests/g01-acceptance/dns_trace.c
+    - tests/g01-acceptance/dns_trace.cjs
+    - tests/g01-acceptance/test_egress_trace.py
+    - tests/g01-acceptance/test_process_map.py
+    - tests/g01-acceptance/test_cf_fetch.cjs
+    - tests/g01-acceptance/runtime.py
+    - .github/workflows/g01-runtime-retry.yml
+    - tests/g01-acceptance/guard_receipt.py
+    - tests/g01-acceptance/test_g1_contracts.py
+    - tests/g01-acceptance/capture.py
+    - tests/g01-acceptance/g1-source-overrides.json
+    - tests/gate4/sec-env/visual-runtime-contract.py
+    - .github/workflows/sec-env-gate4-probe.yml
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      CI_ISOLATED_SUPABASE: '1'
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: g01-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+    - name: Checkout exact acceptance source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Setup maintained Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Setup existing Bun runtime
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Prove reviewed integrated source and original41 migration identities
+      run: |
+        python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_integrated_identity.py
+        python tests/g01-acceptance/test_g1_contracts.py
+        python tests/g01-acceptance/test_cleanup.py
+    - name: Frozen existing runtime dependencies
+      run: python tests/g01-acceptance/capture.py frozen
+    - name: Pinned browser tools
+      run: |-
+        python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/g01-browser-install-private.log" 2>&1
+        python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/g01-browser-install-private.log" 2>&1
+    - name: Pinned existing emulator test tool
+      run: |-
+        npm install --prefix /tmp/g01-tools wrangler@4.149.0 --no-audit --no-fund > "$RUNNER_TEMP/g01-emulator-install-private.log" 2>&1
+        node /tmp/g01-tools/node_modules/wrangler/bin/wrangler.js --help > "$RUNNER_TEMP/g01-wrangler-help.txt"
+    - name: Verify official cf-fetch opt-out on actual installed bundle before credentials
+      run: node tests/g01-acceptance/test_cf_fetch.cjs
+    - name: Checkout exact observed official CLI installer
+      uses: actions/checkout@v4
+      with:
+        repository: supabase/setup-cli
+        ref: afb1b15109756ea5cf9d8985a359d9095235ca2b
+        path: .g01-cli-action
+        persist-credentials: false
+    - name: Same installer Bun as failed run
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.3.10
+    - name: Frozen official installer dependencies
+      timeout-minutes: 2
+      working-directory: .g01-cli-action
+      run: bun install --frozen-lockfile --production
+    - name: Diagnose pinned CLI installer with bounded phase evidence
+      timeout-minutes: 3
+      run: python tests/g01-acceptance/diagnose_cli.py
+    - name: Install local database and firewall tools
+      run: |-
+        sudo apt-get update -qq
+        sudo apt-get install -y postgresql-client iptables strace libssl-dev > "$RUNNER_TEMP/g01-native-install-private.log" 2>&1
+    - name: Verify pointer-only tracer before credentials
+      run: |
+        python tests/g01-acceptance/test_process_map.py
+        python tests/g01-acceptance/test_egress_trace.py
+        python tests/g01-acceptance/test_egress_trace.py --live-strace
+    - name: Validate scope and native containment before credentials
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(supabase --version)" = 2.101.0
+        supabase --help > "$RUNNER_TEMP/g01-cli-help.txt"
+        python tests/e2e/write_harness_guard.py --preflight-only
+        sudo useradd --system --create-home --home-dir /tmp/g01-app --shell /usr/sbin/nologin g01-app
+        uid="$(id -u g01-app)"
+        sudo iptables -N G01_APP
+        sudo iptables -A G01_APP -o lo -d 127.0.0.1/32 -j ACCEPT
+        sudo iptables -A G01_APP -j REJECT --reject-with icmp-port-unreachable
+        sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j G01_APP
+        sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+        set +e
+        sudo -u g01-app env -i PATH=/usr/bin:/bin curl --noproxy '*' --connect-timeout 2 http://198.51.100.1/g01-canary > /dev/null 2>&1
+        canary_status=$?
+        set -e
+        test "$canary_status" = 7
+        sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
+        chmod -R a+rX /tmp/g01-tools
+    - name: Fresh disposable41 schema only
+      shell: bash
+      run: |
+        set -euo pipefail
+        umask 077
+        stack="$RUNNER_TEMP/g01-stack"
+        mkdir -p "$stack"
+        supabase --workdir "$stack" init > "$RUNNER_TEMP/g01-init-private.log" 2>&1
+        mkdir -p "$stack/supabase/migrations"
+        cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+        if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/g01-start-private.log" 2>&1; then
+          echo 'G01_LOCAL_STACK_FAILED: private output withheld'
+          exit 1
+        fi
+        supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/g01-status.json"
+        chmod 600 "$RUNNER_TEMP/g01-status.json"
+    - name: Actual Cloudflare SSR target agreement and nonfinancial Auth UI
+      run: python tests/g01-acceptance/runtime.py
+    - name: Remove isolated processes containers and credentials
+      if: always()
+      shell: bash
+      run: |
+        set -euo pipefail
+        if id g01-app >/dev/null 2>&1; then sudo pkill -TERM -u g01-app || true; fi
+        sudo rm -f /tmp/g01-runtime/worker.env
+        rm -f "$RUNNER_TEMP/g01-status.json"
+        if [[ -d "$RUNNER_TEMP/g01-stack/supabase" ]]; then supabase --workdir "$RUNNER_TEMP/g01-stack" stop --no-backup > "$RUNNER_TEMP/g01-stop-private.log" 2>&1; fi
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        python tests/g01-acceptance/cleanup.py
+    - name: Quarantine any credential-bearing evidence
+      if: always()
+      run: |
+        python - <<'PYSCAN'
+        import os,re,shutil
+        from pathlib import Path
+        root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
+        for p in out.rglob('*'):
+         if p.is_file() and re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',p.read_text(errors='replace')):
+          shutil.move(str(out),str(root/'g01-evidence-private-quarantine'));raise SystemExit('G01_EVIDENCE_QUARANTINED')
+        print('G01_EVIDENCE_CREDENTIAL_SCAN_PASS')
+        PYSCAN
+    - name: Upload bounded evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: g01-${{ github.job }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/g01-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+  environment:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      EXPECTED_SOURCE: ${{ github.sha }}
+    steps:
+    - name: Checkout exact acceptance source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+        fetch-depth: 0
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Setup existing Bun runtime
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Prove reviewed integrated source and original41 migration identities
+      run: |
+        python tests/g01-acceptance/capture.py identity
+        python tests/g01-acceptance/test_integrated_identity.py
+        python tests/g01-acceptance/test_g1_contracts.py
+    - name: Run target-green environment isolation probe
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        bun tests/gate4/sec-env/probe.ts > /tmp/sec-env-g4.log 2>&1
+        cat /tmp/sec-env-g4.log
+
+        grep -Fq \
+          "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production" \
+          /tmp/sec-env-g4.log || {
+            echo "SEC_ENV_G4_HARNESS_FAIL: exact target-green sentinel missing"
+            exit 1
+          }
+
+        for unexpected in \
+          SEC_ENV_G4_E1_EXPECTED_RED \
+          SEC_ENV_G4_E2_EXPECTED_RED \
+          SEC_ENV_G4_E3_EXPECTED_RED \
+          SEC_ENV_G4_E4_EXPECTED_RED \
+          SEC_ENV_G4_E5_EXPECTED_RED \
+          SEC_ENV_G4_E6_EXPECTED_RED \
+          SEC_ENV_G4_E7_EXPECTED_RED \
+          SEC_ENV_G4_E8_EXPECTED_RED \
+          SEC_ENV_G4_E9_EXPECTED_RED \
+          SEC_ENV_G4_E10_EXPECTED_RED
+        do
+          if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then
+            echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"
+            exit 1
+          fi
+        done
+
+        echo "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"
+    - name: Independently prove destructive REST routing ignores inherited environment and redirects
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        python3 - <<'PY'
+        import ast
+        from pathlib import Path
+
+        files = [
+            Path("tests/e2e/rapid-click-sale.py"),
+            Path("tests/e2e/sale-dashboard-close.py"),
+        ]
+
+        def attr_chain(node):
+            parts = []
+            while isinstance(node, ast.Attribute):
+                parts.append(node.attr)
+                node = node.value
+            if isinstance(node, ast.Name):
+                parts.append(node.id)
+                return list(reversed(parts))
+            return []
+
+        for path in files:
+            source = path.read_text()
+            tree = ast.parse(source, filename=str(path))
+            has_session_constructor = False
+            has_trust_env_false = False
+            session_write_calls = 0
+
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Call):
+                    chain = attr_chain(node.func)
+
+                    if chain == ["requests", "Session"]:
+                        has_session_constructor = True
+
+                    if chain in (["requests", "post"], ["requests", "delete"]):
+                        raise SystemExit(
+                            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} contains direct {'.'.join(chain)}"
+                        )
+
+                    if chain in (
+                        ["self", "session", "post"],
+                        ["self", "session", "delete"],
+                        ["api", "session", "post"],
+                        ["api", "session", "delete"],
+                    ):
+                        session_write_calls += 1
+                        redirect_kw = next(
+                            (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),
+                            None,
+                        )
+                        if not (
+                            redirect_kw
+                            and isinstance(redirect_kw.value, ast.Constant)
+                            and redirect_kw.value.value is False
+                        ):
+                            raise SystemExit(
+                                f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} has {'.'.join(chain)} without allow_redirects=False"
+                            )
+
+                if isinstance(node, ast.Assign):
+                    if not (
+                        isinstance(node.value, ast.Constant)
+                        and node.value.value is False
+                    ):
+                        continue
+                    for target in node.targets:
+                        chain = attr_chain(target)
+                        if chain in (
+                            ["self", "session", "trust_env"],
+                            ["api", "session", "trust_env"],
+                        ):
+                            has_trust_env_false = True
+
+            if not has_session_constructor:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not construct requests.Session()"
+                )
+            if not has_trust_env_false:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not set session.trust_env=False"
+                )
+            if session_write_calls == 0:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: no session-backed destructive REST writes found in {path}"
+                )
+            if "300 <=" not in source or "status_code < 400" not in source:
+                raise SystemExit(
+                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not reject HTTP 3xx responses"
+                )
+
+        print("SEC_ENV_REST_ROUTING_GUARD_CONFIRMED")
+        PY
+    - name: Independently prove destructive preflights reject inherited proxies
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+
+        safe_env=/tmp/sec-env-proxy-safe.env
+        cat > "$safe_env" <<'EOF'
+        VITE_SUPABASE_URL=http://127.0.0.1:54321
+        VITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key
+        EOF
+
+        proxy_vars=(HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy)
+
+        assert_proxy_blocked() {
+          local script="$1"
+          local sentinel="$2"
+          local proxy_name="$3"
+          local safe_name
+          safe_name="${script//\//-}-${proxy_name}"
+          local log="/tmp/${safe_name}.log"
+
+          set +e
+          env \
+            -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY \
+            -u http_proxy -u https_proxy -u all_proxy \
+            "$proxy_name=http://203.0.113.10:8080" \
+            MONGEZZ_E2E_WRITE_TEST=1 \
+            MONGEZZ_DEPLOY_TARGET=ci \
+            MONGEZZ_E2E_ENV_FILE="$safe_env" \
+            PGHOST=127.0.0.1 \
+            PGPORT=54322 \
+            PGUSER=postgres \
+            PGDATABASE=postgres \
+            python3 "$script" --preflight-only \
+            > "$log" 2>&1
+          local status=$?
+          set -e
+
+          if [[ "$status" -eq 0 ]] || ! grep -Fq "$sentinel" "$log"; then
+            echo "SEC_ENV_PROXY_GUARD_FAIL: ${script} accepted ${proxy_name}"
+            cat "$log"
+            exit 1
+          fi
+        }
+
+        for proxy_name in "${proxy_vars[@]}"; do
+          assert_proxy_blocked \
+            tests/e2e/rapid-click-sale.py \
+            SEC_ENV_RAPID_CLICK_BLOCKED \
+            "$proxy_name"
+          assert_proxy_blocked \
+            tests/e2e/sale-dashboard-close.py \
+            SEC_ENV_WRITE_HARNESS_BLOCKED \
+            "$proxy_name"
+        done
+
+        echo "SEC_ENV_PROXY_GUARD_CONFIRMED"
+    - name: Independently prove routing-protected browser contexts block service workers
+      shell: bash
+      run: |
+        mkdir -p "$RUNNER_TEMP/g01-evidence"
+        set -euo pipefail
+        python3 - <<'PY'
+        import ast
+        from pathlib import Path
+
+        files = [
+            Path("tests/e2e/rapid-click-sale.py"),
+            Path("tests/e2e/sale-dashboard-close.py"),
+            Path("tests/e2e/isolated-auth-smoke.py"),
+            Path("tests/visual/mobile-rtl-smoke.py"),
+        ]
+
+        for path in files:
+            tree = ast.parse(path.read_text(), filename=str(path))
+            context_calls = []
+            for node in ast.walk(tree):
+                if not isinstance(node, ast.Call):
+                    continue
+                func = node.func
+                if not (
+                    isinstance(func, ast.Attribute)
+                    and func.attr == "new_context"
+                    and isinstance(func.value, ast.Name)
+                    and func.value.id == "browser"
+                ):
+                    continue
+                context_calls.append(node)
+
+            if not context_calls:
+                raise SystemExit(
+                    f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: no browser.new_context call found in {path}"
+                )
+
+            for node in context_calls:
+                service_workers_kw = next(
+                    (keyword for keyword in node.keywords if keyword.arg == "service_workers"),
+                    None,
+                )
+                if not (
+                    service_workers_kw
+                    and isinstance(service_workers_kw.value, ast.Constant)
+                    and service_workers_kw.value.value == "block"
+                ):
+                    raise SystemExit(
+                        f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: {path} has browser.new_context without service_workers='block'"
+                    )
+
+        print("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")
+        PY
+    - name: Independently prove visual runtime isolation failures are fatal and origin-pinned
+      shell: bash
+      run: |
+        set -euo pipefail
+        python tests/gate4/sec-env/visual-runtime-contract.py > /tmp/sec-env-visual-runtime.log
+        cat /tmp/sec-env-visual-runtime.log
+        grep -Fq SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED /tmp/sec-env-visual-runtime.log
+    - name: Independently prove visual smoke uses canonical non-production origins
+      shell: bash
+      run: "mkdir -p \"$RUNNER_TEMP/g01-evidence\"\nset -euo pipefail\n\nassert_blocked() {\n  local name=\"$1\"\n  local\
+        \ target=\"$2\"\n  local base_url=\"$3\"\n  local log=\"/tmp/visual-${name}.log\"\n\n  set +e\n  MONGEZZ_DEPLOY_TARGET=\"\
+        $target\" \\\n  MONGEZZ_VISUAL_TEST_BASE_URL=\"$base_url\" \\\n    python3 tests/visual/mobile-rtl-smoke.py --preflight-only\
+        \ \\\n    > \"$log\" 2>&1\n  local status=$?\n  set -e\n\n  if [[ \"$status\" -eq 0 ]] || ! grep -Fq \"SEC_ENV_VISUAL_SMOKE_BLOCKED\"\
+        \ \"$log\"; then\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: ${name} was accepted\"\n    cat \"$log\"\n    exit 1\n \
+        \ fi\n}\n\nset +e\nenv -u MONGEZZ_DEPLOY_TARGET -u MONGEZZ_VISUAL_TEST_BASE_URL \\\n  python3 tests/visual/mobile-rtl-smoke.py\
+        \ --preflight-only \\\n  > /tmp/visual-missing.log 2>&1\nmissing_status=$?\nset -e\n\nif [[ \"$missing_status\" -eq\
+        \ 0 ]] || \\\n   ! grep -Fq \"SEC_ENV_VISUAL_SMOKE_BLOCKED\" /tmp/visual-missing.log; then\n  echo \"SEC_ENV_VISUAL_HARNESS_FAIL:\
+        \ missing target/base URL did not fail closed\"\n  exit 1\nfi\n\nassert_blocked production-app preview \\\n  'https://simple-store-aid.lovable.app'\n\
+        assert_blocked production-supabase preview \\\n  'https://dahzkekdirrngnkcxinv.supabase.co'\nassert_blocked unicode-production\
+        \ preview \\\n  'https://simple-store-aid\u3002lovable.app'\nassert_blocked backslash-production preview \\\n  'https://simple-store-aid.lovable.app\\\
+        preview.example'\nassert_blocked encoded-production-app preview \\\n  'https://simple-store-aid%2elovable.app'\nassert_blocked\
+        \ encoded-production-supabase preview \\\n  'https://dahzkekdirrngnkcxinv%2esupabase.co'\nassert_blocked trailing-dot-production\
+        \ preview \\\n  'https://simple-store-aid.lovable.app.'\nassert_blocked preview-custom-port preview \\\n  'https://preview.example:443'\n\
+        assert_blocked ipv4-canonical preview \\\n  'https://127.0.0.1'\nassert_blocked ipv4-octal preview \\\n  'https://0177.0.0.1'\n\
+        assert_blocked ipv4-hex preview \\\n  'https://0x7f.0.0.1'\nassert_blocked ipv4-short preview \\\n  'https://127.1'\n\
+        assert_blocked ipv4-integer preview \\\n  'https://2130706433'\nassert_blocked ipv6-literal preview \\\n  'https://[::1]'\n\
+        assert_blocked numeric-ending-decimal preview \\\n  'https://preview.127'\nassert_blocked numeric-ending-invalid-octal\
+        \ preview \\\n  'https://preview.09'\nassert_blocked numeric-ending-out-of-range preview \\\n  'https://1.2.3.999'\n\
+        assert_blocked numeric-ending-hex preview \\\n  'https://preview.0x7f'\nassert_blocked invalid-punycode-alabel preview\
+        \ \\\n  'https://xn--a.example'\nassert_blocked whatwg-invalid-punycode-alabel preview \\\n  'https://xn--ksa.example'\n\
+        assert_blocked canonical-punycode-alabel preview \\\n  'https://xn--bcher-kva.example'\n\nMONGEZZ_DEPLOY_TARGET=ci\
+        \ \\\nMONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \\\n  python3 tests/visual/mobile-rtl-smoke.py --preflight-only\
+        \ \\\n  > /tmp/visual-safe-ci.log 2>&1\ngrep -Fq \\\n  \"SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production\
+        \ visual target verified\" \\\n  /tmp/visual-safe-ci.log || {\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: isolated CI\
+        \ visual target was rejected\"\n    exit 1\n  }\n\nMONGEZZ_DEPLOY_TARGET=preview \\\nMONGEZZ_VISUAL_TEST_BASE_URL=https://preview.example\
+        \ \\\n  python3 tests/visual/mobile-rtl-smoke.py --preflight-only \\\n  > /tmp/visual-safe-preview.log 2>&1\ngrep\
+        \ -Fq \\\n  \"SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified\" \\\n  /tmp/visual-safe-preview.log\
+        \ || {\n    echo \"SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected\"\n    exit 1\n  }\n\n\
+        echo \"SEC_ENV_VISUAL_HARNESS_CONFIRMED\"\n"
+    - name: Upload bounded evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: g01-${{ github.job }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/g01-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+

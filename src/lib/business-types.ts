@@ -11,5 +11,5 @@ export type BusinessType = (typeof BUSINESS_TYPES)[number]["value"];
 
 export function businessTypeLabel(value: string | null | undefined): string {
   if (!value) return "غير محدد";
-  return BUSINESS_TYPES.find(b => b.value === value)?.label ?? value;
+  return BUSINESS_TYPES.find((b) => b.value === value)?.label ?? value;
 }

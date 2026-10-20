@@ -1,0 +1,16 @@
+[
+  {
+    "workflow": "quality.yml",
+    "original_steps": 15,
+    "current_steps": 17,
+    "all_original_steps_retained": true,
+    "only_replaced_step": "Lint changed source files"
+  },
+  {
+    "workflow": "integration-verification.yml",
+    "original_steps": 21,
+    "current_steps": 23,
+    "all_original_steps_retained": true,
+    "only_replaced_step": null
+  }
+]

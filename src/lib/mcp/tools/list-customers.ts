@@ -19,11 +19,19 @@ export default defineTool({
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ search, limit }, ctx) => {
-    if (!ctx.isAuthenticated()) return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
-    let q = supabaseForUser(ctx).from("customers").select("id,name,phone").order("name").limit(limit ?? 50);
+    if (!ctx.isAuthenticated())
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    let q = supabaseForUser(ctx)
+      .from("customers")
+      .select("id,name,phone")
+      .order("name")
+      .limit(limit ?? 50);
     if (search) q = q.ilike("name", `%${search}%`);
     const { data, error } = await q;
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    return { content: [{ type: "text", text: JSON.stringify(data) }], structuredContent: { customers: data ?? [] } };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data) }],
+      structuredContent: { customers: data ?? [] },
+    };
   },
 });

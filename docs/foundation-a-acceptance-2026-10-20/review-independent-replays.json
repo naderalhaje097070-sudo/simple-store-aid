@@ -1,0 +1,37 @@
+{
+  "app": {
+    "passed": 34,
+    "total": 34
+  },
+  "trial": {
+    "passed": 13,
+    "total": 13
+  },
+  "clock": {
+    "passed": 4,
+    "total": 4
+  },
+  "ci": {
+    "passed": 5,
+    "total": 5
+  },
+  "source_blobs": {
+    "matched": 282,
+    "missing": [
+      "public/icons/apple-touch-icon.png",
+      "public/icons/icon-192.png",
+      "public/icons/icon-512.png",
+      "public/icons/icon-maskable-512.png",
+      "public/og-image.jpg",
+      "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc"
+    ],
+    "actual_native_receipt_all288": true
+  },
+  "artifacts": {
+    "close-day.zip": "0159d1470fbf86818fa04e365b5a57af3946adfa7059a6a3a7d68278c1b27b2c",
+    "g01-runtime-fabb481.zip": "c06dddb7ddfb00df5e7501d71185e2c986058a0a0f944ec74d10fac3926ad8c8",
+    "artifact-12200832939.zip": "daed948519ae13a7a28b2c9ebee080e8316f8efff6d127a1badf18cceff04d70",
+    "artifact-12201916004.zip": "82bf628be320a38aa5fb45a89746ba741296f02886537fa271e5c0b0227d370d",
+    "artifact-12202245636.zip": "6214bdf8b74023fae5e0d3b18f3e59554522a70e9856d37f1c6cb4913a0ef6d9"
+  }
+}

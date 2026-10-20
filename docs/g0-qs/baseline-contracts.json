@@ -1,0 +1,17 @@
+{
+  "source": "d5a5178369d8506eeaccae1e2640e7d493173987",
+  "version": "6.15.3",
+  "baseline_control": true,
+  "exit_code": 1,
+  "failed_tests": [
+    "GHSA-x5fp-wj9c-mxmx: bracket comma group cannot bypass strict limit",
+    "GHSA-4mjr-xmp4-gh2g: parse/stringify preserves data with plainObjects",
+    "GHSA-4mjr-xmp4-gh2g: parse/stringify preserves data with allowPrototypes"
+  ],
+  "tap_totals": [
+    "# tests 15",
+    "# pass 12",
+    "# fail 3",
+    "# skipped 0"
+  ]
+}

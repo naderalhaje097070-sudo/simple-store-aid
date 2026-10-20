@@ -1,0 +1,23 @@
+{
+  "previous_ids": [
+    "GHSA-4x5r-pxfx-6jf8",
+    "GHSA-55q2-fjhq-7xh7",
+    "GHSA-6688-9rhm-gjv2",
+    "GHSA-c2j3-45gr-mqc4",
+    "GHSA-frvp-7c67-39w9",
+    "GHSA-g7r4-m6w7-qqqr"
+  ],
+  "current_ids": [
+    "GHSA-4x5r-pxfx-6jf8",
+    "GHSA-frvp-7c67-39w9",
+    "GHSA-g7r4-m6w7-qqqr"
+  ],
+  "removed": [
+    "GHSA-55q2-fjhq-7xh7",
+    "GHSA-6688-9rhm-gjv2",
+    "GHSA-c2j3-45gr-mqc4"
+  ],
+  "new_ids": [],
+  "all_three_targets_absent": true,
+  "audit_exit_code": 1
+}

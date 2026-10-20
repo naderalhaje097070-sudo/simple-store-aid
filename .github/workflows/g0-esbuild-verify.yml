@@ -1,0 +1,85 @@
+name: Historical G0 esbuild compatibility proof
+# Historical, esbuild-only proof. Its whole-manifest assertions are deliberately
+# tied to the original tested candidate; current source uses the integrated gates.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    env:
+      PYTHONUTF8: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - if: runner.os == 'Windows'
+        run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+        with:
+          ref: 73e133b25a8a5167c6730eb82cf364268ad44373
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Clean frozen exact generated graph and actual consumers
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-esbuild
+          git rev-parse HEAD > evidence/g0-esbuild/source.txt
+          git rev-parse HEAD^{tree} > evidence/g0-esbuild/tree.txt
+          bun --revision > evidence/g0-esbuild/frozen-bun.txt
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-esbuild/frozen.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-esbuild/evidence.py graph
+          python tests/g0-esbuild/evidence.py installed
+      - name: Same servedir regression on actual native filesystem
+        env:
+          REQUIRE_NATIVE_WINDOWS: ${{ runner.os == 'Windows' && '1' || '0' }}
+        run: python tests/g0-esbuild/evidence.py security
+      - name: Real exported MCP generator and manifest CLI with Vite module runner
+        if: runner.os == 'Linux'
+        run: python tests/g0-esbuild/evidence.py compatibility
+      - name: Existing actual MCP transport and auth contracts
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          bun test tests/unit/mcp-dependency-compatibility.test.ts 2>&1 | tee evidence/g0-esbuild/mcp-contracts.log
+      - name: All-copy security guard negative controls
+        if: runner.os == 'Linux'
+        run: python tests/g0-esbuild/evidence.py guards
+      - name: Affected lint
+        if: runner.os == 'Linux'
+        run: |
+          set -euo pipefail
+          bunx --no-install eslint tests/g0-esbuild/official.cjs tests/g0-esbuild/security.test.cjs tests/g0-esbuild/compatibility.test.mjs tests/unit/dependency-security.test.ts 2>&1 | tee evidence/g0-esbuild/affected-lint.log
+      - uses: oven-sh/setup-bun@v2
+        if: runner.os == 'Linux'
+        with:
+          bun-version: '1.4.0'
+      - name: Full audit with real exit and advisory delta
+        if: runner.os == 'Linux'
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision > evidence/g0-esbuild/audit-bun.txt
+          grep -q 34cbb9a40 evidence/g0-esbuild/audit-bun.txt
+          python tests/g0-esbuild/evidence.py audit
+      - name: Tracked application and source invariance
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-esbuild-verification-${{ runner.os }}
+          path: evidence/g0-esbuild
+          if-no-files-found: error

@@ -1,0 +1,42 @@
+Browser version: 153.0.8010.0
+SEC_ENV_WRITE_HARNESS_BROWSER_BLOCKED: GET http://127.0.0.1:34737/dummy
+SEC_ENV_RAPID_CLICK_BROWSER_BLOCKED: GET http://127.0.0.1:34737/dummy
+SEC_ENV_AUTH_SMOKE_BROWSER_BLOCKED: GET http://127.0.0.1:34737/dummy
+SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: GET http://127.0.0.1:34737/dummy
+FAIL: sale: navigation redirect301 reached forbidden recorder
+FAIL: sale: navigation redirect302 reached forbidden recorder
+FAIL: sale: navigation redirect303 reached forbidden recorder
+FAIL: sale: navigation redirect307 reached forbidden recorder
+FAIL: sale: navigation redirect308 reached forbidden recorder
+FAIL: sale: POST redirect307 reached forbidden recorder
+FAIL: sale: POST redirect308 reached forbidden recorder
+FAIL: sale: alternate-origin POST reached forbidden recorder
+FAIL: sale: WebSocket reached forbidden recorder
+FAIL: rapid: navigation redirect301 reached forbidden recorder
+FAIL: rapid: navigation redirect302 reached forbidden recorder
+FAIL: rapid: navigation redirect303 reached forbidden recorder
+FAIL: rapid: navigation redirect307 reached forbidden recorder
+FAIL: rapid: navigation redirect308 reached forbidden recorder
+FAIL: rapid: POST redirect307 reached forbidden recorder
+FAIL: rapid: POST redirect308 reached forbidden recorder
+FAIL: rapid: alternate-origin POST reached forbidden recorder
+FAIL: rapid: WebSocket reached forbidden recorder
+FAIL: auth: navigation redirect301 reached forbidden recorder
+FAIL: auth: navigation redirect302 reached forbidden recorder
+FAIL: auth: navigation redirect303 reached forbidden recorder
+FAIL: auth: navigation redirect307 reached forbidden recorder
+FAIL: auth: navigation redirect308 reached forbidden recorder
+FAIL: auth: POST redirect307 reached forbidden recorder
+FAIL: auth: POST redirect308 reached forbidden recorder
+FAIL: auth: alternate-origin POST reached forbidden recorder
+FAIL: auth: WebSocket reached forbidden recorder
+FAIL: visual: navigation redirect301 reached forbidden recorder
+FAIL: visual: navigation redirect302 reached forbidden recorder
+FAIL: visual: navigation redirect303 reached forbidden recorder
+FAIL: visual: navigation redirect307 reached forbidden recorder
+FAIL: visual: navigation redirect308 reached forbidden recorder
+FAIL: visual: POST redirect307 reached forbidden recorder
+FAIL: visual: POST redirect308 reached forbidden recorder
+FAIL: visual: alternate-origin POST reached forbidden recorder
+FAIL: visual: WebSocket reached forbidden recorder
+BROWSER_TRANSPORT_REGRESSION: 47 scenarios; 36 failures; dummy loopback fixtures only

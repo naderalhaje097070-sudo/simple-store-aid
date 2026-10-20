@@ -1,0 +1,876 @@
+{
+  "source": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "publication": "16c0a586065e455b7e5ca655aa3aee07ac6d6740",
+  "publication_tree": "fbc1d49863e77b71e12f1a913a47306aa879516d",
+  "parents": [
+    "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+  ],
+  "source_tree_truncated": false,
+  "publication_tree_truncated": false,
+  "protected_before": 288,
+  "protected_after": 288,
+  "protected_added": [],
+  "protected_removed": [],
+  "protected_differences": [],
+  "manifest_before": "69eb875a30d94932fbedc07087d1940f9c87fa08",
+  "manifest_after": "69eb875a30d94932fbedc07087d1940f9c87fa08",
+  "sql_count": 41,
+  "retired_workflow_present": false,
+  "delta_count": 85,
+  "delta_statuses": [
+    "added"
+  ],
+  "historical_docs": [
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/API_COMPATIBILITY.md",
+      "sha": "8471cee1305795dd23b7db3ee4c5820faaa8dc8c",
+      "publication_sha": "8471cee1305795dd23b7db3ee4c5820faaa8dc8c",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CHANGE_DESIGN.md",
+      "sha": "79141ab887400934e2939286f800f6f851be92d8",
+      "publication_sha": "79141ab887400934e2939286f800f6f851be92d8",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CHANGE_INTAKE.md",
+      "sha": "0bfeb7d258d732a634d9d796310c817d2f1f7b24",
+      "publication_sha": "0bfeb7d258d732a634d9d796310c817d2f1f7b24",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CURRENT_BEHAVIOR.md",
+      "sha": "5e788df92d4b2a04cca54f52af4b23f964904c42",
+      "publication_sha": "5e788df92d4b2a04cca54f52af4b23f964904c42",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/DATA_IMPACT.md",
+      "sha": "2af84250ff5bd22dd38f16e1a5df21b53dda1c4f",
+      "publication_sha": "2af84250ff5bd22dd38f16e1a5df21b53dda1c4f",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/DEPENDENCY_MAP.md",
+      "sha": "eb5b92c42d0f3392c304ca97757acb32a6dace27",
+      "publication_sha": "eb5b92c42d0f3392c304ca97757acb32a6dace27",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/EXPECTED_BEHAVIOR.md",
+      "sha": "64d006547f998125540d534baa4b0656ba04b753",
+      "publication_sha": "64d006547f998125540d534baa4b0656ba04b753",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/IMPACT_ANALYSIS.md",
+      "sha": "a3e4f259cf6f6b6e88fbcd6dcf2bc7ba631d46c3",
+      "publication_sha": "a3e4f259cf6f6b6e88fbcd6dcf2bc7ba631d46c3",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/MIGRATION_IMPACT.md",
+      "sha": "0f39c90d3199dec80f946af0d6f8f9e3dccc79c7",
+      "publication_sha": "0f39c90d3199dec80f946af0d6f8f9e3dccc79c7",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/PR_DECOMPOSITION.md",
+      "sha": "46852b1174eedb48f4249e3af3d69c0e4c679e99",
+      "publication_sha": "46852b1174eedb48f4249e3af3d69c0e4c679e99",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/README.md",
+      "sha": "0c3c59a355e6449745dcc3368adb16cd5ec20744",
+      "publication_sha": "0c3c59a355e6449745dcc3368adb16cd5ec20744",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/ROLLBACK_IMPACT.md",
+      "sha": "9f8694ff452f4cc6d08e7a10fab0c7c26ce4191c",
+      "publication_sha": "9f8694ff452f4cc6d08e7a10fab0c7c26ce4191c",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/SECURITY_IMPACT.md",
+      "sha": "cb1131cee900ec1a9fe90fd777ba580077d51789",
+      "publication_sha": "cb1131cee900ec1a9fe90fd777ba580077d51789",
+      "pass": true
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/TEST_IMPACT.md",
+      "sha": "a78b1870d6390d9218b074df54a81a069e664aac",
+      "publication_sha": "a78b1870d6390d9218b074df54a81a069e664aac",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/API_COMPATIBILITY.md",
+      "sha": "558ba1d4cdfc9c7efba4fcae46f05cd4264d69b2",
+      "publication_sha": "558ba1d4cdfc9c7efba4fcae46f05cd4264d69b2",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CHANGE_DESIGN.md",
+      "sha": "e4fbba8a3f881871e0b1a54e88540a6c42b161d3",
+      "publication_sha": "e4fbba8a3f881871e0b1a54e88540a6c42b161d3",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CHANGE_INTAKE.md",
+      "sha": "c23d02b3f01752504b5c41fbf2fa90a7bd61ec02",
+      "publication_sha": "c23d02b3f01752504b5c41fbf2fa90a7bd61ec02",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CURRENT_BEHAVIOR.md",
+      "sha": "4b5d298b32e58f34e5e7476e52ef454511bc4364",
+      "publication_sha": "4b5d298b32e58f34e5e7476e52ef454511bc4364",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/DATA_IMPACT.md",
+      "sha": "8cf9405ae11328e17f336a4becf5f0a339c90ce8",
+      "publication_sha": "8cf9405ae11328e17f336a4becf5f0a339c90ce8",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/DEPENDENCY_MAP.md",
+      "sha": "18a62ebabba1773a28ee881d7ddea2fb6f18e113",
+      "publication_sha": "18a62ebabba1773a28ee881d7ddea2fb6f18e113",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/EXPECTED_BEHAVIOR.md",
+      "sha": "426733dccd8190ec677925b0445c59c51ffc2602",
+      "publication_sha": "426733dccd8190ec677925b0445c59c51ffc2602",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/IMPACT_ANALYSIS.md",
+      "sha": "11c31004cbd0046abf7ceab73efb60557583111e",
+      "publication_sha": "11c31004cbd0046abf7ceab73efb60557583111e",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/MIGRATION_IMPACT.md",
+      "sha": "2c51170ce53195a567195ae778bbd1b08fc122ef",
+      "publication_sha": "2c51170ce53195a567195ae778bbd1b08fc122ef",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/PR_DECOMPOSITION.md",
+      "sha": "6e83b432eac1d860fa688d8c385897bf7eca3551",
+      "publication_sha": "6e83b432eac1d860fa688d8c385897bf7eca3551",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/README.md",
+      "sha": "17b2d3d768b52b4eb3dfee56e8e70aec824e6d32",
+      "publication_sha": "17b2d3d768b52b4eb3dfee56e8e70aec824e6d32",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/ROLLBACK_IMPACT.md",
+      "sha": "6fe134ed5e04c3a4064ab3997e45d1c375669205",
+      "publication_sha": "6fe134ed5e04c3a4064ab3997e45d1c375669205",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/SECURITY_IMPACT.md",
+      "sha": "9d76148a65df115b52837027d2b083ec3efbeac9",
+      "publication_sha": "9d76148a65df115b52837027d2b083ec3efbeac9",
+      "pass": true
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/TEST_IMPACT.md",
+      "sha": "81ebdd08faa52738f70839e5560341359ecc484d",
+      "publication_sha": "81ebdd08faa52738f70839e5560341359ecc484d",
+      "pass": true
+    }
+  ],
+  "capsule_files": [
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/FILES.json",
+      "git_blob_sha": "68fe6dc0198fb5b28df24bd3677533cf871225fd",
+      "local_blob_sha": "68fe6dc0198fb5b28df24bd3677533cf871225fd",
+      "sha256": "0d04fe49cd0f37e83921381bd6306ad7b3176321e3a1eea8d43ad019d84ff5c6",
+      "pass": true,
+      "index_pass": null
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/PROVENANCE.md",
+      "git_blob_sha": "3d712d6787cb9cf46da8e12fe9b141bacdb566de",
+      "local_blob_sha": "3d712d6787cb9cf46da8e12fe9b141bacdb566de",
+      "sha256": "1d682624244275a2b32f2245f22a33b397f6845c87404c8cb61cd822173d8f0e",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/PR_COVERAGE.md",
+      "git_blob_sha": "e568433f013a4d68e5b615de43d4ae620939f980",
+      "local_blob_sha": "e568433f013a4d68e5b615de43d4ae620939f980",
+      "sha256": "16ce9d76ef2f6c8dfe88d0fc17713430fdc926a8f6c634f8c63132a06064a873",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/REPORT.md",
+      "git_blob_sha": "531c1e12caaf5fab2a7e0d5c3604b7a895da19f1",
+      "local_blob_sha": "531c1e12caaf5fab2a7e0d5c3604b7a895da19f1",
+      "sha256": "4dcb8adc809b23c1f4872fff24c6b13f10c2a0f8db9810dabfef6879477454dd",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/app-final-replay.json",
+      "git_blob_sha": "6a53b87b4030b26b2cc93106185b1adf14071442",
+      "local_blob_sha": "6a53b87b4030b26b2cc93106185b1adf14071442",
+      "sha256": "0a4338868ff5c9e09ad9dcc4794d7e958a9bd3da2d20f9967a4a2a7a2ca6bea1",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/arithmetic-preservation.json",
+      "git_blob_sha": "60733672718509b2993b36f3d680bfea4a197a06",
+      "local_blob_sha": "60733672718509b2993b36f3d680bfea4a197a06",
+      "sha256": "21c172f06e0afe88c7c13fecaa381660429e87b801ca575287dbed2d10837504",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/audit-fabb481-native.zip",
+      "git_blob_sha": "d2abb457530e99861ba6f484305a4bc8b554dfdd",
+      "local_blob_sha": "d2abb457530e99861ba6f484305a4bc8b554dfdd",
+      "sha256": "82bf628be320a38aa5fb45a89746ba741296f02886537fa271e5c0b0227d370d",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/close-day-cleanup.json",
+      "git_blob_sha": "5deded7a1dc2f18bb64d4c7feefbb3ab70017f1b",
+      "local_blob_sha": "5deded7a1dc2f18bb64d4c7feefbb3ab70017f1b",
+      "sha256": "5e4f214f5e2507bcc33b4ea1d1601e0080da2898163acee6c42e27d00473fe7e",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/close-day-fixture.json",
+      "git_blob_sha": "9ce5b1d811ea66208690457fc1927538b4529bb0",
+      "local_blob_sha": "9ce5b1d811ea66208690457fc1927538b4529bb0",
+      "sha256": "d87124c497d6cb8b30b7a7f25dc59543902435fc28ea517677ede319a7dbcb7d",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/close-day-native.zip",
+      "git_blob_sha": "bed982f0739d9bba56f321ae4bec1aab383a2521",
+      "local_blob_sha": "bed982f0739d9bba56f321ae4bec1aab383a2521",
+      "sha256": "0159d1470fbf86818fa04e365b5a57af3946adfa7059a6a3a7d68278c1b27b2c",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/close-day-result.json",
+      "git_blob_sha": "f6827b7bc00b855f6f7c4864577dcd1218eece2b",
+      "local_blob_sha": "f6827b7bc00b855f6f7c4864577dcd1218eece2b",
+      "sha256": "969ade2c4e60cf2ea72fa533da43dbddb3c8cfabe05765ad42fe2e0b9d77b43e",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/coverage-proof.json",
+      "git_blob_sha": "20b8aff75cbceacd505f7e8b348e5d02cc374897",
+      "local_blob_sha": "20b8aff75cbceacd505f7e8b348e5d02cc374897",
+      "sha256": "91aba2cd5cebd44ff6aa87d81158b632b1a280be476ca3e4db40ea4809d6f8e4",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/executed-close-day-preview.cjs.txt",
+      "git_blob_sha": "36b6145e83c599a01e77228ece34eee95d869c11",
+      "local_blob_sha": "36b6145e83c599a01e77228ece34eee95d869c11",
+      "sha256": "fd323268be20f35d23c869012a7594a338db6d59ff17b6e5099e712cfe4f32d2",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/executed-close-day-probe.py.txt",
+      "git_blob_sha": "fb2efa8c427841e58352466c40e83f60766a6a8a",
+      "local_blob_sha": "fb2efa8c427841e58352466c40e83f60766a6a8a",
+      "sha256": "6072fc46888a814cd8bbd879ffa09211e8d8f2fee98d73daecf1ae7387393f43",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/executed-close-day-workflow.yml.txt",
+      "git_blob_sha": "e1d29b050c309caaf67d7caec12e0ac3504b00de",
+      "local_blob_sha": "e1d29b050c309caaf67d7caec12e0ac3504b00de",
+      "sha256": "b4591568b24d955afd4412d70a1eb68688d6c0885bc91c3f420a2ab720b39e72",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g0-excerpts.txt",
+      "git_blob_sha": "7266b33b8b3c78838069552350a209a41b55896c",
+      "local_blob_sha": "7266b33b8b3c78838069552350a209a41b55896c",
+      "sha256": "fa724ae85152b525d645ce4ba975147ddeb5029655763d6305b7be1ad5a392c6",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-cleanup.json",
+      "git_blob_sha": "039a072be0cb57054f51b74acd66a049ed213bee",
+      "local_blob_sha": "039a072be0cb57054f51b74acd66a049ed213bee",
+      "sha256": "e74e036d1d978b44136ab908493293f7f994668e5eba4b5e54507f9822b64fce",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-excerpts.txt",
+      "git_blob_sha": "adad912a838ca45f541f80d8839edd4f7d64a2c0",
+      "local_blob_sha": "adad912a838ca45f541f80d8839edd4f7d64a2c0",
+      "sha256": "909e460ca384f046a0916801d5a1aa9b14597fafca19d3dda087f6dc195c7b4e",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-frozen.json",
+      "git_blob_sha": "8b58245d2be7894db5b8bf392e3a9532ef4fb734",
+      "local_blob_sha": "8b58245d2be7894db5b8bf392e3a9532ef4fb734",
+      "sha256": "8ad2e5ecc2b23b98392c20246269007cbbee287975529ddb8cd7ab21495f06b4",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-identity.json",
+      "git_blob_sha": "5adcea82e753823e4c79d31c3658f386d2bf2a1c",
+      "local_blob_sha": "5adcea82e753823e4c79d31c3658f386d2bf2a1c",
+      "sha256": "cf2547e08a7b5784ef4a124bb54fd8f82f4d3db1bcf407c4377768f790cda0e4",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-native.zip",
+      "git_blob_sha": "d1dfe9cb52c3ef647edbb0be4f2d2fc3e8cfbaf9",
+      "local_blob_sha": "d1dfe9cb52c3ef647edbb0be4f2d2fc3e8cfbaf9",
+      "sha256": "9d5a5fc0f28e7ef0061b7c9b36490f87a96edce8c3b3e5603f259f815ae30099",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-g1-runtime-result.json",
+      "git_blob_sha": "2a39865c6456082dae841a36304c7d418637ac3b",
+      "local_blob_sha": "2a39865c6456082dae841a36304c7d418637ac3b",
+      "sha256": "4ce3a7213f1333a2375ebddde836639634e0ccfa2eec3767d5dae31bce4b7214",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-native-browser.json",
+      "git_blob_sha": "7ed91f01a08e90a65ba57d2f8c9903063ff54d20",
+      "local_blob_sha": "7ed91f01a08e90a65ba57d2f8c9903063ff54d20",
+      "sha256": "5fa7cf75488a4c5f5184803e9512aea4132b030ddde13accc37a474dc269ba11",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-native-metadata.json",
+      "git_blob_sha": "632316abe657d28f700c74c9554d0e36a647f7fa",
+      "local_blob_sha": "632316abe657d28f700c74c9554d0e36a647f7fa",
+      "sha256": "899ffea05c927cee5cc71acd7c406612a7860270e5841a0fcf69ef8cbd9ceb6d",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-native-replay.json",
+      "git_blob_sha": "6a53b87b4030b26b2cc93106185b1adf14071442",
+      "local_blob_sha": "6a53b87b4030b26b2cc93106185b1adf14071442",
+      "sha256": "0a4338868ff5c9e09ad9dcc4794d7e958a9bd3da2d20f9967a4a2a7a2ca6bea1",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/final-quality-native.zip",
+      "git_blob_sha": "f2224a10f136cd37a4f39ebdcd294a1e33334618",
+      "local_blob_sha": "f2224a10f136cd37a4f39ebdcd294a1e33334618",
+      "sha256": "23e59bf59ca15bab22098dc45eb71f7b498aaa05893b95081818fb58cce4e9ae",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/g1-fabb481-native.zip",
+      "git_blob_sha": "5741e2fef5b7eb9001df5a0f865c577079cf21c2",
+      "local_blob_sha": "5741e2fef5b7eb9001df5a0f865c577079cf21c2",
+      "sha256": "c06dddb7ddfb00df5e7501d71185e2c986058a0a0f944ec74d10fac3926ad8c8",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/identity-fabb481-native.zip",
+      "git_blob_sha": "dbfc6d9820d5a18cfbfec29d56dab83176a94ab5",
+      "local_blob_sha": "dbfc6d9820d5a18cfbfec29d56dab83176a94ab5",
+      "sha256": "daed948519ae13a7a28b2c9ebee080e8316f8efff6d127a1badf18cceff04d70",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/lint-after-lint-tests.json",
+      "git_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "local_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "sha256": "15c5816d0c64015debf5a970c25c4da31d45d94229c3774d3bd2a8f8bfff58cf",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/lint-before-lint-tests.json",
+      "git_blob_sha": "a827288d7f7c0ab85a8e52427947d550199c14f6",
+      "local_blob_sha": "a827288d7f7c0ab85a8e52427947d550199c14f6",
+      "sha256": "8dcd848f9dc6117828de51177f4f78000ea4b8555e06bfb86359c46297eb7235",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/lint-fix-after-initial.json",
+      "git_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "local_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "sha256": "15c5816d0c64015debf5a970c25c4da31d45d94229c3774d3bd2a8f8bfff58cf",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/lint-fix-before-initial.json",
+      "git_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "local_blob_sha": "b61d4010401bf3341feee6bd8d546d1202a096e9",
+      "sha256": "15c5816d0c64015debf5a970c25c4da31d45d94229c3774d3bd2a8f8bfff58cf",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/main-tree-delta.json",
+      "git_blob_sha": "f16b213ed00554ff205e8e7fab1679157dbf931c",
+      "local_blob_sha": "f16b213ed00554ff205e8e7fab1679157dbf931c",
+      "sha256": "7854688cccd2ddd100c4546f02b7027f4be479c0208f252eaf44df7914086efb",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/native-excerpts.txt",
+      "git_blob_sha": "d91f2936df80842e2891f16082a772619c76dc69",
+      "local_blob_sha": "d91f2936df80842e2891f16082a772619c76dc69",
+      "sha256": "685f165124e7b8e515252a89ab7f8241d6f81a2dbb27fcdfb85647604f77feb6",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/native-runs.json",
+      "git_blob_sha": "6698decefb4ecc762f199f751d2fad15974e9c50",
+      "local_blob_sha": "6698decefb4ecc762f199f751d2fad15974e9c50",
+      "sha256": "5fd464a559e5ddb58b0cd82c973987069c6265f579b846c76821154e3fd33e89",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/pilot-before.json",
+      "git_blob_sha": "a9d5248d4323899763ccced635add2185a8302ba",
+      "local_blob_sha": "a9d5248d4323899763ccced635add2185a8302ba",
+      "sha256": "34ec575bfca72e09149373c25418efed99a784d5c4d7549753a52b2ee50fdb68",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-FINAL_ADDENDUM.md",
+      "git_blob_sha": "f6ee859efa6559eb329e8f860aa40128535f78fa",
+      "local_blob_sha": "f6ee859efa6559eb329e8f860aa40128535f78fa",
+      "sha256": "e08ab77aa61dbe27ae05e4ea4c443a523a1c99139a0aef28cdd8c034ee81d91a",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-INITIAL_REVIEW.md",
+      "git_blob_sha": "6517f6a0b82e1485392c318843fb90d5ce5365d8",
+      "local_blob_sha": "6517f6a0b82e1485392c318843fb90d5ce5365d8",
+      "sha256": "f1e9cf806b7335084c79bcf51b6fdc2825f36d3d086c30cb610c4f46475758a9",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-final-memo-native-fixture.json",
+      "git_blob_sha": "6e93bcb37de55a3c3c003982b19ba3efeb2d321e",
+      "local_blob_sha": "6e93bcb37de55a3c3c003982b19ba3efeb2d321e",
+      "sha256": "fdea4dae004677282e36db9e704cdbf7f3c387323e00924f6a7752e15984176b",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-final-memo-stored-comparison.json",
+      "git_blob_sha": "6616dbb44d2eb80018cf1552788b2a05a095a5e3",
+      "local_blob_sha": "6616dbb44d2eb80018cf1552788b2a05a095a5e3",
+      "sha256": "8f9dcd563948f87577d4dfc29edcc73eb764fac52464a9fff644f296b3edf238",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-final-native-g1-excerpts.txt",
+      "git_blob_sha": "e0547317e997db67022e55d3b8c894d99a48b556",
+      "local_blob_sha": "e0547317e997db67022e55d3b8c894d99a48b556",
+      "sha256": "58f04b57618728936b14dde79bdae236dfaa66a347b564e56acd44ab21e0f4e8",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-final-native-quality-excerpts.txt",
+      "git_blob_sha": "6b037959523e90d49d38a8c60f543a9af50cd6fd",
+      "local_blob_sha": "6b037959523e90d49d38a8c60f543a9af50cd6fd",
+      "sha256": "36f19a6eda6d997260a9eaa8cd8ff9c6cf0cbd5c798230539be6cfcff45a4ae4",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-findings-final.json",
+      "git_blob_sha": "92fb864e42b358b7d29e6c279945a705b2354845",
+      "local_blob_sha": "92fb864e42b358b7d29e6c279945a705b2354845",
+      "sha256": "6bee6632623f43740f818f3bb1a2cc666301128a0dc9df488aff828326d30b67",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-findings-initial.json",
+      "git_blob_sha": "35439a14e0e182b14d203ced313dbd6a207d36d2",
+      "local_blob_sha": "35439a14e0e182b14d203ced313dbd6a207d36d2",
+      "sha256": "acc387b3590efa258d181374fa8260b71b8587d8fcae5b47a8b841a9b7e18271",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-independent-replays.json",
+      "git_blob_sha": "d0bc8018adb5fc61f0d4734352132957a3023803",
+      "local_blob_sha": "d0bc8018adb5fc61f0d4734352132957a3023803",
+      "sha256": "896ee1d59426efec172484dc93baa02248e008fcdac864efe4b9f698a9d367f5",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-leading-dash-negative.json",
+      "git_blob_sha": "8186b6b369dcfc80cd0e8d7ff66d55ad9925ba42",
+      "local_blob_sha": "8186b6b369dcfc80cd0e8d7ff66d55ad9925ba42",
+      "sha256": "619ab7b5c24b7ca273cd874ae9165a9953f0a7dfd3c2e635f083a9e243ad48c2",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-original-design-doc-identities.json",
+      "git_blob_sha": "018f87ea9998fc74b83e4ffeb71d3b169a28ba82",
+      "local_blob_sha": "018f87ea9998fc74b83e4ffeb71d3b169a28ba82",
+      "sha256": "a667ab9db5a44e1eaeda7feadd16b8b157f56d3b42ad57d61961528021da89d1",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-pilot-timezone-after.json",
+      "git_blob_sha": "01e805d14d8c88cb918aea09856ad23c334e62f2",
+      "local_blob_sha": "01e805d14d8c88cb918aea09856ad23c334e62f2",
+      "sha256": "49c05515c1995564017421764e0d12eba7cde785d278c1b3219a898b0bb03fd1",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-pilot-timezone-regression.json",
+      "git_blob_sha": "6dde0aa44144129a74bd401ea4fc3bdbafeee690",
+      "local_blob_sha": "6dde0aa44144129a74bd401ea4fc3bdbafeee690",
+      "sha256": "c82bf2fc0bd663c3a921ba2ba18fec226566a84f4b32fd91d06361db09b98c5a",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-settings-paid-failure.json",
+      "git_blob_sha": "e037ac9e00a8a882c0fbe9c6e7d021f7e224bd7f",
+      "local_blob_sha": "e037ac9e00a8a882c0fbe9c6e7d021f7e224bd7f",
+      "sha256": "154fd8286dd7b5b6e92d60bb8576abf41ef635e08240a360937b8110bdb17be9",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-settings-read-failure.json",
+      "git_blob_sha": "07dbd74b8fcc9aae17aec6cd0163a6b51d3e19a7",
+      "local_blob_sha": "07dbd74b8fcc9aae17aec6cd0163a6b51d3e19a7",
+      "sha256": "25a22c39edc8fd358a5e475131560f4acfc3e779772f38e246f6e72400abcac8",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-source-421-local-identity.json",
+      "git_blob_sha": "3c9e2d08a5461a01bd94c3b61f53000fb94b3901",
+      "local_blob_sha": "3c9e2d08a5461a01bd94c3b61f53000fb94b3901",
+      "sha256": "fb67d354a9ad15531e22b3cc42c4a04f786b3d83f2f8ea51956254c1a02bedda",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-timezone-diff.json",
+      "git_blob_sha": "25a7b24d6a9df28530bbeab1548c6ca352ef2d9b",
+      "local_blob_sha": "25a7b24d6a9df28530bbeab1548c6ca352ef2d9b",
+      "sha256": "ae739d71c73526214cc7b4c4c12c1d78a18bd1036ac3b3b071ca1f84a1464d50",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/review-timezone-independent-final.json",
+      "git_blob_sha": "3bfdf6bce908ce0f6acf6ba922dd87b1b7ef65a7",
+      "local_blob_sha": "3bfdf6bce908ce0f6acf6ba922dd87b1b7ef65a7",
+      "sha256": "00e347b76ac8a02e969c41e1ea651d5ad39c47c31a6996c636c85b29623e003d",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/settings-paid-build.mjs.txt",
+      "git_blob_sha": "f229db681a9d45d44fd9dea99ab96397a7629361",
+      "local_blob_sha": "f229db681a9d45d44fd9dea99ab96397a7629361",
+      "sha256": "b2c8c827ec75cbe2766b6f7314d6fb70ec233d31aa7a7187d319bfe313eb6b41",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/settings-read-build.mjs.txt",
+      "git_blob_sha": "3206619080a934b55d0224669b090e99583a9547",
+      "local_blob_sha": "3206619080a934b55d0224669b090e99583a9547",
+      "sha256": "6d875d0fca0f60b7e31131186cd4cbbbf8f70373d110203fee60c01783a4c2dc",
+      "pass": true,
+      "index_pass": true
+    },
+    {
+      "path": "docs/foundation-a-acceptance-2026-10-20/timezone-before-replay.json",
+      "git_blob_sha": "5a8a6bfec693f4df113308a6d20cbd3b54ed496d",
+      "local_blob_sha": "5a8a6bfec693f4df113308a6d20cbd3b54ed496d",
+      "sha256": "4a04c48ab96b9d6c3894ee9d1fe800f9703b92d1adc21d6897687c33b3da2fb8",
+      "pass": true,
+      "index_pass": true
+    }
+  ],
+  "pr48": {
+    "pr": 48,
+    "head": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+    "reviewedPublication": "16c0a586065e455b7e5ca655aa3aee07ac6d6740",
+    "originalTreeTruncated": false,
+    "officialChangedFiles": 18,
+    "matrixRows": 18,
+    "exact": 7,
+    "superseded": 11,
+    "missingFromMatrix": [],
+    "allPass": true,
+    "rows": [
+      {
+        "path": ".env.example",
+        "original": "962d763602e1ecae0200f06b03e3ce9164614d25",
+        "current": "962d763602e1ecae0200f06b03e3ce9164614d25",
+        "exact": true,
+        "originalTreeSha": "962d763602e1ecae0200f06b03e3ce9164614d25",
+        "publicationTreeSha": "962d763602e1ecae0200f06b03e3ce9164614d25",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": ".github/workflows/isolated-auth-smoke.yml",
+        "original": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+        "current": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+        "exact": true,
+        "originalTreeSha": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+        "publicationTreeSha": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": ".github/workflows/quality.yml",
+        "original": "102dd358519e63e1f9a02ca65e5116eb0f169cef",
+        "current": "0730862c39917c9fde932a2f7e633933a645c3f5",
+        "exact": false,
+        "originalTreeSha": "102dd358519e63e1f9a02ca65e5116eb0f169cef",
+        "publicationTreeSha": "0730862c39917c9fde932a2f7e633933a645c3f5",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": ".github/workflows/sec-ci-gate4-probe.yml",
+        "original": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+        "current": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+        "exact": true,
+        "originalTreeSha": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+        "publicationTreeSha": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": ".github/workflows/sec-env-gate4-probe.yml",
+        "original": "9aa350ec29b96e39c8d290dbbc4d0da8c1026d74",
+        "current": "039c7308cc67e1daf91bd49bdadab08fcb9ad36e",
+        "exact": false,
+        "originalTreeSha": "9aa350ec29b96e39c8d290dbbc4d0da8c1026d74",
+        "publicationTreeSha": "039c7308cc67e1daf91bd49bdadab08fcb9ad36e",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "config/supabase-build-config.ts",
+        "original": "9947779995e8697d2b6dffb143cd1a25483031a5",
+        "current": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+        "exact": false,
+        "originalTreeSha": "9947779995e8697d2b6dffb143cd1a25483031a5",
+        "publicationTreeSha": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "src/server.ts",
+        "original": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+        "current": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+        "exact": true,
+        "originalTreeSha": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+        "publicationTreeSha": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/README.md",
+        "original": "d3b5b482536586cfc8eea9e2f2161ca2b693c569",
+        "current": "dec7e4848e5f45f8ad2cdd3c856bd55b80575073",
+        "exact": false,
+        "originalTreeSha": "d3b5b482536586cfc8eea9e2f2161ca2b693c569",
+        "publicationTreeSha": "dec7e4848e5f45f8ad2cdd3c856bd55b80575073",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/isolated-auth-smoke.py",
+        "original": "1cfc000fc7526ba8c6bf807f48bc9412f10d4a4d",
+        "current": "a89e812bebed660e7ef29be962807906bdb3bfa0",
+        "exact": false,
+        "originalTreeSha": "1cfc000fc7526ba8c6bf807f48bc9412f10d4a4d",
+        "publicationTreeSha": "a89e812bebed660e7ef29be962807906bdb3bfa0",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/rapid-click-sale.py",
+        "original": "903848f2ee1e5c142ecffd56ffc9fe638938332a",
+        "current": "4d5c2c669cad99f4749f3b179161b26f3ffdd45e",
+        "exact": false,
+        "originalTreeSha": "903848f2ee1e5c142ecffd56ffc9fe638938332a",
+        "publicationTreeSha": "4d5c2c669cad99f4749f3b179161b26f3ffdd45e",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/run.sh",
+        "original": "fdbbfba6aa2fd03d4580ec99539edca8445c5392",
+        "current": "bb21340a1614fcc2e161c6342a501dfb14a88e13",
+        "exact": false,
+        "originalTreeSha": "fdbbfba6aa2fd03d4580ec99539edca8445c5392",
+        "publicationTreeSha": "bb21340a1614fcc2e161c6342a501dfb14a88e13",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/sale-dashboard-close.py",
+        "original": "715b547ed1815bcf0a1e5917a71724a0c7ff7b72",
+        "current": "1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9",
+        "exact": false,
+        "originalTreeSha": "715b547ed1815bcf0a1e5917a71724a0c7ff7b72",
+        "publicationTreeSha": "1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/e2e/write_harness_guard.py",
+        "original": "3f16a0d27baf1c46c15401f086014916e63952c6",
+        "current": "5cb2435fe47ef5ca5777318643754e5f26c3a3b0",
+        "exact": false,
+        "originalTreeSha": "3f16a0d27baf1c46c15401f086014916e63952c6",
+        "publicationTreeSha": "5cb2435fe47ef5ca5777318643754e5f26c3a3b0",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/financial-rules/run.sh",
+        "original": "47553eedbd86c8d4984b59ac5287220d141931e2",
+        "current": "47553eedbd86c8d4984b59ac5287220d141931e2",
+        "exact": true,
+        "originalTreeSha": "47553eedbd86c8d4984b59ac5287220d141931e2",
+        "publicationTreeSha": "47553eedbd86c8d4984b59ac5287220d141931e2",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/gate4/sec-env/probe.ts",
+        "original": "f176c3886645b942d4fbf7570d0627b354cb56f5",
+        "current": "992d3fa7cf62047e823818405cb4ca4e081f6d4b",
+        "exact": false,
+        "originalTreeSha": "f176c3886645b942d4fbf7570d0627b354cb56f5",
+        "publicationTreeSha": "992d3fa7cf62047e823818405cb4ca4e081f6d4b",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/unit/supabase-build-config.test.ts",
+        "original": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+        "current": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+        "exact": true,
+        "originalTreeSha": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+        "publicationTreeSha": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "tests/visual/mobile-rtl-smoke.py",
+        "original": "1c1eeac75169740d0bc10f418fa5ab544aff7dcc",
+        "current": "8f9f976654934990414aa15fd6881af1c0fce19c",
+        "exact": false,
+        "originalTreeSha": "1c1eeac75169740d0bc10f418fa5ab544aff7dcc",
+        "publicationTreeSha": "8f9f976654934990414aa15fd6881af1c0fce19c",
+        "presentInOriginalPR": true,
+        "pass": true
+      },
+      {
+        "path": "vite.config.ts",
+        "original": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "current": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "exact": true,
+        "originalTreeSha": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "publicationTreeSha": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "presentInOriginalPR": true,
+        "pass": true
+      }
+    ]
+  },
+  "verdict": "Approved for human merge within package A",
+  "tests_rerun": false,
+  "new_high_medium_findings": 0
+}

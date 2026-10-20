@@ -39,14 +39,21 @@ function Onboarding() {
       // Idempotency: if this user already has a tenant (from a previous
       // attempt or from the trigger), don't create a duplicate.
       const { data: existingProfile } = await supabase
-        .from("profiles").select("tenant_id").eq("id", uid).maybeSingle();
+        .from("profiles")
+        .select("tenant_id")
+        .eq("id", uid)
+        .maybeSingle();
       if (existingProfile?.tenant_id) {
         navigate({ to: "/app" });
         return;
       }
       const { data: existingTenant } = await supabase
-        .from("tenants").select("id").eq("owner_user_id", uid)
-        .order("created_at", { ascending: true }).limit(1).maybeSingle();
+        .from("tenants")
+        .select("id")
+        .eq("owner_user_id", uid)
+        .order("created_at", { ascending: true })
+        .limit(1)
+        .maybeSingle();
       if (existingTenant?.id) {
         await supabase.from("profiles").update({ tenant_id: existingTenant.id }).eq("id", uid);
         navigate({ to: "/app" });
@@ -85,7 +92,10 @@ function Onboarding() {
           <p className="text-sm text-muted-foreground mt-1">لنبدأ بإضافة اسم محلك</p>
         </div>
 
-        <form onSubmit={onCreate} className="rounded-2xl bg-card border border-border p-5 shadow-sm space-y-4">
+        <form
+          onSubmit={onCreate}
+          className="rounded-2xl bg-card border border-border p-5 shadow-sm space-y-4"
+        >
           <div>
             <label className="block text-xs text-muted-foreground mb-1">اسم المحل</label>
             <input
@@ -98,14 +108,25 @@ function Onboarding() {
             />
           </div>
 
-          {error && <div className="text-xs text-destructive bg-destructive/10 rounded-lg px-3 py-2">{error}</div>}
+          {error && (
+            <div className="text-xs text-destructive bg-destructive/10 rounded-lg px-3 py-2">
+              {error}
+            </div>
+          )}
 
-          <button type="submit" disabled={loading} className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-60">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold disabled:opacity-60"
+          >
             {loading ? "..." : "إنشاء المحل والمتابعة"}
           </button>
         </form>
 
-        <button onClick={signOut} className="block mx-auto mt-5 text-xs text-muted-foreground underline">
+        <button
+          onClick={signOut}
+          className="block mx-auto mt-5 text-xs text-muted-foreground underline"
+        >
           تسجيل خروج
         </button>
       </div>

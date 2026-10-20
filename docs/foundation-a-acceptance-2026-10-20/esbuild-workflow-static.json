@@ -1,0 +1,12 @@
+{
+  "scope": "historical workflow lifecycle only",
+  "original_proof_source": "73e133b25a8a5167c6730eb82cf364268ad44373",
+  "workflow_dispatch_only": true,
+  "checkout_pinned_to_original": true,
+  "old_workflow_blob": "a9fdbdc7e31234740a5536afa5430fd99c281237",
+  "new_workflow_blob": "1e0fabfde9e32040bad085db461dfbeddb83cc94",
+  "protected_count": 288,
+  "migration_count": 41,
+  "runtime_tests_package_lock_changed": false,
+  "assertions_changed": false
+}

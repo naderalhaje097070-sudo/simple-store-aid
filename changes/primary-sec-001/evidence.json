@@ -1,0 +1,223 @@
+{
+  "repository": "naderalhaje0970-droid/simple-store-aid",
+  "application_base": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "verified_base_tree": "9067b0b75acce0bb00fcf008253cb53ff92c360c",
+  "planning_parent": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+  "runtime_fingerprints": [
+    {
+      "path": "package.json",
+      "git_blob_sha": "c8935a3ff0b4df588e723f59450cda1d1fe1953f",
+      "sha256": "6cafc3453446dd5e41fca4f43434ac8c075c7fddf0d826664cf82b73b8139690"
+    },
+    {
+      "path": "bun.lock",
+      "git_blob_sha": "b8e19f98189e3a285964b8e75559da27bc01e98b",
+      "sha256": "8895f70d7634f8306e54c1b38ee45a926d8aae342e3ce4284249bdb49f02fb51"
+    },
+    {
+      "path": "src/routeTree.gen.ts",
+      "git_blob_sha": "773224349572a5a572dc387329b846c973b24bab",
+      "sha256": "993bf7db29ffd704c7e08e3a04f5ffed24e9d75fd70bcb13844d66fe3b7cd021"
+    },
+    {
+      "path": "src/routes/__root.tsx",
+      "git_blob_sha": "07baa469d4147f9870cff0c0628f0b65f97fcfae",
+      "sha256": "ef35f52cf24431a5904d8f2466bb0bb6d44d220650247ed7573b87d5cbba5d63"
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "git_blob_sha": "054c9640c5f7785e7fbac491108286d42e1c1c61",
+      "sha256": "e7616b1338a3b645f40f9df067d31295a48ffa4cb49bc24247d865bca50baade"
+    },
+    {
+      "path": "tests/unit/dependency-security.test.ts",
+      "git_blob_sha": "3a0938469cb4a63deced9a4263f5227a006f1f63",
+      "sha256": "3539b4458fcdb1bff744ee8752eb18701fef2e8e528b2d27a32373bef73a77c0"
+    }
+  ],
+  "runtime": {
+    "bun_checks": "1.2.14",
+    "bun_guarded_resolution_and_audit": "1.3.14",
+    "node": "24.19.0"
+  },
+  "command_results": {
+    "baseline_frozen_install": 0,
+    "baseline_typecheck": 0,
+    "baseline_build": 0,
+    "baseline_unit": {
+      "exit": 0,
+      "passed": 26,
+      "failed": 0
+    },
+    "original_tanstack_guard": {
+      "exit": 1,
+      "passed": 0,
+      "failed": 2
+    },
+    "serializer_guard_before_pin": {
+      "exit": 1,
+      "passed": 2,
+      "failed": 1
+    },
+    "final_frozen_install": 0,
+    "final_typecheck": 0,
+    "final_build": 0,
+    "final_unit": {
+      "exit": 0,
+      "passed": 29,
+      "failed": 0,
+      "expect_calls": 43
+    },
+    "final_full_lint": {
+      "exit": 1,
+      "errors": 1117,
+      "warnings": 13
+    },
+    "final_changed_lint": {
+      "exit": 1,
+      "errors": 340,
+      "warnings": 1
+    },
+    "final_dependency_audit": 1
+  },
+  "lint_compatibility_comparison": [
+    {
+      "file": "src/routes/__root.tsx",
+      "before": {
+        "errors": 0,
+        "warnings": 0
+      },
+      "after": {
+        "errors": 0,
+        "warnings": 0
+      },
+      "added": []
+    },
+    {
+      "file": "src/routes/_authenticated/app.tsx",
+      "before": {
+        "errors": 340,
+        "warnings": 1
+      },
+      "after": {
+        "errors": 340,
+        "warnings": 1
+      },
+      "added": []
+    }
+  ],
+  "audit": {
+    "baseline_severities": {
+      "low": 10,
+      "moderate": 36,
+      "high": 41,
+      "critical": 3
+    },
+    "final_severities": {
+      "low": 5,
+      "moderate": 25,
+      "high": 33,
+      "critical": 2
+    },
+    "removed_package_advisory_records": 25,
+    "new_package_advisory_records": 0,
+    "untriaged": true
+  },
+  "isolation": {
+    "database_url": "http://127.0.0.1:54321",
+    "project": "local-security-check",
+    "key": "non-credential placeholder",
+    "server_started": false,
+    "database_write_harness_run": false,
+    "production_ref_occurrences_in_js_mjs_json_build_scan": 0
+  },
+  "review": {
+    "independent_review_performed": false,
+    "accepted_for_merge": false
+  },
+  "prior_ci": {
+    "head": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+    "quality_run": 37996094682,
+    "quality_job": 114042448827,
+    "runner_id": 0,
+    "job_steps": [],
+    "exact_cause": "not proven"
+  },
+  "log_evidence": {
+    "baseline-install": {
+      "sha256": "0203402c7ba9f52ed3687dbed9c062be84c8fdcb7fd8f4ba8b82347142b2998a",
+      "bytes": 2314,
+      "tail": "-popover@1.1.15\n+ @radix-ui/react-progress@1.1.8\n+ @radix-ui/react-radio-group@1.3.8\n+ @radix-ui/react-scroll-area@1.2.10\n+ @radix-ui/react-select@2.2.6\n+ @radix-ui/react-separator@1.1.8\n+ @radix-ui/react-slider@1.3.6\n+ @radix-ui/react-slot@1.2.4\n+ @radix-ui/react-switch@1.2.6\n+ @radix-ui/react-tabs@1.1.13\n+ @radix-ui/react-toggle@1.1.10\n+ @radix-ui/react-toggle-group@1.1.11\n+ @radix-ui/react-tooltip@1.2.8\n+ @supabase/supabase-js@2.110.5\n+ @tailwindcss/vite@4.2.4\n+ @tanstack/react-query@5.100.1\n+ @tanstack/react-router@1.168.25\n+ @tanstack/react-start@1.167.50\n+ @tanstack/router-plugin@1.167.28\n+ class-variance-authority@0.7.1\n+ clsx@2.1.1\n+ cmdk@1.1.1\n+ date-fns@4.1.0\n+ embla-carousel-react@8.6.0\n+ html2canvas@1.4.1\n+ input-otp@1.4.2\n+ jspdf@4.2.1\n+ lucide-react@0.575.0\n+ qrcode@1.5.4\n+ react@19.2.5\n+ react-day-picker@9.14.0\n+ react-dom@19.2.5\n+ react-hook-form@7.73.1\n+ react-resizable-panels@4.10.0\n+ recharts@2.15.4\n+ sonner@2.0.7\n+ tailwind-merge@3.5.0\n+ tailwindcss@4.2.4\n+ tw-animate-css@1.4.0\n+ vaul@1.1.2\n+ vite-tsconfig-paths@6.1.1\n+ zod@4.4.3\n\n859 packages installed [125.81s]\n"
+    },
+    "baseline-typecheck": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15,
+      "tail": "$ tsc --noEmit\n"
+    },
+    "baseline-unit": {
+      "sha256": "3b43445c597887987205f8044b9d15176e195bf6cdd5f5bf065b4da2aed0b4a0",
+      "bytes": 2538,
+      "tail": "not be collected\n(pass) invoice finance selectors > courier pending cannot be collected [0.01ms]\n(pass) invoice finance selectors > courier delivered_none can be collected\n(pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement\n(pass) invoice finance selectors > courier delivered_full cannot be collected\n(pass) invoice finance selectors > item margin uses price minus cost times quantity [0.03ms]\n(pass) invoice finance selectors > gross margin and item margin remain separate concepts [0.02ms]\n\ntests/unit/supabase-build-config.test.ts:\n(pass) Supabase build configuration > VITE variables override production fallback values [0.13ms]\n(pass) Supabase build configuration > server variable aliases are used when VITE variables are absent [0.02ms]\n(pass) Supabase build configuration > Lovable preview receives the production public fallback when variables are missing [0.01ms]\n(pass) Supabase build configuration > blank environment values do not override usable values [0.03ms]\n\n 26 pass\n 0 fail\n 34 expect() calls\nRan 26 tests across 2 files. [30.00ms]\n"
+    },
+    "baseline-build": {
+      "sha256": "2b50407ac0360bfb1f10e5691ed8f661bad123cac9e3de24abd1856a6b9a6d48",
+      "bytes": 16672,
+      "tail": "1.28 kB\n.output/server/_libs/jspdf.mjs                                     476.73 kB │ gzip: 124.10 kB\n.output/server/_libs/@tanstack/react-router+[...].mjs              651.08 kB │ gzip: 137.00 kB\n.output/server/_libs/@lovable.dev/mcp-js+[...].mjs                 969.91 kB │ gzip: 200.64 kB\n\n✓ built in 663ms\n\nPWA v1.3.0\nmode      generateSW\nprecache  0 entries (0.00 KiB)\nfiles generated\n  dist/sw.js\n  dist/workbox-d0f0e45d.js\nwarnings\n  One of the glob patterns doesn't match any files. Please remove or fix the following: {\n  \"globDirectory\": \"/workspace/scratch/ef360bbe5cf9/simple-store-aid/dist\",\n  \"globPattern\": \"**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}\",\n  \"globIgnores\": [\n    \"**/node_modules/**/*\",\n    \"sw.js\",\n    \"workbox-*.js\"\n  ]\n}\n\n[nitro] ℹ Using auto generated worker name: tanstack-start-ts\nℹ Generated .output/server/wrangler.json\nℹ Generated .wrangler/deploy/config.json\nℹ Generated .output/public/_headers\nℹ Generated .output/nitro.json\n\n[nitro] ✔ You can preview this build using npx vite preview\n[nitro] ✔ You can deploy this build using npx nitro deploy --prebuilt\n"
+    },
+    "baseline-lint": {
+      "sha256": "da18b39b55a6679839e33fe709d7a3c0bffba02d15994afcbb408233d4633297",
+      "bytes": 586484,
+      "tail": "                                             prettier/prettier\n  114:96  error  Replace `true` with `⏎······true,⏎····`                                                                                                                                                                                                                           prettier/prettier\n  118:12  error  Replace `canCollectCustomerDebtForInvoice(courier({·courierState:·\"delivered_partial\",·collectedByCourier:·35·}))` with `⏎······canCollectCustomerDebtForInvoice(⏎········courier({·courierState:·\"delivered_partial\",·collectedByCourier:·35·}),⏎······),⏎····`  prettier/prettier\n  122:12  error  Replace `canCollectCustomerDebtForInvoice(courier({·courierState:·\"delivered_full\",·collectedByCourier:·100·}))` with `⏎······canCollectCustomerDebtForInvoice(⏎········courier({·courierState:·\"delivered_full\",·collectedByCourier:·100·}),⏎······),⏎····`      prettier/prettier\n\n✖ 1130 problems (1117 errors, 13 warnings)\n  1055 errors and 1 warning potentially fixable with the `--fix` option.\n\nerror: script \"lint\" exited with code 1\n"
+    },
+    "security-regression-before": {
+      "sha256": "535db44be937d4ab819db088cbb051d8efc3925de92c0ce2bba41cd66303ce13",
+      "bytes": 1792,
+      "tail": "/ef360bbe5cf9/simple-store-aid/tests/unit/dependency-security.test.ts:28:50)\n(fail) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [2.08ms]\n23 |         const [minMajor, minMinor, minPatch] = minimum;\n24 |         const safe =\n25 |           major > minMajor ||\n26 |           (major === minMajor &&\n27 |             (minor > minMinor || (minor === minMinor && patch >= minPatch)));\n28 |         expect({ package: name, version, safe }).toEqual({ package: name, version, safe: true });\n                                                      ^\nerror: expect(received).toEqual(expected)\n\n  {\n    package: \"@tanstack/start-server-core\",\n+   safe: false,\n-   safe: true,\n    version: \"1.167.22\",\n  }\n\n- Expected  - 1\n+ Received  + 1\n\n      at <anonymous> (/workspace/scratch/ef360bbe5cf9/simple-store-aid/tests/unit/dependency-security.test.ts:28:50)\n(fail) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [0.23ms]\n\n 0 pass\n 2 fail\n 6 expect() calls\nRan 2 tests across 1 files. [42.00ms]\n"
+    },
+    "serializer-regression-before": {
+      "sha256": "a0c385f5bfaa939da4eae4d6b45f9ea2f0d959ccade897c11fa4f1913cf9adf1",
+      "bytes": 1232,
+      "tail": "tack/react-start has no vulnerable locked copy [2.32ms]\n(pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [0.18ms]\n24 |         const [major, minor, patch] = version.split(\".\").map(Number);\n25 |         const [minMajor, minMinor, minPatch] = minimum;\n26 |         const safe =\n27 |           major > minMajor ||\n28 |           (major === minMajor && (minor > minMinor || (minor === minMinor && patch >= minPatch)));\n29 |         expect({ package: name, version, safe }).toEqual({ package: name, version, safe: true });\n                                                      ^\nerror: expect(received).toEqual(expected)\n\n  {\n    package: \"seroval\",\n+   safe: false,\n-   safe: true,\n    version: \"1.5.6\",\n  }\n\n- Expected  - 1\n+ Received  + 1\n\n      at <anonymous> (/workspace/scratch/ef360bbe5cf9/simple-store-aid/tests/unit/dependency-security.test.ts:29:50)\n(fail) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy [0.49ms]\n\n 2 pass\n 1 fail\n 9 expect() calls\nRan 3 tests across 1 files. [57.00ms]\n"
+    },
+    "candidate-guarded-lock-generation": {
+      "sha256": "650e0a2b999be81a0a94f2936f56b49ca6aa83723ddcd127db89b16479e751ab",
+      "bytes": 151,
+      "tail": "bun install v1.3.14 (0d9b296a)\nResolving dependencies\nResolved, downloaded and extracted [158]\nSaved lockfile\n\nSaved bun.lock (1049 packages) [21.05s]\n"
+    },
+    "candidate-serializer-lock-generation": {
+      "sha256": "8a74e8e90f072c43a1511d2dabdcda52c0a0f5df283bbcd54291cdc3d2c5941e",
+      "bytes": 147,
+      "tail": "bun install v1.3.14 (0d9b296a)\nResolving dependencies\nResolved, downloaded and extracted [1]\nSaved lockfile\n\nSaved bun.lock (989 packages) [7.08s]\n"
+    },
+    "final-install": {
+      "sha256": "4ba890f1860396fde957bacb70aa54b172c2939108b5d2dd6844bfa03729407f",
+      "bytes": 77,
+      "tail": "bun install v1.2.14 (6a363a38)\n\n+ seroval@1.6.7\n\n1 package installed [7.53s]\n"
+    },
+    "final-typecheck": {
+      "sha256": "8366207267355d3e3d5bf3bf6e8c94c5f93f6078c34f08973fa2b38cdda6cc92",
+      "bytes": 15,
+      "tail": "$ tsc --noEmit\n"
+    },
+    "final-build": {
+      "sha256": "d6263f19b12692ffb89e9381aeccfb40f90ca994463bb17acda95b0fb6e0fbaa",
+      "bytes": 17435,
+      "tail": "76.73 kB │ gzip: 124.10 kB\n.output/server/_libs/@tanstack/react-router+[...].mjs              752.40 kB │ gzip: 159.30 kB\n.output/server/_libs/@lovable.dev/mcp-js+[...].mjs                 969.88 kB │ gzip: 200.65 kB\n\n✓ built in 618ms\n\nPWA v1.3.0\nmode      generateSW\nprecache  0 entries (0.00 KiB)\nfiles generated\n  dist/sw.js\n  dist/workbox-d0f0e45d.js\nwarnings\n  One of the glob patterns doesn't match any files. Please remove or fix the following: {\n  \"globDirectory\": \"/workspace/scratch/ef360bbe5cf9/simple-store-aid/dist\",\n  \"globPattern\": \"**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}\",\n  \"globIgnores\": [\n    \"**/node_modules/**/*\",\n    \"sw.js\",\n    \"workbox-*.js\"\n  ]\n}\n\n[nitro] ℹ Using auto generated worker name: tanstack-start-ts\nℹ Generated .output/server/wrangler.json\nℹ Generated .wrangler/deploy/config.json\n[nitro] ℹ Adding Nitro fallback to _headers to handle all unmatched routes.\nℹ Generated .output/public/_headers\nℹ Generated .output/nitro.json\n\n[nitro] ✔ You can preview this build using npx vite preview\n[nitro] ✔ You can deploy this build using npx nitro deploy --prebuilt\n"
+    },
+    "final-unit": {
+      "sha256": "078f61fe8af36a8d1c5b99d7faaaed5d4abe2af2cf06085f39a973765242f552",
+      "bytes": 2982,
+      "tail": "argin uses price minus cost times quantity [0.04ms]\n(pass) invoice finance selectors > gross margin and item margin remain separate concepts [0.03ms]\n\ntests/unit/supabase-build-config.test.ts:\n(pass) Supabase build configuration > VITE variables override production fallback values [0.41ms]\n(pass) Supabase build configuration > server variable aliases are used when VITE variables are absent [0.03ms]\n(pass) Supabase build configuration > Lovable preview receives the production public fallback when variables are missing [0.40ms]\n(pass) Supabase build configuration > blank environment values do not override usable values [0.03ms]\n\ntests/unit/dependency-security.test.ts:\n(pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [2.77ms]\n(pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [0.92ms]\n(pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy [0.21ms]\n\n 29 pass\n 0 fail\n 43 expect() calls\nRan 29 tests across 3 files. [67.00ms]\n"
+    },
+    "final-lint": {
+      "sha256": "da18b39b55a6679839e33fe709d7a3c0bffba02d15994afcbb408233d4633297",
+      "bytes": 586484,
+      "tail": "                                             prettier/prettier\n  114:96  error  Replace `true` with `⏎······true,⏎····`                                                                                                                                                                                                                           prettier/prettier\n  118:12  error  Replace `canCollectCustomerDebtForInvoice(courier({·courierState:·\"delivered_partial\",·collectedByCourier:·35·}))` with `⏎······canCollectCustomerDebtForInvoice(⏎········courier({·courierState:·\"delivered_partial\",·collectedByCourier:·35·}),⏎······),⏎····`  prettier/prettier\n  122:12  error  Replace `canCollectCustomerDebtForInvoice(courier({·courierState:·\"delivered_full\",·collectedByCourier:·100·}))` with `⏎······canCollectCustomerDebtForInvoice(⏎········courier({·courierState:·\"delivered_full\",·collectedByCourier:·100·}),⏎······),⏎····`      prettier/prettier\n\n✖ 1130 problems (1117 errors, 13 warnings)\n  1055 errors and 1 warning potentially fixable with the `--fix` option.\n\nerror: script \"lint\" exited with code 1\n"
+    },
+    "final-changed-lint": {
+      "sha256": "ec592810f9d19444856b58af9c0082349c270a14cd2bc31886e1e0b68eb6e3de",
+      "bytes": 224410,
+      "tail": "                                                                                                                                                                                                                                                                                                                                                                                      prettier/prettier\n  1595:1    error    Delete `⏎`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 prettier/prettier\n\n✖ 341 problems (340 errors, 1 warning)\n  323 errors and 0 warnings potentially fixable with the `--fix` option.\n\n"
+    }
+  }
+}

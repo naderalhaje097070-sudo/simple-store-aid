@@ -1,0 +1,136 @@
+{
+  "source": "84c3444fcdf5fa2825809192cda5b15561c950cf",
+  "scope": "nonfinancial_auth_and_tenant_metadata_only",
+  "checks": [
+    {
+      "name": "auth_create_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "seed_tenant_A",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "seed_profile_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "seed_role_A",
+      "passed": false,
+      "status": 409
+    },
+    {
+      "name": "auth_login_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "auth_create_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "seed_tenant_B",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "seed_profile_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "seed_role_B",
+      "passed": false,
+      "status": 409
+    },
+    {
+      "name": "auth_login_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_sees_only_own_tenant",
+      "passed": true,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "A_cross_tenant_read_denied",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_cross_tenant_update_no_effect",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_foreign_owner_insert_rejected",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "A_tenant_reassignment_rejected",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "B_sees_only_own_tenant",
+      "passed": true,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "B_cross_tenant_read_denied",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B_cross_tenant_update_no_effect",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B_foreign_owner_insert_rejected",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "B_tenant_reassignment_rejected",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "anonymous_tenant_read_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "forbidden_updates_did_not_change_stored_names",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "ban_fixture_account",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_new_login_denied",
+      "passed": true,
+      "status": 400
+    }
+  ],
+  "passed": 22,
+  "failed": 2,
+  "limitations": {
+    "pre_ban_token_still_reads_own_tenant": true,
+    "status": 200,
+    "disabled_user_strict_acceptance": false,
+    "full_tenant_coverage": false
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "matching": {
+    "started_ms": 1792054358308,
+    "collected_ms": 1792054367790,
+    "native_packet_delta": {
+      "ipv4": 8,
+      "ipv6": 0
+    },
+    "dns_connect_syscalls": 8,
+    "sendmmsg_EPERM_syscalls": 8,
+    "native_getaddrinfo_invocations": 2,
+    "trace_complete": true,
+    "unique_connections": "not_measured",
+    "DNS_question_count": "not_measured",
+    "external_delivery": "not_established",
+    "resolver_tids": [
+      8870
+    ]
+  },
+  "conflict": {
+    "started_ms": 1792054367833,
+    "collected_ms": 1792054371157,
+    "native_packet_delta": {
+      "ipv4": 8,
+      "ipv6": 0
+    },
+    "dns_connect_syscalls": 8,
+    "sendmmsg_EPERM_syscalls": 8,
+    "native_getaddrinfo_invocations": 2,
+    "trace_complete": true,
+    "unique_connections": "not_measured",
+    "DNS_question_count": "not_measured",
+    "external_delivery": "not_established",
+    "resolver_tids": [
+      9347,
+      9348
+    ]
+  }
+}

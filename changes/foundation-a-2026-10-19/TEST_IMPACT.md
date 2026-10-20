@@ -1,0 +1,3 @@
+# TEST IMPACT
+
+Retain failures before each repair. Actual-source SSR34/trial13, persistent-hook clock4, actual Git/ESLint5, identity16, callback10 and unchanged arithmetic checks pass locally. Eight Chromium cases are wired but pending execution. Modified declarations intentionally no longer satisfy whole-file type-erasure equivalence: runtime.cjs explicitly isolates their contract change, compares remaining declarations and two memo bodies, and relies on targeted regressions plus a fresh source snapshot. This must be independently reviewed; no broad semantic-equivalence or locked-native assertion is made. CI queue and isolated close_day comparison remain acceptance blockers.

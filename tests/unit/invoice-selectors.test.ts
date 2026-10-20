@@ -64,11 +64,19 @@ describe("invoice finance selectors", () => {
   });
 
   test("courier delivered_partial creates debt for uncollected part", () => {
-    expect(getCustomerDebtForInvoice(courier({ courierState: "delivered_partial", collectedByCourier: 35 }))).toBe(65);
+    expect(
+      getCustomerDebtForInvoice(
+        courier({ courierState: "delivered_partial", collectedByCourier: 35 }),
+      ),
+    ).toBe(65);
   });
 
   test("courier delivered_full creates no customer debt", () => {
-    expect(getCustomerDebtForInvoice(courier({ courierState: "delivered_full", collectedByCourier: 100 }))).toBe(0);
+    expect(
+      getCustomerDebtForInvoice(
+        courier({ courierState: "delivered_full", collectedByCourier: 100 }),
+      ),
+    ).toBe(0);
   });
 
   test("courier returned has no customer debt or courier custody", () => {
@@ -79,11 +87,19 @@ describe("invoice finance selectors", () => {
   });
 
   test("courier custody full equals collected money", () => {
-    expect(getCourierCustodyForInvoice(courier({ courierState: "delivered_full", collectedByCourier: 100 }))).toBe(100);
+    expect(
+      getCourierCustodyForInvoice(
+        courier({ courierState: "delivered_full", collectedByCourier: 100 }),
+      ),
+    ).toBe(100);
   });
 
   test("courier custody partial equals collected money", () => {
-    expect(getCourierCustodyForInvoice(courier({ courierState: "delivered_partial", collectedByCourier: 35 }))).toBe(35);
+    expect(
+      getCourierCustodyForInvoice(
+        courier({ courierState: "delivered_partial", collectedByCourier: 35 }),
+      ),
+    ).toBe(35);
   });
 
   test("zero remaining stays zero", () => {
@@ -95,7 +111,9 @@ describe("invoice finance selectors", () => {
   });
 
   test("gross margin is total minus item costs", () => {
-    expect(getInvoiceGrossMargin(direct({ total: 100, items: [{ qty: 2, price: 50, cost: 30 }] }))).toBe(40);
+    expect(
+      getInvoiceGrossMargin(direct({ total: 100, items: [{ qty: 2, price: 50, cost: 30 }] })),
+    ).toBe(40);
   });
 
   test("direct debt can be collected", () => {
@@ -111,15 +129,25 @@ describe("invoice finance selectors", () => {
   });
 
   test("courier delivered_none can be collected", () => {
-    expect(canCollectCustomerDebtForInvoice(courier({ courierState: "delivered_none" }))).toBe(true);
+    expect(canCollectCustomerDebtForInvoice(courier({ courierState: "delivered_none" }))).toBe(
+      true,
+    );
   });
 
   test("courier delivered_partial cannot be collected before settlement", () => {
-    expect(canCollectCustomerDebtForInvoice(courier({ courierState: "delivered_partial", collectedByCourier: 35 }))).toBe(false);
+    expect(
+      canCollectCustomerDebtForInvoice(
+        courier({ courierState: "delivered_partial", collectedByCourier: 35 }),
+      ),
+    ).toBe(false);
   });
 
   test("courier delivered_full cannot be collected", () => {
-    expect(canCollectCustomerDebtForInvoice(courier({ courierState: "delivered_full", collectedByCourier: 100 }))).toBe(false);
+    expect(
+      canCollectCustomerDebtForInvoice(
+        courier({ courierState: "delivered_full", collectedByCourier: 100 }),
+      ),
+    ).toBe(false);
   });
 
   test("item margin uses price minus cost times quantity", () => {

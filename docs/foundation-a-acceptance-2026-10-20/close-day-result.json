@@ -1,0 +1,133 @@
+{
+  "source_sha": "fabb481836f2f79d8feeda5e407147a66b76ea25",
+  "passed": true,
+  "cases": [
+    {
+      "timezone": "UTC",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 100.0,
+        "collected": 60.0,
+        "expenses": 10.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 40.0
+      },
+      "expected": {
+        "sales": 100,
+        "collected": 60,
+        "expenses": 10,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 40
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated",
+      "preview": {
+        "sales": 100,
+        "collected": 60,
+        "expenseTotal": 10,
+        "realizedProfit": 30,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 50
+      },
+      "matched": true
+    },
+    {
+      "timezone": "America/Los_Angeles",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 0.0,
+        "collected": 0.0,
+        "expenses": 0.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 0.0
+      },
+      "expected": {
+        "sales": 0,
+        "collected": 0,
+        "expenses": 0,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 0
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated",
+      "preview": {
+        "sales": 0,
+        "collected": 0,
+        "expenseTotal": 0,
+        "realizedProfit": 0,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 0
+      },
+      "matched": true
+    },
+    {
+      "timezone": "Pacific/Kiritimati",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 300.0,
+        "collected": 60.0,
+        "expenses": 10.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 40.0
+      },
+      "expected": {
+        "sales": 300,
+        "collected": 60,
+        "expenses": 10,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 40
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated",
+      "preview": {
+        "sales": 300,
+        "collected": 60,
+        "expenseTotal": 10,
+        "realizedProfit": 30,
+        "customerDebts": 210,
+        "unsettledCustody": 50,
+        "cashToday": 50
+      },
+      "matched": true
+    }
+  ],
+  "stable_arrays": true,
+  "source_tables_unchanged": true,
+  "before_fingerprints": {
+    "orders": "c0df9ec4f929b7d00cc050016e7b0579",
+    "order_items": "37984d3ce2fba83f0807ec71eb9eb855",
+    "payments": "b1cc8e290ba7238fa14665f2c2a90668",
+    "expenses": "7662f480f2ca437f74d8c531bc2079d2",
+    "products": "d41d8cd98f00b204e9800998ecf8427e",
+    "customers": "98514e47ae1923e8818722c3e937643b",
+    "couriers": "fc2d1cd7dd6f0031e77189d055af71b0"
+  },
+  "after_fingerprints": {
+    "orders": "c0df9ec4f929b7d00cc050016e7b0579",
+    "order_items": "37984d3ce2fba83f0807ec71eb9eb855",
+    "payments": "b1cc8e290ba7238fa14665f2c2a90668",
+    "expenses": "7662f480f2ca437f74d8c531bc2079d2",
+    "products": "d41d8cd98f00b204e9800998ecf8427e",
+    "customers": "98514e47ae1923e8818722c3e937643b",
+    "couriers": "fc2d1cd7dd6f0031e77189d055af71b0"
+  },
+  "cross_tenant_snapshot_absent": true,
+  "protected_blob_count": 288,
+  "migration_count": 41,
+  "profit_mapping": "stored realized_profit is item margin before expenses; existing preview realizedProfit subtracts expenses. Gross and net are compared explicitly, not asserted equal.",
+  "limits": [
+    "No real provider or production",
+    "Authenticated PostgreSQL function invocation; not REST/Auth token transport",
+    "Preview uses actual memo extraction and persistent hook fixture; not full browser",
+    "Clock rollover remains separately proven by existing four clock cases",
+    "No populated upgrade, concurrency or general financial acceptance"
+  ]
+}

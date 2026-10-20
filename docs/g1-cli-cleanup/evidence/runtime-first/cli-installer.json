@@ -1,0 +1,25 @@
+{
+  "source_sha": "d4eeee0d6c392ce19fb0eeac1b69a0d4a9832ddb",
+  "action_sha": "afb1b15109756ea5cf9d8985a359d9095235ca2b",
+  "official_main_sha256": "9ab8da10c0e6ac30dc793094383b973604e95598ccd6c81a05a83a3d1a55cd68",
+  "cli_version": "2.101.0",
+  "bun_version": "1.3.10",
+  "phases": [
+    "resolved_version",
+    "archive_platform_begin",
+    "ldd_begin",
+    "ldd_done",
+    "archive_platform_done",
+    "download_begin",
+    "download_done",
+    "extract_begin",
+    "extract_done",
+    "version_begin",
+    "version_done",
+    "path_published"
+  ],
+  "timed_out": false,
+  "exit_code": 0,
+  "private_log_sha256": "d82c80673e3bd49bc34381b1e47156643025273678d22da9666f5bd9846a23df",
+  "passed": true
+}

@@ -1,0 +1,60 @@
+{
+  "run_id": 39396201730,
+  "head_sha": "c789ce2a4e3c773cfd839f67d261ba0f50b65ebe",
+  "conclusion": "failure",
+  "failure_line": "tests/g0-esbuild/evidence.py:48",
+  "jobs": [
+    {
+      "id": 118539448702,
+      "os": "Linux",
+      "excerpts": [
+        "2026-10-20T08:49:45.1216027Z HEAD is now at c789ce2 docs(foundation-a): record independent approval and owner merge boundary",
+        "2026-10-20T08:49:56.0430635Z 826 packages installed [8.76s]",
+        "2026-10-20T08:49:56.2678760Z Traceback (most recent call last):",
+        "2026-10-20T08:49:56.2688107Z   File \"/home/runner/work/simple-store-aid/simple-store-aid/tests/g0-esbuild/evidence.py\", line 48, in graph",
+        "2026-10-20T08:49:56.2689402Z     assert manifest == json.loads(evidence.git_file(BASE, 'package.json'))",
+        "2026-10-20T08:49:56.2691028Z AssertionError",
+        "2026-10-20T08:49:56.2846484Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "id": 118539448438,
+      "os": "Windows",
+      "excerpts": [
+        "2026-10-20T08:49:51.9079774Z HEAD is now at c789ce2 docs(foundation-a): record independent approval and owner merge boundary\r",
+        "2026-10-20T08:51:39.3490447Z 820 packages installed [90.98s]\r",
+        "2026-10-20T08:51:40.6974405Z Traceback (most recent call last):\r",
+        "2026-10-20T08:51:40.7014156Z   File \"D:\\a\\simple-store-aid\\simple-store-aid\\tests\\g0-esbuild\\evidence.py\", line 48, in graph\r",
+        "2026-10-20T08:51:40.7016054Z     assert manifest == json.loads(evidence.git_file(BASE, 'package.json'))\r",
+        "2026-10-20T08:51:40.7092119Z AssertionError\r",
+        "2026-10-20T08:51:40.7281889Z ##[error]Process completed with exit code 1.\r"
+      ]
+    }
+  ],
+  "package_diff": [
+    {
+      "key": "scripts",
+      "before": {
+        "dev": "vite dev",
+        "build": "vite build",
+        "build:dev": "vite build --mode development",
+        "preview": "vite preview",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "typecheck": "tsc --noEmit",
+        "test:unit": "bun test tests/unit"
+      },
+      "after": {
+        "dev": "vite dev",
+        "build": "node scripts/build.mjs",
+        "build:dev": "node scripts/build.mjs --mode development",
+        "preview": "vite preview",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "typecheck": "tsc --noEmit",
+        "test:unit": "bun test tests/unit",
+        "format:generated": "node scripts/format-generated.mjs"
+      }
+    }
+  ]
+}

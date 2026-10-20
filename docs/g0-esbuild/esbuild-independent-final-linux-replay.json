@@ -1,0 +1,90 @@
+{
+  "receipt_pairs": [
+    {
+      "name": "guard-missing",
+      "exit": 1
+    },
+    {
+      "name": "guard-qs-old",
+      "exit": 1
+    },
+    {
+      "name": "guard-old",
+      "exit": 1
+    },
+    {
+      "name": "resolved-parent-versions",
+      "exit": 0
+    },
+    {
+      "name": "guard-prerelease",
+      "exit": 1
+    },
+    {
+      "name": "security",
+      "exit": 0
+    },
+    {
+      "name": "guard-nested-old",
+      "exit": 1
+    },
+    {
+      "name": "guard-hono-old",
+      "exit": 1
+    },
+    {
+      "name": "guard-patched",
+      "exit": 0
+    },
+    {
+      "name": "guard-babel-old",
+      "exit": 1
+    },
+    {
+      "name": "audit",
+      "exit": 0
+    },
+    {
+      "name": "guard-node-server-old",
+      "exit": 1
+    },
+    {
+      "name": "guard-dompurify-old",
+      "exit": 1
+    },
+    {
+      "name": "guard-old-platform",
+      "exit": 1
+    },
+    {
+      "name": "native-binary-version",
+      "exit": 0
+    },
+    {
+      "name": "compatibility",
+      "exit": 0
+    }
+  ],
+  "audit": {
+    "exit_code": 0,
+    "counts": {},
+    "target_ids": [
+      "GHSA-g7r4-m6w7-qqqr"
+    ],
+    "target_ids_remaining": [],
+    "all_reported_ids": [],
+    "records": [],
+    "g0_accepted": false
+  },
+  "delta": {
+    "before": [
+      "GHSA-g7r4-m6w7-qqqr"
+    ],
+    "after": [],
+    "removed": [
+      "GHSA-g7r4-m6w7-qqqr"
+    ],
+    "new": [],
+    "actual_exit_code": 0
+  }
+}

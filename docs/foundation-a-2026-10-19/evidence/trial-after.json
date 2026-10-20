@@ -1,0 +1,59 @@
+{
+  "results": [
+    {
+      "name": "actual tenant query returns selected real trial column",
+      "passed": true
+    },
+    {
+      "name": "valid future trial is active",
+      "passed": true
+    },
+    {
+      "name": "expired trial is expired",
+      "passed": true
+    },
+    {
+      "name": "null trial is absent rather than an invented expiry",
+      "passed": true
+    },
+    {
+      "name": "active subscription precedes trial",
+      "passed": true
+    },
+    {
+      "name": "tenantId loading is not expired",
+      "passed": true
+    },
+    {
+      "name": "tenantId error is not expired",
+      "passed": true
+    },
+    {
+      "name": "tenant loading is not expired",
+      "passed": true
+    },
+    {
+      "name": "tenant error is not expired",
+      "passed": true
+    },
+    {
+      "name": "sub loading is not expired",
+      "passed": true
+    },
+    {
+      "name": "sub error is not expired",
+      "passed": true
+    },
+    {
+      "name": "invalid trial date is unavailable",
+      "passed": true
+    },
+    {
+      "name": "actual tenant query propagates database failure",
+      "passed": true
+    }
+  ],
+  "passed": 13,
+  "total": 13,
+  "scope": "Actual tenant query projection and React SSR billing; synthetic query client/transport; no provider"
+}

@@ -1,0 +1,74 @@
+{
+  "formatter_is_stub": true,
+  "results": [
+    {
+      "name": "known_batch_writes",
+      "passed": true,
+      "exit_code": 0,
+      "writes_unchanged_on_failure": false
+    },
+    {
+      "name": "idempotent_check",
+      "passed": true,
+      "exit_code": 0,
+      "writes_unchanged_on_failure": false
+    },
+    {
+      "name": "unknown_cli_argument",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "formatter_version_drift",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "late_unknown_input_no_partial_write",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "late_formatter_failure_no_partial_write",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "late_unexpected_output_no_partial_write",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "duplicate_scope_no_partial_write",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "symlink_no_partial_write",
+      "passed": true,
+      "exit_code": 1,
+      "writes_unchanged_on_failure": true
+    },
+    {
+      "name": "nonloopback_map_False_False",
+      "passed": true,
+      "trace_complete": false
+    },
+    {
+      "name": "nonloopback_map_False_True",
+      "passed": true,
+      "trace_complete": true
+    },
+    {
+      "name": "nonloopback_map_True_False",
+      "passed": true,
+      "trace_complete": true
+    }
+  ]
+}

@@ -1,0 +1,179 @@
+{
+  "task": "G0-LINT-FORMAT-01",
+  "intake": "ff7a0daaa77659a86f86184131989cb3c2216143",
+  "preparation": {
+    "run_id": 39071094844,
+    "job_id": 117508696886,
+    "attempt": 1,
+    "conclusion": "success",
+    "source": "6e1bb93753a906ec63d5add06a98967579c6c39c",
+    "tree": "e0e9ed8de93151c972093602d646c8c31eeb2d35",
+    "steps": "See original preparation.log and official run39071094844; every step successful"
+  },
+  "published": {
+    "source": "3c6d611ce3f616c2c519a3acdc2a9f743837fab2",
+    "tree": "059dcc3cdd4898b0ae9c463159fd6ffae97fe783",
+    "app_blob": "bd154115c1e782521fe4299cc7cc558e88eafff7",
+    "reconstructed_preparation_tree_with_only_formatted_app": "059dcc3cdd4898b0ae9c463159fd6ffae97fe783"
+  },
+  "quality": {
+    "run_id": 39071253858,
+    "job_id": 117509170666,
+    "attempt": 1,
+    "conclusion": "failure",
+    "steps": [
+      {
+        "id": 117509170666,
+        "name": "quality",
+        "status": "completed",
+        "conclusion": "failure",
+        "run_id": 39071253858,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Lint changed source files",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 6
+          },
+          {
+            "name": "Unit tests",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 7
+          },
+          {
+            "name": "Offline server environment boundary",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 8
+          },
+          {
+            "name": "Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 9
+          },
+          {
+            "name": "Install pinned browser test tooling",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 10
+          },
+          {
+            "name": "Verify browser redirect, WebSocket and origin containment",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11
+          },
+          {
+            "name": "Build from mode-specific env file",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 12
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 13
+          },
+          {
+            "name": "Verify generation leaves tracked application files intact",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 14
+          },
+          {
+            "name": "Upload quality diagnostics",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 29
+          },
+          {
+            "name": "Post Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 12115511068,
+      "file": "preparation.zip",
+      "bytes": 1483760,
+      "sha256": "8861b25472921b04d5e94453c8210f691244d2a20fd00d1104e69d483da30e26"
+    },
+    {
+      "id": 12098568809,
+      "file": "preparation-first-failed.zip",
+      "bytes": 201670,
+      "sha256": "26cc4fed1f3461c2cc86e90120e8705588baee6c248c47b5d8b2f3af05d9ec5b"
+    },
+    {
+      "id": 12115003401,
+      "file": "quality-diagnostics.zip",
+      "bytes": 777,
+      "sha256": "d00988d779a5b2b209ffc6dc6dcddacc36d27872f9db1225dc0bc1821fe413fa"
+    }
+  ],
+  "protected_blobs": {
+    "package.json": "50142449fb626d2e10c6023ca27261d3b2184660",
+    "bun.lock": "8db84562051e5ff2837fa67f907aef9a0cd4b863",
+    "bunfig.toml": "404c27d65cbde9ae5f365d179ed0e16a0473f8c5",
+    "eslint.config.js": "b944efec899be5cf56c5b5fda84de0f287105e7c",
+    ".prettierrc": "90abee2393e79dff7ec36856c94f662a263f0107",
+    ".prettierignore": "be49b2655e2222e8a688f616a5c13500298801a0"
+  },
+  "limits": [
+    "No native run on final evidence-only delivery commit",
+    "Quality failure is preserved; subsequent skipped steps not credited with prep results",
+    "No historical security/advisory/G1 replay",
+    "Independent local parser7.29.2 versus primary locked7.29.7"
+  ]
+}

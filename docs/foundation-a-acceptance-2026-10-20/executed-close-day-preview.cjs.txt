@@ -1,0 +1,26 @@
+const fs = require('node:fs');
+const assert = require('node:assert/strict');
+const ts = require(process.cwd() + '/node_modules/typescript');
+const input = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+function compile(code, bindings) {
+  const js = ts.transpile(code, {target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS, jsx: ts.JsxEmit.ReactJSX});
+  return new Function(...Object.keys(bindings), js)(...Object.values(bindings));
+}
+const mod = {exports: {}};
+compile(fs.readFileSync('src/domain/finance/invoice-selectors.ts','utf8'), {module: mod, exports: mod.exports});
+const text = fs.readFileSync('src/routes/_authenticated/app.tsx','utf8');
+const ast = ts.createSourceFile('app.tsx',text,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+const node = ast.statements.find(n => ts.isFunctionDeclaration(n) && n.name?.text === 'DayCloseScreen');
+assert.ok(node,'actual DayCloseScreen missing');
+const prefix = node.getText(ast).split('  const Row =');
+assert.equal(prefix.length,2,'DayClose extraction boundary changed');
+const memos=[];let mi=0;
+const useMemo=(fn,deps)=>{const i=mi++;if(!memos[i]||deps.some((d,j)=>!Object.is(d,memos[i].deps[j])))memos[i]={deps,value:fn()};return memos[i].value;};
+const day=compile(prefix[0]+'\nreturn t;}\nreturn DayCloseScreen;',{...mod.exports,useMemo});
+const invoices=input.orders.map(o=>({id:o.id,total:Number(o.total),paid:Number(o.paid),delivery:o.delivery,courierState:o.courier_state,collectedByCourier:Number(o.collected_by_courier),createdAt:o.created_at,items:input.items.filter(it=>it.order_id===o.id).map(it=>({qty:Number(it.qty),price:Number(it.unit_price),cost:Number(it.unit_cost)}))}));
+const payments=input.payments.map(p=>({id:p.id,invoiceId:p.order_id,amount:Number(p.amount),createdAt:p.created_at}));
+const expenses=input.expenses.map(e=>({id:e.id,amount:Number(e.amount),createdAt:e.created_at}));
+const totals={customerDebts:invoices.reduce((s,i)=>s+mod.exports.getCustomerDebtForInvoice(i),0),unsettledCustody:invoices.reduce((s,i)=>s+mod.exports.getCourierCustodyForInvoice(i),0)};
+const observations=[];
+for(const c of input.cases){mi=0;observations.push({timezone:c.timezone,todayKey:c.todayKey,preview:day({invoices,payments,expenses,rawTotals:totals,totals,tenantTz:c.timezone,todayKey:c.todayKey})});}
+console.log(JSON.stringify({observations,stable_array_and_totals_references:true,scope:'Actual DayCloseScreen memo and approved selectors, persistent Object.is cache; SQL projection fixture, not full browser or transport'}));

@@ -1,0 +1,26 @@
+[
+  {
+    "settingsRead": "ready",
+    "passed": true
+  },
+  {
+    "settingsRead": "error",
+    "passed": true
+  },
+  {
+    "settingsRead": "missing",
+    "passed": true
+  },
+  {
+    "settingsRead": "paused",
+    "passed": true
+  },
+  {
+    "settingsRead": "placeholder",
+    "passed": true
+  },
+  {
+    "settingsRead": "cached-error",
+    "passed": true
+  }
+]

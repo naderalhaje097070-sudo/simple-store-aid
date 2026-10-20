@@ -1,0 +1,111 @@
+{
+  "runtime": "v24.19.0",
+  "method": "Node TypeScript stripping plus assertion adapter, not Bun",
+  "cases": [
+    {
+      "case": "patched",
+      "passed": 20,
+      "failed": []
+    },
+    {
+      "case": "old",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "esbuild exception has no vulnerable or mismatched locked copy",
+          "error": "Expected values to be strictly equal:\n\n'0.27.7' !== '0.28.1'\n"
+        }
+      ]
+    },
+    {
+      "case": "prerelease",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "esbuild exception has no vulnerable or mismatched locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '0.28.1-rc.1'\n- '0.28.1'\n         ^\n"
+        }
+      ]
+    },
+    {
+      "case": "missing",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "esbuild exception has no vulnerable or mismatched locked copy",
+          "error": "The expression evaluated to a falsy value:\n\n  assert(a>b)\n"
+        }
+      ]
+    },
+    {
+      "case": "nested",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "esbuild exception has no vulnerable or mismatched locked copy",
+          "error": "Expected values to be strictly equal:\n\n'0.27.7' !== '0.28.1'\n"
+        }
+      ]
+    },
+    {
+      "case": "platform",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "esbuild exception has no vulnerable or mismatched locked copy",
+          "error": "Expected values to be strictly equal:\n\n'0.27.7' !== '0.28.1'\n"
+        }
+      ]
+    },
+    {
+      "case": "hono",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "hono has no vulnerable locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '{\"package\":\"hono\",\"version\":\"4.13.6\",\"safe\":false}'\n- '{\"package\":\"hono\",\"version\":\"4.13.6\",\"safe\":true}'\n"
+        }
+      ]
+    },
+    {
+      "case": "qs",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "qs has no vulnerable locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '{\"package\":\"qs\",\"version\":\"6.15.3\",\"safe\":false}'\n- '{\"package\":\"qs\",\"version\":\"6.15.3\",\"safe\":true}'\n"
+        }
+      ]
+    },
+    {
+      "case": "dompurify",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "dompurify has no vulnerable locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '{\"package\":\"dompurify\",\"version\":\"3.4.15\",\"safe\":false}'\n- '{\"package\":\"dompurify\",\"version\":\"3.4.15\",\"safe\":true}'\n"
+        }
+      ]
+    },
+    {
+      "case": "babel",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "@babel/core has no vulnerable locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '{\"package\":\"@babel/core\",\"version\":\"7.29.0\",\"safe\":false}'\n- '{\"package\":\"@babel/core\",\"version\":\"7.29.0\",\"safe\":true}'\n"
+        }
+      ]
+    },
+    {
+      "case": "adapter",
+      "passed": 19,
+      "failed": [
+        {
+          "name": "@hono/node-server has no vulnerable locked copy",
+          "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ '{\"package\":\"@hono/node-server\",\"version\":\"1.19.14\",\"safe\":false}'\n- '{\"package\":\"@hono/node-server\",\"version\":\"1.19.14\",\"safe\":true}'\n"
+        }
+      ]
+    }
+  ]
+}

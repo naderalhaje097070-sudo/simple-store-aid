@@ -1,3 +1,7 @@
+> Historical execution snapshot. For work after the 2026-10-09 source reconciliation,
+> read PROJECT_STATE.md's current block and docs/PRIMARY_DELIVERY_PLAN.md.
+> The checkboxes below are retained evidence, not the active queue or new approvals.
+
 # Mongezz v1.0 Ordered Execution Plan
 
 This file is intentionally operational. It freezes the sequence from the current governed baseline to the owner-only Pilot RC1.

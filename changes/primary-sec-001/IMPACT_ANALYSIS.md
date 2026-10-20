@@ -1,0 +1,5 @@
+# Impact analysis
+
+TanStack Start handles routing, server functions and request middleware. Consumers include src/router.tsx, src/server.ts, src/start.ts, src/utils/payments.functions.ts, src/integrations/supabase/auth-{middleware,attacher}.ts and file routes (rg inventory in verification evidence).
+
+UI: route compilation, no requested visual change. API/RPC: existing callers preserved; upstream transport validation intentionally hardens malformed inputs. Database/data: no writes or schema changes. Auth/tenant: existing middleware preserved; build is not proof of tenant authorization. Finance/state/reports: no logic change or financial acceptance. Background jobs/integrations: email queue, payments webhook and MCP compile as existing routes; live behavior unverified. Performance: bundle warnings recorded, no performance promise. CI/tests: native baseline, lock security regression, final required checks; hosted runner failure tracked separately. Deployment/rollback/compatibility: see companion records; no release action.

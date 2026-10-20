@@ -1,0 +1,3 @@
+# Verification
+
+Use saved ranking without global lint. Capture actual selected-file lint before/after and nonformat/suppressed diagnostics; prove exact Prettier output/idempotence, source/type/runtime AST and comments/meaningful JSX preservation, with diagnostic comparator controls. Run targeted lint/typecheck and unchanged native Quality (existing unit/wrapper/browser/two builds/generation invariance). One independent review for whole batch. No new behavioral tests/workflow, no repeated historical security/G1. Original app.tsx missing-customer fix and all tests stay byte-identical. Preserve actual failures/limits and exact executable source/final documentation delta.

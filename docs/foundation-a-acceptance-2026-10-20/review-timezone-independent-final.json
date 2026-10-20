@@ -1,0 +1,146 @@
+{
+  "results": [
+    {
+      "name": "ready settings retain independently expected paid100 cash90",
+      "passed": true,
+      "collected": 100,
+      "cash": 90
+    },
+    {
+      "name": "unavailable timezone error cannot yield daily healthyzero or authorize close",
+      "passed": true,
+      "read": {
+        "hasData": false,
+        "complete": false,
+        "phase": "error"
+      }
+    },
+    {
+      "name": "unavailable timezone missing cannot yield daily healthyzero or authorize close",
+      "passed": true,
+      "read": {
+        "hasData": false,
+        "complete": false,
+        "phase": "loading"
+      }
+    },
+    {
+      "name": "unavailable timezone paused cannot yield daily healthyzero or authorize close",
+      "passed": true,
+      "read": {
+        "hasData": false,
+        "complete": false,
+        "phase": "loading"
+      }
+    },
+    {
+      "name": "unavailable timezone placeholder cannot yield daily healthyzero or authorize close",
+      "passed": true,
+      "read": {
+        "hasData": false,
+        "complete": false,
+        "phase": "loading"
+      }
+    },
+    {
+      "name": "unavailable timezone null-row cannot yield daily healthyzero or authorize close",
+      "passed": true,
+      "read": {
+        "hasData": false,
+        "complete": false,
+        "phase": "loading"
+      }
+    },
+    {
+      "name": "cached timezone cached-error retains100 cash90 but blocks close",
+      "passed": true,
+      "read": {
+        "hasData": true,
+        "complete": false,
+        "phase": "error"
+      },
+      "collected": 100,
+      "cash": 90
+    },
+    {
+      "name": "cached timezone refreshing retains100 cash90 but blocks close",
+      "passed": true,
+      "read": {
+        "hasData": true,
+        "complete": false,
+        "phase": "refreshing"
+      },
+      "collected": 100,
+      "cash": 90
+    },
+    {
+      "name": "debt60 collection remains independent of unavailable timezone",
+      "passed": true,
+      "debt": 60,
+      "effects": [
+        [
+          "useCollectDebt",
+          {
+            "orderId": "invoice-fixture",
+            "amount": 1,
+            "method": "cash"
+          }
+        ]
+      ]
+    },
+    {
+      "name": "week summaries retain100 cash90 independently",
+      "passed": true,
+      "period": "week",
+      "collected": 100,
+      "cash": 90
+    },
+    {
+      "name": "month summaries retain100 cash90 independently",
+      "passed": true,
+      "period": "month",
+      "collected": 100,
+      "cash": 90
+    },
+    {
+      "name": "successful nullable field keeps approved Tripoli default",
+      "passed": true,
+      "timezone": "Africa/Tripoli"
+    },
+    {
+      "name": "fresh rendered context recovers action after error",
+      "passed": true,
+      "effects": [
+        [
+          "useCloseDay",
+          {}
+        ]
+      ]
+    },
+    {
+      "name": "settings retry is retained alongside financial refetches",
+      "passed": true,
+      "effects": [
+        [
+          "refetch",
+          "invoices"
+        ],
+        [
+          "refetch",
+          "payments"
+        ],
+        [
+          "refetch",
+          "expenses"
+        ],
+        [
+          "refetch",
+          "settings"
+        ]
+      ]
+    }
+  ],
+  "passed": 14,
+  "total": 14,
+  "scope": "Actual parent/screens and synthetic complete query observer records; fixed test clock, initial UI period override only, real memo/formula/source bodies"
+}

@@ -1,0 +1,21 @@
+{
+  "source": "e38cf18d007ebaa6f9a9c0e314283a33960d89db",
+  "base": "89606268234724241065fdd0a8abe84467dd8b51",
+  "changed_packages": [
+    "hono"
+  ],
+  "old": [
+    "hono@4.12.27",
+    "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/hono/-/hono-4.12.27.tgz",
+    {},
+    "sha512-1yrb/+w6HWQJrUCLkJ2IF5jNIPvvFkblV5RNOYl6bV+OA6p9GLcMpHFFGTosSvHvcAUibuUukRqhlYI4z32C7Q=="
+  ],
+  "new": [
+    "hono@4.13.7",
+    "",
+    {},
+    "sha512-c8/gF9ac8Y78/agExVocyLevgR+JlpNB444Py0FSX8pJoPdYUfUzRcXtYEYGwt6l19qIlVZPN5Mfsw9jFShmQQ=="
+  ],
+  "unrelated_graph_changes": false,
+  "lock_sha256": "2d43c022595374bbef83cada6c2cdac265086e36cd58c91fc3f7b097ce7f06aa"
+}

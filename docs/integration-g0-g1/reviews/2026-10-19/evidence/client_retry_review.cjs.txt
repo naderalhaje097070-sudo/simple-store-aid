@@ -1,0 +1,58 @@
+// Execute the actual PR50 callback with fake transport, clock and tab storage.
+// This tests client key continuity only; no PostgreSQL/provider or network runs.
+const fs = require('node:fs');
+const vm = require('node:vm');
+const assert = require('node:assert/strict');
+const { stripTypeScriptTypes } = require('node:module');
+const original = fs.readFileSync(__dirname + '/src/lib/db.ts', 'utf8');
+const emitted = stripTypeScriptTypes(original).replace(/^import[^\n]*\n/gm, '').replace(/^export /gm, '');
+
+async function exercise(elapsed) {
+  let clock = 1_000_000;
+  let generated = 0;
+  let transportAttempt = 0;
+  const storage = new Map();
+  const committedByKey = new Map();
+  const keys = [];
+  const context = vm.createContext({
+    Date: { now: () => clock },
+    crypto: { randomUUID: () => `00000000-0000-4000-8000-${String(++generated).padStart(12, '0')}` },
+    window: { sessionStorage: {
+      getItem: key => storage.get(key) ?? null,
+      setItem: (key, value) => storage.set(key, value),
+      removeItem: key => storage.delete(key),
+    } },
+    useQuery: x => x,
+    useMutation: x => x,
+    useQueryClient: () => ({ invalidateQueries() {} }),
+    supabase: { rpc: async (name, input) => {
+      assert.equal(name, 'create_sale_with_items_idempotent');
+      const key = input.p_idempotency_key;
+      keys.push(key);
+      if (!committedByKey.has(key)) {
+        committedByKey.set(key, { order_id: `order-${committedByKey.size + 1}`, number: committedByKey.size + 1 });
+      }
+      if (++transportAttempt === 1) return { data: null, error: { message: 'fixture lost response after commit' } };
+      return { data: committedByKey.get(key), error: null };
+    } },
+  });
+  vm.runInContext(emitted + '\nthis.subject = useCreateSale("tenant-fixture");', context);
+  const input = { items: [{ productId: 'product-fixture', name: 'fixture', qty: 1, price: 100, cost: 60 }],
+    total: 100, paid: 100, delivery: 'direct', method: 'cash' };
+  // The actual application maps unknown transport errors to this generic text.
+  await assert.rejects(() => context.subject.mutationFn(input), error => error.message === 'تعذّر إتمام العملية');
+  clock += elapsed;
+  await context.subject.mutationFn(input);
+  return { elapsed_ms: elapsed, keys_equal: keys[0] === keys[1], modeled_server_effects: committedByKey.size,
+    real_database_or_provider_calls: 0 };
+}
+(async () => {
+  const within = await exercise(1_000);
+  const expired = await exercise(30 * 60 * 1000 + 1);
+  assert.equal(within.keys_equal, true);
+  assert.equal(within.modeled_server_effects, 1);
+  assert.equal(expired.keys_equal, false);
+  assert.equal(expired.modeled_server_effects, 2);
+  console.log(JSON.stringify({ source: '193412a01938d752a98689d85acd727664e4dc8e',
+    kind: 'actual_client_callback_with_model_server_only', within, expired }, null, 2));
+})().catch(error => { console.error(error); process.exitCode = 1; });

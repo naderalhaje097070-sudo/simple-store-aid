@@ -1,11 +1,253 @@
-import asyncio, json
+"""Read-only mobile/RTL visual smoke for explicit non-production targets only."""
+
+import asyncio
+import ipaddress
+import json
+import os
+import re
+import sys
 from pathlib import Path
+from urllib.parse import urlparse
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "e2e"))
+from browser_network_guard import install_browser_network_guard
+
+PRODUCTION_APP_HOST = "simple-store-aid.lovable.app"
+PRODUCTION_SUPABASE_HOST = "dahzkekdirrngnkcxinv.supabase.co"
+FORBIDDEN_PRODUCTION_HOSTS = {PRODUCTION_APP_HOST, PRODUCTION_SUPABASE_HOST}
+LOOPBACK_HOSTS = {"127.0.0.1", "localhost"}
+ALLOWED_TARGETS = {"local", "ci", "preview", "staging"}
+REMOTE_DNS_HOST = re.compile(
+    r"^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+"
+    r"[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"
+)
+BLOCK_SENTINEL = "SEC_ENV_VISUAL_SMOKE_BLOCKED"
+OK_SENTINEL = "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK"
+
+
+def block(reason: str) -> None:
+    print(f"{BLOCK_SENTINEL}: {reason}")
+    raise SystemExit(2)
+
+
+def reject_browser_ambiguous_url(value: str) -> None:
+    """Reject raw forms whose WHATWG interpretation can differ from urllib."""
+
+    # This test harness accepts canonical printable ASCII origins only. Raw
+    # Unicode/IDNA separators, percent-encoded hostname bytes, backslashes and
+    # browser-trimmed whitespace are never treated as an approval input.
+    if value != value.strip():
+        block("visual smoke base URL cannot contain surrounding whitespace")
+    if any(ord(character) < 0x21 or ord(character) > 0x7E for character in value):
+        block("visual smoke base URL must be a printable ASCII origin")
+    if "\\" in value:
+        block("visual smoke base URL cannot contain backslashes")
+    if "%" in value:
+        block("visual smoke base URL cannot contain percent-encoding")
+
+
+def normalize_hostname(value: str) -> str:
+    host = value.rstrip(".")
+    try:
+        return host.encode("idna").decode("ascii").lower().rstrip(".")
+    except UnicodeError:
+        block("visual smoke hostname is not valid IDNA")
+
+
+def reject_ascii_alabels(host: str) -> None:
+    """Avoid Python-vs-WHATWG IDNA differences by disallowing A-labels."""
+
+    if any(label.startswith("xn--") for label in host.split(".")):
+        block("visual smoke preview/staging hostnames cannot use IDNA A-labels")
+
+
+def hostname_from_url(url_value: str) -> str:
+    try:
+        parsed = urlparse(url_value)
+        return normalize_hostname(parsed.hostname or "")
+    except (ValueError, SystemExit):
+        return ""
+
+
+def network_origin(url_value: str) -> tuple[str, str, int] | None:
+    """Return normalized HTTP(S) origin for exact navigation pinning."""
+
+    try:
+        parsed = urlparse(url_value)
+        host = normalize_hostname(parsed.hostname or "")
+        port = parsed.port
+    except (ValueError, SystemExit):
+        return None
+
+    if parsed.scheme not in {"http", "https"} or not host:
+        return None
+    if port is None:
+        port = 80 if parsed.scheme == "http" else 443
+    return (parsed.scheme, host, port)
+
+
+def browser_request_is_isolated(method: str, url_value: str, is_navigation: bool) -> bool:
+    origin = network_origin(url_value)
+    if origin is None or hostname_from_url(url_value) in FORBIDDEN_PRODUCTION_HOSTS:
+        return False
+    if is_navigation and origin != BASE_ORIGIN:
+        return False
+    # Visual smoke is read-only; no fetch/XHR/form writes to any destination.
+    return method.upper() in {"GET", "HEAD", "OPTIONS"}
+
+
+def parse_whatwg_ipv4_number(part: str) -> int | None:
+    """Parse one WHATWG IPv4-number component (decimal/octal/hex)."""
+
+    if not part:
+        return None
+
+    digits = part
+    radix = 10
+    lowered = part.lower()
+    if lowered.startswith("0x"):
+        digits = part[2:]
+        radix = 16
+        if not digits or not all(character in "0123456789abcdefABCDEF" for character in digits):
+            return None
+    elif len(part) >= 2 and part.startswith("0"):
+        digits = part[1:]
+        radix = 8
+        if not digits:
+            return 0
+        if not all(character in "01234567" for character in digits):
+            return None
+    elif not part.isdigit():
+        return None
+
+    try:
+        return int(digits, radix)
+    except ValueError:
+        return None
+
+
+def ends_in_whatwg_ipv4_number_candidate(host: str) -> bool:
+    """Detect the WHATWG 'ends in a number' boundary before DNS acceptance."""
+
+    parts = host.split(".")
+    if parts and parts[-1] == "":
+        parts.pop()
+    if not parts:
+        return False
+
+    last = parts[-1]
+    # WHATWG treats a host as an IPv4 candidate when the final label parses as
+    # an IPv4 number, or when it is all ASCII digits even if that parse fails
+    # (for example 09 or an out-of-range decimal component).
+    return parse_whatwg_ipv4_number(last) is not None or (last.isascii() and last.isdigit())
+
+
+def is_whatwg_ipv4_host(host: str) -> bool:
+    """Detect host spellings Chromium can canonicalize into an IPv4 address."""
+
+    parts = host.split(".")
+    if parts and parts[-1] == "":
+        parts.pop()
+    if not parts or len(parts) > 4:
+        return False
+
+    numbers: list[int] = []
+    for part in parts:
+        number = parse_whatwg_ipv4_number(part)
+        if number is None:
+            return False
+        numbers.append(number)
+
+    if any(number > 255 for number in numbers[:-1]):
+        return False
+
+    last_limit = 256 ** (5 - len(numbers))
+    return numbers[-1] < last_limit
+
+
+def is_ip_literal_or_legacy_numeric_host(host: str) -> bool:
+    try:
+        ipaddress.ip_address(host)
+        return True
+    except ValueError:
+        return is_whatwg_ipv4_host(host)
+
+
+def canonical_origin(parsed, host: str) -> str:
+    try:
+        port = parsed.port
+    except ValueError:
+        block("MONGEZZ_VISUAL_TEST_BASE_URL has an invalid port")
+
+    suffix = f":{port}" if port is not None else ""
+    return f"{parsed.scheme}://{host}{suffix}"
+
+
+def validate_target() -> str:
+    target = os.environ.get("MONGEZZ_DEPLOY_TARGET", "").strip()
+    raw_base_url = os.environ.get("MONGEZZ_VISUAL_TEST_BASE_URL", "")
+
+    if target not in ALLOWED_TARGETS:
+        block("MONGEZZ_DEPLOY_TARGET must be local, ci, preview, or staging")
+    if not raw_base_url:
+        block("MONGEZZ_VISUAL_TEST_BASE_URL must be explicit")
+
+    reject_browser_ambiguous_url(raw_base_url)
+
+    try:
+        parsed = urlparse(raw_base_url)
+        raw_host = parsed.hostname or ""
+        host = normalize_hostname(raw_host)
+    except ValueError:
+        block("MONGEZZ_VISUAL_TEST_BASE_URL is invalid")
+
+    if parsed.username or parsed.password or parsed.query or parsed.fragment:
+        block("visual smoke base URL cannot contain credentials/query/fragment")
+    if parsed.path not in {"", "/"} or parsed.params:
+        block("visual smoke base URL must be an origin, not a routed path")
+    if not host:
+        block("visual smoke base URL must contain a hostname")
+    if raw_host != host:
+        block("visual smoke hostname must already be canonical lowercase ASCII")
+    if host in FORBIDDEN_PRODUCTION_HOSTS:
+        block("visual smoke is not authorized against a production host")
+
+    origin = canonical_origin(parsed, host)
+    if raw_base_url not in {origin, f"{origin}/"}:
+        block("visual smoke base URL must be a canonical origin")
+
+    if target in {"local", "ci"}:
+        if parsed.scheme != "http" or host not in LOOPBACK_HOSTS or parsed.port != 8080:
+            block("local/ci visual smoke must use HTTP loopback port 8080")
+    else:
+        if parsed.scheme != "https" or parsed.port is not None or host in LOOPBACK_HOSTS:
+            block("preview/staging visual smoke must use HTTPS without a custom port")
+        reject_ascii_alabels(host)
+        if ends_in_whatwg_ipv4_number_candidate(host):
+            block("preview/staging visual smoke cannot use a WHATWG IPv4-candidate hostname")
+        if is_ip_literal_or_legacy_numeric_host(host):
+            block("preview/staging visual smoke cannot use IP or legacy numeric host syntax")
+        if not REMOTE_DNS_HOST.fullmatch(host):
+            block("preview/staging visual smoke must use a canonical DNS hostname")
+
+    return origin
+
+
+BASE = validate_target()
+BASE_ORIGIN = network_origin(BASE)
+if BASE_ORIGIN is None:
+    block("validated visual smoke base URL has no usable network origin")
+
+if "--preflight-only" in sys.argv:
+    print(f"{OK_SENTINEL}: explicit non-production visual target verified")
+    raise SystemExit(0)
+
+# Browser dependency and local artifact creation happen only after target validation.
 from playwright.async_api import async_playwright
 
-OUT = Path("/tmp/browser/mongezz/shots"); OUT.mkdir(exist_ok=True)
-BASE = "https://simple-store-aid.lovable.app"
+OUT = Path("/tmp/browser/mongezz/shots")
+OUT.mkdir(parents=True, exist_ok=True)
 
-# financially sensitive screens (public landing only — /app requires auth)
 TARGETS = [
     ("landing", "/"),
     ("auth", "/auth"),
@@ -15,26 +257,58 @@ TARGETS = [
 
 VIEWPORTS = [("mobile_360", 360, 780), ("mobile_390", 390, 844)]
 
+
 async def run():
     results = []
     async with async_playwright() as pw:
         browser = await pw.chromium.launch(headless=True)
-        for vname, w, h in VIEWPORTS:
-            ctx = await browser.new_context(viewport={"width": w, "height": h}, locale="ar-EG")
+        for vname, width, height in VIEWPORTS:
+            ctx = await browser.new_context(
+                viewport={"width": width, "height": height},
+                locale="ar-EG",
+                service_workers="block",
+            )
+            isolation_violations: list[str] = []
+
+            def reject_browser_request(reason):
+                isolation_violations.append(reason)
+                print(f"SEC_ENV_VISUAL_SMOKE_BROWSER_BLOCKED: {reason}")
+
+            await install_browser_network_guard(
+                ctx, browser_request_is_isolated, reject_browser_request
+            )
             page = await ctx.new_page()
+
             errs = []
-            page.on("pageerror", lambda e: errs.append(("pageerror", str(e))))
-            page.on("console", lambda m: m.type == "error" and errs.append(("console", m.text)))
+            page.on("pageerror", lambda error: errs.append(("pageerror", str(error))))
+            page.on(
+                "console",
+                lambda message: errs.append(("console", message.text))
+                if message.type == "error"
+                else None,
+            )
             for name, path in TARGETS:
                 url = BASE + path
                 try:
                     await page.goto(url, wait_until="domcontentloaded", timeout=25000)
-                except Exception as e:
-                    errs.append((f"goto:{name}", str(e)))
+                except Exception as error:
+                    raise RuntimeError(
+                        f"visual navigation failed for {name}: {error}"
+                    ) from error
                 await page.wait_for_timeout(800)
+                if isolation_violations:
+                    raise AssertionError(
+                        "visual smoke blocked forbidden/off-origin request(s): "
+                        + "; ".join(isolation_violations)
+                    )
+                if network_origin(page.url) != BASE_ORIGIN:
+                    raise AssertionError(
+                        f"visual smoke reached unapproved application origin: {page.url}"
+                    )
                 shot = OUT / f"{vname}_{name}.png"
                 await page.screenshot(path=str(shot))
-                info = await page.evaluate("""() => {
+                info = await page.evaluate(
+                    """() => {
                     const html = document.documentElement;
                     const body = document.body;
                     const bodyText = (body?.innerText || '').trim();
@@ -51,11 +325,28 @@ async def run():
                         hasScrollX, tooSmallTaps,
                         nodes: document.body?.children.length || 0,
                     };
-                }""")
-                results.append({"viewport": vname, "page": name, **info, "errors": errs[-5:]})
+                }"""
+                )
+                # Recheck after screenshot/evaluation because requests can start
+                # while visual evidence is being collected.
+                if isolation_violations:
+                    raise AssertionError(
+                        "visual smoke blocked forbidden/off-origin request(s) during evidence collection: "
+                        + "; ".join(isolation_violations)
+                    )
+                if network_origin(page.url) != BASE_ORIGIN:
+                    raise AssertionError(
+                        f"visual smoke left approved application origin during evidence collection: {page.url}"
+                    )
+                results.append(
+                    {"viewport": vname, "page": name, **info, "errors": errs[-5:]}
+                )
             await ctx.close()
         await browser.close()
-    Path("/tmp/browser/mongezz/results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2))
+    Path("/tmp/browser/mongezz/results.json").write_text(
+        json.dumps(results, ensure_ascii=False, indent=2)
+    )
     print(json.dumps(results, ensure_ascii=False, indent=2))
+
 
 asyncio.run(run())

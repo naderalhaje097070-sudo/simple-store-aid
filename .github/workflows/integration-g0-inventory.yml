@@ -1,0 +1,84 @@
+name: Integration G0 tool proof (historical)
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  tool-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Pin unchanged application inputs
+        run: git diff --exit-code 8f730e1c6cf824a3b4fca9062bd11d7ff7349f2d HEAD -- . ':!.github/workflows/integration-g0-inventory.yml' ':!.github/workflows/quality.yml'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - run: bun install --frozen-lockfile
+      - name: Actual callback and emission replay for typed changes
+        run: node tests/g0-integrated-types/runtime.cjs
+      - name: Prove deterministic postprocessing failure and atomicity
+        run: |
+          python3 - <<'PY'
+          import json,subprocess,tempfile,shutil,hashlib
+          from pathlib import Path
+          root=Path.cwd();w=Path(tempfile.mkdtemp(prefix='monjez-generator-'))
+          (w/'scripts').mkdir()
+          for f in ['format-generated.mjs','generated-format-manifest.json']:
+            shutil.copyfile(root/'scripts'/f,w/'scripts'/f)
+          shutil.copyfile(root/'.prettierrc',w/'.prettierrc')
+          (w/'node_modules').symlink_to(root/'node_modules',target_is_directory=True)
+          m=json.loads((w/'scripts/generated-format-manifest.json').read_text())
+          for x in m['files']:
+            p=w/x['path'];p.parent.mkdir(parents=True,exist_ok=True)
+            p.write_bytes(subprocess.check_output(['git','show','efe57f320b03d359df7619fa58872438c9e91af8:'+x['path']]))
+          def call(*args):
+            return subprocess.run(['node',str(w/'scripts/format-generated.mjs'),*args],cwd=w,capture_output=True)
+          def snapshot():
+            return {x['path']:hashlib.sha256((w/x['path']).read_bytes()).hexdigest() for x in m['files']}
+          old=call('--check');assert old.returncode!=0,'Old generated input incorrectly passed check'
+          last=w/m['files'][-1]['path'];original=last.read_bytes();last.write_bytes(original+b'\n// unreviewed input fixture\n')
+          before=snapshot();bad=call();assert bad.returncode!=0 and before==snapshot(),'Partial output written before batch validation'
+          last.write_bytes(original)
+          good=call();assert good.returncode==0,good.stderr.decode()
+          check=call('--check');assert check.returncode==0,check.stderr.decode()
+          stable=snapshot();again=call();assert again.returncode==0 and stable==snapshot(),'Not idempotent'
+          mf=w/'scripts/generated-format-manifest.json';bad_manifest=dict(m);bad_manifest['formatter']='0.0.0';mf.write_text(json.dumps(bad_manifest))
+          rejected=call();assert rejected.returncode!=0 and stable==snapshot(),'Unknown formatter accepted'
+          print(json.dumps({'baselineCheckExit':old.returncode,'unreviewedInputExit':bad.returncode,'writeExit':good.returncode,'checkExit':check.returncode,'idempotent':True,'unknownFormatterExit':rejected.returncode,'allBatchHashesStableOnFailure':True,'files':9}))
+          shutil.rmtree(w)
+          PY
+      - name: Format only the two new tool sources
+        run: bunx --no-install prettier --write scripts/format-generated.mjs tests/g0-integrated-types/runtime.cjs
+      - name: Capture exact prepared outputs and current full lint
+        run: |
+          python3 - <<'PY'
+          import subprocess,hashlib,json,os
+          from collections import Counter
+          from pathlib import Path
+          out=Path(os.environ['RUNNER_TEMP'])/'integration-final-tools';out.mkdir()
+          for p in ['scripts/format-generated.mjs','tests/g0-integrated-types/runtime.cjs']:
+            d=Path(p).read_bytes();q=out/p;q.parent.mkdir(parents=True,exist_ok=True);q.write_bytes(d)
+          lint=subprocess.run(['bunx','--no-install','eslint','.','--format','json'],capture_output=True)
+          rows=json.loads(lint.stdout)
+          result={'source':os.environ['GITHUB_SHA'],'preparedToolSourcesDifferFromCommit':True,'lintExit':lint.returncode,'rawLintSha256':hashlib.sha256(lint.stdout).hexdigest(),
+                  'errors':sum(x['errorCount'] for x in rows),'warnings':sum(x['warningCount'] for x in rows),
+                  'rules':dict(Counter(str(m.get('ruleId')) for x in rows for m in x['messages'])),
+                  'diagnostics':[{'path':str(Path(x['filePath']).relative_to(Path.cwd())),'messages':x['messages']} for x in rows if x['messages']]}
+          (out/'lint.json').write_text(json.dumps(result,indent=2)+'\n')
+          print(json.dumps(result))
+          raise SystemExit(lint.returncode)
+          PY
+      - name: Check prepared source types
+        run: bun run typecheck
+      - name: Upload prepared tools and structured result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-final-tools
+          path: ${{ runner.temp }}/integration-final-tools/
+          retention-days: 7
+          if-no-files-found: warn

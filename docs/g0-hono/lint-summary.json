@@ -1,0 +1,48 @@
+{
+  "cjs": [
+    {
+      "path": "tests/g01-acceptance/dns_trace.cjs",
+      "errors": 16,
+      "warnings": 0,
+      "rules": {
+        "prettier/prettier": 16
+      }
+    },
+    {
+      "path": "tests/g01-acceptance/test_cf_fetch.cjs",
+      "errors": 41,
+      "warnings": 0,
+      "rules": {
+        "prettier/prettier": 41
+      }
+    }
+  ],
+  "app-candidate": [
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "errors": 340,
+      "warnings": 1,
+      "rules": {
+        "prettier/prettier": 323,
+        "@typescript-eslint/no-explicit-any": 16,
+        "@typescript-eslint/no-unused-expressions": 1,
+        "react-hooks/exhaustive-deps": 1
+      }
+    }
+  ],
+  "app-main": [
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "errors": 340,
+      "warnings": 1,
+      "rules": {
+        "prettier/prettier": 323,
+        "@typescript-eslint/no-explicit-any": 16,
+        "@typescript-eslint/no-unused-expressions": 1,
+        "react-hooks/exhaustive-deps": 1
+      }
+    }
+  ],
+  "app_messages_equal_except_fix_byte_ranges": true,
+  "full_detail": "lint-detail.json inside verification-first.zip and verification-final.zip; raw ESLint stdout files also retained there."
+}

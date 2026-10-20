@@ -1,0 +1,4 @@
+2026-10-20T08:35:25.0204569Z {"checks": 40, "passed": true, "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"}
+2026-10-20T08:35:45.5211963Z {"status_removed": true, "worker_env_removed": true, "processes_removed": true, "containers_removed": true, "process_state": "no_processes", "container_state": "absent", "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8", "passed": true}
+2026-10-20T08:35:45.5285553Z [36;1mprint('G01_EVIDENCE_CREDENTIAL_SCAN_PASS')[0m
+2026-10-20T08:35:45.5594962Z G01_EVIDENCE_CREDENTIAL_SCAN_PASS

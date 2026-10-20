@@ -1,0 +1,13 @@
+{
+  "source54": "57fb508b9d239aaf4676352dd97654341416c46a",
+  "application_candidate": "89838e82244932f62b467fdf4d5a4ca76ec5139a",
+  "runtime": "scratch-local",
+  "bun": "1.2.14",
+  "command": "bun tests/gate4/sec-ci/probe.ts",
+  "exit": 0,
+  "sentinel": "SEC_CI_G4_TARGET_GREEN: setup-cli@v2 pinned to 2.101.0; reporting is least-privilege",
+  "no_expected_red": true,
+  "stdout_sha256": "cbe50a5ee898e226c326ab952571f34b83228c36af3f3cdf5251cd6bbe37f104",
+  "financial_workflow_body_executed": false,
+  "scope": "read-only workflow contract probe, not full hosted SEC-CI acceptance"
+}

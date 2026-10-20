@@ -1,0 +1,67 @@
+{
+  "exit_code": 1,
+  "counts": {
+    "low": 2,
+    "moderate": 1
+  },
+  "target_ids": [
+    "GHSA-55q2-fjhq-7xh7",
+    "GHSA-6688-9rhm-gjv2",
+    "GHSA-c2j3-45gr-mqc4"
+  ],
+  "target_ids_remaining": [],
+  "all_reported_ids": [
+    "GHSA-4x5r-pxfx-6jf8",
+    "GHSA-frvp-7c67-39w9",
+    "GHSA-g7r4-m6w7-qqqr"
+  ],
+  "records": [
+    {
+      "module_name": "@babel/core",
+      "id": 1123528,
+      "url": "https://github.com/advisories/GHSA-4x5r-pxfx-6jf8",
+      "title": "@babel/core: Arbitrary File Read via sourceMappingURL Comment",
+      "severity": "low",
+      "vulnerable_versions": "<=7.29.0",
+      "cwe": [
+        "CWE-22",
+        "CWE-200"
+      ],
+      "cvss": {
+        "score": 3.2,
+        "vectorString": "CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N"
+      }
+    },
+    {
+      "module_name": "@hono/node-server",
+      "id": 1139322,
+      "url": "https://github.com/advisories/GHSA-frvp-7c67-39w9",
+      "title": "Node.js Adapter for Hono: Path traversal in `serve-static` on Windows via encoded backslash (`%5C`)",
+      "severity": "moderate",
+      "vulnerable_versions": "<1.19.15",
+      "cwe": [
+        "CWE-22"
+      ],
+      "cvss": {
+        "score": 5.9,
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+      }
+    },
+    {
+      "module_name": "esbuild",
+      "id": 1120680,
+      "url": "https://github.com/advisories/GHSA-g7r4-m6w7-qqqr",
+      "title": "esbuild allows arbitrary file read when running the development server on Windows",
+      "severity": "low",
+      "vulnerable_versions": ">=0.27.3 <0.28.1",
+      "cwe": [
+        "CWE-22"
+      ],
+      "cvss": {
+        "score": 2.5,
+        "vectorString": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:L/A:N"
+      }
+    }
+  ],
+  "g0_accepted": false
+}

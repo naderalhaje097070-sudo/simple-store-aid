@@ -1,0 +1,3 @@
+SEC_ENV_G4_E1_EXPECTED_RED: preview with missing Supabase config does not fail closed
+SEC_ENV_G4_E2_EXPECTED_RED: preview can resolve the known production Supabase target
+SEC_ENV_G4_E3_EXPECTED_RED: production intent can succeed without explicit Supabase configuration

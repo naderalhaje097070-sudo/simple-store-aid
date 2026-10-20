@@ -1,0 +1,49 @@
+{
+  "results": [
+    {
+      "name": "initial unavailable",
+      "passed": true
+    },
+    {
+      "name": "cache survives refetch failure",
+      "passed": true
+    },
+    {
+      "name": "empty success versus failed cache",
+      "passed": true
+    },
+    {
+      "name": "warning inside closable financial sheet",
+      "passed": true
+    },
+    {
+      "name": "export rejected then recovers",
+      "passed": true
+    },
+    {
+      "name": "collection sheet rejects stale balance then recovers",
+      "passed": true
+    },
+    {
+      "name": "directory survives unavailable balance",
+      "passed": true
+    },
+    {
+      "name": "timezone failure hides daily modal/close then recovers",
+      "passed": true
+    },
+    {
+      "name": "cached timezone retains money and independent collection survives",
+      "passed": true
+    },
+    {
+      "name": "no browser errors or network requests",
+      "passed": true,
+      "errors": [],
+      "requests": []
+    }
+  ],
+  "passed": 10,
+  "total": 10,
+  "scope": "Real React/Chromium UI; synthetic hooks/PDF/mutations, no server finance or provider"
+}

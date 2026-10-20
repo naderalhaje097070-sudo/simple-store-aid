@@ -1,0 +1,55 @@
+name: G0 Hono lock preparation
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-hono-prepare.yml]
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate with the approved official tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-hono-preparation
+          out="$PWD/evidence/g0-hono-preparation"
+          git rev-parse HEAD > "$out/source.txt"
+          gen_dir="$(mktemp -d)"
+          git show 89606268234724241065fdd0a8abe84467dd8b51:bun.lock > "$gen_dir/bun.lock"
+          cp package.json bunfig.toml "$gen_dir/"
+          cd "$gen_dir"
+          npm pack @oven/bun-linux-x64-baseline@1.4.0 --ignore-scripts --json > "$out/bun-tool-pack.json"
+          node --input-type=module - "$out/bun-tool-pack.json" <<'JS'
+          import fs from 'node:fs';
+          const [p] = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (p.integrity !== 'sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==') throw Error('Unapproved generator integrity');
+          JS
+          tar -xzf oven-bun-linux-x64-baseline-1.4.0.tgz
+          tool="$gen_dir/package/bin/bun"
+          test "$("$tool" --version)" = 1.4.0
+          "$tool" --revision | tee "$out/bun-revision.txt"
+          grep -q 34cbb9a40 "$out/bun-revision.txt"
+          timeout 120 "$tool" update hono --lockfile-only --ignore-scripts 2>&1 | tee "$out/generator.log"
+          cp bun.lock "$out/bun.lock"
+          cp package.json bunfig.toml "$out/"
+          sha256sum bun.lock package.json bunfig.toml > "$out/sha256.txt"
+          git hash-object bun.lock > "$out/lock-blob.txt"
+          cd "$GITHUB_WORKSPACE"
+          git show 89606268234724241065fdd0a8abe84467dd8b51:bun.lock > "$out/base-bun.lock"
+          diff -u "$out/base-bun.lock" "$out/bun.lock" > "$out/lock.diff" || test "$?" = 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-hono-preparation
+          path: evidence/g0-hono-preparation
+          if-no-files-found: error

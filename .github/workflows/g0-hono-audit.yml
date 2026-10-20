@@ -1,0 +1,49 @@
+name: G0 Hono audit with supported scanner
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-hono-audit.yml]
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Audit only with the approved official Bun 1.4.0 tool
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-hono
+          out="$PWD/evidence/g0-hono"
+          git rev-parse HEAD > "$out/source.txt"
+          tool_dir="$(mktemp -d)"
+          cd "$tool_dir"
+          npm pack @oven/bun-linux-x64-baseline@1.4.0 --ignore-scripts --json > "$out/bun-tool-pack.json"
+          node --input-type=module - "$out/bun-tool-pack.json" <<'JS'
+          import fs from 'node:fs';
+          const [p] = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (p.integrity !== 'sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==') throw Error('Unapproved scanner integrity');
+          JS
+          tar -xzf oven-bun-linux-x64-baseline-1.4.0.tgz
+          test "$(package/bin/bun --version)" = 1.4.0
+          package/bin/bun --revision | tee "$out/bun-revision.txt"
+          grep -q 34cbb9a40 "$out/bun-revision.txt"
+          cd "$GITHUB_WORKSPACE"
+          PATH="$tool_dir/package/bin:$PATH" python tests/g0-hono/verify.py audit
+      - name: Audit did not alter the candidate graph
+        if: always()
+        run: git diff --exit-code -- package.json bun.lock bunfig.toml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-hono-audit
+          path: evidence/g0-hono
+          if-no-files-found: error

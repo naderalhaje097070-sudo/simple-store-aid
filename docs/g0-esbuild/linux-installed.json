@@ -1,0 +1,276 @@
+{
+  "copies": [
+    {
+      "path": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/@esbuild/linux-x64/package.json",
+      "name": "@esbuild/linux-x64",
+      "version": "0.28.1"
+    },
+    {
+      "path": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/esbuild/package.json",
+      "name": "esbuild",
+      "version": "0.28.1"
+    }
+  ],
+  "official_mcp_files": [
+    {
+      "path": "LICENSE",
+      "sha256": "afb56bc26c285e9b0f23e8e59a77f65b768ac48af3810ee16d581f4116ae3b1b"
+    },
+    {
+      "path": "dist/cli/extract-manifest.cjs",
+      "sha256": "98e2074c07c870efb49155bd819071adff6360638b91284237edc49bf0d210b8"
+    },
+    {
+      "path": "dist/index.cjs",
+      "sha256": "853589d2645ce45e50c34cfb0d64799603e053362d505c04900829ec43233ec2"
+    },
+    {
+      "path": "dist/protocols/mcp/index.cjs",
+      "sha256": "0ed0bbeaafb77ddb580c169a484578c7aca327c47ef43ee8c9d14a5967161e83"
+    },
+    {
+      "path": "dist/protocols/rest/index.cjs",
+      "sha256": "1fc23099cddfa28f116dc8f7cf49f0f4c90cc03cd22955b5ac232adaadf334d3"
+    },
+    {
+      "path": "dist/stacks/supabase/index.cjs",
+      "sha256": "f84d4a0bbee53a4c0723519d6a156a824c30bf836f45d609c9606257fcad7d31"
+    },
+    {
+      "path": "dist/stacks/tanstack/index.cjs",
+      "sha256": "ca9c20ec04c178f12c186a360e59ef119e84d4e413e39a17425265d2b1b1a2f3"
+    },
+    {
+      "path": "dist/protocols/oauth-metadata.cjs",
+      "sha256": "64aa78aa9529eb722f2109a925ef5bd330ddd12bf8d76fe1d56f702bd1fd4a6c"
+    },
+    {
+      "path": "dist/stacks/supabase/vite.cjs",
+      "sha256": "beada1a82ea3d0a6ba7bd65bf0fee6eeb24c69260f60772facb99ed21f8d9341"
+    },
+    {
+      "path": "dist/stacks/tanstack/vite.cjs",
+      "sha256": "035c56a7dea7c7edfac567dc70447aeae35cc6f982b65fe29f3cf712a563cbec"
+    },
+    {
+      "path": "dist/cli/extract-manifest.d.cts",
+      "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725"
+    },
+    {
+      "path": "dist/index.d.cts",
+      "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57"
+    },
+    {
+      "path": "dist/protocols/mcp/index.d.cts",
+      "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27"
+    },
+    {
+      "path": "dist/protocols/rest/index.d.cts",
+      "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38"
+    },
+    {
+      "path": "dist/stacks/supabase/index.d.cts",
+      "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b"
+    },
+    {
+      "path": "dist/stacks/tanstack/index.d.cts",
+      "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4"
+    },
+    {
+      "path": "dist/protocols/oauth-metadata.d.cts",
+      "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f"
+    },
+    {
+      "path": "dist/stacks/supabase/vite.d.cts",
+      "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08"
+    },
+    {
+      "path": "dist/stacks/tanstack/vite.d.cts",
+      "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce"
+    },
+    {
+      "path": "dist/chunk-6DXGZZA4.js",
+      "sha256": "8879e9a04947a55e2c29f482d9065784d3966b05e53afb7d9d7dbfd735b89a29"
+    },
+    {
+      "path": "dist/chunk-6QFZYYUV.js",
+      "sha256": "7c2531b4ca1efa3b132fd5e73fb2b4998d8a9fc39c8edceb4a3f0d8ff84d14b9"
+    },
+    {
+      "path": "dist/chunk-H37EB22A.js",
+      "sha256": "c037d101359b9a22745306b98982be8d044879edc63c84ada304df2b716a1e1c"
+    },
+    {
+      "path": "dist/chunk-H7W77K6V.js",
+      "sha256": "cb7c2d4428e15ced3f2240ccf049a906be05cdb6fea6d8555617a6a47ad53592"
+    },
+    {
+      "path": "dist/chunk-IUWLXNFW.js",
+      "sha256": "290e4274aab15bac7a0694e39cc4ade0f9587825765364a1240452b3d50056c9"
+    },
+    {
+      "path": "dist/chunk-M35C7Y3M.js",
+      "sha256": "6ae8ed3d7fabe2b13892ccc14cdd2e3db66fe07fd5489fe340d6ea3c79861055"
+    },
+    {
+      "path": "dist/chunk-MA5H6PSF.js",
+      "sha256": "a491c674648a66da5c2776516f25838552ab4cfafbdb913d28ac5cc1ed686f1b"
+    },
+    {
+      "path": "dist/chunk-PTPLMKOV.js",
+      "sha256": "ef8b52aa0eafacbfa04672e16677f6b53a4a93762e6ad4d79b054ef89619f9dc"
+    },
+    {
+      "path": "dist/chunk-UQK5UO6C.js",
+      "sha256": "232084c94b203f072ebba143d2e74cc085c91b31c2f03976792e5e0605410df0"
+    },
+    {
+      "path": "dist/chunk-VOMKN2HP.js",
+      "sha256": "9cf43c815c2a32a318ca42a0f6d7c7d10e3859c08dd2c19928a3fa26304e78fc"
+    },
+    {
+      "path": "dist/chunk-VW7B32WL.js",
+      "sha256": "b1c83f7df443e4c781a00e854f2fc2e0bd1aca32d0fff33b647e9884d6879b6f"
+    },
+    {
+      "path": "dist/chunk-XQWJN6DC.js",
+      "sha256": "69284fb571c31b4cf1df526acaf288577beb55cbf247125bc738705305b15005"
+    },
+    {
+      "path": "dist/chunk-Y3ZFPEQH.js",
+      "sha256": "93b2f533986054375001033a9f9098188bcf849b186fa6b380b7b8677d29a025"
+    },
+    {
+      "path": "dist/cli/extract-manifest.js",
+      "sha256": "6ede0d01fc7b8a945c434b63bbf807eb6d9826a7d0653be6e92834d4ba6a8513"
+    },
+    {
+      "path": "dist/index.js",
+      "sha256": "a572591e6ef3038be89d4833bb93c07deaf3d8a76b48fe2c186e84739420ea85"
+    },
+    {
+      "path": "dist/protocols/mcp/index.js",
+      "sha256": "3a079b0de11a1dd39014fb76a462d01ee53f13baedb253aeb841acc52a03be73"
+    },
+    {
+      "path": "dist/protocols/rest/index.js",
+      "sha256": "09121f8c3b08a4f6cdc731f0281aa8a9ce261a93a8b641f140e8dabb2c837727"
+    },
+    {
+      "path": "dist/stacks/supabase/index.js",
+      "sha256": "4afb6c75d20d6d97c7d02a08e6e734c3db58dcf717d9fa6a2f3f22d0d3b65dba"
+    },
+    {
+      "path": "dist/stacks/tanstack/index.js",
+      "sha256": "c210b27928ccc2d4c18f4593348fcde84e58558d7351738c4a2bc3fb3b477558"
+    },
+    {
+      "path": "dist/protocols/oauth-metadata.js",
+      "sha256": "0cecafa10afe499adeebaecb1a74d712fb93258132ab90c959ab6358e426a214"
+    },
+    {
+      "path": "dist/stacks/supabase/vite.js",
+      "sha256": "f54f5db0b9abbb37e3d1004636d0f1e9fbf80e8dc2c4249fd247dffc8b7d66dd"
+    },
+    {
+      "path": "dist/stacks/tanstack/vite.js",
+      "sha256": "8f543024ebbcae6eff7472c014e912d0b108d4ff4efafca8dae1d0434aef622c"
+    },
+    {
+      "path": "package.json",
+      "sha256": "3b6cc0387651f83a50ff9d9dffa900ec39ca5898581fe6f2aedd1476555b77b8"
+    },
+    {
+      "path": "README.internal.md",
+      "sha256": "d0159ee6ad865ceb1fafa785067654b29c69e1ff5eb0b25189b45a25c8fff6f4"
+    },
+    {
+      "path": "README.md",
+      "sha256": "10a8e36b79e2217e292a4fc4207de78b0eed4399f4fe1e70d48d918599049f27"
+    },
+    {
+      "path": "dist/authorize-BMeXd_Sh.d.ts",
+      "sha256": "bae3f95e2d8bc798f2a4728385ec5a66fc8fd8624459b8f0f7b63154c26d19f0"
+    },
+    {
+      "path": "dist/base-CFy5vZ5Z.d.ts",
+      "sha256": "c7b4e4969f3f18c4498124db1d0d2f50d5f2ee4f4cefc086d3d1559bbd49e7eb"
+    },
+    {
+      "path": "dist/cli/extract-manifest.d.ts",
+      "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725"
+    },
+    {
+      "path": "dist/index.d.ts",
+      "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57"
+    },
+    {
+      "path": "dist/protocols/mcp/index.d.ts",
+      "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27"
+    },
+    {
+      "path": "dist/protocols/rest/index.d.ts",
+      "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38"
+    },
+    {
+      "path": "dist/stacks/supabase/index.d.ts",
+      "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b"
+    },
+    {
+      "path": "dist/stacks/tanstack/index.d.ts",
+      "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4"
+    },
+    {
+      "path": "dist/io-D4srzRKc.d.ts",
+      "sha256": "775e5f72af32c3a9b3a0dd71b43aa4a698605e3c7e178cc87e9e37a8c89dd693"
+    },
+    {
+      "path": "dist/protocols/oauth-metadata.d.ts",
+      "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f"
+    },
+    {
+      "path": "dist/types-CPkhCRxc.d.ts",
+      "sha256": "210309f2bc6f804c65b6c0c7472820aabf9162addf4d739ca853a689575e0a8b"
+    },
+    {
+      "path": "dist/stacks/supabase/vite.d.ts",
+      "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08"
+    },
+    {
+      "path": "dist/stacks/tanstack/vite.d.ts",
+      "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce"
+    }
+  ],
+  "consumers": {
+    "node": "v22.23.3",
+    "platform": "linux",
+    "rows": [
+      {
+        "name": "@lovable.dev/mcp-js",
+        "kind": "dependencies",
+        "range": "^0.27.0",
+        "accepted": false,
+        "version": "0.28.1",
+        "resolved": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/esbuild/lib/main.js"
+      },
+      {
+        "name": "unplugin",
+        "kind": "peerDependencies",
+        "range": "*",
+        "accepted": true,
+        "version": "0.28.1",
+        "resolved": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/esbuild/lib/main.js"
+      },
+      {
+        "name": "vite",
+        "kind": "peerDependencies",
+        "range": "^0.27.0 || ^0.28.0",
+        "accepted": true,
+        "version": "0.28.1",
+        "resolved": "/home/runner/work/simple-store-aid/simple-store-aid/node_modules/esbuild/lib/main.js"
+      }
+    ],
+    "mcp": "0.20.1",
+    "sdk": "1.31.0"
+  }
+}

@@ -1,0 +1,32 @@
+Browser version: 153.0.8010.0
+Traceback (most recent call last):
+  File "/workspace/scratch/ef360bbe5cf9/simple-store-aid-env/tests/gate4/sec-env/browser-network.py", line 215, in <module>
+    raise SystemExit(asyncio.run(main()))
+                     ^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef360bbe5cf9/simple-store-aid-env/tests/gate4/sec-env/browser-network.py", line 154, in main
+    await page.goto(APP)
+  File "/workspace/scratch/ef360bbe5cf9/env-browser-toolchain/lib/python3.12/site-packages/playwright/async_api/_generated.py", line 9869, in goto
+    await self._impl_obj.goto(
+  File "/workspace/scratch/ef360bbe5cf9/env-browser-toolchain/lib/python3.12/site-packages/playwright/_impl/_page.py", line 560, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef360bbe5cf9/env-browser-toolchain/lib/python3.12/site-packages/playwright/_impl/_frame.py", line 156, in goto
+    await self._channel.send(
+  File "/workspace/scratch/ef360bbe5cf9/env-browser-toolchain/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 76, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/ef360bbe5cf9/env-browser-toolchain/lib/python3.12/site-packages/playwright/_impl/_connection.py", line 632, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: Navigation to "http://localhost:8080/" is interrupted by another navigation to "chrome-error://chromewebdata/"
+Call log:
+  - navigating to "http://localhost:8080/", waiting until "load"
+

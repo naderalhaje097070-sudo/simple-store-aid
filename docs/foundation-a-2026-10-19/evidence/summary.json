@@ -1,0 +1,73 @@
+{
+  "app-before": {
+    "passed": 4,
+    "total": 16,
+    "failed": [
+      "initial loading never claims healthy zero",
+      "invoices error blocks fabricated profit",
+      "payments error blocks fabricated profit",
+      "expenses error blocks fabricated profit",
+      "debts missing read cannot claim empty success",
+      "collected missing read cannot claim empty success",
+      "expenses missing read cannot claim empty success",
+      "cached debt60 survives failure and dependent writes are rejected",
+      "partial recovery preserves independently complete debt60",
+      "cached empty error is not reassuring no debt",
+      "placeholder and tenant-unavailable reads are not current balances",
+      "cached refreshing balances are explicitly incomplete"
+    ]
+  },
+  "app-after": {
+    "passed": 34,
+    "total": 34,
+    "failed": []
+  },
+  "trial-before": {
+    "passed": 3,
+    "total": 13,
+    "failed": [
+      "actual tenant query returns selected real trial column",
+      "valid future trial is active",
+      "null trial is absent rather than an invented expiry",
+      "tenantId loading is not expired",
+      "tenantId error is not expired",
+      "tenant loading is not expired",
+      "tenant error is not expired",
+      "sub loading is not expired",
+      "sub error is not expired",
+      "invalid trial date is unavailable"
+    ]
+  },
+  "trial-after": {
+    "passed": 13,
+    "total": 13,
+    "failed": []
+  },
+  "clock-before": {
+    "passed": 0,
+    "total": 4,
+    "failed": [
+      "parent timezone-only refresh recomputes stable financial arrays",
+      "day-close timezone-only refresh recomputes stable props",
+      "clock invalidates parent day at rollover without financial refetch",
+      "day-close same timezone new day invalidates preview"
+    ]
+  },
+  "clock-after": {
+    "passed": 4,
+    "total": 4,
+    "failed": []
+  },
+  "ci-before": {
+    "passed": 4,
+    "total": 5,
+    "failed": [
+      "invalid base fails closed"
+    ]
+  },
+  "ci-after": {
+    "passed": 5,
+    "total": 5,
+    "failed": []
+  }
+}

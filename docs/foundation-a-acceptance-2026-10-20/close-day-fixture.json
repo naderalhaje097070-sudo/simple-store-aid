@@ -1,0 +1,243 @@
+{
+  "orders": [
+    {
+      "id": "3b6797fc-1e7e-4eff-b0f2-b5b00152669b",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "customer_id": "dfad1c8d-96e3-4d0b-83b9-9fc6e63c8c47",
+      "number": 1,
+      "total": 100.0,
+      "paid": 40.0,
+      "status": "partial",
+      "notes": null,
+      "created_by": null,
+      "created_at": "2026-10-20T00:30:00+00:00",
+      "updated_at": "2026-10-20T08:11:33.254935+00:00",
+      "delivery": "direct",
+      "courier_id": null,
+      "courier_state": null,
+      "collected_by_courier": 0.0,
+      "tenant_number": null
+    },
+    {
+      "id": "31a65e9d-532a-49ac-b3ea-808ee52c9e15",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "customer_id": "dfad1c8d-96e3-4d0b-83b9-9fc6e63c8c47",
+      "number": 2,
+      "total": 200.0,
+      "paid": 0.0,
+      "status": "debt",
+      "notes": null,
+      "created_by": null,
+      "created_at": "2026-10-19T23:30:00+00:00",
+      "updated_at": "2026-10-20T08:11:33.254935+00:00",
+      "delivery": "courier",
+      "courier_id": "b01c851a-75f3-48d2-be99-df205fd48e65",
+      "courier_state": "delivered_partial",
+      "collected_by_courier": 50.0,
+      "tenant_number": null
+    },
+    {
+      "id": "292d98d6-1a11-4815-b3a2-ba553a231ddc",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "customer_id": "dfad1c8d-96e3-4d0b-83b9-9fc6e63c8c47",
+      "number": 3,
+      "total": 80.0,
+      "paid": 80.0,
+      "status": "paid",
+      "notes": null,
+      "created_by": null,
+      "created_at": "2026-10-18T01:00:00+00:00",
+      "updated_at": "2026-10-20T08:11:33.254935+00:00",
+      "delivery": "direct",
+      "courier_id": null,
+      "courier_state": null,
+      "collected_by_courier": 0.0,
+      "tenant_number": null
+    },
+    {
+      "id": "2a688e08-2987-4986-84c6-8659963a9096",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "customer_id": "dfad1c8d-96e3-4d0b-83b9-9fc6e63c8c47",
+      "number": 4,
+      "total": 70.0,
+      "paid": 0.0,
+      "status": "debt",
+      "notes": null,
+      "created_by": null,
+      "created_at": "2026-10-18T01:00:00+00:00",
+      "updated_at": "2026-10-20T08:11:33.254935+00:00",
+      "delivery": "courier",
+      "courier_id": "b01c851a-75f3-48d2-be99-df205fd48e65",
+      "courier_state": "returned",
+      "collected_by_courier": 0.0,
+      "tenant_number": null
+    }
+  ],
+  "items": [
+    {
+      "id": "d8437c0d-c971-4f8e-a8cb-10fd04e763da",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "order_id": "3b6797fc-1e7e-4eff-b0f2-b5b00152669b",
+      "product_id": null,
+      "name": "dummy item",
+      "qty": 1.0,
+      "unit_price": 100.0,
+      "unit_cost": 25.0,
+      "created_at": "2026-10-20T08:11:33.254935+00:00"
+    },
+    {
+      "id": "783194c7-b63e-419c-8551-7a87a4aaba5e",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "order_id": "31a65e9d-532a-49ac-b3ea-808ee52c9e15",
+      "product_id": null,
+      "name": "dummy item",
+      "qty": 1.0,
+      "unit_price": 200.0,
+      "unit_cost": 100.0,
+      "created_at": "2026-10-20T08:11:33.254935+00:00"
+    },
+    {
+      "id": "33de5d71-70e8-43b6-b5ad-d2e4ff728d4d",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "order_id": "292d98d6-1a11-4815-b3a2-ba553a231ddc",
+      "product_id": null,
+      "name": "dummy item",
+      "qty": 1.0,
+      "unit_price": 80.0,
+      "unit_cost": 40.0,
+      "created_at": "2026-10-20T08:11:33.254935+00:00"
+    },
+    {
+      "id": "93e414c8-adcd-443d-9de6-cbb89bc165bc",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "order_id": "2a688e08-2987-4986-84c6-8659963a9096",
+      "product_id": null,
+      "name": "dummy item",
+      "qty": 1.0,
+      "unit_price": 70.0,
+      "unit_cost": 30.0,
+      "created_at": "2026-10-20T08:11:33.254935+00:00"
+    }
+  ],
+  "payments": [
+    {
+      "id": "d266e2e9-ed74-4a53-908e-25dd63a384f7",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "kind": "sale",
+      "method": "cash",
+      "amount": 40.0,
+      "order_id": "3b6797fc-1e7e-4eff-b0f2-b5b00152669b",
+      "customer_id": null,
+      "courier_id": null,
+      "note": null,
+      "created_by": null,
+      "created_at": "2026-10-20T00:30:00+00:00"
+    },
+    {
+      "id": "e613b5f3-7986-4406-9f88-db2e107e07af",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "kind": "debt_collection",
+      "method": "cash",
+      "amount": 20.0,
+      "order_id": "292d98d6-1a11-4815-b3a2-ba553a231ddc",
+      "customer_id": null,
+      "courier_id": null,
+      "note": null,
+      "created_by": null,
+      "created_at": "2026-10-20T00:30:00+00:00"
+    },
+    {
+      "id": "d1fde8f3-d966-4c13-a649-642daf9f892f",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "kind": "debt_collection",
+      "method": "cash",
+      "amount": 60.0,
+      "order_id": "292d98d6-1a11-4815-b3a2-ba553a231ddc",
+      "customer_id": null,
+      "courier_id": null,
+      "note": null,
+      "created_by": null,
+      "created_at": "2026-10-18T01:00:00+00:00"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "636756f1-2b30-43cd-8df2-87b648964d39",
+      "tenant_id": "06504bc3-4783-4727-bdf3-56d1c5339411",
+      "type": "dummy",
+      "amount": 10.0,
+      "method": "cash",
+      "note": null,
+      "created_by": null,
+      "created_at": "2026-10-20T00:30:00+00:00"
+    }
+  ],
+  "cases": [
+    {
+      "timezone": "UTC",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 100.0,
+        "collected": 60.0,
+        "expenses": 10.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 40.0
+      },
+      "expected": {
+        "sales": 100,
+        "collected": 60,
+        "expenses": 10,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 40
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated"
+    },
+    {
+      "timezone": "America/Los_Angeles",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 0.0,
+        "collected": 0.0,
+        "expenses": 0.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 0.0
+      },
+      "expected": {
+        "sales": 0,
+        "collected": 0,
+        "expenses": 0,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 0
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated"
+    },
+    {
+      "timezone": "Pacific/Kiritimati",
+      "todayKey": "2026-10-20",
+      "stored": {
+        "sales": 300.0,
+        "collected": 60.0,
+        "expenses": 10.0,
+        "customer_debts": 210.0,
+        "unsettled_custody": 50.0,
+        "realized_profit": 40.0
+      },
+      "expected": {
+        "sales": 300,
+        "collected": 60,
+        "expenses": 10,
+        "customer_debts": 210,
+        "unsettled_custody": 50,
+        "realized_profit": 40
+      },
+      "repeat_single_snapshot": true,
+      "actor_role": "authenticated"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/server/streamableHttp.js",
+    "imports": [
+      "@hono/node-server"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/esm/examples/server/honoWebStandardStreamableHttp.js",
+    "imports": [
+      "@hono/node-server"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/server/streamableHttp.js",
+    "imports": [
+      "@hono/node-server"
+    ]
+  },
+  {
+    "path": "node_modules/@modelcontextprotocol/sdk/dist/cjs/examples/server/honoWebStandardStreamableHttp.js",
+    "imports": [
+      "@hono/node-server"
+    ]
+  }
+]

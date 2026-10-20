@@ -1,0 +1,16 @@
+{
+  "baseline": false,
+  "exit_code": 0,
+  "counts": {
+    "tests": "5",
+    "pass": "5",
+    "fail": "0",
+    "skipped": "0"
+  },
+  "failed": [],
+  "identity": {
+    "platform": "win32",
+    "node": "v22.23.3",
+    "version": "0.28.1"
+  }
+}

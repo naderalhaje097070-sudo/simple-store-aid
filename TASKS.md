@@ -1,3 +1,320 @@
+## FOUNDATION-A — final A8 candidate51, 2026-10-20
+
+- [x] A1–A6 requirements and current-source acceptance: source51b09a6f33a672704f8424cbf2bbed7a2be682ca, G0run39444611013/G1run39444611354 attempt1 SUCCESS. Native43read/10UI/40G1,full audit/frozen/lint/typecheck/build/generation/identity/cleanup receipts retained. The application is unchanged from reviewed421; stored close_day remains truthfully onfabb with its independent arithmetic bridge.
+- [x] A7 current source51 supplemental review: Approved for human merge within A. Historical esbuild workflow's accidental current-head rerun is corrected by manual fixed73e133 proof, without changing assertions or weakening current gates; original failure39396201730 retained. Exact source/main inventory865paths and eight-PR coverage are durable.
+- [ ] A8 protected owner decision: merge existing PR72/package A only after final automatic Quality and source-preserving documentation confirmation. Verify each coverage row on main, settle all8requests and update open count; then B. No closure based only on branch tests.
+
+ONE NEXT is that owner merge decision. Exact final publication/PR head, PR checks, independent preservation confirmation and claim6286335135 release are recorded at final55/70handoff. main43d6edb unchanged;28open. B1–B7/C1–C7/overall integration/release remain pending. Earlier state below is retained history, not the active ONE NEXT.
+
+## FOUNDATION-A — A1–A7 source acceptance complete; A8 owner decision, 2026-10-20
+
+Authoritative checklist70/comment6263266625, same integration branch, package representative PR72. Executable source421774f4bb2f6e541be8ca03faf3714e7c81bab8. Actual commands/results, failures, source provenance, independent review and rollback are in docs/foundation-a-acceptance-2026-10-20. Documentation publication and PR head are recorded in55/70; main43d6edb remains unchanged.
+
+- [x] A1 APP-01 incomplete financial reads: preserve cached known amounts with status, require complete reads for healthy zero and dependent actions; missing-customer protection retained.
+- [x] A2 APP-03 fetch actual trial expiry and distinguish loading/error/expiry without changing trial policy.
+- [x] A3 APP-04 refresh day/zone basis and memo dependencies; actual stored close_day nonempty three-zone proof plus unchanged final arithmetic/SQL and independent bridge. Unknown settings protect daily summaries/close/Pilot, while debt/collection/week/month remain independently available.
+- [x] A4 CI-1 fail on Git discovery errors, cover six source extensions and real lint failures; terminate ESLint options before path arguments. Original failing controls preserved.
+- [x] A5 preserve all eight requests:28original historical Markdown files from32/33; PR48 matrix7exact/11reconciled;52/53dependency/security and54isolation lineage preserved; full source delta vs main saved.
+- [x] A6 final421 native G0/G1 pass:43read/10Chromium/40G1, frozen/audit/full lint/typecheck/build/generation/288blob/41SQL/cleanup evidence retained. No promotion of old823results.
+- [x] A7 independent focused source review: all three in-scope blocking findings repaired and independently reverified; verdict Approved for human merge within A. Final docs preservation receipt accompanies the publication.
+- [ ] A8 owner decision: merge PR72/package A only after explicit permission. Verify accepted source/coverage on main, then settle all8requests and update actual open count. No request closes based solely on branch tests.
+
+ONE NEXT: the A8 owner merge decision after current PR Quality/docs checks. Routine preparation updates existing72 without new PR/history rewrite; no auto-merge/deployment. Claim6286335135 is released in55at handoff, with no hidden execution continuing. B1–B7 and C1–C7 remain pending; the older32financial design acceptance stays C5, not satisfied by the bounded close_day probe. Overall integration/release acceptance remains false. Preserve rollback/failure history and all owner-controlled merge/policy/spending boundaries.
+
+## FOUNDATION-A checkpoint — 2026-10-19
+
+Standing owner instruction: finish the existing28PRs through A8/B15/C5; no routine reconfirmation, protected merge/deploy/policy decisions remain owner-only. Canonical simple-store-aid on naderalhaje097070-sudo.
+
+- [x] A1 APP-01 candidate source preserved;34actual-source local read cases pass.
+- [x] A2 APP-03 candidate source preserved;13query/projection/billing cases pass.
+- [x] A3 APP-04 candidate source preserved;4stable-data clock/timezone cases pass.
+- [x] A4 CI-1 candidate source preserved;5Git/real-ESLint cases pass.
+- [x] A5 candidate regression wiring,288-path snapshot and unchanged41SQL/package/lock reconciliation recorded.
+- [ ] A6 exact fabb481 native G0/G1/browser/build/generation evidence; queued runs39281934875/39281934868. Stored isolated close-day result comparison also remains.
+- [ ] A7 fresh independent review including updated runtime compatibility proof; no self-approval.
+- [ ] A8 owner merge decision, then evidence-backed disposition of A's8PRs.
+- [ ] B15andC5 remain queued under70/6263266625; no accepted closure/release claimed.
+
+ONE NEXT: A6 only. Full report and actual failure/success receipts in docs/foundation-a-2026-10-19. Local browser403block and nonlocked build/invariance limits are explicit; do not reuse823native PASS for changed source.
+
+## REVIEW-ALL — 2026-10-19
+
+- [x] Complete fresh independent scoped reviews and28PR source/dependency ledger. Outcome: **Changes required**; no merge/release approval. Reports: docs/integration-g0-g1/reviews/2026-10-19.
+- [ ] **ONE NEXT: FIN-READ-FAIL-CLOSED-01 / APP-01 High.** Propagate financial read loading/error/completeness; retain known cached amounts with clear status; no healthy zero/no-debt state for incomplete reads. Actual container/screen regressions, no formula change.
+- [ ] APP-02 High before paid billing: durable, error-aware, retryable/idempotent webhook persistence; no200after failed required work. Test partial failure, replay, event order and environment separation.
+- [ ] FIN-01 High: decide/enforce whole-unit quantities or approved fractional inventory; prove persisted stock/line/return reconciliation on fresh and populated upgrade.
+- [ ] FIN-02 High: forward integration migration preserves both canonical courier transitions and live-actor checks; same effective body/ACL on fresh+upgrade; reject backward state/custody decrease without settlement.
+- [ ] FIN-03 High before Idempotency acceptance: unresolved logical sale key survives30minutes/reload/ambiguous result; explicit reconciliation/new-operation lifecycle; real isolated single-effect tests.
+- [ ] APP-03 Medium: truthful trial projection, loading/error/expired states.
+- [ ] APP-04 Medium: day-close timezone/date memo inputs and parent dependencies; compare preview with stored close.
+- [ ] AC-01 Medium: scanner trusted-caller/admin guard survives SECURITY DEFINER; preserve approved service/cron and inactive-account denial.
+- [ ] AC-02 Medium: reserve trusted billing/trial columns, including onboarding INSERT; trace consumers before claiming paywall protection.
+- [ ] CI-1 Medium: fail changed-file discovery on git errors; preserve valid no-source diffs and all six source extensions.
+- [ ] Compose accepted account/financial candidates, then prove one frozen RC: fresh/populated upgrade, concurrency, restore, operations and Pilot gates. No merge/deploy/closure approval; integration_accepted=false.
+
+Five High and five Medium distinct findings; the financial peer addendum does not double-count FIN-01/02. Exact source, evidence levels, actual tests, rejected hypotheses and rollback/limits in the four reports and findings.json. Native G0/G1 remain valid on823cbcaf only. Historical records below are preserved.
+
+## INTEGRATION-RESUME checkpoint — 2026-10-18
+
+- [x] Candidate-only G0: native full lint0errors/13warnings and fullaudit exit0 on823cbcaf; locked contracts/types/generator/build invariance and mjs/cjs coverage; run39172903511.
+- [x] Candidate-only affected G1: native40/40, stable279source/41SQL,22data fingerprints, fixed counters, full traces/secrets/cleanup4/4; run39172903470. Historical failed39/40 preserved; exact old observer error unknown.
+- [ ] **ONE NEXT / Gate6:** fresh independent adversarial review of823cbcaf and inheritedDraft72 scope using docs/integration-g0-g1/REVIEW_REQUEST.md; no implementation self-review accepted as independent. Resolve findings before merge proposal. Current original72/main unchanged.
+- [ ] After review, traceable promotion to existing72 without a duplicatePR; protected main merge/deploy still owner-controlled. No PR closure until accepted coverage documented.
+- [ ] Reconcile downstream account-chain/G2; old54preissuedbannedJWT access remains known here. Preserve prior59–71 evidence without claiming integration on this candidate.
+- [ ] Financial49/50 + October effectiveRPC/ACL/RLS: fresh and populatedupgrade, independent persisted balances, duplicate items/retries/concurrency/partialfailure/returns/settlement/storeisolation; preserve Sale≠cash and Delivered≠Settled.
+- [ ] Review13visible lintwarnings (10refresh,AddProductSheet initial/app tenantTz Hooks,1unuseddisable); Hooks not declared harmless. Track inherited build/precache/offline/performance warnings beforePilot.
+- [ ] Restore/operations/provider/subscription/retention decisions and fullsingleSHA RC/Pilot gates remain unverified; integration_accepted=false.
+
+Report/rollback/source and sanitized receipts: docs/integration-g0-g1. Historical records below retained; this block supersedes older ONE NEXT selections.
+
+## G0-LINT-FORMAT-03 — bounded batch, 2026-10-18
+
+- [x] Ten accepted handwritten files117formatter→0/0warnings; no new whole-repository classification/count. Saved ranking reused; guide unmodified/excluded after failed method proof, onboarding replacement freshly linted. Initial133 not final117; raw baseline assembly/failures preserved.
+- [x] Exact pinned formatter/source-types/runtime/comments/meaningfulJSX proof and independent nine-control review PASS; suppressions2+2 unchanged/not approved. Existing completed/app/generated/dependency/config/tests/workflow bytes fixed.
+- [x] Local frozen/typecheck/targetlint PASS; unchanged native Quality39123211326 SUCCESS on8916bec5ed6f14159b9323d860ee388b3b485a27, all19steps success perAPI. Rawlog download exit1/0bytes/no establishedHTTPcode; native counts/runnercheckout not claimed, no rerun. Current synthetic tree equals source, not actual merge.
+- [x] Source/claim reconciliation before upload, sole claim55/6249300481; final docs-only delta/manifest checked and linked70/55delivery/closure recorded there. No G1/historicalsecurity/audit/merge/deploy.
+- [ ] Lower saved formatter candidates, guide proof, mixed rules/Hook warnings/inherited suppressions/generated/.cjs and G0/finalsource/affectedG1/integration/release acceptance remain open. No remaining global total inferred.
+
+Report/table/exclusion/evidence/review/rollback in docs/g0-lint-format-03. Additive restore only ten accepted paths from3b4a312 to withdraw, preserving prior fixes. ONE NEXT belongs to planning remaining bounded cleanup, then stable-source identity/affectedG1. Stop after delivery; older checkpoints retained as history.
+
+## G0-LINT-FORMAT-02 — bounded batch, 2026-10-18
+
+- [x] Saved handwritten ranking reused, no global reclassification. Fresh five-file diagnostics186formatter→0, other errors/warnings0→0; files/counts in docs/g0-lint-format-02/REPORT.md.
+- [x] Exact locked formatter/source-type/runtime AST/meaningful JSX/comments/idempotence proof, unchanged inherited suppressed diagnostics and independent batch review. app.tsx and generated files excluded; no application tests/workflow/config/rule/dependency changes.
+- [x] Local frozen/typecheck/targetedlint PASS. Existing native Quality39121437943 SUCCESS on dcd3688de41cd3aef422eb22792566c9b9434d10; all steps metadata successful. Native raw-log download failed, exact native counts/checkout not claimed; current synthetic tree equals source, no actual merge.
+- [x] Sole claim55/6248999708 after live head/claim verification; final docs-only source reconciliation and linked55/70 handoff/closure recorded there. No merge/deploy or G1/advisory/audit rerun.
+- [ ] Remaining lint/.cjs/generated/other-rule work and G0/final-source identity/affectedG1/integration/release acceptance remain separate/open. No whole-project remaining count inferred from186.
+
+ONE NEXT: planning chooses remaining bounded G0 cleanup after this handoff. Additive rollback restores only the five table paths froma9915102 and preserves all earlier security/UI fixes. Stop after delivery; no next batch automatically. Historical checkpoints below are retained.
+
+## APP-DEBT-MISSING-CUSTOMER-01 — bounded candidate delivered, 2026-10-18
+
+- [x] Owner-authorized missing-customer UI remedy on existing Draft72: executable82623c7189de21c0a03c5e4b3b6539ff5c74320e; known debt60 retained, clear loading/unavailable states, invalid navigation/collection blocked, no invented ID/zero.
+- [x] Before-fix actual React/Chromium reproduction; local9/9 + independent9/9 regression; affectedlint0errors1useMemowarning/typecheck/66unit/8wrapper/67containment/twoisolatedbuilds/generationinvariance.
+- [x] Existing Quality39120188797 SUCCESS, every required step successful per API; native raw-log storage403 and count/checkout evidence limits explicit. Current synthetic tree equals tested source, no actual merge. No app/test changes after source826.
+- [x] Source/claims reconciled after API recovery before upload; sole claim55/6248860942. Linked55/70 handoff carries final documentation head and closure; no merge/deploy.
+- [ ] Main-branch/integration/release acceptance NOT granted. Remaining lint/.cjs coverage and separate incomplete invoice-read handling remain open. No G1/historical advisory/audit rerun.
+
+See docs/app-debt-missing-customer-01 for actual source/evidence/review/rollback and changes/app-debt-missing-customer-01 for scope. New component tests are standalone, not wired into unchanged CI. ONE NEXT: planning chooses remaining bounded G0 lint; no automatic expansion or source/G1 reconciliation in this batch. Older missing-customer deferral below is historical; this candidate supersedes it only within the reviewed UI scope, not on main.
+
+## Current queue checkpoint — G0-APP-LINT-01, 2026-10-17
+
+- [x] Bounded draft candidate removes17app errors(16any+1expression), retains1useMemo warning; actual types derive from existing contracts, no financial calculations/calls/Hook deps changed.
+- [x] Source e58bc5db7e09defe9a07011ae712c484d5778301/appblobde992dbc; Quality39072945731 attempt1SUCCESS: frozen/typecheck/changedlint/66unit174expect/8wrapper/67browser/twoisolatedbuilds/generationinvariance. Synthetic checkout tree equals source.
+- [x] Independent focused review/replay and exact before/after/raw evidence/rollback in docs/g0-app-lint-01; no new source blocker for this bounded lint candidate, wider approval remains Changes required.
+- [ ] **Separate existing Medium: APP-DEBT-MISSING-CUSTOMER** — DebtsScreen find can return undefined for a visible debt row; click fails TypeError before navigation on both versions (new explicit diagnostic message only). Decide loading/missing/deleted-customer behavior and add targeted regression independently. Never silently drop debt rows/totals or assert an unproved invariant. No behavioral fix in this batch.
+- [ ] Existing useMemo tenantTz warning, remaining whole-repo lint and .cjs coverage remain separate. No new global count;887 was previous baseline only.
+- [ ] G0/final-source reconciliation/affectedG1/integration/release acceptance remain open; source54 guard unchanged. No automatic G1 or merge/deploy. Main/production and dependencies/lock unchanged.
+
+ONE NEXT: planning reviews this bounded handoff, selects remaining lint work and disposition of the separate missing-customer finding; stable-source identity/G1 follows cleanup. Final head/claim closure in #70/#55; stop after handoff.
+
+## G0-LINT-FORMAT-01 — bounded formatter candidate, 2026-10-17
+
+Owner-approved one-file formatting on Draft72: intakeff7a0daa; preparation source6e1bb937 / post-format appblobbd154115c1e782521fe4299cc7cc558e88eafff7; published3c6d611ce3f616c2c519a3acdc2a9f743837fab2 tree059dcc3cdd4898b0ae9c463159fd6ffae97fe783 equals reconstructed preparation tree+that app. LockedPrettier3.8.3 only in src/routes/_authenticated/app.tsx. Current full lint1210→887errors,13warnings unchanged; prettier1148→825, app323→0format with17othererrors/1warning unchanged. Source/type/runtime JSX AST/comments and all other diagnostics preserved; no types/Hooks/logic/rules/ignores/dependencies/lock/esbuild exception/generated-source change.
+
+Preparation39071094844 SUCCESS: frozen1.2.14/typecheck/66unit174expect/twoisolatedbuilds/post-generation blob invariant. Published-source Quality39071253858 **FAILS** at inherited17nonformat app errors; frozen/typecheckPASS, subsequent stepsSKIPPED. Do not credit preparation results to skipped Quality steps. First comparator failure retained. Independent focused review finds no introduced formatter blocker; broader acceptance Changes required. Full raw archives, receipts, actual logs/review/rollback: docs/g0-lint-format-01. Temporary preparation workflow retired; final metadata-only identity in70/55/PR72, no native final-doc-head run claimed.
+
+G0/integration remain open for lint, .cjs coverage and final-source reconciliation/affectedG1 later. No historical security or liveG1 rerun; source54guard/manifest, finance/account/SQL/main/production preserved; no merge/deploy/newPR/billing change. ONE NEXT: planning selects next bounded lint batch from current inventory; stabilize cleanup before identity reconciliation/G1. Claims55/6233216181 and6233219827 close at linked final70/55 handoff; stop.
+
+## G0-ESBUILD-COMPAT-PROOF-01 — bounded candidate tested, 2026-10-17
+
+Owner explicitly authorized exact esbuild0.28.1 override beyond unchanged mcp-js0.20.1^0.27.0; this is project compatibility evidence, not publisher support. Start1b7a1a01; tested source73e133b25a8a5167c6730eb82cf364268ad44373/tree0704600984e277d6090d87c5d3c53777f6cf86f7. Official complete Bun1.4-generated lock8db84562 changes only esbuild+26platforms plus override; all prior security fixes/SDK/app/SQL preserved. Final delivery identity is in70/55/PR72, documentation/evidence plus one no-behavior EOF blank-line restoration in the retired SEC-CI workflow after tested source; app/graph/test bytes unchanged.
+
+Native Windows0.27.7 baseline39025616246:5cases3PASS/2specific traversalFAIL, rawexit1/controller0. Final Windows and Linux39026053191 each5/5, clean frozen1.2.14, real resolved/native versions,57officialMCPfilehashes/wholegraph/source invariance pass. Linux3actual MCP generator/CLI contracts,4adapter/SDK contracts,11guardcontrols/affectedlint pass. Quality39026056460 SUCCESS:66unit/174expect,8stubwrapper/67dummybrowser,typecheck/changedlint/twoisolatedbuilds/post-generation sourceinvariance. Synthetic Quality checkout tree equals tested source; not actual merge. Full supported audit raw{} exit0; exactly last esbuild advisory removed/no new. Missing-rg preparation and new-fixture formatting failures retained. docs/g0-esbuild contains report/raw/source/run/review/rollback.
+
+Targeted dependency advisory item proved on draft only. G0/integration remain open: inherited full-repo lint not accepted, liveG1 not rerun, source54 fail-closed identity guard/manifest untouched; final-source reconciliation and remaining affected runtime/transport/SSR/auth/isolation/state/counter/secrets/cleanup proof need separate packet. No finance/account/SQL/production/main/merge/deploy/fork publication or billing configuration changes. ONE NEXT is planning that remaining evidence packet; close current claim after70/55 handoff and stop.
+
+## G0-MCP-JS-COMPAT-01 — official decision checkpoint, 2026-10-17
+
+Completed the owner-authorized read-only version investigation using exactly one diagnostic run39011125934/attempt1/SUCCESS on56170b8792337649458c3cbb6bc1aee7a8d03bc3. Official HTTP200 metadata contains33 newer stable+48 newer prereleases; all81 requireesbuild^0.27.0 and reject published patched0.28.1/0.28.2. No compatible official candidate exists in this captured snapshot. No candidate archive/install or binary comparison was performed. docs/g0-mcp-js/REPORT.md and exact raw official-inspection.zip preserve receipts, commands, source/run/artifact identity and limits.
+
+Project package/lock and all prior security floors remain unchanged. Diagnostic trigger and temporary scripts are retired in this delivery; normal SEC-CI workflow restored to0540e266. No Quality/G1, finance/account/SQL, main, merge/deploy or billing configuration change. Decision investigation complete; remediation/G0/integration remain blocked. ONE NEXT for planning: a separately authorized design/source-inspection packet for a narrowly scoped parent contract patch/upstream option, not broad mcp-js/SDK upgrade or silent override. Stop after55/70 handoff.
+
+## Current queue checkpoint — G0-NODE-SERVER-01, 2026-10-16
+
+- [x] Existing Draft72 adapter1.19.14→1.19.15 only; official npm availability/tarball/fix and SDK1.31.0/Node/Hono compatibility proved. No2.x/SDK/app upgrade. Paired constraints and generator-owned complete lock1a0791b4 preserve all other graph records and prior fixes.
+- [x] Native Windows old baseline8 cases,6PASS+2specific securityFAIL; patched Windows8/8 and Linux8/8 on tested15688194725fdb2c25e53d55d63cfe605295ec68. Actual installed adapter/SDK HTTP/errors, all-copy inventory, frozen/graph,10 Bun guard controls/affected lint/source invariance pass. Harness encoding/lifecycle/checkout failures retained, no weakened oracles.
+- [x] Source Quality38952653426 SUCCESS65unit/145expect,4 MCP,8wrapper,67dummybrowser,typecheck/two builds; matching synthetic tree. Independent review with actual replay limits and complete raw evidence in docs/g0-node-server.
+- [x] Full supported audit removes exactly target GHSA-frvp-7c67-39w9; only esbuildLow remains, no new/CH. Raw exit1 and audit jobFAIL preserved; no G0 waiver.
+- [ ] G0 acceptance: separate esbuild remediation/disposition and inherited lint work remain. No current full-repo lint total inferred.
+- [ ] Integration on final lock: explicitly reconcile unchanged source54 identity guard/manifest and rerun affected actual runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. Old40/40 is historical, not this lock's evidence; no automatic live G1 run.
+- [ ] Merge/release/production/finance/account/migration changes are not authorized or performed. PR48 remains open.
+
+ONE NEXT is planning of a separate remaining G0 task while retaining G1 prerequisites. Sole claim55/6222380561 closes in final linked #55/#70 handoff; worker stops there. Earlier queues below are historical.
+
+## Current queue checkpoint — G0-BABEL-01, 2026-10-16
+
+- [x] Draft72 root @babel/core7.29.0→7.29.7; existing safe7.29.7 copies retain version and deduplicate. No Vite/TanStack/Workbox or non-Babel package changes. Approved necessary Babel dependency minima/223path hoisting explained in docs/g0-babel; zero new versions, exact6old removals.
+- [x] Official complete lock9d67e2d under paired constraints; all-copy stable7.x>=7.29.6 floor, prior Hono/qs/DOMPurify guards retained. Frozen1.2.14/graph/80parent ranges/9guard controls/affectedlint/sourceinvariance PASS.
+- [x] Actual local installed behavior: baseline18tests16PASS/2outside-rootFAIL; corrected6/6 on1deduplicated distribution, all5parents same7.29.7, zero skips. Legitimate sibling/within-package-parent/inline/plain maps preserved; inputSourceMap/config unchanged.
+- [x] Audit target removed exactly,2remaining1Moderate/1Low/noNew/CH; rawexit1/job38896279667FAIL preserved. Quality38896289565SUCCESS64unit/141expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck. Tested1e80a33d5f0c766c89259aad9b9db4fce2492fdd.
+- [x] Actual separate reviewer static/Python/Node/semver/hash/receipt/log checks saved; no independent Bun/Babel/compiler/browser/DB rerun. No new engineering finding in this batch.
+- [ ] G0 acceptance: node-server/esbuild and inherited lint require separate engineering/risk disposition; no waiver/cleanup here.
+- [ ] Final-lock G1: explicitly reconcile/review/freeze source54 identity against approved manifest/lock/tests/checkpoints; execute affected runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. No silent guard expansion or historical40/40 credit.
+- [ ] Merge/release/pilot remain protected and unapproved. PR48 open; app/financial/account/SQL excluded.
+
+ONE NEXT belongs to planning: select one separate remaining G0 disposition and preserve G1 requirements. Close sole claim55/6214726307 at linked55/70 handoff and stop. Older queues remain historical.
+
+## Current queue checkpoint — G0-DOMPURIFY-01, 2026-10-16
+
+- [x] Draft72 DOMPurify-only3.4.11→3.4.16 approved paired constraints/generated wholelockd630ca04; no jsPDF/Hono/qs/other graph change. Testeda5edd17a420814133bba559911efb871f4b0633e.
+- [x] Optional package actually present on both graphs; installed all-copy+parent contract. Baseline5ordinaryPASS/5specificFAIL, fixed10/10actualbrowserPASS; no inferred app exploitability.
+- [x] Real unchanged synthetic invoice PDF110539bytes/1page/1image/exactfilename/UTF8/iframecleanup/network0. IndependentR1 harnesscharset defect resolved without changing assertions or app; retain bothfailedPDF runs and initialnewfixturelintfailure.
+- [x] Frozen/graph/8guardcontrols/affectedlint/sourceinvariance PASS; Quality38887419454SUCCESS63unit/137expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck. Full audit exactly3DPIDsremoved,3others2Low/1Moderate/noNew/CH; rawexit1/job38887412161FAIL preserved.
+- [x] Independent focused review and actual replay scope saved in docs/g0-dompurify/REVIEW.md; static/Python/Node/hash/rawreceipts/log review, no independent Bun/browser/DB execution.
+- [ ] G0 acceptance: Babel/node-server/esbuild advisories plus inherited lint remain separate engineering/risk decisions; no waiver or new full-lint total.
+- [ ] New-lock G1 integration: explicitly reconcile unchanged source54 identity guard/manifest against approved final package/lock/tests/checkpoints, then affected actual runtime/transport/SSR/Auth/isolation/state/counter/secrets/cleanup proof. No silent allowlist expansion or reuse of old40/40 as this lock's acceptance.
+- [ ] Merge/release/pilot: not authorized or performed. PR48 remains open; financial/account chain excluded.
+
+ONE NEXT belongs to planning: choose one separate remaining G0 disposition, preserve G1 requirements. Sole claim55/6202123085 closes at linked55/70hand-off; stop there. Older queues remain historical.
+
+## Current queue checkpoint — G0-QS-01, 2026-10-15
+
+- [x] Draft72 qs-only6.15.3→6.16.0 pins and officially generated lockae751828; no Express/body-parser/SDK/Hono/other package change. Testedfc6d621e955d3666ecc0e7fbc79dd402f39b3ee8.
+- [x] Actual installed baseline15cases12PASS/3specificFAIL with rawexit1 retained; patched15/15PASS includes both advisory defects, ordinary parser/serializer and real loopback Express/body-parser compatibility. No mocks/live app/DB.
+- [x] Every-copy stable6.x floor and sixguardcontrols including retained Hono floor; frozen/graph/affected-new-test lint/source-invariance PASS.
+- [x] Full supported audit: both qsGHSA absent;6others2Moderate/4Low remain, noNew/CH in scan, actualexit1 and38799630354FAIL retained. No fixed residual-count rule or waiver.
+- [x] Quality38799635683SUCCESS62unit/133expect,4MCP/8wrapper/67dummybrowser/two builds/typecheck; matching synthetic tree. Independent static/hash/receipt/log review completed, no independent Bun/DB replay; docs/g0-qs.
+- [ ] G0 acceptance: six other advisories and inherited lint remain separate engineering/risk decisions. No lint cleanup here.
+- [ ] Future new-lock G1/integration acceptance: explicitly reconcile source54 identity baseline and execute affected real transport/runtime/isolation proof, rather than reusing old40/40. Guard remains unchanged fail-closed.
+- [ ] ONE NEXT: planning chooses one separate G0 batch/disposition after55/70 handoff. Claim6201151721 closes there; worker stops. No finance/lifecycle/migration/production/merge/deploy.
+
+## Current queue checkpoint — G0-HONO-01, 2026-10-15
+
+- [x] Bounded Draft72 candidate: Hono4.13.7 paired pins and generator-owned lock53af322, no SDK/Lovable/other package changes. Tested e38cf18d007ebaa6f9a9c0e314283a33960d89db.
+- [x] All-copy stable4.x security guard plus four negative mutations; frozen/graph/MCP/typecheck/build/environment fixtures verified, Quality38791533893 SUCCESS61unit/129expect.
+- [x] Full audit saved: eight targeted GHSA gone; eight others4Low/4Moderate remain, no new/CH in this scan. Final38791526145 retains audit exit1/FAIL. Initial unsupported Bun1.2 audit and manifest-before-lock frozen failures preserved.
+- [x] Missing CJS/app measurement:16+41 format errors; app main/current340/1 with matched diagnostics except fix ranges. No full-lint acceptance or code formatting.
+- [x] Independent focused review and permanent evidence in docs/g0-hono; reviewer replay is static/Python/hash/raw-evidence, not independent Bun/DB execution.
+- [ ] G0 acceptance: inherited lint and eight remaining advisories require separate scoped engineering/risk decisions; no waivers here.
+- [ ] Before any future G1 on the new lock: explicit baseline/identity reconciliation and affected-runtime proof. Old40/40 is not promoted; legacy guard retained fail-closed.
+- [ ] ONE NEXT: planning reviews this handoff and chooses one next separate G0 batch. No implementation starts automatically. Claim55/6199980098 closes through final55/70 handoff; no merge/deploy, finance/account/migration changes.
+
+## Bounded handoff — G1-EGRESS-TRACE-01, 2026-10-15
+
+Executed affected G1 on dbc870fcc278781b650860273ac4e1116f629f85:38742289056 PASS40/40, cleanup4/4 and zero unexpected native packet delta. Official cf-fetch opt-out removes proved workers.cloudflare.com DNS attempts; same firewall and acceptance, actual-vendor3case fixture PASS. Prior diagnostic+16 and two precredential oracle failures preserved. Quality38742298220 PASS; independent focused review/evidence in docs/g1-egress-trace. No application/financial/account/schema/dependency change. G0/G2 and #48 disposition remain separate, no merge/deploy or release acceptance. Claim6188008835 closes at linked delivery. ONE NEXT planning review only; stop.
+
+## Final bounded result — G1-CLI-CLEANUP-01, 2026-10-15
+
+Implemented/tested on Draft72, not merged/released. Installer now bounded and operational in both new runs; historical root cause unresolved. Absent-user/process-error cleanup oracle fixed with6fixtures and hosted4/4 receipts. Final source819291c85825d73854262d76d2030736470ef92b executes39checks/38PASS; only native zero-outbound conditionFAIL(+16blocked IPv4packets,0IPv6). Full named mismatch+500,after-state/finance-zero/source/secret pass; Quality38702796165 PASS. docs/g1-cli-cleanup/REPORT.md and REVIEW.md hold actual evidence and limits. No G1 acceptance, no G0 waiver, no account/financial imports, no #48 closure, no merge/deploy. ONE NEXT for planning, not this worker: separately scoped emulator-startup attribution under unchanged firewall. Close claim6187165138 at final #55/#70 links and stop.
+
+## Final handoff — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
+
+Existing Draft PR72 retained; main43d6edbccb66fb06ce0fcb93734ad59532d1aeae and original48/51–54 unchanged. Tested source7d30e65c7bfb454fda4bf6bc6224e8510174c200: semantic CI17tests/6safechecks and automatic Quality PASS. Runtime38605846901 CANCELLED during CLI setup before DB/SSR; cleanup receipt3/4, process oracle failed for a user never created. No new liveSSR/after-state/native-counter acceptance. Exact reports, raw receipts and independent review: docs/g1-acceptance-repair/REPORT.md and REVIEW.md. These supersede the intake status below.
+
+Outcome: Blocked pending missing evidence; G0/G1 unaccepted. #48 stays open without formal superseded. All application/auth/dependency/41SQL/financial contracts preserved. Delivery is metadata/evidence only above tested7d; root fingerprints updated explicitly, no executable test change or failure waiver. #55/6173791297 closes only in the final linked handoff. ONE NEXT: bounded installer diagnosis plus absent-user cleanup-oracle proof and exact SSR/after-state/counter execution; no blind version upgrade, account/financial expansion, merge or deploy.
+
+## Current queue — G1-ACCEPTANCE-REPAIR-01, 2026-10-14
+
+Owner-authorized continuation claim #55/6173791297 on existing PR72. ONE NEXT: semantic visual CI proof plus exact named SSR/after-state evidence and independent review only; no unrelated tests, financial writes, dependency updates or blanket formatter. G0 full lint/advisory disposition and known G2 remain open. Do not treat previous root queue/source checkpoints as a new authorization; all prior entries below are historical.
+
+## Current queue checkpoint — PRIMARY-ENV-001 real native runner, 2026-10-10
+
+- [x] Exact PR54 head84c3444 snapshot: all356 blobs match GitHub before/after execution.
+- [x] Capable disposable non-root runner; fresh experimental native CLI2.120.0 stack applied41 migrations. No production credentials/data.
+- [x] Bun1.2.14 frozen install, Gate4/Auth preflight,60 unit/125 expectations, typecheck/build; matching Playwright1.62.0/Chromium151 desktop/mobile Auth UI passed.
+- [x] Two dummy tenant/user metadata checks executed using real user JWTs:22 pass,2 fixture-role conflicts preserved and independently explained by existing owner trigger.
+- [x] Evidence/screenshots retrieved with secret redaction; source integrity verified; provider confirms sandbox stopped. No snapshot/public route or financial test.
+- [ ] ONE NEXT: independently review the packet and resolve **ENV-NATIVE-01** through a focused account-lifecycle change gate: pre-ban JWT still reads own tenant after Auth ban, despite new login denial. Preserve history and require direct API/RLS/RPC denial proof.
+- [ ] Complete broad authorization and matching hosted checks; external native evidence does not approve Docker/CLI2.101.0 CI or replace independent isolation acceptance.
+- [ ] Financial write/concurrency/idempotency/rollback suites remain blocked until accepted isolation proof. Prior security/lint/PWA and11Moderate/5Low findings remain open.
+
+Evidence: changes/primary-env-001/NATIVE_RUNNER_VERIFICATION.md and native-runner/. Older queues remain historical.
+
+## Current queue checkpoint — PRIMARY-ENV-001 runner feasibility, 2026-10-10
+
+- [x] Re-read PR54 head `0e616d0013fd72de244686f10c8de5a12488f312`, PR53 base and unchanged main directly from GitHub.
+- [x] Cloud metadata: old validation project INACTIVE; organization Free. No accepted schema/data provenance or restore suitability; no cloud action.
+- [x] Container prerequisites absent; user namespace creation denied; UID/GID mappings only permit root and non-root transition fails.
+- [x] Discovered official native-stack alternative; scratch CLI2.120.0 archive SHA256 verified and actual help inspected. Clean default native bootstrap exits1: PostgreSQL cannot run as root. No database service or migration started.
+- [x] Re-read latest Quality job: failure, runner_id0, steps[]. No blind rerun or spending change.
+- [ ] ONE NEXT: capable disposable Docker runner using existing CLI2.101.0, or separately evaluated experimental native non-root runner. Execute fresh exact-candidate migration/Auth/tenant/RLS/disabled-user proof before requesting isolation acceptance.
+- [ ] Required hosted checks, isolation gate and financial tests remain blocked; existing security/lint/PWA blockers unchanged.
+
+Evidence: changes/primary-env-001/{RUNNER_FEASIBILITY.md,runner-feasibility.json}. Older checkpoints remain history.
+
+## Current queue checkpoint — PRIMARY-ENV-001 Astra remediation, 2026-10-10
+
+- [x] Independent Astra source review resumed; original ENV-A1/A2/A3 findings recorded.
+- [x] Shared context guard: redirect/retry blocking, WebSocket interception, exact configured auth/destructive HTTP origins.
+- [x] Rereview fixes: exact offline font stylesheet with fallback-font limitation; production-build/no-HMR prerequisites; real positive popup coverage.
+- [x] Actual browser regression: original47/36 failing cases; final67/0. Astra independently reproduced67/0 and closed the bounded findings; no overall acceptance.
+- [x] Changed-source Gate4/lint and seven Python/shell/YAML/diff checks; final source/evidence fingerprints saved in existing draft PR54.
+- [ ] ONE NEXT: provision a capable isolated runner, then validate fresh local stack/migrations and production-built Auth/tenant/RLS/disabled-user behavior on the exact candidate.
+- [ ] Matching Playwright browser/hosted required checks: current local substitute browser is explicit; GitHub quota/spending startup remains blocked. No blind retries or account spending changes.
+- [ ] Financial acceptance after isolation gate: stored values, stock/custody/transaction boundaries, concurrency/idempotency and rollback; no financial harness execution yet.
+- [ ] Previous security/full-lint/PWA gates and11Moderate/5Low findings; no merge/deploy/pilot acceptance.
+
+Evidence: changes/primary-env-001/{REMEDIATION_VERIFICATION.md,ASTRA_REVIEW_FINAL.md,ISOLATED_STACK_READINESS.md,remediation-evidence.json}. Earlier queues below are historical.
+
+## Historical initial ENV queue — 2026-10-10
+
+- [x] Local ENV reconciliation: reuse current PR48 source on PR53, preserve dependencies; explicit environments, matching build/runtime, guarded harnesses.
+- [x] Candidate fixes: privileged-public-key negative regression; deterministic proxy fixtures + explicit proxy rejection; context routing for auth/destructive harnesses.
+- [x] Offline verification:60 unit tests/125 expectations; Gate4 target-green;8 actual server-wrapper cases with stub entry; typecheck/changed lint/two isolated builds/syntax.
+- [ ] ONE NEXT: independent exact-candidate review. Astra was attempted but stopped at usage limit before review; no approval.
+- [ ] ENV acceptance: hosted/current-head checks and isolated DB/auth/RLS/tenant/browser containment evidence. No write-capable financial flow before proof and acceptance.
+- [ ] Security acceptance: PR53 final review, prior CI/lint gates and remaining11Moderate/5Low findings remain open.
+- [ ] Release/PWA: retain and investigate existing build warnings including empty glob/precache; do not claim offline release readiness from these builds.
+- [ ] GitHub Actions startup: no invoice observed; $0 stop-usage budget/quota blocks execution. No account spending change; no blind retries.
+
+Evidence: changes/primary-env-001. The old queue below is historical and does not schedule new work.
+
+## Current queue checkpoint — 2026-10-10
+
+- [x] PRIMARY-SEC-002 local candidate: Critical/High audit triage and compatible dependency corrections prepared; audit now reports 0 Critical and 0 High records; native frozen install/typecheck/unit/build/changed-file lint/diff-check evidence saved. Candidate only; not on main.
+- [x] PRIMARY-SEC-002 PR packaging: draft PR #53 stacked after PRIMARY-SEC-001; hosted Quality attempts failed before runner steps (`runner_id:0`, empty steps).
+- [x] PRIMARY-SEC-002 source/evidence review of PR #53 head `4a5dda42d6470ded52edfb667d582d04d2a28165`: Changes required; see `changes/primary-sec-002/REVIEW.md`. This is not a GitHub approval or final-head merge acceptance.
+- [x] PRIMARY-SEC-002 compatibility evidence: four synthetic Lovable/MCP runtime checks passed; clean Bun generation independently matched all four brace-expansion entries. No application tenant/finance proof claimed.
+- [x] SEC2-R2 candidate remediation: generator-owned Bun 1.4.0 update from the verified original PR52 lock; independent regeneration matches byte-for-byte. Unsupported brace paths removed; Lovable MCP stays at 0.20.1. Frozen installs, 44 unit tests, typecheck, isolated build, changed-source lint and audit verified; final review still pending.
+- [x] SEC2-R1 startup diagnosis: GitHub run 38035862590 visibly reports failed recent account payments or a spending-limit restriction. The account must resolve it; no billing/spending change was made.
+- [ ] ONE NEXT — owner resolves GitHub Billing & plans; then execute required CI and review the final candidate. Preserve failed evidence; no blind retries while billing is unchanged.
+- [ ] PRIMARY-SEC-002 acceptance: final-candidate review and required checks remain open; do not waive remaining Low/Moderate findings or previous lint/CI blockers.
+- [ ] PRIMARY-ENV-001 after security PR evidence is stable: reconcile fail-closed environment isolation before write-capable financial tests.
+- [ ] Track remaining security maintenance: Moderate/Low findings remain for `@babel/core`, `@hono/node-server`, `dompurify`, `esbuild`, `hono`, and `qs`.
+- [ ] Financial gates remain blocked until environment isolation and canonical financial write evidence are proven.
+
+Evidence: changes/primary-sec-002/VERIFICATION.md. Earlier PRIMARY-SEC-002-as-next statements below are historical.
+
+## Current queue checkpoint — 2026-10-09
+
+- [x] PRIMARY-SEC-001 candidate preparation: official transport/serializer patch verification, generated lock, three negative/positive advisory guards, minimal ErrorComponentProps compatibility, native29 tests and typecheck/build evidence saved. Candidate only; not on main.
+- [ ] PRIMARY-SEC-001 acceptance: independent review; hosted CI evidence; disposition/fix of pre-existing lint gates. No checks waived.
+- [ ] ONE NEXT — PRIMARY-SEC-002: triage2Critical and33High audit records by package chain, runtime/tooling exposure, exploit condition and compatible correction. Do not interpret65 scanner records as65 exploited product defects. Resolve security before real-store use.
+- [ ] Track tooling/CI: Bun1.2.14 lacks release-age resolution support; Node>=22.12 required by the new framework but Quality does not pin Node; PR51 job runner_id0/empty steps cause remains unproved.
+- [ ] PRIMARY-ENV-001: reconcile PR48 and prove fail-closed isolation before write-capable tests.
+
+Evidence: changes/primary-sec-001/VERIFICATION.md. Earlier PRIMARY-SEC-001-as-next statements below are historical planning state. Financial contract, PR49 and PR50 gates remain in force.
+
+# Governed Tasks
+
+## Current queue — 2026-10-09
+
+See [primary plan](docs/PRIMARY_DELIVERY_PLAN.md) and the current block in PROJECT_STATE.md.
+Only this queue schedules new work; the preserved August queue below is history.
+
+| Task | Status | Acceptance |
+| --- | --- | --- |
+| PRIMARY-GOV-001 | Documentation candidate prepared | Identity/state/task/decision links agree; diff limited to docs; no release acceptance implied |
+| PRIMARY-SEC-001 | ONE NEXT: preparation | Official advisory + compatible lock/build + required final-head evidence and review |
+| PRIMARY-ENV-001 | Follows security candidate and prerequisites | Reconcile PR48/current SEC-CI; prove isolated targets before write tests |
+| FIN-COURIER-001 | Existing gate/contract retained | Diagnose current Gate4 and evaluate PR49; backend -> reports -> UX |
+| FIN-IDEM-001 | Depends on canonical financial write | Evaluate PR50; all relevant writes, concurrency/replay/lost response |
+| PILOT-RC-001 | Blocked by release gates | One accepted source with recovery, security, finance and complete journeys |
+| PILOT-000 / commercial | Not started | Actual stores, reconciliations, costs and accepted billing lifecycle |
+
+Do not mark old mongezz B01–B20 as accepted here. Preserve original finding/task IDs,
+map dependencies, and use additive history. No full rewrite, speculative transfers,
+financial-policy changes or new product scope in the initial dependency packet.
+
+## Historical task snapshot
+
+The content below is preserved as historical evidence; old Active/queue headings
+do not schedule the current branch. Actual acceptance is verified from the
+relevant current source, review and result, never a historical checkbox.
+
+---
+
 # Governed Tasks
 
 ## Active
@@ -299,3 +616,4 @@ Employee identity, RBAC, assignment, personal custody, employee UI, and employee
 - Customer required only when customer debt is created.
 - Courier-collected money remains custody until settlement.
 - No UI-only authorization or UI-only duplicate-write protection is accepted as the financial safety boundary.
+

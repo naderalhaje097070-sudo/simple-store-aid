@@ -1,0 +1,61 @@
+name: G0 Hono bounded verification
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-hono-verify.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Frozen installation and exact lock
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-hono
+          git rev-parse HEAD > evidence/g0-hono/source.txt
+          bun --revision > evidence/g0-hono/bun-revision.txt
+          node --version > evidence/g0-hono/node-version.txt
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-hono/frozen.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-hono/verify.py graph
+      - name: Guard adversarial mutations in disposable copies
+        run: python tests/g0-hono/verify.py mutations
+      - name: Installed adapter and SDK dependency paths
+        if: success()
+        run: python tests/g0-hono/verify.py vendor
+      - name: Measurement only CJS and main versus candidate app lint
+        if: success()
+        run: |
+          python tests/g0-hono/verify.py lint
+          git diff --exit-code -- src/routes/_authenticated/app.tsx
+      # CI Bun1.2.14 has no audit subcommand; use the already verified approved tool.
+      - name: Setup supported audit scanner
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Verify scanner identity
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision | tee evidence/g0-hono/audit-bun-revision.txt
+          grep -q 34cbb9a40 evidence/g0-hono/audit-bun-revision.txt
+      - name: Full audit including remaining G0 findings
+        if: success()
+        run: python tests/g0-hono/verify.py audit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-hono-verification
+          path: evidence/g0-hono
+          if-no-files-found: error

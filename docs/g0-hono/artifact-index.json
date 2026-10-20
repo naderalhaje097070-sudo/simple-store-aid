@@ -1,0 +1,32 @@
+{
+  "archives": [
+    {
+      "path": "audit-only.zip",
+      "sha256": "54d88ac4ea92aeeed241d17683938ad87bc3f00da130f2726b03837352d43c76",
+      "members": 7
+    },
+    {
+      "path": "preparation.zip",
+      "sha256": "ae922b4845fbf6a33f078d18eb74d5ad7d8c3a0ce0fdfd200ad8044c843fc801",
+      "members": 11
+    },
+    {
+      "path": "verification-final.zip",
+      "sha256": "95359aa919df68e411f18f5cf66a6bba5e911e9772068e3fe7043deda1422eec",
+      "members": 41
+    },
+    {
+      "path": "verification-first.zip",
+      "sha256": "24dcf862cb15cd778f666cb736e988e2503b3ffb79301a88e9a4340b9968ae27",
+      "members": 39
+    },
+    {
+      "path": "job-logs.zip",
+      "sha256": "eac644e8ceb46f3156fe6a5ff067a9aa49f138eb027a9c816a2129bcc9318634",
+      "members": 1
+    }
+  ],
+  "credential_pattern_scan": "PASS",
+  "scope": "JWT/provider key/private key patterns in every uncompressed archive member; no credentials or project connections were used by these tasks. Not a universal secret scanner.",
+  "failed_evidence_preserved": true
+}

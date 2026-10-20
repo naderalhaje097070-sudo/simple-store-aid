@@ -1,0 +1,19 @@
+{
+  "baseline": true,
+  "exit_code": 1,
+  "counts": {
+    "tests": "5",
+    "pass": "3",
+    "fail": "2",
+    "skipped": "0"
+  },
+  "failed": [
+    "security-raw-backslash-outside-root",
+    "security-encoded-backslash-outside-root"
+  ],
+  "identity": {
+    "platform": "win32",
+    "node": "v22.23.3",
+    "version": "0.27.7"
+  }
+}

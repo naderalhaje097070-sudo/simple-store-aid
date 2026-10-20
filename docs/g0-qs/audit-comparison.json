@@ -1,0 +1,18 @@
+{
+  "baseline_source": "e38cf18d007ebaa6f9a9c0e314283a33960d89db",
+  "tested_source": "fc6d621e955d3666ecc0e7fbc79dd402f39b3ee8",
+  "removed_ids": [
+    "GHSA-4mjr-xmp4-gh2g",
+    "GHSA-x5fp-wj9c-mxmx"
+  ],
+  "new_ids": [],
+  "remaining_ids": [
+    "GHSA-4x5r-pxfx-6jf8",
+    "GHSA-55q2-fjhq-7xh7",
+    "GHSA-6688-9rhm-gjv2",
+    "GHSA-c2j3-45gr-mqc4",
+    "GHSA-frvp-7c67-39w9",
+    "GHSA-g7r4-m6w7-qqqr"
+  ],
+  "no_fixed_residual_count_rule": true
+}

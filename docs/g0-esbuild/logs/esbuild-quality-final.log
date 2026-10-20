@@ -1,0 +1,1256 @@
+﻿2026-10-17T10:44:42.4764133Z Current runner version: '2.337.0'
+2026-10-17T10:44:42.4799868Z ##[group]Runner Image Provisioner
+2026-10-17T10:44:42.4801153Z Hosted Compute Agent
+2026-10-17T10:44:42.4802317Z Version: 20261012.601
+2026-10-17T10:44:42.4803430Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-17T10:44:42.4804794Z Build Date: 2026-10-12T17:48:21Z
+2026-10-17T10:44:42.4806285Z Worker ID: {965951d8-d46a-4628-9e2d-659ac04a06c9}
+2026-10-17T10:44:42.4807561Z Region: eastus
+2026-10-17T10:44:42.4808575Z Cloud: Azure
+2026-10-17T10:44:42.4809469Z ##[endgroup]
+2026-10-17T10:44:42.4812074Z ##[group]Operating System
+2026-10-17T10:44:42.4813168Z Ubuntu
+2026-10-17T10:44:42.4814113Z 24.04.5
+2026-10-17T10:44:42.4815133Z LTS
+2026-10-17T10:44:42.4816454Z ##[endgroup]
+2026-10-17T10:44:42.4817504Z ##[group]Runner Image
+2026-10-17T10:44:42.4818586Z Image: ubuntu-24.04
+2026-10-17T10:44:42.4819526Z Version: 20261012.334.1
+2026-10-17T10:44:42.4821762Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-17T10:44:42.4824702Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-17T10:44:42.4826735Z ##[endgroup]
+2026-10-17T10:44:42.4828998Z ##[group]GITHUB_TOKEN Permissions
+2026-10-17T10:44:42.4831753Z Contents: read
+2026-10-17T10:44:42.4832923Z Metadata: read
+2026-10-17T10:44:42.4833902Z Packages: read
+2026-10-17T10:44:42.4834827Z ##[endgroup]
+2026-10-17T10:44:42.4838276Z Secret source: Actions
+2026-10-17T10:44:42.4839877Z Cache mode: write
+2026-10-17T10:44:42.4841186Z Prepare workflow directory
+2026-10-17T10:44:42.5322734Z Prepare all required actions
+2026-10-17T10:44:42.5394615Z Getting action download info
+2026-10-17T10:44:42.7722614Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-17T10:44:42.8932618Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-17T10:44:43.0439086Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-17T10:44:43.2633212Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-17T10:44:43.4915733Z Complete job name: quality
+2026-10-17T10:44:43.6020287Z ##[group]Run actions/checkout@v4
+2026-10-17T10:44:43.6021268Z with:
+2026-10-17T10:44:43.6021781Z   fetch-depth: 0
+2026-10-17T10:44:43.6022389Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-17T10:44:43.6026718Z   token: ***
+2026-10-17T10:44:43.6027231Z   ssh-strict: true
+2026-10-17T10:44:43.6027734Z   ssh-user: git
+2026-10-17T10:44:43.6028258Z   persist-credentials: true
+2026-10-17T10:44:43.6028818Z   clean: true
+2026-10-17T10:44:43.6029337Z   sparse-checkout-cone-mode: true
+2026-10-17T10:44:43.6029923Z   fetch-tags: false
+2026-10-17T10:44:43.6030434Z   show-progress: true
+2026-10-17T10:44:43.6030948Z   lfs: false
+2026-10-17T10:44:43.6031422Z   submodules: false
+2026-10-17T10:44:43.6031930Z   set-safe-directory: true
+2026-10-17T10:44:43.6032524Z   allow-unsafe-pr-checkout: false
+2026-10-17T10:44:43.6033440Z ##[endgroup]
+2026-10-17T10:44:43.7329551Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-17T10:44:43.7334125Z ##[group]Getting Git version info
+2026-10-17T10:44:43.7336583Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-17T10:44:43.7341529Z [command]/usr/bin/git version
+2026-10-17T10:44:43.7410080Z git version 2.55.0
+2026-10-17T10:44:43.7416765Z ##[endgroup]
+2026-10-17T10:44:43.7441287Z Temporarily overriding HOME='/home/runner/work/_temp/1dc0c43c-9e6a-4229-abe0-04e8555240b2' before making global git config changes
+2026-10-17T10:44:43.7446781Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T10:44:43.7449136Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-17T10:44:43.7510869Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-17T10:44:43.7518738Z ##[group]Initializing the repository
+2026-10-17T10:44:43.7524587Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-17T10:44:43.7693064Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-17T10:44:43.7721834Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-17T10:44:43.7731285Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-17T10:44:43.7733004Z hint: call:
+2026-10-17T10:44:43.7734027Z hint:
+2026-10-17T10:44:43.7766418Z hint: 	git config --global init.defaultBranch <name>
+2026-10-17T10:44:43.7776476Z hint:
+2026-10-17T10:44:43.7794808Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-17T10:44:43.7798720Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-17T10:44:43.7806300Z hint:
+2026-10-17T10:44:43.7807311Z hint: 	git branch -m <name>
+2026-10-17T10:44:43.7808344Z hint:
+2026-10-17T10:44:43.7809798Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-17T10:44:43.7811993Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-17T10:44:43.7816221Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-17T10:44:43.7827746Z ##[endgroup]
+2026-10-17T10:44:43.7829304Z ##[group]Disabling automatic garbage collection
+2026-10-17T10:44:43.7830737Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-17T10:44:43.7917017Z ##[endgroup]
+2026-10-17T10:44:43.7936864Z ##[group]Setting up auth
+2026-10-17T10:44:43.7941380Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T10:44:43.7997418Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-17T10:44:43.8516008Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T10:44:43.8541383Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-17T10:44:43.8816204Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T10:44:43.8857849Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-17T10:44:43.9106292Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-17T10:44:43.9160114Z ##[endgroup]
+2026-10-17T10:44:43.9161447Z ##[group]Fetching the repository
+2026-10-17T10:44:43.9163380Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +3b59ee1887a3619e003efd6ebfaa9ddd48247ceb:refs/remotes/pull/72/merge
+2026-10-17T10:44:44.8452700Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-17T10:44:44.8475785Z  * [new branch]      audit/001-pilot-baseline-clean           -> origin/audit/001-pilot-baseline-clean
+2026-10-17T10:44:44.8493579Z  * [new branch]      audit/001-pilot-baseline-truth           -> origin/audit/001-pilot-baseline-truth
+2026-10-17T10:44:44.8496753Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc   -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-17T10:44:44.8499844Z  * [new branch]      claude/fix-c-returned-debt-p0            -> origin/claude/fix-c-returned-debt-p0
+2026-10-17T10:44:44.8502515Z  * [new branch]      claude/mongezz-v2-review-g7u399          -> origin/claude/mongezz-v2-review-g7u399
+2026-10-17T10:44:44.8505654Z  * [new branch]      claude/r5a-invoice-detail-extract        -> origin/claude/r5a-invoice-detail-extract
+2026-10-17T10:44:44.8511465Z  * [new branch]      claude/r5b-invoices-screen-extract       -> origin/claude/r5b-invoices-screen-extract
+2026-10-17T10:44:44.8515659Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-17T10:44:44.8518772Z  * [new branch]      claude/security-fix-e-harden             -> origin/claude/security-fix-e-harden
+2026-10-17T10:44:44.8522323Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-17T10:44:44.8525743Z  * [new branch]      codex/fix-pre-r5-issues-from-audit       -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-17T10:44:44.8528454Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-17T10:44:44.8530878Z  * [new branch]      docs/employee-accounts-gate-1-baseline   -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-17T10:44:44.8533255Z  * [new branch]      docs/naadf-governance-bootstrap          -> origin/docs/naadf-governance-bootstrap
+2026-10-17T10:44:44.8535964Z  * [new branch]      docs/naadf-governance-bootstrap-v1       -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-17T10:44:44.8539094Z  * [new branch]      docs/owner-closure-blocker-2026-10-13    -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-17T10:44:44.8546389Z  * [new branch]      docs/pilot-baseline-sync-20260727        -> origin/docs/pilot-baseline-sync-20260727
+2026-10-17T10:44:44.8553510Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727  -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-17T10:44:44.8557729Z  * [new branch]      docs/primary-resume-001-2026-10-10       -> origin/docs/primary-resume-001-2026-10-10
+2026-10-17T10:44:44.8561211Z  * [new branch]      docs/primary-start-2026-10-09            -> origin/docs/primary-start-2026-10-09
+2026-10-17T10:44:44.8564913Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-17T10:44:44.8569127Z  * [new branch]      docs/security-review-method-2026-10-13   -> origin/docs/security-review-method-2026-10-13
+2026-10-17T10:44:44.8572567Z  * [new branch]      feature/employee-accounts-custody-v1     -> origin/feature/employee-accounts-custody-v1
+2026-10-17T10:44:44.8576562Z  * [new branch]      fin/fin-idem-001-gates-0-3               -> origin/fin/fin-idem-001-gates-0-3
+2026-10-17T10:44:44.8579502Z  * [new branch]      fix/auth-smoke-compat-date               -> origin/fix/auth-smoke-compat-date
+2026-10-17T10:44:44.8582693Z  * [new branch]      fix/baseline-runtime-lovable-config      -> origin/fix/baseline-runtime-lovable-config
+2026-10-17T10:44:44.8586637Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-17T10:44:44.8590128Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-17T10:44:44.8593492Z  * [new branch]      fix/mcp-local-issuer-2026-10-11          -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-17T10:44:44.8596742Z  * [new branch]      fix/oc-app-01-2026-10-14                 -> origin/fix/oc-app-01-2026-10-14
+2026-10-17T10:44:44.8599508Z  * [new branch]      fix/sec-truncate-01-2026-10-13           -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-17T10:44:44.8602366Z  * [new branch]      governance/naadf-bootstrap               -> origin/governance/naadf-bootstrap
+2026-10-17T10:44:44.8605950Z  * [new branch]      impl/fin-courier-pr-a-candidate          -> origin/impl/fin-courier-pr-a-candidate
+2026-10-17T10:44:44.8609149Z  * [new branch]      impl/fin-idem-001-candidate              -> origin/impl/fin-idem-001-candidate
+2026-10-17T10:44:44.8611723Z  * [new branch]      main                                     -> origin/main
+2026-10-17T10:44:44.8614168Z  * [new branch]      ops/ephemeral-financial-tests            -> origin/ops/ephemeral-financial-tests
+2026-10-17T10:44:44.8617168Z  * [new branch]      ops/export-current-migrations            -> origin/ops/export-current-migrations
+2026-10-17T10:44:44.8620112Z  * [new branch]      ops/gha-hosted-runner-probe              -> origin/ops/gha-hosted-runner-probe
+2026-10-17T10:44:44.8621824Z  * [new branch]      qa/agent-runtime-smoke                   -> origin/qa/agent-runtime-smoke
+2026-10-17T10:44:44.8623417Z  * [new branch]      qa/mongzz-live-smoke-20260712            -> origin/qa/mongzz-live-smoke-20260712
+2026-10-17T10:44:44.8625028Z  * [new branch]      qa/secure-live-auth-20260712             -> origin/qa/secure-live-auth-20260712
+2026-10-17T10:44:44.8627921Z  * [new branch]      qa/smoke-20260712                        -> origin/qa/smoke-20260712
+2026-10-17T10:44:44.8630411Z  * [new branch]      release/final-gate-20260715              -> origin/release/final-gate-20260715
+2026-10-17T10:44:44.8633281Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-17T10:44:44.8636565Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09  -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-17T10:44:44.8640039Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-17T10:44:44.8643641Z  * [new branch]      sec/sec-ci-001-gates-0-3                 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-17T10:44:44.8646798Z  * [new branch]      sec/sec-ci-001-implementation            -> origin/sec/sec-ci-001-implementation
+2026-10-17T10:44:44.8649485Z  * [new branch]      sec/sec-env-001-gates-0-3                -> origin/sec/sec-env-001-gates-0-3
+2026-10-17T10:44:44.8651176Z  * [new branch]      sec/sec-env-001-implementation           -> origin/sec/sec-env-001-implementation
+2026-10-17T10:44:44.8652857Z  * [new branch]      test/auth-natural-expiry-2026-10-12      -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-17T10:44:44.8654649Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-17T10:44:44.8657773Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-17T10:44:44.8661246Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-17T10:44:44.8663286Z  * [new branch]      test/fin-courier-001-gate4               -> origin/test/fin-courier-001-gate4
+2026-10-17T10:44:44.8664927Z  * [new branch]      test/fin-courier-001-gate4-20260727      -> origin/test/fin-courier-001-gate4-20260727
+2026-10-17T10:44:44.8668237Z  * [new branch]      test/fin-courier-001-gate4-clean         -> origin/test/fin-courier-001-gate4-clean
+2026-10-17T10:44:44.8671121Z  * [new branch]      test/fin-courier-001-gate4-review-clean  -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-17T10:44:44.8673801Z  * [new branch]      test/fin-idem-001-gate4                  -> origin/test/fin-idem-001-gate4
+2026-10-17T10:44:44.8676780Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14      -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-17T10:44:44.8678550Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-17T10:44:44.8680280Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11         -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-17T10:44:44.8681924Z  * [new branch]      test/mcp-tanstack-route-2026-10-11       -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-17T10:44:44.8683621Z  * [new branch]      test/owner-retention-catalog-2026-10-12  -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-17T10:44:44.8685592Z  * [new branch]      test/sec-ci-001-gate4                    -> origin/test/sec-ci-001-gate4
+2026-10-17T10:44:44.8688161Z  * [new branch]      test/sec-ci-001-gate4-reconcile          -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-17T10:44:44.8690648Z  * [new branch]      test/sec-env-001-gate4                   -> origin/test/sec-env-001-gate4
+2026-10-17T10:44:44.8693359Z  * [new branch]      test/sec-env-001-gate4-reconcile         -> origin/test/sec-env-001-gate4-reconcile
+2026-10-17T10:44:44.8696255Z  * [new ref]         3b59ee1887a3619e003efd6ebfaa9ddd48247ceb -> pull/72/merge
+2026-10-17T10:44:44.8700848Z ##[endgroup]
+2026-10-17T10:44:44.8703004Z ##[group]Determining the checkout info
+2026-10-17T10:44:44.8705605Z ##[endgroup]
+2026-10-17T10:44:44.8707051Z [command]/usr/bin/git sparse-checkout disable
+2026-10-17T10:44:44.8710634Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-17T10:44:44.8714529Z ##[group]Checking out the ref
+2026-10-17T10:44:44.8716037Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/72/merge
+2026-10-17T10:44:44.9317834Z Note: switching to 'refs/remotes/pull/72/merge'.
+2026-10-17T10:44:44.9319421Z 
+2026-10-17T10:44:44.9320565Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-17T10:44:44.9322990Z changes and commit them, and you can discard any commits you make in this
+2026-10-17T10:44:44.9325746Z state without impacting any branches by switching back to a branch.
+2026-10-17T10:44:44.9327280Z 
+2026-10-17T10:44:44.9328331Z If you want to create a new branch to retain commits you create, you may
+2026-10-17T10:44:44.9337139Z do so (now or later) by using -c with the switch command. Example:
+2026-10-17T10:44:44.9338796Z 
+2026-10-17T10:44:44.9339982Z   git switch -c <new-branch-name>
+2026-10-17T10:44:44.9341181Z 
+2026-10-17T10:44:44.9342042Z Or undo this operation with:
+2026-10-17T10:44:44.9343138Z 
+2026-10-17T10:44:44.9343873Z   git switch -
+2026-10-17T10:44:44.9344755Z 
+2026-10-17T10:44:44.9346262Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-17T10:44:44.9347750Z 
+2026-10-17T10:44:44.9349270Z HEAD is now at 3b59ee1 Merge 73e133b25a8a5167c6730eb82cf364268ad44373 into 57fb508b9d239aaf4676352dd97654341416c46a
+2026-10-17T10:44:44.9354951Z ##[endgroup]
+2026-10-17T10:44:44.9393808Z [command]/usr/bin/git log -1 --format=%H
+2026-10-17T10:44:44.9423973Z 3b59ee1887a3619e003efd6ebfaa9ddd48247ceb
+2026-10-17T10:44:44.9756335Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-17T10:44:44.9757268Z with:
+2026-10-17T10:44:44.9757995Z   bun-version: 1.2.14
+2026-10-17T10:44:44.9758773Z   no-cache: false
+2026-10-17T10:44:44.9763122Z   token: ***
+2026-10-17T10:44:44.9763857Z ##[endgroup]
+2026-10-17T10:44:45.3077988Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-10-17T10:44:45.7746739Z Received 34827864 of 34827864 (100.0%), 84.1 MBs/sec
+2026-10-17T10:44:45.7749188Z Cache Size: ~33 MB (34827864 B)
+2026-10-17T10:44:45.7787376Z [command]/usr/bin/tar -xf /home/runner/work/_temp/277e3b1d-5129-49b9-8a4c-e1d2b1fc67eb/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-17T10:44:46.0607563Z Cache restored successfully
+2026-10-17T10:44:46.0626559Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-17T10:44:46.0724114Z 1.2.14+6a363a38d
+2026-10-17T10:44:46.0727775Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-17T10:44:46.0930542Z ##[group]Run bun install --frozen-lockfile
+2026-10-17T10:44:46.0931850Z [36;1mbun install --frozen-lockfile[0m
+2026-10-17T10:44:46.1234971Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:44:46.1236276Z ##[endgroup]
+2026-10-17T10:44:46.1410020Z bun install v1.2.14 (6a363a38)
+2026-10-17T10:44:51.5173389Z 
+2026-10-17T10:44:51.5174271Z + @eslint/js@9.39.4
+2026-10-17T10:44:51.5175122Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-17T10:44:51.5186085Z + @types/node@22.19.17
+2026-10-17T10:44:51.5186765Z + @types/qrcode@1.5.6
+2026-10-17T10:44:51.5187366Z + @types/react@19.2.14
+2026-10-17T10:44:51.5187963Z + @types/react-dom@19.2.3
+2026-10-17T10:44:51.5188593Z + @vitejs/plugin-react@5.2.0
+2026-10-17T10:44:51.5189209Z + eslint@9.39.4
+2026-10-17T10:44:51.5189785Z + eslint-config-prettier@10.1.8
+2026-10-17T10:44:51.5190468Z + eslint-plugin-prettier@5.5.5
+2026-10-17T10:44:51.5191162Z + eslint-plugin-react-hooks@5.2.0
+2026-10-17T10:44:51.5191820Z + eslint-plugin-react-refresh@0.4.26
+2026-10-17T10:44:51.5192836Z + globals@15.15.0
+2026-10-17T10:44:51.5193336Z + nitro@3.0.260603-beta
+2026-10-17T10:44:51.5193853Z + prettier@3.8.3
+2026-10-17T10:44:51.5194357Z + seroval@1.6.7
+2026-10-17T10:44:51.5194836Z + typescript@5.9.3
+2026-10-17T10:44:51.5195684Z + typescript-eslint@8.59.0
+2026-10-17T10:44:51.5196287Z + vite@8.0.16
+2026-10-17T10:44:51.5196815Z + vite-plugin-pwa@1.3.0
+2026-10-17T10:44:51.5197369Z + workbox-window@7.4.1
+2026-10-17T10:44:51.5197949Z + @hookform/resolvers@5.2.2
+2026-10-17T10:44:51.5198522Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-17T10:44:51.5199117Z + @lovable.dev/email-js@0.1.0
+2026-10-17T10:44:51.5199760Z + @lovable.dev/mcp-js@0.20.1
+2026-10-17T10:44:51.5200327Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-17T10:44:51.5200883Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-17T10:44:51.5201440Z + @radix-ui/react-accordion@1.2.12
+2026-10-17T10:44:51.5202199Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-17T10:44:51.5202849Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-17T10:44:51.5203465Z + @radix-ui/react-avatar@1.1.11
+2026-10-17T10:44:51.5204035Z + @radix-ui/react-checkbox@1.3.3
+2026-10-17T10:44:51.5204604Z + @radix-ui/react-collapsible@1.1.12
+2026-10-17T10:44:51.5205526Z + @radix-ui/react-context-menu@2.2.16
+2026-10-17T10:44:51.5206279Z + @radix-ui/react-dialog@1.1.15
+2026-10-17T10:44:51.5207127Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-17T10:44:51.5207819Z + @radix-ui/react-hover-card@1.1.15
+2026-10-17T10:44:51.5208448Z + @radix-ui/react-label@2.1.8
+2026-10-17T10:44:51.5209086Z + @radix-ui/react-menubar@1.1.16
+2026-10-17T10:44:51.5209689Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-17T10:44:51.5210388Z + @radix-ui/react-popover@1.1.15
+2026-10-17T10:44:51.5210992Z + @radix-ui/react-progress@1.1.8
+2026-10-17T10:44:51.5211585Z + @radix-ui/react-radio-group@1.3.8
+2026-10-17T10:44:51.5212194Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-17T10:44:51.5212790Z + @radix-ui/react-select@2.2.6
+2026-10-17T10:44:51.5213366Z + @radix-ui/react-separator@1.1.8
+2026-10-17T10:44:51.5213963Z + @radix-ui/react-slider@1.3.6
+2026-10-17T10:44:51.5214526Z + @radix-ui/react-slot@1.2.4
+2026-10-17T10:44:51.5215077Z + @radix-ui/react-switch@1.2.6
+2026-10-17T10:44:51.5216198Z + @radix-ui/react-tabs@1.1.13
+2026-10-17T10:44:51.5216780Z + @radix-ui/react-toggle@1.1.10
+2026-10-17T10:44:51.5217371Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-17T10:44:51.5217976Z + @radix-ui/react-tooltip@1.2.8
+2026-10-17T10:44:51.5218540Z + @supabase/supabase-js@2.110.5
+2026-10-17T10:44:51.5219104Z + @tailwindcss/vite@4.2.4
+2026-10-17T10:44:51.5219643Z + @tanstack/react-query@5.100.1
+2026-10-17T10:44:51.5220211Z + @tanstack/react-router@1.170.41
+2026-10-17T10:44:51.5220800Z + @tanstack/react-start@1.168.60
+2026-10-17T10:44:51.5221365Z + @tanstack/router-plugin@1.168.42
+2026-10-17T10:44:51.5221940Z + class-variance-authority@0.7.1
+2026-10-17T10:44:51.5222465Z + clsx@2.1.1
+2026-10-17T10:44:51.5222890Z + cmdk@1.1.1
+2026-10-17T10:44:51.5223310Z + date-fns@4.1.0
+2026-10-17T10:44:51.5223789Z + embla-carousel-react@8.6.0
+2026-10-17T10:44:51.5224641Z + html2canvas@1.4.1
+2026-10-17T10:44:51.5225174Z + input-otp@1.4.2
+2026-10-17T10:44:51.5225948Z + jspdf@4.2.1
+2026-10-17T10:44:51.5226529Z + lucide-react@0.575.0
+2026-10-17T10:44:51.5227115Z + qrcode@1.5.4
+2026-10-17T10:44:51.5227641Z + react@19.2.5
+2026-10-17T10:44:51.5228183Z + react-day-picker@9.14.0
+2026-10-17T10:44:51.5228812Z + react-dom@19.2.5
+2026-10-17T10:44:51.5229430Z + react-hook-form@7.73.1
+2026-10-17T10:44:51.5230006Z + react-resizable-panels@4.10.0
+2026-10-17T10:44:51.5230624Z + recharts@2.15.4
+2026-10-17T10:44:51.5231182Z + sonner@2.0.7
+2026-10-17T10:44:51.5231786Z + tailwind-merge@3.5.0
+2026-10-17T10:44:51.5232426Z + tailwindcss@4.2.4
+2026-10-17T10:44:51.5233015Z + tw-animate-css@1.4.0
+2026-10-17T10:44:51.5233572Z + vaul@1.1.2
+2026-10-17T10:44:51.5234144Z + vite-tsconfig-paths@6.1.1
+2026-10-17T10:44:51.5234748Z + zod@4.4.3
+2026-10-17T10:44:51.5235111Z 
+2026-10-17T10:44:51.5235803Z 826 packages installed [5.38s]
+2026-10-17T10:44:51.5378469Z ##[group]Run bun run typecheck
+2026-10-17T10:44:51.5379001Z [36;1mbun run typecheck[0m
+2026-10-17T10:44:51.5442245Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:44:51.5442538Z ##[endgroup]
+2026-10-17T10:44:51.5580343Z $ tsc --noEmit
+2026-10-17T10:45:06.3593867Z ##[group]Run set -euo pipefail
+2026-10-17T10:45:06.3594244Z [36;1mset -euo pipefail[0m
+2026-10-17T10:45:06.3594508Z [36;1mbase="$BASE_SHA"[0m
+2026-10-17T10:45:06.3594793Z [36;1mif [[ -z "$base" || "$base" =~ ^0+$ ]]; then[0m
+2026-10-17T10:45:06.3595136Z [36;1m  base="$(git rev-parse HEAD^)"[0m
+2026-10-17T10:45:06.3595785Z [36;1mfi[0m
+2026-10-17T10:45:06.3596268Z [36;1mmapfile -t files < <(git diff --name-only --diff-filter=ACMR "$base" HEAD | grep -E '\.(ts|tsx|js|jsx)$' || true)[0m
+2026-10-17T10:45:06.3596874Z [36;1mprintf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt[0m
+2026-10-17T10:45:06.3597227Z [36;1mif (( ${#files[@]} == 0 )); then[0m
+2026-10-17T10:45:06.3597587Z [36;1m  echo "No changed JavaScript or TypeScript files to lint."[0m
+2026-10-17T10:45:06.3597933Z [36;1m  exit 0[0m
+2026-10-17T10:45:06.3598148Z [36;1mfi[0m
+2026-10-17T10:45:06.3598362Z [36;1mset -o pipefail[0m
+2026-10-17T10:45:06.3598685Z [36;1mbunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log[0m
+2026-10-17T10:45:06.3662216Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-17T10:45:06.3662568Z env:
+2026-10-17T10:45:06.3662814Z   BASE_SHA: 57fb508b9d239aaf4676352dd97654341416c46a
+2026-10-17T10:45:06.3663133Z ##[endgroup]
+2026-10-17T10:45:06.3788765Z tests/g0-dompurify/browser-cases.js
+2026-10-17T10:45:06.3789132Z tests/g0-dompurify/pdf-entry.ts
+2026-10-17T10:45:06.3789435Z tests/unit/dependency-security.test.ts
+2026-10-17T10:45:08.0166859Z ##[group]Run bun run test:unit
+2026-10-17T10:45:08.0167195Z [36;1mbun run test:unit[0m
+2026-10-17T10:45:08.0230283Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:45:08.0230555Z ##[endgroup]
+2026-10-17T10:45:08.0344092Z $ bun test tests/unit
+2026-10-17T10:45:08.0385782Z bun test v1.2.14 (6a363a38)
+2026-10-17T10:45:08.0475680Z 
+2026-10-17T10:45:08.0496703Z ##[group]tests/unit/supabase-public-key.test.ts:
+2026-10-17T10:45:08.0543794Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format secret
+2026-10-17T10:45:08.0566260Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT [1.00ms]
+2026-10-17T10:45:08.0567717Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-10-17T10:45:08.0586456Z (pass) public Supabase configuration rejects privileged credentials > accepts legacy anon and publishable fixtures [1.00ms]
+2026-10-17T10:45:08.0613073Z 
+2026-10-17T10:45:08.0625539Z ##[endgroup]
+2026-10-17T10:45:08.0625977Z 
+2026-10-17T10:45:08.0626635Z ##[group]tests/unit/supabase-build-config.test.ts:
+2026-10-17T10:45:08.0627584Z (pass) Supabase build configuration > accepts explicit isolated CI configuration
+2026-10-17T10:45:08.0628710Z (pass) Supabase build configuration > accepts matching browser and server aliases
+2026-10-17T10:45:08.0629848Z (pass) Supabase build configuration > rejects divergent browser and server aliases
+2026-10-17T10:45:08.0630982Z (pass) Supabase build configuration > uses server aliases when VITE aliases are absent
+2026-10-17T10:45:08.0632311Z (pass) Supabase build configuration > hydrates missing server aliases only from validated resolved values
+2026-10-17T10:45:08.0633702Z (pass) Supabase build configuration > server alias hydration cannot overwrite divergent explicit aliases
+2026-10-17T10:45:08.0635052Z (pass) Supabase build configuration > runtime identity must match the baked build identity [1.00ms]
+2026-10-17T10:45:08.0636569Z (pass) Supabase build configuration > fails closed when deployment target is missing or unsupported
+2026-10-17T10:45:08.0637901Z (pass) Supabase build configuration > fails closed when explicit Supabase values are missing or blank
+2026-10-17T10:45:08.0639190Z (pass) Supabase build configuration > blank VITE aliases do not override usable server aliases
+2026-10-17T10:45:08.0640774Z (pass) Supabase build configuration > deployment targets require their approved endpoint class
+2026-10-17T10:45:08.0642103Z (pass) Supabase build configuration > rejects URL routing components instead of canonicalizing them away
+2026-10-17T10:45:08.0643452Z (pass) Supabase build configuration > non-production targets reject the production host or project
+2026-10-17T10:45:08.0644763Z (pass) Supabase build configuration > terminal DNS dots cannot bypass production isolation [2.00ms]
+2026-10-17T10:45:08.0647270Z (pass) Supabase build configuration > production requires the exact approved endpoint and explicit key
+2026-10-17T10:45:08.0668134Z (pass) Supabase build configuration > remote Supabase URL and project ID must match
+2026-10-17T10:45:08.0685553Z 
+2026-10-17T10:45:08.0686111Z ##[endgroup]
+2026-10-17T10:45:08.0686319Z 
+2026-10-17T10:45:08.0686816Z ##[group]tests/unit/dependency-security.test.ts:
+2026-10-17T10:45:08.0869719Z (pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.0876273Z (pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy
+2026-10-17T10:45:08.0896147Z (pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.0916247Z (pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy
+2026-10-17T10:45:08.0934034Z (pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy
+2026-10-17T10:45:08.0947823Z (pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.0955894Z (pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy
+2026-10-17T10:45:08.0957788Z (pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.0959122Z (pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy
+2026-10-17T10:45:08.0960413Z (pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy
+2026-10-17T10:45:08.0976381Z (pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy
+2026-10-17T10:45:08.0991470Z (pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.1008614Z (pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.1014137Z (pass) TanStack server-function XSS dependency boundary > @hono/node-server has no vulnerable locked copy
+2026-10-17T10:45:08.1018065Z (pass) TanStack server-function XSS dependency boundary > @babel/core has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.1019534Z (pass) TanStack server-function XSS dependency boundary > dompurify has no vulnerable locked copy
+2026-10-17T10:45:08.1020880Z (pass) TanStack server-function XSS dependency boundary > qs has no vulnerable locked copy [1.00ms]
+2026-10-17T10:45:08.1022200Z (pass) TanStack server-function XSS dependency boundary > hono has no vulnerable locked copy
+2026-10-17T10:45:08.1023558Z (pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy
+2026-10-17T10:45:08.1024882Z (pass) esbuild exception has no vulnerable or mismatched locked copy [1.00ms]
+2026-10-17T10:45:08.1026044Z 
+2026-10-17T10:45:08.1026812Z ##[endgroup]
+2026-10-17T10:45:08.1027207Z 
+2026-10-17T10:45:08.1027970Z ##[group]tests/unit/mcp-dependency-compatibility.test.ts:
+2026-10-17T10:45:08.4474976Z (pass) Lovable MCP adapter initializes with the overridden SDK [22.00ms]
+2026-10-17T10:45:08.4635988Z (pass) Lovable MCP adapter lists and invokes a Zod tool [16.00ms]
+2026-10-17T10:45:08.4667212Z (pass) invalid arguments do not invoke the synthetic tool [4.00ms]
+2026-10-17T10:45:08.4675990Z [mcp-js] auth.no_bearer_token {
+2026-10-17T10:45:08.4677221Z   outcome: "401",
+2026-10-17T10:45:08.4678103Z }
+2026-10-17T10:45:08.4678952Z (pass) protected fixture rejects a missing bearer without external requests [1.00ms]
+2026-10-17T10:45:08.4679861Z 
+2026-10-17T10:45:08.4680750Z ##[endgroup]
+2026-10-17T10:45:08.4681188Z 
+2026-10-17T10:45:08.4681851Z ##[group]tests/unit/invoice-selectors.test.ts:
+2026-10-17T10:45:08.4709445Z (pass) invoice finance selectors > direct fully paid has zero remaining debt
+2026-10-17T10:45:08.4710970Z (pass) invoice finance selectors > direct partially paid debt equals remaining
+2026-10-17T10:45:08.4712398Z (pass) invoice finance selectors > direct full debt equals total
+2026-10-17T10:45:08.4713751Z (pass) invoice finance selectors > returned direct order has no customer debt or courier custody
+2026-10-17T10:45:08.4715588Z (pass) invoice finance selectors > courier pending is pending value, not customer debt
+2026-10-17T10:45:08.4716966Z (pass) invoice finance selectors > courier delivered_none creates full customer debt
+2026-10-17T10:45:08.4718381Z (pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part
+2026-10-17T10:45:08.4736157Z (pass) invoice finance selectors > courier delivered_full creates no customer debt
+2026-10-17T10:45:08.4756223Z (pass) invoice finance selectors > courier returned has no customer debt or courier custody
+2026-10-17T10:45:08.4765906Z (pass) invoice finance selectors > courier custody full equals collected money
+2026-10-17T10:45:08.4768953Z (pass) invoice finance selectors > courier custody partial equals collected money
+2026-10-17T10:45:08.4770508Z (pass) invoice finance selectors > zero remaining stays zero
+2026-10-17T10:45:08.4771454Z (pass) invoice finance selectors > item cost is cost times quantity
+2026-10-17T10:45:08.4772422Z (pass) invoice finance selectors > gross margin is total minus item costs
+2026-10-17T10:45:08.4773394Z (pass) invoice finance selectors > direct debt can be collected
+2026-10-17T10:45:08.4774284Z (pass) invoice finance selectors > returned order cannot be collected
+2026-10-17T10:45:08.4775453Z (pass) invoice finance selectors > courier pending cannot be collected
+2026-10-17T10:45:08.4776474Z (pass) invoice finance selectors > courier delivered_none can be collected
+2026-10-17T10:45:08.4777621Z (pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement
+2026-10-17T10:45:08.4778802Z (pass) invoice finance selectors > courier delivered_full cannot be collected
+2026-10-17T10:45:08.4779868Z (pass) invoice finance selectors > item margin uses price minus cost times quantity
+2026-10-17T10:45:08.4781032Z (pass) invoice finance selectors > gross margin and item margin remain separate concepts
+2026-10-17T10:45:08.4781755Z 
+2026-10-17T10:45:08.4783145Z ##[endgroup]
+2026-10-17T10:45:08.4783620Z 
+2026-10-17T10:45:08.4783898Z  66 pass
+2026-10-17T10:45:08.4784333Z  0 fail
+2026-10-17T10:45:08.4784782Z  174 expect() calls
+2026-10-17T10:45:08.4785607Z Ran 66 tests across 5 files. [434.00ms]
+2026-10-17T10:45:08.4857460Z ##[group]Run bun tests/gate4/sec-env/server-boundary.ts
+2026-10-17T10:45:08.4857908Z [36;1mbun tests/gate4/sec-env/server-boundary.ts[0m
+2026-10-17T10:45:08.4920359Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:45:08.4920634Z ##[endgroup]
+2026-10-17T10:45:08.5396044Z SEC_ENV_SERVER_BOUNDARY_GREEN: 8 actual wrapper scenarios, stub app entry, no network/database
+2026-10-17T10:45:08.5524637Z ##[group]Run actions/setup-python@v5
+2026-10-17T10:45:08.5525105Z with:
+2026-10-17T10:45:08.5525651Z   python-version: 3.12
+2026-10-17T10:45:08.5526032Z   check-latest: false
+2026-10-17T10:45:08.5530580Z   token: ***
+2026-10-17T10:45:08.5530931Z   update-environment: true
+2026-10-17T10:45:08.5531341Z   allow-prereleases: false
+2026-10-17T10:45:08.5531733Z   freethreaded: false
+2026-10-17T10:45:08.5532091Z ##[endgroup]
+2026-10-17T10:45:08.7016346Z ##[group]Installed versions
+2026-10-17T10:45:08.7116016Z (node:2188) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-17T10:45:08.7117858Z Successfully set up CPython (3.12.15)
+2026-10-17T10:45:08.7119104Z ##[endgroup]
+2026-10-17T10:45:08.7156472Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-17T10:45:08.7287761Z ##[group]Run python -m pip install -r tests/gate4/sec-env/requirements.txt
+2026-10-17T10:45:08.7288708Z [36;1mpython -m pip install -r tests/gate4/sec-env/requirements.txt[0m
+2026-10-17T10:45:08.7289932Z [36;1mpython -m playwright install chromium --only-shell --with-deps[0m
+2026-10-17T10:45:08.7400031Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:45:08.7400435Z env:
+2026-10-17T10:45:08.7400877Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:08.7401633Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:45:08.7402377Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:08.7403037Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:08.7403712Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:08.7404374Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:45:08.7404927Z ##[endgroup]
+2026-10-17T10:45:09.8550125Z Collecting playwright==1.62.0 (from -r tests/gate4/sec-env/requirements.txt (line 1))
+2026-10-17T10:45:09.9017085Z   Downloading playwright-1.62.0-py3-none-manylinux1_x86_64.whl.metadata (3.3 kB)
+2026-10-17T10:45:09.9156363Z Collecting pyee==13.0.1 (from -r tests/gate4/sec-env/requirements.txt (line 2))
+2026-10-17T10:45:09.9193002Z   Downloading pyee-13.0.1-py3-none-any.whl.metadata (3.0 kB)
+2026-10-17T10:45:10.0785905Z Collecting greenlet==3.5.6 (from -r tests/gate4/sec-env/requirements.txt (line 3))
+2026-10-17T10:45:10.0822841Z   Downloading greenlet-3.5.6-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-10-17T10:45:10.0973896Z Collecting typing-extensions==4.16.0 (from -r tests/gate4/sec-env/requirements.txt (line 4))
+2026-10-17T10:45:10.1008145Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-10-17T10:45:10.1100692Z Downloading playwright-1.62.0-py3-none-manylinux1_x86_64.whl (47.7 MB)
+2026-10-17T10:45:10.3376891Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 47.7/47.7 MB 232.0 MB/s  0:00:00
+2026-10-17T10:45:10.3412929Z Downloading pyee-13.0.1-py3-none-any.whl (15 kB)
+2026-10-17T10:45:10.3467486Z Downloading greenlet-3.5.6-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (621 kB)
+2026-10-17T10:45:10.3519613Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 621.4/621.4 kB 128.2 MB/s  0:00:00
+2026-10-17T10:45:10.3554076Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-10-17T10:45:10.4456283Z Installing collected packages: typing-extensions, greenlet, pyee, playwright
+2026-10-17T10:45:11.3045653Z 
+2026-10-17T10:45:11.3058622Z Successfully installed greenlet-3.5.6 playwright-1.62.0 pyee-13.0.1 typing-extensions-4.16.0
+2026-10-17T10:45:11.7275101Z Installing dependencies...
+2026-10-17T10:45:11.7340911Z Switching to root user to install dependencies...
+2026-10-17T10:45:11.8276631Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-17T10:45:11.8966881Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+2026-10-17T10:45:11.8978951Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+2026-10-17T10:45:11.9066301Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+2026-10-17T10:45:11.9069021Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+2026-10-17T10:45:11.9156175Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+2026-10-17T10:45:12.0960237Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [556 kB]
+2026-10-17T10:45:12.1146545Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+2026-10-17T10:45:12.1186298Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [617 kB]
+2026-10-17T10:45:12.1656458Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1397 kB]
+2026-10-17T10:45:12.1817239Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [308 kB]
+2026-10-17T10:45:12.1921256Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1704 kB]
+2026-10-17T10:45:12.2039029Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+2026-10-17T10:45:12.2106408Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+2026-10-17T10:45:12.2286253Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+2026-10-17T10:45:12.3907365Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1144 kB]
+2026-10-17T10:45:12.4064811Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+2026-10-17T10:45:12.4092651Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1222 kB]
+2026-10-17T10:45:12.4273613Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+2026-10-17T10:45:12.4689717Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+2026-10-17T10:45:12.4846305Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+2026-10-17T10:45:15.3576372Z Fetched 12.5 MB in 2s (8241 kB/s)
+2026-10-17T10:45:16.2616530Z Reading package lists...
+2026-10-17T10:45:16.2866267Z Reading package lists...
+2026-10-17T10:45:16.4630690Z Building dependency tree...
+2026-10-17T10:45:16.4639769Z Reading state information...
+2026-10-17T10:45:16.5966000Z libasound2t64 is already the newest version (1.2.11-1ubuntu0.3).
+2026-10-17T10:45:16.5966816Z libasound2t64 set to manually installed.
+2026-10-17T10:45:16.5967919Z libatk-bridge2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-17T10:45:16.5969122Z libatk-bridge2.0-0t64 set to manually installed.
+2026-10-17T10:45:16.5970061Z libatk1.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-17T10:45:16.5970861Z libatk1.0-0t64 set to manually installed.
+2026-10-17T10:45:16.5971689Z libatspi2.0-0t64 is already the newest version (2.52.0-1build1).
+2026-10-17T10:45:16.5972490Z libatspi2.0-0t64 set to manually installed.
+2026-10-17T10:45:16.5973191Z libcairo2 is already the newest version (1.18.0-3build1).
+2026-10-17T10:45:16.5973741Z libcairo2 set to manually installed.
+2026-10-17T10:45:16.5974558Z libcups2t64 is already the newest version (2.4.7-1.2ubuntu7.14).
+2026-10-17T10:45:16.5975466Z libcups2t64 set to manually installed.
+2026-10-17T10:45:16.5976055Z libdbus-1-3 is already the newest version (1.14.10-4ubuntu4.1).
+2026-10-17T10:45:16.5976647Z libdbus-1-3 set to manually installed.
+2026-10-17T10:45:16.5977223Z libdrm2 is already the newest version (2.4.125-1ubuntu0.1~24.04.2).
+2026-10-17T10:45:16.5977843Z libdrm2 set to manually installed.
+2026-10-17T10:45:16.5978446Z libgbm1 is already the newest version (25.2.8-0ubuntu0.24.04.4).
+2026-10-17T10:45:16.5979066Z libgbm1 set to manually installed.
+2026-10-17T10:45:16.5979642Z libglib2.0-0t64 is already the newest version (2.80.0-6ubuntu3.9).
+2026-10-17T10:45:16.5980268Z libglib2.0-0t64 set to manually installed.
+2026-10-17T10:45:16.5980890Z libnspr4 is already the newest version (2:4.35-1.1build1).
+2026-10-17T10:45:16.5981529Z libnspr4 set to manually installed.
+2026-10-17T10:45:16.5982143Z libnss3 is already the newest version (2:3.98-1ubuntu0.2).
+2026-10-17T10:45:16.5982749Z libnss3 set to manually installed.
+2026-10-17T10:45:16.5983394Z libpango-1.0-0 is already the newest version (1.52.1+ds-1build1).
+2026-10-17T10:45:16.5984043Z libpango-1.0-0 set to manually installed.
+2026-10-17T10:45:16.5984647Z libx11-6 is already the newest version (2:1.8.7-1ubuntu0.1).
+2026-10-17T10:45:16.5985637Z libx11-6 set to manually installed.
+2026-10-17T10:45:16.5986195Z libxcb1 is already the newest version (1.15-1ubuntu2).
+2026-10-17T10:45:16.5987166Z libxcb1 set to manually installed.
+2026-10-17T10:45:16.5987770Z libxcomposite1 is already the newest version (1:0.4.5-1build3).
+2026-10-17T10:45:16.5988379Z libxcomposite1 set to manually installed.
+2026-10-17T10:45:16.5988922Z libxdamage1 is already the newest version (1:1.1.6-1build1).
+2026-10-17T10:45:16.5989305Z libxdamage1 set to manually installed.
+2026-10-17T10:45:16.5989648Z libxext6 is already the newest version (2:1.3.4-1build2).
+2026-10-17T10:45:16.5989996Z libxext6 set to manually installed.
+2026-10-17T10:45:16.5990323Z libxfixes3 is already the newest version (1:6.0.0-2build1).
+2026-10-17T10:45:16.5990676Z libxfixes3 set to manually installed.
+2026-10-17T10:45:16.5991018Z libxkbcommon0 is already the newest version (1.6.0-1build1).
+2026-10-17T10:45:16.5991383Z libxkbcommon0 set to manually installed.
+2026-10-17T10:45:16.5991725Z libxrandr2 is already the newest version (2:1.5.2-2build1).
+2026-10-17T10:45:16.5992070Z libxrandr2 set to manually installed.
+2026-10-17T10:45:16.5992651Z xvfb is already the newest version (2:21.1.12-1ubuntu1.8).
+2026-10-17T10:45:16.5993531Z fonts-noto-color-emoji is already the newest version (2.047-0ubuntu0.24.04.1).
+2026-10-17T10:45:16.5994454Z libfontconfig1 is already the newest version (2.15.0-1.1ubuntu2).
+2026-10-17T10:45:16.5995169Z libfontconfig1 set to manually installed.
+2026-10-17T10:45:16.5996619Z libfreetype6 is already the newest version (2.13.2+dfsg-1ubuntu0.2).
+2026-10-17T10:45:16.5997362Z libfreetype6 set to manually installed.
+2026-10-17T10:45:16.5998008Z fonts-liberation is already the newest version (1:2.1.5-3).
+2026-10-17T10:45:16.5999151Z fonts-liberation set to manually installed.
+2026-10-17T10:45:16.5999546Z The following additional packages will be installed:
+2026-10-17T10:45:16.5999892Z   xfonts-encodings xfonts-utils
+2026-10-17T10:45:16.6000161Z Recommended packages:
+2026-10-17T10:45:16.6000417Z   fonts-ipafont-mincho fonts-tlwg-loma
+2026-10-17T10:45:16.6166385Z The following NEW packages will be installed:
+2026-10-17T10:45:16.6167665Z   fonts-freefont-ttf fonts-ipafont-gothic fonts-tlwg-loma-otf fonts-unifont
+2026-10-17T10:45:16.6171053Z   fonts-wqy-zenhei xfonts-cyrillic xfonts-encodings xfonts-scalable
+2026-10-17T10:45:16.6171967Z   xfonts-utils
+2026-10-17T10:45:16.6363917Z 0 upgraded, 9 newly installed, 0 to remove and 44 not upgraded.
+2026-10-17T10:45:16.6364804Z Need to get 21.1 MB of archives.
+2026-10-17T10:45:16.6366106Z After this operation, 79.5 MB of additional disk space will be used.
+2026-10-17T10:45:16.6367248Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-10-17T10:45:16.7359370Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-ipafont-gothic all 00303-21ubuntu1 [3513 kB]
+2026-10-17T10:45:16.9095895Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 fonts-freefont-ttf all 20211204+svn4273-2 [5641 kB]
+2026-10-17T10:45:17.1380361Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-tlwg-loma-otf all 1:0.7.3-1 [107 kB]
+2026-10-17T10:45:17.2224943Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-unifont all 1:15.1.01-1build1 [2993 kB]
+2026-10-17T10:45:17.3812100Z Get:6 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 fonts-wqy-zenhei all 0.9.45-8 [7472 kB]
+2026-10-17T10:45:17.6591317Z Get:7 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-encodings all 1:1.0.5-0ubuntu2 [578 kB]
+2026-10-17T10:45:17.7557295Z Get:8 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-utils amd64 1:7.7+6build3 [94.4 kB]
+2026-10-17T10:45:17.8397326Z Get:9 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 xfonts-cyrillic all 1:1.0.5+nmu1 [384 kB]
+2026-10-17T10:45:17.9304151Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 xfonts-scalable all 1:1.0.3-1.3 [304 kB]
+2026-10-17T10:45:18.1961250Z Fetched 21.1 MB in 1s (15.9 MB/s)
+2026-10-17T10:45:18.2224145Z Selecting previously unselected package fonts-ipafont-gothic.
+2026-10-17T10:45:18.2591382Z (Reading database ... 
+2026-10-17T10:45:18.2591995Z (Reading database ... 5%
+2026-10-17T10:45:18.2592735Z (Reading database ... 10%
+2026-10-17T10:45:18.2593180Z (Reading database ... 15%
+2026-10-17T10:45:18.2593780Z (Reading database ... 20%
+2026-10-17T10:45:18.2594433Z (Reading database ... 25%
+2026-10-17T10:45:18.2594863Z (Reading database ... 30%
+2026-10-17T10:45:18.2595498Z (Reading database ... 35%
+2026-10-17T10:45:18.2595915Z (Reading database ... 40%
+2026-10-17T10:45:18.2596315Z (Reading database ... 45%
+2026-10-17T10:45:18.2596843Z (Reading database ... 50%
+2026-10-17T10:45:18.2634425Z (Reading database ... 55%
+2026-10-17T10:45:18.3866379Z (Reading database ... 60%
+2026-10-17T10:45:18.5802806Z (Reading database ... 65%
+2026-10-17T10:45:18.7864973Z (Reading database ... 70%
+2026-10-17T10:45:18.9884309Z (Reading database ... 75%
+2026-10-17T10:45:19.1733926Z (Reading database ... 80%
+2026-10-17T10:45:19.3811278Z (Reading database ... 85%
+2026-10-17T10:45:19.5476666Z (Reading database ... 90%
+2026-10-17T10:45:19.7397166Z (Reading database ... 95%
+2026-10-17T10:45:19.7406206Z (Reading database ... 100%
+2026-10-17T10:45:19.7406954Z (Reading database ... 203540 files and directories currently installed.)
+2026-10-17T10:45:19.7443549Z Preparing to unpack .../0-fonts-ipafont-gothic_00303-21ubuntu1_all.deb ...
+2026-10-17T10:45:19.7536195Z Unpacking fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-17T10:45:19.9870063Z Selecting previously unselected package fonts-freefont-ttf.
+2026-10-17T10:45:19.9994174Z Preparing to unpack .../1-fonts-freefont-ttf_20211204+svn4273-2_all.deb ...
+2026-10-17T10:45:20.0006036Z Unpacking fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-17T10:45:20.0830985Z Selecting previously unselected package fonts-tlwg-loma-otf.
+2026-10-17T10:45:20.0956192Z Preparing to unpack .../2-fonts-tlwg-loma-otf_1%3a0.7.3-1_all.deb ...
+2026-10-17T10:45:20.0963531Z Unpacking fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-17T10:45:20.1172942Z Selecting previously unselected package fonts-unifont.
+2026-10-17T10:45:20.1300176Z Preparing to unpack .../3-fonts-unifont_1%3a15.1.01-1build1_all.deb ...
+2026-10-17T10:45:20.1318255Z Unpacking fonts-unifont (1:15.1.01-1build1) ...
+2026-10-17T10:45:20.2460729Z Selecting previously unselected package fonts-wqy-zenhei.
+2026-10-17T10:45:20.2586678Z Preparing to unpack .../4-fonts-wqy-zenhei_0.9.45-8_all.deb ...
+2026-10-17T10:45:20.2684540Z Unpacking fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-17T10:45:20.7387682Z Selecting previously unselected package xfonts-encodings.
+2026-10-17T10:45:20.7515401Z Preparing to unpack .../5-xfonts-encodings_1%3a1.0.5-0ubuntu2_all.deb ...
+2026-10-17T10:45:20.7521668Z Unpacking xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-17T10:45:20.7832368Z Selecting previously unselected package xfonts-utils.
+2026-10-17T10:45:20.7962121Z Preparing to unpack .../6-xfonts-utils_1%3a7.7+6build3_amd64.deb ...
+2026-10-17T10:45:20.7969683Z Unpacking xfonts-utils (1:7.7+6build3) ...
+2026-10-17T10:45:20.8353709Z Selecting previously unselected package xfonts-cyrillic.
+2026-10-17T10:45:20.8482254Z Preparing to unpack .../7-xfonts-cyrillic_1%3a1.0.5+nmu1_all.deb ...
+2026-10-17T10:45:20.8490767Z Unpacking xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-17T10:45:20.8848747Z Selecting previously unselected package xfonts-scalable.
+2026-10-17T10:45:20.8976852Z Preparing to unpack .../8-xfonts-scalable_1%3a1.0.3-1.3_all.deb ...
+2026-10-17T10:45:20.8997060Z Unpacking xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-17T10:45:20.9429425Z Setting up fonts-wqy-zenhei (0.9.45-8) ...
+2026-10-17T10:45:20.9554677Z Setting up fonts-freefont-ttf (20211204+svn4273-2) ...
+2026-10-17T10:45:20.9575946Z Setting up fonts-tlwg-loma-otf (1:0.7.3-1) ...
+2026-10-17T10:45:20.9595736Z Setting up xfonts-encodings (1:1.0.5-0ubuntu2) ...
+2026-10-17T10:45:20.9617817Z Setting up fonts-ipafont-gothic (00303-21ubuntu1) ...
+2026-10-17T10:45:20.9683362Z update-alternatives: using /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf to provide /usr/share/fonts/truetype/fonts-japanese-gothic.ttf (fonts-japanese-gothic.ttf) in auto mode
+2026-10-17T10:45:20.9697807Z Setting up fonts-unifont (1:15.1.01-1build1) ...
+2026-10-17T10:45:20.9717110Z Setting up xfonts-utils (1:7.7+6build3) ...
+2026-10-17T10:45:20.9765633Z Setting up xfonts-cyrillic (1:1.0.5+nmu1) ...
+2026-10-17T10:45:21.0092833Z Setting up xfonts-scalable (1:1.0.3-1.3) ...
+2026-10-17T10:45:21.0381032Z Processing triggers for man-db (2.12.0-4build2) ...
+2026-10-17T10:45:21.0407056Z Not building database; man-db/auto-update is not 'true'.
+2026-10-17T10:45:21.0421009Z Processing triggers for fontconfig (2.15.0-1.1ubuntu2) ...
+2026-10-17T10:45:21.7975260Z 
+2026-10-17T10:45:21.7976586Z Running kernel seems to be up-to-date.
+2026-10-17T10:45:21.7977178Z 
+2026-10-17T10:45:21.7977583Z No services need to be restarted.
+2026-10-17T10:45:21.7978136Z 
+2026-10-17T10:45:21.7978538Z No containers need to be restarted.
+2026-10-17T10:45:21.7979067Z 
+2026-10-17T10:45:21.7979497Z No user sessions are running outdated binaries.
+2026-10-17T10:45:21.7980054Z 
+2026-10-17T10:45:21.7980566Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-10-17T10:45:23.1461107Z Downloading Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) from https://cdn.playwright.dev/builds/cft/151.0.7922.34/linux64/chrome-headless-shell-linux64.zip
+2026-10-17T10:45:24.1469704Z |                                                                                |   0% of 114.7 MiB
+2026-10-17T10:45:24.3655770Z |■■■■■■■■                                                                        |  10% of 114.7 MiB
+2026-10-17T10:45:24.5004070Z |■■■■■■■■■■■■■■■■                                                                |  20% of 114.7 MiB
+2026-10-17T10:45:24.6027057Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 114.7 MiB
+2026-10-17T10:45:24.6704745Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 114.7 MiB
+2026-10-17T10:45:24.7445632Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 114.7 MiB
+2026-10-17T10:45:24.8716459Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 114.7 MiB
+2026-10-17T10:45:24.9252926Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 114.7 MiB
+2026-10-17T10:45:25.0128451Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 114.7 MiB
+2026-10-17T10:45:25.0634841Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 114.7 MiB
+2026-10-17T10:45:25.1487592Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 114.7 MiB
+2026-10-17T10:45:28.4478912Z Chrome Headless Shell 151.0.7922.34 (playwright chromium-headless-shell v1234) downloaded to /home/runner/.cache/ms-playwright/chromium_headless_shell-1234
+2026-10-17T10:45:28.4497164Z Downloading FFmpeg (playwright ffmpeg v1011) from https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-linux.zip
+2026-10-17T10:45:29.6591940Z |                                                                                |   0% of 2.3 MiB
+2026-10-17T10:45:29.6627413Z |■■■■■■■■                                                                        |  10% of 2.3 MiB
+2026-10-17T10:45:29.6675483Z |■■■■■■■■■■■■■■■■                                                                |  20% of 2.3 MiB
+2026-10-17T10:45:29.6701726Z |■■■■■■■■■■■■■■■■■■■■■■■■                                                        |  30% of 2.3 MiB
+2026-10-17T10:45:29.6743317Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                                |  40% of 2.3 MiB
+2026-10-17T10:45:29.6754823Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                        |  50% of 2.3 MiB
+2026-10-17T10:45:29.6789463Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                                |  60% of 2.3 MiB
+2026-10-17T10:45:29.6816017Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                        |  70% of 2.3 MiB
+2026-10-17T10:45:29.6847794Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■                |  80% of 2.3 MiB
+2026-10-17T10:45:29.6868494Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■        |  90% of 2.3 MiB
+2026-10-17T10:45:29.6890153Z |■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■| 100% of 2.3 MiB
+2026-10-17T10:45:29.7712663Z FFmpeg (playwright ffmpeg v1011) downloaded to /home/runner/.cache/ms-playwright/ffmpeg-1011
+2026-10-17T10:45:29.8101554Z ##[group]Run python tests/gate4/sec-env/browser-network.py
+2026-10-17T10:45:29.8102367Z [36;1mpython tests/gate4/sec-env/browser-network.py[0m
+2026-10-17T10:45:29.8186432Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:45:29.8186853Z env:
+2026-10-17T10:45:29.8187311Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:29.8188085Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:45:29.8189221Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:29.8189930Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:29.8190624Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:29.8191310Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:45:29.8191913Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-17T10:45:29.8192332Z ##[endgroup]
+2026-10-17T10:45:53.2086400Z Browser version: 151.0.7922.34
+2026-10-17T10:45:53.2087578Z BROWSER_TRANSPORT_REGRESSION: 67 scenarios; 0 failures; dummy loopback fixtures only
+2026-10-17T10:45:53.2378833Z ##[group]Run set -euo pipefail
+2026-10-17T10:45:53.2379432Z [36;1mset -euo pipefail[0m
+2026-10-17T10:45:53.2380015Z [36;1mtrap 'rm -f .env.sec-env-contract' EXIT[0m
+2026-10-17T10:45:53.2380644Z [36;1mcat > .env.sec-env-contract <<'EOF'[0m
+2026-10-17T10:45:53.2381194Z [36;1mMONGEZZ_DEPLOY_TARGET=ci[0m
+2026-10-17T10:45:53.2381810Z [36;1mVITE_SUPABASE_URL=http://127.0.0.1:54321[0m
+2026-10-17T10:45:53.2382584Z [36;1mVITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder[0m
+2026-10-17T10:45:53.2383411Z [36;1mVITE_SUPABASE_PROJECT_ID=quality-env-file[0m
+2026-10-17T10:45:53.2383980Z [36;1mEOF[0m
+2026-10-17T10:45:53.2384345Z [36;1m[0m
+2026-10-17T10:45:53.2384685Z [36;1menv \[0m
+2026-10-17T10:45:53.2385087Z [36;1m  -u MONGEZZ_DEPLOY_TARGET \[0m
+2026-10-17T10:45:53.2386168Z [36;1m  -u VITE_SUPABASE_URL \[0m
+2026-10-17T10:45:53.2386781Z [36;1m  -u VITE_SUPABASE_PUBLISHABLE_KEY \[0m
+2026-10-17T10:45:53.2387414Z [36;1m  -u VITE_SUPABASE_PROJECT_ID \[0m
+2026-10-17T10:45:53.2387817Z [36;1m  bunx vite build --mode sec-env-contract[0m
+2026-10-17T10:45:53.2452272Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-17T10:45:53.2452621Z env:
+2026-10-17T10:45:53.2452903Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:53.2453349Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:45:53.2453800Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:53.2454394Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:53.2454797Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:45:53.2455512Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:45:53.2455901Z ##[endgroup]
+2026-10-17T10:45:55.2049469Z [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
+2026-10-17T10:45:55.7116613Z [36mvite v8.0.16 [32mbuilding client environment for sec-env-contract...[36m[39m
+2026-10-17T10:45:55.7343120Z [2K
+2026-10-17T10:45:58.5729267Z [33m[plugin tanstack-start-core::server-fn:client] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:45:58.8933884Z transforming...✓ 2224 modules transformed.
+2026-10-17T10:45:59.0062642Z rendering chunks...
+2026-10-17T10:45:59.2326315Z computing gzip size...
+2026-10-17T10:45:59.2508366Z .output/public/assets/styles-BU_4IDtB.css                   106.19 kB │ gzip:  17.05 kB
+2026-10-17T10:45:59.2509756Z .output/public/assets/not-found-DIgawKw1.js                   0.05 kB │ gzip:   0.07 kB
+2026-10-17T10:45:59.2511491Z [33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+2026-10-17T10:45:59.2512823Z .output/public/assets/html2canvas-CBDhPHrI.js                 0.05 kB │ gzip:   0.07 kB
+2026-10-17T10:45:59.2514050Z   - vite-tsconfig-paths (54%)
+2026-10-17T10:45:59.2515123Z .output/public/assets/arrow-left-D_POL03-.js                  0.16 kB │ gzip:   0.16 kB
+2026-10-17T10:45:59.2516705Z   - tanstack-start-core:import-protection (26%)
+2026-10-17T10:45:59.2517738Z .output/public/assets/useRouter-taNZoCdo.js                   0.17 kB │ gzip:   0.15 kB
+2026-10-17T10:45:59.2518974Z   - tanstack-start-core:import-protection-transform-cache (18%)
+2026-10-17T10:45:59.2520097Z .output/public/assets/matchContext-C7c66U70.js                0.18 kB │ gzip:   0.15 kB
+2026-10-17T10:45:59.2521409Z See https://rolldown.rs/options/checks#plugintimings for more details.
+2026-10-17T10:45:59.2522606Z .output/public/assets/typeof-B5XbjTb1.js                      0.27 kB │ gzip:   0.16 kB
+2026-10-17T10:45:59.2523754Z [39m
+2026-10-17T10:45:59.2524958Z .output/public/assets/_._lovable.oauth.consent-D5KX02Fx.js    0.36 kB │ gzip:   0.29 kB
+2026-10-17T10:45:59.2527345Z [33m[plugin builtin:vite-reporter] 
+2026-10-17T10:45:59.2528320Z .output/public/assets/jsx-runtime-DsKLSDJq.js                 0.42 kB │ gzip:   0.29 kB
+2026-10-17T10:45:59.2530258Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-10-17T10:45:59.2531405Z .output/public/assets/invariant-CgFvOqN2.js                   0.45 kB │ gzip:   0.28 kB
+2026-10-17T10:45:59.2532618Z - Using dynamic import() to code-split the application
+2026-10-17T10:45:59.2533605Z .output/public/assets/sparkles-CKpZVJuT.js                    0.49 kB │ gzip:   0.28 kB
+2026-10-17T10:45:59.2535487Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+2026-10-17T10:45:59.2537042Z .output/public/assets/chunk-QTnfLwEv.js                       0.69 kB │ gzip:   0.42 kB
+2026-10-17T10:45:59.2538517Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-10-17T10:45:59.2539703Z .output/public/assets/app-DKZseGew.js                         0.93 kB │ gzip:   0.55 kB
+2026-10-17T10:45:59.2541570Z .output/public/assets/route-CdomjeAt.js                       1.03 kB │ gzip:   0.62 kB
+2026-10-17T10:45:59.2543087Z .output/public/assets/virtual_pwa-register-B8IV-JXw.js        1.13 kB │ gzip:   0.60 kB
+2026-10-17T10:45:59.2544627Z .output/public/assets/preload-helper-zJ_50EbN.js              1.19 kB │ gzip:   0.68 kB
+2026-10-17T10:45:59.2546443Z .output/public/assets/createLucideIcon-CJP-tiyj.js            1.21 kB │ gzip:   0.70 kB
+2026-10-17T10:45:59.2548247Z .output/public/assets/pwa-register-DwekqpFs.js                1.32 kB │ gzip:   0.63 kB
+2026-10-17T10:45:59.2549702Z .output/public/assets/_._lovable.oauth.consent-X40-tJ0i.js    1.66 kB │ gzip:   0.90 kB
+2026-10-17T10:45:59.2561894Z .output/public/assets/x-DkWJGFpE.js                           1.91 kB │ gzip:   0.83 kB
+2026-10-17T10:45:59.2563430Z .output/public/assets/useSelector-BarC7cIn.js                 2.16 kB │ gzip:   0.95 kB
+2026-10-17T10:45:59.2564959Z .output/public/assets/onboarding-CzmvNAbI.js                  2.61 kB │ gzip:   1.31 kB
+2026-10-17T10:45:59.2566850Z .output/public/assets/workbox-window.prod.es5-Bd17z0YL.js     5.65 kB │ gzip:   2.20 kB
+2026-10-17T10:45:59.2568447Z .output/public/assets/react-xd4aoMiW.js                       7.52 kB │ gzip:   2.87 kB
+2026-10-17T10:45:59.2570046Z .output/public/assets/link-DepuAy0Q.js                        9.34 kB │ gzip:   4.30 kB
+2026-10-17T10:45:59.2571501Z .output/public/assets/auth-BDK6693Q.js                       11.85 kB │ gzip:   4.81 kB
+2026-10-17T10:45:59.2572994Z .output/public/assets/billing-BNFVFbQ0.js                    12.50 kB │ gzip:   5.15 kB
+2026-10-17T10:45:59.2574492Z .output/public/assets/guide-CFoYQQew.js                      13.73 kB │ gzip:   3.75 kB
+2026-10-17T10:45:59.2576262Z .output/public/assets/db-Dqd1xqK6.js                         22.92 kB │ gzip:   6.86 kB
+2026-10-17T10:45:59.2577795Z .output/public/assets/platform-admin-9bCZ0jzP.js             25.95 kB │ gzip:   5.85 kB
+2026-10-17T10:45:59.2579301Z .output/public/assets/purify.es-B8BSsnM1.js                  28.07 kB │ gzip:  11.08 kB
+2026-10-17T10:45:59.2580762Z .output/public/assets/routes-CfSyCkOT.js                     28.82 kB │ gzip:   6.49 kB
+2026-10-17T10:45:59.2582136Z .output/public/assets/index.es-CW48MJ1v.js                  151.41 kB │ gzip:  48.89 kB
+2026-10-17T10:45:59.2583573Z .output/public/assets/client-sdHwnZGJ.js                    204.25 kB │ gzip:  52.35 kB
+2026-10-17T10:45:59.2585116Z .output/public/assets/index-k9xhst5d.js                     325.72 kB │ gzip: 103.71 kB
+2026-10-17T10:45:59.2586839Z .output/public/assets/app-CRSf_Frs.js                       772.45 kB │ gzip: 220.34 kB
+2026-10-17T10:45:59.2587681Z 
+2026-10-17T10:45:59.2588159Z [32m✓ built in 3.54s[39m
+2026-10-17T10:46:01.6744443Z 
+2026-10-17T10:46:01.6751247Z [33mwarnings
+2026-10-17T10:46:01.6756192Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:01.6757499Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:01.6765705Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:01.6766568Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:01.6767566Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:01.6768390Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:01.6770120Z   "globIgnores": [
+2026-10-17T10:46:01.6770525Z files generated
+2026-10-17T10:46:01.6801837Z     "**/node_modules/**/*",
+2026-10-17T10:46:01.6802458Z   [2mdist/sw.js[22m
+2026-10-17T10:46:01.6803157Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:01.6803776Z     "sw.js",
+2026-10-17T10:46:01.6804536Z [36mvite v8.0.16 [32mbuilding ssr environment for sec-env-contract...[36m[39m
+2026-10-17T10:46:01.6817688Z     "workbox-*.js"
+2026-10-17T10:46:01.6818082Z   ]
+2026-10-17T10:46:01.6818406Z }
+2026-10-17T10:46:01.6818790Z [39m
+2026-10-17T10:46:01.7030758Z [2K
+2026-10-17T10:46:01.7658318Z [33m[plugin tanstack-start-core::server-fn:ssr] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts?tss-serverfn-split:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:46:03.6926412Z [33m[plugin tanstack-start-core::server-fn:ssr] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:46:03.8946688Z transforming...✓ 136 modules transformed.
+2026-10-17T10:46:03.9221907Z rendering chunks...
+2026-10-17T10:46:03.9447023Z computing gzip size...
+2026-10-17T10:46:03.9517150Z node_modules/.nitro/vite/services/ssr/assets/styles-BU_4IDtB.css                                106.19 kB │ gzip: 17.05 kB
+2026-10-17T10:46:03.9518971Z node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-D9UWiqvJ.js                    0.22 kB │ gzip:  0.16 kB
+2026-10-17T10:46:03.9521811Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-DS_MDyUZ.js                 0.54 kB │ gzip:  0.38 kB
+2026-10-17T10:46:03.9524161Z node_modules/.nitro/vite/services/ssr/assets/auth-Doeq6D37.js                                     0.78 kB │ gzip:  0.49 kB
+2026-10-17T10:46:03.9531006Z node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-DAGxUOcY.js    0.79 kB │ gzip:  0.43 kB
+2026-10-17T10:46:03.9532717Z node_modules/.nitro/vite/services/ssr/assets/useTheme-11HVCO0w.js                                 0.98 kB │ gzip:  0.50 kB
+2026-10-17T10:46:03.9534313Z node_modules/.nitro/vite/services/ssr/assets/start-DkIOhuRt.js                                    1.16 kB │ gzip:  0.61 kB
+2026-10-17T10:46:03.9536136Z node_modules/.nitro/vite/services/ssr/assets/app-CM8H2GxL.js                                      1.32 kB │ gzip:  0.66 kB
+2026-10-17T10:46:03.9537771Z node_modules/.nitro/vite/services/ssr/assets/payments.functions-DKJYDotv.js                       1.33 kB │ gzip:  0.70 kB
+2026-10-17T10:46:03.9539371Z node_modules/.nitro/vite/services/ssr/assets/pwa-register-B1ZRVBaA.js                             1.47 kB │ gzip:  0.63 kB
+2026-10-17T10:46:03.9541087Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-CJ8bNS2T.js                 1.61 kB │ gzip:  0.70 kB
+2026-10-17T10:46:03.9542821Z node_modules/.nitro/vite/services/ssr/assets/paddle.server-DUFMhm_W.js                            1.63 kB │ gzip:  0.73 kB
+2026-10-17T10:46:03.9544489Z node_modules/.nitro/vite/services/ssr/assets/route-Dk8-hHDr.js                                    1.63 kB │ gzip:  0.78 kB
+2026-10-17T10:46:03.9548272Z node_modules/.nitro/vite/services/ssr/assets/createStart-Dt05N14y.js                              1.65 kB │ gzip:  0.57 kB
+2026-10-17T10:46:03.9549909Z node_modules/.nitro/vite/services/ssr/assets/client-BxdFtTgA.js                                   1.80 kB │ gzip:  0.88 kB
+2026-10-17T10:46:03.9551896Z node_modules/.nitro/vite/services/ssr/assets/virtual_pwa-register-BG3HAM5h.js                     2.27 kB │ gzip:  0.80 kB
+2026-10-17T10:46:03.9553690Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-q6ttOl5B.js                 2.46 kB │ gzip:  1.07 kB
+2026-10-17T10:46:03.9555747Z node_modules/.nitro/vite/services/ssr/assets/auth-middleware-BFa9aFrh.js                          2.64 kB │ gzip:  1.08 kB
+2026-10-17T10:46:03.9557538Z node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BU58htlG.js               3.48 kB │ gzip:  0.98 kB
+2026-10-17T10:46:03.9559300Z node_modules/.nitro/vite/services/ssr/assets/onboarding-C978jXrI.js                               3.83 kB │ gzip:  1.56 kB
+2026-10-17T10:46:03.9560961Z node_modules/.nitro/vite/services/ssr/assets/workbox-window.prod.es5-CkHxznpn.js                  7.40 kB │ gzip:  2.60 kB
+2026-10-17T10:46:03.9562595Z node_modules/.nitro/vite/services/ssr/index.js                                                   11.37 kB │ gzip:  3.73 kB
+2026-10-17T10:46:03.9564168Z node_modules/.nitro/vite/services/ssr/assets/billing-Cql3cBHb.js                                 11.89 kB │ gzip:  4.08 kB
+2026-10-17T10:46:03.9569897Z node_modules/.nitro/vite/services/ssr/assets/auth-DGflr66b.js                                    12.28 kB │ gzip:  3.80 kB
+2026-10-17T10:46:03.9571589Z node_modules/.nitro/vite/services/ssr/assets/esm-B8uG0sol.js                                     15.70 kB │ gzip:  4.44 kB
+2026-10-17T10:46:03.9573236Z node_modules/.nitro/vite/services/ssr/assets/db-YxHOJQvJ.js                                      17.13 kB │ gzip:  3.52 kB
+2026-10-17T10:46:03.9575560Z node_modules/.nitro/vite/services/ssr/assets/guide-UAaiXopt.js                                   19.34 kB │ gzip:  4.21 kB
+2026-10-17T10:46:03.9577245Z node_modules/.nitro/vite/services/ssr/assets/router-D_WVEK0b.js                                  34.88 kB │ gzip:  9.16 kB
+2026-10-17T10:46:03.9579001Z node_modules/.nitro/vite/services/ssr/assets/routes-BO8i03us.js                                  37.39 kB │ gzip:  7.28 kB
+2026-10-17T10:46:03.9580727Z node_modules/.nitro/vite/services/ssr/assets/platform-admin-C0qBIe0f.js                          38.41 kB │ gzip:  7.07 kB
+2026-10-17T10:46:03.9582455Z node_modules/.nitro/vite/services/ssr/assets/server-DXLkv2UU.js                                  59.77 kB │ gzip: 15.37 kB
+2026-10-17T10:46:03.9584097Z node_modules/.nitro/vite/services/ssr/assets/app-BPUqBL6y.js                                    217.86 kB │ gzip: 43.93 kB
+2026-10-17T10:46:03.9584871Z 
+2026-10-17T10:46:03.9585148Z [32m✓ built in 2.27s[39m
+2026-10-17T10:46:05.1532444Z 
+2026-10-17T10:46:05.1536239Z [33mwarnings
+2026-10-17T10:46:05.1537402Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:05.1538278Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:05.1539249Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:05.1540116Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:05.1541083Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:05.1541999Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:05.1542902Z   "globIgnores": [
+2026-10-17T10:46:05.1543285Z files generated
+2026-10-17T10:46:05.1543942Z     "**/node_modules/**/*",
+2026-10-17T10:46:05.1544483Z   [2mdist/sw.js[22m
+2026-10-17T10:46:05.1545178Z     "sw.js",
+2026-10-17T10:46:05.1546052Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:05.1549752Z     "workbox-*.js"
+2026-10-17T10:46:05.1550215Z   ]
+2026-10-17T10:46:05.1550658Z }
+2026-10-17T10:46:05.1551160Z [39m
+2026-10-17T10:46:05.1576867Z [start] [nitro] Building [[35mNitro[39m] [2m(preset: `cloudflare-module`, compatibility: `2026-10-17`)[22m
+2026-10-17T10:46:05.1697838Z [success] [nitro] Generated public [36m.output/public[39m
+2026-10-17T10:46:05.1712600Z [36mvite v8.0.16 [32mbuilding nitro environment for sec-env-contract...[36m[39m
+2026-10-17T10:46:05.1739959Z [warn] `inlineDynamicImports` option is ignored because the `codeSplitting` option is specified.
+2026-10-17T10:46:05.1895017Z [2K
+2026-10-17T10:46:06.3456172Z transforming...✓ 3520 modules transformed.
+2026-10-17T10:46:06.6376449Z rendering chunks...
+2026-10-17T10:46:06.8587562Z computing gzip size...
+2026-10-17T10:46:06.9094035Z .output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs                 0.23 kB │ gzip:   0.16 kB
+2026-10-17T10:46:06.9095482Z .output/server/_chunks/ssr-renderer.mjs                                0.60 kB │ gzip:   0.36 kB
+2026-10-17T10:46:06.9096643Z .output/server/_._lovable.oauth.consent-DS_MDyUZ.mjs                   0.69 kB │ gzip:   0.45 kB
+2026-10-17T10:46:06.9098079Z .output/server/_ssr/auth-Doeq6D37.mjs                                  0.85 kB │ gzip:   0.55 kB
+2026-10-17T10:46:06.9099447Z .output/server/__23tanstack-start-server-fn-resolver-DAGxUOcY.mjs      0.85 kB │ gzip:   0.47 kB
+2026-10-17T10:46:06.9105627Z .output/server/_ssr/start-DkIOhuRt.mjs                                 1.14 kB │ gzip:   0.61 kB
+2026-10-17T10:46:06.9107127Z .output/server/_libs/hookable.mjs                                      1.16 kB │ gzip:   0.51 kB
+2026-10-17T10:46:06.9108707Z .output/server/_ssr/useTheme-11HVCO0w.mjs                              1.22 kB │ gzip:   0.62 kB
+2026-10-17T10:46:06.9110278Z .output/server/_ssr/payments.functions-DKJYDotv.mjs                    1.26 kB │ gzip:   0.69 kB
+2026-10-17T10:46:06.9111804Z .output/server/_ssr/pwa-register-B1ZRVBaA.mjs                          1.52 kB │ gzip:   0.66 kB
+2026-10-17T10:46:06.9113305Z .output/server/_ssr/createStart-Dt05N14y.mjs                           1.56 kB │ gzip:   0.57 kB
+2026-10-17T10:46:06.9114800Z .output/server/_ssr/app-CM8H2GxL.mjs                                   1.57 kB │ gzip:   0.73 kB
+2026-10-17T10:46:06.9121699Z .output/server/_._lovable.oauth.consent-CJ8bNS2T.mjs                   1.62 kB │ gzip:   0.73 kB
+2026-10-17T10:46:06.9123185Z .output/server/_ssr/paddle.server-DUFMhm_W.mjs                         1.71 kB │ gzip:   0.77 kB
+2026-10-17T10:46:06.9124659Z .output/server/_runtime.mjs                                            1.80 kB │ gzip:   0.82 kB
+2026-10-17T10:46:06.9126426Z .output/server/_ssr/route-Dk8-hHDr.mjs                                 1.94 kB │ gzip:   0.91 kB
+2026-10-17T10:46:06.9127815Z .output/server/_ssr/client-BxdFtTgA.mjs                                1.97 kB │ gzip:   0.94 kB
+2026-10-17T10:46:06.9129244Z .output/server/_ssr/virtual_pwa-register-BG3HAM5h.mjs                  2.30 kB │ gzip:   0.83 kB
+2026-10-17T10:46:06.9130750Z .output/server/_libs/lovable.dev__email-js.mjs                         2.62 kB │ gzip:   1.12 kB
+2026-10-17T10:46:06.9167674Z .output/server/_ssr/auth-middleware-BFa9aFrh.mjs                       2.75 kB │ gzip:   1.13 kB
+2026-10-17T10:46:06.9169018Z .output/server/_._lovable.oauth.consent-q6ttOl5B.mjs                   2.89 kB │ gzip:   1.16 kB
+2026-10-17T10:46:06.9170397Z .output/server/_tanstack-start-manifest_v-BU58htlG.mjs                 3.54 kB │ gzip:   1.01 kB
+2026-10-17T10:46:06.9171769Z .output/server/_libs/dijkstrajs.mjs                                    3.70 kB │ gzip:   1.54 kB
+2026-10-17T10:46:06.9172964Z .output/server/_libs/babel__runtime.mjs                                4.01 kB │ gzip:   1.38 kB
+2026-10-17T10:46:06.9174205Z .output/server/_ssr/onboarding-C978jXrI.mjs                            4.39 kB │ gzip:   1.68 kB
+2026-10-17T10:46:06.9175775Z .output/server/_libs/lovable.dev__cloud-auth-js.mjs                    6.68 kB │ gzip:   2.49 kB
+2026-10-17T10:46:06.9177172Z .output/server/_ssr/workbox-window.prod.es5-CkHxznpn.mjs               7.56 kB │ gzip:   2.69 kB
+2026-10-17T10:46:06.9178471Z .output/server/_libs/h3-v2+srvx.mjs                                    9.72 kB │ gzip:   3.01 kB
+2026-10-17T10:46:06.9179636Z .output/server/_ssr/ssr.mjs                                           11.31 kB │ gzip:   3.74 kB
+2026-10-17T10:46:06.9180789Z .output/server/_libs/fflate.mjs                                       11.88 kB │ gzip:   4.39 kB
+2026-10-17T10:46:06.9181978Z .output/server/_libs/supabase__functions-js.mjs                       12.35 kB │ gzip:   3.41 kB
+2026-10-17T10:46:06.9183516Z .output/server/_libs/tanstack__history.mjs                            12.50 kB │ gzip:   3.70 kB
+2026-10-17T10:46:06.9184791Z .output/server/_ssr/billing-Cql3cBHb.mjs                              12.96 kB │ gzip:   4.14 kB
+2026-10-17T10:46:06.9187793Z .output/server/_ssr/auth-DGflr66b.mjs                                 13.62 kB │ gzip:   3.92 kB
+2026-10-17T10:46:06.9189007Z .output/server/_libs/h3+rou3+srvx.mjs                                 14.21 kB │ gzip:   4.23 kB
+2026-10-17T10:46:06.9190578Z .output/server/_ssr/esm-B8uG0sol.mjs                                  14.96 kB │ gzip:   4.40 kB
+2026-10-17T10:46:06.9191802Z .output/server/_ssr/db-YxHOJQvJ.mjs                                   17.21 kB │ gzip:   3.58 kB
+2026-10-17T10:46:06.9192911Z .output/server/index.mjs                                              19.20 kB │ gzip:   5.39 kB
+2026-10-17T10:46:06.9194063Z .output/server/_ssr/guide-UAaiXopt.mjs                                22.79 kB │ gzip:   4.34 kB
+2026-10-17T10:46:06.9205952Z .output/server/_libs/react+tanstack__react-query.mjs                  24.08 kB │ gzip:   6.11 kB
+2026-10-17T10:46:06.9207343Z .output/server/_libs/lucide-react.mjs                                 25.81 kB │ gzip:   5.33 kB
+2026-10-17T10:46:06.9208601Z .output/server/_ssr/router-D_WVEK0b.mjs                               34.80 kB │ gzip:   9.20 kB
+2026-10-17T10:46:06.9209873Z .output/server/_libs/supabase__supabase-js.mjs                        36.07 kB │ gzip:  10.66 kB
+2026-10-17T10:46:06.9211282Z .output/server/_libs/@tanstack/router-core+[...].mjs                  39.01 kB │ gzip:   9.56 kB
+2026-10-17T10:46:06.9212587Z .output/server/_ssr/routes-BO8i03us.mjs                               43.59 kB │ gzip:   7.58 kB
+2026-10-17T10:46:06.9213880Z .output/server/_ssr/platform-admin-C0qBIe0f.mjs                       45.28 kB │ gzip:   7.29 kB
+2026-10-17T10:46:06.9215157Z .output/server/_libs/supabase__phoenix.mjs                            49.12 kB │ gzip:  12.36 kB
+2026-10-17T10:46:06.9223675Z .output/server/_libs/pngjs.mjs                                        56.29 kB │ gzip:  11.69 kB
+2026-10-17T10:46:06.9224890Z .output/server/_ssr/server-DXLkv2UU.mjs                               58.88 kB │ gzip:  15.32 kB
+2026-10-17T10:46:06.9226546Z .output/server/_libs/tanstack__query-core.mjs                         65.61 kB │ gzip:  13.85 kB
+2026-10-17T10:46:06.9227818Z .output/server/_libs/qrcode.mjs                                       76.88 kB │ gzip:  18.66 kB
+2026-10-17T10:46:06.9229116Z .output/server/_libs/supabase__realtime-js+unenv.mjs                  78.39 kB │ gzip:  20.05 kB
+2026-10-17T10:46:06.9230395Z .output/server/_libs/dompurify.mjs                                    84.39 kB │ gzip:  23.83 kB
+2026-10-17T10:46:06.9231619Z .output/server/_libs/supabase__postgrest-js.mjs                      105.41 kB │ gzip:  21.66 kB
+2026-10-17T10:46:06.9232826Z .output/server/_libs/zod.mjs                                         107.27 kB │ gzip:  20.91 kB
+2026-10-17T10:46:06.9234059Z .output/server/_libs/@supabase/storage-js+[...].mjs                  118.94 kB │ gzip:  22.11 kB
+2026-10-17T10:46:06.9235672Z .output/server/_libs/fast-png+iobuffer+pako.mjs                      142.92 kB │ gzip:  32.94 kB
+2026-10-17T10:46:06.9237046Z .output/server/_libs/paddle__paddle-node-sdk.mjs                     201.15 kB │ gzip:  26.10 kB
+2026-10-17T10:46:06.9238327Z .output/server/_ssr/app-BPUqBL6y.mjs                                 244.37 kB │ gzip:  44.88 kB
+2026-10-17T10:46:06.9239559Z .output/server/_libs/supabase__auth-js+tslib.mjs                     303.17 kB │ gzip:  60.63 kB
+2026-10-17T10:46:06.9240284Z .output/server/_libs/html2canvas.mjs                                 318.31 kB │ gzip:  63.05 kB
+2026-10-17T10:46:06.9240945Z .output/server/_libs/canvg+[...].mjs                                 323.84 kB │ gzip:  71.29 kB
+2026-10-17T10:46:06.9241573Z .output/server/_libs/jspdf.mjs                                       476.73 kB │ gzip: 124.10 kB
+2026-10-17T10:46:06.9242584Z .output/server/_libs/@tanstack/react-router+[...].mjs                752.40 kB │ gzip: 159.30 kB
+2026-10-17T10:46:06.9243941Z .output/server/_libs/@lovable.dev/mcp-js+[...].mjs                 1,151.02 kB │ gzip: 239.60 kB
+2026-10-17T10:46:06.9244612Z 
+2026-10-17T10:46:06.9244897Z [32m✓ built in 1.74s[39m
+2026-10-17T10:46:07.9476302Z 
+2026-10-17T10:46:07.9478524Z [33mwarnings
+2026-10-17T10:46:07.9479006Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:07.9515140Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:07.9516609Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:07.9545997Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:07.9547020Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:07.9566020Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:07.9566654Z   "globIgnores": [
+2026-10-17T10:46:07.9567028Z     "**/node_modules/**/*",
+2026-10-17T10:46:07.9567425Z     "sw.js",
+2026-10-17T10:46:07.9567789Z     "workbox-*.js"
+2026-10-17T10:46:07.9568133Z   ]
+2026-10-17T10:46:07.9568434Z }
+2026-10-17T10:46:07.9568812Z [39m
+2026-10-17T10:46:07.9569143Z files generated
+2026-10-17T10:46:07.9575827Z   [2mdist/sw.js[22m
+2026-10-17T10:46:07.9578268Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:07.9636678Z [info] [nitro] Using auto generated worker name: `naderalhaje097070-sudo-simple-store-aid`
+2026-10-17T10:46:07.9655885Z [info] Generated [36m.output/server/wrangler.json[39m
+2026-10-17T10:46:07.9667640Z [info] Generated [36m.wrangler/deploy/config.json[39m
+2026-10-17T10:46:07.9674374Z [info] Generated [36m.output/public/_headers[39m
+2026-10-17T10:46:07.9690374Z [info] Generated [36m.output/nitro.json[39m
+2026-10-17T10:46:07.9698826Z [success] [nitro] You can preview this build using `npx vite preview`
+2026-10-17T10:46:07.9699637Z [success] [nitro] You can deploy this build using `npx nitro deploy --prebuilt`
+2026-10-17T10:46:08.0741504Z ##[group]Run bun run build
+2026-10-17T10:46:08.0742044Z [36;1mbun run build[0m
+2026-10-17T10:46:08.0819634Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:46:08.0819905Z env:
+2026-10-17T10:46:08.0820185Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:08.0820649Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:46:08.0821091Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:08.0821487Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:08.0821893Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:08.0822302Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:46:08.0822647Z   MONGEZZ_DEPLOY_TARGET: ci
+2026-10-17T10:46:08.0822931Z   VITE_SUPABASE_URL: http://127.0.0.1:54321
+2026-10-17T10:46:08.0823302Z   VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+2026-10-17T10:46:08.0823691Z   VITE_SUPABASE_PROJECT_ID: quality-build
+2026-10-17T10:46:08.0823969Z ##[endgroup]
+2026-10-17T10:46:08.0954113Z $ vite build
+2026-10-17T10:46:09.7650569Z [33mThe plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the [1mresolve.tsconfigPaths[22m option. You can remove the plugin and set [1mresolve.tsconfigPaths: true[22m in your Vite config instead.[39m
+2026-10-17T10:46:10.2256797Z [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
+2026-10-17T10:46:10.2462737Z [2K
+2026-10-17T10:46:12.9878392Z [33m[plugin tanstack-start-core::server-fn:client] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:46:13.4325135Z transforming...✓ 2224 modules transformed.
+2026-10-17T10:46:13.5492986Z rendering chunks...
+2026-10-17T10:46:13.7740972Z computing gzip size...
+2026-10-17T10:46:13.7936454Z .output/public/assets/styles-BU_4IDtB.css                   106.19 kB │ gzip:  17.05 kB
+2026-10-17T10:46:13.7937992Z .output/public/assets/not-found-DIgawKw1.js                   0.05 kB │ gzip:   0.07 kB
+2026-10-17T10:46:13.7940439Z [33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+2026-10-17T10:46:13.7941829Z   - tanstack-start-core:import-protection-transform-cache (42%)
+2026-10-17T10:46:13.7942875Z   - vite-tsconfig-paths (39%)
+2026-10-17T10:46:13.7943665Z   - tanstack-start-core:import-protection (18%)
+2026-10-17T10:46:13.7944705Z See https://rolldown.rs/options/checks#plugintimings for more details.
+2026-10-17T10:46:13.7946352Z [39m
+2026-10-17T10:46:13.7947077Z [33m[plugin builtin:vite-reporter] 
+2026-10-17T10:46:13.7948083Z (!) Some chunks are larger than 500 kB after minification. Consider:
+2026-10-17T10:46:13.7949056Z - Using dynamic import() to code-split the application
+2026-10-17T10:46:13.7950515Z - Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+2026-10-17T10:46:13.7952396Z - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+2026-10-17T10:46:13.7954988Z .output/public/assets/html2canvas-DPDMYhss.js                 0.05 kB │ gzip:   0.07 kB
+2026-10-17T10:46:13.7956602Z .output/public/assets/arrow-left-D_POL03-.js                  0.16 kB │ gzip:   0.16 kB
+2026-10-17T10:46:13.7957868Z .output/public/assets/useRouter-taNZoCdo.js                   0.17 kB │ gzip:   0.15 kB
+2026-10-17T10:46:13.7959176Z .output/public/assets/matchContext-C7c66U70.js                0.18 kB │ gzip:   0.15 kB
+2026-10-17T10:46:13.7960412Z .output/public/assets/typeof-B5XbjTb1.js                      0.27 kB │ gzip:   0.16 kB
+2026-10-17T10:46:13.7968470Z .output/public/assets/_._lovable.oauth.consent-D5KX02Fx.js    0.36 kB │ gzip:   0.29 kB
+2026-10-17T10:46:13.7969658Z .output/public/assets/jsx-runtime-DsKLSDJq.js                 0.42 kB │ gzip:   0.29 kB
+2026-10-17T10:46:13.7971090Z .output/public/assets/invariant-CgFvOqN2.js                   0.45 kB │ gzip:   0.28 kB
+2026-10-17T10:46:13.7972354Z .output/public/assets/sparkles-CKpZVJuT.js                    0.49 kB │ gzip:   0.28 kB
+2026-10-17T10:46:13.7973600Z .output/public/assets/chunk-QTnfLwEv.js                       0.69 kB │ gzip:   0.42 kB
+2026-10-17T10:46:13.7974781Z .output/public/assets/app-DKZseGew.js                         0.93 kB │ gzip:   0.55 kB
+2026-10-17T10:46:13.7981663Z .output/public/assets/route-CLDP4bhn.js                       1.03 kB │ gzip:   0.62 kB
+2026-10-17T10:46:13.7982849Z .output/public/assets/virtual_pwa-register-B8IV-JXw.js        1.13 kB │ gzip:   0.60 kB
+2026-10-17T10:46:13.7984092Z .output/public/assets/preload-helper-zJ_50EbN.js              1.19 kB │ gzip:   0.68 kB
+2026-10-17T10:46:13.7985609Z .output/public/assets/createLucideIcon-CJP-tiyj.js            1.21 kB │ gzip:   0.70 kB
+2026-10-17T10:46:13.7986875Z .output/public/assets/pwa-register-DwekqpFs.js                1.32 kB │ gzip:   0.63 kB
+2026-10-17T10:46:13.7988134Z .output/public/assets/_._lovable.oauth.consent-DUdUxSVT.js    1.66 kB │ gzip:   0.90 kB
+2026-10-17T10:46:13.7989298Z .output/public/assets/x-DkWJGFpE.js                           1.91 kB │ gzip:   0.83 kB
+2026-10-17T10:46:13.7990515Z .output/public/assets/useSelector-BarC7cIn.js                 2.16 kB │ gzip:   0.95 kB
+2026-10-17T10:46:13.7991729Z .output/public/assets/onboarding-D0YucD9_.js                  2.61 kB │ gzip:   1.31 kB
+2026-10-17T10:46:13.7992970Z .output/public/assets/workbox-window.prod.es5-Bd17z0YL.js     5.65 kB │ gzip:   2.20 kB
+2026-10-17T10:46:13.7994233Z .output/public/assets/react-xd4aoMiW.js                       7.52 kB │ gzip:   2.87 kB
+2026-10-17T10:46:13.8005941Z .output/public/assets/link-DepuAy0Q.js                        9.34 kB │ gzip:   4.30 kB
+2026-10-17T10:46:13.8007237Z .output/public/assets/auth-BpmW1Ppx.js                       11.85 kB │ gzip:   4.82 kB
+2026-10-17T10:46:13.8008420Z .output/public/assets/billing-B0zuW87U.js                    12.50 kB │ gzip:   5.16 kB
+2026-10-17T10:46:13.8009626Z .output/public/assets/guide-CFoYQQew.js                      13.73 kB │ gzip:   3.75 kB
+2026-10-17T10:46:13.8010860Z .output/public/assets/db-DfWQcQzO.js                         22.92 kB │ gzip:   6.86 kB
+2026-10-17T10:46:13.8012122Z .output/public/assets/platform-admin-C6Z6bAXe.js             25.95 kB │ gzip:   5.85 kB
+2026-10-17T10:46:13.8013392Z .output/public/assets/purify.es-B8BSsnM1.js                  28.07 kB │ gzip:  11.08 kB
+2026-10-17T10:46:13.8014573Z .output/public/assets/routes-C3pF5BiB.js                     28.82 kB │ gzip:   6.50 kB
+2026-10-17T10:46:13.8016357Z .output/public/assets/index.es-CW48MJ1v.js                  151.41 kB │ gzip:  48.89 kB
+2026-10-17T10:46:13.8017579Z .output/public/assets/client-DRGnLZvY.js                    204.24 kB │ gzip:  52.34 kB
+2026-10-17T10:46:13.8018825Z .output/public/assets/index-DyPaWEJU.js                     325.72 kB │ gzip: 103.71 kB
+2026-10-17T10:46:13.8020036Z .output/public/assets/app-XAc_vbXE.js                       772.45 kB │ gzip: 220.35 kB
+2026-10-17T10:46:13.8020688Z 
+2026-10-17T10:46:13.8020966Z [32m✓ built in 3.57s[39m
+2026-10-17T10:46:15.9899509Z 
+2026-10-17T10:46:15.9900545Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:15.9901383Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:15.9902262Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:15.9903503Z files generated
+2026-10-17T10:46:15.9904100Z [33mwarnings
+2026-10-17T10:46:15.9904547Z   [2mdist/sw.js[22m
+2026-10-17T10:46:15.9905634Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:15.9937773Z [36mvite v8.0.16 [32mbuilding ssr environment for production...[36m[39m
+2026-10-17T10:46:15.9943704Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:15.9944999Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:15.9946696Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:15.9947802Z   "globIgnores": [
+2026-10-17T10:46:15.9948839Z     "**/node_modules/**/*",
+2026-10-17T10:46:15.9949561Z     "sw.js",
+2026-10-17T10:46:15.9950176Z     "workbox-*.js"
+2026-10-17T10:46:15.9950790Z   ]
+2026-10-17T10:46:15.9951360Z }
+2026-10-17T10:46:15.9951985Z [39m
+2026-10-17T10:46:16.0209968Z [2K
+2026-10-17T10:46:16.0728341Z [33m[plugin tanstack-start-core::server-fn:ssr] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts?tss-serverfn-split:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:46:17.9736841Z [33m[plugin tanstack-start-core::server-fn:ssr] /home/runner/work/simple-store-aid/simple-store-aid/src/utils/payments.functions.ts:5:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+2026-10-17T10:46:17.9891653Z transforming...✓ 136 modules transformed.
+2026-10-17T10:46:18.0181106Z rendering chunks...
+2026-10-17T10:46:18.0445526Z computing gzip size...
+2026-10-17T10:46:18.0507072Z node_modules/.nitro/vite/services/ssr/assets/styles-BU_4IDtB.css                                106.19 kB │ gzip: 17.05 kB
+2026-10-17T10:46:18.0509074Z node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-D9UWiqvJ.js                    0.22 kB │ gzip:  0.16 kB
+2026-10-17T10:46:18.0511045Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-DS_MDyUZ.js                 0.54 kB │ gzip:  0.38 kB
+2026-10-17T10:46:18.0512983Z node_modules/.nitro/vite/services/ssr/assets/auth-wzRVNVRJ.js                                     0.78 kB │ gzip:  0.50 kB
+2026-10-17T10:46:18.0516040Z node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-DAGxUOcY.js    0.79 kB │ gzip:  0.43 kB
+2026-10-17T10:46:18.0517906Z node_modules/.nitro/vite/services/ssr/assets/useTheme-11HVCO0w.js                                 0.98 kB │ gzip:  0.50 kB
+2026-10-17T10:46:18.0523775Z node_modules/.nitro/vite/services/ssr/assets/start-CB3Y5MrY.js                                    1.16 kB │ gzip:  0.61 kB
+2026-10-17T10:46:18.0525947Z node_modules/.nitro/vite/services/ssr/assets/app-CM8H2GxL.js                                      1.32 kB │ gzip:  0.66 kB
+2026-10-17T10:46:18.0527856Z node_modules/.nitro/vite/services/ssr/assets/payments.functions-DKJYDotv.js                       1.33 kB │ gzip:  0.70 kB
+2026-10-17T10:46:18.0529753Z node_modules/.nitro/vite/services/ssr/assets/pwa-register-B1ZRVBaA.js                             1.47 kB │ gzip:  0.63 kB
+2026-10-17T10:46:18.0531631Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-DUC7mZX0.js                 1.61 kB │ gzip:  0.70 kB
+2026-10-17T10:46:18.0533951Z node_modules/.nitro/vite/services/ssr/assets/paddle.server-DUFMhm_W.js                            1.63 kB │ gzip:  0.73 kB
+2026-10-17T10:46:18.0536171Z node_modules/.nitro/vite/services/ssr/assets/route-JspE79PB.js                                    1.63 kB │ gzip:  0.79 kB
+2026-10-17T10:46:18.0538094Z node_modules/.nitro/vite/services/ssr/assets/createStart-Dt05N14y.js                              1.65 kB │ gzip:  0.57 kB
+2026-10-17T10:46:18.0540002Z node_modules/.nitro/vite/services/ssr/assets/client-CMXrU3Yq.js                                   1.79 kB │ gzip:  0.87 kB
+2026-10-17T10:46:18.0541899Z node_modules/.nitro/vite/services/ssr/assets/virtual_pwa-register-BG3HAM5h.js                     2.27 kB │ gzip:  0.80 kB
+2026-10-17T10:46:18.0543913Z node_modules/.nitro/vite/services/ssr/assets/_._lovable.oauth.consent-DsJEGSg4.js                 2.46 kB │ gzip:  1.07 kB
+2026-10-17T10:46:18.0546187Z node_modules/.nitro/vite/services/ssr/assets/auth-middleware-BFa9aFrh.js                          2.64 kB │ gzip:  1.08 kB
+2026-10-17T10:46:18.0548274Z node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bj9D0m15.js               3.48 kB │ gzip:  0.98 kB
+2026-10-17T10:46:18.0550299Z node_modules/.nitro/vite/services/ssr/assets/onboarding-Cf6Emhj0.js                               3.83 kB │ gzip:  1.57 kB
+2026-10-17T10:46:18.0552548Z node_modules/.nitro/vite/services/ssr/assets/workbox-window.prod.es5-CkHxznpn.js                  7.40 kB │ gzip:  2.60 kB
+2026-10-17T10:46:18.0554446Z node_modules/.nitro/vite/services/ssr/index.js                                                   11.36 kB │ gzip:  3.72 kB
+2026-10-17T10:46:18.0556606Z node_modules/.nitro/vite/services/ssr/assets/billing-PXYvpzjm.js                                 11.89 kB │ gzip:  4.08 kB
+2026-10-17T10:46:18.0558490Z node_modules/.nitro/vite/services/ssr/assets/auth-Bxd2SJMq.js                                    12.28 kB │ gzip:  3.81 kB
+2026-10-17T10:46:18.0560944Z node_modules/.nitro/vite/services/ssr/assets/esm-B8uG0sol.js                                     15.70 kB │ gzip:  4.44 kB
+2026-10-17T10:46:18.0562789Z node_modules/.nitro/vite/services/ssr/assets/db-Ckqd1cBE.js                                      17.13 kB │ gzip:  3.52 kB
+2026-10-17T10:46:18.0564760Z node_modules/.nitro/vite/services/ssr/assets/guide-UAaiXopt.js                                   19.34 kB │ gzip:  4.21 kB
+2026-10-17T10:46:18.0566942Z node_modules/.nitro/vite/services/ssr/assets/router-qMj0-INy.js                                  34.88 kB │ gzip:  9.16 kB
+2026-10-17T10:46:18.0568688Z node_modules/.nitro/vite/services/ssr/assets/routes-1qeeGAlJ.js                                  37.39 kB │ gzip:  7.28 kB
+2026-10-17T10:46:18.0570617Z node_modules/.nitro/vite/services/ssr/assets/platform-admin-CItPF_T4.js                          38.41 kB │ gzip:  7.07 kB
+2026-10-17T10:46:18.0572526Z node_modules/.nitro/vite/services/ssr/assets/server-BFeGSEtU.js                                  59.77 kB │ gzip: 15.37 kB
+2026-10-17T10:46:18.0574352Z node_modules/.nitro/vite/services/ssr/assets/app-Daio0u4-.js                                    217.86 kB │ gzip: 43.93 kB
+2026-10-17T10:46:18.0576166Z 
+2026-10-17T10:46:18.0576767Z [32m✓ built in 2.06s[39m
+2026-10-17T10:46:19.2545645Z [33mwarnings
+2026-10-17T10:46:19.2545947Z 
+2026-10-17T10:46:19.2546509Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:19.2547367Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:19.2548335Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:19.2549116Z files generated
+2026-10-17T10:46:19.2549838Z   [2mdist/sw.js[22m
+2026-10-17T10:46:19.2550548Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:19.2562038Z [start] [nitro] Building [[35mNitro[39m] [2m(preset: `cloudflare-module`, compatibility: `2026-10-17`)[22m
+2026-10-17T10:46:19.2571977Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:19.2606467Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:19.2608195Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:19.2609142Z   "globIgnores": [
+2026-10-17T10:46:19.2609843Z     "**/node_modules/**/*",
+2026-10-17T10:46:19.2610500Z     "sw.js",
+2026-10-17T10:46:19.2611115Z     "workbox-*.js"
+2026-10-17T10:46:19.2611752Z   ]
+2026-10-17T10:46:19.2612331Z }
+2026-10-17T10:46:19.2613055Z [39m
+2026-10-17T10:46:19.2746433Z [success] [nitro] Generated public [36m.output/public[39m
+2026-10-17T10:46:19.2766266Z [36mvite v8.0.16 [32mbuilding nitro environment for production...[36m[39m
+2026-10-17T10:46:19.2792872Z [warn] `inlineDynamicImports` option is ignored because the `codeSplitting` option is specified.
+2026-10-17T10:46:19.2949165Z [2K
+2026-10-17T10:46:20.4210460Z transforming...✓ 3520 modules transformed.
+2026-10-17T10:46:20.7189749Z rendering chunks...
+2026-10-17T10:46:20.9503066Z computing gzip size...
+2026-10-17T10:46:21.0009444Z .output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs                 0.23 kB │ gzip:   0.16 kB
+2026-10-17T10:46:21.0010865Z .output/server/_chunks/ssr-renderer.mjs                                0.60 kB │ gzip:   0.36 kB
+2026-10-17T10:46:21.0012060Z .output/server/_._lovable.oauth.consent-DS_MDyUZ.mjs                   0.69 kB │ gzip:   0.45 kB
+2026-10-17T10:46:21.0013212Z .output/server/_ssr/auth-wzRVNVRJ.mjs                                  0.85 kB │ gzip:   0.55 kB
+2026-10-17T10:46:21.0014333Z .output/server/__23tanstack-start-server-fn-resolver-DAGxUOcY.mjs      0.85 kB │ gzip:   0.47 kB
+2026-10-17T10:46:21.0015062Z .output/server/_ssr/start-CB3Y5MrY.mjs                                 1.14 kB │ gzip:   0.62 kB
+2026-10-17T10:46:21.0016045Z .output/server/_libs/hookable.mjs                                      1.16 kB │ gzip:   0.51 kB
+2026-10-17T10:46:21.0016687Z .output/server/_ssr/useTheme-11HVCO0w.mjs                              1.22 kB │ gzip:   0.62 kB
+2026-10-17T10:46:21.0017355Z .output/server/_ssr/payments.functions-DKJYDotv.mjs                    1.26 kB │ gzip:   0.69 kB
+2026-10-17T10:46:21.0018045Z .output/server/_ssr/pwa-register-B1ZRVBaA.mjs                          1.52 kB │ gzip:   0.66 kB
+2026-10-17T10:46:21.0018735Z .output/server/_ssr/createStart-Dt05N14y.mjs                           1.56 kB │ gzip:   0.57 kB
+2026-10-17T10:46:21.0019408Z .output/server/_ssr/app-CM8H2GxL.mjs                                   1.57 kB │ gzip:   0.73 kB
+2026-10-17T10:46:21.0020115Z .output/server/_._lovable.oauth.consent-DUC7mZX0.mjs                   1.62 kB │ gzip:   0.73 kB
+2026-10-17T10:46:21.0020813Z .output/server/_ssr/paddle.server-DUFMhm_W.mjs                         1.70 kB │ gzip:   0.77 kB
+2026-10-17T10:46:21.0021440Z .output/server/_runtime.mjs                                            1.80 kB │ gzip:   0.82 kB
+2026-10-17T10:46:21.0022040Z .output/server/_ssr/route-JspE79PB.mjs                                 1.94 kB │ gzip:   0.91 kB
+2026-10-17T10:46:21.0022672Z .output/server/_ssr/client-CMXrU3Yq.mjs                                1.97 kB │ gzip:   0.94 kB
+2026-10-17T10:46:21.0023351Z .output/server/_ssr/virtual_pwa-register-BG3HAM5h.mjs                  2.30 kB │ gzip:   0.83 kB
+2026-10-17T10:46:21.0024023Z .output/server/_libs/lovable.dev__email-js.mjs                         2.62 kB │ gzip:   1.12 kB
+2026-10-17T10:46:21.0024691Z .output/server/_ssr/auth-middleware-BFa9aFrh.mjs                       2.73 kB │ gzip:   1.13 kB
+2026-10-17T10:46:21.0026015Z .output/server/_._lovable.oauth.consent-DsJEGSg4.mjs                   2.89 kB │ gzip:   1.17 kB
+2026-10-17T10:46:21.0027322Z .output/server/_tanstack-start-manifest_v-Bj9D0m15.mjs                 3.54 kB │ gzip:   1.02 kB
+2026-10-17T10:46:21.0028519Z .output/server/_libs/dijkstrajs.mjs                                    3.70 kB │ gzip:   1.54 kB
+2026-10-17T10:46:21.0029696Z .output/server/_libs/babel__runtime.mjs                                4.01 kB │ gzip:   1.38 kB
+2026-10-17T10:46:21.0030910Z .output/server/_ssr/onboarding-Cf6Emhj0.mjs                            4.39 kB │ gzip:   1.68 kB
+2026-10-17T10:46:21.0032175Z .output/server/_libs/lovable.dev__cloud-auth-js.mjs                    6.68 kB │ gzip:   2.49 kB
+2026-10-17T10:46:21.0033815Z .output/server/_ssr/workbox-window.prod.es5-CkHxznpn.mjs               7.56 kB │ gzip:   2.69 kB
+2026-10-17T10:46:21.0035057Z .output/server/_libs/h3-v2+srvx.mjs                                    9.72 kB │ gzip:   3.01 kB
+2026-10-17T10:46:21.0036441Z .output/server/_ssr/ssr.mjs                                           11.28 kB │ gzip:   3.73 kB
+2026-10-17T10:46:21.0037532Z .output/server/_libs/fflate.mjs                                       11.88 kB │ gzip:   4.39 kB
+2026-10-17T10:46:21.0038642Z .output/server/_libs/supabase__functions-js.mjs                       12.35 kB │ gzip:   3.41 kB
+2026-10-17T10:46:21.0039824Z .output/server/_libs/tanstack__history.mjs                            12.50 kB │ gzip:   3.70 kB
+2026-10-17T10:46:21.0041565Z .output/server/_ssr/billing-PXYvpzjm.mjs                              12.96 kB │ gzip:   4.13 kB
+2026-10-17T10:46:21.0042381Z .output/server/_ssr/auth-Bxd2SJMq.mjs                                 13.62 kB │ gzip:   3.93 kB
+2026-10-17T10:46:21.0043030Z .output/server/_libs/h3+rou3+srvx.mjs                                 14.21 kB │ gzip:   4.23 kB
+2026-10-17T10:46:21.0043650Z .output/server/_ssr/esm-B8uG0sol.mjs                                  14.96 kB │ gzip:   4.40 kB
+2026-10-17T10:46:21.0044488Z .output/server/_ssr/db-Ckqd1cBE.mjs                                   17.21 kB │ gzip:   3.58 kB
+2026-10-17T10:46:21.0045105Z .output/server/index.mjs                                              19.20 kB │ gzip:   5.39 kB
+2026-10-17T10:46:21.0046040Z .output/server/_ssr/guide-UAaiXopt.mjs                                22.79 kB │ gzip:   4.34 kB
+2026-10-17T10:46:21.0046715Z .output/server/_libs/react+tanstack__react-query.mjs                  24.06 kB │ gzip:   6.11 kB
+2026-10-17T10:46:21.0047363Z .output/server/_libs/lucide-react.mjs                                 25.81 kB │ gzip:   5.33 kB
+2026-10-17T10:46:21.0047986Z .output/server/_ssr/router-qMj0-INy.mjs                               34.71 kB │ gzip:   9.19 kB
+2026-10-17T10:46:21.0048646Z .output/server/_libs/supabase__supabase-js.mjs                        36.07 kB │ gzip:  10.66 kB
+2026-10-17T10:46:21.0049304Z .output/server/_libs/@tanstack/router-core+[...].mjs                  39.01 kB │ gzip:   9.56 kB
+2026-10-17T10:46:21.0049948Z .output/server/_ssr/routes-1qeeGAlJ.mjs                               43.59 kB │ gzip:   7.58 kB
+2026-10-17T10:46:21.0050598Z .output/server/_ssr/platform-admin-CItPF_T4.mjs                       45.28 kB │ gzip:   7.29 kB
+2026-10-17T10:46:21.0051250Z .output/server/_libs/supabase__phoenix.mjs                            49.12 kB │ gzip:  12.36 kB
+2026-10-17T10:46:21.0051857Z .output/server/_libs/pngjs.mjs                                        56.27 kB │ gzip:  11.69 kB
+2026-10-17T10:46:21.0052461Z .output/server/_ssr/server-BFeGSEtU.mjs                               58.86 kB │ gzip:  15.31 kB
+2026-10-17T10:46:21.0053101Z .output/server/_libs/tanstack__query-core.mjs                         65.61 kB │ gzip:  13.85 kB
+2026-10-17T10:46:21.0053723Z .output/server/_libs/qrcode.mjs                                       76.88 kB │ gzip:  18.66 kB
+2026-10-17T10:46:21.0054355Z .output/server/_libs/supabase__realtime-js+unenv.mjs                  78.39 kB │ gzip:  20.05 kB
+2026-10-17T10:46:21.0055013Z .output/server/_libs/dompurify.mjs                                    84.39 kB │ gzip:  23.83 kB
+2026-10-17T10:46:21.0059388Z .output/server/_libs/supabase__postgrest-js.mjs                      105.41 kB │ gzip:  21.66 kB
+2026-10-17T10:46:21.0060534Z .output/server/_libs/zod.mjs                                         107.27 kB │ gzip:  20.91 kB
+2026-10-17T10:46:21.0061657Z .output/server/_libs/@supabase/storage-js+[...].mjs                  118.94 kB │ gzip:  22.11 kB
+2026-10-17T10:46:21.0062918Z .output/server/_libs/fast-png+iobuffer+pako.mjs                      142.92 kB │ gzip:  32.94 kB
+2026-10-17T10:46:21.0063903Z .output/server/_libs/paddle__paddle-node-sdk.mjs                     201.15 kB │ gzip:  26.10 kB
+2026-10-17T10:46:21.0064829Z .output/server/_ssr/app-Daio0u4-.mjs                                 244.37 kB │ gzip:  44.88 kB
+2026-10-17T10:46:21.0065668Z .output/server/_libs/supabase__auth-js+tslib.mjs                     303.17 kB │ gzip:  60.63 kB
+2026-10-17T10:46:21.0066335Z .output/server/_libs/html2canvas.mjs                                 318.31 kB │ gzip:  63.05 kB
+2026-10-17T10:46:21.0066955Z .output/server/_libs/canvg+[...].mjs                                 323.80 kB │ gzip:  71.28 kB
+2026-10-17T10:46:21.0067540Z .output/server/_libs/jspdf.mjs                                       476.73 kB │ gzip: 124.10 kB
+2026-10-17T10:46:21.0068167Z .output/server/_libs/@tanstack/react-router+[...].mjs                752.40 kB │ gzip: 159.30 kB
+2026-10-17T10:46:21.0068822Z .output/server/_libs/@lovable.dev/mcp-js+[...].mjs                 1,150.99 kB │ gzip: 239.59 kB
+2026-10-17T10:46:21.0069166Z 
+2026-10-17T10:46:21.0069335Z [32m✓ built in 1.73s[39m
+2026-10-17T10:46:22.0631365Z [33mwarnings
+2026-10-17T10:46:22.0631592Z 
+2026-10-17T10:46:22.0632082Z [36mPWA v1.3.0[39m
+2026-10-17T10:46:22.0632664Z mode      [35mgenerateSW[39m
+2026-10-17T10:46:22.0651330Z   One of the glob patterns doesn't match any files. Please remove or fix the following: {
+2026-10-17T10:46:22.0652285Z precache  [32m0 entries[39m [2m(0.00 KiB)[22m
+2026-10-17T10:46:22.0653363Z   "globDirectory": "/home/runner/work/simple-store-aid/simple-store-aid/dist",
+2026-10-17T10:46:22.0654003Z files generated
+2026-10-17T10:46:22.0654427Z   [2mdist/sw.js[22m
+2026-10-17T10:46:22.0655014Z   [2mdist/workbox-d0f0e45d.js[22m
+2026-10-17T10:46:22.0673439Z   "globPattern": "**/*.{js,css,woff2,woff,ttf,png,svg,ico,webp}",
+2026-10-17T10:46:22.0676028Z   "globIgnores": [
+2026-10-17T10:46:22.0676735Z     "**/node_modules/**/*",
+2026-10-17T10:46:22.0677387Z     "sw.js",
+2026-10-17T10:46:22.0677930Z     "workbox-*.js"
+2026-10-17T10:46:22.0678497Z   ]
+2026-10-17T10:46:22.0678996Z }
+2026-10-17T10:46:22.0679620Z [39m
+2026-10-17T10:46:22.0716130Z [info] [nitro] Using auto generated worker name: `naderalhaje097070-sudo-simple-store-aid`
+2026-10-17T10:46:22.0725542Z [info] Generated [36m.output/server/wrangler.json[39m
+2026-10-17T10:46:22.0736062Z [info] Generated [36m.wrangler/deploy/config.json[39m
+2026-10-17T10:46:22.0740157Z [info] Generated [36m.output/public/_headers[39m
+2026-10-17T10:46:22.0756484Z [info] Generated [36m.output/nitro.json[39m
+2026-10-17T10:46:22.0761578Z [success] [nitro] You can preview this build using `npx vite preview`
+2026-10-17T10:46:22.0763362Z [success] [nitro] You can deploy this build using `npx nitro deploy --prebuilt`
+2026-10-17T10:46:22.1849709Z ##[group]Run git diff --exit-code --
+2026-10-17T10:46:22.1850364Z [36;1mgit diff --exit-code --[0m
+2026-10-17T10:46:22.1917868Z shell: /usr/bin/bash -e {0}
+2026-10-17T10:46:22.1918138Z env:
+2026-10-17T10:46:22.1918435Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.1918902Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:46:22.1919358Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.1919757Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.1920158Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.1920564Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:46:22.1920896Z ##[endgroup]
+2026-10-17T10:46:22.2396290Z ##[group]Run actions/upload-artifact@v4
+2026-10-17T10:46:22.2396620Z with:
+2026-10-17T10:46:22.2396837Z   name: quality-diagnostics
+2026-10-17T10:46:22.2397125Z   path: /tmp/lint-files.txt
+/tmp/lint.log
+
+2026-10-17T10:46:22.2397443Z   if-no-files-found: warn
+2026-10-17T10:46:22.2397692Z   compression-level: 6
+2026-10-17T10:46:22.2397923Z   overwrite: false
+2026-10-17T10:46:22.2398146Z   include-hidden-files: false
+2026-10-17T10:46:22.2398399Z env:
+2026-10-17T10:46:22.2398664Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.2399285Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-17T10:46:22.2399719Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.2400114Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.2400513Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-17T10:46:22.2400953Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-17T10:46:22.2401324Z ##[endgroup]
+2026-10-17T10:46:22.4266369Z (node:3407) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-17T10:46:22.4276126Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-17T10:46:22.4407764Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-17T10:46:22.4458374Z The least common ancestor is /tmp. This will be the root directory of the artifact
+2026-10-17T10:46:22.4474919Z With the provided path, there will be 2 files uploaded
+2026-10-17T10:46:22.4502038Z Artifact name is valid!
+2026-10-17T10:46:22.4525769Z Root directory input is valid!
+2026-10-17T10:46:22.6774363Z Beginning upload of artifact content to blob storage
+2026-10-17T10:46:22.6992695Z (node:3407) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-17T10:46:22.7287860Z Uploaded bytes 327
+2026-10-17T10:46:22.7459910Z Finished uploading artifact content to blob storage!
+2026-10-17T10:46:22.7461262Z SHA256 digest of uploaded artifact zip is d7d487ead1089d8279e95d9a3f643fd2f3390832b33cc966479c2c1e8e70bd1c
+2026-10-17T10:46:22.7462670Z Finalizing artifact upload
+2026-10-17T10:46:22.9636483Z Artifact quality-diagnostics.zip successfully finalized. Artifact ID 12098741179
+2026-10-17T10:46:22.9638161Z Artifact quality-diagnostics has been successfully uploaded! Final size is 327 bytes. Artifact ID is 12098741179
+2026-10-17T10:46:22.9645548Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39026056460/artifacts/12098741179
+2026-10-17T10:46:22.9826055Z Post job cleanup.
+2026-10-17T10:46:23.1082739Z (node:3419) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-17T10:46:23.1084382Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-17T10:46:23.1290688Z Post job cleanup.
+2026-10-17T10:46:23.3731186Z Post job cleanup.
+2026-10-17T10:46:23.4937540Z [command]/usr/bin/git version
+2026-10-17T10:46:23.4991383Z git version 2.55.0
+2026-10-17T10:46:23.5067132Z Temporarily overriding HOME='/home/runner/work/_temp/9462ecf6-50c6-416c-bc82-a53de26e7b41' before making global git config changes
+2026-10-17T10:46:23.5071308Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-17T10:46:23.5072682Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-17T10:46:23.5126721Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-17T10:46:23.5194763Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-17T10:46:23.5593879Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-17T10:46:23.5624715Z http.https://github.com/.extraheader
+2026-10-17T10:46:23.5642413Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-17T10:46:23.5710773Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-17T10:46:23.6151111Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-17T10:46:23.6199433Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-17T10:46:23.6829588Z Cleaning up orphan processes
+2026-10-17T10:46:23.7112270Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

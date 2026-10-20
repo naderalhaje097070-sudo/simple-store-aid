@@ -1,0 +1,23 @@
+{
+  "batch": "G1-CLI-CLEANUP-01",
+  "baseline_head": "f2e54d33233ac4ddfa51782b7c1a2534f441eed8",
+  "candidate_runtime_sha": "d4eeee0d6c392ce19fb0eeac1b69a0d4a9832ddb",
+  "cleanup_test_cases": 6,
+  "cleanup_result": "pass",
+  "existing_contract_cases": 17,
+  "existing_contract_result": "pass",
+  "real_pgrep_current_uid": {
+    "state": "processes_remaining",
+    "removed": false
+  },
+  "real_pgrep_unused_uid": {
+    "state": "no_processes",
+    "removed": true
+  },
+  "old_absent_username_pgrep_exit": 2,
+  "official_source_sha256": "9ab8da10c0e6ac30dc793094383b973604e95598ccd6c81a05a83a3d1a55cd68",
+  "instrumentation_markers": 12,
+  "altered_source_checksum_rejected": true,
+  "ast_yaml_identity_diff_checks": "pass",
+  "application_database_browser_executed_locally": false
+}

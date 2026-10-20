@@ -1,0 +1,77 @@
+{
+  "diagnostic_source": "e3be246eb2499c0cc509ab6860301ea9a22e02db",
+  "run": 38708299333,
+  "runtime_job": 116333095995,
+  "environment_job": 116333096274,
+  "quality_run": 38708305619,
+  "artifact_id": 11960021290,
+  "archive_sha256": "2449f73f033ebda6e8c0ebe71fb2c541b1d2d9f7bbacb7fc4952c1a810715ecd",
+  "files": {
+    "diagnostic-identity.json": "50ec3da416e4a40a3c247861587cb3b8e24cfc7c203a1b5a3fa8f680ad3182df",
+    "diagnostic-runtime-failure.json": "9f8555d3c00f41e792f75e63b4af2cb94b31d5ac737f271bf48abcfd0fdadcac",
+    "diagnostic-egress-matching.json": "48e9658f600f2efc1cb7a2bda6d89f13f25e3247b5e6b58100b85a209929b7a8",
+    "diagnostic-cleanup.json": "2af825cf944bcb4724d7cf6340e2f4e8dde79de75832a89689f6f5e109b298c3",
+    "diagnostic-runtime-progress.json": "76996b2bc862e8b019a15b0cda877351ff108fbd0e87486f8fc3c83682e8ee96",
+    "diagnostic-frozen.json": "bce993b4fd01959f082f092dd7501eb96fb6ead447580903a36cd6f282d8a588",
+    "diagnostic-egress-conflict.json": "5cd27ff804460ea7d074eec9081a03e72467006bd1a4a2bb2bd28e1718866a1e",
+    "diagnostic-cli-installer.json": "ff665c27f46278b775bffb9456511230e3d164ff4746af97e8d5ddceea9ae857"
+  },
+  "precredential_failures": [
+    {
+      "source": "87c5d97283685fa346d19559a61d8091fba3b4b6",
+      "run": 38741656393,
+      "job": 116444626626,
+      "failure": "actual-vendor fixture generic FAIL before credentials; runtime not executed",
+      "artifact": 11976058635
+    },
+    {
+      "source": "251d608684093ab2c7d7a06aadc8eff6f4bf3297",
+      "run": 38742012852,
+      "job": 116445843504,
+      "failure": "actual-vendor fixture ReferenceError dim2 is not defined, baseline case; before credentials; runtime not executed",
+      "artifact": 11976143864
+    }
+  ],
+  "precredential_archives": {
+    "precredential-11975748213.zip": "9a17c4ead1d05812ec1144a47eedb58fd07b0caa18444b633cc65297d70d7249",
+    "precredential-11976143864.zip": "1e42ffbde867721de35c859048f82e6cbc3f5c42af5f27b3e8ed96315c6ae248",
+    "precredential-11976058635.zip": "6e520e8ffa302b97a9e9a5d042e57b9f14c8c65e95f012fc549ce317ba7ef586"
+  },
+  "corrected": {
+    "source": "dbc870fcc278781b650860273ac4e1116f629f85",
+    "run": 38742289056,
+    "runtime_job": 116446791417,
+    "environment_job": 116446791036,
+    "quality_run": 38742298220,
+    "quality_job": 116446823747,
+    "quality_synthetic": "e4f8e1fa7f4edcc484d52eadf3bd23c09d405455",
+    "quality_tree_equal": true,
+    "runtime_checks": 40,
+    "runtime_passed": 40,
+    "archives": {
+      "corrected-11975579508.zip": "5b0fbb4b6f3f77e8412cb38f3fe14790c03af6f92d152f300b77f3e881ccd704",
+      "corrected-11977205340.zip": "038c71a72b94f451316cfd6d15144856f748645d14d149a2239db0f7b3f2c3d2"
+    }
+  },
+  "json_sha256": {
+    "installed-vendor-fixture.json": "f5d2d071d1e3b186b456e8e9dc5354a3c5dc6a20bda1ed56198cddffe76ae29e",
+    "diagnostic-identity.json": "50ec3da416e4a40a3c247861587cb3b8e24cfc7c203a1b5a3fa8f680ad3182df",
+    "diagnostic-runtime-failure.json": "9f8555d3c00f41e792f75e63b4af2cb94b31d5ac737f271bf48abcfd0fdadcac",
+    "diagnostic-egress-matching.json": "48e9658f600f2efc1cb7a2bda6d89f13f25e3247b5e6b58100b85a209929b7a8",
+    "corrected-runtime-result.json": "cccf89483e3231fd6a03ca46d18dbcca59110fb0024c828013ece5222e6aeea2",
+    "corrected-environment-identity.json": "c6d97fd30b29c56a108147159cb9832cc9b5c31d0f49ffa434b49fb4c3e93814",
+    "corrected-cli-installer.json": "8d6e4490c08ff10198d92faafcb8dfdf0f825c317005528044138b092cd83146",
+    "corrected-runtime-progress.json": "cccf89483e3231fd6a03ca46d18dbcca59110fb0024c828013ece5222e6aeea2",
+    "corrected-egress-conflict.json": "cee96251a7dd88a55dbc6f5cca4293091e6d24c6a838b6d1690403d1436c3dee",
+    "corrected-cleanup.json": "17ed8c13069bdec900e1aa7a48973abcac4791f897592e2c3bc48b6e1857fdcd",
+    "diagnostic-cleanup.json": "2af825cf944bcb4724d7cf6340e2f4e8dde79de75832a89689f6f5e109b298c3",
+    "diagnostic-runtime-progress.json": "76996b2bc862e8b019a15b0cda877351ff108fbd0e87486f8fc3c83682e8ee96",
+    "corrected-egress-matching.json": "fc45bd0e211f90297b3a99fb83359d70e0e30b1762e6986406bd57911d20c237",
+    "diagnostic-frozen.json": "bce993b4fd01959f082f092dd7501eb96fb6ead447580903a36cd6f282d8a588",
+    "diagnostic-egress-conflict.json": "5cd27ff804460ea7d074eec9081a03e72467006bd1a4a2bb2bd28e1718866a1e",
+    "corrected-identity.json": "c6d97fd30b29c56a108147159cb9832cc9b5c31d0f49ffa434b49fb4c3e93814",
+    "corrected-frozen.json": "ad98b20f16c7033cc440dc8f8f1fe0c3ef5478095f14f039c78fe415e89fc2be",
+    "diagnostic-summary.json": "7c54d3cf27d75ca6b2e5511247013c56241800bbdffdfada73fa8d3daa7deabe",
+    "diagnostic-cli-installer.json": "ff665c27f46278b775bffb9456511230e3d164ff4746af97e8d5ddceea9ae857"
+  }
+}

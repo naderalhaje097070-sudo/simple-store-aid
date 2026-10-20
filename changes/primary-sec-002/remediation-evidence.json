@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-10",
+  "starting_pr53_head": "479b0cef278497d8d7d455facd4aa797aa2af30b",
+  "original_pr52_head": "13d81250122c890a98b0c94e4f07f2745bdb40ed",
+  "original_lock_blob": "b8e19f98189e3a285964b8e75559da27bc01e98b",
+  "original_lock_remote_local_match": true,
+  "final_source_blobs": {
+    "bun.lock": "efbffd2d5d0073978c374bb27b1f6398a322b8c6",
+    "package.json": "293395a676487cfc742caa642517f2c2323bdbac",
+    "tests/unit/mcp-dependency-compatibility.test.ts": "4b46b248d53fbebccde68dafdd183d20b9c14bb3"
+  },
+  "generator": {
+    "version": "1.4.0",
+    "build": "34cbb9a40",
+    "command": "bun update brace-expansion --lockfile-only --ignore-scripts",
+    "independent_reproduction_identical": true,
+    "unsupported_brace_resolution_paths_removed": true,
+    "lovable_mcp_version_retained": "0.20.1",
+    "new_package_versions_vs_previous_candidate": [],
+    "retained_package_metadata_integrity_changed": [],
+    "pruned_unique_package_versions": 30,
+    "lockfile_version": 1,
+    "reported_packages": 959
+  },
+  "native_checks": {
+    "bun_1_2_14_frozen_install": "pass",
+    "bun_1_3_14_frozen_install": "pass",
+    "bun_1_2_14_unit": { "passed": 44, "failed": 0, "expectations": 94 },
+    "typecheck": "pass",
+    "build_local_fixtures": "pass",
+    "changed_source_lint": "pass",
+    "diff_check": "pass",
+    "audit": { "exit_code": 1, "critical": 0, "high": 0, "moderate": 11, "low": 5 }
+  },
+  "ci_diagnosis": {
+    "source": "signed-in GitHub run page, visible Annotations section",
+    "url": "https://github.com/naderalhaje0970-droid/simple-store-aid/actions/runs/38035862590",
+    "run_id": 38035862590,
+    "job_id": 114166024458,
+    "reason": "Recent account payments failed or the spending limit needs increasing; GitHub did not distinguish which condition.",
+    "runner_id": 0,
+    "executed_steps": 0,
+    "billing_settings_changed": false,
+    "hosted_acceptance": "blocked"
+  },
+  "limits": [
+    "SEC2-R2 remediated in candidate; separate final-candidate review remains required.",
+    "SEC2-R1 startup diagnosed but successful hosted execution remains missing.",
+    "No application JWT, tenant-isolation, database or financial-write proof.",
+    "No account billing change, merge or deployment."
+  ]
+}

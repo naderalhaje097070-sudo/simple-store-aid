@@ -19,15 +19,21 @@ export default defineTool({
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit, status }, ctx) => {
-    if (!ctx.isAuthenticated()) return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
+    if (!ctx.isAuthenticated())
+      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
     let q = supabaseForUser(ctx)
       .from("orders")
-      .select("id,number,total,paid,status,delivery,courier_state,customer_id,courier_id,created_at")
+      .select(
+        "id,number,total,paid,status,delivery,courier_state,customer_id,courier_id,created_at",
+      )
       .order("created_at", { ascending: false })
       .limit(limit ?? 20);
     if (status) q = q.eq("status", status);
     const { data, error } = await q;
     if (error) return { content: [{ type: "text", text: error.message }], isError: true };
-    return { content: [{ type: "text", text: JSON.stringify(data) }], structuredContent: { orders: data ?? [] } };
+    return {
+      content: [{ type: "text", text: JSON.stringify(data) }],
+      structuredContent: { orders: data ?? [] },
+    };
   },
 });

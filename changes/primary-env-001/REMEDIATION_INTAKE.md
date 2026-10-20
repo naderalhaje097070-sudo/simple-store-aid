@@ -1,0 +1,11 @@
+# ENV review remediation — authorized continuation
+
+Owner requested continuation on2026-10-10. This covers bounded corrections for the independent ENV-A1/A2/A3 findings within existing PR54 scope; no repeated approval needed. Risk:High. One outcome: close browser transport escape paths before isolated write acceptance.
+
+Design: reuse one standard-library helper across the four existing harnesses; fetch with max_redirects0 and max_retries0, abort redirects before browser continuation; intercept/close all WebSockets before pages; constrain local write/auth HTTP to exact configured app and Supabase origins. Keep read-only visual policy separate but use the same transport guard. Browser probe uses dummy disposable HTTP/WebSocket loopback recorders only, not application/DB credentials or financial flows. Pin scratch/CI browser tooling independently from application dependency lock.
+
+Safety: record actual pre-fix failures with live browser when runtime becomes available; retain Astra initial report. Regression must measure recorder hits, safe positive HTTP/POST/popup behavior, redirect status cases, direct alternate-origin attempts and WebSockets. Re-review modified exact source, then rerun only affected checks. Database provisioning remains blocked by absence of Docker/Podman/Supabase/psql/postgres; do not execute financial harnesses.
+
+Impact: harness network boundary, test infrastructure and CI only; no schema/RPC/finance/UI/dependency graph change. Existing data/API/migration impact documents remain applicable. Rollback: additive revert of remediation candidate before release; never run an older unsafe harness as a workaround. Full DB/auth/browser/application and hosted acceptance remain separate.
+
+Rereview scope addition: Astra found the existing Google Fonts dependency would fail the strict policy. Handle its exact stylesheet URL offline for GET/stylesheet/non-navigation only, reject other uses, and document fallback-font screenshot limits. Standardize browser prerequisites on the isolated production-built emulator because all WebSockets, including HMR, are blocked. Add actual same-origin popup success and four font cases per profile. These corrections stay inside the authorized test-boundary outcome; no application/font design or dependency change.

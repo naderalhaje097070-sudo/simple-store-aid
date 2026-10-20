@@ -1,0 +1,321 @@
+{
+  "source_sha": "e535b6a0eb7b3f309f26c56dc329142e7deb34c3",
+  "kind": "lint",
+  "command": [
+    "bunx",
+    "--no-install",
+    "eslint",
+    ".",
+    "--format",
+    "json"
+  ],
+  "exit_code": 1,
+  "stdout_sha256": "ad278f1b885cd0bfcddb9bd72a0046a1b9e795543a17166e74ffba585d0cad5a",
+  "bun_version": "1.3.14",
+  "node_version": "v22.23.3",
+  "error_count": 1117,
+  "warning_count": 13,
+  "rule_counts": {
+    "prettier/prettier": 1055,
+    "react-refresh/only-export-components": 10,
+    "None": 1,
+    "react-hooks/exhaustive-deps": 2,
+    "@typescript-eslint/no-explicit-any": 56,
+    "@typescript-eslint/ban-ts-comment": 4,
+    "no-empty": 1,
+    "@typescript-eslint/no-unused-expressions": 1
+  },
+  "files_with_diagnostics": [
+    {
+      "path": "src/components/DateRangeFilter.tsx",
+      "errors": 17,
+      "warnings": 3
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/components/ui/form.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/components/ui/navigation-menu.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/components/ui/sidebar.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/domain/finance/invoice-selectors.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/couriers/CouriersScreen.tsx",
+      "errors": 25,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/customers/AddCustomerInline.tsx",
+      "errors": 9,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/customers/CustomersScreen.tsx",
+      "errors": 9,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/home/HomeScreen.tsx",
+      "errors": 33,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/inventory/AddProductSheet.tsx",
+      "errors": 23,
+      "warnings": 2
+    },
+    {
+      "path": "src/features/inventory/InventoryScreen.tsx",
+      "errors": 29,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "errors": 48,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/invoices/InvoicesScreen.tsx",
+      "errors": 8,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/layout/TopBar.tsx",
+      "errors": 2,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/pilot/PilotScreen.tsx",
+      "errors": 37,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/reports/CollectedScreen.tsx",
+      "errors": 13,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/reports/ProfitScreen.tsx",
+      "errors": 9,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/settings/SettingsScreen.tsx",
+      "errors": 12,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shared/EmptyState.tsx",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shared/Money.tsx",
+      "errors": 0,
+      "warnings": 1
+    },
+    {
+      "path": "src/features/shared/Sheet.tsx",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shared/StatusChip.tsx",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shared/Toast.tsx",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shared/types.ts",
+      "errors": 7,
+      "warnings": 0
+    },
+    {
+      "path": "src/features/shop/ShopHubScreen.tsx",
+      "errors": 22,
+      "warnings": 0
+    },
+    {
+      "path": "src/hooks/useTheme.ts",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/integrations/lovable/index.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/integrations/supabase/auth-attacher.ts",
+      "errors": 7,
+      "warnings": 0
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "errors": 39,
+      "warnings": 0
+    },
+    {
+      "path": "src/integrations/supabase/client.server.ts",
+      "errors": 11,
+      "warnings": 0
+    },
+    {
+      "path": "src/integrations/supabase/client.ts",
+      "errors": 15,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/business-types.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/db.ts",
+      "errors": 94,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/invoice-pdf.ts",
+      "errors": 15,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/mcp/tools/list-customers.ts",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/mcp/tools/list-products.ts",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/mcp/tools/list-recent-orders.ts",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/mcp/tools/today-summary.ts",
+      "errors": 3,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/paddle.server.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/paddle.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/lib/pwa-register.ts",
+      "errors": 2,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "errors": 4,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "errors": 340,
+      "warnings": 1
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "errors": 4,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "errors": 7,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "errors": 62,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "errors": 5,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/guide.tsx",
+      "errors": 23,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/index.tsx",
+      "errors": 21,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "errors": 123,
+      "warnings": 0
+    },
+    {
+      "path": "src/routes/mcp.ts",
+      "errors": 1,
+      "warnings": 0
+    },
+    {
+      "path": "tests/unit/invoice-selectors.test.ts",
+      "errors": 8,
+      "warnings": 0
+    }
+  ],
+  "accepted": false
+}

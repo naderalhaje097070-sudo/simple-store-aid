@@ -1,0 +1,18 @@
+{
+  "baseline_control": true,
+  "exit_code": 1,
+  "counts": {
+    "tests": "18",
+    "pass": "16",
+    "fail": "2",
+    "skipped": "0"
+  },
+  "failed_tests": [
+    "7.29.0:@vitejs/plugin-react,babel-dead-code-elimination,workbox-build outside-relative",
+    "7.29.0:@vitejs/plugin-react,babel-dead-code-elimination,workbox-build outside-absolute"
+  ],
+  "versions": [
+    "7.29.0",
+    "7.29.7"
+  ]
+}

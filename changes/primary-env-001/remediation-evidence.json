@@ -1,0 +1,57 @@
+{
+  "packet": "PRIMARY-ENV-001 Astra remediation",
+  "reviewed_original_remote": "f5db53d430648926daa586993abb8b1c35059d36",
+  "original_local_source": "7c9e0ae",
+  "source_git_blobs": {
+    ".github/workflows/quality.yml": "c6c5cb1e66ceb3f2be0ef22de0af6f5f9cc1c92d",
+    ".gitignore": "0ae00ce43b9dcb0a4c256eab27ae8cbcd06cc38c",
+    "tests/e2e/README.md": "dec7e4848e5f45f8ad2cdd3c856bd55b80575073",
+    "tests/e2e/isolated-auth-smoke.py": "a89e812bebed660e7ef29be962807906bdb3bfa0",
+    "tests/e2e/rapid-click-sale.py": "4d5c2c669cad99f4749f3b179161b26f3ffdd45e",
+    "tests/e2e/run.sh": "bb21340a1614fcc2e161c6342a501dfb14a88e13",
+    "tests/e2e/sale-dashboard-close.py": "1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9",
+    "tests/e2e/write_harness_guard.py": "5cb2435fe47ef5ca5777318643754e5f26c3a3b0",
+    "tests/gate4/sec-env/probe.ts": "992d3fa7cf62047e823818405cb4ca4e081f6d4b",
+    "tests/visual/mobile-rtl-smoke.py": "8f9f976654934990414aa15fd6881af1c0fce19c",
+    "tests/e2e/browser_network_guard.py": "ddebad5aba645cff1aae59b9d1c1e373c51bf598",
+    "tests/gate4/sec-env/browser-network.py": "8dcd2113208201485ce1b49be509bea457090963",
+    "tests/gate4/sec-env/requirements.txt": "cecdc6c3450a494085ded0e124ed5c3f7767d843"
+  },
+  "browser_before": {
+    "scenarios": 47,
+    "failures": 36,
+    "exit": 1
+  },
+  "gate4": "target-green exit0",
+  "unit_baseline": "60/125 from unchanged original PR54 application/unit/dependency source; not rerun by implementation in this packet",
+  "no_live_app_or_db": true,
+  "missing_stack_tools": [
+    "docker",
+    "podman",
+    "supabase",
+    "psql",
+    "postgres"
+  ],
+  "proof_sha256": {
+    "browser-after-47.log": "3e90bd8ffe00ce0c5212cd2ad8551fd1f8cf459db41c0d58bb0b2ff26a40c500",
+    "browser-after-67-substitute-flags.log": "c9ba343af7ea1166324916ee2185f06e33f4e402ff28ec0e65336004569219da",
+    "browser-after-intermediate.log": "9a1f48c4318e0ba5a9bd2afcea4d4cf05825405cc1c3308a3e8c4172e29528d2",
+    "browser-after.log": "c9ba343af7ea1166324916ee2185f06e33f4e402ff28ec0e65336004569219da",
+    "browser-before.log": "284da463402cfa43654b777770911b7265f9b36ef36ea3ceb4cd749ca11e5058",
+    "gate4-after.log": "e2760645daa6198ad2f82056efc9551bc6908b6f290ac3d162008bcd527aef3a",
+    "remediation-syntax.log": "fb2a5cfa20ef98e68c533bb8744e0794d81ca0ae96fec8a53ad403d92b85d7f1"
+  },
+  "browser_after_initial": {
+    "scenarios": 47,
+    "failures": 0,
+    "exit": 0
+  },
+  "browser_after": {
+    "scenarios": 67,
+    "failures": 0,
+    "exit": 0,
+    "launch": "strict flags; substitute Chromium153; sandbox disabled as documented"
+  },
+  "independent_review": "Blocked pending missing evidence; 13 source blobs matched ASTRA_REVIEW_FINAL.md on 2026-10-10",
+  "remote_parent_for_additive_save": "f5db53d430648926daa586993abb8b1c35059d36"
+}

@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-10",
+  "repository": "naderalhaje0970-droid/simple-store-aid",
+  "source_head": "0e616d0013fd72de244686f10c8de5a12488f312",
+  "base": "54c930166a776828566876771efdec86a997fa53",
+  "main": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "outcome": "blocked_runtime_prerequisites",
+  "cloud": {
+    "validation_project": "ckshkqqwqzlgiikxlhpa",
+    "status": "INACTIVE",
+    "organization_plan": "free",
+    "restored": false,
+    "credentials_requested": false,
+    "sql_executed": false,
+    "provenance_verified": false
+  },
+  "runtime": {
+    "uid": 0,
+    "cap_eff": "0000000000000000",
+    "no_new_privs": 1,
+    "uid_map": "0 0 1",
+    "gid_map": "0 0 1",
+    "docker": false,
+    "podman": false,
+    "container_socket": false,
+    "unshare_result": "Operation not permitted",
+    "setuid_1001": "EINVAL",
+    "stack_started": false
+  },
+  "native_probe": {
+    "cli_version": "2.120.0",
+    "experimental": true,
+    "archive_sha256": "7074584113aa00495beeac661c41fb09f1ddd0a483cd7333894b0d080086dc6e",
+    "official_digest_verified": true,
+    "clean_environment": true,
+    "empty_scratch_directory": true,
+    "exit_code": 1,
+    "stdout": "",
+    "stderr": "PostgreSQL cannot be run as root\nSet SUPABASE_NATIVE_POSTGRES_USER=<user> to run PostgreSQL as a non-root user, creating one if needed (on Linux, for example `useradd --system --user-group supabase-postgres`).\n",
+    "repository_cli_pin_changed": false
+  },
+  "hosted": {
+    "run_id": 38073032780,
+    "job_id": 114274195972,
+    "conclusion": "failure",
+    "runner_id": 0,
+    "steps": [],
+    "rerun_requested": false,
+    "current_specific_cause_verified": false
+  },
+  "not_performed": [
+    "application_smoke",
+    "migration_startup",
+    "auth_rls_tenant_disabled_user_tests",
+    "financial_write_tests",
+    "cloud_restore_or_provisioning",
+    "production_access",
+    "payment_or_budget_change",
+    "merge",
+    "deployment"
+  ],
+  "next": "Capable disposable exact-candidate runner; isolation proof and acceptance before financial writes."
+}

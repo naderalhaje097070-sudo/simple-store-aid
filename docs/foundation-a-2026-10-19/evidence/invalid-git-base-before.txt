@@ -1,0 +1,5 @@
+
+No changed JavaScript or TypeScript files to lint.
+fatal: ambiguous argument 'definitely-not-a-commit': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'

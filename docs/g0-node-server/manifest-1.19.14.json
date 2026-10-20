@@ -1,0 +1,140 @@
+{
+  "name": "@hono/node-server",
+  "version": "1.19.14",
+  "author": {
+    "url": "https://github.com/yusukebe",
+    "name": "Yusuke Wada",
+    "email": "yusuke@kamawada.com"
+  },
+  "license": "MIT",
+  "_id": "@hono/node-server@1.19.14",
+  "maintainers": [
+    {
+      "name": "yusukebe",
+      "email": "yusuke@kamawada.com"
+    }
+  ],
+  "homepage": "https://github.com/honojs/node-server",
+  "bugs": {
+    "url": "https://github.com/honojs/node-server/issues"
+  },
+  "dist": {
+    "shasum": "e30f844bc77e3ce7be442aac3b1f73ad8b58d181",
+    "tarball": "https://registry.npmjs.org/@hono/node-server/-/node-server-1.19.14.tgz",
+    "fileCount": 55,
+    "integrity": "sha512-GwtvgtXxnWsucXvbQXkRgqksiH2Qed37H9xHZocE5sA3N8O8O8/8FA3uclQXxXVzc9XBZuEOMK7+r02FmSpHtw==",
+    "signatures": [
+      {
+        "sig": "MEQCICU6Khgs8tCUXeEDfm581mT0vhJCrfVIoUJZoo9Bzsx2AiBP2PUlSruWsNv2A2b9el3AaZpf+xrz2RAzvQCTVt0t2Q==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      }
+    ],
+    "unpackedSize": 228343
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=18.14.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./vercel": {
+      "types": "./dist/vercel.d.ts",
+      "import": "./dist/vercel.mjs",
+      "require": "./dist/vercel.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.mjs",
+      "require": "./dist/utils/*.js"
+    },
+    "./conninfo": {
+      "types": "./dist/conninfo.d.ts",
+      "import": "./dist/conninfo.mjs",
+      "require": "./dist/conninfo.js"
+    },
+    "./serve-static": {
+      "types": "./dist/serve-static.d.ts",
+      "import": "./dist/serve-static.mjs",
+      "require": "./dist/serve-static.js"
+    }
+  },
+  "gitHead": "b5e63a366d9b0ef62ac65fcafd7f69b383b03ff5",
+  "scripts": {
+    "lint": "eslint src test",
+    "test": "node --expose-gc node_modules/jest/bin/jest.js",
+    "build": "tsup --external hono",
+    "watch": "tsup --watch",
+    "format": "prettier --check \"src/**/*.{js,ts}\" \"test/**/*.{js,ts}\"",
+    "release": "np",
+    "lint:fix": "eslint src test --fix",
+    "postbuild": "publint",
+    "format:fix": "prettier --write \"src/**/*.{js,ts}\" \"test/**/*.{js,ts}\"",
+    "prerelease": "bun run build && bun run test"
+  },
+  "_npmUser": {
+    "name": "yusukebe",
+    "email": "yusuke@kamawada.com"
+  },
+  "repository": {
+    "url": "git+https://github.com/honojs/node-server.git",
+    "type": "git"
+  },
+  "_npmVersion": "11.7.0",
+  "description": "Node.js Adapter for Hono",
+  "directories": {},
+  "_nodeVersion": "22.21.1",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/index.d.ts"
+      ],
+      "vercel": [
+        "./dist/vercel.d.ts"
+      ],
+      "utils/*": [
+        "./dist/utils/*.d.ts"
+      ],
+      "conninfo": [
+        "./dist/conninfo.d.ts"
+      ],
+      "serve-static": [
+        "./dist/serve-static.d.ts"
+      ]
+    }
+  },
+  "_hasShrinkwrap": false,
+  "packageManager": "bun@1.2.20",
+  "devDependencies": {
+    "np": "^7.7.0",
+    "hono": "^4.4.10",
+    "jest": "^29.6.1",
+    "tsup": "^7.2.0",
+    "eslint": "^9.10.0",
+    "publint": "^0.1.16",
+    "ts-jest": "^29.1.1",
+    "prettier": "^3.2.4",
+    "supertest": "^6.3.3",
+    "typescript": "^5.3.2",
+    "@types/jest": "^29.5.3",
+    "@types/node": "^20.10.0",
+    "@types/supertest": "^2.0.12",
+    "@whatwg-node/fetch": "^0.9.14",
+    "@hono/eslint-config": "^1.0.1"
+  },
+  "peerDependencies": {
+    "hono": "^4"
+  },
+  "_npmOperationalInternal": {
+    "tmp": "tmp/node-server_1.19.14_1776043200153_0.6206968966685638",
+    "host": "s3://npm-registry-packages-npm-production"
+  }
+}

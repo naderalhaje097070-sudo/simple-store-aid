@@ -1,0 +1,16 @@
+{
+  "source": "193412a01938d752a98689d85acd727664e4dc8e",
+  "kind": "actual_client_callback_with_model_server_only",
+  "within": {
+    "elapsed_ms": 1000,
+    "keys_equal": true,
+    "modeled_server_effects": 1,
+    "real_database_or_provider_calls": 0
+  },
+  "expired": {
+    "elapsed_ms": 1800001,
+    "keys_equal": false,
+    "modeled_server_effects": 2,
+    "real_database_or_provider_calls": 0
+  }
+}

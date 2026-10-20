@@ -1,0 +1,50 @@
+name: G0 node-server native Windows baseline
+# SDK stateless fixture creates a server and transport per request.
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-node-server-baseline.yml]
+permissions:
+  contents: read
+jobs:
+  baseline:
+    env:
+      PYTHONUTF8: '1'
+    runs-on: windows-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Exact old lock frozen install
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-node-server
+          git rev-parse HEAD > evidence/g0-node-server/source.txt
+          node -p 'JSON.stringify({platform:process.platform,node:process.version})' > evidence/g0-node-server/platform.json
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-node-server/frozen-baseline.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-node-server/evidence.py installed 1.19.14
+      - name: Same HTTP assertions require exactly the two documented bypass failures
+        env:
+          REQUIRE_NATIVE_WINDOWS: '1'
+        run: python tests/g0-node-server/evidence.py baseline
+      - name: Tracked source remains intact
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-node-server-windows-baseline
+          path: evidence/g0-node-server
+          if-no-files-found: error

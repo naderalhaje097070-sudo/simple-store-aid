@@ -1,0 +1,104 @@
+{
+  "version": "3.4.16",
+  "results": [
+    {
+      "name": "c2j3-custom-regex",
+      "pass": true,
+      "details": {
+        "clean": "<div>ok</div><x-note>safe</x-note>",
+        "seen": [
+          "BODY",
+          "DIV",
+          "#text",
+          "X-NOTE",
+          "#text"
+        ]
+      }
+    },
+    {
+      "name": "c2j3-custom-function",
+      "pass": true,
+      "details": {
+        "clean": "<div>ok</div><x-note>safe</x-note>",
+        "seen": [
+          "BODY",
+          "DIV",
+          "#text",
+          "X-NOTE",
+          "#text"
+        ]
+      }
+    },
+    {
+      "name": "55q2-detach-beforeSanitizeElements",
+      "pass": true,
+      "details": {
+        "html": "<div>safe</div>",
+        "handler": null,
+        "fired": 0,
+        "connected": false
+      }
+    },
+    {
+      "name": "55q2-detach-uponSanitizeElement",
+      "pass": true,
+      "details": {
+        "html": "<div>safe</div>",
+        "handler": null,
+        "fired": 0,
+        "connected": false
+      }
+    },
+    {
+      "name": "6688-rawtext-return-reparse",
+      "pass": true,
+      "details": {
+        "failClosed": "a node selected for removal could not be safely returned; refusing to sanitize in place"
+      }
+    },
+    {
+      "name": "ordinary-hook-removal-control",
+      "pass": true,
+      "details": {
+        "html": "<div>safe</div>",
+        "handler": null,
+        "fired": 0,
+        "connected": false
+      }
+    },
+    {
+      "name": "ordinary-arabic-html",
+      "pass": true,
+      "details": {
+        "clean": "<p dir=\"rtl\"><strong>فاتورة تجريبية</strong> <em>100</em></p>"
+      }
+    },
+    {
+      "name": "ordinary-dangerous-attributes",
+      "pass": true,
+      "details": {
+        "clean": "<p>ok</p><a>link</a>"
+      }
+    },
+    {
+      "name": "ordinary-in-place-node",
+      "pass": true,
+      "details": {
+        "html": "<div><b>safe</b></div>"
+      }
+    },
+    {
+      "name": "ordinary-rawtext-dom-output",
+      "pass": true,
+      "details": {
+        "children": 0
+      }
+    }
+  ],
+  "browser": "151.0.7922.34",
+  "baseline_control": false,
+  "dist_sha256": "acefba6ebc9733869f60c80b519eaefad1691ea56022c54a3e6cbe74286d8d46",
+  "failed": [],
+  "passed": 10,
+  "total": 10
+}

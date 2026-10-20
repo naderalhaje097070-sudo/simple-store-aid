@@ -1,0 +1,80 @@
+{
+  "version": "3.4.11",
+  "results": [
+    {
+      "name": "c2j3-custom-regex",
+      "pass": false,
+      "error": "Error: custom post-element policy skipped"
+    },
+    {
+      "name": "c2j3-custom-function",
+      "pass": false,
+      "error": "Error: custom post-element policy skipped"
+    },
+    {
+      "name": "55q2-detach-beforeSanitizeElements",
+      "pass": false,
+      "error": "Error: detached resource handler not neutralized"
+    },
+    {
+      "name": "55q2-detach-uponSanitizeElement",
+      "pass": false,
+      "error": "Error: detached resource handler not neutralized"
+    },
+    {
+      "name": "6688-rawtext-return-reparse",
+      "pass": false,
+      "error": "Error: returned rawtext reopens active markup"
+    },
+    {
+      "name": "ordinary-hook-removal-control",
+      "pass": true,
+      "details": {
+        "html": "<div>safe</div>",
+        "handler": null,
+        "fired": 0,
+        "connected": false
+      }
+    },
+    {
+      "name": "ordinary-arabic-html",
+      "pass": true,
+      "details": {
+        "clean": "<p dir=\"rtl\"><strong>فاتورة تجريبية</strong> <em>100</em></p>"
+      }
+    },
+    {
+      "name": "ordinary-dangerous-attributes",
+      "pass": true,
+      "details": {
+        "clean": "<p>ok</p><a>link</a>"
+      }
+    },
+    {
+      "name": "ordinary-in-place-node",
+      "pass": true,
+      "details": {
+        "html": "<div><b>safe</b></div>"
+      }
+    },
+    {
+      "name": "ordinary-rawtext-dom-output",
+      "pass": true,
+      "details": {
+        "children": 0
+      }
+    }
+  ],
+  "browser": "151.0.7922.34",
+  "baseline_control": true,
+  "dist_sha256": "a6a461a49256c5f8d7962e9c69c61672e6096fbdaed4d406ef7624f12e4bc653",
+  "failed": [
+    "55q2-detach-beforeSanitizeElements",
+    "55q2-detach-uponSanitizeElement",
+    "6688-rawtext-return-reparse",
+    "c2j3-custom-function",
+    "c2j3-custom-regex"
+  ],
+  "passed": 5,
+  "total": 10
+}

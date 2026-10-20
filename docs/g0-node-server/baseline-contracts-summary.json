@@ -1,0 +1,16 @@
+{
+  "baseline_control": true,
+  "exit_code": 1,
+  "counts": {
+    "tests": "8",
+    "pass": "6",
+    "fail": "2",
+    "skipped": "0"
+  },
+  "failed_tests": [
+    "encoded-backslash-%5C must not bypass prefix authorization",
+    "encoded-backslash-%5c must not bypass prefix authorization"
+  ],
+  "native_platform": "win32",
+  "version": "1.19.14"
+}

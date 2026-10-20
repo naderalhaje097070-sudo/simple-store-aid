@@ -1,0 +1,5 @@
+{
+  "source": "84c3444fcdf5fa2825809192cda5b15561c950cf",
+  "command": "python tests/e2e/isolated-auth-smoke.py",
+  "exit_code": 0
+}

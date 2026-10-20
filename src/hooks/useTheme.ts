@@ -9,7 +9,9 @@ export function useTheme() {
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
       if (stored === "dark" || stored === "light") return stored;
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     return "light";
   });
 
@@ -26,11 +28,16 @@ export function useTheme() {
 
     try {
       window.localStorage.setItem(STORAGE_KEY, theme);
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }, [theme]);
 
   const setTheme = useCallback((t: Theme) => setThemeState(t), []);
-  const toggleTheme = useCallback(() => setThemeState((prev) => (prev === "dark" ? "light" : "dark")), []);
+  const toggleTheme = useCallback(
+    () => setThemeState((prev) => (prev === "dark" ? "light" : "dark")),
+    [],
+  );
 
   return { theme, setTheme, toggleTheme };
 }

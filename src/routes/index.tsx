@@ -33,8 +33,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
       {
         property: "og:description",
-        content:
-          "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
+        content: "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
       },
       { property: "og:url", content: "https://www.fin-biz.shop/" },
       { property: "og:image", content: "https://www.fin-biz.shop/og-image.jpg" },
@@ -44,8 +43,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:title", content: "منجز — دفتر ذكي لمحلك الصغير | Mongezz" },
       {
         name: "twitter:description",
-        content:
-          "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
+        content: "بِع، حصّل، تابع الديون والعهدة — بدون تعقيد ERP. مصمم لصاحب المحل الصغير.",
       },
       { name: "twitter:image", content: "https://www.fin-biz.shop/og-image.jpg" },
     ],
@@ -78,7 +76,10 @@ function LandingPage() {
   }
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background text-foreground overflow-x-hidden animate-fade-in">
+    <div
+      dir="rtl"
+      className="min-h-screen bg-background text-foreground overflow-x-hidden animate-fade-in"
+    >
       <NavBar />
       <main>
         <Hero />
@@ -99,7 +100,12 @@ function LandingPage() {
 /** Light skeleton mirroring the real hero + stats layout to avoid flash/layout shift. */
 function LandingSkeleton() {
   return (
-    <div dir="rtl" className="min-h-screen bg-background overflow-x-hidden" aria-busy="true" aria-label="جاري التحميل">
+    <div
+      dir="rtl"
+      className="min-h-screen bg-background overflow-x-hidden"
+      aria-busy="true"
+      aria-label="جاري التحميل"
+    >
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="mx-auto max-w-6xl px-4 h-16 flex items-center justify-between">
@@ -173,7 +179,6 @@ function LandingSkeleton() {
   );
 }
 
-
 function NavBar() {
   return (
     <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/60">
@@ -213,8 +218,7 @@ function Hero() {
         <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
-            backgroundImage:
-              "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+            backgroundImage: "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
             backgroundSize: "24px 24px",
           }}
         />
@@ -411,7 +415,10 @@ function TrustBar() {
             className="animate-fade-up text-center"
             style={{ animationDelay: `${350 + i * 70}ms` }}
           >
-            <div className="text-xl md:text-2xl font-black text-primary" style={{ direction: "ltr" }}>
+            <div
+              className="text-xl md:text-2xl font-black text-primary"
+              style={{ direction: "ltr" }}
+            >
               {s.v}
             </div>
             <div className="text-xs text-muted-foreground mt-0.5">{s.l}</div>
@@ -471,15 +478,15 @@ function Features() {
               className="group relative rounded-2xl border border-border bg-card p-6 hover:shadow-xl hover:-translate-y-1 hover:border-primary/30 transition-all duration-300"
               style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${f.accent} opacity-0 group-hover:opacity-100 transition-opacity`} />
+              <div
+                className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${f.accent} opacity-0 group-hover:opacity-100 transition-opacity`}
+              />
               <div className="relative">
                 <div className="h-12 w-12 rounded-xl bg-primary/15 text-primary grid place-items-center mb-4 group-hover:scale-110 transition-transform">
                   <f.icon className="h-5 w-5" />
                 </div>
                 <div className="font-bold text-lg mb-1.5">{f.title}</div>
-                <div className="text-sm text-muted-foreground leading-relaxed">
-                  {f.desc}
-                </div>
+                <div className="text-sm text-muted-foreground leading-relaxed">{f.desc}</div>
               </div>
             </div>
           ))}
@@ -511,12 +518,8 @@ function ScreensShowcase() {
     <section className="px-4 py-16 md:py-24 bg-muted/30">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">
-            ثلاث شاشات، تحكّم كامل
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            صُممت بلغة صاحب المحل، مش بلغة المحاسب.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">ثلاث شاشات، تحكّم كامل</h2>
+          <p className="mt-3 text-muted-foreground">صُممت بلغة صاحب المحل، مش بلغة المحاسب.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5">
           {screens.map((s) => (
@@ -528,9 +531,7 @@ function ScreensShowcase() {
                 <s.icon className="h-5 w-5" />
               </div>
               <div className="font-bold text-lg mb-2">{s.title}</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                {s.desc}
-              </div>
+              <div className="text-sm text-muted-foreground leading-relaxed">{s.desc}</div>
             </div>
           ))}
         </div>
@@ -552,12 +553,8 @@ function Comparison() {
     <section className="px-4 py-16 md:py-24">
       <div className="mx-auto max-w-4xl">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">
-            ليش منجز؟
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            الفرق بين دفتر ذكي وأنظمة ERP الثقيلة.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">ليش منجز؟</h2>
+          <p className="mt-3 text-muted-foreground">الفرق بين دفتر ذكي وأنظمة ERP الثقيلة.</p>
         </div>
         <div className="rounded-2xl border border-border bg-card overflow-hidden shadow-sm">
           <div className="grid grid-cols-3 bg-muted/50 border-b border-border">
@@ -631,9 +628,7 @@ function HowItWorks() {
     <section className="px-4 py-16 md:py-24 bg-muted/30">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">
-            ثلاث خطوات فقط
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">ثلاث خطوات فقط</h2>
           <p className="mt-3 text-muted-foreground">من الصفر إلى أول بيع في دقائق.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5 relative">
@@ -649,9 +644,7 @@ function HowItWorks() {
                 <s.icon className="h-5 w-5 text-muted-foreground" />
               </div>
               <div className="font-bold text-lg mb-1.5">{s.t}</div>
-              <div className="text-sm text-muted-foreground leading-relaxed">
-                {s.d}
-              </div>
+              <div className="text-sm text-muted-foreground leading-relaxed">{s.d}</div>
               {i < STEPS.length - 1 && (
                 <div className="hidden md:block absolute top-1/2 -left-3 h-px w-6 bg-border" />
               )}
@@ -686,12 +679,8 @@ function Testimonials() {
     <section className="px-4 py-16 md:py-24">
       <div className="mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">
-            كلام أصحاب المحلات
-          </h2>
-          <p className="mt-3 text-muted-foreground">
-            تجارب حقيقية من محلات صغيرة في ليبيا.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">كلام أصحاب المحلات</h2>
+          <p className="mt-3 text-muted-foreground">تجارب حقيقية من محلات صغيرة في ليبيا.</p>
         </div>
         <div className="grid md:grid-cols-3 gap-5">
           {TESTIMONIALS.map((t) => (
@@ -700,9 +689,7 @@ function Testimonials() {
               className="rounded-2xl border border-border bg-card p-6 hover:shadow-lg hover:-translate-y-1 transition-all"
             >
               <Quote className="h-6 w-6 text-primary/40 mb-3" />
-              <p className="text-sm leading-relaxed text-foreground/90 mb-4">
-                «{t.text}»
-              </p>
+              <p className="text-sm leading-relaxed text-foreground/90 mb-4">«{t.text}»</p>
               <div className="flex items-center gap-3 pt-4 border-t border-border">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary/30 to-primary/10 grid place-items-center text-primary font-bold">
                   {t.name[0]}
@@ -749,9 +736,7 @@ function FAQ() {
     <section className="px-4 py-16 md:py-24 bg-muted/30">
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-black tracking-tight">
-            أسئلة شائعة
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-black tracking-tight">أسئلة شائعة</h2>
           <p className="mt-3 text-muted-foreground">كل ما تحتاج تعرفه قبل ما تبدأ.</p>
         </div>
         <div className="space-y-3">
@@ -804,9 +789,7 @@ function FinalCTA() {
               جاهز خلال دقيقة
             </div>
             <ShieldCheck className="h-10 w-10 mx-auto mb-4 opacity-90" />
-            <h3 className="text-2xl md:text-4xl font-black mb-3">
-              جرّب منجز اليوم
-            </h3>
+            <h3 className="text-2xl md:text-4xl font-black mb-3">جرّب منجز اليوم</h3>
             <p className="opacity-90 mb-7 text-sm md:text-base max-w-md mx-auto">
               أنشئ حساب محلك مجاناً، وابدأ خلال دقيقة. بدون بطاقة، بدون التزام.
             </p>

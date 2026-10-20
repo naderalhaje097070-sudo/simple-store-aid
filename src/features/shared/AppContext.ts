@@ -8,6 +8,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import type { Dispatch, SetStateAction } from "react";
+import type { FinancialRead } from "./financial-read-state";
 import type {
   Product,
   Customer,
@@ -86,6 +87,9 @@ export interface AppCtx {
   invoices: Invoice[];
   expenses: Expense[];
   payments: Payment[];
+  financialReads: Record<"invoices" | "payments" | "expenses", FinancialRead>;
+  tenantTimezoneRead: FinancialRead;
+  retryFinancialReads: () => Promise<unknown>;
   myRole: string | null | undefined;
 
   /* Derived totals */
@@ -107,6 +111,7 @@ export interface AppCtx {
   /* Tenant */
   tenantId: string | null | undefined;
   tenantTz: string;
+  todayKey: string;
   tenantSettings: TenantSettings;
 
   /* Mutations (loose Promise<any> to keep parity with current ctx) */

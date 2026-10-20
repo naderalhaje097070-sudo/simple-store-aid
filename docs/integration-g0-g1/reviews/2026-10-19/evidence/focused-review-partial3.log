@@ -1,0 +1,69 @@
+test_actual_remaining_processes (test_cleanup.ProcessEvidence.test_actual_remaining_processes) ... ok
+test_existing_user_no_processes (test_cleanup.ProcessEvidence.test_existing_user_no_processes) ... ok
+test_lookup_error_is_not_absence (test_cleanup.ProcessEvidence.test_lookup_error_is_not_absence) ... ok
+test_process_command_unavailable_or_timeout (test_cleanup.ProcessEvidence.test_process_command_unavailable_or_timeout) ... ok
+test_process_table_errors (test_cleanup.ProcessEvidence.test_process_table_errors) ... ok
+test_user_never_created (test_cleanup.ProcessEvidence.test_user_never_created) ... ok
+test_dns_schema_rejects_freeform_caller (test_egress_trace.TracePrivacy.test_dns_schema_rejects_freeform_caller) ... ok
+test_dns_schema_rejects_unknown_fields_and_plain_secret (test_egress_trace.TracePrivacy.test_dns_schema_rejects_unknown_fields_and_plain_secret) ... ok
+test_explicit_dns_connect_is_not_delivery (test_egress_trace.TracePrivacy.test_explicit_dns_connect_is_not_delivery) ... ok
+test_native_hook_delegates_and_hashes_without_dns (test_egress_trace.TracePrivacy.test_native_hook_delegates_and_hashes_without_dns) ... ok
+test_node_hook_delegates_without_network_or_secret (test_egress_trace.TracePrivacy.test_node_hook_delegates_without_network_or_secret) ... ok
+test_raw_send_has_no_inferred_destination (test_egress_trace.TracePrivacy.test_raw_send_has_no_inferred_destination) ... ok
+test_resumed_and_socket_error (test_egress_trace.TracePrivacy.test_resumed_and_socket_error) ... ok
+test_syscall_payload_does_not_enter_receipt (test_egress_trace.TracePrivacy.test_syscall_payload_does_not_enter_receipt) ... ok
+test_unknown_or_unfinished_is_visible (test_egress_trace.TracePrivacy.test_unknown_or_unfinished_is_visible) ... ok
+test_g1_contracts (unittest.loader._FailedTest.test_g1_contracts) ... ERROR
+test_actual_fixture (test_integrated_identity.IntegratedIdentity.test_actual_fixture) ... ok
+test_added_evidence_code (test_integrated_identity.IntegratedIdentity.test_added_evidence_code) ... ok
+test_added_migration (test_integrated_identity.IntegratedIdentity.test_added_migration) ... ok
+test_added_untracked_source (test_integrated_identity.IntegratedIdentity.test_added_untracked_source) ... ok
+test_boolean_schema_is_not_version_one (test_integrated_identity.IntegratedIdentity.test_boolean_schema_is_not_version_one) ... ok
+test_duplicate_manifest_path (test_integrated_identity.IntegratedIdentity.test_duplicate_manifest_path) ... ok
+test_environment_mutation (test_integrated_identity.IntegratedIdentity.test_environment_mutation) ... ok
+test_lock_or_manifest_source_mutation (test_integrated_identity.IntegratedIdentity.test_lock_or_manifest_source_mutation) ... ok
+test_missing_migration (test_integrated_identity.IntegratedIdentity.test_missing_migration) ... ok
+test_mutated_migration (test_integrated_identity.IntegratedIdentity.test_mutated_migration) ... ok
+test_readonly_documents_can_change (test_integrated_identity.IntegratedIdentity.test_readonly_documents_can_change) ... ok
+test_repository_remote_mismatch (test_integrated_identity.IntegratedIdentity.test_repository_remote_mismatch) ... ok
+test_source_byte_mutation (test_integrated_identity.IntegratedIdentity.test_source_byte_mutation) ... ok
+test_symlink_source_rejected (test_integrated_identity.IntegratedIdentity.test_symlink_source_rejected) ... ok
+test_traversal_manifest_path (test_integrated_identity.IntegratedIdentity.test_traversal_manifest_path) ... ok
+test_uncommitted_identity_manifest (test_integrated_identity.IntegratedIdentity.test_uncommitted_identity_manifest) ... ok
+test_confirmed_exit_during_executable_read_is_recorded (test_process_map.ProcessMapContract.test_confirmed_exit_during_executable_read_is_recorded) ... ok
+test_dead_leader_does_not_hide_a_live_worker (test_process_map.ProcessMapContract.test_dead_leader_does_not_hide_a_live_worker) ... ok
+test_disappearance_during_executable_read_has_no_fabricated_row (test_process_map.ProcessMapContract.test_disappearance_during_executable_read_has_no_fabricated_row) ... ok
+test_disappearing_thread_does_not_erase_an_earlier_failure (test_process_map.ProcessMapContract.test_disappearing_thread_does_not_erase_an_earlier_failure) ... ok
+test_failure_receipt_has_only_bounded_category_and_tid (test_process_map.ProcessMapContract.test_failure_receipt_has_only_bounded_category_and_tid) ... ok
+test_live_executable_failure_still_fails (test_process_map.ProcessMapContract.test_live_executable_failure_still_fails) ... ok
+test_live_unreadable_worker_still_fails_closed (test_process_map.ProcessMapContract.test_live_unreadable_worker_still_fails_closed) ... ok
+test_terminal_observation_does_not_fabricate_attribution (test_process_map.ProcessMapContract.test_terminal_observation_does_not_fabricate_attribution) ... ok
+test_timeout_still_fails_closed (test_process_map.ProcessMapContract.test_timeout_still_fails_closed) ... ok
+test_zombie_without_executable_is_not_an_observer_read_failure (test_process_map.ProcessMapContract.test_zombie_without_executable_is_not_an_observer_read_failure) ... ok
+
+======================================================================
+ERROR: test_g1_contracts (unittest.loader._FailedTest.test_g1_contracts)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_g1_contracts
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "/workspace/scratch/12dd55fb3bcf/monjez-review-2026-10-19/ci/source/tests/g01-acceptance/test_g1_contracts.py", line 13, in <module>
+    HELPER = (ROOT/'tests/e2e/browser_network_guard.py').read_text()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/scratch/12dd55fb3bcf/monjez-review-2026-10-19/ci/source/tests/e2e/browser_network_guard.py'
+
+
+----------------------------------------------------------------------
+Ran 42 tests in 3.165s
+
+FAILED (errors=1)

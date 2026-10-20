@@ -1,0 +1,27 @@
+[
+  {
+    "path": "dist/stacks/supabase/vite.cjs",
+    "line": 31,
+    "source": "var import_esbuild = require(\"esbuild\");"
+  },
+  {
+    "path": "dist/stacks/supabase/vite.cjs",
+    "line": 146,
+    "source": "Deno.serve(createSupabaseHandler(mcp, { functionName: ${JSON.stringify(functionName)} }));"
+  },
+  {
+    "path": "dist/stacks/supabase/vite.js",
+    "line": 17,
+    "source": "import { build } from \"esbuild\";"
+  },
+  {
+    "path": "dist/stacks/supabase/vite.js",
+    "line": 112,
+    "source": "Deno.serve(createSupabaseHandler(mcp, { functionName: ${JSON.stringify(functionName)} }));"
+  },
+  {
+    "path": "package.json",
+    "line": 79,
+    "source": "    \"esbuild\": \"^0.27.0\","
+  }
+]

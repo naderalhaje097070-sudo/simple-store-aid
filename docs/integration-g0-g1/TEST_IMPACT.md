@@ -1,0 +1,11 @@
+# Test impact and limits
+
+Native baseline39165589768 failed with567errors/13warnings; raw exit retained. Formatter28file preparation39169437564 proves exact pinned formatting/source/types/runtime/comments/meaningfulJSX/idempotence and unchanged nonformat/suppression checks; generated preparation39170259625 proves nine generated outputs. Earlier synthetic JSX-cooking proof exclusions were repaired by escaping cooked entities before parsing, not dropping assertions; failing runs preserved.
+
+Native type/build failures39169974655,39170126147 exposed real nullable invoice references and Set types and were fixed. Real-build39170617878 failed tracked-source invariance on four MCP regenerated routes; explicit postbuild normalization repairs it. Tool run39170695161 failed eight formatter errors in its own new helper; deterministic formatter diagnostics corrected those, no assertion removal.
+
+G0 at823cbcaf: run39172903511, complete lint0errors/13warnings, typecheck,66unit174expect,8server-boundary,67browser-containment, two real builds, postbuild source invariance,279blob/original41SQL identity before/after,16identity fixtures,10callback scenarios,3build-entry fixtures and full audit exit0. Raw job logs117809500361/117809500180 were accessible; earlier workers'403 limitations are not inherited here.
+
+G1 run39171846934 at44df8e8 failed39/40 only at trace observer metadata; never accepted. New ProcessMap regression old7fixtures5pass/2fail; corrected10/10 plus existing9privacy/delegation pass locally. Local ptrace denied by host, not passed. Native39172903470 retains mandatory live pointer-only trace check before credentials. Followup native39172903470 SUCCESS40/40 at823cbcaf; actual live tracer precredential gate and cleanup4/4 passed. Both trace phases complete, no unmapped nonloopback TID, read_failed=false and no failure records; terminal observations recorded4matching/2conflict. Native counters remain IPv4 1→1,IPv6 0→0. All22table fingerprints stable; seven financial tables empty. This replay confirms the candidate within this scope, not the exact historical failure cause.
+
+No historical suite blanket replay. Existing tests/suppressions not weakened or hidden. No real provider call, financial-flow/concurrency/populated upgrade/restore/production claim. Independent review has not been performed for this new candidate.

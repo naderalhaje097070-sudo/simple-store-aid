@@ -1,0 +1,36 @@
+{
+  "source": "a5edd17a420814133bba559911efb871f4b0633e",
+  "archives": [
+    {
+      "path": "preparation.zip",
+      "bytes": 228463,
+      "sha256": "3283af02280b5bff56640344f15aa827ef3a2528a787afb4d006282d2e62844b",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "verification-first.zip",
+      "bytes": 341804,
+      "sha256": "8822390ff863cce22b00887c04dd1b390c199d49d0232d09027ae16cb9b08b36",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "verification-diagnostic.zip",
+      "bytes": 522058,
+      "sha256": "fc04b0453de43ebfebc1a21cf8f96e9ad9bd734949b4e814794526c62d009dd4",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "verification-final.zip",
+      "bytes": 438257,
+      "sha256": "e93a2c846a5ba435093682e5b8da3dcff7d0686af7bade96344dabf002246e9f",
+      "secret_pattern_matches": []
+    },
+    {
+      "path": "job-logs.zip",
+      "bytes": 92492,
+      "sha256": "67da949ba5e622f4f671386076ef46bbb410d8d0de23231a7e7dec07f046b4f9",
+      "secret_pattern_matches": []
+    }
+  ],
+  "scan_scope": "new archives; private-key/provider-secret/JWT/OpenAI-key patterns; bounded pattern scan, not comprehensive secret detection"
+}

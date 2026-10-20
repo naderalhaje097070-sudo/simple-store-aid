@@ -1,0 +1,72 @@
+name: G0 DOMPurify bounded browser and PDF verification
+# Serve local synthetic HTML and its browser bundle explicitly as UTF-8.
+on:
+  push:
+    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
+    paths: [.github/workflows/g0-dompurify-verify.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Frozen installation and exact graph
+        run: |
+          set -euo pipefail
+          mkdir -p evidence/g0-dompurify
+          git rev-parse HEAD > evidence/g0-dompurify/source.txt
+          bun --revision > evidence/g0-dompurify/frozen-bun-revision.txt
+          node --version > evidence/g0-dompurify/node-version.txt
+          bun install --frozen-lockfile 2>&1 | tee evidence/g0-dompurify/frozen.log
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          python tests/g0-dompurify/evidence.py graph
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install existing pinned browser tooling
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt
+          python -m playwright install chromium --only-shell --with-deps
+      - name: Every physical installed optional dependency and parent resolution
+        run: python tests/g0-dompurify/evidence.py installed 3.4.16
+      - name: Bundle unchanged real invoice path for browser-only synthetic export
+        run: bun build tests/g0-dompurify/pdf-entry.ts --target browser --format iife --outfile evidence/g0-dompurify/pdf-bundle.js
+      - name: Actual installed sanitizer contracts and original PDF export
+        run: python tests/g0-dompurify/browser.py patched
+      - name: All-copy sanitizer and retained Hono and qs guard mutations
+        run: python tests/g0-dompurify/evidence.py guards
+      - name: Lint only affected new fixtures and security guard without writing
+        run: |
+          set -euo pipefail
+          bunx --no-install eslint tests/g0-dompurify/browser-cases.js tests/g0-dompurify/pdf-entry.ts tests/unit/dependency-security.test.ts 2>&1 | tee evidence/g0-dompurify/affected-lint.log
+      - name: Setup supported audit scanner
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.0'
+      - name: Full audit with actual G0 findings and exit code
+        run: |
+          test "$(bun --version)" = 1.4.0
+          bun --revision | tee evidence/g0-dompurify/audit-bun-revision.txt
+          grep -q 34cbb9a40 evidence/g0-dompurify/audit-bun-revision.txt
+          python tests/g0-dompurify/evidence.py audit
+      - name: Verification did not alter tracked source
+        if: always()
+        run: git diff --exit-code --
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: g0-dompurify-verification
+          path: evidence/g0-dompurify
+          if-no-files-found: error

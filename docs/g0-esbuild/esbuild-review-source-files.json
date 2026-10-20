@@ -1,0 +1,112 @@
+[
+  {
+    "path": ".github/workflows/g0-esbuild-verify.yml",
+    "sha": "8da16a1288a13605f53ac05b6b9e8c1737e898a5",
+    "status": "added"
+  },
+  {
+    "path": ".github/workflows/quality.yml",
+    "sha": "8ae802e55d9a6de52a0c1a02b23c3af35f8467e4",
+    "status": "modified"
+  },
+  {
+    "path": ".github/workflows/sec-ci-gate4-probe.yml",
+    "sha": "a62a7fde616f52d9725b19ed531e34e2c5fc7707",
+    "status": "modified"
+  },
+  {
+    "path": "bun.lock",
+    "sha": "8db84562051e5ff2837fa67f907aef9a0cd4b863",
+    "status": "modified"
+  },
+  {
+    "path": "docs/g0-esbuild/API_COMPATIBILITY.md",
+    "sha": "250e8b8227242f29fec37f325de9f5d6d5af517f",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/DATA_IMPACT.md",
+    "sha": "4d77ca5457258fa5fcb072ec3cf2da3d23392334",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/DEPENDENCY_MAP.md",
+    "sha": "cca8d93d678de05da568dfa19dfbdfa0da30e007",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/IMPACT_ANALYSIS.md",
+    "sha": "aa3d5fc9bbcb49185bd426d504230ad569c15fd7",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/INTAKE.md",
+    "sha": "ebd0a50dc45caceb27902c83af41678af04aa99d",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/MIGRATION_IMPACT.md",
+    "sha": "37409f2d8213b33686ee6ff348b32e87d512103d",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/ROLLBACK_IMPACT.md",
+    "sha": "825b0bd33f2ae60b1f8c280b078cc64f7af3582f",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/SECURITY_IMPACT.md",
+    "sha": "3f23464c4a3eb937e4766f15105d16d318447e1a",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/TEST_IMPACT.md",
+    "sha": "dc0975815bf681e6883ac2dc299a5ebfa79083d4",
+    "status": "added"
+  },
+  {
+    "path": "docs/g0-esbuild/preparation-failed.zip",
+    "sha": "a2f9ee84d5d54f56a1c6db832eacc39ca082a125",
+    "status": "added"
+  },
+  {
+    "path": "package.json",
+    "sha": "50142449fb626d2e10c6023ca27261d3b2184660",
+    "status": "modified"
+  },
+  {
+    "path": "tests/g0-esbuild/collect.py",
+    "sha": "84999aa00c30d14783e685defcd31c2ee4d76564",
+    "status": "added"
+  },
+  {
+    "path": "tests/g0-esbuild/compatibility.test.mjs",
+    "sha": "b79d1c80a8b67f21dbd3de46036e5942f9411cc7",
+    "status": "added"
+  },
+  {
+    "path": "tests/g0-esbuild/evidence.py",
+    "sha": "e521bea632da1132db0e6823a048ea846415c574",
+    "status": "added"
+  },
+  {
+    "path": "tests/g0-esbuild/official.cjs",
+    "sha": "4c7d3a2713d7e5e73c50645d0f072ec3330ae896",
+    "status": "added"
+  },
+  {
+    "path": "tests/g0-esbuild/security.test.cjs",
+    "sha": "2898ee3131c9d8173ba8d2e0e148aeaf40dd09d2",
+    "status": "added"
+  },
+  {
+    "path": "tests/g0-esbuild/unpack.py",
+    "sha": "50ee66967ca1ca0f98cb0bb5b22884bec5d00e06",
+    "status": "added"
+  },
+  {
+    "path": "tests/unit/dependency-security.test.ts",
+    "sha": "70f67aa910f6effdd81b6df16ae5f476f3d4245c",
+    "status": "modified"
+  }
+]

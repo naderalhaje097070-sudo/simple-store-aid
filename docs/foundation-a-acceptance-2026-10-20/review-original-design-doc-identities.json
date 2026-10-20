@@ -1,0 +1,126 @@
+[
+  {
+    "pr": 32,
+    "head": "6eccc336616a307e594f9e012829768df8aa5e38",
+    "original_docs": [
+      {
+        "path": "changes/sec-ci-001/API_COMPATIBILITY.md",
+        "sha": "8471cee1305795dd23b7db3ee4c5820faaa8dc8c"
+      },
+      {
+        "path": "changes/sec-ci-001/CHANGE_DESIGN.md",
+        "sha": "79141ab887400934e2939286f800f6f851be92d8"
+      },
+      {
+        "path": "changes/sec-ci-001/CHANGE_INTAKE.md",
+        "sha": "0bfeb7d258d732a634d9d796310c817d2f1f7b24"
+      },
+      {
+        "path": "changes/sec-ci-001/CURRENT_BEHAVIOR.md",
+        "sha": "5e788df92d4b2a04cca54f52af4b23f964904c42"
+      },
+      {
+        "path": "changes/sec-ci-001/DATA_IMPACT.md",
+        "sha": "2af84250ff5bd22dd38f16e1a5df21b53dda1c4f"
+      },
+      {
+        "path": "changes/sec-ci-001/DEPENDENCY_MAP.md",
+        "sha": "eb5b92c42d0f3392c304ca97757acb32a6dace27"
+      },
+      {
+        "path": "changes/sec-ci-001/EXPECTED_BEHAVIOR.md",
+        "sha": "64d006547f998125540d534baa4b0656ba04b753"
+      },
+      {
+        "path": "changes/sec-ci-001/IMPACT_ANALYSIS.md",
+        "sha": "a3e4f259cf6f6b6e88fbcd6dcf2bc7ba631d46c3"
+      },
+      {
+        "path": "changes/sec-ci-001/MIGRATION_IMPACT.md",
+        "sha": "0f39c90d3199dec80f946af0d6f8f9e3dccc79c7"
+      },
+      {
+        "path": "changes/sec-ci-001/PR_DECOMPOSITION.md",
+        "sha": "46852b1174eedb48f4249e3af3d69c0e4c679e99"
+      },
+      {
+        "path": "changes/sec-ci-001/README.md",
+        "sha": "0c3c59a355e6449745dcc3368adb16cd5ec20744"
+      },
+      {
+        "path": "changes/sec-ci-001/ROLLBACK_IMPACT.md",
+        "sha": "9f8694ff452f4cc6d08e7a10fab0c7c26ce4191c"
+      },
+      {
+        "path": "changes/sec-ci-001/SECURITY_IMPACT.md",
+        "sha": "cb1131cee900ec1a9fe90fd777ba580077d51789"
+      },
+      {
+        "path": "changes/sec-ci-001/TEST_IMPACT.md",
+        "sha": "a78b1870d6390d9218b074df54a81a069e664aac"
+      }
+    ]
+  },
+  {
+    "pr": 33,
+    "head": "547a9aebe31c80e280e3429c0dd1c56e6a8cb551",
+    "original_docs": [
+      {
+        "path": "changes/sec-env-001/API_COMPATIBILITY.md",
+        "sha": "558ba1d4cdfc9c7efba4fcae46f05cd4264d69b2"
+      },
+      {
+        "path": "changes/sec-env-001/CHANGE_DESIGN.md",
+        "sha": "e4fbba8a3f881871e0b1a54e88540a6c42b161d3"
+      },
+      {
+        "path": "changes/sec-env-001/CHANGE_INTAKE.md",
+        "sha": "c23d02b3f01752504b5c41fbf2fa90a7bd61ec02"
+      },
+      {
+        "path": "changes/sec-env-001/CURRENT_BEHAVIOR.md",
+        "sha": "4b5d298b32e58f34e5e7476e52ef454511bc4364"
+      },
+      {
+        "path": "changes/sec-env-001/DATA_IMPACT.md",
+        "sha": "8cf9405ae11328e17f336a4becf5f0a339c90ce8"
+      },
+      {
+        "path": "changes/sec-env-001/DEPENDENCY_MAP.md",
+        "sha": "18a62ebabba1773a28ee881d7ddea2fb6f18e113"
+      },
+      {
+        "path": "changes/sec-env-001/EXPECTED_BEHAVIOR.md",
+        "sha": "426733dccd8190ec677925b0445c59c51ffc2602"
+      },
+      {
+        "path": "changes/sec-env-001/IMPACT_ANALYSIS.md",
+        "sha": "11c31004cbd0046abf7ceab73efb60557583111e"
+      },
+      {
+        "path": "changes/sec-env-001/MIGRATION_IMPACT.md",
+        "sha": "2c51170ce53195a567195ae778bbd1b08fc122ef"
+      },
+      {
+        "path": "changes/sec-env-001/PR_DECOMPOSITION.md",
+        "sha": "6e83b432eac1d860fa688d8c385897bf7eca3551"
+      },
+      {
+        "path": "changes/sec-env-001/README.md",
+        "sha": "17b2d3d768b52b4eb3dfee56e8e70aec824e6d32"
+      },
+      {
+        "path": "changes/sec-env-001/ROLLBACK_IMPACT.md",
+        "sha": "6fe134ed5e04c3a4064ab3997e45d1c375669205"
+      },
+      {
+        "path": "changes/sec-env-001/SECURITY_IMPACT.md",
+        "sha": "9d76148a65df115b52837027d2b083ec3efbeac9"
+      },
+      {
+        "path": "changes/sec-env-001/TEST_IMPACT.md",
+        "sha": "81ebdd08faa52738f70839e5560341359ecc484d"
+      }
+    ]
+  }
+]

@@ -1,0 +1,251 @@
+{
+  "base": "5cbf198d88b0f091a30371676fb09abf92903dc8",
+  "tested_source": "15688194725fdb2c25e53d55d63cfe605295ec68",
+  "tested_tree": "a2405b8051fbeeba6e966188369c180c7e3e57c6",
+  "claim": 6222380561,
+  "preparation": {
+    "run": 38949922667,
+    "source": "fad7332022725282639ff71c9e98596d2b9db0cf",
+    "artifact": 12067079686,
+    "sha256": "77854013e68cce505394ae5d2aa08dcecc2259f79aef6e82de862bc2d2953ff5"
+  },
+  "baseline": [
+    {
+      "zip": "ns-native-baseline/g0-node-server-windows-baseline.zip",
+      "folder": "ns-native-baseline/g0-node-server-windows-baseline",
+      "sha256": "edb020fb51c6e5d16cf1ea8d4bd2a16408a61130f53d41023a89dbca5d835ef6",
+      "files": 18,
+      "id": 12069042774,
+      "run": 38951595338,
+      "head": "80d2b11be455f2050b2001de8c6b85ea64a3f218"
+    }
+  ],
+  "verification": [
+    {
+      "zip": "ns-final-verification/g0-node-server-verification-Linux.zip",
+      "folder": "ns-final-verification/g0-node-server-verification-Linux",
+      "sha256": "7402333fe4bc4ef5d3949507eb7a08e586540e521a19c57736baf0ae90a2e802",
+      "files": 58,
+      "id": 12068253846,
+      "run": 38952644379,
+      "head": "15688194725fdb2c25e53d55d63cfe605295ec68"
+    },
+    {
+      "zip": "ns-final-verification/g0-node-server-verification-Windows.zip",
+      "folder": "ns-final-verification/g0-node-server-verification-Windows",
+      "sha256": "cd3b61170cc04acf968d7ec44621624ac25bab373d451377e194aa9bfcfd79e5",
+      "files": 20,
+      "id": 12069590089,
+      "run": 38952644379,
+      "head": "15688194725fdb2c25e53d55d63cfe605295ec68"
+    }
+  ],
+  "quality": {
+    "run": 38952653426,
+    "job": 117147620305,
+    "conclusion": "success",
+    "synthetic": "7cdcfd1871a9f54a533567f7ef308908cb0c35af",
+    "tree": "a2405b8051fbeeba6e966188369c180c7e3e57c6"
+  },
+  "jobs": [
+    {
+      "id": 117147589438,
+      "name": "verify (windows-latest)",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve exact repository bytes on the disposable Windows runner",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frozen install exact graph and all actual installed copies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Real adapter and SDK HTTP contracts with native filesystem",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "All-copy security guard and retained patch regression controls",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Affected lint without source rewriting",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Supported full audit scanner",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Full audit preserves actual remaining findings and exit code",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Tracked source is intact",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 117147589979,
+      "name": "verify (ubuntu-latest)",
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve exact repository bytes on the disposable Windows runner",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Frozen install exact graph and all actual installed copies",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Real adapter and SDK HTTP contracts with native filesystem",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "All-copy security guard and retained patch regression controls",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Affected lint without source rewriting",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Supported full audit scanner",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Full audit preserves actual remaining findings and exit code",
+          "status": "completed",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Tracked source is intact",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Supported full audit scanner",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "first_source": "f0b05af94aea92500d9a73c229b86bd00b5be595",
+  "first_source_tree": "1320a9f106961ae0e3e602fcb16b622d02a76b25",
+  "first_quality": {
+    "run": 38952066984,
+    "synthetic": "fa9baaaf7dc67e77018c67a33ba8e6e7c8e1bdb9"
+  },
+  "g0_accepted": false,
+  "g1_rerun": false
+}

@@ -1,0 +1,78 @@
+{
+  "run": 38701706724,
+  "source_sha": "d4eeee0d6c392ce19fb0eeac1b69a0d4a9832ddb",
+  "archives": [
+    {
+      "archive": "g1-cli-runtime-first.zip",
+      "archive_sha256": "209d083d73713333e7dc6fe918ceca090c0b6f726ba07def7d6ad319901b9507",
+      "members": [
+        {
+          "name": "cleanup.json",
+          "sha256": "b8a2283c1dc34b687aa600a9dc2df59ce7305e783065a6aa7385caf7f361fb46"
+        },
+        {
+          "name": "cli-installer.json",
+          "sha256": "8004c52767c1092a13671cc76a444735914cec7009596d5f431dca7d0e6a7c79"
+        },
+        {
+          "name": "frozen.json",
+          "sha256": "d40d645e6a6f75a9c0111e8615cde8693eca2470817dd75bb68f3d110cc0d9aa"
+        },
+        {
+          "name": "identity.json",
+          "sha256": "ae978e7d5da8b724423c8ef980993d5eccd46962d84fdce75bfd23227431b88e"
+        },
+        {
+          "name": "runtime-failure.json",
+          "sha256": "322585fb586c6ea7e241c993f8b83b02114424b298ffb756316b44d0dabee72a"
+        },
+        {
+          "name": "runtime-progress.json",
+          "sha256": "6e29944e226e8c128aeab644b450ad057ed6cabb74104ce4fcda98eadc1af5b1"
+        }
+      ]
+    },
+    {
+      "archive": "g1-cli-environment.zip",
+      "archive_sha256": "5409e3ae527530655c43497b094595a02e1015bf0769f6048debf19902292bfd",
+      "members": [
+        {
+          "name": "identity.json",
+          "sha256": "ae978e7d5da8b724423c8ef980993d5eccd46962d84fdce75bfd23227431b88e"
+        }
+      ]
+    }
+  ],
+  "second_run": {
+    "run": 38702788681,
+    "source_sha": "819291c85825d73854262d76d2030736470ef92b",
+    "archive": "g1-cli-runtime-final.zip",
+    "archive_sha256": "9fbd455504f0b2bd2181ce6df8e0844fc37f32d0797f21585386d133444a4a10",
+    "members": [
+      {
+        "name": "cleanup.json",
+        "sha256": "9c4e97be869c328159607dbe52fe6299c9ceff1da84047de86ee9a1b1633e9c7"
+      },
+      {
+        "name": "cli-installer.json",
+        "sha256": "8ffde3eed6aedfe775f2a9cf31224441039048e7876f5648f67bec804b4830ef"
+      },
+      {
+        "name": "frozen.json",
+        "sha256": "d21b7092f9b3fadc9aa929eb29274b26d6645b5279d7fbb2ec121f934ff5f538"
+      },
+      {
+        "name": "identity.json",
+        "sha256": "6b23d418720a53879774fece9a71d32961fbf8f47112e24205104b9df1da1fde"
+      },
+      {
+        "name": "runtime-failure.json",
+        "sha256": "8ed1f44b7189e69a43c98dccac1f0a4b38bfa004c818ee9612676345bb60da49"
+      },
+      {
+        "name": "runtime-progress.json",
+        "sha256": "45acafc71f5cfbb651b427490027b55edcf74c46b017e1df8145468ef939b910"
+      }
+    ]
+  }
+}

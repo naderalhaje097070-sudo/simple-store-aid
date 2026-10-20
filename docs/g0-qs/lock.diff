@@ -1,0 +1,19 @@
+--- /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-qs/base-bun.lock	2026-10-15 20:07:14.624392436 +0000
++++ /home/runner/work/simple-store-aid/simple-store-aid/evidence/g0-qs/bun.lock	2026-10-15 20:07:14.613448894 +0000
+@@ -102,6 +102,7 @@
+     "nanoid": "3.3.19",
+     "postcss": "8.5.29",
+     "proxy-addr": "2.0.8",
++    "qs": "6.16.0",
+     "seroval": "1.6.7",
+     "seroval-plugins": "^1.5.6",
+     "shell-quote": "1.11.0",
+@@ -1510,7 +1511,7 @@
+ 
+     "qrcode": ["qrcode@1.5.4", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/qrcode/-/qrcode-1.5.4.tgz", { "dependencies": { "dijkstrajs": "^1.0.1", "pngjs": "^5.0.0", "yargs": "^15.3.1" }, "bin": { "qrcode": "bin/qrcode" } }, "sha512-1ca71Zgiu6ORjHqFBDpnSMTR2ReToX4l1Au1VFLyVeBTFavzQnv5JxMFr3ukHVKpSrSA2MCk0lNJSykjUfz7Zg=="],
+ 
+-    "qs": ["qs@6.15.3", "https://europe-west4-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/qs/-/qs-6.15.3.tgz", { "dependencies": { "es-define-property": "^1.0.1", "side-channel": "^1.1.1" } }, "sha512-O9gl3zCl5h5blw1KGUzQKhA5oUXSl8rwUIM5o0S3nCXMliSvy5Dzx7/DJcI+SwgICv+IneSZwhBh1oSyEHA71A=="],
++    "qs": ["qs@6.16.0", "", { "dependencies": { "es-define-property": "^1.0.1", "side-channel": "^1.1.1" } }, "sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA=="],
+ 
+     "raf": ["raf@3.4.1", "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/raf/-/raf-3.4.1.tgz", { "dependencies": { "performance-now": "^2.1.0" } }, "sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA=="],
+ 

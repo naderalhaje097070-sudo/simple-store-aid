@@ -1,0 +1,31 @@
+[
+  {
+    "id": "@oven/bun-linux-x64-baseline@1.4.0",
+    "name": "@oven/bun-linux-x64-baseline",
+    "version": "1.4.0",
+    "size": 37174022,
+    "unpackedSize": 80762618,
+    "shasum": "43a9b9824c375e215bb639af926b13b9e3d97621",
+    "integrity": "sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==",
+    "filename": "oven-bun-linux-x64-baseline-1.4.0.tgz",
+    "files": [
+      {
+        "path": "README.md",
+        "size": 242,
+        "mode": 420
+      },
+      {
+        "path": "bin/bun",
+        "size": 80761952,
+        "mode": 493
+      },
+      {
+        "path": "package.json",
+        "size": 424,
+        "mode": 420
+      }
+    ],
+    "entryCount": 3,
+    "bundled": []
+  }
+]

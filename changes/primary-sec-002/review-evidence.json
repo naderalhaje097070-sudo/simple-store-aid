@@ -1,0 +1,42 @@
+{
+  "reviewed_head": "4a5dda42d6470ded52edfb667d582d04d2a28165",
+  "outcome": "Changes required",
+  "date": "2026-10-10",
+  "main": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+  "source_blobs_matched": {
+    "package.json": "299041193cbb6250ce9f034ee088601ff98176c0",
+    "bun.lock": "41beedae06bc6299a33e47f8ee63f6ca3d2b4648",
+    "tests/unit/dependency-security.test.ts": "1f84656009a1ff6c81f4f3a59491e9f3676e7a5b"
+  },
+  "hosted_quality": {
+    "run_id": 38034986903,
+    "job_id": 114163446036,
+    "conclusion": "failure",
+    "runner_id": 0,
+    "steps": [],
+    "startup_cause": "unverified",
+    "job_logs": "404 BlobNotFound",
+    "annotation_read": "connector endpoint unavailable"
+  },
+  "lock_diagnostics": {
+    "bun_version": "1.3.14",
+    "existing_lock_roundtrip": "identical",
+    "existing_lock_force_roundtrip": "identical",
+    "clean_generated_brace_entries_matching": 4,
+    "clean_generated_packages": 909,
+    "candidate_packages": 989,
+    "clean_graph_adopted": false
+  },
+  "followup_checks": {
+    "synthetic_mcp": { "passed": 4, "failed": 0, "expectations": 8 },
+    "combined_unit_and_synthetic_mcp": { "passed": 44, "failed": 0, "expectations": 94 },
+    "new_fixture_lint": "pass",
+    "diff_check": "pass"
+  },
+  "limits": [
+    "No GitHub review approval, merge, deployment or final-candidate acceptance.",
+    "No application JWT, tenant-isolation, database or financial-write proof.",
+    "Original generated-file process finding remains open.",
+    "No useful hosted test execution or verified startup-failure cause."
+  ]
+}

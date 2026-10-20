@@ -1,0 +1,27 @@
+{
+  "results": [
+    {
+      "name": "parent timezone-only refresh recomputes stable financial arrays",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 100\n"
+    },
+    {
+      "name": "day-close timezone-only refresh recomputes stable props",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 100\n"
+    },
+    {
+      "name": "clock invalidates parent day at rollover without financial refetch",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 100\n"
+    },
+    {
+      "name": "day-close same timezone new day invalidates preview",
+      "passed": false,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n30 !== 0\n"
+    }
+  ],
+  "passed": 0,
+  "total": 4,
+  "scope": "Actual parent and DayClose memo bodies with persistent Object.is hook fixture, stable arrays, synthetic clock; no browser/database close RPC"
+}

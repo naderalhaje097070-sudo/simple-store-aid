@@ -37,3 +37,25 @@ Follow:
 - `docs/governance/REVIEW_PROTOCOL.md`
 
 Do not access production data or secrets, perform destructive production actions, merge, deploy, rewrite published history, edit applied migrations, weaken tests, or rely on UI visibility as authorization. Record actual verification results, remaining risks, unverified items, and rollback steps before claiming completion.
+
+## Primary project execution — 2026-10-09
+
+- Work only in `naderalhaje0970-droid/simple-store-aid` for active Mongezz delivery.
+  Verify remote, base/head and target environment before material work.
+- Read the current (top) PROJECT_STATE block and docs/PRIMARY_DELIVERY_PLAN.md.
+  Historical state and the separate mongezz repository never select ONE NEXT.
+- Search implementations, callers and tests before adding functions or policies;
+  reuse approved domain logic and avoid duplicate finance implementations.
+- Verify real locked APIs/schema; do not invent provider behavior or hide uncertainty
+  with casts, any, silent error swallowing or weakened tests.
+- Keep one outcome per batch; assign non-overlapping file ownership when agents
+  are authorized. Separate sensitive implementation and adversarial review.
+- Use independent expected financial values and preserve failed evidence.
+  Failed/incomplete reads must not masquerade as zero or healthy finance.
+- After two failed attempts at the same boundary without new evidence, diagnose
+  rather than repeat patches. Do not repeat successful checks without a reason.
+- Do not promote tests or approval from another repository/head/environment.
+- Save actual source, changes, results, limitations, blocker and ONE NEXT before
+  ending a batch. Routine authorized steps proceed without repeated permission.
+- Written rules are not proof of CI enforcement. Record missing enforcement and
+  actual check outcomes. Existing financial and release gates remain in force.

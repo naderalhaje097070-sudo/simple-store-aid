@@ -1,0 +1,483 @@
+{
+  "source_sha": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+  "files": [
+    {
+      "path": "src/components/DateRangeFilter.tsx",
+      "git_blob_sha": "24da893f1444980f5d7f5fc3a47018a8033f4c31"
+    },
+    {
+      "path": "src/components/PaymentTestModeBanner.tsx",
+      "git_blob_sha": "39af713e03c800e02717521c7b95ef896fbbad53"
+    },
+    {
+      "path": "src/components/ui/accordion.tsx",
+      "git_blob_sha": "16ee9004561ab0de3cc53789d5265cba511c8570"
+    },
+    {
+      "path": "src/components/ui/alert-dialog.tsx",
+      "git_blob_sha": "072a66562e9d94e33ccaf32d27c8efe3a52e7c32"
+    },
+    {
+      "path": "src/components/ui/alert.tsx",
+      "git_blob_sha": "cd0a0627702e492c3f02607dbc77025999c5ed13"
+    },
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "git_blob_sha": "c9e6f4bf9e1c01d6d7022b53e68438e61746c86c"
+    },
+    {
+      "path": "src/components/ui/avatar.tsx",
+      "git_blob_sha": "7904926b9d89e90f6e9a3a9dad2abeed5af99c2e"
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "git_blob_sha": "3aabd17e73034f71efdd2f301f8a81ab8cdae23c"
+    },
+    {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "git_blob_sha": "94eb6291a6f26846562a63438b3c49595e9bff25"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "git_blob_sha": "bc3bc9f6bbefc3155d1f4d053ff58f9b8662edbe"
+    },
+    {
+      "path": "src/components/ui/calendar.tsx",
+      "git_blob_sha": "781f8853f2a4044c305cc862f832a2b01d41d3d7"
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "git_blob_sha": "d886b020243248cee648b14274a763b325a3bc55"
+    },
+    {
+      "path": "src/components/ui/carousel.tsx",
+      "git_blob_sha": "5dd7455702b2fb2c9561dd3b1ed700210ef3be3d"
+    },
+    {
+      "path": "src/components/ui/chart.tsx",
+      "git_blob_sha": "f27e7ca5343ccc102441afeb45ef946e1d504944"
+    },
+    {
+      "path": "src/components/ui/checkbox.tsx",
+      "git_blob_sha": "f01d47c865e9ce28610b16bfa4021a88beebec3e"
+    },
+    {
+      "path": "src/components/ui/collapsible.tsx",
+      "git_blob_sha": "cb003d17563549c97d3d349477c0aa073b2244aa"
+    },
+    {
+      "path": "src/components/ui/command.tsx",
+      "git_blob_sha": "dc859d7281e5b4fef5a2b71ea30459e0745003a8"
+    },
+    {
+      "path": "src/components/ui/context-menu.tsx",
+      "git_blob_sha": "bad5ecec471b1fffa49c1f23a43f4d69ebb4edb3"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "git_blob_sha": "8ed559e3d6f2ab5f0d0287f56c63fbcd48a47b87"
+    },
+    {
+      "path": "src/components/ui/drawer.tsx",
+      "git_blob_sha": "33533cc7600c40d506a3d308d16ef25f95af3e9d"
+    },
+    {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "git_blob_sha": "f11da936afd13d3036831b96e8d36f62bf2b81de"
+    },
+    {
+      "path": "src/components/ui/form.tsx",
+      "git_blob_sha": "4d15828dac1306f42581c2aa2aa45d04c65522db"
+    },
+    {
+      "path": "src/components/ui/hover-card.tsx",
+      "git_blob_sha": "36f3b7976293638d6c1eef6c426847107dbf766f"
+    },
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "git_blob_sha": "95d1f4c303a394a313c79f27184456bef5d99ae5"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "git_blob_sha": "7db524115c08e80b10d5282d1bb504b06b238d17"
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "git_blob_sha": "392197c3b43d69a9b426d49dec06d32ff53ea8d4"
+    },
+    {
+      "path": "src/components/ui/menubar.tsx",
+      "git_blob_sha": "5c9eb98d5eaca6f6da74f71e73893c739da6cb3e"
+    },
+    {
+      "path": "src/components/ui/navigation-menu.tsx",
+      "git_blob_sha": "94b2ecc95158b20a18bd986d1313558a128c480f"
+    },
+    {
+      "path": "src/components/ui/pagination.tsx",
+      "git_blob_sha": "f8cd41fbaad75c338aec493b5c750b65f95845c5"
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "git_blob_sha": "dc78a209bbda251914e8ee4633c303ba55a59d2c"
+    },
+    {
+      "path": "src/components/ui/progress.tsx",
+      "git_blob_sha": "1741cd2f42b7b3c7edcabee07c06e8750556f5ed"
+    },
+    {
+      "path": "src/components/ui/radio-group.tsx",
+      "git_blob_sha": "38a1a6629d76c4a6f445eb85aa8c6d485b9c064a"
+    },
+    {
+      "path": "src/components/ui/resizable.tsx",
+      "git_blob_sha": "02e9460e72e5e0afa5f71264f0fcd4a16d021aea"
+    },
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "git_blob_sha": "69febe58466d6309bdfc74bdca456c7aac448f79"
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "git_blob_sha": "3fdfc929eb90d4f33e2591e94cdfb2278d1b5c38"
+    },
+    {
+      "path": "src/components/ui/separator.tsx",
+      "git_blob_sha": "5f5966c41731e846b2bc97de315471ea605ffe86"
+    },
+    {
+      "path": "src/components/ui/sheet.tsx",
+      "git_blob_sha": "0aedeb766169d085f3b4bb72e80eac6fe552b971"
+    },
+    {
+      "path": "src/components/ui/sidebar.tsx",
+      "git_blob_sha": "3922680246adfbcdc91110f779eea0b291222a54"
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "git_blob_sha": "6d9a616758e39fcbc07480484a308ffb9d9fba5d"
+    },
+    {
+      "path": "src/components/ui/slider.tsx",
+      "git_blob_sha": "e56622ad7eec5f4e98dc870f745c2e066c66f10e"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "git_blob_sha": "7a214692adeeea9cfe4acd8659b1b7e0fd4f756f"
+    },
+    {
+      "path": "src/components/ui/switch.tsx",
+      "git_blob_sha": "6338184e11d92961b4dfd06f151ce5ada7dd838c"
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "git_blob_sha": "49d2d5c7c3e9d2d43fb2a2e423c751ec77da4279"
+    },
+    {
+      "path": "src/components/ui/tabs.tsx",
+      "git_blob_sha": "6047b50eb6db8395f79c666e488d71881155d97e"
+    },
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "git_blob_sha": "29330b61811cf9aaac31a94f981728f898229bd5"
+    },
+    {
+      "path": "src/components/ui/toggle-group.tsx",
+      "git_blob_sha": "d2c9f8ee385d50f14ca51f63db9cad9b92accd47"
+    },
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "git_blob_sha": "9d146b6a1051516735339895093cbcbcfeb9a3e8"
+    },
+    {
+      "path": "src/components/ui/tooltip.tsx",
+      "git_blob_sha": "07e55fafdcf32ee9a57164a07c89422e61c6ac2e"
+    },
+    {
+      "path": "src/domain/finance/invoice-selectors.ts",
+      "git_blob_sha": "cda3685be273f69ee8b4b266b7e6318e714ac896"
+    },
+    {
+      "path": "src/features/couriers/CouriersScreen.tsx",
+      "git_blob_sha": "6b31060a2eee88ed93072b21fdc5331fe6d784f4"
+    },
+    {
+      "path": "src/features/customers/AddCustomerInline.tsx",
+      "git_blob_sha": "1982fbd00d1b9a1ccec20fa83514ee2daeb4e5e2"
+    },
+    {
+      "path": "src/features/customers/CustomersScreen.tsx",
+      "git_blob_sha": "69f27a89614e4d0a482e75f0265455b659d7bbd6"
+    },
+    {
+      "path": "src/features/home/HomeScreen.tsx",
+      "git_blob_sha": "8e7f6db9b92b5e6f1dc44f54cf98ad8fc0a03d06"
+    },
+    {
+      "path": "src/features/inventory/AddProductSheet.tsx",
+      "git_blob_sha": "7cb0dc497bc60a1ff058697fb80c4c8b16e0b421"
+    },
+    {
+      "path": "src/features/inventory/InventoryScreen.tsx",
+      "git_blob_sha": "2016c6523ace13be219b0e8daf11534cd3a4ef8b"
+    },
+    {
+      "path": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "git_blob_sha": "9ebc053292d940724c12507a42761fb57065177e"
+    },
+    {
+      "path": "src/features/invoices/InvoicesScreen.tsx",
+      "git_blob_sha": "1daed9a7863c1d19e5d14078cd1b1b5671627124"
+    },
+    {
+      "path": "src/features/layout/BottomNav.tsx",
+      "git_blob_sha": "092dbbe0e3723c211f369fe86b8541ae0ff7e858"
+    },
+    {
+      "path": "src/features/layout/DesktopSidebar.tsx",
+      "git_blob_sha": "f3c7f03e58b0c3e64de79ca3bf50043762192392"
+    },
+    {
+      "path": "src/features/layout/TopBar.tsx",
+      "git_blob_sha": "b41149a2ec14e381ac3180063a13bbd523383d99"
+    },
+    {
+      "path": "src/features/pilot/PilotScreen.tsx",
+      "git_blob_sha": "31b38f8e233f573db621447afc81840baea980c0"
+    },
+    {
+      "path": "src/features/reports/CollectedScreen.tsx",
+      "git_blob_sha": "5043c651caf1760614d04464eb46df226624de5f"
+    },
+    {
+      "path": "src/features/reports/ProfitScreen.tsx",
+      "git_blob_sha": "0204d3f4b03a78093290a39fb9982a0ed8639c80"
+    },
+    {
+      "path": "src/features/settings/SettingsScreen.tsx",
+      "git_blob_sha": "44b3c293b459524eb94b4d2ca010d0b3d480939c"
+    },
+    {
+      "path": "src/features/shared/AppContext.ts",
+      "git_blob_sha": "beddf031221f762591dd7e32551d38ceb154d95d"
+    },
+    {
+      "path": "src/features/shared/EmptyState.tsx",
+      "git_blob_sha": "c84c48ea7dba169dbacc1b7ea5a718db409a6de4"
+    },
+    {
+      "path": "src/features/shared/Money.tsx",
+      "git_blob_sha": "f68bac1f42154bcc994296deb86e417a967b595e"
+    },
+    {
+      "path": "src/features/shared/Sheet.tsx",
+      "git_blob_sha": "4e89553371910ab15da63d8312602f7ddb7941f1"
+    },
+    {
+      "path": "src/features/shared/StatusChip.tsx",
+      "git_blob_sha": "80878658ab0cc46df90adc6ba600a58ab6cf01ca"
+    },
+    {
+      "path": "src/features/shared/Toast.tsx",
+      "git_blob_sha": "67ad045284a4c402534029671728dad2417ca09b"
+    },
+    {
+      "path": "src/features/shared/types.ts",
+      "git_blob_sha": "832280c263ba3b19d78a6133014a2a65e326d60d"
+    },
+    {
+      "path": "src/features/shop/ShopHubScreen.tsx",
+      "git_blob_sha": "8af3a35c2147bc1424c149baea2077da35b62483"
+    },
+    {
+      "path": "src/hooks/use-mobile.tsx",
+      "git_blob_sha": "502fd323934501eab408a396a9ae4a07c0ae3560"
+    },
+    {
+      "path": "src/hooks/usePaddleCheckout.ts",
+      "git_blob_sha": "6bf0944b1b93d751d2dfbeae923c1e17c826d654"
+    },
+    {
+      "path": "src/hooks/useTheme.ts",
+      "git_blob_sha": "6cca64962094ce03cf0ae67a4684cd3908985ea6"
+    },
+    {
+      "path": "src/integrations/lovable/index.ts",
+      "git_blob_sha": "b677d4215f672d932d41908c83a3c294554636ad"
+    },
+    {
+      "path": "src/integrations/supabase/auth-attacher.ts",
+      "git_blob_sha": "5bc57b798847727bc6af008e343d85fa9be1c3fb"
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "git_blob_sha": "0aefbe67a008727499cd33484d19c5629daabfac"
+    },
+    {
+      "path": "src/integrations/supabase/client.server.ts",
+      "git_blob_sha": "30e131bcd0fcf63c7f372b73bcab363f22352647"
+    },
+    {
+      "path": "src/integrations/supabase/client.ts",
+      "git_blob_sha": "8bd3a404d333a3101e267eb206dc5f525e9808f1"
+    },
+    {
+      "path": "src/integrations/supabase/types.ts",
+      "git_blob_sha": "7216cdaf91f4d49b3b5ae49fb40fe886e10a727b"
+    },
+    {
+      "path": "src/lib/business-types.ts",
+      "git_blob_sha": "1ee2ab77ee36d35040e05742105e76ab86b758c6"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "git_blob_sha": "c5877e881ec5f3acd4308cd02dc48e2b902ecc9f"
+    },
+    {
+      "path": "src/lib/error-capture.ts",
+      "git_blob_sha": "171c9b5800c5b17efc0598eae4c760b3778021e6"
+    },
+    {
+      "path": "src/lib/error-page.ts",
+      "git_blob_sha": "725235ce7bdf496daf2d870148978939f4f40a9b"
+    },
+    {
+      "path": "src/lib/invoice-pdf.ts",
+      "git_blob_sha": "e71e6b4b1511b9acfa85e5540797e47a6bba9afb"
+    },
+    {
+      "path": "src/lib/lovable-error-reporting.ts",
+      "git_blob_sha": "d1f9b1b009111538a2a65a79edf1f85a4f3424f1"
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "git_blob_sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-customers.ts",
+      "git_blob_sha": "aaf3f5eac1beee64fea966f0060445028ad4d55c"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-products.ts",
+      "git_blob_sha": "c433732a46606a171e46a1db9a986929477b739e"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-recent-orders.ts",
+      "git_blob_sha": "8423b882a45b66f9d5e617ad9646deb2d24558fd"
+    },
+    {
+      "path": "src/lib/mcp/tools/today-summary.ts",
+      "git_blob_sha": "499432bf87b97ef412ac67cecb2ee4e61b227f6d"
+    },
+    {
+      "path": "src/lib/paddle.server.ts",
+      "git_blob_sha": "217d3d39270f66985ac6249202869b47b494e2e9"
+    },
+    {
+      "path": "src/lib/paddle.ts",
+      "git_blob_sha": "a5adb46c0be344a4a8689d7a448550a7404b33e6"
+    },
+    {
+      "path": "src/lib/pwa-register.ts",
+      "git_blob_sha": "bd204c6db48681a40d3f4897d6a26abeb5289166"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "git_blob_sha": "a5ef193506d07d0459fec4f187af08283094d7c8"
+    },
+    {
+      "path": "src/routeTree.gen.ts",
+      "git_blob_sha": "773224349572a5a572dc387329b846c973b24bab"
+    },
+    {
+      "path": "src/router.tsx",
+      "git_blob_sha": "3423d598036579e62f42faec438f868b4bb0bb17"
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "git_blob_sha": "62732b71ba36f124fc0e1b501b5eb4bdd1495288"
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "git_blob_sha": "4f9c6a09f32e3521a0cf370a383837da5071feee"
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "git_blob_sha": "ce5de60ceb13205e1962c1a0f71d2927e5040c0e"
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "git_blob_sha": "87fe0ac5f7952fd892458db94269638b51e5f6b4"
+    },
+    {
+      "path": "src/routes/__root.tsx",
+      "git_blob_sha": "07baa469d4147f9870cff0c0628f0b65f97fcfae"
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "git_blob_sha": "054c9640c5f7785e7fbac491108286d42e1c1c61"
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "git_blob_sha": "0124e8751b14043f46a8cdf70a2930cf54d7b37d"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "git_blob_sha": "944994637df69940d70d90545c35c5f64d84a4f0"
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "git_blob_sha": "2b28731e36636e04cbe80110ca6587103e051a34"
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "git_blob_sha": "0eb206f28305c00fa0f9722cdfb7185e88673f1c"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "git_blob_sha": "c83bab07ae319dee2a659a4bb6f0a576b9b9d832"
+    },
+    {
+      "path": "src/routes/auth.tsx",
+      "git_blob_sha": "77384b5056a714a0aeaa250ea810c2727c29e48f"
+    },
+    {
+      "path": "src/routes/guide.tsx",
+      "git_blob_sha": "5b64e7969a18b3fe5a49bf4fbb9d54c3e1383f7d"
+    },
+    {
+      "path": "src/routes/index.tsx",
+      "git_blob_sha": "8d6885a91d851dbc9b298d3b05d1b8fd4b54e704"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "git_blob_sha": "9cb03181d573c777636cb07dcbd770947647bac5"
+    },
+    {
+      "path": "src/routes/mcp.ts",
+      "git_blob_sha": "a13662d6b9152db8009d634e2a82d514c1c374b2"
+    },
+    {
+      "path": "src/routes/sitemap[.]xml.ts",
+      "git_blob_sha": "5e45e999063d0feacd7db4e41751de38caa0e10c"
+    },
+    {
+      "path": "src/server.ts",
+      "git_blob_sha": "ac35a67afe5ba1682108a044bbb36ebc12e0d440"
+    },
+    {
+      "path": "src/start.ts",
+      "git_blob_sha": "2b6bb36c089cce08d18def495d0ad716e484818a"
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "git_blob_sha": "b407f1c3dd188db4e1e5c5d3c405eb23a3fad66b"
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "git_blob_sha": "0f53bb0695f56148d678fac7feb5e9328a58d860"
+    }
+  ],
+  "sql_truncate_callers_found": false,
+  "word_matches_are_CSS_classes": true
+}

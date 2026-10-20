@@ -1,0 +1,1075 @@
+{
+  "source_sha": "df9221e20b026ad82f6a8365ab203c9023b9963d",
+  "mode": "upgrade",
+  "baseline": {
+    "public": {
+      "couriers": "d751713988987e9331980363e24189ce",
+      "customers": "d751713988987e9331980363e24189ce",
+      "day_closes": "d751713988987e9331980363e24189ce",
+      "email_send_log": "d751713988987e9331980363e24189ce",
+      "email_send_state": "8307124793323ff92e5cada4cabfb3a9",
+      "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+      "expenses": "d751713988987e9331980363e24189ce",
+      "financial_audit_log": "9028ed8cc11edcdb931a601ac98c0796",
+      "order_items": "4bf6848e600377eec2533d16916b218f",
+      "orders": "daa7560bec3e9247cca803e11e119f3f",
+      "payments": "ad3ad83868da2331e93cb66d12fd040b",
+      "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+      "platform_admins": "d751713988987e9331980363e24189ce",
+      "products": "cd990fb0f5e8337aeae626e3be7c11e2",
+      "profiles": "7d86e80150cb47164dc208d90e86add6",
+      "security_scan_findings": "d751713988987e9331980363e24189ce",
+      "security_scan_runs": "d751713988987e9331980363e24189ce",
+      "subscriptions": "d751713988987e9331980363e24189ce",
+      "suppressed_emails": "d751713988987e9331980363e24189ce",
+      "tenant_counters": "908ddad70dfe787c36dd9c1db1492be6",
+      "tenants": "2609352b6290b1423df031efa41c0718",
+      "user_roles": "c0b5643afe67f2cd112c3256c8501b04"
+    },
+    "auth_identity_state": [
+      {
+        "id": "23b67ce3-b6dc-41b8-b4c4-a9f2a3822b37",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "75f5eadd-1560-4e6c-a368-efa88cbe5a7e",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "f1fafa4a-b9b9-4005-b155-5b4eefbf0ba6",
+        "deleted_at": null,
+        "banned_until": null
+      }
+    ],
+    "counts": {
+      "couriers": 0,
+      "customers": 0,
+      "day_closes": 0,
+      "email_send_log": 0,
+      "email_send_state": 1,
+      "email_unsubscribe_tokens": 0,
+      "expenses": 0,
+      "financial_audit_log": 1,
+      "order_items": 1,
+      "orders": 1,
+      "payments": 1,
+      "platform_admin_audit_log": 0,
+      "platform_admins": 0,
+      "products": 1,
+      "profiles": 3,
+      "security_scan_findings": 0,
+      "security_scan_runs": 0,
+      "subscriptions": 0,
+      "suppressed_emails": 0,
+      "tenant_counters": 1,
+      "tenants": 2,
+      "user_roles": 3
+    }
+  },
+  "tenant_indexes": [
+    {
+      "name": "tenants_pkey",
+      "valid": true,
+      "unique": true,
+      "primary": true,
+      "predicate": null,
+      "definition": "CREATE UNIQUE INDEX tenants_pkey ON public.tenants USING btree (id)",
+      "expressions": null,
+      "key_columns": [
+        "id"
+      ]
+    }
+  ],
+  "closure_verified": true,
+  "integration_accepted": false,
+  "marker": [
+    {
+      "user_id": "23b67ce3-b6dc-41b8-b4c4-a9f2a3822b37",
+      "closed_at": "2026-10-13T22:26:09.404938+00:00"
+    }
+  ],
+  "old_token_sha256": "df98f4913dae7bd8f28d9944a9457ebdcbf7220c33f8e0d31374e7f68ef79aad",
+  "old_expiry": 1791933957,
+  "new_expiry": 1791933971,
+  "after": {
+    "public": {
+      "couriers": "d751713988987e9331980363e24189ce",
+      "customers": "d751713988987e9331980363e24189ce",
+      "day_closes": "d751713988987e9331980363e24189ce",
+      "email_send_log": "d751713988987e9331980363e24189ce",
+      "email_send_state": "8307124793323ff92e5cada4cabfb3a9",
+      "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+      "expenses": "d751713988987e9331980363e24189ce",
+      "financial_audit_log": "9028ed8cc11edcdb931a601ac98c0796",
+      "order_items": "4bf6848e600377eec2533d16916b218f",
+      "orders": "daa7560bec3e9247cca803e11e119f3f",
+      "payments": "ad3ad83868da2331e93cb66d12fd040b",
+      "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+      "platform_admins": "d751713988987e9331980363e24189ce",
+      "products": "cd990fb0f5e8337aeae626e3be7c11e2",
+      "profiles": "7d86e80150cb47164dc208d90e86add6",
+      "security_scan_findings": "d751713988987e9331980363e24189ce",
+      "security_scan_runs": "d751713988987e9331980363e24189ce",
+      "subscriptions": "d751713988987e9331980363e24189ce",
+      "suppressed_emails": "d751713988987e9331980363e24189ce",
+      "tenant_counters": "908ddad70dfe787c36dd9c1db1492be6",
+      "tenants": "2609352b6290b1423df031efa41c0718",
+      "user_roles": "c0b5643afe67f2cd112c3256c8501b04"
+    },
+    "auth_identity_state": [
+      {
+        "id": "23b67ce3-b6dc-41b8-b4c4-a9f2a3822b37",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "75f5eadd-1560-4e6c-a368-efa88cbe5a7e",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "f1fafa4a-b9b9-4005-b155-5b4eefbf0ba6",
+        "deleted_at": null,
+        "banned_until": null
+      }
+    ],
+    "counts": {
+      "couriers": 0,
+      "customers": 0,
+      "day_closes": 0,
+      "email_send_log": 0,
+      "email_send_state": 1,
+      "email_unsubscribe_tokens": 0,
+      "expenses": 0,
+      "financial_audit_log": 1,
+      "order_items": 1,
+      "orders": 1,
+      "payments": 1,
+      "platform_admin_audit_log": 0,
+      "platform_admins": 0,
+      "products": 1,
+      "profiles": 3,
+      "security_scan_findings": 0,
+      "security_scan_runs": 0,
+      "subscriptions": 0,
+      "suppressed_emails": 0,
+      "tenant_counters": 1,
+      "tenants": 2,
+      "user_roles": 3
+    }
+  },
+  "checks": [
+    {
+      "name": "initial_empty_synthetic_stack",
+      "passed": true
+    },
+    {
+      "name": "all44_prior_migration_bytes_immutable",
+      "passed": true
+    },
+    {
+      "name": "initial_exact_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "live_tenant_indexes_observed",
+      "passed": true
+    },
+    {
+      "name": "owner_not_uniquely_constrained",
+      "passed": true
+    },
+    {
+      "name": "no_unresolved_unique_expression_index",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "closure_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_staff_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_staff_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "existing_owner_rest_product_created",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "approved_sale_rpc_succeeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_product_values",
+      "passed": true
+    },
+    {
+      "name": "independent_direct_cash_order",
+      "passed": true
+    },
+    {
+      "name": "independent_item_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "independent_payment_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "nonempty_actor_linked_financial_audit",
+      "passed": true
+    },
+    {
+      "name": "counter_present_at_real_baseline",
+      "passed": true
+    },
+    {
+      "name": "genuine_local_oauth_client",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_B",
+      "passed": true
+    },
+    {
+      "name": "before_A_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_A_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_A_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_A",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_A",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_A",
+      "passed": true
+    },
+    {
+      "name": "before_A_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_B_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_B_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_B",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_B",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_B",
+      "passed": true
+    },
+    {
+      "name": "before_B_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "named_missing_closure_expected_red",
+      "passed": true
+    },
+    {
+      "name": "expected_red_does_not_mutate_fixture",
+      "passed": true
+    },
+    {
+      "name": "one_new_migration_only",
+      "passed": true
+    },
+    {
+      "name": "populated44_to45_upgrade",
+      "passed": true
+    },
+    {
+      "name": "upgrade_preserves_populated_baseline",
+      "passed": true
+    },
+    {
+      "name": "postgrest_new_entry_ready_staff_denied",
+      "passed": true
+    },
+    {
+      "name": "private_marker_rls_and_restrict_reference",
+      "passed": true
+    },
+    {
+      "name": "private_marker_clients_no_dml",
+      "passed": true
+    },
+    {
+      "name": "exact_self_entry_acl_and_search_path",
+      "passed": true
+    },
+    {
+      "name": "existing_active_guard_acl_preserved",
+      "passed": true
+    },
+    {
+      "name": "foreign_target_rejected_by_exact_signature",
+      "passed": true
+    },
+    {
+      "name": "malformed_parameter_rejected_by_exact_signature",
+      "passed": true
+    },
+    {
+      "name": "staff_cannot_close",
+      "passed": true
+    },
+    {
+      "name": "unauthenticated_cannot_close",
+      "passed": true
+    },
+    {
+      "name": "negative_requests_no_public_or_identity_effect",
+      "passed": true
+    },
+    {
+      "name": "negative_requests_no_marker",
+      "passed": true
+    },
+    {
+      "name": "real_self_closure_success",
+      "passed": true
+    },
+    {
+      "name": "one_private_closure_event",
+      "passed": true
+    },
+    {
+      "name": "closure_only_private_delta",
+      "passed": true
+    },
+    {
+      "name": "closed_live_predicate_false",
+      "passed": true
+    },
+    {
+      "name": "active_control_live_predicate_true",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_existing_consent_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "new_provider_token_distinct",
+      "passed": true
+    },
+    {
+      "name": "old_jwt_unexpired_expected_identity",
+      "passed": true
+    },
+    {
+      "name": "old_retained_provider_identity_valid",
+      "passed": true
+    },
+    {
+      "name": "old_explicit_rpc_denial_current_tenant_id",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_explicit_rpc_denial_get_tenant_today_estimate",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_explicit_rpc_denial_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_rest_denial_tenants",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_profiles",
+      "passed": true,
+      "status": 200,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_user_roles",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_products",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_orders",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_order_items",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_payments",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_financial_audit_log",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "mcp_initialize_closed_old",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_closed_old",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_closed_old",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_closed_old",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_closed_old",
+      "passed": true
+    },
+    {
+      "name": "old_full_route_denial_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_narrow_idempotent_repeat",
+      "passed": true
+    },
+    {
+      "name": "old_repeat_no_extra_event_or_history",
+      "passed": true
+    },
+    {
+      "name": "old_generic_write_cannot_reopen_profiles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_generic_write_cannot_reopen_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_generic_writes_no_effect",
+      "passed": true
+    },
+    {
+      "name": "new_jwt_unexpired_expected_identity",
+      "passed": true
+    },
+    {
+      "name": "new_retained_provider_identity_valid",
+      "passed": true
+    },
+    {
+      "name": "new_explicit_rpc_denial_current_tenant_id",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_explicit_rpc_denial_get_tenant_today_estimate",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_explicit_rpc_denial_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_rest_denial_tenants",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_profiles",
+      "passed": true,
+      "status": 200,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_user_roles",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_products",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_orders",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_order_items",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_payments",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_financial_audit_log",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "mcp_initialize_closed_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_closed_new",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_closed_new",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_closed_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_closed_new",
+      "passed": true
+    },
+    {
+      "name": "new_full_route_denial_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_narrow_idempotent_repeat",
+      "passed": true
+    },
+    {
+      "name": "new_repeat_no_extra_event_or_history",
+      "passed": true
+    },
+    {
+      "name": "new_generic_write_cannot_reopen_profiles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_generic_write_cannot_reopen_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_generic_writes_no_effect",
+      "passed": true
+    },
+    {
+      "name": "exact_old_token_unchanged",
+      "passed": true
+    },
+    {
+      "name": "private_marker_no_generic_authenticated_write",
+      "passed": true
+    },
+    {
+      "name": "repeat_does_not_override_banned_until",
+      "passed": true
+    },
+    {
+      "name": "repeat_does_not_override_deleted_at",
+      "passed": true
+    },
+    {
+      "name": "metadata_negative_transactions_rolled_back",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_A_unaffected_after_B_negatives",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_A_unaffected_after_B_negatives",
+      "passed": true
+    },
+    {
+      "name": "A_unaffected_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "A_unaffected_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "all_public_rows_and_identity_links_retained",
+      "passed": true
+    },
+    {
+      "name": "one_immutable_closure_event_at_finish",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "app_no_native_outbound_attempts",
+      "passed": true
+    },
+    {
+      "name": "exact_final_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ],
+  "process_containment": {
+    "pid": 8087,
+    "uid": 999,
+    "guard_ready": true,
+    "redirect_manual": true,
+    "native_redirect_rejected": true,
+    "external_blocked": 0,
+    "downstream": {
+      "jwks": 35,
+      "rest": 20
+    },
+    "runtime_conflict_errors": 0
+  },
+  "firewall": [
+    {
+      "process": "app",
+      "baseline_after_canary_before_bundle": {
+        "ipv4": 2,
+        "ipv6": 0
+      },
+      "end": {
+        "ipv4": 2,
+        "ipv6": 0
+      },
+      "unexpected_reject_packets": {
+        "ipv4": 0,
+        "ipv6": 0
+      }
+    }
+  ],
+  "migration_versions": [
+    "20260626142422",
+    "20260626142438",
+    "20260626143241",
+    "20260626143657",
+    "20260626145704",
+    "20260626150447",
+    "20260626151932",
+    "20260626155319",
+    "20260626155333",
+    "20260626155758",
+    "20260626161037",
+    "20260626162911",
+    "20260626181906",
+    "20260626183212",
+    "20260626190302",
+    "20260626191000",
+    "20260626191523",
+    "20260626201427",
+    "20260626213551",
+    "20260626225100",
+    "20260626231740",
+    "20260626233231",
+    "20260627100633",
+    "20260627201534",
+    "20260627203328",
+    "20260627213042",
+    "20260627221524",
+    "20260627224911",
+    "20260628073856",
+    "20260628074047",
+    "20260628075333",
+    "20260628102723",
+    "20260628103809",
+    "20260628105459",
+    "20260701090000",
+    "20260704105413",
+    "20260706120000",
+    "20260708073115",
+    "20260715145141",
+    "20260716064935",
+    "20260717180906",
+    "20261010223557",
+    "20261010225012",
+    "20261013120223",
+    "20261013221918"
+  ],
+  "migration_sha256": {
+    "20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql": "6a91062403ada71c0583045956ad37884266e1dfa220ae6df44bc7727b4207e5",
+    "20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql": "fa68b61127901c7d1598d931183a8eb38dc4904ab0b61c95427a6fba9c9eb63c",
+    "20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql": "4b2bc3c8541a58d43893346a52fc2073e05bdc4cc8b6ecc6dc422ec282eb2bf6",
+    "20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql": "19d68900ca9a008ff5887d09b9576e8eb175cf3df3b215dc299ca3fbf860b2fe",
+    "20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql": "ab23379efb73323fa9ee5d5306965636478307a48eddc85ea833d4374698e80d",
+    "20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql": "9aab1aa41819a32e33f38e15456a8450bcd7e7124383aed7f511331c1285cb26",
+    "20260626151932_a2de7094-5740-498d-9437-09680527c275.sql": "ef2a1feab91aa1b0d985faac518c7bf56e5357ced4a5d154caf50a80a1dc0bd3",
+    "20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql": "451197830a7e7492084128eda4b7f61c9fbb110ad0926137660464a2ef2a0269",
+    "20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql": "ef26b928b19c9b890c3ebae63d50d3a7bfb349e304e9fa6132b569a1b4a5b464",
+    "20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql": "14192fd6a74fc2258acb72aa8e499b62ed0f2f7d599823260c6546b488d6f0db",
+    "20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql": "157c7f87c6e83f6142dd657495ce5cd6270b7f462ee99af97ea28c6877b56431",
+    "20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql": "0ebfd128a5eed713d711feba1493046cd03b7c26b42bf2f935256a36ed725645",
+    "20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql": "554320d4b3adc5d4bac659d82e594d7f161f41becf81a13489728a10a6619f81",
+    "20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql": "a315025a5bc92a3476750263ef7d35b937e113c2d81262ff0289c7b4081b1772",
+    "20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql": "81d5acef515ffcf9307aefade3db25d671b87ce52ed6763891c17014cfc77623",
+    "20260626191000_platform_admin_audit_prerequisite.sql": "9afd302e4fd843000cd0a9f8f15ec7992ea94de18f98c0514155a6ff9ebd97ef",
+    "20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql": "e8c7db227ab5a388bad53c075ad2d8d521dae2a0bb7e71442a05d8682f6ebbe6",
+    "20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql": "1c4abd024f2e01c2f3b351ee20e97a0554467217ffc5d144dad8692c508cd547",
+    "20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql": "98cc0a1f4364aa52978e38e562f9206cf7d2ca30ea62ae9f323f0210e8175200",
+    "20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql": "4dc0e408a631a2b11911d4114a77618dc172ceb00d5fc5a3d2dce1da1b9d3957",
+    "20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql": "c0d2b09674dcc48c237fe1ca0437d8ae7ddd59761b82973af7a77bf9939bdcac",
+    "20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql": "9234080fa59c86bc4052ea433796de065415e0c210046c791880d957f81c8a20",
+    "20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql": "fb79010b4c58d59db5b1f3a3dc4697b46ea0a5c702e1097724c8b94fa1451b11",
+    "20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql": "55bec4a22167e06103c32600bd1791f2be6c90353a644b78e2a175c982645d0f",
+    "20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql": "a742794a2413918a92f5261b45124f427e7d6a1b4c864e97c31617076857de75",
+    "20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql": "2f597fc5db9be4e926c7e1612a8a57227f8872188ca2a0b369dfae63cc8942ae",
+    "20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql": "ba9a5fd4edd87be10d87c4d95e1d17118de6dcefc58bb557408b092182549795",
+    "20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql": "207cafca6248275d146005fbda71ec1ff0c0b7341c84be052c7f89b4635fd3c5",
+    "20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql": "6b13af7c300eaa3cca2134bee2c98c983be9cda05a1ca7a8cb0cfacdec05ae75",
+    "20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql": "eb323cde8301afa19e4106ef78d50e8ff4132d72e192603418c13a5dfe573f7e",
+    "20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql": "bf3a6edf0c3dca8afa2fcc86292a2f44f292d549cfb3f0b0757ad1454840b537",
+    "20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql": "4f1459ed5b4c81a126027a5a70e18fd84a5e3017f45ecf52898b207592059fa0",
+    "20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql": "cd5c4a9841dafc45cae368aed209e42d3d320a37fa56990b717b3e1453afc10a",
+    "20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql": "aac73562f25a14181f55d781b603f06af2d80267fda7892d1696cebfbb7c1ae7",
+    "20260701090000_returned_order_not_debt.sql": "5f86dd8357a9e22668802bc64325d53ac254166130c39020451b66129fe819e9",
+    "20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql": "fcecb45df44e1543935590796e89d3b2f5152007bb34d9f16cc44c7ea1199879",
+    "20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql": "b9afdcad20c9f5979a8cefc3fba8b10c1fd146c76ef7cbebdce66e1103253c33",
+    "20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql": "124e9be31702fe930af9fb2324dfdef22cce2edb1c378406193477a03d65a3fb",
+    "20260715145141_email_infra.sql": "89c19e347c2914e34d3cc6b2b2079615c275e6c072295dec67bdfd141d434f9d",
+    "20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql": "c83f945c30a7d33f43b6637d12457e94e128fe3e12247f7cd0b5f38af173bf3b",
+    "20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql": "37f0e54474e7c63c78a6ba1ccef2a0106c0b2a7a72fd95d416a16d55c48a36a6",
+    "20261010223557_enforce_live_account_state.sql": "e0e6924d336c6aca868116565808451ed1b3ddb6c534584d4c90623d583ae702",
+    "20261010225012_avoid_profile_policy_sublink_recursion.sql": "bca9c736013e40ba1f41a18a26acfeb086fd66e89cd1842a48ebe1606ea92271",
+    "20261013120223_sec_truncate_01.sql": "e2f2fa5d102a0667ec6035040a96307d08fb3b32f5201117d1f750d4ab520429",
+    "20261013221918_owner_closure_01.sql": "4994ec131b782995314a3f29e7a57c1e6ddbbb20c7586dc3589922222e88bd59"
+  },
+  "not_verified": [
+    "concurrency/in-flight operations",
+    "Cloudflare/production",
+    "broader financial contracts",
+    "provider sign-in blocking",
+    "retention duration/erasure",
+    "full provider-service egress audit",
+    "release acceptance",
+    "same-tenant staff access continuity after owner closure"
+  ],
+  "evidence_no_credentials": true
+}

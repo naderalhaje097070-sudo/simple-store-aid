@@ -1,3 +1,32 @@
+## Current execution notice — MONJEZ v2.2, 2026-10-10
+
+Active repository: `naderalhaje097070-sudo/simple-store-aid`.
+Verified main: `43d6edbccb66fb06ce0fcb93734ad59532d1aeae`.
+Current unmerged lineage: PR51 -> PR52 -> PR53 -> PR54
+(`57fb508b9d239aaf4676352dd97654341416c46a`).
+Execution index: [issue #55](https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/55).
+Reconciliation evidence: [PRIMARY-RESUME-001](../changes/primary-resume-001/VERIFICATION.md).
+
+The six stages, scope and accepted contracts in this plan are retained.
+The original 9 October start packet and its next-task notices below are historical.
+Read the top PROJECT_STATE/TASKS checkpoints for scheduling, rather than repeating
+PRIMARY-SEC-001/002 or the ENV implementation already prepared in the draft stack.
+
+Quality #342 attempt2 reached real steps and passed on the exact PR54 source.
+This replaces the current runner-unavailable assumption for that job only;
+it is not authorization/financial/independent-review or merge acceptance.
+
+Current bounded packet: S1.1a repository/state/evidence reconciliation.
+ONE NEXT: `S2.4a / ENV-NATIVE-01` account-lifecycle intake, dependency mapping
+and regression safety net before authorization implementation. Missing independent
+reviews and other required checks remain open. Financial write tests require accepted
+isolation; candidate availability alone cannot satisfy that dependency.
+
+No second roadmap, new product scope, financial-policy change, billing action,
+merge, release or deployment is authorized by this notice.
+
+---
+
 # Primary delivery plan and start packet
 
 Date: 2026-10-09 (Africa/Tripoli).

@@ -1,0 +1,760 @@
+{
+  "source_sha": "df9221e20b026ad82f6a8365ab203c9023b9963d",
+  "checks": [
+    {
+      "name": "initial_empty_synthetic_stack",
+      "passed": true
+    },
+    {
+      "name": "all44_prior_migration_bytes_immutable",
+      "passed": true
+    },
+    {
+      "name": "initial_exact_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "live_tenant_indexes_observed",
+      "passed": true
+    },
+    {
+      "name": "owner_not_uniquely_constrained",
+      "passed": true
+    },
+    {
+      "name": "no_unresolved_unique_expression_index",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "closure_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closure_staff_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closure_staff_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closure_staff_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "existing_owner_rest_product_created",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "approved_sale_rpc_succeeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_product_values",
+      "passed": true
+    },
+    {
+      "name": "independent_direct_cash_order",
+      "passed": true
+    },
+    {
+      "name": "independent_item_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "independent_payment_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "nonempty_actor_linked_financial_audit",
+      "passed": true
+    },
+    {
+      "name": "counter_present_at_real_baseline",
+      "passed": true
+    },
+    {
+      "name": "genuine_local_oauth_client",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_closure_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_closure_B",
+      "passed": true
+    },
+    {
+      "name": "before_A_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_A_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_A_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_A",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_A",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_A",
+      "passed": true
+    },
+    {
+      "name": "before_A_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_A_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "before_B_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "before_B_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_before_B",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_before_B",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_before_B",
+      "passed": true
+    },
+    {
+      "name": "before_B_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "before_B_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "postgrest_new_entry_ready_staff_denied",
+      "passed": true
+    },
+    {
+      "name": "private_marker_rls_and_restrict_reference",
+      "passed": true
+    },
+    {
+      "name": "private_marker_clients_no_dml",
+      "passed": true
+    },
+    {
+      "name": "exact_self_entry_acl_and_search_path",
+      "passed": true
+    },
+    {
+      "name": "existing_active_guard_acl_preserved",
+      "passed": true
+    },
+    {
+      "name": "foreign_target_rejected_by_exact_signature",
+      "passed": true
+    },
+    {
+      "name": "malformed_parameter_rejected_by_exact_signature",
+      "passed": true
+    },
+    {
+      "name": "staff_cannot_close",
+      "passed": true
+    },
+    {
+      "name": "unauthenticated_cannot_close",
+      "passed": true
+    },
+    {
+      "name": "negative_requests_no_public_or_identity_effect",
+      "passed": true
+    },
+    {
+      "name": "negative_requests_no_marker",
+      "passed": true
+    },
+    {
+      "name": "real_self_closure_success",
+      "passed": true
+    },
+    {
+      "name": "one_private_closure_event",
+      "passed": true
+    },
+    {
+      "name": "closure_only_private_delta",
+      "passed": true
+    },
+    {
+      "name": "closed_live_predicate_false",
+      "passed": true
+    },
+    {
+      "name": "active_control_live_predicate_true",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_existing_consent_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_after_closure",
+      "passed": true
+    },
+    {
+      "name": "new_provider_token_distinct",
+      "passed": true
+    },
+    {
+      "name": "old_jwt_unexpired_expected_identity",
+      "passed": true
+    },
+    {
+      "name": "old_retained_provider_identity_valid",
+      "passed": true
+    },
+    {
+      "name": "old_explicit_rpc_denial_current_tenant_id",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_explicit_rpc_denial_get_tenant_today_estimate",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_explicit_rpc_denial_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_rest_denial_tenants",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_profiles",
+      "passed": true,
+      "status": 200,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_user_roles",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_products",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_orders",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_order_items",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_payments",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "old_rest_denial_financial_audit_log",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "mcp_initialize_closed_old",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_closed_old",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_closed_old",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_closed_old",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_closed_old",
+      "passed": true
+    },
+    {
+      "name": "old_full_route_denial_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_full_route_denial_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_narrow_idempotent_repeat",
+      "passed": true
+    },
+    {
+      "name": "old_repeat_no_extra_event_or_history",
+      "passed": true
+    },
+    {
+      "name": "old_generic_write_cannot_reopen_profiles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_generic_write_cannot_reopen_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "old_generic_writes_no_effect",
+      "passed": true
+    },
+    {
+      "name": "new_jwt_unexpired_expected_identity",
+      "passed": true
+    },
+    {
+      "name": "new_retained_provider_identity_valid",
+      "passed": true
+    },
+    {
+      "name": "new_explicit_rpc_denial_current_tenant_id",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_explicit_rpc_denial_get_tenant_today_estimate",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_explicit_rpc_denial_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_rest_denial_tenants",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_profiles",
+      "passed": true,
+      "status": 200,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_user_roles",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_products",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_orders",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_order_items",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_payments",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "new_rest_denial_financial_audit_log",
+      "passed": true,
+      "status": 403,
+      "corroborating_guard": "named RPC 42501/account_inactive plus false live predicate"
+    },
+    {
+      "name": "mcp_initialize_closed_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_closed_new",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_closed_new",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_closed_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_closed_new",
+      "passed": true
+    },
+    {
+      "name": "new_full_route_denial_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_full_route_denial_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_narrow_idempotent_repeat",
+      "passed": true
+    },
+    {
+      "name": "new_repeat_no_extra_event_or_history",
+      "passed": true
+    },
+    {
+      "name": "new_generic_write_cannot_reopen_profiles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_generic_write_cannot_reopen_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "new_generic_writes_no_effect",
+      "passed": true
+    },
+    {
+      "name": "exact_old_token_unchanged",
+      "passed": true
+    },
+    {
+      "name": "private_marker_no_generic_authenticated_write",
+      "passed": true
+    },
+    {
+      "name": "repeat_does_not_override_banned_until",
+      "passed": true
+    },
+    {
+      "name": "repeat_does_not_override_deleted_at",
+      "passed": true
+    },
+    {
+      "name": "metadata_negative_transactions_rolled_back",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_A_unaffected_after_B_negatives",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_A_unaffected_after_B_negatives",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_A_unaffected_after_B_negatives",
+      "passed": true
+    },
+    {
+      "name": "A_unaffected_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "A_unaffected_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "A_unaffected_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "all_public_rows_and_identity_links_retained",
+      "passed": true
+    },
+    {
+      "name": "one_immutable_closure_event_at_finish",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "app_no_native_outbound_attempts",
+      "passed": true
+    },
+    {
+      "name": "exact_final_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "scope": "offline documentation/source checks only; no test suite or live DB action",
+  "source_sha": "2ae95ed6175e0859b4c0a1d36d1110f99f19c792",
+  "checks": [
+    {
+      "name": "base_source_exact_PR64",
+      "passed": true
+    },
+    {
+      "name": "43_lexically_ordered_unique_migration_paths",
+      "passed": true
+    },
+    {
+      "name": "139_downloaded_sources_match_immutable_Git_blobs_and_SHA256",
+      "passed": true
+    },
+    {
+      "name": "30_retained_unique_public_FK_edges",
+      "passed": true
+    },
+    {
+      "name": "public_FK_source_lines_resolve",
+      "passed": true
+    },
+    {
+      "name": "removed_test_allowlist_excluded",
+      "passed": true
+    },
+    {
+      "name": "catalog_provenance_does_not_claim_FK_or_trigger_rows",
+      "passed": true
+    },
+    {
+      "name": "41_original_migration_hashes_preserved",
+      "passed": true
+    },
+    {
+      "name": "14_source_trigger_declarations",
+      "passed": true
+    },
+    {
+      "name": "immutable_source_links_and_cited_lines_exist",
+      "passed": true
+    },
+    {
+      "name": "test_spec_explicitly_not_executed",
+      "passed": true
+    },
+    {
+      "name": "decisive_owner_contract_not_inferred_from_employee_rule",
+      "passed": true
+    }
+  ],
+  "count": 12,
+  "live_tests_executed": 0,
+  "database_actions": 0,
+  "historical_tests_rerun": 0
+}

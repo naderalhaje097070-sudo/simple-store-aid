@@ -45,6 +45,7 @@ export default defineConfig(async (configEnv) => {
       // identity into the server bundle so runtime Worker bindings cannot silently
       // target a different environment than the browser bundle was built for.
       define: {
+        "import.meta.env.MONGEZZ_DEPLOY_TARGET": JSON.stringify(mongezzBuildTarget),
         "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseBuildConfig.url),
         "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
           supabaseBuildConfig.publishableKey,

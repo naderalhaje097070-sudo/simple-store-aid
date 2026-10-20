@@ -1,0 +1,230 @@
+name: OC APP Price Lifecycle
+'on':
+  push:
+    branches:
+    - fix/oc-app-01-2026-10-14
+permissions:
+  contents: read
+jobs:
+  price:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: route-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+      OC_APP_MODE: fixed
+    steps:
+    - name: Checkout exact source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.sha }}
+        persist-credentials: false
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Setup native Node runtime
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install exact locked dependencies
+      run: bun install --frozen-lockfile > "$RUNNER_TEMP/route-install-private.log" 2>&1
+    - name: Locked price wire protocol
+      run: node tests/account-lifecycle/oc_app_wire.test.mjs
+    - name: Setup pinned Supabase CLI
+      uses: supabase/setup-cli@v2
+      with:
+        version: 2.101.0
+    - name: Inspect CLI and validate isolated intent
+      run: 'set -euo pipefail
+
+        test "$(supabase --version)" = ''2.101.0''
+
+        test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+
+        supabase --help > "$RUNNER_TEMP/route-cli-help.txt"
+
+        grep -q -- ''--workdir'' "$RUNNER_TEMP/route-cli-help.txt"
+
+        python tests/e2e/write_harness_guard.py --preflight-only
+
+        '
+    - name: Install local test prerequisites
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/route-psql-private.log" 2>&1
+
+        '
+    - name: Prove real process containment before credentials
+      shell: bash
+      run: "set -euo pipefail\nsudo useradd --system --no-create-home --shell /usr/sbin/nologin mcp-route\nuid=\"\
+        $(id -u mcp-route)\"\nsudo iptables -N MCP_ROUTE\nsudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT\n\
+        sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable\nsudo iptables -I OUTPUT 1 -m owner\
+        \ --uid-owner \"$uid\" -j MCP_ROUTE\nsudo ip6tables -I OUTPUT 1 -m owner --uid-owner \"$uid\" -j REJECT\n\
+        # Hosted runner workspace ancestors may be private to runner. Copy only\n# the containment preload, then\
+        \ later the exact standalone build output.\nsudo install -d -m 755 -o mcp-route /tmp/monjez-tanstack-route\n\
+        sudo install -m 644 tests/account-lifecycle/oc_app_guard.mjs /tmp/monjez-tanstack-route/guard.mjs\ncmp tests/account-lifecycle/oc_app_guard.mjs\
+        \ /tmp/monjez-tanstack-route/guard.mjs\nif sudo -u mcp-route test -r \"$GITHUB_WORKSPACE/tests/account-lifecycle/oc_app_guard.mjs\"\
+        ; then\n  echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=true'\nelse\n  echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=false'\n\
+        fi\nsudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \\\n  LOVABLE_API_KEY=oc-app-dummy\
+        \ PADDLE_SANDBOX_API_KEY=oc-app-dummy PADDLE_LIVE_API_KEY=oc-app-dummy \\\n  MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json\
+        \ \\\n  \"$(command -v node)\" --import /tmp/monjez-tanstack-route/guard.mjs \\\n  --input-type=module -e\
+        \ ''\nsudo iptables -nvxL MCP_ROUTE > \"$RUNNER_TEMP/route-firewall.txt\"\nsudo ip6tables -C OUTPUT -m owner\
+        \ --uid-owner \"$uid\" -j REJECT\nROUTE_UID=\"$uid\" python - <<'PYFIREWALL'\nimport json, os\nfrom pathlib\
+        \ import Path\nroot = Path(os.environ['RUNNER_TEMP'])\nlines = (root/'route-firewall.txt').read_text().splitlines()\n\
+        rejected = [int(line.split()[0]) for line in lines if 'REJECT' in line]\nassert len(rejected) == 1 and rejected[0]\
+        \ > 0, 'Native redirect not blocked by UID firewall'\nreceipt = {'uid': int(os.environ['ROUTE_UID']), 'ipv4_reject_packets':\
+        \ rejected[0],\n           'ipv6_rule_installed': True, 'credential_free_preflight': True,\n           'policy':\
+        \ 'dedicated UID: IPv4 exact loopback only; IPv6 rejected'}\n(root/'route-firewall.json').write_text(json.dumps(receipt))\n\
+        print(json.dumps(receipt))\nPYFIREWALL\n"
+    - name: Start fresh disposable Supabase with real OAuth
+      shell: bash
+      run: "set -euo pipefail\numask 077\nstack=\"$RUNNER_TEMP/monjez-tanstack-route\"\nmkdir -p \"$stack\"\nsupabase\
+        \ --workdir \"$stack\" init > \"$RUNNER_TEMP/route-init-private.log\" 2>&1\nSTACK_CONFIG=\"$stack/supabase/config.toml\"\
+        \ python - <<'PYCONFIG'\nimport os\nfrom pathlib import Path\np = Path(os.environ['STACK_CONFIG'])\ns =\
+        \ p.read_text()\nold = '[auth.oauth_server]\\n# Enable OAuth server functionality\\nenabled = false'\nassert\
+        \ old in s, 'Pinned local OAuth configuration changed'\nassert 'jwt_expiry = 3600' in s, 'Pinned local expiry\
+        \ configuration changed'\ns=s.replace('jwt_expiry = 3600','jwt_expiry = 60',1)\np.write_text(s.replace(old,\
+        \ old.replace('enabled = false', 'enabled = true'), 1))\nPYCONFIG\nmkdir -p \"$stack/supabase/migrations\"\
+        \ncp supabase/migrations/*.sql \"$stack/supabase/migrations/\"\nif ! supabase --workdir \"$stack\" start\
+        \ > \"$RUNNER_TEMP/route-start-private.log\" 2>&1; then\n  echo 'ROUTE_STACK_START_FAILED: private output\
+        \ withheld'\n  exit 1\nfi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/route-status.json\"\
+        \nchmod 600 \"$RUNNER_TEMP/route-status.json\"\n# CLI start can print disposable keys; keep no credential-bearing\
+        \ log.\npython - <<'PYSCRUB'\nimport json, os, re\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])\n\
+        status=json.loads((root/'route-status.json').read_text())\np=root/'route-start-private.log'\ntext=p.read_text()\n\
+        for key,value in status.items():\n  if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and\
+        \ value:\n    text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')\ntext=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\\\
+        .[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)\ntext=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',\
+        \ '[REDACTED_LOCAL_KEY]', text)\np.write_text(text)\nPYSCRUB\n"
+    - name: Build unchanged actual application for local Node runtime
+      run: python tests/account-lifecycle/tanstack_route_build.py
+    - name: Focused actual price server function
+      run: python tests/account-lifecycle/oc_app_probe.py --status-file "$RUNNER_TEMP/route-status.json" --evidence-dir
+        "$RUNNER_TEMP/route-evidence" --expected-source "$EXPECTED_SOURCE" --mode "$OC_APP_MODE"
+    - name: Cleanup local processes stack and credential files
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nif id mcp-route >/dev/null 2>&1; then\n  sudo pkill -TERM -u mcp-route || true\n\
+        fi\nrm -f \"$RUNNER_TEMP/route-status.json\"\nif [[ -d \"$RUNNER_TEMP/monjez-tanstack-route/supabase\" ]];\
+        \ then\n  supabase --workdir \"$RUNNER_TEMP/monjez-tanstack-route\" stop --no-backup > \"$RUNNER_TEMP/route-stop-private.log\"\
+        \ 2>&1\nfi\nmkdir -p \"$RUNNER_TEMP/route-evidence\"\npython - <<'PYCLEAN'\nimport json, os, subprocess\n\
+        from pathlib import Path\nroot = Path(os.environ['RUNNER_TEMP'])\nreceipt = {'status_file_removed': not\
+        \ (root/'route-status.json').exists(),\n           'application_processes_removed': subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode\
+        \ == 1,\n           'stack_containers_removed': 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}\n\
+        (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))\nassert all(receipt.values()), 'Disposable\
+        \ cleanup incomplete'\nPYCLEAN\n"
+    - name: Quarantine unsafe evidence before publication
+      if: always()
+      run: 'python - <<''PYSCAN''
+
+        import os,sys
+
+        from pathlib import Path
+
+        sys.path.insert(0,''tests/account-lifecycle'')
+
+        from tanstack_route_probe import publish_result
+
+        out=Path(os.environ[''RUNNER_TEMP''])/''route-evidence'';out.mkdir(exist_ok=True)
+
+        r=publish_result(out,{''scan_complete'':True,''integration_accepted'':False},[])
+
+        if not r.get(''evidence_no_credentials''):raise SystemExit(2)
+
+        (out/''route-result.json'').unlink()
+
+        PYSCAN'
+    - name: Print allowlisted receipts
+      if: always()
+      run: "python - <<'PYRECEIPTS'\nimport os\nfrom pathlib import Path\nroot = Path(os.environ['RUNNER_TEMP'])/'route-evidence'\n\
+        for name in ['price-result.json','price-failure.json','price-progress.json','cleanup.json']:\n  p=root/name\n\
+        \  if p.exists():\n    print('ROUTE_RECEIPT_BEGIN '+name)\n    print(p.read_text())\n    print('ROUTE_RECEIPT_END\
+        \ '+name)\nPYRECEIPTS\n"
+    - name: Upload sanitized route evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: oc-app-${{ env.OC_APP_MODE }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/route-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - name: Install dependencies
+      run: bun install --frozen-lockfile
+    - name: Typecheck
+      run: bun run typecheck
+    - name: Lint changed source files
+      shell: bash
+      env:
+        BASE_SHA: 92ebd529c79ae1df98ec02245d3c22d6bcfc557f
+      run: "set -euo pipefail\nbase=\"$BASE_SHA\"\nif [[ -z \"$base\" || \"$base\" =~ ^0+$ ]]; then\n  base=\"$(git\
+        \ rev-parse HEAD^)\"\nfi\nmapfile -t files < <(git diff --name-only --diff-filter=ACMR \"$base\" HEAD |\
+        \ grep -E '\\.(ts|tsx|js|jsx)$' || true)\nprintf '%s\\n' \"${files[@]}\" | tee /tmp/lint-files.txt\nif ((\
+        \ ${#files[@]} == 0 )); then\n  echo \"No changed JavaScript or TypeScript files to lint.\"\n  exit 0\n\
+        fi\nset -o pipefail\nbunx eslint \"${files[@]}\" 2>&1 | tee /tmp/lint.log\n"
+    - name: Unit tests
+      run: bun run test:unit
+    - name: Offline server environment boundary
+      run: bun tests/gate4/sec-env/server-boundary.ts
+    - name: Setup Python for browser containment regression
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install pinned browser test tooling
+      run: 'python -m pip install -r tests/gate4/sec-env/requirements.txt
+
+        python -m playwright install chromium --only-shell --with-deps
+
+        '
+    - name: Verify browser redirect, WebSocket and origin containment
+      env:
+        PYTHONDONTWRITEBYTECODE: '1'
+      run: python tests/gate4/sec-env/browser-network.py
+    - name: Build from mode-specific env file
+      shell: bash
+      run: "set -euo pipefail\ntrap 'rm -f .env.sec-env-contract' EXIT\ncat > .env.sec-env-contract <<'EOF'\nMONGEZZ_DEPLOY_TARGET=ci\n\
+        VITE_SUPABASE_URL=http://127.0.0.1:54321\nVITE_SUPABASE_PUBLISHABLE_KEY=quality-env-file-placeholder\nVITE_SUPABASE_PROJECT_ID=quality-env-file\n\
+        EOF\n\nenv \\\n  -u MONGEZZ_DEPLOY_TARGET \\\n  -u VITE_SUPABASE_URL \\\n  -u VITE_SUPABASE_PUBLISHABLE_KEY\
+        \ \\\n  -u VITE_SUPABASE_PROJECT_ID \\\n  bunx vite build --mode sec-env-contract\n"
+    - name: Build
+      env:
+        MONGEZZ_DEPLOY_TARGET: ci
+        VITE_SUPABASE_URL: http://127.0.0.1:54321
+        VITE_SUPABASE_PUBLISHABLE_KEY: quality-build-placeholder
+        VITE_SUPABASE_PROJECT_ID: quality-build
+      run: bun run build
+    - name: Upload quality diagnostics
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-diagnostics
+        path: '/tmp/lint-files.txt
+
+          /tmp/lint.log
+
+          '
+        if-no-files-found: warn

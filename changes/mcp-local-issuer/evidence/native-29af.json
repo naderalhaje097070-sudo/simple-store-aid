@@ -1,0 +1,516 @@
+{
+  "source_sha": "29af5b34d3c55c6db1c4debc5d93d8587d2c04fe",
+  "outcome": "ENV_NATIVE_01_MCP_FOCUSED_GREEN",
+  "reason": null,
+  "mcp_accepted": true,
+  "integration_accepted": false,
+  "active_observations": [
+    {
+      "actor": "A",
+      "tool": "list_products",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "A",
+      "tool": "list_customers",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "A",
+      "tool": "list_recent_orders",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "A",
+      "tool": "today_summary",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "B",
+      "tool": "list_products",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "B",
+      "tool": "list_customers",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "B",
+      "tool": "list_recent_orders",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "B",
+      "tool": "today_summary",
+      "phase": "active",
+      "status": 200,
+      "passed": true,
+      "jsonrpc_error": false
+    },
+    {
+      "actor": "B",
+      "tool": "list_products",
+      "phase": "banned_old_jwt",
+      "status": 200,
+      "passed": true,
+      "empty_result_only": false,
+      "expected_account_inactive": true
+    },
+    {
+      "actor": "A",
+      "tool": "list_products",
+      "phase": "unaffected_active",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "actor": "B",
+      "tool": "list_customers",
+      "phase": "banned_old_jwt",
+      "status": 200,
+      "passed": true,
+      "empty_result_only": false,
+      "expected_account_inactive": true
+    },
+    {
+      "actor": "A",
+      "tool": "list_customers",
+      "phase": "unaffected_active",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "actor": "B",
+      "tool": "list_recent_orders",
+      "phase": "banned_old_jwt",
+      "status": 200,
+      "passed": true,
+      "empty_result_only": false,
+      "expected_account_inactive": true
+    },
+    {
+      "actor": "A",
+      "tool": "list_recent_orders",
+      "phase": "unaffected_active",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "actor": "B",
+      "tool": "today_summary",
+      "phase": "banned_old_jwt",
+      "status": 200,
+      "passed": true,
+      "empty_result_only": false,
+      "expected_account_inactive": true
+    },
+    {
+      "actor": "A",
+      "tool": "today_summary",
+      "phase": "unaffected_active",
+      "status": 200,
+      "passed": true
+    }
+  ],
+  "issuer_matches_actual_local_token": true,
+  "runtime": {
+    "ready": true,
+    "sdk_version": "0.20.1",
+    "source_definition": "src/lib/mcp/index.ts",
+    "source_derived_issuer": "http://127.0.0.1:54321/auth/v1",
+    "source_jwks_uri": "http://127.0.0.1:54321/auth/v1/.well-known/jwks.json",
+    "oauth_client_claim_required": true,
+    "session_mode": "stateless",
+    "blocked_issuer_requests": 0,
+    "blocked_other_requests": 0,
+    "sdk_exceptions": 0
+  },
+  "checks": [
+    {
+      "name": "fresh_empty_disposable_stack",
+      "passed": true
+    },
+    {
+      "name": "exact_final_43_migrations",
+      "passed": true
+    },
+    {
+      "name": "mcp_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "mcp_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "mcp_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "mcp_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "mcp_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "local_oauth_client_registered",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B",
+      "passed": true
+    },
+    {
+      "name": "auth_provider_verified_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "direct_active_own_tenant_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "direct_active_summary_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "auth_provider_verified_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "direct_active_own_tenant_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "direct_active_summary_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "actual_app_locked_adapter_ready",
+      "passed": true
+    },
+    {
+      "name": "pinned_local_oauth_configuration",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_A",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_A",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_initialize_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_B",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_B",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "committed_ban_saved",
+      "passed": true
+    },
+    {
+      "name": "committed_ban_verified",
+      "passed": true
+    },
+    {
+      "name": "unaffected_active_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "unaffected_active_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "unaffected_active_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "unaffected_active_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "no_outbound_or_sdk_failure",
+      "passed": true
+    },
+    {
+      "name": "mcp_stored_no_effect",
+      "passed": true
+    },
+    {
+      "name": "all_financial_tables_empty",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ],
+  "migration_versions": [
+    "20260626142422",
+    "20260626142438",
+    "20260626143241",
+    "20260626143657",
+    "20260626145704",
+    "20260626150447",
+    "20260626151932",
+    "20260626155319",
+    "20260626155333",
+    "20260626155758",
+    "20260626161037",
+    "20260626162911",
+    "20260626181906",
+    "20260626183212",
+    "20260626190302",
+    "20260626191000",
+    "20260626191523",
+    "20260626201427",
+    "20260626213551",
+    "20260626225100",
+    "20260626231740",
+    "20260626233231",
+    "20260627100633",
+    "20260627201534",
+    "20260627203328",
+    "20260627213042",
+    "20260627221524",
+    "20260627224911",
+    "20260628073856",
+    "20260628074047",
+    "20260628075333",
+    "20260628102723",
+    "20260628103809",
+    "20260628105459",
+    "20260701090000",
+    "20260704105413",
+    "20260706120000",
+    "20260708073115",
+    "20260715145141",
+    "20260716064935",
+    "20260717180906",
+    "20261010223557",
+    "20261010225012"
+  ],
+  "initial_counts": {
+    "roles": 0,
+    "users": 0,
+    "orders": 0,
+    "tenants": 0,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 0,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "final_counts": {
+    "roles": 2,
+    "users": 2,
+    "orders": 0,
+    "tenants": 2,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 2,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "history_before": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "5bd37b2ff15574cf3fe07eef7021dadd",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "a70b82677ea3ebc8b7cd263ed213e6e3",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "3636798ce3598602e777efac584383ba",
+    "user_roles": "c5c1759bc7207d42f90c2033ac0387d5"
+  },
+  "history_after": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "5bd37b2ff15574cf3fe07eef7021dadd",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "a70b82677ea3ebc8b7cd263ed213e6e3",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "3636798ce3598602e777efac584383ba",
+    "user_roles": "c5c1759bc7207d42f90c2033ac0387d5"
+  },
+  "not_verified": [
+    "nonempty financial data",
+    "full TanStack HTTP route",
+    "cloud OAuth deployment",
+    "foreign nonempty MCP rows",
+    "concurrency",
+    "independent acceptance"
+  ],
+  "evidence": {
+    "run": 38165648102,
+    "job": 114547536750,
+    "artifact": 11712066666,
+    "cleanup": "pass",
+    "actual_auth_image": "ghcr.io/supabase/gotrue:v2.188.1",
+    "quality_run": 38165648142,
+    "contract_run": 38165648144
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "source_sha": "e4ee6bafc8adec292826769ec37ad1d21e97ae95",
+  "workflow_run": 38121128006,
+  "attempt": 2,
+  "job_id": 114416598047,
+  "artifact_id": 11695521784,
+  "zip_sha256": "cf349c0eb043e36eca833498468cc8ece7cc9897a06607673a8e5d9f15cb5a08",
+  "independent_checks": [
+    {
+      "name": "independent_initial_financial_zero",
+      "passed": true
+    },
+    {
+      "name": "review_deleted_owner_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_deleted_owner_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "review_deleted_owner_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_deleted_owner_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "review_deleted_owner_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_initial_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_initial_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_actor_initially_unbanned",
+      "passed": true
+    },
+    {
+      "name": "independent_deleted_row_retained_without_ban",
+      "passed": true
+    },
+    {
+      "name": "independent_soft_delete_public_history_preserved",
+      "passed": true
+    },
+    {
+      "name": "independent_deleted_old_jwt_tenants",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_deleted_old_jwt_profiles",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_old_jwt_user_roles",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_deleted_old_jwt_summary",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_deleted_authenticated_direct_sql",
+      "passed": true
+    },
+    {
+      "name": "independent_lifecycle_public_history_preserved",
+      "passed": true
+    },
+    {
+      "name": "independent_final_financial_zero",
+      "passed": true
+    }
+  ],
+  "initial_counts": {
+    "roles": 4,
+    "users": 4,
+    "orders": 0,
+    "tenants": 2,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 4,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "final_counts": {
+    "roles": 8,
+    "users": 8,
+    "orders": 0,
+    "tenants": 4,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 8,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "missing_coverage": [
+    "MCP transport",
+    "nonempty financial history",
+    "active financial writes",
+    "concurrent/in-flight transactions",
+    "production-scale performance",
+    "hard-delete cascade/history semantics",
+    "naturally elapsed Auth-issued token; expiry twins are locally HS256 minted from provider-verified issued claims",
+    "local verification of asymmetric issuer signature; Auth provider verification is used"
+  ],
+  "evidence_class": "Historical receipt subset fetched and parsed in this audit, not live tests executed here",
+  "source_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/60#issuecomment-6108925378"
+}

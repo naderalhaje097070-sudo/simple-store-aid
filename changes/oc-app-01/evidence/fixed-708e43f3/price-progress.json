@@ -1,0 +1,824 @@
+[
+  {
+    "name": "empty_initial_stack",
+    "passed": true
+  },
+  {
+    "name": "all45_migration_blobs_immutable",
+    "passed": true
+  },
+  {
+    "name": "exact45_applied",
+    "passed": true
+  },
+  {
+    "name": "price_A_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_A_tenant_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_A_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_A_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_A_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_tenant_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_B_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_B_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_staff_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_staff_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_staff_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "local_oauth_client",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "one_compiled_price_function",
+    "passed": true,
+    "count": 1
+  },
+  {
+    "name": "active_A",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 0,
+    "gateway_after": 1,
+    "expected_gateway_delta": 1,
+    "activity_before": 0,
+    "activity_after": 1
+  },
+  {
+    "name": "active_A_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "active_A_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "active_B",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 1,
+    "gateway_after": 2,
+    "expected_gateway_delta": 1,
+    "activity_before": 1,
+    "activity_after": 2
+  },
+  {
+    "name": "active_B_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "active_B_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "active_no_tenant_staff",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 2,
+    "gateway_after": 3,
+    "expected_gateway_delta": 1,
+    "activity_before": 2,
+    "activity_after": 3
+  },
+  {
+    "name": "active_no_tenant_staff_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "active_no_tenant_staff_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "live_environment_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 3,
+    "gateway_after": 4,
+    "expected_gateway_delta": 1,
+    "activity_before": 3,
+    "activity_after": 4
+  },
+  {
+    "name": "live_environment_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "live_environment_unchanged_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "escaped_price_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 4,
+    "gateway_after": 5,
+    "expected_gateway_delta": 1,
+    "activity_before": 4,
+    "activity_after": 5
+  },
+  {
+    "name": "escaped_price_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "escaped_price_unchanged_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_price_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Price not found",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 5,
+    "gateway_after": 6,
+    "expected_gateway_delta": 1,
+    "activity_before": 5,
+    "activity_after": 6
+  },
+  {
+    "name": "missing_price_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_price_unchanged_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_token",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: No authorization header provided",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 6,
+    "activity_after": 6
+  },
+  {
+    "name": "missing_token_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_token_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "invalid_token",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: Invalid token",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 6,
+    "activity_after": 6
+  },
+  {
+    "name": "invalid_token_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "invalid_token_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "invalid_signature",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: Invalid token",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 6,
+    "activity_after": 6
+  },
+  {
+    "name": "invalid_signature_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "invalid_signature_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "self_owner_closed",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_existing_consent_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_B_new",
+    "passed": true
+  },
+  {
+    "name": "genuine_new_token_differs",
+    "passed": true
+  },
+  {
+    "name": "provider_positive_old",
+    "passed": true
+  },
+  {
+    "name": "closed_B_old",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_inactive",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 6,
+    "activity_after": 7
+  },
+  {
+    "name": "closed_B_old_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "closed_B_old_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "provider_positive_new",
+    "passed": true
+  },
+  {
+    "name": "closed_B_new",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_inactive",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 7,
+    "activity_after": 8
+  },
+  {
+    "name": "closed_B_new_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "closed_B_new_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "old_token_exact",
+    "passed": true
+  },
+  {
+    "name": "auth_banned_until",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_inactive",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 8,
+    "activity_after": 9
+  },
+  {
+    "name": "auth_banned_until_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "auth_banned_until_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "auth_deleted_at",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_inactive",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 9,
+    "activity_after": 10
+  },
+  {
+    "name": "auth_deleted_at_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "auth_deleted_at_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_database",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_state_unavailable",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 10,
+    "activity_after": 11
+  },
+  {
+    "name": "state_failure_database_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_database_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_transport",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_state_unavailable",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 11,
+    "activity_after": 12
+  },
+  {
+    "name": "state_failure_transport_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_transport_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_timeout",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "account_state_unavailable",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 12,
+    "activity_after": 13
+  },
+  {
+    "name": "state_failure_timeout_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "state_failure_timeout_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "timeout_bounded",
+    "passed": true
+  },
+  {
+    "name": "faults_reached_exact_boundaries",
+    "passed": true
+  },
+  {
+    "name": "local_token_lifetime_bounded",
+    "passed": true
+  },
+  {
+    "name": "genuine_token_expired",
+    "passed": true,
+    "exp": 1791933237
+  },
+  {
+    "name": "expired_token",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: Invalid token",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0,
+    "activity_before": 13,
+    "activity_after": 13
+  },
+  {
+    "name": "expired_token_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "expired_token_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "expired_test_kept_token_bytes",
+    "passed": true
+  },
+  {
+    "name": "renew_active_session_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_existing_consent_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_A_after_expiry",
+    "passed": true
+  },
+  {
+    "name": "A_unaffected_after",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 7,
+    "expected_gateway_delta": 1,
+    "activity_before": 13,
+    "activity_after": 14
+  },
+  {
+    "name": "A_unaffected_after_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "A_unaffected_after_activity_delta",
+    "passed": true
+  },
+  {
+    "name": "public_and_auth_unchanged",
+    "passed": true
+  },
+  {
+    "name": "one_closure_only",
+    "passed": true
+  },
+  {
+    "name": "no_financial_fixture_writes",
+    "passed": true
+  },
+  {
+    "name": "app_no_native_outbound_attempts",
+    "passed": true
+  },
+  {
+    "name": "no_unstubbed_external_fetch",
+    "passed": true
+  },
+  {
+    "name": "tracked_source_unchanged",
+    "passed": true
+  }
+]

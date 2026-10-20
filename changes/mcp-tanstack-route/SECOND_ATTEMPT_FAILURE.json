@@ -1,0 +1,17 @@
+{
+  "source_sha": "df59536df2ff1b4efea346348c1521f6cdbc1785",
+  "run": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/38169591638",
+  "job_id": 114559210057,
+  "error_code": "ERR_MODULE_NOT_FOUND",
+  "failed_boundary": "credential-free preload import from runner workspace",
+  "credentials_read": false,
+  "stack_started": false,
+  "application_built": false,
+  "full_local_route_accepted": false,
+  "integration_accepted": false,
+  "cleanup_passed": true,
+  "reason_same_as_first": true,
+  "run_already_queued_before_workspace_diagnosis": true,
+  "corrected_on": "3b1a25fda8a11b27559b0e988a7930e6748972fa",
+  "confirmed_original_workspace_readable_by_UID": false
+}

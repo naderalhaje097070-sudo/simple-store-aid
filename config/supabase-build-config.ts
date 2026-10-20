@@ -201,6 +201,13 @@ export function resolveSupabaseBuildConfig(env: SupabaseBuildEnvironment) {
   };
 }
 
+// Derive OAuth endpoints only after the existing deployment/endpoint contract passes.
+// Production must stay on the approved direct Supabase host; local/ci is loopback.
+export function resolveSupabaseMcpIssuer(env: SupabaseBuildEnvironment): string {
+  const config = resolveSupabaseBuildConfig(env);
+  return `${canonicalUrl(config.url)}/auth/v1`;
+}
+
 export function assertSupabaseRuntimeMatchesBuild(
   buildEnv: SupabaseBuildEnvironment,
   runtimeEnv: SupabaseBuildEnvironment,

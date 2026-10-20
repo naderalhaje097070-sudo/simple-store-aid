@@ -1,3 +1,11 @@
+> CURRENT — B1 composition in progress, 2026-10-20.
+> Accepted A remains on main `18700dee8ecdda2e457c0aa18c4f83a81b042019`. B is staged for review only.
+> This notice supersedes older ONE NEXT notices below and in imported B documents.
+> Scope: compose PR56–71 plus sibling67 without losing A; preserve all41 original migrations and four exact B additions.
+> B2 AC-01, B3 AC-02 and B4 APP-02 corrections remain pending, followed by B5 lifecycle validation and B6 independent acceptance review.
+> No B merge, deployment, production operation or PR closure is authorized by this composition step.
+> See `changes/b1-composition/INTAKE.md`; the full original B71 document is archived beside it as `historical-B71-DECISIONS.md`. Existing A history follows unchanged.
+
 ## FOUNDATION-A — owner-authorized merge and evidence-based closure, 2026-10-20
 
 Owner «اذا كل شي تمام ادمج» authorized the concrete PR72/A8 proposal after final independent approval and all exact-head checks. Fresh head/base/clean checks passed. Use merge_method=merge and expected headad73a947; actual merge0c138a970a03d00084631f1fe51fd3713c424874 preserves the published history. Actual main tree equals the approved tree; protected288/manifest/41SQL and archived coverage/evidence are present. Existing post-merge Quality39448069522 passed.

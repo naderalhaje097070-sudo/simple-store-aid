@@ -1,0 +1,392 @@
+{
+  "source_sha": "15d30f3794aaab8c04b1dc17ddbfc4d99c4099bd",
+  "outcome": "ENV_NATIVE_01_CLEAN_BASELINE_EXPECTED_RED",
+  "controls": [
+    {
+      "name": "fresh_empty_stack",
+      "passed": true
+    },
+    {
+      "name": "full_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "auth_ban_schema_present",
+      "passed": true
+    },
+    {
+      "name": "owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_read",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_update",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_1_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_foreign_read",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_foreign_update",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_1_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_2_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_foreign_read",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_foreign_update",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_2_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "active_3_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_foreign_read",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_foreign_update",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_3_tenant_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "foreign_mutations_stored_no_effect",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "active_summary_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_summary_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "ban_owner",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "stored_ban_owner",
+      "passed": true
+    },
+    {
+      "name": "banned_owner_login",
+      "passed": true,
+      "status": 400,
+      "error_code": "user_banned"
+    },
+    {
+      "name": "banned_owner_refresh",
+      "passed": true,
+      "status": 400,
+      "error_code": "user_banned"
+    },
+    {
+      "name": "ban_staff",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "stored_ban_staff",
+      "passed": true
+    },
+    {
+      "name": "banned_staff_login",
+      "passed": true,
+      "status": 400,
+      "error_code": "user_banned"
+    },
+    {
+      "name": "banned_staff_refresh",
+      "passed": true,
+      "status": 400,
+      "error_code": "user_banned"
+    },
+    {
+      "name": "public_history_preserved",
+      "passed": true
+    },
+    {
+      "name": "active_after_ban_owner_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_after_ban_staff_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "no_financial_rows",
+      "passed": true
+    },
+    {
+      "name": "fixture_counts",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ],
+  "targets": [
+    {
+      "name": "banned_owner_old_jwt_own_tenant",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "banned_owner_old_jwt_own_profiles",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "banned_owner_old_jwt_own_user_roles",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 2
+    },
+    {
+      "name": "banned_owner_summary",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_direct_rls",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "banned_staff_old_jwt_own_tenant",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "banned_staff_old_jwt_own_profiles",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    },
+    {
+      "name": "banned_staff_old_jwt_own_user_roles",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 2
+    },
+    {
+      "name": "banned_staff_summary",
+      "passed": false,
+      "status": 200
+    },
+    {
+      "name": "banned_staff_direct_rls",
+      "passed": false,
+      "status": 200,
+      "visible_rows": 1
+    }
+  ],
+  "initial_counts": {
+    "roles": 0,
+    "users": 0,
+    "orders": 0,
+    "tenants": 0,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 0,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "final_counts": {
+    "roles": 4,
+    "users": 4,
+    "orders": 0,
+    "tenants": 2,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 4,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "history_before": {
+    "tenants": "70c216fef80849c2810fe48dbc8ecbb5",
+    "profiles": "8bed93f50d1f9375adad6c71c8a23090",
+    "user_roles": "bcfcf6dced1d7a9ef543067695555378",
+    "financial_audit_log": "d751713988987e9331980363e24189ce"
+  },
+  "history_after": {
+    "tenants": "70c216fef80849c2810fe48dbc8ecbb5",
+    "profiles": "8bed93f50d1f9375adad6c71c8a23090",
+    "user_roles": "bcfcf6dced1d7a9ef543067695555378",
+    "financial_audit_log": "d751713988987e9331980363e24189ce"
+  },
+  "integration_accepted": false,
+  "missing_coverage": [
+    "MCP transport",
+    "admin RPC",
+    "protected-field role/disabled assignment mass assignment",
+    "nonempty finance/audit history",
+    "deleted/expired-token cases",
+    "postban writes",
+    "all exposed tables/RPCs",
+    "concurrent disable",
+    "upgrade/performance",
+    "independent review"
+  ]
+}

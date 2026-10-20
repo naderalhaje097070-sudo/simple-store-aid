@@ -1,0 +1,2 @@
+# Rollback impact
+No release performed. If owner later adopts the change, revert the additive application/config commit in a new commit; never reset/rewrite published history. No database rollback is needed. Reversion restores the previous local issuer defect, so retain red evidence and mark local MCP verification blocked. Destroy test stack with supabase stop --no-backup and remove status/key files.

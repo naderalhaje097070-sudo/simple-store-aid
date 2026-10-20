@@ -1,0 +1,2 @@
+# Data impact
+No stored application changes or production access. Disposable test fixtures create two Auth users in separate tenants, profiles and owner roles, a local public OAuth client and PKCE authorizations; B is then banned. Seven financial tables must remain empty. Snapshot all 22 public table hashes after fixtures and compare after MCP reads. Destroy the isolated stack without backup and remove transient key files. Admin calls only construct/ban fixtures; every MCP tool runs with its genuine user token.

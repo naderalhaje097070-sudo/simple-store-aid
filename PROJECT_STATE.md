@@ -1,3 +1,11 @@
+> CURRENT — B1 composition in progress, 2026-10-20.
+> Accepted A remains on main `18700dee8ecdda2e457c0aa18c4f83a81b042019`. B is staged for review only.
+> This notice supersedes older ONE NEXT notices below and in imported B documents.
+> Scope: compose PR56–71 plus sibling67 without losing A; preserve all41 original migrations and four exact B additions.
+> B2 AC-01, B3 AC-02 and B4 APP-02 corrections remain pending, followed by B5 lifecycle validation and B6 independent acceptance review.
+> No B merge, deployment, production operation or PR closure is authorized by this composition step.
+> See `changes/b1-composition/INTAKE.md`; the full original B71 document is archived beside it as `historical-B71-PROJECT_STATE.md`. Existing A history follows unchanged.
+
 ## FOUNDATION-A — merged on main and all8 requests settled, 2026-10-20
 
 Owner explicitly approved the A8 merge. PR72 actual merge0c138a970a03d00084631f1fe51fd3713c424874 has the exact reviewed ad73a947 tree8aaf45565280e7c1761696cd9193780ecd36cb63. Post-merge main Quality39448069522 SUCCESS. All288 protected blobs/modes, manifest/41SQL,28original documents,18PR48paths,78acceptance files/77index hashes and51–54ancestry verified on main before closure. Native G0/G1 on tested source51 and all five final PR workflows remain correctly attributed. Main now contains the bounded accepted A fixes; this is not whole-product acceptance.

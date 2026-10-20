@@ -1,0 +1,137 @@
+name: MCP Lifecycle Probe
+on:
+  pull_request:
+    paths:
+      - 'tests/account-lifecycle/mcp_*'
+      - 'tests/account-lifecycle/test_mcp_probe.py'
+      - 'tests/account-lifecycle/live_probe.py'
+      - 'tests/e2e/write_harness_guard.py'
+      - 'src/lib/mcp/**'
+      - 'config/supabase-build-config.ts'
+      - 'vite.config.ts'
+      - 'src/routes/mcp.ts'
+      - 'supabase/migrations/**'
+      - 'package.json'
+      - 'bun.lock'
+      - '.github/workflows/mcp-lifecycle-probe.yml'
+permissions:
+  contents: read
+jobs:
+  mcp-lifecycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: mcp-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check MCP oracle safety
+        run: python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py -v
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Install exact locked application dependencies
+        run: bun install --frozen-lockfile > "$RUNNER_TEMP/mcp-install.log" 2>&1
+      - name: Setup pinned Supabase CLI
+        uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - name: Inspect CLI and validate isolated intent
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(supabase --version)" = '2.101.0'
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          supabase --help > "$RUNNER_TEMP/mcp-cli-help.txt"
+          grep -q -- '--workdir' "$RUNNER_TEMP/mcp-cli-help.txt"
+          supabase start --help > "$RUNNER_TEMP/mcp-start-help.txt"
+          python tests/e2e/write_harness_guard.py --preflight-only
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client > "$RUNNER_TEMP/mcp-psql-install.log" 2>&1
+      - name: Start fresh disposable stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-mcp-lifecycle"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/mcp-init.log" 2>&1
+          # Enable the already-supported OAuth server only in this disposable test config.
+          # Keep dynamic registration disabled; clients are created by fixture administration.
+          STACK_CONFIG="$stack/supabase/config.toml" python - <<'PYCONFIG'
+          import os
+          from pathlib import Path
+          p = Path(os.environ['STACK_CONFIG'])
+          s = p.read_text()
+          old = '[auth.oauth_server]\n# Enable OAuth server functionality\nenabled = false'
+          assert old in s, 'Pinned CLI OAuth configuration changed'
+          p.write_text(s.replace(old, old.replace('enabled = false', 'enabled = true'), 1))
+          PYCONFIG
+          mkdir -p "$stack/supabase/migrations"
+          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/mcp-start.log" 2>&1; then
+            echo 'MCP_STACK_START_FAILURE: private setup output withheld'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/mcp-status.json"
+          chmod 600 "$RUNNER_TEMP/mcp-status.json"
+      - name: Run actual application MCP probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/mcp-evidence"
+          docker ps --format '{{.Image}}' > "$RUNNER_TEMP/mcp-evidence/runtime-images.txt"
+          python tests/account-lifecycle/mcp_probe.py \
+            --status-file "$RUNNER_TEMP/mcp-status.json" \
+            --evidence-dir "$RUNNER_TEMP/mcp-evidence" \
+            --expected-source "$EXPECTED_SOURCE"
+      - name: Print allowlisted sanitized receipt
+        if: always()
+        run: |
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/runtime-images.txt" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/runtime-images.txt"
+          fi
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/mcp-result.json" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/mcp-result.json"
+          fi
+          if [[ -f "$RUNNER_TEMP/mcp-evidence/progress.json" ]]; then
+            cat "$RUNNER_TEMP/mcp-evidence/progress.json"
+          fi
+      - name: Upload sanitized MCP evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mcp-lifecycle-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/mcp-evidence/
+          retention-days: 7
+          if-no-files-found: warn
+      - name: Stop disposable stack and remove keys
+        if: always()
+        shell: bash
+        run: |
+          rm -f "$RUNNER_TEMP/mcp-status.json" "$RUNNER_TEMP/mcp-test-public-status.json"
+          if [[ -d "$RUNNER_TEMP/monjez-mcp-lifecycle/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-mcp-lifecycle" stop --no-backup > "$RUNNER_TEMP/mcp-stop.log" 2>&1
+          fi
+

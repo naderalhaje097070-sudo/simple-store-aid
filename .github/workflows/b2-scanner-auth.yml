@@ -181,6 +181,7 @@ jobs:
             echo 'AC01_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'
           fi
       - name: Cleanup and safe final receipts
+        id: publication
         if: always()
         shell: bash
         run: |
@@ -191,13 +192,12 @@ jobs:
             sudo cp -a /tmp/monjez-ac01/evidence/. "$out/"
             sudo chown -R "$(id -un):$(id -gn)" "$out"
           fi
-          sudo rm -f /tmp/monjez-ac01/status.json /tmp/monjez-ac01/private-state.json
           rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log"
           if [[ -d "$RUNNER_TEMP/monjez-ac01-stack/supabase" ]]; then
             supabase --workdir "$RUNNER_TEMP/monjez-ac01-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1
           fi
           python - <<'PY'
-          import json,os,re,subprocess
+          import json,os,subprocess,sys
           from pathlib import Path
           root=Path(os.environ['RUNNER_TEMP']);out=root/'ac01-evidence'
           def rejects(path):
@@ -213,15 +213,35 @@ jobs:
                    'state_removed':not Path('/tmp/monjez-ac01/private-state.json').exists(),
                    'stack_removed':'monjez-ac01-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
           (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
-          for p in out.rglob('*'):
-              if p.is_file():
-                  text=p.read_text()
-                  assert not re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',text),'Credential-like evidence rejected'
+          sys.path.insert(0,'tests/account-lifecycle')
+          from scanner_evidence import verify_publication, PublicationBlocked
+          forbidden=[]
+          for filename in ['status.json','private-state.json']:
+              p=Path('/tmp/monjez-ac01')/filename
+              if p.exists():
+                  raw=subprocess.check_output(['sudo','cat',str(p)],text=True)
+                  data=json.loads(raw)
+                  if filename=='status.json':
+                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
+                  else:
+                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
+                                    if k in ('token','refresh','password','email')]
+          try:
+              verify_publication(out,root/'ac01-private-quarantine',forbidden)
+          except PublicationBlocked:
+              print('AC01_PUBLICATION_BLOCKED '+(out/'publication-blocked.json').read_text())
+              raise
+          finally:
+              subprocess.run(['sudo','rm','-f','/tmp/monjez-ac01/status.json','/tmp/monjez-ac01/private-state.json'],check=True)
+          cleanup['status_removed']=not Path('/tmp/monjez-ac01/status.json').exists()
+          cleanup['state_removed']=not Path('/tmp/monjez-ac01/private-state.json').exists()
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
           print('AC01_CLEANUP '+json.dumps(cleanup))
           assert before>0 and after==before and v6==0 and cleanup['status_removed'] and cleanup['state_removed'] and cleanup['stack_removed']
           PY
+          echo 'safe=true' >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && steps.publication.outputs.safe == 'true'
         with:
           name: b2-scanner-${{ matrix.mode }}-attempt${{ github.run_attempt }}
           path: ${{ runner.temp }}/ac01-evidence/

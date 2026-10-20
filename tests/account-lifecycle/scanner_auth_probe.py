@@ -85,6 +85,7 @@ class ScannerProbe(Probe):
         self.control('empty_financial_fixture', all(self.counts()[t] == 0 for t in
             ('orders', 'order_items', 'products', 'customers', 'payments', 'expenses', 'day_closes')))
         a = self.fixture('ordinary_owner_A')
+        ordinary_b = self.fixture('ordinary_owner_B')
         admin = self.fixture('platform_admin_B')
         staff_a = self.fixture('employee_A', a['tenant'], True)
         staff_b = self.fixture('employee_B', admin['tenant'], True)
@@ -99,7 +100,7 @@ class ScannerProbe(Probe):
             {'email': a['email'], 'password': a['password']})
         self.control('metadata_actor_real_login', code == 200 and bool(session.get('access_token')), status=code)
         a['token'] = session['access_token']
-        return {'ordinary': a, 'admin': admin, 'staff_a': staff_a, 'staff_b': staff_b, 'banned': banned, 'closed': closed}
+        return {'ordinary': a, 'ordinary_b': ordinary_b, 'admin': admin, 'staff_a': staff_a, 'staff_b': staff_b, 'banned': banned, 'closed': closed}
 
     def run(self, phase, state_file):
         files = sorted((ROOT / 'supabase/migrations').glob('*.sql'))
@@ -109,6 +110,8 @@ class ScannerProbe(Probe):
         self.control('exact_applied_chain_' + phase, versions == [p.name.split('_')[0] for p in expected])
         if phase == 'before' or not state_file.exists():
             actors = self.seed()
+            state_file.write_text(json.dumps({'actors':actors}))
+            state_file.chmod(0o600)
         else:
             saved = json.loads(state_file.read_text())
             self.control('populated_upgrade_all_data_preserved', self.snapshot() == saved['snapshot'])
@@ -139,7 +142,7 @@ class ScannerProbe(Probe):
                 and catalog['scanner']['settings'] == ['search_path=pg_catalog, pg_temp'])
             payload = (ROOT / 'changes/b2-ac01/SCANNER_AUTH.sql').read_text().split('$function$')[1]
             self.control('actual_function_matches_reviewed_body', catalog['scanner']['body'] == payload)
-            for label in ('ordinary', 'staff_a', 'staff_b'):
+            for label in ('ordinary', 'ordinary_b', 'staff_a', 'staff_b'):
                 self.deny(label + '_denied', actors[label], admin)
             self.deny('trigger_cron_spoof_denied', actors['ordinary'], admin, trigger='cron')
             self.deny('trigger_service_spoof_denied', actors['ordinary'], admin, trigger='service_role')

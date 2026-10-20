@@ -1,0 +1,109 @@
+{
+  "base": "5b66c0e10c4b32419b42e2033bb2026f7e27b889",
+  "source": "7a4fb5811c35a053109860c3155074087b930489",
+  "tree": "a0aa94a168f1588bad54b58a1edb027c3f164fa9",
+  "base_blobs": 1356,
+  "source_blobs": 1373,
+  "original_changed_or_deleted": [],
+  "additions": [
+    {
+      "path": ".github/workflows/b2-scanner-auth.yml",
+      "blob": "bed011540e3ffe9f036aba58d189084399c96020",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/API_COMPATIBILITY.md",
+      "blob": "e32befcc03c7400224545fcdf4397008a5d97a61",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/DATA_IMPACT.md",
+      "blob": "a094267828b4a10a734063cd7df8da34d5a1d732",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/DEPENDENCY_MAP.md",
+      "blob": "508d9671a952283c4c8fe4c10894ff80369a1c88",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/GENERATOR.json",
+      "blob": "3a9f081e468ab34eff558104a7731cb42cab4004",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/IMPACT_ANALYSIS.md",
+      "blob": "654a9fe1529385386071101fdc4255ad00aac719",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/INTAKE.md",
+      "blob": "05a244d6c0b25c43f27df69276657ad58d90c5a8",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/MIGRATION_IMPACT.md",
+      "blob": "80cc5b4dcff95120664784eaa2d7f1b5f4c94694",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/ROLLBACK_IMPACT.md",
+      "blob": "40b42bc2b1abf4bcc7c82a3f0c185ece2c28eede",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/SCANNER_AUTH.sql",
+      "blob": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/SECURITY_IMPACT.md",
+      "blob": "ebe3bb1ce573d89c95cb296a45967eff99457ddc",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/TEST_IMPACT.md",
+      "blob": "6b6bc109c8c9407d1e7a7a5803ad990258d8f5eb",
+      "mode": "100644"
+    },
+    {
+      "path": "changes/b2-ac01/rollback-compensation.sql",
+      "blob": "d3990376005e738d134b02da657e9e2ec0402037",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261020210549_scanner_auth_01.sql",
+      "blob": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/account-lifecycle/scanner_auth_probe.py",
+      "blob": "8e7a747c9bbd857ab0a559f6978017a98b81b9eb",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/account-lifecycle/scanner_evidence.py",
+      "blob": "95b13d0f82eec2fd14af29c0bab1ed7acf29e6bf",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/account-lifecycle/test_scanner_auth_probe.py",
+      "blob": "7bc49d93ebbfca83a2b9ae89307e44ea86650b74",
+      "mode": "100644"
+    }
+  ],
+  "original_migrations": 45,
+  "final_migrations": 46,
+  "source_trees_complete": true,
+  "protected": {
+    "before": 341,
+    "after": 346,
+    "added": [
+      ".github/workflows/b2-scanner-auth.yml",
+      "supabase/migrations/20261020210549_scanner_auth_01.sql",
+      "tests/account-lifecycle/scanner_auth_probe.py",
+      "tests/account-lifecycle/scanner_evidence.py",
+      "tests/account-lifecycle/test_scanner_auth_probe.py"
+    ]
+  }
+}

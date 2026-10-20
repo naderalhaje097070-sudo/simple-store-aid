@@ -1,0 +1,109 @@
+{
+  "tested_source": "7a4fb5811c35a053109860c3155074087b930489",
+  "files": [
+    {
+      "path": "evidence/first-native/job-118887016320.log",
+      "sha256": "78613d9db4927d5f0d7f3a0cd808f8869b184f86df5f4febd01116a22aef04b3"
+    },
+    {
+      "path": "evidence/first-native/job-118887016236.log",
+      "sha256": "218caea89e3544638250649d0adaebeaa7e411865e94a8143f2c407ea49a7c10"
+    },
+    {
+      "path": "evidence/final-native/artifact-12299091301.zip",
+      "sha256": "fad21d21e0a6f4b6ab330f9d420a58fe1e8670a03232684ad479798efd64a978"
+    },
+    {
+      "path": "evidence/final-native/job-118890249252.log",
+      "sha256": "b44f05000ec228274f03e43192afcd214617fe1c2c63339c159afdede75986e8"
+    },
+    {
+      "path": "evidence/final-native/artifact-12299007157.zip",
+      "sha256": "0a41f99a9adf7376f1dcaa7d3405718b21ae7d2d63bbf6dc54548b196401a55e"
+    },
+    {
+      "path": "evidence/final-native/job-118890249168.log",
+      "sha256": "46943985c24d4913f095213dbc01dab684a034340017b3f22a7c971953b42349"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-fresh-attempt1/progress.json",
+      "sha256": "59bcbb20899324f7af10f382bd8fed191589fed1e693cb327abfd2c4e68b517d"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-fresh-attempt1/catalog-after.json",
+      "sha256": "45aef75f9d6245d9b441f7d8577998e635d6b0a1466b4c9a1f95b44ee0704796"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-fresh-attempt1/cleanup.json",
+      "sha256": "6a00db437009dabffe90289b239f567acfc1377a97c50a03b3a83bd745c86d76"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-fresh-attempt1/scanner-after.json",
+      "sha256": "48a2ba4e2c65d54789f50d865814d7ce6c117309b3cc6b0b5f70315a7473e389"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/catalog-before.json",
+      "sha256": "18c17f66b3256e2b9d64edf60fa150ee070930aaabe6d5dfdd8991f8fd005766"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/progress.json",
+      "sha256": "dcb693b464117744d1ce598948650d00d18b07195f9422c1c028df069c157903"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/catalog-after.json",
+      "sha256": "45aef75f9d6245d9b441f7d8577998e635d6b0a1466b4c9a1f95b44ee0704796"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/scanner-before.json",
+      "sha256": "88a6df630d4451b2b40aa7842dc56983e54d36f973d4902cc558804042b7d246"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/cleanup.json",
+      "sha256": "6a00db437009dabffe90289b239f567acfc1377a97c50a03b3a83bd745c86d76"
+    },
+    {
+      "path": "evidence/first-native/b2-scanner-upgrade-attempt1/scanner-after.json",
+      "sha256": "877d5b0ebaf291dea749daabe2de8be09d40f7f76cd8378a60454b6293f2f785"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-fresh-attempt1/progress.json",
+      "sha256": "ac01c50524d501dbce55766197eb7bbff389e0fa4fe2fa7e9450c1cd7722514b"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-fresh-attempt1/catalog-after.json",
+      "sha256": "45aef75f9d6245d9b441f7d8577998e635d6b0a1466b4c9a1f95b44ee0704796"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-fresh-attempt1/cleanup.json",
+      "sha256": "8d50bdaf0b797c3f9e7e003aefdf09c1d0454db396b2b80937ea1bfc4d0a8b6c"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-fresh-attempt1/scanner-after.json",
+      "sha256": "779dbe747a53b64436ccfab7ef1f1fed83330b1d0e44e6832c901835b868e019"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/catalog-before.json",
+      "sha256": "18c17f66b3256e2b9d64edf60fa150ee070930aaabe6d5dfdd8991f8fd005766"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/progress.json",
+      "sha256": "fed4ee7d52ff6c6b42e76f1d27f43f5cb6a305ee42f040da7370d3f2e953b8d2"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/catalog-after.json",
+      "sha256": "45aef75f9d6245d9b441f7d8577998e635d6b0a1466b4c9a1f95b44ee0704796"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/scanner-before.json",
+      "sha256": "91da03a1737a70433392faff48206d61edb2446786e574a663a7fab1f686832f"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/cleanup.json",
+      "sha256": "8d50bdaf0b797c3f9e7e003aefdf09c1d0454db396b2b80937ea1bfc4d0a8b6c"
+    },
+    {
+      "path": "evidence/final-native/b2-scanner-upgrade-attempt1/scanner-after.json",
+      "sha256": "46ba7ddb2c1c06ba3f1edfab01d61e1c76b376ceaa34b507f18631f79c13596a"
+    }
+  ]
+}

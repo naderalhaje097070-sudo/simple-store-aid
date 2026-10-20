@@ -1,0 +1,276 @@
+{
+  "source_sha": "7a4fb5811c35a053109860c3155074087b930489",
+  "controls": [
+    {
+      "name": "expected46_source_migrations",
+      "passed": true
+    },
+    {
+      "name": "exact_applied_chain_after",
+      "passed": true
+    },
+    {
+      "name": "populated_upgrade_all_data_preserved",
+      "passed": true
+    },
+    {
+      "name": "only_scanner_body_and_search_path_changed",
+      "passed": true
+    },
+    {
+      "name": "after_active_admin_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_active_admin_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "after_active_admin_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "after_service_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_service_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "after_service_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "execute_acl_preserved_and_not_public",
+      "passed": true
+    },
+    {
+      "name": "scanner_stays_definer_with_safe_path",
+      "passed": true
+    },
+    {
+      "name": "actual_function_matches_reviewed_body",
+      "passed": true
+    },
+    {
+      "name": "ordinary_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "ordinary_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "ordinary_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "ordinary_b_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "ordinary_b_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "ordinary_b_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_a_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_a_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_a_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_b_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_b_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_b_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "trigger_cron_spoof_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "trigger_cron_spoof_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "trigger_cron_spoof_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "trigger_service_spoof_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "trigger_service_spoof_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "trigger_service_spoof_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous_denied",
+      "passed": true,
+      "status": 401,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anonymous_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "jwt_claim_cannot_override_invoker_role",
+      "passed": true
+    },
+    {
+      "name": "sql_denial_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_before_ban_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_admin_before_ban_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_before_ban_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "ban_transition_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_admin_old_jwt_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "banned_admin_old_jwt_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_old_jwt_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_before_closure_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_before_closure_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "closed_admin_before_closure_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "real_owner_closure_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_old_jwt_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "closed_admin_old_jwt_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "closed_admin_old_jwt_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "admin_after_denials_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "admin_after_denials_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "admin_after_denials_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "service_after_denials_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "service_after_denials_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "service_after_denials_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "cron_schedule_and_sql_identity_preserved",
+      "passed": true
+    },
+    {
+      "name": "actual_trusted_sql_cron_identity_positive",
+      "passed": true
+    },
+    {
+      "name": "cron_only_scanner_data_changed",
+      "passed": true
+    }
+  ]
+}

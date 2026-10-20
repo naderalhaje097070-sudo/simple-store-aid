@@ -1,0 +1,606 @@
+﻿2026-10-20T21:07:07.4757175Z Current runner version: '2.337.0'
+2026-10-20T21:07:07.4778053Z ##[group]Runner Image Provisioner
+2026-10-20T21:07:07.4778787Z Hosted Compute Agent
+2026-10-20T21:07:07.4779153Z Version: 20261012.601
+2026-10-20T21:07:07.4779623Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-20T21:07:07.4780108Z Build Date: 2026-10-12T17:48:21Z
+2026-10-20T21:07:07.4780914Z Worker ID: {4471a44f-0fce-4e0a-892c-756dcf70915d}
+2026-10-20T21:07:07.4781359Z Region: centralus
+2026-10-20T21:07:07.4781702Z Cloud: Azure
+2026-10-20T21:07:07.4782100Z ##[endgroup]
+2026-10-20T21:07:07.4782933Z ##[group]Operating System
+2026-10-20T21:07:07.4783381Z Ubuntu
+2026-10-20T21:07:07.4783722Z 24.04.5
+2026-10-20T21:07:07.4784051Z LTS
+2026-10-20T21:07:07.4784412Z ##[endgroup]
+2026-10-20T21:07:07.4784841Z ##[group]Runner Image
+2026-10-20T21:07:07.4785261Z Image: ubuntu-24.04
+2026-10-20T21:07:07.4785634Z Version: 20261012.334.1
+2026-10-20T21:07:07.4786470Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-20T21:07:07.4787444Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-20T21:07:07.4788068Z ##[endgroup]
+2026-10-20T21:07:07.4788925Z ##[group]GITHUB_TOKEN Permissions
+2026-10-20T21:07:07.4790320Z Contents: read
+2026-10-20T21:07:07.4790696Z Metadata: read
+2026-10-20T21:07:07.4791082Z ##[endgroup]
+2026-10-20T21:07:07.4792761Z Secret source: Actions
+2026-10-20T21:07:07.4793351Z Cache mode: write
+2026-10-20T21:07:07.4793851Z Prepare workflow directory
+2026-10-20T21:07:07.5167656Z Prepare all required actions
+2026-10-20T21:07:07.5199621Z Getting action download info
+2026-10-20T21:07:07.7651730Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-20T21:07:07.8699542Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-20T21:07:08.0018941Z Download action repository 'supabase/setup-cli@v2' (SHA:afb1b15109756ea5cf9d8985a359d9095235ca2b)
+2026-10-20T21:07:08.2131721Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-20T21:07:08.4557526Z Getting action download info
+2026-10-20T21:07:08.5598629Z Download action repository 'oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-20T21:07:08.9466084Z Complete job name: authorization (upgrade)
+2026-10-20T21:07:09.0003052Z ##[group]Run actions/checkout@v4
+2026-10-20T21:07:09.0003693Z with:
+2026-10-20T21:07:09.0004130Z   persist-credentials: false
+2026-10-20T21:07:09.0004652Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-20T21:07:09.0007013Z   token: ***
+2026-10-20T21:07:09.0007437Z   ssh-strict: true
+2026-10-20T21:07:09.0007869Z   ssh-user: git
+2026-10-20T21:07:09.0008415Z   clean: true
+2026-10-20T21:07:09.0008858Z   sparse-checkout-cone-mode: true
+2026-10-20T21:07:09.0009335Z   fetch-depth: 1
+2026-10-20T21:07:09.0009761Z   fetch-tags: false
+2026-10-20T21:07:09.0010332Z   show-progress: true
+2026-10-20T21:07:09.0010899Z   lfs: false
+2026-10-20T21:07:09.0011306Z   submodules: false
+2026-10-20T21:07:09.0011740Z   set-safe-directory: true
+2026-10-20T21:07:09.0012218Z   allow-unsafe-pr-checkout: false
+2026-10-20T21:07:09.0012806Z env:
+2026-10-20T21:07:09.0013273Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:09.0013820Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:09.0014292Z ##[endgroup]
+2026-10-20T21:07:09.0825639Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-20T21:07:09.0846303Z ##[group]Getting Git version info
+2026-10-20T21:07:09.0848819Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-20T21:07:09.0851749Z [command]/usr/bin/git version
+2026-10-20T21:07:09.0951943Z git version 2.55.0
+2026-10-20T21:07:09.1020380Z ##[endgroup]
+2026-10-20T21:07:09.1038157Z Temporarily overriding HOME='/home/runner/work/_temp/b90875f3-0bb8-41b1-a8d9-470a213220e9' before making global git config changes
+2026-10-20T21:07:09.1040307Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-20T21:07:09.1157607Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-20T21:07:09.1193361Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-20T21:07:09.1194920Z ##[group]Initializing the repository
+2026-10-20T21:07:09.1195908Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-20T21:07:09.1266563Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-20T21:07:09.1268942Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-20T21:07:09.1270611Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-20T21:07:09.1271699Z hint: call:
+2026-10-20T21:07:09.1272634Z hint:
+2026-10-20T21:07:09.1273542Z hint: 	git config --global init.defaultBranch <name>
+2026-10-20T21:07:09.1274763Z hint:
+2026-10-20T21:07:09.1275758Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-20T21:07:09.1277215Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-20T21:07:09.1281053Z hint:
+2026-10-20T21:07:09.1282160Z hint: 	git branch -m <name>
+2026-10-20T21:07:09.1283021Z hint:
+2026-10-20T21:07:09.1284250Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-20T21:07:09.1285706Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-20T21:07:09.1289271Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-20T21:07:09.1363071Z ##[endgroup]
+2026-10-20T21:07:09.1364706Z ##[group]Disabling automatic garbage collection
+2026-10-20T21:07:09.1365970Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-20T21:07:09.1413603Z ##[endgroup]
+2026-10-20T21:07:09.1415188Z ##[group]Setting up auth
+2026-10-20T21:07:09.1416359Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-20T21:07:09.1465953Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-20T21:07:09.1815018Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-20T21:07:09.1847633Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-20T21:07:09.2052347Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-20T21:07:09.2077378Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-20T21:07:09.2272749Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-20T21:07:09.2307802Z ##[endgroup]
+2026-10-20T21:07:09.2310174Z ##[group]Fetching the repository
+2026-10-20T21:07:09.2316067Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +00b465ad397f8e3e715ec13b6835c110ab4e4469:refs/remotes/origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-20T21:07:10.4630871Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-20T21:07:10.4636398Z  * [new ref]         00b465ad397f8e3e715ec13b6835c110ab4e4469 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-20T21:07:10.4651478Z ##[endgroup]
+2026-10-20T21:07:10.4652437Z ##[group]Determining the checkout info
+2026-10-20T21:07:10.4653475Z ##[endgroup]
+2026-10-20T21:07:10.4654155Z [command]/usr/bin/git sparse-checkout disable
+2026-10-20T21:07:10.4729172Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-20T21:07:10.4793657Z ##[group]Checking out the ref
+2026-10-20T21:07:10.4794962Z [command]/usr/bin/git checkout --progress --force -B integration/g0-g1-reconcile-2026-10-18 refs/remotes/origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-20T21:07:10.5818382Z Switched to a new branch 'integration/g0-g1-reconcile-2026-10-18'
+2026-10-20T21:07:10.5833889Z branch 'integration/g0-g1-reconcile-2026-10-18' set up to track 'origin/integration/g0-g1-reconcile-2026-10-18'.
+2026-10-20T21:07:10.5846315Z ##[endgroup]
+2026-10-20T21:07:10.5908716Z [command]/usr/bin/git log -1 --format=%H
+2026-10-20T21:07:10.5935598Z 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:10.5944452Z ##[group]Removing auth
+2026-10-20T21:07:10.5970975Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-20T21:07:10.6009741Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-20T21:07:10.6289345Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-20T21:07:10.6307905Z http.https://github.com/.extraheader
+2026-10-20T21:07:10.6321012Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-20T21:07:10.6346306Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-20T21:07:10.6540705Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-20T21:07:10.6561898Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-20T21:07:10.6754970Z ##[endgroup]
+2026-10-20T21:07:10.6951980Z ##[group]Run actions/setup-python@v5
+2026-10-20T21:07:10.6952159Z with:
+2026-10-20T21:07:10.6952282Z   python-version: 3.12
+2026-10-20T21:07:10.6952429Z   check-latest: false
+2026-10-20T21:07:10.6953744Z   token: ***
+2026-10-20T21:07:10.6953892Z   update-environment: true
+2026-10-20T21:07:10.6954063Z   allow-prereleases: false
+2026-10-20T21:07:10.6954202Z   freethreaded: false
+2026-10-20T21:07:10.6954324Z env:
+2026-10-20T21:07:10.6954477Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:10.6954667Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:10.6954795Z ##[endgroup]
+2026-10-20T21:07:10.7854568Z ##[group]Installed versions
+2026-10-20T21:07:10.7923795Z (node:2091) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-20T21:07:10.7924386Z Successfully set up CPython (3.12.15)
+2026-10-20T21:07:10.7924933Z ##[endgroup]
+2026-10-20T21:07:10.7925494Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-20T21:07:10.8154937Z ##[group]Run python -m unittest discover -s tests/account-lifecycle -p test_scanner_auth_probe.py -v
+2026-10-20T21:07:10.8155956Z [36;1mpython -m unittest discover -s tests/account-lifecycle -p test_scanner_auth_probe.py -v[0m
+2026-10-20T21:07:10.8433773Z shell: /usr/bin/bash -e {0}
+2026-10-20T21:07:10.8434015Z env:
+2026-10-20T21:07:10.8434196Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:10.8434412Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:10.8434595Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:10.8434859Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:10.8435096Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:10.8435310Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:10.8435550Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:10.8435828Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:10.8436024Z ##[endgroup]
+2026-10-20T21:07:11.0273041Z test_inactive_is_distinct_and_anon_requires_permission_code (test_scanner_auth_probe.DenialOracleTests.test_inactive_is_distinct_and_anon_requires_permission_code) ... ok
+2026-10-20T21:07:11.0274627Z test_requires_permission_status_code_and_message (test_scanner_auth_probe.DenialOracleTests.test_requires_permission_status_code_and_message) ... ok
+2026-10-20T21:07:11.0278661Z 
+2026-10-20T21:07:11.0288744Z ----------------------------------------------------------------------
+2026-10-20T21:07:11.0308681Z Ran 2 tests in 0.000s
+2026-10-20T21:07:11.0318900Z 
+2026-10-20T21:07:11.0319175Z OK
+2026-10-20T21:07:11.0478670Z ##[group]Run supabase/setup-cli@v2
+2026-10-20T21:07:11.0478859Z with:
+2026-10-20T21:07:11.0478977Z   version: 2.101.0
+2026-10-20T21:07:11.0479099Z env:
+2026-10-20T21:07:11.0479259Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:11.0479450Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:11.0479625Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0479866Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:11.0480119Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0480360Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0480575Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0480791Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:11.0480973Z ##[endgroup]
+2026-10-20T21:07:11.0522348Z ##[start-action display=Resolve Bun Download URL;id=__supabase_setup-cli.bun-download]
+2026-10-20T21:07:11.0543848Z ##[group]Run set -eu
+2026-10-20T21:07:11.0544046Z [36;1mset -eu[0m
+2026-10-20T21:07:11.0544163Z [36;1m[0m
+2026-10-20T21:07:11.0544313Z [36;1mif [ "${RUNNER_OS}" != "Linux" ]; then[0m
+2026-10-20T21:07:11.0544482Z [36;1m  exit 0[0m
+2026-10-20T21:07:11.0544597Z [36;1mfi[0m
+2026-10-20T21:07:11.0544706Z [36;1m[0m
+2026-10-20T21:07:11.0544947Z [36;1m# setup-bun does not detect Linux musl yet, so Alpine-like containers need the musl asset explicitly.[0m
+2026-10-20T21:07:11.0545228Z [36;1mis_musl=false[0m
+2026-10-20T21:07:11.0545374Z [36;1mif [ -f /etc/alpine-release ]; then[0m
+2026-10-20T21:07:11.0545537Z [36;1m  is_musl=true[0m
+2026-10-20T21:07:11.0545746Z [36;1melif command -v ldd >/dev/null 2>&1 && ldd --version 2>&1 | grep -qi musl; then[0m
+2026-10-20T21:07:11.0545974Z [36;1m  is_musl=true[0m
+2026-10-20T21:07:11.0546095Z [36;1mfi[0m
+2026-10-20T21:07:11.0546203Z [36;1m[0m
+2026-10-20T21:07:11.0546323Z [36;1mif [ "${is_musl}" != "true" ]; then[0m
+2026-10-20T21:07:11.0546482Z [36;1m  exit 0[0m
+2026-10-20T21:07:11.0546594Z [36;1mfi[0m
+2026-10-20T21:07:11.0546705Z [36;1m[0m
+2026-10-20T21:07:11.0546822Z [36;1mversion="$(cat .bun-version)"[0m
+2026-10-20T21:07:11.0546978Z [36;1mcase "$(uname -m)" in[0m
+2026-10-20T21:07:11.0547120Z [36;1m  x86_64) arch="x64" ;;[0m
+2026-10-20T21:07:11.0547273Z [36;1m  aarch64|arm64) arch="aarch64" ;;[0m
+2026-10-20T21:07:11.0547424Z [36;1m  *)[0m
+2026-10-20T21:07:11.0547590Z [36;1m    echo "Unsupported Linux musl architecture: $(uname -m)" >&2[0m
+2026-10-20T21:07:11.0547791Z [36;1m    exit 1[0m
+2026-10-20T21:07:11.0547907Z [36;1m    ;;[0m
+2026-10-20T21:07:11.0548019Z [36;1mesac[0m
+2026-10-20T21:07:11.0548130Z [36;1m[0m
+2026-10-20T21:07:11.0548530Z [36;1mecho "url=https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-${arch}-musl.zip" >> "$GITHUB_OUTPUT"[0m
+2026-10-20T21:07:11.0572252Z shell: /usr/bin/sh -e {0}
+2026-10-20T21:07:11.0572405Z env:
+2026-10-20T21:07:11.0572566Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:11.0572754Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:11.0572924Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0573245Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:11.0573498Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0573711Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0574062Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0574277Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:11.0574459Z ##[endgroup]
+2026-10-20T21:07:11.0648171Z ##[end-action id=__supabase_setup-cli.bun-download;outcome=success;conclusion=success;duration_ms=12]
+2026-10-20T21:07:11.0652186Z ##[start-action display=Install Alpine Runtime Dependencies;id=__supabase_setup-cli.__run]
+2026-10-20T21:07:11.0665983Z ##[group]Run set -eu
+2026-10-20T21:07:11.0666307Z [36;1mset -eu[0m
+2026-10-20T21:07:11.0666425Z [36;1m[0m
+2026-10-20T21:07:11.0666553Z [36;1mif [ "${RUNNER_OS}" != "Linux" ]; then[0m
+2026-10-20T21:07:11.0666716Z [36;1m  exit 0[0m
+2026-10-20T21:07:11.0666829Z [36;1mfi[0m
+2026-10-20T21:07:11.0666937Z [36;1m[0m
+2026-10-20T21:07:11.0667073Z [36;1mis_musl=false[0m
+2026-10-20T21:07:11.0667220Z [36;1mif [ -f /etc/alpine-release ]; then[0m
+2026-10-20T21:07:11.0667383Z [36;1m  is_musl=true[0m
+2026-10-20T21:07:11.0667591Z [36;1melif command -v ldd >/dev/null 2>&1 && ldd --version 2>&1 | grep -qi musl; then[0m
+2026-10-20T21:07:11.0667824Z [36;1m  is_musl=true[0m
+2026-10-20T21:07:11.0667946Z [36;1mfi[0m
+2026-10-20T21:07:11.0668056Z [36;1m[0m
+2026-10-20T21:07:11.0668321Z [36;1mif [ "${is_musl}" != "true" ]; then[0m
+2026-10-20T21:07:11.0668515Z [36;1m  exit 0[0m
+2026-10-20T21:07:11.0668628Z [36;1mfi[0m
+2026-10-20T21:07:11.0668734Z [36;1m[0m
+2026-10-20T21:07:11.0668945Z [36;1m# Bun's musl binary and the Supabase CLI shim both dynamically link libstdc++ and libgcc.[0m
+2026-10-20T21:07:11.0669201Z [36;1mif command -v apk >/dev/null 2>&1; then[0m
+2026-10-20T21:07:11.0669372Z [36;1m  missing_packages=""[0m
+2026-10-20T21:07:11.0669528Z [36;1m  for package in libstdc++ libgcc; do[0m
+2026-10-20T21:07:11.0669723Z [36;1m    if ! apk info -e "${package}" >/dev/null 2>&1; then[0m
+2026-10-20T21:07:11.0669940Z [36;1m      missing_packages="${missing_packages} ${package}"[0m
+2026-10-20T21:07:11.0670115Z [36;1m    fi[0m
+2026-10-20T21:07:11.0670234Z [36;1m  done[0m
+2026-10-20T21:07:11.0670346Z [36;1m[0m
+2026-10-20T21:07:11.0670470Z [36;1m  if [ -z "${missing_packages}" ]; then[0m
+2026-10-20T21:07:11.0670626Z [36;1m    exit 0[0m
+2026-10-20T21:07:11.0670741Z [36;1m  fi[0m
+2026-10-20T21:07:11.0670849Z [36;1m[0m
+2026-10-20T21:07:11.0670964Z [36;1m  if [ "$(id -u)" != "0" ]; then[0m
+2026-10-20T21:07:11.0671388Z [36;1m    echo "::error::Alpine/musl containers need${missing_packages} to run Supabase CLI. Add 'apk add --no-cache${missing_packages}' before supabase/setup-cli, or run this job container as root."[0m
+2026-10-20T21:07:11.0671791Z [36;1m    exit 1[0m
+2026-10-20T21:07:11.0671909Z [36;1m  fi[0m
+2026-10-20T21:07:11.0672020Z [36;1m[0m
+2026-10-20T21:07:11.0672147Z [36;1m  apk add --no-cache ${missing_packages}[0m
+2026-10-20T21:07:11.0672310Z [36;1m  exit 0[0m
+2026-10-20T21:07:11.0672423Z [36;1mfi[0m
+2026-10-20T21:07:11.0672536Z [36;1m[0m
+2026-10-20T21:07:11.0672799Z [36;1mecho "::error::Linux musl containers need libstdc++ and libgcc to run Supabase CLI. Install them before supabase/setup-cli."[0m
+2026-10-20T21:07:11.0673094Z [36;1mexit 1[0m
+2026-10-20T21:07:11.0693848Z shell: /usr/bin/sh -e {0}
+2026-10-20T21:07:11.0693991Z env:
+2026-10-20T21:07:11.0694151Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:11.0694347Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:11.0694516Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0694754Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:11.0694991Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0695201Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0695413Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0695627Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:11.0695808Z ##[endgroup]
+2026-10-20T21:07:11.0776667Z ##[end-action id=__supabase_setup-cli.__run;outcome=success;conclusion=success;duration_ms=12]
+2026-10-20T21:07:11.0778608Z ##[start-action display=Setup Bun;id=__supabase_setup-cli.__oven-sh_setup-bun]
+2026-10-20T21:07:11.0830084Z ##[group]Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6
+2026-10-20T21:07:11.0830298Z with:
+2026-10-20T21:07:11.0830495Z   bun-version-file: /home/runner/work/_actions/supabase/setup-cli/v2/.bun-version
+2026-10-20T21:07:11.0830718Z   no-cache: false
+2026-10-20T21:07:11.0832093Z   token: ***
+2026-10-20T21:07:11.0832363Z env:
+2026-10-20T21:07:11.0832514Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:11.0832700Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:11.0832864Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0833096Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:11.0833329Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0833542Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0833762Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:11.0833977Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:11.0834158Z ##[endgroup]
+2026-10-20T21:07:11.1936705Z Obtained version 1.3.10 from /home/runner/work/_actions/supabase/setup-cli/v2/.bun-version
+2026-10-20T21:07:11.3792320Z Cache hit for: bun-Ki+pY5x+JEo+hNxyfTQYMbDXy7M=
+2026-10-20T21:07:12.1390048Z Received 36196349 of 36196349 (100.0%), 54.4 MBs/sec
+2026-10-20T21:07:12.1419505Z Cache Size: ~35 MB (36196349 B)
+2026-10-20T21:07:12.1464646Z [command]/usr/bin/tar -xf /home/runner/work/_temp/a49b6f3b-8b48-4ce8-a505-5301e36693ec/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-20T21:07:12.3809382Z Cache restored successfully
+2026-10-20T21:07:12.3850546Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-20T21:07:12.3900019Z 1.3.10+30e609e08
+2026-10-20T21:07:12.3900696Z Using a cached version of Bun: 1.3.10+30e609e08
+2026-10-20T21:07:12.3979719Z ##[end-action id=__supabase_setup-cli.__oven-sh_setup-bun;outcome=success;conclusion=success;duration_ms=1320]
+2026-10-20T21:07:12.3981940Z ##[start-action display=Install Action Dependencies;id=__supabase_setup-cli.__run_2]
+2026-10-20T21:07:12.4095332Z ##[group]Run bun install --frozen-lockfile --production
+2026-10-20T21:07:12.4095590Z [36;1mbun install --frozen-lockfile --production[0m
+2026-10-20T21:07:12.4117207Z shell: /usr/bin/sh -e {0}
+2026-10-20T21:07:12.4117376Z env:
+2026-10-20T21:07:12.4117536Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:12.4117730Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:12.4117900Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.4118142Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:12.4118543Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.4118757Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.4118988Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.4119208Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:12.4119398Z ##[endgroup]
+2026-10-20T21:07:12.4865595Z bun install v1.3.10 (30e609e0)
+2026-10-20T21:07:12.6080667Z 
+2026-10-20T21:07:12.6120967Z + @actions/core@3.0.1
+2026-10-20T21:07:12.6121935Z + @actions/tool-cache@4.0.0
+2026-10-20T21:07:12.6122201Z 
+2026-10-20T21:07:12.6122448Z 9 packages installed [126.00ms]
+2026-10-20T21:07:12.6136367Z ##[end-action id=__supabase_setup-cli.__run_2;outcome=success;conclusion=success;duration_ms=215]
+2026-10-20T21:07:12.6141668Z ##[start-action display=Setup Supabase CLI;id=__supabase_setup-cli.setup-cli]
+2026-10-20T21:07:12.6304456Z ##[group]Run bun src/main.ts
+2026-10-20T21:07:12.6304715Z [36;1mbun src/main.ts[0m
+2026-10-20T21:07:12.6340822Z shell: /usr/bin/sh -e {0}
+2026-10-20T21:07:12.6341054Z env:
+2026-10-20T21:07:12.6341302Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:12.6341851Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:12.6342121Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.6342507Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:12.6342885Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.6343230Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.6343805Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:12.6344169Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:12.6344471Z   INPUT_VERSION: 2.101.0
+2026-10-20T21:07:12.6344685Z   SUPABASE_CLI_GITHUB_TOKEN: 
+2026-10-20T21:07:12.6344907Z ##[endgroup]
+2026-10-20T21:07:13.4493064Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/096b22b8-0b3e-43ac-a153-778324416c16 -f /home/runner/work/_temp/8e6ccb33-0627-4f7f-8464-9df5827f398a
+2026-10-20T21:07:14.6867197Z ##[end-action id=__supabase_setup-cli.setup-cli;outcome=success;conclusion=success;duration_ms=2072]
+2026-10-20T21:07:14.8844606Z ##[group]Run set -euo pipefail
+2026-10-20T21:07:14.8844925Z [36;1mset -euo pipefail[0m
+2026-10-20T21:07:14.8845161Z [36;1mtest "$(supabase --version)" = '2.101.0'[0m
+2026-10-20T21:07:14.8845484Z [36;1msupabase start --help > "$RUNNER_TEMP/start-help.txt"[0m
+2026-10-20T21:07:14.8845830Z [36;1msupabase stop --help > "$RUNNER_TEMP/stop-help.txt"[0m
+2026-10-20T21:07:14.8846185Z [36;1msupabase migration up --help > "$RUNNER_TEMP/up-help.txt"[0m
+2026-10-20T21:07:14.8846561Z [36;1msupabase db advisors --help > "$RUNNER_TEMP/advisors-help.txt"[0m
+2026-10-20T21:07:14.8846949Z [36;1msupabase migration list --help > "$RUNNER_TEMP/list-help.txt"[0m
+2026-10-20T21:07:14.8847305Z [36;1mgrep -q -- '--local' "$RUNNER_TEMP/up-help.txt"[0m
+2026-10-20T21:07:14.8847629Z [36;1mgrep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"[0m
+2026-10-20T21:07:14.8847941Z [36;1msudo apt-get update -qq[0m
+2026-10-20T21:07:14.8848639Z [36;1msudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1[0m
+2026-10-20T21:07:14.8904368Z shell: /usr/bin/bash -e {0}
+2026-10-20T21:07:14.8904533Z env:
+2026-10-20T21:07:14.8904691Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:14.8904883Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:14.8905056Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:14.8905289Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:14.8905520Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:14.8905731Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:14.8905941Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:14.8906155Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:14.8906350Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:07:14.8906518Z ##[endgroup]
+2026-10-20T21:07:27.8572071Z ##[group]Run set -euo pipefail
+2026-10-20T21:07:27.8572425Z [36;1mset -euo pipefail[0m
+2026-10-20T21:07:27.8572758Z [36;1msudo useradd --system --no-create-home --shell /usr/sbin/nologin ac01[0m
+2026-10-20T21:07:27.8573121Z [36;1muid="$(id -u ac01)"[0m
+2026-10-20T21:07:27.8573351Z [36;1msudo iptables -N AC01[0m
+2026-10-20T21:07:27.8573748Z [36;1msudo iptables -A AC01 -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322 -j ACCEPT[0m
+2026-10-20T21:07:27.8574262Z [36;1msudo iptables -A AC01 -j REJECT --reject-with icmp-port-unreachable[0m
+2026-10-20T21:07:27.8574704Z [36;1msudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j AC01[0m
+2026-10-20T21:07:27.8575126Z [36;1msudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT[0m
+2026-10-20T21:07:27.8575503Z [36;1msudo -u ac01 "$(command -v python)" - <<'PY'[0m
+2026-10-20T21:07:27.8575788Z [36;1mimport socket[0m
+2026-10-20T21:07:27.8575998Z [36;1mtry:[0m
+2026-10-20T21:07:27.8576581Z [36;1m    with socket.create_connection(('1.1.1.1',443),timeout=3): pass[0m
+2026-10-20T21:07:27.8576928Z [36;1mexcept OSError:[0m
+2026-10-20T21:07:27.8577187Z [36;1m    print('AC01_CREDENTIAL_FREE_EGRESS_REJECTED')[0m
+2026-10-20T21:07:27.8577471Z [36;1melse:[0m
+2026-10-20T21:07:27.8577697Z [36;1m    raise SystemExit('AC01_FIREWALL_FAILED')[0m
+2026-10-20T21:07:27.8577972Z [36;1mPY[0m
+2026-10-20T21:07:27.8578469Z [36;1msudo install -d -m 711 -o ac01 -g ac01 /tmp/monjez-ac01[0m
+2026-10-20T21:07:27.8578854Z [36;1msudo cp -a "$GITHUB_WORKSPACE/." /tmp/monjez-ac01/repo[0m
+2026-10-20T21:07:27.8579246Z [36;1msudo install -d -m 700 -o ac01 -g ac01 /tmp/monjez-ac01/evidence[0m
+2026-10-20T21:07:27.8579615Z [36;1msudo chown -R ac01:ac01 /tmp/monjez-ac01[0m
+2026-10-20T21:07:27.8579978Z [36;1msudo iptables -nvxL AC01 > "$RUNNER_TEMP/firewall-before.txt"[0m
+2026-10-20T21:07:27.8639097Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:07:27.8639322Z env:
+2026-10-20T21:07:27.8639502Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:27.8639703Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:27.8639883Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:27.8640129Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:27.8640371Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:27.8640593Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:27.8640814Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:27.8641036Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:27.8641239Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:07:27.8641413Z ##[endgroup]
+2026-10-20T21:07:27.9926551Z AC01_CREDENTIAL_FREE_EGRESS_REJECTED
+2026-10-20T21:07:28.1142470Z ##[group]Run set -euo pipefail
+2026-10-20T21:07:28.1142697Z [36;1mset -euo pipefail[0m
+2026-10-20T21:07:28.1142849Z [36;1mumask 077[0m
+2026-10-20T21:07:28.1143002Z [36;1mstack="$RUNNER_TEMP/monjez-ac01-stack"[0m
+2026-10-20T21:07:28.1143189Z [36;1mmkdir -p "$stack"[0m
+2026-10-20T21:07:28.1143403Z [36;1msupabase --workdir "$stack" init > "$RUNNER_TEMP/init-private.log" 2>&1[0m
+2026-10-20T21:07:28.1143650Z [36;1mmkdir -p "$stack/supabase/migrations"[0m
+2026-10-20T21:07:28.1143872Z [36;1mcp supabase/migrations/*.sql "$stack/supabase/migrations/"[0m
+2026-10-20T21:07:28.1144097Z [36;1mif [[ "$CONTRACT_MODE" == upgrade ]]; then[0m
+2026-10-20T21:07:28.1144307Z [36;1m  rm "$stack"/supabase/migrations/*_scanner_auth_01.sql[0m
+2026-10-20T21:07:28.1144496Z [36;1mfi[0m
+2026-10-20T21:07:28.1144703Z [36;1mif ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then[0m
+2026-10-20T21:07:28.1145015Z [36;1m  echo 'AC01_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'[0m
+2026-10-20T21:07:28.1145204Z [36;1m  exit 1[0m
+2026-10-20T21:07:28.1145325Z [36;1mfi[0m
+2026-10-20T21:07:28.1145526Z [36;1msupabase --workdir "$stack" status -o json > "$RUNNER_TEMP/status-private.json"[0m
+2026-10-20T21:07:28.1145889Z [36;1msudo install -m 600 -o ac01 -g ac01 "$RUNNER_TEMP/status-private.json" /tmp/monjez-ac01/status.json[0m
+2026-10-20T21:07:28.1204433Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:07:28.1204727Z env:
+2026-10-20T21:07:28.1205065Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:07:28.1205343Z   CONTRACT_MODE: upgrade
+2026-10-20T21:07:28.1205709Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:28.1206033Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:07:28.1206346Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:28.1206718Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:28.1207037Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:07:28.1207413Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:07:28.1207858Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:07:28.1208158Z ##[endgroup]
+2026-10-20T21:09:47.7451035Z Using workdir /home/runner/work/_temp/monjez-ac01-stack
+2026-10-20T21:09:47.7500847Z Stopped services: [supabase_imgproxy_monjez-ac01-stack supabase_pooler_monjez-ac01-stack]
+2026-10-20T21:09:48.1522940Z A new version of Supabase CLI is available: v2.121.0 (currently installed v2.101.0)
+2026-10-20T21:09:48.1523887Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-10-20T21:09:48.1863270Z ##[group]Run set -euo pipefail
+2026-10-20T21:09:48.1863491Z [36;1mset -euo pipefail[0m
+2026-10-20T21:09:48.1863645Z [36;1mcd /tmp/monjez-ac01/repo[0m
+2026-10-20T21:09:48.1863859Z [36;1msudo -u ac01 env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 \[0m
+2026-10-20T21:09:48.1864207Z [36;1m  EXPECTED_SOURCE="$EXPECTED_SOURCE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \[0m
+2026-10-20T21:09:48.1864651Z [36;1m  VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=ac01-preflight-placeholder \[0m
+2026-10-20T21:09:48.1865022Z [36;1m  PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \[0m
+2026-10-20T21:09:48.1865384Z [36;1m  python tests/account-lifecycle/scanner_auth_probe.py --expected-source "$EXPECTED_SOURCE" \[0m
+2026-10-20T21:09:48.1865754Z [36;1m    --status-file /tmp/monjez-ac01/status.json --evidence-dir /tmp/monjez-ac01/evidence \[0m
+2026-10-20T21:09:48.1866105Z [36;1m    --private-state /tmp/monjez-ac01/private-state.json --phase before[0m
+2026-10-20T21:09:48.1866446Z [36;1mcp supabase/migrations/*_scanner_auth_01.sql "$RUNNER_TEMP/monjez-ac01-stack/supabase/migrations/"[0m
+2026-10-20T21:09:48.1866859Z [36;1msupabase --workdir "$RUNNER_TEMP/monjez-ac01-stack" migration up --local > "$RUNNER_TEMP/upgrade-private.log" 2>&1[0m
+2026-10-20T21:09:48.1957245Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:09:48.1957482Z env:
+2026-10-20T21:09:48.1957641Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:09:48.1957833Z   CONTRACT_MODE: upgrade
+2026-10-20T21:09:48.1958010Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:48.1958325Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:09:48.1958563Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:48.1958780Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:48.1959001Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:48.1959222Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:09:48.1959423Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:09:48.1959586Z ##[endgroup]
+2026-10-20T21:09:54.9896669Z AC01_RECEIPT {"source": "00b465ad397f8e3e715ec13b6835c110ab4e4469", "phase": "before", "passed": 43, "failed": 0, "b2_runtime_accepted": false, "independent_review": "pending", "package_B_accepted": false, "schema_versions": ["20260626142422", "20260626142438", "20260626143241", "20260626143657", "20260626145704", "20260626150447", "20260626151932", "20260626155319", "20260626155333", "20260626155758", "20260626161037", "20260626162911", "20260626181906", "20260626183212", "20260626190302", "20260626191000", "20260626191523", "20260626201427", "20260626213551", "20260626225100", "20260626231740", "20260626233231", "20260627100633", "20260627201534", "20260627203328", "20260627213042", "20260627221524", "20260627224911", "20260628073856", "20260628074047", "20260628075333", "20260628102723", "20260628103809", "20260628105459", "20260701090000", "20260704105413", "20260706120000", "20260708073115", "20260715145141", "20260716064935", "20260717180906", "20261010223557", "20261010225012", "20261013120223", "20261013221918"], "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"}
+2026-10-20T21:09:55.6649271Z ##[group]Run set -euo pipefail
+2026-10-20T21:09:55.6649789Z [36;1mset -euo pipefail[0m
+2026-10-20T21:09:55.6650019Z [36;1mcd /tmp/monjez-ac01/repo[0m
+2026-10-20T21:09:55.6650335Z [36;1msudo -u ac01 env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 \[0m
+2026-10-20T21:09:55.6650884Z [36;1m  EXPECTED_SOURCE="$EXPECTED_SOURCE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \[0m
+2026-10-20T21:09:55.6651596Z [36;1m  VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=ac01-preflight-placeholder \[0m
+2026-10-20T21:09:55.6652194Z [36;1m  PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \[0m
+2026-10-20T21:09:55.6652827Z [36;1m  python tests/account-lifecycle/scanner_auth_probe.py --expected-source "$EXPECTED_SOURCE" \[0m
+2026-10-20T21:09:55.6653466Z [36;1m    --status-file /tmp/monjez-ac01/status.json --evidence-dir /tmp/monjez-ac01/evidence \[0m
+2026-10-20T21:09:55.6654035Z [36;1m    --private-state /tmp/monjez-ac01/private-state.json --phase after[0m
+2026-10-20T21:09:55.6713314Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:09:55.6713619Z env:
+2026-10-20T21:09:55.6713858Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:09:55.6714099Z   CONTRACT_MODE: upgrade
+2026-10-20T21:09:55.6714278Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:55.6714524Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:09:55.6714765Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:55.6714981Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:55.6715198Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:09:55.6715420Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:09:55.6715622Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:09:55.6715787Z ##[endgroup]
+2026-10-20T21:10:17.9341957Z AC01_RECEIPT {"source": "00b465ad397f8e3e715ec13b6835c110ab4e4469", "phase": "after", "passed": 56, "failed": 0, "b2_runtime_accepted": true, "independent_review": "pending", "package_B_accepted": false, "schema_versions": ["20260626142422", "20260626142438", "20260626143241", "20260626143657", "20260626145704", "20260626150447", "20260626151932", "20260626155319", "20260626155333", "20260626155758", "20260626161037", "20260626162911", "20260626181906", "20260626183212", "20260626190302", "20260626191000", "20260626191523", "20260626201427", "20260626213551", "20260626225100", "20260626231740", "20260626233231", "20260627100633", "20260627201534", "20260627203328", "20260627213042", "20260627221524", "20260627224911", "20260628073856", "20260628074047", "20260628075333", "20260628102723", "20260628103809", "20260628105459", "20260701090000", "20260704105413", "20260706120000", "20260708073115", "20260715145141", "20260716064935", "20260717180906", "20261010223557", "20261010225012", "20261013120223", "20261013221918", "20261020210549"], "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"}
+2026-10-20T21:10:17.9500716Z ##[group]Run set -euo pipefail
+2026-10-20T21:10:17.9501052Z [36;1mset -euo pipefail[0m
+2026-10-20T21:10:17.9501543Z [36;1msupabase --workdir "$RUNNER_TEMP/monjez-ac01-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"[0m
+2026-10-20T21:10:17.9502146Z [36;1mif grep -q -- '--local' "$RUNNER_TEMP/advisors-help.txt"; then[0m
+2026-10-20T21:10:17.9502775Z [36;1m  supabase --workdir "$RUNNER_TEMP/monjez-ac01-stack" db advisors --local > "$RUNNER_TEMP/advisors-private.txt" 2>&1[0m
+2026-10-20T21:10:17.9503304Z [36;1melse[0m
+2026-10-20T21:10:17.9503620Z [36;1m  echo 'AC01_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'[0m
+2026-10-20T21:10:17.9503982Z [36;1mfi[0m
+2026-10-20T21:10:17.9568849Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:10:17.9569073Z env:
+2026-10-20T21:10:17.9569242Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:10:17.9569740Z   CONTRACT_MODE: upgrade
+2026-10-20T21:10:17.9569953Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:17.9570210Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:10:17.9570458Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:17.9570682Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:17.9570912Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:17.9571143Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:10:17.9571357Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:10:17.9571532Z ##[endgroup]
+2026-10-20T21:10:18.2310261Z Using workdir /home/runner/work/_temp/monjez-ac01-stack
+2026-10-20T21:10:18.2379371Z Connecting to local database...
+2026-10-20T21:10:18.7659723Z A new version of Supabase CLI is available: v2.121.0 (currently installed v2.101.0)
+2026-10-20T21:10:18.7660709Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-10-20T21:10:19.5722270Z ##[group]Run set -euo pipefail
+2026-10-20T21:10:19.5722519Z [36;1mset -euo pipefail[0m
+2026-10-20T21:10:19.5722678Z [36;1mout="$RUNNER_TEMP/ac01-evidence"[0m
+2026-10-20T21:10:19.5722852Z [36;1mmkdir -p "$out"[0m
+2026-10-20T21:10:19.5723017Z [36;1mif [[ -d /tmp/monjez-ac01/evidence ]]; then[0m
+2026-10-20T21:10:19.5723235Z [36;1m  sudo cp -a /tmp/monjez-ac01/evidence/. "$out/"[0m
+2026-10-20T21:10:19.5723441Z [36;1m  sudo chown -R "$(id -un):$(id -gn)" "$out"[0m
+2026-10-20T21:10:19.5723613Z [36;1mfi[0m
+2026-10-20T21:10:19.5723812Z [36;1msudo rm -f /tmp/monjez-ac01/status.json /tmp/monjez-ac01/private-state.json[0m
+2026-10-20T21:10:19.5724134Z [36;1mrm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log"[0m
+2026-10-20T21:10:19.5724416Z [36;1mif [[ -d "$RUNNER_TEMP/monjez-ac01-stack/supabase" ]]; then[0m
+2026-10-20T21:10:19.5724790Z [36;1m  supabase --workdir "$RUNNER_TEMP/monjez-ac01-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1[0m
+2026-10-20T21:10:19.5725116Z [36;1mfi[0m
+2026-10-20T21:10:19.5725243Z [36;1mpython - <<'PY'[0m
+2026-10-20T21:10:19.5725398Z [36;1mimport json,os,re,subprocess[0m
+2026-10-20T21:10:19.5725572Z [36;1mfrom pathlib import Path[0m
+2026-10-20T21:10:19.5725778Z [36;1mroot=Path(os.environ['RUNNER_TEMP']);out=root/'ac01-evidence'[0m
+2026-10-20T21:10:19.5725994Z [36;1mdef rejects(path):[0m
+2026-10-20T21:10:19.5726211Z [36;1m    return sum(int(x.split()[0]) for x in path.splitlines() if 'REJECT' in x)[0m
+2026-10-20T21:10:19.5726485Z [36;1mbefore=rejects((root/'firewall-before.txt').read_text())[0m
+2026-10-20T21:10:19.5726785Z [36;1mafter=rejects(subprocess.check_output(['sudo','iptables','-nvxL','AC01'],text=True))[0m
+2026-10-20T21:10:19.5727104Z [36;1muid=subprocess.check_output(['id','-u','ac01'],text=True).strip()[0m
+2026-10-20T21:10:19.5727463Z [36;1mv6=sum(int(x.split()[0]) for x in subprocess.check_output(['sudo','ip6tables','-nvxL','OUTPUT'],text=True).splitlines()[0m
+2026-10-20T21:10:19.5727804Z [36;1m       if 'REJECT' in x and ('owner UID match '+uid) in x)[0m
+2026-10-20T21:10:19.5728104Z [36;1mcleanup={'source':os.environ['EXPECTED_SOURCE'],'credential_free_canary_rejected':before>0,[0m
+2026-10-20T21:10:19.5728669Z [36;1m         'unexpected_ipv4_rejects':after-before,'ipv6_rejects':v6,[0m
+2026-10-20T21:10:19.5729002Z [36;1m         'status_removed':not Path('/tmp/monjez-ac01/status.json').exists(),[0m
+2026-10-20T21:10:19.5729307Z [36;1m         'state_removed':not Path('/tmp/monjez-ac01/private-state.json').exists(),[0m
+2026-10-20T21:10:19.5729693Z [36;1m         'stack_removed':'monjez-ac01-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}[0m
+2026-10-20T21:10:19.5730064Z [36;1m(out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')[0m
+2026-10-20T21:10:19.5730292Z [36;1mfor p in out.rglob('*'):[0m
+2026-10-20T21:10:19.5730591Z [36;1m    if p.is_file():[0m
+2026-10-20T21:10:19.5730748Z [36;1m        text=p.read_text()[0m
+2026-10-20T21:10:19.5731138Z [36;1m        assert not re.search(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',text),'Credential-like evidence rejected'[0m
+2026-10-20T21:10:19.5731542Z [36;1mprint('AC01_CLEANUP '+json.dumps(cleanup))[0m
+2026-10-20T21:10:19.5731889Z [36;1massert before>0 and after==before and v6==0 and cleanup['status_removed'] and cleanup['state_removed'] and cleanup['stack_removed'][0m
+2026-10-20T21:10:19.5732204Z [36;1mPY[0m
+2026-10-20T21:10:19.5787457Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-20T21:10:19.5787658Z env:
+2026-10-20T21:10:19.5787823Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:10:19.5788022Z   CONTRACT_MODE: upgrade
+2026-10-20T21:10:19.5788295Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:19.5788546Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:10:19.5788968Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:19.5789196Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:19.5789419Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:19.5789644Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:10:19.5789852Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:10:19.5790023Z ##[endgroup]
+2026-10-20T21:10:40.8408113Z AC01_CLEANUP {"source": "00b465ad397f8e3e715ec13b6835c110ab4e4469", "credential_free_canary_rejected": true, "unexpected_ipv4_rejects": 0, "ipv6_rejects": 0, "status_removed": true, "state_removed": true, "stack_removed": true}
+2026-10-20T21:10:40.8509982Z ##[group]Run actions/upload-artifact@v4
+2026-10-20T21:10:40.8510154Z with:
+2026-10-20T21:10:40.8510290Z   name: b2-scanner-upgrade-attempt1
+2026-10-20T21:10:40.8510467Z   path: /home/runner/work/_temp/ac01-evidence/
+2026-10-20T21:10:40.8510645Z   retention-days: 7
+2026-10-20T21:10:40.8510779Z   if-no-files-found: warn
+2026-10-20T21:10:40.8510918Z   compression-level: 6
+2026-10-20T21:10:40.8511048Z   overwrite: false
+2026-10-20T21:10:40.8511174Z   include-hidden-files: false
+2026-10-20T21:10:40.8511316Z env:
+2026-10-20T21:10:40.8511465Z   EXPECTED_SOURCE: 00b465ad397f8e3e715ec13b6835c110ab4e4469
+2026-10-20T21:10:40.8511650Z   CONTRACT_MODE: upgrade
+2026-10-20T21:10:40.8511842Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:40.8512080Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-20T21:10:40.8512318Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:40.8512546Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:40.8512760Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-20T21:10:40.8512975Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-20T21:10:40.8513177Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-10-20T21:10:40.8513342Z ##[endgroup]
+2026-10-20T21:10:41.1297283Z (node:10551) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-20T21:10:41.1298108Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-20T21:10:41.1400486Z With the provided path, there will be 6 files uploaded
+2026-10-20T21:10:41.1401150Z Artifact name is valid!
+2026-10-20T21:10:41.1401531Z Root directory input is valid!
+2026-10-20T21:10:41.4278040Z Beginning upload of artifact content to blob storage
+2026-10-20T21:10:41.4469344Z (node:10551) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-20T21:10:41.5765316Z Uploaded bytes 8822
+2026-10-20T21:10:41.6129532Z Finished uploading artifact content to blob storage!
+2026-10-20T21:10:41.6130724Z SHA256 digest of uploaded artifact zip is a2b1fbd0ebf318821899b00d5350cc618c596a30cf30c81fba498adad9f0c388
+2026-10-20T21:10:41.6131373Z Finalizing artifact upload
+2026-10-20T21:10:41.8836042Z Artifact b2-scanner-upgrade-attempt1.zip successfully finalized. Artifact ID 12298658188
+2026-10-20T21:10:41.8836811Z Artifact b2-scanner-upgrade-attempt1 has been successfully uploaded! Final size is 8822 bytes. Artifact ID is 12298658188
+2026-10-20T21:10:41.8838786Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39497699622/artifacts/12298658188
+2026-10-20T21:10:41.9012848Z Post job cleanup.
+2026-10-20T21:10:41.9015064Z ##[start-action display=Setup Bun;id=__4f0a0b1f-36c2-42fc-86b6-0599e69b980d.__oven-sh_setup-bun]
+2026-10-20T21:10:41.9041629Z Post job cleanup.
+2026-10-20T21:10:42.0186920Z ##[end-action id=__4f0a0b1f-36c2-42fc-86b6-0599e69b980d.__oven-sh_setup-bun;outcome=success;conclusion=success;duration_ms=117]
+2026-10-20T21:10:42.0240005Z Post job cleanup.
+2026-10-20T21:10:42.1316586Z (node:10572) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-20T21:10:42.1323624Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-20T21:10:42.1592114Z Post job cleanup.
+2026-10-20T21:10:42.2307262Z [command]/usr/bin/git version
+2026-10-20T21:10:42.2399149Z git version 2.55.0
+2026-10-20T21:10:42.2425535Z Temporarily overriding HOME='/home/runner/work/_temp/609421b7-4538-444b-89a6-1171145b81c6' before making global git config changes
+2026-10-20T21:10:42.2426409Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-20T21:10:42.2431936Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-20T21:10:42.2500008Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-20T21:10:42.2569229Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-20T21:10:42.2830536Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-20T21:10:42.2862999Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-20T21:10:42.3224195Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-20T21:10:42.3249538Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-20T21:10:42.3573504Z Cleaning up orphan processes
+2026-10-20T21:10:42.3929173Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

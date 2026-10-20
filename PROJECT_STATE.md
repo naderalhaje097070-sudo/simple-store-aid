@@ -1,3 +1,11 @@
+> CURRENT — B2 / AC-01 corrected on the integration candidate, 2026-10-20.
+> Exact executable source `7a4fb5811c35a053109860c3155074087b930489`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where this correction is absent.
+> Final native fresh46:95 checks; populated45-to46 upgrade:48 baseline controls reproduce the old bypass and59 corrected-state checks pass. All original B1 paths and45 SQL remain byte/mode exact.
+> Independent scope is AC-01 only; B3/B4/B5/B6/B7 and the owner merge decision remain open. Early Medium B2-EVID-UPLOAD-01 is corrected; original failure and its review remain preserved.
+> ONE NEXT: B3 / AC-02 — protect client INSERT/UPDATE trial/billing fields while preserving legitimate onboarding/settings and the existing business policy.
+> See `changes/b2-ac01/RESULT.md` and its coverage/native/review packet. No B merge, deployment or PR closure occurred;20 requests remain open.
+> This notice supersedes every older CURRENT / ONE NEXT notice below; historical A/B1 material follows unchanged.
+
 > CURRENT — B1 composition complete, 2026-10-20.
 > Accepted A remains on main `18700dee8ecdda2e457c0aa18c4f83a81b042019`. B is staged for review only.
 > This notice supersedes older ONE NEXT notices below and in imported B documents.

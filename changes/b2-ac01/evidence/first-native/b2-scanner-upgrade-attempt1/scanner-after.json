@@ -1,0 +1,410 @@
+{
+  "source": "00b465ad397f8e3e715ec13b6835c110ab4e4469",
+  "phase": "after",
+  "checks": [
+    {
+      "name": "expected46_source_migrations",
+      "passed": true
+    },
+    {
+      "name": "exact_applied_chain_after",
+      "passed": true
+    },
+    {
+      "name": "populated_upgrade_all_data_preserved",
+      "passed": true
+    },
+    {
+      "name": "only_scanner_body_and_search_path_changed",
+      "passed": true
+    },
+    {
+      "name": "after_active_admin_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_active_admin_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "after_active_admin_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "after_service_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_service_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "after_service_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "execute_acl_preserved_and_not_public",
+      "passed": true
+    },
+    {
+      "name": "scanner_stays_definer_with_safe_path",
+      "passed": true
+    },
+    {
+      "name": "actual_function_matches_reviewed_body",
+      "passed": true
+    },
+    {
+      "name": "ordinary_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "ordinary_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "ordinary_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_a_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_a_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_a_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_b_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_b_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_b_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "trigger_cron_spoof_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "trigger_cron_spoof_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "trigger_cron_spoof_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "trigger_service_spoof_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "trigger_service_spoof_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "trigger_service_spoof_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "anonymous_denied",
+      "passed": true,
+      "status": 401,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anonymous_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "anonymous_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "jwt_claim_cannot_override_invoker_role",
+      "passed": true
+    },
+    {
+      "name": "sql_denial_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_before_ban_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_admin_before_ban_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_before_ban_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "ban_transition_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_admin_old_jwt_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "banned_admin_old_jwt_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_admin_old_jwt_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_before_closure_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_before_closure_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "closed_admin_before_closure_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "real_owner_closure_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_admin_old_jwt_denied",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "closed_admin_old_jwt_denied_all_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "closed_admin_old_jwt_denied_unaffected_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "admin_after_denials_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "admin_after_denials_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "admin_after_denials_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "service_after_denials_positive",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "service_after_denials_positive_durable_success",
+      "passed": true
+    },
+    {
+      "name": "service_after_denials_positive_only_scanner_data_changed",
+      "passed": true
+    },
+    {
+      "name": "cron_schedule_and_sql_identity_preserved",
+      "passed": true
+    },
+    {
+      "name": "actual_trusted_sql_cron_identity_positive",
+      "passed": true
+    },
+    {
+      "name": "cron_only_scanner_data_changed",
+      "passed": true
+    }
+  ],
+  "passed": 56,
+  "failed": 0,
+  "b2_runtime_accepted": true,
+  "independent_review": "pending",
+  "package_B_accepted": false,
+  "schema_versions": [
+    "20260626142422",
+    "20260626142438",
+    "20260626143241",
+    "20260626143657",
+    "20260626145704",
+    "20260626150447",
+    "20260626151932",
+    "20260626155319",
+    "20260626155333",
+    "20260626155758",
+    "20260626161037",
+    "20260626162911",
+    "20260626181906",
+    "20260626183212",
+    "20260626190302",
+    "20260626191000",
+    "20260626191523",
+    "20260626201427",
+    "20260626213551",
+    "20260626225100",
+    "20260626231740",
+    "20260626233231",
+    "20260627100633",
+    "20260627201534",
+    "20260627203328",
+    "20260627213042",
+    "20260627221524",
+    "20260627224911",
+    "20260628073856",
+    "20260628074047",
+    "20260628075333",
+    "20260628102723",
+    "20260628103809",
+    "20260628105459",
+    "20260701090000",
+    "20260704105413",
+    "20260706120000",
+    "20260708073115",
+    "20260715145141",
+    "20260716064935",
+    "20260717180906",
+    "20261010223557",
+    "20261010225012",
+    "20261013120223",
+    "20261013221918",
+    "20261020210549"
+  ],
+  "all_data_fingerprints": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "2193031ab73636c39155527f14901c92"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 3,
+      "digest": "7de9111cf5b2ad149e33b77e1e335788"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 6,
+      "digest": "3461a4a74b50c76f451b21cf9f0dfbc1"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 10,
+      "digest": "6d47bc3fea41c75a9915850c90b5fbcc"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 4,
+      "digest": "e8dbe67124452f32a6e7ec68091c5750"
+    },
+    "user_roles": {
+      "count": 6,
+      "digest": "a76400e49f4b949bf0542e3964b0a1ff"
+    },
+    "private_closures": {
+      "count": 1,
+      "digest": "f0fca1a6cbd6ebde3ec88297e25de8e0"
+    }
+  },
+  "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"
+}

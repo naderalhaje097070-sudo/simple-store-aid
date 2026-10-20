@@ -1,0 +1,80 @@
+[
+  {
+    "settingsError": false,
+    "tenantTz": "Pacific/Kiritimati",
+    "reads": {
+      "invoices": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      },
+      "payments": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      },
+      "expenses": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      }
+    },
+    "totals": {
+      "sales": 100,
+      "cogs": 25,
+      "collected": 40,
+      "expenseTotal": 10,
+      "grossProfit": 75,
+      "netProfit": 65,
+      "realizedProfit": 20,
+      "realizedCogs": 10,
+      "customerDebts": 60,
+      "unsettledCustody": 0,
+      "inTransit": 0,
+      "cashToday": 30,
+      "openOnYou": 60
+    },
+    "healthy": false,
+    "incomplete": false,
+    "readErrorWarning": false
+  },
+  {
+    "settingsError": true,
+    "tenantTz": "Africa/Tripoli",
+    "reads": {
+      "invoices": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      },
+      "payments": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      },
+      "expenses": {
+        "hasData": true,
+        "complete": true,
+        "phase": "ready"
+      }
+    },
+    "totals": {
+      "sales": 0,
+      "cogs": 0,
+      "collected": 0,
+      "expenseTotal": 0,
+      "grossProfit": 0,
+      "netProfit": 0,
+      "realizedProfit": 0,
+      "realizedCogs": 0,
+      "customerDebts": 60,
+      "unsettledCustody": 0,
+      "inTransit": 0,
+      "cashToday": 0,
+      "openOnYou": 60
+    },
+    "healthy": false,
+    "incomplete": false,
+    "readErrorWarning": false
+  }
+]

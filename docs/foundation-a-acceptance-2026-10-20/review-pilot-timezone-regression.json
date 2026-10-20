@@ -1,0 +1,32 @@
+[
+  {
+    "settingsRead": "ready",
+    "passed": true,
+    "html": "<div class=\"min-h-screen bg-background text-foreground\" dir=\"rtl\"><div class=\"md:flex md:min-h-screen\"><aside class=\"hidden md:flex md:flex-col md:w-64 md:shrink-0 md:sticky md:top-0 md:h-screen border-l border-border bg-card\"><div class=\"px-5 py-4 border-b border-border\"><div class=\"flex items-center gap-2\"><div class=\"w-9 h-9 rounded-2xl bg-prima"
+  },
+  {
+    "settingsRead": "error",
+    "passed": false,
+    "error": "RangeError: Invalid time zone specified: "
+  },
+  {
+    "settingsRead": "missing",
+    "passed": false,
+    "error": "RangeError: Invalid time zone specified: "
+  },
+  {
+    "settingsRead": "paused",
+    "passed": false,
+    "error": "RangeError: Invalid time zone specified: "
+  },
+  {
+    "settingsRead": "placeholder",
+    "passed": false,
+    "error": "RangeError: Invalid time zone specified: "
+  },
+  {
+    "settingsRead": "cached-error",
+    "passed": true,
+    "html": "<div class=\"min-h-screen bg-background text-foreground\" dir=\"rtl\"><div class=\"md:flex md:min-h-screen\"><aside class=\"hidden md:flex md:flex-col md:w-64 md:shrink-0 md:sticky md:top-0 md:h-screen border-l border-border bg-card\"><div class=\"px-5 py-4 border-b border-border\"><div class=\"flex items-center gap-2\"><div class=\"w-9 h-9 rounded-2xl bg-prima"
+  }
+]

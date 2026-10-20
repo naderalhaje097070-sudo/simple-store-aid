@@ -1,0 +1,31 @@
+{
+  "results": [
+    {
+      "name": "invalid base fails closed",
+      "passed": true
+    },
+    {
+      "name": "missing fallback parent fails closed",
+      "passed": true
+    },
+    {
+      "name": "valid documentation-only diff succeeds",
+      "passed": true
+    },
+    {
+      "name": "all six extensions and filename spaces survive",
+      "passed": true
+    },
+    {
+      "name": "real ESLint failure fails the gate",
+      "passed": true
+    },
+    {
+      "name": "leading-dash filename cannot change ESLint options",
+      "passed": false,
+      "error": "leading-dash filename changed ESLint options and hid a real error"
+    }
+  ],
+  "passed": 5,
+  "total": 6
+}

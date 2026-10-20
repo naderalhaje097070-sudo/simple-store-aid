@@ -1,0 +1,329 @@
+{
+  "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "pr_heads": [
+    {
+      "number": 32,
+      "head": "sec/sec-ci-001-gates-0-3",
+      "head_sha": "6eccc336616a307e594f9e012829768df8aa5e38",
+      "base": "main",
+      "base_sha": "983b746e5c6639dcdc5e6557381ad5619abaa046",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 33,
+      "head": "sec/sec-env-001-gates-0-3",
+      "head_sha": "547a9aebe31c80e280e3429c0dd1c56e6a8cb551",
+      "base": "main",
+      "base_sha": "983b746e5c6639dcdc5e6557381ad5619abaa046",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 48,
+      "head": "sec/sec-env-001-implementation",
+      "head_sha": "31958e53438b377a9896dd0bf7e9c268c1f14aef",
+      "base": "main",
+      "base_sha": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+      "state": "open",
+      "draft": false
+    },
+    {
+      "number": 51,
+      "head": "docs/primary-start-2026-10-09",
+      "head_sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+      "base": "main",
+      "base_sha": "43d6edbccb66fb06ce0fcb93734ad59532d1aeae",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 52,
+      "head": "sec/primary-sec-001-tanstack-2026-10-09",
+      "head_sha": "13d81250122c890a98b0c94e4f07f2745bdb40ed",
+      "base": "docs/primary-start-2026-10-09",
+      "base_sha": "2b2b28589a85b9fa7bc3777aef3dde40dbfeb52d",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 53,
+      "head": "sec/primary-sec-002-audit-triage-2026-10-10",
+      "head_sha": "54c930166a776828566876771efdec86a997fa53",
+      "base": "sec/primary-sec-001-tanstack-2026-10-09",
+      "base_sha": "13d81250122c890a98b0c94e4f07f2745bdb40ed",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 54,
+      "head": "sec/primary-env-001-reconcile-2026-10-10",
+      "head_sha": "57fb508b9d239aaf4676352dd97654341416c46a",
+      "base": "sec/primary-sec-002-audit-triage-2026-10-10",
+      "base_sha": "54c930166a776828566876771efdec86a997fa53",
+      "state": "open",
+      "draft": true
+    },
+    {
+      "number": 72,
+      "head": "test/g0-g1-acceptance-runtime-2026-10-14",
+      "head_sha": "6da4dadbe9391bb48c8c4c41dcb688728003fb81",
+      "base": "sec/primary-env-001-reconcile-2026-10-10",
+      "base_sha": "57fb508b9d239aaf4676352dd97654341416c46a",
+      "state": "open",
+      "draft": true
+    }
+  ],
+  "design_docs": [
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/API_COMPATIBILITY.md",
+      "sha": "8471cee1305795dd23b7db3ee4c5820faaa8dc8c"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CHANGE_DESIGN.md",
+      "sha": "79141ab887400934e2939286f800f6f851be92d8"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CHANGE_INTAKE.md",
+      "sha": "0bfeb7d258d732a634d9d796310c817d2f1f7b24"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/CURRENT_BEHAVIOR.md",
+      "sha": "5e788df92d4b2a04cca54f52af4b23f964904c42"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/DATA_IMPACT.md",
+      "sha": "2af84250ff5bd22dd38f16e1a5df21b53dda1c4f"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/DEPENDENCY_MAP.md",
+      "sha": "eb5b92c42d0f3392c304ca97757acb32a6dace27"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/EXPECTED_BEHAVIOR.md",
+      "sha": "64d006547f998125540d534baa4b0656ba04b753"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/IMPACT_ANALYSIS.md",
+      "sha": "a3e4f259cf6f6b6e88fbcd6dcf2bc7ba631d46c3"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/MIGRATION_IMPACT.md",
+      "sha": "0f39c90d3199dec80f946af0d6f8f9e3dccc79c7"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/PR_DECOMPOSITION.md",
+      "sha": "46852b1174eedb48f4249e3af3d69c0e4c679e99"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/README.md",
+      "sha": "0c3c59a355e6449745dcc3368adb16cd5ec20744"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/ROLLBACK_IMPACT.md",
+      "sha": "9f8694ff452f4cc6d08e7a10fab0c7c26ce4191c"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/SECURITY_IMPACT.md",
+      "sha": "cb1131cee900ec1a9fe90fd777ba580077d51789"
+    },
+    {
+      "pr": 32,
+      "path": "changes/sec-ci-001/TEST_IMPACT.md",
+      "sha": "a78b1870d6390d9218b074df54a81a069e664aac"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/API_COMPATIBILITY.md",
+      "sha": "558ba1d4cdfc9c7efba4fcae46f05cd4264d69b2"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CHANGE_DESIGN.md",
+      "sha": "e4fbba8a3f881871e0b1a54e88540a6c42b161d3"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CHANGE_INTAKE.md",
+      "sha": "c23d02b3f01752504b5c41fbf2fa90a7bd61ec02"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/CURRENT_BEHAVIOR.md",
+      "sha": "4b5d298b32e58f34e5e7476e52ef454511bc4364"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/DATA_IMPACT.md",
+      "sha": "8cf9405ae11328e17f336a4becf5f0a339c90ce8"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/DEPENDENCY_MAP.md",
+      "sha": "18a62ebabba1773a28ee881d7ddea2fb6f18e113"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/EXPECTED_BEHAVIOR.md",
+      "sha": "426733dccd8190ec677925b0445c59c51ffc2602"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/IMPACT_ANALYSIS.md",
+      "sha": "11c31004cbd0046abf7ceab73efb60557583111e"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/MIGRATION_IMPACT.md",
+      "sha": "2c51170ce53195a567195ae778bbd1b08fc122ef"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/PR_DECOMPOSITION.md",
+      "sha": "6e83b432eac1d860fa688d8c385897bf7eca3551"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/README.md",
+      "sha": "17b2d3d768b52b4eb3dfee56e8e70aec824e6d32"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/ROLLBACK_IMPACT.md",
+      "sha": "6fe134ed5e04c3a4064ab3997e45d1c375669205"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/SECURITY_IMPACT.md",
+      "sha": "9d76148a65df115b52837027d2b083ec3efbeac9"
+    },
+    {
+      "pr": 33,
+      "path": "changes/sec-env-001/TEST_IMPACT.md",
+      "sha": "81ebdd08faa52738f70839e5560341359ecc484d"
+    }
+  ],
+  "pr48_paths": [
+    {
+      "path": ".env.example",
+      "original": "962d763602e1ecae0200f06b03e3ce9164614d25",
+      "current": "962d763602e1ecae0200f06b03e3ce9164614d25",
+      "exact": true
+    },
+    {
+      "path": ".github/workflows/isolated-auth-smoke.yml",
+      "original": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+      "current": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+      "exact": true
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "original": "102dd358519e63e1f9a02ca65e5116eb0f169cef",
+      "current": "0730862c39917c9fde932a2f7e633933a645c3f5",
+      "exact": false
+    },
+    {
+      "path": ".github/workflows/sec-ci-gate4-probe.yml",
+      "original": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+      "current": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+      "exact": true
+    },
+    {
+      "path": ".github/workflows/sec-env-gate4-probe.yml",
+      "original": "9aa350ec29b96e39c8d290dbbc4d0da8c1026d74",
+      "current": "039c7308cc67e1daf91bd49bdadab08fcb9ad36e",
+      "exact": false
+    },
+    {
+      "path": "config/supabase-build-config.ts",
+      "original": "9947779995e8697d2b6dffb143cd1a25483031a5",
+      "current": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+      "exact": false
+    },
+    {
+      "path": "src/server.ts",
+      "original": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+      "current": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+      "exact": true
+    },
+    {
+      "path": "tests/e2e/README.md",
+      "original": "d3b5b482536586cfc8eea9e2f2161ca2b693c569",
+      "current": "dec7e4848e5f45f8ad2cdd3c856bd55b80575073",
+      "exact": false
+    },
+    {
+      "path": "tests/e2e/isolated-auth-smoke.py",
+      "original": "1cfc000fc7526ba8c6bf807f48bc9412f10d4a4d",
+      "current": "a89e812bebed660e7ef29be962807906bdb3bfa0",
+      "exact": false
+    },
+    {
+      "path": "tests/e2e/rapid-click-sale.py",
+      "original": "903848f2ee1e5c142ecffd56ffc9fe638938332a",
+      "current": "4d5c2c669cad99f4749f3b179161b26f3ffdd45e",
+      "exact": false
+    },
+    {
+      "path": "tests/e2e/run.sh",
+      "original": "fdbbfba6aa2fd03d4580ec99539edca8445c5392",
+      "current": "bb21340a1614fcc2e161c6342a501dfb14a88e13",
+      "exact": false
+    },
+    {
+      "path": "tests/e2e/sale-dashboard-close.py",
+      "original": "715b547ed1815bcf0a1e5917a71724a0c7ff7b72",
+      "current": "1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9",
+      "exact": false
+    },
+    {
+      "path": "tests/e2e/write_harness_guard.py",
+      "original": "3f16a0d27baf1c46c15401f086014916e63952c6",
+      "current": "5cb2435fe47ef5ca5777318643754e5f26c3a3b0",
+      "exact": false
+    },
+    {
+      "path": "tests/financial-rules/run.sh",
+      "original": "47553eedbd86c8d4984b59ac5287220d141931e2",
+      "current": "47553eedbd86c8d4984b59ac5287220d141931e2",
+      "exact": true
+    },
+    {
+      "path": "tests/gate4/sec-env/probe.ts",
+      "original": "f176c3886645b942d4fbf7570d0627b354cb56f5",
+      "current": "992d3fa7cf62047e823818405cb4ca4e081f6d4b",
+      "exact": false
+    },
+    {
+      "path": "tests/unit/supabase-build-config.test.ts",
+      "original": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+      "current": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+      "exact": true
+    },
+    {
+      "path": "tests/visual/mobile-rtl-smoke.py",
+      "original": "1c1eeac75169740d0bc10f418fa5ab544aff7dcc",
+      "current": "8f9f976654934990414aa15fd6881af1c0fce19c",
+      "exact": false
+    },
+    {
+      "path": "vite.config.ts",
+      "original": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+      "current": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+      "exact": true
+    }
+  ]
+}

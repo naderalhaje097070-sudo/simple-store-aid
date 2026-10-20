@@ -1,0 +1,15 @@
+{
+  "reviewed_source": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "outcome": "Approved for human merge",
+  "scope": "Package A application source only; final documentation publication requires protected-source and historical-content preservation check",
+  "open_in_scope_critical_high_medium": 0,
+  "findings": [
+    {"id":"A7-TZ-READ-01","severity":"High","status":"closed by421 source and independent14-case replay plus final nativeG0/G1/browser evidence"},
+    {"id":"A7-CI-FILENAME-01","severity":"Medium","status":"closed by636 delimiter/actual regression; retained in421; independent6/6 plus nativeG0"},
+    {"id":"A7-TZ-CONSUMER-01","severity":"Medium","status":"new repair regression closed by421 Pilot boundary; independent6-state replay and nativebrowser10/10"}
+  ],
+  "g0_run": 39393958554,
+  "g1_run": 39393958506,
+  "local_limits": "No independent native DB/browser rerun; restored local tooling and blob copy, not frozen Git checkout",
+  "not_approved": ["merge execution","deployment","B/C packages","financial kernel","general release or Pilot","unseen publication head"]
+}

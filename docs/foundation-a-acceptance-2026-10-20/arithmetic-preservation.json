@@ -1,0 +1,19 @@
+{
+  "baseline": "fabb481836f2f79d8feeda5e407147a66b76ea25",
+  "candidate": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "rows": [
+    {
+      "function": "MongezzApp",
+      "memo": "totals",
+      "sha256": "31ef14a3adc46c32e1665da15c85da47d7bdfbffdca9cf317be401ceb1d63719",
+      "byte_identical": true
+    },
+    {
+      "function": "DayCloseScreen",
+      "memo": "t",
+      "sha256": "60fa3513d083e645bbf8684412266e11774bcce4b1e4b1353d2de5f7fdbe562d",
+      "byte_identical": true
+    }
+  ],
+  "scope": "Actual bodies recalculated on421. SQL41 and package/lock unchanged. Day availability predicate outside parent memo intentionally changed; separate read-state tests cover it."
+}

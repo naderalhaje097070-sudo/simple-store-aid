@@ -1,0 +1,8 @@
+2026-10-20T08:31:25.3953244Z {"source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8", "kind": "identity", "scope": "reviewed_integrated_source", "base_source": "d9aa04ac316bc1c2adaf021443bc42f42180b828", "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8", "protected_blob_count": 288, "all_integrated_blobs_match": true, "migration_count": 41, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}
+2026-10-20T08:31:43.9417029Z  66 pass
+2026-10-20T08:31:43.9417302Z  0 fail
+2026-10-20T08:31:43.9417928Z Ran 66 tests across 5 files. [319.00ms]
+2026-10-20T08:32:35.9437047Z BROWSER_TRANSPORT_REGRESSION: 67 scenarios; 0 failures; dummy loopback fixtures only
+2026-10-20T08:32:49.9515295Z GENERATED_FORMAT_WRITE_PASS: 9
+2026-10-20T08:33:01.6584375Z GENERATED_FORMAT_WRITE_PASS: 9
+2026-10-20T08:33:01.7699156Z {"source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8", "kind": "identity", "scope": "reviewed_integrated_source", "base_source": "d9aa04ac316bc1c2adaf021443bc42f42180b828", "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8", "protected_blob_count": 288, "all_integrated_blobs_match": true, "migration_count": 41, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}

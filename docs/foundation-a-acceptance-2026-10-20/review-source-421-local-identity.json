@@ -1,0 +1,13 @@
+{
+  "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "matching": 282,
+  "mismatch": [],
+  "missing": [
+    "public/icons/apple-touch-icon.png",
+    "public/icons/icon-192.png",
+    "public/icons/icon-512.png",
+    "public/icons/icon-maskable-512.png",
+    "public/og-image.jpg",
+    "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc"
+  ]
+}

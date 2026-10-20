@@ -1,0 +1,14 @@
+[
+  {
+    "case": "actual changed-lint script with leading-option filename",
+    "exit": 0,
+    "stdout": "--ignore-pattern=*.js\nbad.js\n\n/tmp/a7-leading-dash-c59ftzgn/bad.js\n  0:0  warning  File ignored because of a matching ignore pattern. Use \"--no-ignore\" to disable file ignore settings or use \"--no-warn-ignored\" to suppress this warning\n\n\u2716 1 problem (0 errors, 1 warning)\n\n",
+    "stderr": ""
+  },
+  {
+    "case": "same real ESLint with option delimiter control",
+    "exit": 1,
+    "stdout": "\n/tmp/a7-leading-dash-c59ftzgn/bad.js\n  1:5  error  Unexpected constant condition  no-constant-condition\n\n\u2716 1 problem (1 error, 0 warnings)\n\n",
+    "stderr": ""
+  }
+]

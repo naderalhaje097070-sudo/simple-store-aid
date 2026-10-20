@@ -1,0 +1,638 @@
+{
+  "source_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8",
+  "G0": {
+    "id": 39393958554,
+    "jobs": [
+      {
+        "id": 118531957595,
+        "name": "audit",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39393958554,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Complete supported audit with actual exit preserved",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Upload complete audit output",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          }
+        ]
+      },
+      {
+        "id": 118531957916,
+        "name": "quality",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39393958554,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Check reviewed generated source formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Exact integrated source identity and fail-closed mutations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Full repository lint including CommonJS and ESM",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Read-only existing CI policy contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Type erasure and actual hook callback wire replay",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Build entry failure and forwarding contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Focused foundation read and CI regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Offline server environment boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Install pinned browser test tooling",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Verify browser redirect, WebSocket and origin containment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Actual financial read UI and export regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Build from mode-specific env file",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Verify generation leaves tracked application files intact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Recheck complete protected source after both builds",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Upload quality diagnostics",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Upload source identity receipt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Post Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47
+          },
+          {
+            "name": "Post Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 12251625116,
+        "name": "quality-diagnostics",
+        "size_in_bytes": 2133,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251625116",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251625116/zip",
+        "expired": false,
+        "created_at": "2026-10-20T08:33:02Z",
+        "expires_at": "2027-01-18T08:30:59Z",
+        "updated_at": "2026-10-20T08:33:02Z",
+        "digest": "sha256:23e59bf59ca15bab22098dc45eb71f7b498aaa05893b95081818fb58cce4e9ae",
+        "workflow_run": {
+          "id": 39393958554,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+        }
+      },
+      {
+        "id": 12251620149,
+        "name": "integration-source-identity",
+        "size_in_bytes": 371,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251620149",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251620149/zip",
+        "expired": false,
+        "created_at": "2026-10-20T08:33:03Z",
+        "expires_at": "2026-10-27T08:33:03Z",
+        "updated_at": "2026-10-20T08:33:03Z",
+        "digest": "sha256:fc0eb3e29f3412275eb896743e4c595deb93b61df869da1d72a13688b619e39b",
+        "workflow_run": {
+          "id": 39393958554,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+        }
+      },
+      {
+        "id": 12251480053,
+        "name": "integration-full-audit",
+        "size_in_bytes": 161,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251480053",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251480053/zip",
+        "expired": false,
+        "created_at": "2026-10-20T08:31:07Z",
+        "expires_at": "2026-10-27T08:31:06Z",
+        "updated_at": "2026-10-20T08:31:07Z",
+        "digest": "sha256:916eddd7d9107578b63d1519da7b8141a3107700e67694f0c4622887cdca56d3",
+        "workflow_run": {
+          "id": 39393958554,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+        }
+      }
+    ]
+  },
+  "G1": {
+    "id": 39393958506,
+    "jobs": [
+      {
+        "id": 118531957925,
+        "name": "environment",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39393958506,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout exact acceptance source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Setup existing Bun runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Prove reviewed integrated source and original41 migration identities",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run target-green environment isolation probe",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Independently prove destructive REST routing ignores inherited environment and redirects",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Independently prove destructive preflights reject inherited proxies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Independently prove routing-protected browser contexts block service workers",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Independently prove visual runtime isolation failures are fatal and origin-pinned",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Independently prove visual smoke uses canonical non-production origins",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Upload bounded evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Post Setup existing Bun runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Setup Python",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Post Checkout exact acceptance source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          }
+        ]
+      },
+      {
+        "id": 118531958286,
+        "name": "runtime",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39393958506,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Checkout exact acceptance source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Setup Python",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Setup maintained Node",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Setup existing Bun runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Prove reviewed integrated source and original41 migration identities",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Frozen existing runtime dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Pinned browser tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Pinned existing emulator test tool",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Verify official cf-fetch opt-out on actual installed bundle before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Checkout exact observed official CLI installer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Same installer Bun as failed run",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Frozen official installer dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Diagnose pinned CLI installer with bounded phase evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Install local database and firewall tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Verify pointer-only tracer before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Validate scope and native containment before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Fresh disposable41 schema only",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Actual Cloudflare SSR target agreement and nonfinancial Auth UI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Remove isolated processes containers and credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Quarantine any credential-bearing evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Upload bounded evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Post Same installer Bun as failed run",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Post Checkout exact observed official CLI installer",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Post Setup existing Bun runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Post Setup maintained Node",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Post Setup Python",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Post Checkout exact acceptance source",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 12251845102,
+        "name": "g01-runtime-attempt1",
+        "size_in_bytes": 26018,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251845102",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12251845102/zip",
+        "expired": false,
+        "created_at": "2026-10-20T08:35:46Z",
+        "expires_at": "2026-10-27T08:35:45Z",
+        "updated_at": "2026-10-20T08:35:46Z",
+        "digest": "sha256:9d5a5fc0f28e7ef0061b7c9b36490f87a96edce8c3b3e5603f259f815ae30099",
+        "workflow_run": {
+          "id": 39393958506,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+        }
+      },
+      {
+        "id": 12250837192,
+        "name": "g01-environment-attempt1",
+        "size_in_bytes": 371,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12250837192",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12250837192/zip",
+        "expired": false,
+        "created_at": "2026-10-20T08:31:24Z",
+        "expires_at": "2026-10-27T08:31:23Z",
+        "updated_at": "2026-10-20T08:31:24Z",
+        "digest": "sha256:f926d88579dc1d85dfa5bd1e2ee25f61e3a060a9a3201c59347a30d556534187",
+        "workflow_run": {
+          "id": 39393958506,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "421774f4bb2f6e541be8ca03faf3714e7c81bab8"
+        }
+      }
+    ]
+  }
+}

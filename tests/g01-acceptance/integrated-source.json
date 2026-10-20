@@ -222,7 +222,7 @@
     },
     {
       "path": "scripts/lint-changed.sh",
-      "sha": "fe7f850cc9976839112c446a7b36c14ef7e1a640"
+      "sha": "0db9881f05739cf7e737e4cb5aa1aaae8166afb2"
     },
     {
       "path": "src/components/DateRangeFilter.tsx",
@@ -1118,7 +1118,7 @@
     },
     {
       "path": "tests/test_changed_lint.py",
-      "sha": "c163b0d5295a7d29c704686291544ddb7b113a80"
+      "sha": "13ee29534b563855730dc99df2d8c648514508d8"
     },
     {
       "path": "tests/trial-status/replay.mjs",

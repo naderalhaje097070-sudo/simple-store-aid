@@ -82,7 +82,10 @@ with tempfile.TemporaryDirectory(prefix="monjez-lint-") as tmp:
         assert r.returncode == 0, r.stderr
         args = calls.read_text().splitlines()
         assert args[0] == "eslint"
-        assert sorted(args[1:]) == sorted("src/" + n for n in names), args
+        paths = args[1:]
+        if paths[:1] == ["--"]:
+            paths = paths[1:]
+        assert sorted(paths) == sorted("src/" + n for n in names), args
 
     check("all six extensions and filename spaces survive", extensions)
     # This invokes the actual installed ESLint, not the recording stub.
@@ -98,6 +101,21 @@ with tempfile.TemporaryDirectory(prefix="monjez-lint-") as tmp:
         assert r.returncode != 0, "actual lint error passed"
 
     check("real ESLint failure fails the gate", actual_lint)
+
+    # A Git path may start with -- and otherwise be interpreted as an ESLint flag.
+    # Keep bad.js in this diff: an injected ignore pattern must not hide its error.
+    (src / "bad.js").unlink()
+    (repo / "bad.js").write_text("if (true) {}\n")
+    (repo / "--ignore-pattern=*.js").write_text("// synthetic leading-dash filename\n")
+    commit()
+
+    def leading_dash():
+        r = run(good_base, real=True)
+        (out / "leading-dash-eslint-failure.txt").write_text(r.stdout + r.stderr)
+        assert r.returncode != 0, "leading-dash filename changed ESLint options and hid a real error"
+        assert "no-constant-condition" in r.stdout + r.stderr, r.stderr
+
+    check("leading-dash filename cannot change ESLint options", leading_dash)
 
 (out / "lint-tests.json").write_text(json.dumps({"results": results,
     "passed": sum(x["passed"] for x in results), "total": len(results)}, indent=2))

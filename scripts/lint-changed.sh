@@ -22,4 +22,4 @@ if (( ${#files[@]} == 0 )); then
   exit 0
 fi
 printf '%s\n' "${files[@]}" | tee /tmp/lint-files.txt
-bunx eslint "${files[@]}" 2>&1 | tee /tmp/lint.log
+bunx eslint -- "${files[@]}" 2>&1 | tee /tmp/lint.log

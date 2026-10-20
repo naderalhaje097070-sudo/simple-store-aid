@@ -1,0 +1,41 @@
+{
+  "scope": "Static module AST comparison; no source execution or historical suite rerun",
+  "parser": "acorn",
+  "parser_version": "8.16.0",
+  "ignored": [
+    "source positions",
+    "Literal.raw spelling"
+  ],
+  "template_raw_preserved": true,
+  "rows": [
+    {
+      "path": "tests/account-lifecycle/mcp_server.mjs",
+      "original_blob": "2805f0bac8f456c45b75d5f92473121a61a1f52d",
+      "formatted_blob": "cf7a9fafa6d900c3a4a4dab1069475ea099f8848",
+      "ast_equal": true,
+      "normalized_ast_sha256": "4f35036c64402557ea3991809bd55afd1520b1cdd03c3fe761635e4228296986"
+    },
+    {
+      "path": "tests/account-lifecycle/natural_expiry_crypto.mjs",
+      "original_blob": "f9a7eabcd3f364a1231b15b3f50c0d9a2a56fd04",
+      "formatted_blob": "a4314b632cd35da17f89b7cdd4a788628289c595",
+      "ast_equal": true,
+      "normalized_ast_sha256": "ef13b1bf929ae8aec73eabc47023d0667427219e4eae4023f48c5f693a161b76"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_client.mjs",
+      "original_blob": "ddf8aff411758a69f23c9a527717d6c404626d08",
+      "formatted_blob": "ee38cc227e87b2c3aa00ead5f52efedd7be3973c",
+      "ast_equal": true,
+      "normalized_ast_sha256": "dc5eaab676f2d8ff5a3454d3da8e6ce4c30cbed5c6216ff250ebb17b931b731b"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_guard.mjs",
+      "original_blob": "6f2fff8b588ce363f6a1d8d45ca823f436320011",
+      "formatted_blob": "fdc2a16f979c62983224bfe249ab07b594620c89",
+      "ast_equal": true,
+      "normalized_ast_sha256": "5b0cc61c6750dff82850815ed320bf9cc2eb6b92e5c30eab2e275bad27d9cedf"
+    }
+  ],
+  "all_equal": true
+}

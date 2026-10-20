@@ -1,0 +1,89 @@
+{
+  "candidate": "9979d4e1c9859719c7999f9ed6db0b773d4513be",
+  "rows": [
+    {
+      "path": "config/supabase-build-config.ts",
+      "sha": "fa6e8114a0a82cf846ab807cee3ce22884369e3a",
+      "remote_sha": "fa6e8114a0a82cf846ab807cee3ce22884369e3a",
+      "pass": true
+    },
+    {
+      "path": "vite.config.ts",
+      "sha": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+      "remote_sha": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+      "pass": true
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+      "remote_sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+      "pass": true
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "sha": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+      "remote_sha": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+      "pass": true
+    },
+    {
+      "path": "src/lib/account-state.server.ts",
+      "sha": "4967ff9f59587cbc6162e2ba19f5b2154cae2e18",
+      "remote_sha": "4967ff9f59587cbc6162e2ba19f5b2154cae2e18",
+      "pass": true
+    },
+    {
+      "path": "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "sha": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe",
+      "remote_sha": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe",
+      "pass": true
+    },
+    {
+      "path": "supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+      "sha": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f",
+      "remote_sha": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f",
+      "pass": true
+    },
+    {
+      "path": "supabase/migrations/20261013120223_sec_truncate_01.sql",
+      "sha": "ccab1b2f5bb2922d75210b538656f948fa7003d8",
+      "remote_sha": "ccab1b2f5bb2922d75210b538656f948fa7003d8",
+      "pass": true
+    },
+    {
+      "path": "supabase/migrations/20261013221918_owner_closure_01.sql",
+      "sha": "4fbd720b034198ae4b550de4517576f804edf948",
+      "remote_sha": "4fbd720b034198ae4b550de4517576f804edf948",
+      "pass": true
+    },
+    {
+      "path": "AGENTS.md",
+      "sha": "cd0d2c6551f0249479c861f6e5eba684ff155770",
+      "remote_sha": "cd0d2c6551f0249479c861f6e5eba684ff155770",
+      "pass": true
+    },
+    {
+      "path": "docs/governance/REVIEW_PROTOCOL.md",
+      "sha": "b6e493b332e1f91bb62af160773811e113ab2343",
+      "remote_sha": "b6e493b332e1f91bb62af160773811e113ab2343",
+      "pass": true
+    },
+    {
+      "path": "docs/governance/SECURITY_REVIEW_METHOD.md",
+      "sha": "ef41dc9c2f0eda6b0a465501a35e67595091fb9b",
+      "remote_sha": "ef41dc9c2f0eda6b0a465501a35e67595091fb9b",
+      "pass": true
+    },
+    {
+      "path": ".github/workflows/b1-composition.yml",
+      "sha": "6fdee102c44f60c7dc0b08e79f1687711ddf6cf1",
+      "remote_sha": "6fdee102c44f60c7dc0b08e79f1687711ddf6cf1",
+      "pass": true
+    },
+    {
+      "path": "changes/b1-composition/INTAKE.md",
+      "sha": "7bee87888714335f0c952cf2658fe25713a2948e",
+      "remote_sha": "7bee87888714335f0c952cf2658fe25713a2948e",
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "sourceA": "18700dee8ecdda2e457c0aa18c4f83a81b042019",
+  "commonBase54": "57fb508b9d239aaf4676352dd97654341416c46a",
+  "chain71": "7f74b704c4b66d3da1605aa509b7c8e1eb104507",
+  "sibling67": "6af3e15028a798752eda98c30924b7b30620a356",
+  "counts": {
+    "same": 317,
+    "take_B": 267,
+    "keep_A": 746,
+    "conflict": 3
+  },
+  "conflicts": [
+    "DECISIONS.md",
+    "PROJECT_STATE.md",
+    "TASKS.md"
+  ],
+  "sibling": [
+    {
+      "path": "AGENTS.md",
+      "before": {
+        "sha": "29e31034c3a9d8ad0cf96024dc53818a2823b489",
+        "mode": "100644"
+      },
+      "after": {
+        "sha": "cd0d2c6551f0249479c861f6e5eba684ff155770",
+        "mode": "100644"
+      },
+      "absentFrom71": true
+    },
+    {
+      "path": "changes/security-review-method/INTAKE.md",
+      "before": null,
+      "after": {
+        "sha": "7bbc18fb043c0cce0f3a7cb0e9b47d1201c50580",
+        "mode": "100644"
+      },
+      "absentFrom71": true
+    },
+    {
+      "path": "docs/governance/REVIEW_PROTOCOL.md",
+      "before": {
+        "sha": "e78b79d25cb08f465bdbf9b15c3335223aa81991",
+        "mode": "100644"
+      },
+      "after": {
+        "sha": "b6e493b332e1f91bb62af160773811e113ab2343",
+        "mode": "100644"
+      },
+      "absentFrom71": true
+    },
+    {
+      "path": "docs/governance/SECURITY_REVIEW_METHOD.md",
+      "before": null,
+      "after": {
+        "sha": "ef41dc9c2f0eda6b0a465501a35e67595091fb9b",
+        "mode": "100644"
+      },
+      "absentFrom71": true
+    }
+  ],
+  "existingProtectedChanges": [
+    {
+      "path": "config/supabase-build-config.ts",
+      "base": {
+        "sha": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+        "mode": "100644"
+      },
+      "A": {
+        "sha": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+        "mode": "100644"
+      },
+      "B": {
+        "sha": "fa6e8114a0a82cf846ab807cee3ce22884369e3a",
+        "mode": "100644"
+      },
+      "choice": "take_B"
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "base": {
+        "sha": "d7b2f3969267652863fc3754d00e1ee892582527",
+        "mode": "100644"
+      },
+      "A": {
+        "sha": "d7b2f3969267652863fc3754d00e1ee892582527",
+        "mode": "100644"
+      },
+      "B": {
+        "sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+        "mode": "100644"
+      },
+      "choice": "take_B"
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "base": {
+        "sha": "b407f1c3dd188db4e1e5c5d3c405eb23a3fad66b",
+        "mode": "100644"
+      },
+      "A": {
+        "sha": "b407f1c3dd188db4e1e5c5d3c405eb23a3fad66b",
+        "mode": "100644"
+      },
+      "B": {
+        "sha": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+        "mode": "100644"
+      },
+      "choice": "take_B"
+    },
+    {
+      "path": "vite.config.ts",
+      "base": {
+        "sha": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "mode": "100644"
+      },
+      "A": {
+        "sha": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+        "mode": "100644"
+      },
+      "B": {
+        "sha": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+        "mode": "100644"
+      },
+      "choice": "take_B"
+    }
+  ],
+  "newProtectedPaths": [
+    ".github/workflows/account-lifecycle-baseline.yml",
+    ".github/workflows/account-lifecycle-correction.yml",
+    ".github/workflows/auth-natural-expiry.yml",
+    ".github/workflows/mcp-issuer-contract.yml",
+    ".github/workflows/mcp-lifecycle-probe.yml",
+    ".github/workflows/mcp-tanstack-route.yml",
+    ".github/workflows/oc-app.yml",
+    ".github/workflows/owner-closure.yml",
+    ".github/workflows/owner-retention-catalog.yml",
+    ".github/workflows/sec-truncate.yml",
+    "changes/env-native-01/generate-correction.py",
+    "changes/env-native-01/inventory-generator.py",
+    "src/lib/account-state.server.ts",
+    "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+    "supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+    "supabase/migrations/20261013120223_sec_truncate_01.sql",
+    "supabase/migrations/20261013221918_owner_closure_01.sql",
+    "tests/account-lifecycle/correction_probe.py",
+    "tests/account-lifecycle/evidence_guard.py",
+    "tests/account-lifecycle/independent_probe.py",
+    "tests/account-lifecycle/live_probe.py",
+    "tests/account-lifecycle/mcp_probe.py",
+    "tests/account-lifecycle/mcp_server.mjs",
+    "tests/account-lifecycle/natural_expiry_contract.py",
+    "tests/account-lifecycle/natural_expiry_crypto.mjs",
+    "tests/account-lifecycle/natural_expiry_probe.py",
+    "tests/account-lifecycle/oc_app_client.mjs",
+    "tests/account-lifecycle/oc_app_guard.mjs",
+    "tests/account-lifecycle/oc_app_probe.py",
+    "tests/account-lifecycle/oc_app_wire.test.mjs",
+    "tests/account-lifecycle/owner_catalog.sql",
+    "tests/account-lifecycle/owner_catalog_probe.py",
+    "tests/account-lifecycle/owner_closure_probe.py",
+    "tests/account-lifecycle/tanstack_route_build.py",
+    "tests/account-lifecycle/tanstack_route_guard.mjs",
+    "tests/account-lifecycle/tanstack_route_probe.py",
+    "tests/account-lifecycle/test_correction_probe.py",
+    "tests/account-lifecycle/test_evidence_guard.py",
+    "tests/account-lifecycle/test_independent_probe.py",
+    "tests/account-lifecycle/test_live_probe.py",
+    "tests/account-lifecycle/test_mcp_probe.py",
+    "tests/account-lifecycle/test_natural_expiry_probe.py",
+    "tests/account-lifecycle/test_oauth_consent_fixture.py",
+    "tests/account-lifecycle/test_owner_catalog_probe.py",
+    "tests/account-lifecycle/test_owner_closure_probe.py",
+    "tests/account-lifecycle/test_tanstack_route_probe.py",
+    "tests/account-lifecycle/test_truncate_probe.py",
+    "tests/account-lifecycle/truncate_privileges.sql",
+    "tests/account-lifecycle/truncate_probe.py",
+    "tests/unit/account-state.test.ts",
+    "tests/unit/mcp-issuer-verifier.fixture.ts",
+    "tests/unit/mcp-issuer.test.ts"
+  ],
+  "allAOriginalSQLExact": true,
+  "AOriginalSQLCount": 41
+}

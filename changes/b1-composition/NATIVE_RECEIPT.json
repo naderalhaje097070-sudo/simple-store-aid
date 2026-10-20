@@ -1,0 +1,58 @@
+{
+  "source_sha": "9979d4e1c9859719c7999f9ed6db0b773d4513be",
+  "tree_sha": "8cdd3108f3f5dc8164d893c187879198735d9ee6",
+  "native_run": 39452262035,
+  "native_job": 118729875373,
+  "conclusion": "success",
+  "frozen_install": true,
+  "bun": "1.2.14",
+  "node": "22",
+  "units": {
+    "passed": 76,
+    "failed": 0,
+    "files": 7,
+    "expects": 221
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 12
+  },
+  "original_wire_round_trips": 4,
+  "typecheck": true,
+  "generated_format": true,
+  "build": true,
+  "generation_git_diff_clean": true,
+  "audit": {
+    "run": 39452262260,
+    "job": 118729875975,
+    "exit": 0,
+    "output": {}
+  },
+  "historical_A_identity": {
+    "run": 39452262260,
+    "job": 118729876382,
+    "conclusion": "failure",
+    "message": "Protected source path set changed",
+    "verifier_unchanged": true,
+    "waived": false
+  },
+  "local_wire_failure": "Restored1.168.17 differs from frozen1.171.34; original wire passes native without changes",
+  "scope": "composition compatibility only; B2-B6 and45-SQL lifecycle acceptance pending",
+  "logs": [
+    {
+      "job": 118729875373,
+      "path": "job-118729875373.log",
+      "sha256": "345f85e7b4125521fe57a0f3a26601ffc5e07f5b1f5fcb79e0bd2c68d4eae3be"
+    },
+    {
+      "job": 118729876382,
+      "path": "job-118729876382.log",
+      "sha256": "cfe0ded0530ac204d6d95eceba96a4e76f61ace823e16e79361851f6860db7d6"
+    },
+    {
+      "job": 118729875975,
+      "path": "job-118729875975.log",
+      "sha256": "604b7d78b0de43d1dd7b7e8c830549ba299e0004b0a0a19a7725ae289b488011"
+    }
+  ]
+}

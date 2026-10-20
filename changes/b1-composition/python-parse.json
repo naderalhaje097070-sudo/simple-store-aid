@@ -1,0 +1,29 @@
+{
+  "scope": "parse only, not lifecycle runtime",
+  "files": [
+    "b1/source/tests/account-lifecycle/test_owner_closure_probe.py",
+    "b1/source/tests/account-lifecycle/mcp_probe.py",
+    "b1/source/tests/account-lifecycle/test_independent_probe.py",
+    "b1/source/tests/account-lifecycle/tanstack_route_probe.py",
+    "b1/source/tests/account-lifecycle/test_truncate_probe.py",
+    "b1/source/tests/account-lifecycle/test_live_probe.py",
+    "b1/source/tests/account-lifecycle/natural_expiry_contract.py",
+    "b1/source/tests/account-lifecycle/test_evidence_guard.py",
+    "b1/source/tests/account-lifecycle/test_owner_catalog_probe.py",
+    "b1/source/tests/account-lifecycle/test_tanstack_route_probe.py",
+    "b1/source/tests/account-lifecycle/live_probe.py",
+    "b1/source/tests/account-lifecycle/test_correction_probe.py",
+    "b1/source/tests/account-lifecycle/oc_app_probe.py",
+    "b1/source/tests/account-lifecycle/evidence_guard.py",
+    "b1/source/tests/account-lifecycle/test_natural_expiry_probe.py",
+    "b1/source/tests/account-lifecycle/test_mcp_probe.py",
+    "b1/source/tests/account-lifecycle/correction_probe.py",
+    "b1/source/tests/account-lifecycle/tanstack_route_build.py",
+    "b1/source/tests/account-lifecycle/natural_expiry_probe.py",
+    "b1/source/tests/account-lifecycle/independent_probe.py",
+    "b1/source/tests/account-lifecycle/owner_closure_probe.py",
+    "b1/source/tests/account-lifecycle/owner_catalog_probe.py",
+    "b1/source/tests/account-lifecycle/truncate_probe.py",
+    "b1/source/tests/account-lifecycle/test_oauth_consent_fixture.py"
+  ]
+}

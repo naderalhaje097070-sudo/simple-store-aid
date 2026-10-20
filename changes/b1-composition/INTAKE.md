@@ -12,7 +12,7 @@ Preserve the original41 migrations byte-for-byte and import exactly4 additional 
 
 The imported .mjs helpers expose48 Prettier errors under A's wider lint scope. Apply locked Prettier3.8.3 only to those four helpers, preserving executable AST. Do not broaden formatting.
 
-Local dependency cache is not frozen: router-core1.168.17 versus locked1.171.34. Local typecheck/full lint are supplemental. The original OC APP wire test currently fails on that cache because its SSR-client export is missing; inspect native frozen results before deciding a compatibility repair. Do not delete or weaken the assertion.
+Local dependency cache is not frozen: router-core1.168.17 versus locked1.171.34. Local typecheck/full lint are supplemental. The original OC APP wire test failed on that cache because its SSR-client export is missing. Native frozen run39452262035 passes the original test and confirms the export exists in locked1.171.34; no compatibility repair or assertion change is needed.
 
 B1 native compatibility runs only frozen install, export inspection, generated-format/type/lint/units/wire/build. It starts no database, calls no payment provider and performs no production operation. It does not replace B5. A's288-source/41-SQL identity verifier remains unchanged and is expected to reject a B superset; old43-migration B probes also require explicit B5 reconciliation. Neither failure is a waiver or B acceptance.
 

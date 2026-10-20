@@ -1,10 +1,12 @@
-> CURRENT — B1 composition in progress, 2026-10-20.
+> CURRENT — B1 composition complete, 2026-10-20.
 > Accepted A remains on main `18700dee8ecdda2e457c0aa18c4f83a81b042019`. B is staged for review only.
 > This notice supersedes older ONE NEXT notices below and in imported B documents.
 > Scope: compose PR56–71 plus sibling67 without losing A; preserve all41 original migrations and four exact B additions.
 > B2 AC-01, B3 AC-02 and B4 APP-02 corrections remain pending, followed by B5 lifecycle validation and B6 independent acceptance review.
 > No B merge, deployment, production operation or PR closure is authorized by this composition step.
-> See `changes/b1-composition/INTAKE.md`; the full original B71 document is archived beside it as `historical-B71-TASKS.md`. Existing A history follows unchanged.
+> ONE NEXT: B2 / AC-01 — scope the privileged security scan correction and verify regular-user denial with admin/service positive controls.
+> Native frozen composition run39452262035 passed76 unit tests, original wire regression and build; lifecycle acceptance remains pending.
+> See `changes/b1-composition/RESULT.md` and `changes/b1-composition/INTAKE.md`; the full original B71 document is archived beside it as `historical-B71-TASKS.md`. Existing A history follows unchanged.
 
 ## FOUNDATION-A — A1–A8 complete on main; B1 next, 2026-10-20
 

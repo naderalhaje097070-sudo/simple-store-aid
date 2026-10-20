@@ -229,6 +229,14 @@ await check("timezone failure retries the settings query", async () => {
   await ctx.retryFinancialReads();
   assert.ok(effects.some(([kind, query]) => kind === "refetch" && query === "settings"));
 });
+await check("pilot unavailable timezone is a read boundary rather than a render error", () => {
+  for (const mode of ["missing", "error", "paused", "placeholder"]) {
+    const { html } = render({ screen: "pilot", settingsRead: mode });
+    assert.match(html, /الملخص المالي غير متاح/);
+  }
+  const cached = render({ screen: "pilot", settingsRead: "cached-error" });
+  assert.match(cached.html, warning);
+});
 writeFileSync(
   resolve(directory, "replay.json"),
   JSON.stringify(

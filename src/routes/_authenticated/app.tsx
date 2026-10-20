@@ -697,7 +697,7 @@ function MongezzApp() {
             {screen === "sale_success" && <SaleSuccessScreen {...ctx} />}
             {screen === "day_close" &&
               financialScreen(<DayCloseScreen {...ctx} />, dayFinancialReads)}
-            {screen === "pilot" && <PilotScreen {...ctx} />}
+            {screen === "pilot" && financialScreen(<PilotScreen {...ctx} />, dayFinancialReads)}
 
             {!hideNav && (
               <div className="md:hidden">

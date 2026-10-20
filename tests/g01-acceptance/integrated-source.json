@@ -630,7 +630,7 @@
     },
     {
       "path": "src/routes/_authenticated/app.tsx",
-      "sha": "51ef8d6bbd1e157aaf7c3f55a144b6cafc4c4028"
+      "sha": "af60f2be20d9b827da680b5e9a375307d11693e3"
     },
     {
       "path": "src/routes/_authenticated/billing.tsx",
@@ -894,7 +894,7 @@
     },
     {
       "path": "tests/app-financial-read/browser.py",
-      "sha": "213fb565c32056ab7b1a03c0dfa3317723e222d9"
+      "sha": "26b7350f1aafea4b7e296ae5b385773a4e91ce66"
     },
     {
       "path": "tests/app-financial-read/build.mjs",
@@ -902,7 +902,7 @@
     },
     {
       "path": "tests/app-financial-read/replay.mjs",
-      "sha": "486b68fd4c482d0c4df33d711968ef1b45e9ce1d"
+      "sha": "a901644feb8503356d4e17c1add5dba3d5b04892"
     },
     {
       "path": "tests/day-close-clock/replay.mjs",

@@ -113,6 +113,8 @@ async def main():
             await expect(sheet.get_by_text("تعذّر تحميل البيانات المالية", exact=True)).to_be_visible()
             await expect(sheet.get_by_text("المحصّل فعلًا", exact=True)).to_have_count(0)
             await sheet.get_by_role("button", name="الرجوع", exact=True).click()
+            await page.evaluate("window.fixture.go('pilot')")
+            await expect(page.get_by_text("الملخص المالي غير متاح حتى تكتمل قراءة البيانات المطلوبة.", exact=True)).to_be_visible()
             await page.evaluate("window.fixture.go('day_close')")
             await expect(page.get_by_text("الملخص المالي غير متاح حتى تكتمل قراءة البيانات المطلوبة.", exact=True)).to_be_visible()
             assert await page.evaluate("window.fixture.context().closeDayAsync({}).then(()=>false,()=>true)")

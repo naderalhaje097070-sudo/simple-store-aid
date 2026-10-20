@@ -1,0 +1,8 @@
+{
+  "filename": "20261020210549_scanner_auth_01.sql",
+  "sha256": "3bb54ed00e2fb4a7567a34bebfd781af3db9e7a2c9dfc76517c748c1e72b3f66",
+  "cli": "2.101.0",
+  "command": "supabase migration new scanner_auth_01",
+  "source": "7c87cfb13c6f6f121f7e7909ac17a61b1e405b96",
+  "database_started": false
+}

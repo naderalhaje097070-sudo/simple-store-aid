@@ -105,10 +105,45 @@ async def main():
             await expect(page.get_by_role("button", name="لا دين", exact=True)).to_be_disabled()
             await expect(page.get_by_text("الرصيد غير مؤكد", exact=True)).to_be_visible()
 
+        async def timezone_day():
+            await reset()
+            await page.get_by_role("button", name="عرض حركة اليوم المالية", exact=False).click()
+            await update({"settingsRead": "error"})
+            sheet = page.locator("div.fixed.inset-0.z-50")
+            await expect(sheet.get_by_text("تعذّر تحميل البيانات المالية", exact=True)).to_be_visible()
+            await expect(sheet.get_by_text("المحصّل فعلًا", exact=True)).to_have_count(0)
+            await sheet.get_by_role("button", name="الرجوع", exact=True).click()
+            await page.evaluate("window.fixture.go('day_close')")
+            await expect(page.get_by_text("الملخص المالي غير متاح حتى تكتمل قراءة البيانات المطلوبة.", exact=True)).to_be_visible()
+            assert await page.evaluate("window.fixture.context().closeDayAsync({}).then(()=>false,()=>true)")
+            assert await page.evaluate("window.fixture.effects()") == []
+            await update({"settingsRead": "ready"})
+            button = page.get_by_role("button", name="تثبيت إقفال اليوم", exact=True)
+            await expect(button).to_be_enabled()
+
+        async def timezone_independent():
+            await reset({"settingsRead": "cached-error"})
+            await expect(page.get_by_text("تعذّر تحميل البيانات المالية", exact=True)).to_be_visible()
+            assert await page.get_by_text("40", exact=True).count() > 0
+            await reset({"settingsRead": "error"})
+            await page.get_by_role("button", name="الأسبوع", exact=True).click()
+            await expect(page.get_by_text("تعذّر تحميل البيانات المالية", exact=True)).to_have_count(0)
+            assert await page.get_by_text("40", exact=True).count() > 0
+            await reset({"screen": "debts", "settingsRead": "error"})
+            await expect(page.get_by_text("تعذّر تحميل البيانات المالية", exact=True)).to_have_count(0)
+            assert await page.get_by_text("60", exact=True).count() > 0
+            await page.evaluate("window.fixture.openInvoice()")
+            await page.get_by_role("button", name="تحصيل دفعة", exact=True).click()
+            await page.get_by_placeholder("المبلغ", exact=True).fill("1")
+            await page.get_by_role("button", name="تأكيد التحصيل", exact=True).click()
+            assert await page.evaluate("window.fixture.effects()[0][0]") == "useCollectDebt"
+
         for name, run in [("initial unavailable", initial), ("cache survives refetch failure", cached_debt),
                           ("empty success versus failed cache", empty), ("warning inside closable financial sheet", modal),
                           ("export rejected then recovers", export_guards), ("collection sheet rejects stale balance then recovers", collect_sheet),
-                          ("directory survives unavailable balance", directory)]:
+                          ("directory survives unavailable balance", directory),
+                          ("timezone failure hides daily modal/close then recovers", timezone_day),
+                          ("cached timezone retains money and independent collection survives", timezone_independent)]:
             await check(name, run)
         results.append({"name": "no browser errors or network requests", "passed": not errors and not requests,
                         "errors": errors, "requests": requests})

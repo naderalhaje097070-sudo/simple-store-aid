@@ -78,7 +78,7 @@
     },
     {
       "path": ".github/workflows/integration-verification.yml",
-      "sha": "726ab343909597297c5b1e79c9220b510714c4ae"
+      "sha": "92e94f45afc2b1c69847d147c525e0dad2b30693"
     },
     {
       "path": ".github/workflows/isolated-auth-smoke.yml",
@@ -86,7 +86,7 @@
     },
     {
       "path": ".github/workflows/quality.yml",
-      "sha": "738e302162e384db009f9a07e8b2b49450303d24"
+      "sha": "0730862c39917c9fde932a2f7e633933a645c3f5"
     },
     {
       "path": ".github/workflows/sec-ci-gate4-probe.yml",
@@ -438,7 +438,7 @@
     },
     {
       "path": "src/features/home/HomeScreen.tsx",
-      "sha": "f66d266be59beb149de56b272f10ef157d50bc47"
+      "sha": "9f37278a10607613843c89e0ea8939c5c0da13c7"
     },
     {
       "path": "src/features/inventory/AddProductSheet.tsx",
@@ -486,7 +486,7 @@
     },
     {
       "path": "src/features/shared/AppContext.ts",
-      "sha": "d795608badfab4848b51a5e536bb12c85feed578"
+      "sha": "9f8c09ba86c1b558d8d04e700817b3276516e6c5"
     },
     {
       "path": "src/features/shared/EmptyState.tsx",
@@ -494,7 +494,7 @@
     },
     {
       "path": "src/features/shared/financial-read-state.ts",
-      "sha": "eda1f3dfce05985fc78d4da6380d8a3835a34cec"
+      "sha": "ece80c5ee61835c9933bbf169f4c0248dac3f93a"
     },
     {
       "path": "src/features/shared/FinancialReadBoundary.tsx",
@@ -630,7 +630,7 @@
     },
     {
       "path": "src/routes/_authenticated/app.tsx",
-      "sha": "465638444a6583dcb1390b7cc98042917b040846"
+      "sha": "51ef8d6bbd1e157aaf7c3f55a144b6cafc4c4028"
     },
     {
       "path": "src/routes/_authenticated/billing.tsx",
@@ -894,19 +894,19 @@
     },
     {
       "path": "tests/app-financial-read/browser.py",
-      "sha": "9a0f232c221063a99b5fdef506b4fb275c2ee5c0"
+      "sha": "213fb565c32056ab7b1a03c0dfa3317723e222d9"
     },
     {
       "path": "tests/app-financial-read/build.mjs",
-      "sha": "894c0567255b29669d8faa845d31834f82d931df"
+      "sha": "e6a5d16ad91ef88fde7a8335ae0ede31005268b4"
     },
     {
       "path": "tests/app-financial-read/replay.mjs",
-      "sha": "bdc659824efb58edfe52c27082204f32fd5c26b9"
+      "sha": "486b68fd4c482d0c4df33d711968ef1b45e9ce1d"
     },
     {
       "path": "tests/day-close-clock/replay.mjs",
-      "sha": "6eb866ebe59354acdc373a956f2ca4f085f9f5fb"
+      "sha": "69cdfdd9ac4468bc39a7c37edd9dac01ad68279a"
     },
     {
       "path": "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc",

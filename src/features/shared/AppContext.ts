@@ -88,6 +88,7 @@ export interface AppCtx {
   expenses: Expense[];
   payments: Payment[];
   financialReads: Record<"invoices" | "payments" | "expenses", FinancialRead>;
+  tenantTimezoneRead: FinancialRead;
   retryFinancialReads: () => Promise<unknown>;
   myRole: string | null | undefined;
 

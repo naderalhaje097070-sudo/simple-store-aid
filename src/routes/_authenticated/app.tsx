@@ -155,6 +155,7 @@ import {
 } from "@/features/shared/FinancialReadBoundary";
 import {
   financialReadState,
+  tenantTimezoneReadState,
   requireFinancialReads,
   type FinancialRead,
 } from "@/features/shared/financial-read-state";
@@ -222,8 +223,15 @@ function MongezzApp() {
   const { data: dbDayCloses } = useDayCloses(tenantId);
   const closeDayMut = useCloseDay(tenantId);
   const { data: myRole } = useMyRole(tenantId);
-  const { data: tenantSettings } = useTenant(tenantId);
-  const tenantTz = tenantSettings?.timezone ?? "Africa/Tripoli";
+  const tenantSettingsQuery = useTenant(tenantId);
+  const { data: tenantSettings } = tenantSettingsQuery;
+  const tenantTimezoneRead = tenantTimezoneReadState(
+    tenantSettingsQuery,
+    !!tenantId,
+    tenantQuery.isError,
+  );
+  // The established default applies only to an available settings row.
+  const tenantTz = tenantTimezoneRead.hasData ? (tenantSettings?.timezone ?? "Africa/Tripoli") : "";
 
   const products = (dbProducts ?? []) as unknown as Product[];
   const customers = (dbCustomers ?? []) as Customer[];
@@ -247,6 +255,7 @@ function MongezzApp() {
       invoicesQuery.refetch(),
       paymentsQuery.refetch(),
       expensesQuery.refetch(),
+      tenantSettingsQuery.refetch(),
     ]);
   };
 
@@ -264,6 +273,9 @@ function MongezzApp() {
   } | null>(null);
 
   const [period, setPeriod] = useState<Period>("day");
+  const periodFinancialReads =
+    period === "day" ? [...allFinancialReads, tenantTimezoneRead] : allFinancialReads;
+  const dayFinancialReads = [...allFinancialReads, tenantTimezoneRead];
 
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
@@ -277,9 +289,10 @@ function MongezzApp() {
       window.removeEventListener("focus", refreshClock);
     };
   }, []);
-  const todayKey = tenantTodayKey(tenantTz, new Date(clockNow));
+  const todayKey = tenantTimezoneRead.hasData ? tenantTodayKey(tenantTz, new Date(clockNow)) : "";
   const dayCloses = dbDayCloses ?? [];
-  const closedToday = dayCloses.some((d) => d.closedFor === todayKey);
+  const closedToday =
+    tenantTimezoneRead.complete && dayCloses.some((d) => d.closedFor === todayKey);
   const setClosedToday = (_: boolean) => {};
   const [toast, setToast] = useState<string | null>(null);
 
@@ -318,7 +331,7 @@ function MongezzApp() {
 
   const inPeriod = (iso?: string) => {
     if (!iso) return false;
-    if (period === "day") return tzDateKey(iso) === todayKey;
+    if (period === "day") return tenantTimezoneRead.hasData && tzDateKey(iso) === todayKey;
     return new Date(iso).getTime() >= periodStart;
   };
 
@@ -488,6 +501,7 @@ function MongezzApp() {
     expenses,
     payments,
     financialReads,
+    tenantTimezoneRead,
     retryFinancialReads,
     myRole,
     totals: scaledTotals,
@@ -505,7 +519,7 @@ function MongezzApp() {
     todayKey,
     tenantSettings,
     closeDayAsync: async (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => {
-      requireFinancialReads(allFinancialReads);
+      requireFinancialReads(dayFinancialReads);
       return closeDayMut.mutateAsync(input);
     },
     go,
@@ -661,7 +675,8 @@ function MongezzApp() {
               financialScreen(<InvoiceDetailScreen {...ctx} />, [financialReads.invoices])}
             {screen === "inventory" && <InventoryScreen {...ctx} />}
             {screen === "shop" && <ShopHubScreen {...ctx} />}
-            {screen === "profit" && financialScreen(<ProfitScreen {...ctx} />, allFinancialReads)}
+            {screen === "profit" &&
+              financialScreen(<ProfitScreen {...ctx} />, periodFinancialReads)}
             {screen === "collected" &&
               financialScreen(<CollectedScreen {...ctx} />, [financialReads.payments])}
             {screen === "debts" &&
@@ -681,7 +696,7 @@ function MongezzApp() {
             {screen === "sale_quick" && <SaleQuickScreen {...ctx} />}
             {screen === "sale_success" && <SaleSuccessScreen {...ctx} />}
             {screen === "day_close" &&
-              financialScreen(<DayCloseScreen {...ctx} />, allFinancialReads)}
+              financialScreen(<DayCloseScreen {...ctx} />, dayFinancialReads)}
             {screen === "pilot" && <PilotScreen {...ctx} />}
 
             {!hideNav && (
@@ -705,7 +720,7 @@ function MongezzApp() {
               <MoneyDetailsSheet
                 totals={scaledTotals}
                 period={period}
-                reads={allFinancialReads}
+                reads={periodFinancialReads}
                 onRetry={retryFinancialReads}
                 onClose={() => setMoneyDetailsOpen(false)}
                 onOpenProfit={() => {
@@ -2565,7 +2580,10 @@ function DayCloseScreen(p: AppScreenContext) {
             </button>
           ) : (
             <button
-              disabled={!Object.values(p.financialReads).every((read) => read.complete)}
+              disabled={
+                !p.tenantTimezoneRead.complete ||
+                !Object.values(p.financialReads).every((read) => read.complete)
+              }
               onClick={async () => {
                 try {
                   await p.closeDayAsync({});

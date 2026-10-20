@@ -14,6 +14,7 @@ import type { Customer, Invoice, Period } from "@/features/shared/types";
 import type { AppCtx, AppAlert } from "@/features/shared/AppContext";
 import { Money, fmt } from "@/features/shared/Money";
 import { FinancialReadNotice, FinancialAmount } from "@/features/shared/FinancialReadBoundary";
+import { combineFinancialReads } from "@/features/shared/financial-read-state";
 import { EmptyState } from "@/features/shared/EmptyState";
 import { StatusChip } from "@/features/shared/StatusChip";
 
@@ -44,7 +45,13 @@ export function HomeScreen(p: AppCtx) {
     : alerts.length >= 2
       ? "ok"
       : "good";
-  const summaryComplete = Object.values(p.financialReads).every((read) => read.complete);
+  const summaryReads = Object.values(p.financialReads);
+  const collectedReads = [p.financialReads.payments];
+  if (period === "day") {
+    summaryReads.push(p.tenantTimezoneRead);
+    collectedReads.push(p.tenantTimezoneRead);
+  }
+  const summaryComplete = summaryReads.every((read) => read.complete);
   const statusMeta = !summaryComplete
     ? { l: "الملخص المالي غير مكتمل", color: "text-warn", bg: "bg-warn-soft", emoji: "⚠️" }
     : {
@@ -111,10 +118,7 @@ export function HomeScreen(p: AppCtx) {
       </div>
 
       <div className="px-4 pb-3">
-        <FinancialReadNotice
-          reads={Object.values(p.financialReads)}
-          onRetry={p.retryFinancialReads}
-        />
+        <FinancialReadNotice reads={summaryReads} onRetry={p.retryFinancialReads} />
       </div>
       {/* Status / answer card — 3 separated numbers: collected / customer debts / courier custody */}
       <div className="px-4">
@@ -130,7 +134,7 @@ export function HomeScreen(p: AppCtx) {
             <div className="rounded-xl bg-card/60 p-3">
               <div className="text-[11px] text-muted-foreground">المحصّل فعليًا</div>
               <FinancialAmount
-                read={p.financialReads.payments}
+                read={combineFinancialReads(collectedReads)}
                 value={totals.collected}
                 className="text-2xl text-success font-bold"
               />

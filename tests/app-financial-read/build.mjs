@@ -62,7 +62,7 @@ const db = dbNames
     if (rows[name])
       return `export const ${name}=()=>({data:globalThis.__readData.${rows[name]},isLoading:false});`;
     if (name === "useTenant")
-      return `export const useTenant=()=>({data:{id:'tenant-fixture',name:'Synthetic shop',timezone:'UTC'}});`;
+      return `export const useTenant=()=>globalThis.__readQueries.settings;`;
     if (name === "useMyRole") return `export const useMyRole=()=>({data:'owner'});`;
     return `export const ${name}=()=>({mutateAsync:async(input)=>{globalThis.__readEffects.push([${JSON.stringify(name)},input]);return {};}});`;
   })
@@ -93,6 +93,14 @@ export function reset(spec={}) {
    isLoading:mode==='missing',isFetching:['missing','refreshing'].includes(mode),
    refetch:async()=>{globalThis.__readEffects.push(['refetch',key]);return {};}};
  }
+ const settingsMode=spec.settingsRead??'ready';
+ globalThis.__readQueries.settings={
+  data:['missing','error','paused'].includes(settingsMode)?undefined:{id:'tenant-fixture',name:'Synthetic shop',timezone:spec.timezone===undefined?'UTC':spec.timezone},
+  status:settingsMode.includes('error')?'error':['missing','paused'].includes(settingsMode)?'pending':'success',
+  fetchStatus:settingsMode==='paused'?'paused':['missing','refreshing'].includes(settingsMode)?'fetching':'idle',
+  isPlaceholderData:settingsMode==='placeholder',
+  refetch:async()=>{globalThis.__readEffects.push(['refetch','settings']);return {};}
+ };
 }
 export function update(spec) {
  const context=globalThis.__readContext;
@@ -152,7 +160,7 @@ const common = {
 await build({
   ...common,
   stdin: {
-    contents: `import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {MongezzApp, MoneyDetailsSheet} from 'fixture:app';import {InvoiceDetailScreen} from '@/features/invoices/InvoiceDetailScreen';import * as f from 'fixture:state';export function render(spec){f.reset(spec);const html=renderToStaticMarkup(React.createElement(MongezzApp));const ctx=f.context();const detailHtml=spec?.moneyDetails?renderToStaticMarkup(React.createElement(MoneyDetailsSheet,{totals:ctx.totals,period:ctx.period,reads:Object.values(ctx.financialReads),onRetry:ctx.retryFinancialReads,onClose:()=>{},onOpenProfit:()=>{}})):spec?.invoiceDetail?renderToStaticMarkup(React.createElement(InvoiceDetailScreen,{...ctx,openInvoiceId:'invoice-fixture'})):undefined;return {html,detailHtml,ctx,effects:f.effects()};}`,
+    contents: `import React from 'react';import {renderToStaticMarkup} from 'react-dom/server';import {MongezzApp, MoneyDetailsSheet} from 'fixture:app';import {InvoiceDetailScreen} from '@/features/invoices/InvoiceDetailScreen';import * as f from 'fixture:state';export function render(spec){f.reset(spec);const html=renderToStaticMarkup(React.createElement(MongezzApp));const ctx=f.context();const detailHtml=spec?.moneyDetails?renderToStaticMarkup(React.createElement(MoneyDetailsSheet,{totals:ctx.totals,period:ctx.period,reads:[...Object.values(ctx.financialReads),...(ctx.period==="day"?[ctx.tenantTimezoneRead]:[])],onRetry:ctx.retryFinancialReads,onClose:()=>{},onOpenProfit:()=>{}})):spec?.invoiceDetail?renderToStaticMarkup(React.createElement(InvoiceDetailScreen,{...ctx,openInvoiceId:'invoice-fixture'})):undefined;return {html,detailHtml,ctx,effects:f.effects()};}`,
     resolveDir: root,
     sourcefile: "financial-read-server.tsx",
     loader: "tsx",

@@ -115,6 +115,7 @@ const bindings = {
   clearInterval() {},
   window: { addEventListener() {}, removeEventListener() {} },
   financialReadState: (q) => ({ hasData: true, complete: true, phase: "ready" }),
+  tenantTimezoneReadState: () => ({ hasData: true, complete: true, phase: "ready" }),
   useTenantId: () => ({ data: "synthetic", isError: false }),
   useProducts: () => ({ data: empty }),
   useCustomers: () => ({ data: empty, isLoading: false }),

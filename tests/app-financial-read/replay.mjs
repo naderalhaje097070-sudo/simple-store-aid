@@ -175,6 +175,7 @@ await check("retry uses the existing read queries", async () => {
     ["refetch", "invoices"],
     ["refetch", "payments"],
     ["refetch", "expenses"],
+    ["refetch", "settings"],
   ]);
 });
 await check("missing tenant retry resolves tenant before financial reads", async () => {
@@ -186,6 +187,47 @@ await check("cached tenant-resolution failure retries tenant first", async () =>
   const { ctx, effects } = render({ tenantError: true });
   await ctx.retryFinancialReads();
   assert.deepEqual(effects, [["refetch", "tenant"]]);
+});
+for (const mode of ["missing", "error", "paused", "placeholder"]) {
+  await check(`timezone ${mode} cannot authorize daily summary or close`, async () => {
+    const { html, ctx, effects } = render({ settingsRead: mode });
+    assert.match(html, warning);
+    assert.doesNotMatch(html, /وضعك اليوم: جيد/);
+    assert.match(html, /غير متاح/);
+    await assert.rejects(() => ctx.closeDayAsync({}));
+    assert.deepEqual(effects, []);
+    for (const screen of ["profit", "day_close"]) {
+      const view = render({ screen, settingsRead: mode });
+      assert.match(view.html, /الملخص المالي غير متاح/);
+    }
+  });
+}
+await check("cached timezone failure retains known daily amounts and denies close", async () => {
+  const { html, ctx, effects } = render({ settingsRead: "cached-error" });
+  assert.match(html, warning);
+  assert.match(html, />40</);
+  assert.equal(ctx.totals.collected, 40);
+  await assert.rejects(() => ctx.closeDayAsync({}));
+  assert.deepEqual(effects, []);
+});
+await check("timezone read failure preserves independent debts and collection", async () => {
+  const { html, ctx, effects } = render({ screen: "debts", settingsRead: "error" });
+  assert.match(html, />60</);
+  assert.doesNotMatch(html, warning);
+  await ctx.collectDebtAsync({ orderId: "invoice-fixture", amount: 1, method: "cash" });
+  assert.equal(effects[0][0], "useCollectDebt");
+  await assert.rejects(() => ctx.closeDayAsync({}));
+});
+await check("successful nullable timezone retains approved default", () => {
+  const { html, ctx } = render({ timezone: null });
+  assert.equal(ctx.tenantTz, "Africa/Tripoli");
+  assert.equal(ctx.tenantTimezoneRead.complete, true);
+  assert.doesNotMatch(html, warning);
+});
+await check("timezone failure retries the settings query", async () => {
+  const { ctx, effects } = render({ settingsRead: "error" });
+  await ctx.retryFinancialReads();
+  assert.ok(effects.some(([kind, query]) => kind === "refetch" && query === "settings"));
 });
 writeFileSync(
   resolve(directory, "replay.json"),

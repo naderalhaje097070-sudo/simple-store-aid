@@ -89,4 +89,6 @@ jobs:
           path: |
             /tmp/lint-files.txt
             /tmp/lint.log
+            ${{ runner.temp }}/app-financial-read/browser.json
+            ${{ runner.temp }}/app-financial-read/replay.json
           if-no-files-found: warn

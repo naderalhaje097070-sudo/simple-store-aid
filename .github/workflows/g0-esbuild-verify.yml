@@ -1,13 +1,8 @@
-name: G0 esbuild explicit compatibility exception proof
+name: Historical G0 esbuild compatibility proof
+# Historical, esbuild-only proof. Its whole-manifest assertions are deliberately
+# tied to the original tested candidate; current source uses the integrated gates.
 on:
-  push:
-    branches: [test/g0-g1-acceptance-runtime-2026-10-14]
-    paths:
-      - .github/workflows/g0-esbuild-verify.yml
-      - tests/g0-esbuild/**
-      - tests/unit/dependency-security.test.ts
-      - package.json
-      - bun.lock
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -28,7 +23,7 @@ jobs:
         run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: 73e133b25a8a5167c6730eb82cf364268ad44373
           fetch-depth: 0
           persist-credentials: false
       - uses: actions/setup-node@v4

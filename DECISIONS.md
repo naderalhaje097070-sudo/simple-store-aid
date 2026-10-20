@@ -1,3 +1,11 @@
+## FOUNDATION-A — owner-authorized merge and evidence-based closure, 2026-10-20
+
+Owner «اذا كل شي تمام ادمج» authorized the concrete PR72/A8 proposal after final independent approval and all exact-head checks. Fresh head/base/clean checks passed. Use merge_method=merge and expected headad73a947; actual merge0c138a970a03d00084631f1fe51fd3713c424874 preserves the published history. Actual main tree equals the approved tree; protected288/manifest/41SQL and archived coverage/evidence are present. Existing post-merge Quality39448069522 passed.
+
+Only after that main verification, close32/33/48/52/53/54as superseded/incorporated; GitHub automatically recognized51merged via72. No claim that the three stacked security requests were separately merged into their old bases. Historical32financial design acceptance remains C5. Eight A requests are settled,20remain (B15/C5); preserve branches and failed evidence.
+
+The acceptance capsule is frozen; this outcome/root-state follow-up is documentation only, preserving every protected source blob/mode and manifest/migration identity. Canonical70plan records A8 complete and B1 next. Overall integration/release acceptance stays false; owner approval covered A merge and its planned coverage settlement, not deployment, B/C merges, production access or financial/commercial policy. No B source change begins in this completion record.
+
 ## FOUNDATION-A — preserve bounded proofs across source evolution, 2026-10-20
 
 Final51 acceptance supersedes421 only for the proposed current-source snapshot, with actual new G0/G1run39444611013/39444611354 and independent supplemental approval. Do not relabel earlier native or stored-finance runs. Source51 alters one protected historical workflow and its matching manifest entry; app/tests/lock/package/SQL and existing current gates remain unchanged.

@@ -1,0 +1,21 @@
+{
+  "actual_merge": "0c138a970a03d00084631f1fe51fd3713c424874",
+  "approved_tree": "8aaf45565280e7c1761696cd9193780ecd36cb63",
+  "protected_blobs": 288,
+  "migration_blobs": 41,
+  "all_protected_match": true,
+  "exact_tree_preserves_all_modes": true,
+  "executable_paths": [
+    "tests/e2e/run.sh",
+    "tests/financial-rules/run.sh"
+  ],
+  "manifest_matches": true,
+  "original_design_documents": 28,
+  "pr48_paths": 18,
+  "pr48_exact": 7,
+  "pr48_reconciled": 11,
+  "evidence_files": 78,
+  "index_hashes": 77,
+  "main_coverage_passed": true,
+  "verification_note": "An initial local assertion incorrectly required every protected file mode to be100644; diagnosed two existing100755 scripts. No blob mismatch. Actual merge tree equals the approved tree, preserving all modes."
+}

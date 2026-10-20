@@ -1,3 +1,11 @@
+## FOUNDATION-A — merged on main and all8 requests settled, 2026-10-20
+
+Owner explicitly approved the A8 merge. PR72 actual merge0c138a970a03d00084631f1fe51fd3713c424874 has the exact reviewed ad73a947 tree8aaf45565280e7c1761696cd9193780ecd36cb63. Post-merge main Quality39448069522 SUCCESS. All288 protected blobs/modes, manifest/41SQL,28original documents,18PR48paths,78acceptance files/77index hashes and51–54ancestry verified on main before closure. Native G0/G1 on tested source51 and all five final PR workflows remain correctly attributed. Main now contains the bounded accepted A fixes; this is not whole-product acceptance.
+
+A8 complete:72merged;51automatically recognized merged via72;32/33/48/52/53/54closed with main-coverage evidence and replacement links. Open PRs28→20: B15 and C5. Branches/history preserved. Actual merge/coverage/ancestry/settlement receipts are in docs/foundation-a-merge-2026-10-20. This follow-up completion checkpoint changes documentation only; final publication and automatic Quality results are recorded in55/70, with protected source identities unchanged from the merge.
+
+ONE NEXT: B1 under the existing70/comment6263266625 plan — reconcile account/permission/subscription chain56–71 above accepted A, explicitly inspect sibling67 and preserve A guards, using existing71 as representative. No B implementation claim begins in this completion record. B/C, account/billing/webhook and financial/populated/concurrency/restore/Pilot/release gates remain open; integration_accepted=false for the overall project. No deployment/production/cost/policy action occurred; further protected merge/deploy decisions remain with the owner. Earlier A8-pending blocks below are retained history.
+
 ## FOUNDATION-A — final source51 tested and reviewed; A8 owner decision, 2026-10-20
 
 Final protected candidate51b09a6f33a672704f8424cbf2bbed7a2be682ca/tree923cd6035c5ee102e159e8035d520ba7e6fd1a3f. Native G0run39444611013 and G1run39444611354 attempt1 SUCCESS: full audit{}, frozen/typecheck/full lint/build/generation,43read,10Chromium,40G1,288source blobs/41SQL,22stable table fingerprints and complete cleanup. Independent supplemental review: Approved for human merge within A; see docs/foundation-a-acceptance-2026-10-20/review-ESBUILD_LIFECYCLE_REVIEW.md. Earlier421 acceptance remains historical, not relabeled.

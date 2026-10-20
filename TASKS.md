@@ -1,3 +1,12 @@
+## FOUNDATION-A — A1–A8 complete on main; B1 next, 2026-10-20
+
+- [x] A8 owner approval received and PR72 merged at0c138a970a03d00084631f1fe51fd3713c424874, preserving additive history and the exact approved tree.
+- [x] Verify actual main coverage before settlement:288source identities/modes,manifest/41SQL,28original documents,PR48matrix18/18,78acceptance files/77hashes;51–54heads are ancestors. Post-merge Quality39448069522 SUCCESS.
+- [x] Settle all8Arequests:72merged;51automatically merged via72;32/33/48/52/53/54closed superseded/incorporated with evidence. Actual open count28→20.
+- [ ] B1 next: reconcile existing56–71 chain over accepted A, inspect sibling67 coverage and preserve A security/dependency/runtime guards. Use existing71; no new feature expansion. B2–B7 and C1–C7 remain as in the canonical70plan.
+
+Completion receipts: docs/foundation-a-merge-2026-10-20. The frozen source51 acceptance capsule and historical failures remain unchanged. Current documentation-only checkpoint/claim disposition and main Quality are recorded in55/70. No deployment, production mutation, new policy/spending or B/C merge approval. No active implementation claim is implied by the next-task entry. Earlier pending A8 entries below are historical.
+
 ## FOUNDATION-A — final A8 candidate51, 2026-10-20
 
 - [x] A1–A6 requirements and current-source acceptance: source51b09a6f33a672704f8424cbf2bbed7a2be682ca, G0run39444611013/G1run39444611354 attempt1 SUCCESS. Native43read/10UI/40G1,full audit/frozen/lint/typecheck/build/generation/identity/cleanup receipts retained. The application is unchanged from reviewed421; stored close_day remains truthfully onfabb with its independent arithmetic bridge.

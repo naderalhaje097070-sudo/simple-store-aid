@@ -1,0 +1,117 @@
+{
+  "main_merge": "0c138a970a03d00084631f1fe51fd3713c424874",
+  "main_quality": [
+    {
+      "id": 39448069522,
+      "name": "Quality",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "0c138a970a03d00084631f1fe51fd3713c424874",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39448069522"
+    }
+  ],
+  "remaining_open": [
+    {
+      "number": 27,
+      "head": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+      "base": "main"
+    },
+    {
+      "number": 35,
+      "head": "090d5564fa368f826316c9dc992a133c4e4872c4",
+      "base": "main"
+    },
+    {
+      "number": 39,
+      "head": "d9ba8709e903e290d375208a3469610f155ecb48",
+      "base": "fin/fin-idem-001-gates-0-3"
+    },
+    {
+      "number": 49,
+      "head": "3106b4710fb9214d6f406d5a3fe7bf44fa2823e6",
+      "base": "test/fin-courier-001-gate4-clean"
+    },
+    {
+      "number": 50,
+      "head": "193412a01938d752a98689d85acd727664e4dc8e",
+      "base": "impl/fin-courier-pr-a-candidate"
+    },
+    {
+      "number": 56,
+      "head": "b9aa56bc3bb30948d95961c06fd493dfb866f476",
+      "base": "sec/primary-env-001-reconcile-2026-10-10"
+    },
+    {
+      "number": 57,
+      "head": "fd2bed16a051a6d4de44f8b97c1a5ba9a36e50fc",
+      "base": "docs/primary-resume-001-2026-10-10"
+    },
+    {
+      "number": 58,
+      "head": "b8fd5e95ab1f6eee07bb6198da3169cd46916962",
+      "base": "test/env-native-01-lifecycle-intake-2026-10-10"
+    },
+    {
+      "number": 59,
+      "head": "fd95ad2e1966362719965ef282de1e2eb66cb070",
+      "base": "test/env-native-01-clean-baseline-2026-10-11"
+    },
+    {
+      "number": 60,
+      "head": "e4ee6bafc8adec292826769ec37ad1d21e97ae95",
+      "base": "fix/env-native-01-live-account-2026-10-11"
+    },
+    {
+      "number": 61,
+      "head": "315751c46678fa18ffc35dae1e8d6e2cb9b30335",
+      "base": "test/env-native-01-review-evidence-2026-10-11"
+    },
+    {
+      "number": 62,
+      "head": "26d6e271ad1a50a26390d25d3236edb5ab47fff7",
+      "base": "test/mcp-lifecycle-01-2026-10-11"
+    },
+    {
+      "number": 63,
+      "head": "3cb0d82afe31eb2d81538fd7ae631c10fdfa0357",
+      "base": "fix/mcp-local-issuer-2026-10-11"
+    },
+    {
+      "number": 64,
+      "head": "2ae95ed6175e0859b4c0a1d36d1110f99f19c792",
+      "base": "test/mcp-tanstack-route-2026-10-11"
+    },
+    {
+      "number": 65,
+      "head": "f37885b1ff5dcc9ab113e5cbee4516b485cedadd",
+      "base": "test/auth-natural-expiry-2026-10-12"
+    },
+    {
+      "number": 66,
+      "head": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+      "base": "docs/account-deletion-safety-intake-2026-10-12"
+    },
+    {
+      "number": 67,
+      "head": "6af3e15028a798752eda98c30924b7b30620a356",
+      "base": "test/owner-retention-catalog-2026-10-12"
+    },
+    {
+      "number": 68,
+      "head": "00923287d804f99faa1b70d28cece17f9f33eac3",
+      "base": "test/owner-retention-catalog-2026-10-12"
+    },
+    {
+      "number": 69,
+      "head": "92ebd529c79ae1df98ec02245d3c22d6bcfc557f",
+      "base": "fix/sec-truncate-01-2026-10-13"
+    },
+    {
+      "number": 71,
+      "head": "7f74b704c4b66d3da1605aa509b7c8e1eb104507",
+      "base": "docs/owner-closure-blocker-2026-10-13"
+    }
+  ],
+  "package_A_settled": true,
+  "no_deployment": true
+}

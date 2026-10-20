@@ -1,3 +1,13 @@
+## FOUNDATION-A — scope of accepted evidence and owner merge boundary, 2026-10-20
+
+Standing plan70/comment6263266625 and owner «استمر وفق الخطة» authorize routine completion of A1–A7 and concrete A8 preparation on the existing integration branch/PR72, without another PR or rewritten history. The earlier A6-only original72-untouched restriction is superseded for fast-forward PR preparation, not for main/merge/deploy/closure. Explicit owner approval remains required to merge; Review Protocol approval does not perform that action.
+
+Final executable source421774f has native G0/G1 evidence and an independent Approved for human merge verdict bounded to package A. Treat timezone settings query availability as part of the daily read basis; never substitute a default after a failed settings fetch. Preserve known cache/status and independently available non-daily actions. Use the same boundary for Pilot and close callback/UI. Terminate changed-lint options before Git-derived file paths. No formula/RPC/SQL, trial policy, provider or dependency change was needed for these demonstrated repairs.
+
+The stored close_day run is truthfully attributed to fabb481. Exact final arithmetic memo/41SQL identity plus independent fixture replay supports the bounded arithmetic comparison; it is not a new SQL run on421 or proof of financial REST/concurrency/populated-upgrade acceptance. These remain C gates. Actual source43-case, Chromium10-case and G1-40 results apply to421, not arbitrary later code.
+
+Documentation-only descendants preserve288protected blobs, the manifest and41SQL, restore28original32/33Markdown documents and retain all failed evidence. Restoring a historical design preserves its content without declaring every old proposed financial acceptance complete. PR48's7exact/11reconciled paths and remaining A ancestry have explicit coverage; every closure waits for owner-approved merge and actual main verification. B/C findings and overall integration_accepted=false remain visible. Final head/check/claim disposition is recorded in55/70/PR72; no production, cost or policy approval is inferred.
+
 ## FOUNDATION-A — preserve acceptance boundaries during resume, 2026-10-19
 
 Owner authorized resuming the existing A/B/C plan after Work stalled. Recovered local APP-01 is verified against canonical remote blobs and continued on the existing integration branch, without altering original72/main or creating another PR. Four bounded functional corrections have separate source commits; the final source snapshot/regrression wiring is fabb481. Evidence is additive.

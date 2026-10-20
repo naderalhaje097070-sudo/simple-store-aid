@@ -1,3 +1,18 @@
+## FOUNDATION-A — A1–A7 source acceptance complete; A8 owner decision, 2026-10-20
+
+Authoritative checklist70/comment6263266625, same integration branch, package representative PR72. Executable source421774f4bb2f6e541be8ca03faf3714e7c81bab8. Actual commands/results, failures, source provenance, independent review and rollback are in docs/foundation-a-acceptance-2026-10-20. Documentation publication and PR head are recorded in55/70; main43d6edb remains unchanged.
+
+- [x] A1 APP-01 incomplete financial reads: preserve cached known amounts with status, require complete reads for healthy zero and dependent actions; missing-customer protection retained.
+- [x] A2 APP-03 fetch actual trial expiry and distinguish loading/error/expiry without changing trial policy.
+- [x] A3 APP-04 refresh day/zone basis and memo dependencies; actual stored close_day nonempty three-zone proof plus unchanged final arithmetic/SQL and independent bridge. Unknown settings protect daily summaries/close/Pilot, while debt/collection/week/month remain independently available.
+- [x] A4 CI-1 fail on Git discovery errors, cover six source extensions and real lint failures; terminate ESLint options before path arguments. Original failing controls preserved.
+- [x] A5 preserve all eight requests:28original historical Markdown files from32/33; PR48 matrix7exact/11reconciled;52/53dependency/security and54isolation lineage preserved; full source delta vs main saved.
+- [x] A6 final421 native G0/G1 pass:43read/10Chromium/40G1, frozen/audit/full lint/typecheck/build/generation/288blob/41SQL/cleanup evidence retained. No promotion of old823results.
+- [x] A7 independent focused source review: all three in-scope blocking findings repaired and independently reverified; verdict Approved for human merge within A. Final docs preservation receipt accompanies the publication.
+- [ ] A8 owner decision: merge PR72/package A only after explicit permission. Verify accepted source/coverage on main, then settle all8requests and update actual open count. No request closes based solely on branch tests.
+
+ONE NEXT: the A8 owner merge decision after current PR Quality/docs checks. Routine preparation updates existing72 without new PR/history rewrite; no auto-merge/deployment. Claim6286335135 is released in55at handoff, with no hidden execution continuing. B1–B7 and C1–C7 remain pending; the older32financial design acceptance stays C5, not satisfied by the bounded close_day probe. Overall integration/release acceptance remains false. Preserve rollback/failure history and all owner-controlled merge/policy/spending boundaries.
+
 ## FOUNDATION-A checkpoint — 2026-10-19
 
 Standing owner instruction: finish the existing28PRs through A8/B15/C5; no routine reconfirmation, protected merge/deploy/policy decisions remain owner-only. Canonical simple-store-aid on naderalhaje097070-sudo.

@@ -6,13 +6,13 @@
   },
   {
     "name": "PR_COVERAGE.md",
-    "size": 5257,
-    "sha256": "16ce9d76ef2f6c8dfe88d0fc17713430fdc926a8f6c634f8c63132a06064a873"
+    "size": 5285,
+    "sha256": "53af13e5e014f6e8625678decccf9a3a89ad7d83e97cfa90a53bf7e406ea300a"
   },
   {
     "name": "REPORT.md",
-    "size": 9263,
-    "sha256": "4dcb8adc809b23c1f4872fff24c6b13f10c2a0f8db9810dabfef6879477454dd"
+    "size": 9853,
+    "sha256": "086c7ed1d455804d490ee31e8be057e45c5f1a51b610ffcfaa1ca678bd0421b3"
   },
   {
     "name": "app-final-replay.json",
@@ -28,6 +28,11 @@
     "name": "audit-fabb481-native.zip",
     "size": 161,
     "sha256": "82bf628be320a38aa5fb45a89746ba741296f02886537fa271e5c0b0227d370d"
+  },
+  {
+    "name": "capsule-source-identity.json",
+    "size": 430,
+    "sha256": "8594b8ea30029b22782921505719b21a4070786a184c14662fca61bb74fc1d1e"
   },
   {
     "name": "close-day-cleanup.json",
@@ -180,6 +185,11 @@
     "sha256": "e08ab77aa61dbe27ae05e4ea4c443a523a1c99139a0aef28cdd8c034ee81d91a"
   },
   {
+    "name": "review-FINAL_DOCS_VERIFICATION.md",
+    "size": 3186,
+    "sha256": "4068ae17e90cb4dcd14a0ffc00ec01a724147daf3c2498e01837737840444736"
+  },
+  {
     "name": "review-INITIAL_REVIEW.md",
     "size": 11507,
     "sha256": "f1e9cf806b7335084c79bcf51b6fdc2825f36d3d086c30cb610c4f46475758a9"
@@ -238,6 +248,11 @@
     "name": "review-pilot-timezone-regression.json",
     "size": 1354,
     "sha256": "c82bf2fc0bd663c3a921ba2ba18fec226566a84f4b32fd91d06361db09b98c5a"
+  },
+  {
+    "name": "review-publication-verification.json",
+    "size": 35682,
+    "sha256": "3eb08abaab0fd34815140d13cca2fa7eaf0d438207cd70d2a47522636e6294ae"
   },
   {
     "name": "review-settings-paid-failure.json",

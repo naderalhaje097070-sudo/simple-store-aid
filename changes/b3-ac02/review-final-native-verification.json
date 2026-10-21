@@ -1,0 +1,947 @@
+{
+  "source": "117f59289a01c56aeb764be27acfbb45663ec439",
+  "tree": "7314cc95072b41698019ef63b707d642382748e3",
+  "run_id": 39568502042,
+  "attempt": 1,
+  "checks": [
+    {
+      "name": "exact_source_native_success",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:.github/workflows/b3-tenant-entitlement.yml",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/API_COMPATIBILITY.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/DATA_IMPACT.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/DEPENDENCY_MAP.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/GENERATOR.json",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/IMPACT_ANALYSIS.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/INTAKE.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/MIGRATION_IMPACT.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/ROLLBACK_IMPACT.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/SECURITY_IMPACT.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/TENANT_ENTITLEMENT.sql",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/TEST_IMPACT.md",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:changes/b3-ac02/rollback-compensation.sql",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:supabase/migrations/20261021080927_tenant_entitlement_01.sql",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:tests/account-lifecycle/tenant_entitlement_probe.py",
+      "passed": true
+    },
+    {
+      "name": "exact_local_added_blob:tests/account-lifecycle/test_tenant_entitlement_probe.py",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_matches_remote_digest",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:progress.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:progress.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:safe_archive_path:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:extracted_matches_zip:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:receipt_matches_remote_log:after",
+      "passed": true
+    },
+    {
+      "name": "fresh:all_named_controls_true:after",
+      "passed": true
+    },
+    {
+      "name": "fresh:auth_protected_ten_rights_absent",
+      "passed": true
+    },
+    {
+      "name": "fresh:auth_other_seven_write_rights_and_all_select",
+      "passed": true
+    },
+    {
+      "name": "fresh:service_all_column_rights",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_trial_ends_at_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_trial_ends_at_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_trial_ends_at_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_trial_ends_at_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_trial_ends_at_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_trial_ends_at_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:mixed_update_atomic:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "fresh:new_and_conflict_upsert_denied:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "fresh:sql_DEFAULT_denial_and_invariance:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_status_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_status_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_status_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_status_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_status_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_status_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:mixed_update_atomic:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "fresh:new_and_conflict_upsert_denied:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "fresh:sql_DEFAULT_denial_and_invariance:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_plan_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_plan_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_subscription_plan_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_plan_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_plan_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_subscription_plan_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:mixed_update_atomic:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "fresh:new_and_conflict_upsert_denied:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "fresh:sql_DEFAULT_denial_and_invariance:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_customer_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_customer_id_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_customer_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_customer_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_customer_id_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_customer_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:mixed_update_atomic:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:new_and_conflict_upsert_denied:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:sql_DEFAULT_denial_and_invariance:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_subscription_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_subscription_id_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_patch_paddle_subscription_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_subscription_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_subscription_id_null",
+      "passed": true
+    },
+    {
+      "name": "fresh:precise_protected_denial:owner_insert_paddle_subscription_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "fresh:mixed_update_atomic:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:new_and_conflict_upsert_denied:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:sql_DEFAULT_denial_and_invariance:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "fresh:inactive_denial_tests_allowed_or_protected_write:banned_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "fresh:inactive_denial_tests_allowed_or_protected_write:closed_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "fresh:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "fresh:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_settings",
+      "passed": true
+    },
+    {
+      "name": "fresh:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_protected_patch",
+      "passed": true
+    },
+    {
+      "name": "fresh:disabled_staff_transition_and_unaffected_controls",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:actual_client_onboarding_minimal_payload",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:original_trial_defaults_preserved",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:existing_trigger_owner_and_profile_link",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:safe_metadata_upsert_supported",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:safe_upsert_does_not_reset_entitlement_defaults",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:expired_trial_helper_false",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:helper_stays_false_after_attack",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:trusted_trial_helper_true",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:trusted_insert_all_five_persisted",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:B2_ordinary_scanner_still_denied",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:no_financial_rows_written",
+      "passed": true
+    },
+    {
+      "name": "fresh:positive_or_invariant:tracked_source_unchanged",
+      "passed": true
+    },
+    {
+      "name": "fresh:source_exact47_versions",
+      "passed": true
+    },
+    {
+      "name": "fresh:all23_fingerprint_entries",
+      "passed": true
+    },
+    {
+      "name": "fresh:no_package_B_acceptance",
+      "passed": true
+    },
+    {
+      "name": "fresh:actual_postgres17_6",
+      "passed": true
+    },
+    {
+      "name": "fresh:45_advisor_warnings_retained",
+      "passed": true
+    },
+    {
+      "name": "fresh:containment_and_cleanup",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_matches_remote_digest",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:catalog-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:catalog-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:entitlement-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:entitlement-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:progress.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:progress.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:safe_archive_path:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:extracted_matches_zip:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:receipt_matches_remote_log:before",
+      "passed": true
+    },
+    {
+      "name": "upgrade:all_named_controls_true:before",
+      "passed": true
+    },
+    {
+      "name": "upgrade:receipt_matches_remote_log:after",
+      "passed": true
+    },
+    {
+      "name": "upgrade:all_named_controls_true:after",
+      "passed": true
+    },
+    {
+      "name": "upgrade:auth_protected_ten_rights_absent",
+      "passed": true
+    },
+    {
+      "name": "upgrade:auth_other_seven_write_rights_and_all_select",
+      "passed": true
+    },
+    {
+      "name": "upgrade:service_all_column_rights",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_trial_ends_at_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_trial_ends_at_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_trial_ends_at_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_trial_ends_at_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_trial_ends_at_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_trial_ends_at_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:mixed_update_atomic:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "upgrade:new_and_conflict_upsert_denied:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "upgrade:sql_DEFAULT_denial_and_invariance:trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_status_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_status_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_status_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_status_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_status_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_status_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:mixed_update_atomic:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "upgrade:new_and_conflict_upsert_denied:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "upgrade:sql_DEFAULT_denial_and_invariance:subscription_status",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_plan_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_plan_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_subscription_plan_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_plan_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_plan_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_subscription_plan_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:mixed_update_atomic:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "upgrade:new_and_conflict_upsert_denied:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "upgrade:sql_DEFAULT_denial_and_invariance:subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_customer_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_customer_id_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_customer_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_customer_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_customer_id_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_customer_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:mixed_update_atomic:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:new_and_conflict_upsert_denied:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:sql_DEFAULT_denial_and_invariance:paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_subscription_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_subscription_id_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_patch_paddle_subscription_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_subscription_id_explicit",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_subscription_id_null",
+      "passed": true
+    },
+    {
+      "name": "upgrade:precise_protected_denial:owner_insert_paddle_subscription_id_same_value",
+      "passed": true
+    },
+    {
+      "name": "upgrade:mixed_update_atomic:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:new_and_conflict_upsert_denied:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:sql_DEFAULT_denial_and_invariance:paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "upgrade:inactive_denial_tests_allowed_or_protected_write:banned_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "upgrade:inactive_denial_tests_allowed_or_protected_write:closed_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "upgrade:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_minimal_insert",
+      "passed": true
+    },
+    {
+      "name": "upgrade:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_settings",
+      "passed": true
+    },
+    {
+      "name": "upgrade:inactive_denial_tests_allowed_or_protected_write:disabled_employee_old_jwt_protected_patch",
+      "passed": true
+    },
+    {
+      "name": "upgrade:disabled_staff_transition_and_unaffected_controls",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:actual_client_onboarding_minimal_payload",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:original_trial_defaults_preserved",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:existing_trigger_owner_and_profile_link",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:safe_metadata_upsert_supported",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:safe_upsert_does_not_reset_entitlement_defaults",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:expired_trial_helper_false",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:helper_stays_false_after_attack",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:trusted_trial_helper_true",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:trusted_insert_all_five_persisted",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:B2_ordinary_scanner_still_denied",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:no_financial_rows_written",
+      "passed": true
+    },
+    {
+      "name": "upgrade:positive_or_invariant:tracked_source_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upgrade:source_exact47_versions",
+      "passed": true
+    },
+    {
+      "name": "upgrade:all23_fingerprint_entries",
+      "passed": true
+    },
+    {
+      "name": "upgrade:no_package_B_acceptance",
+      "passed": true
+    },
+    {
+      "name": "upgrade:actual_postgres17_6",
+      "passed": true
+    },
+    {
+      "name": "upgrade:original46_baseline_and_red_bug",
+      "passed": true
+    },
+    {
+      "name": "upgrade:immediate_full_data_preservation",
+      "passed": true
+    },
+    {
+      "name": "upgrade:only_target_acl_effective_catalog_changed",
+      "passed": true
+    },
+    {
+      "name": "upgrade:non_auth_tenant_acl_and_effective_preserved",
+      "passed": true
+    },
+    {
+      "name": "upgrade:exact_two_table_privileges_removed",
+      "passed": true
+    },
+    {
+      "name": "upgrade:45_advisor_warnings_retained",
+      "passed": true
+    },
+    {
+      "name": "upgrade:containment_and_cleanup",
+      "passed": true
+    },
+    {
+      "name": "general_audit_high_barrier_remains",
+      "passed": true
+    }
+  ],
+  "passed": 207,
+  "failed": 0,
+  "native_results": [
+    {
+      "mode": "fresh",
+      "controls": 240,
+      "postgres_version": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+      "advisor_levels": {
+        "WARN": 45
+      }
+    },
+    {
+      "mode": "upgrade",
+      "controls": 211,
+      "postgres_version": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+      "advisor_levels": {
+        "WARN": 45
+      }
+    }
+  ],
+  "artifact_members": [
+    {
+      "mode": "fresh",
+      "file": "advisors.txt",
+      "sha256": "b815e161a8e4897b85db88ac0ac7298bdd0a7df8539838f4628a819f040344c7"
+    },
+    {
+      "mode": "fresh",
+      "file": "catalog-after.json",
+      "sha256": "748db44a7c9eb75789603dbefe7e43b652eb3be06269c66a80e19295b2dd0b21"
+    },
+    {
+      "mode": "fresh",
+      "file": "cleanup.json",
+      "sha256": "a851dbef1b0e2f91ff3be71ce032b0986d6ca6f6631403292c51699274ca224a"
+    },
+    {
+      "mode": "fresh",
+      "file": "entitlement-after.json",
+      "sha256": "980433275a350660ecc1a79bbd9a3d8783c6fba3dc1526764d1ca203532c31dc"
+    },
+    {
+      "mode": "fresh",
+      "file": "migrations.txt",
+      "sha256": "df0902e74d2572f9559bbbefde8a54a64bbd1cdf1481e1a14331f20dfc271502"
+    },
+    {
+      "mode": "fresh",
+      "file": "progress.json",
+      "sha256": "c32a9dd1783e2afc2b9951cef14df77af314421bb5f00c8ccba6a17f938cd00e"
+    },
+    {
+      "mode": "fresh",
+      "file": "runtime-images.txt",
+      "sha256": "40e0303e39f2099e959c6553e3baa6d4e9a3cc986a3f5cd446c86174dfd7f3ff"
+    },
+    {
+      "mode": "upgrade",
+      "file": "advisors.txt",
+      "sha256": "b815e161a8e4897b85db88ac0ac7298bdd0a7df8539838f4628a819f040344c7"
+    },
+    {
+      "mode": "upgrade",
+      "file": "catalog-after.json",
+      "sha256": "748db44a7c9eb75789603dbefe7e43b652eb3be06269c66a80e19295b2dd0b21"
+    },
+    {
+      "mode": "upgrade",
+      "file": "catalog-before.json",
+      "sha256": "90fc1cbe7040e578681a48520e06c4baee051798afb367acfc59ba0b86cafa3f"
+    },
+    {
+      "mode": "upgrade",
+      "file": "cleanup.json",
+      "sha256": "a851dbef1b0e2f91ff3be71ce032b0986d6ca6f6631403292c51699274ca224a"
+    },
+    {
+      "mode": "upgrade",
+      "file": "entitlement-after.json",
+      "sha256": "93cb15849ebfca146c285cd50244fc009a0088fa4e620a1255fc9e7669617946"
+    },
+    {
+      "mode": "upgrade",
+      "file": "entitlement-before.json",
+      "sha256": "2cd1dcf75cd1aba595a5d0d739851de205a5ca5d6e19e5d02100690e11b04492"
+    },
+    {
+      "mode": "upgrade",
+      "file": "migrations.txt",
+      "sha256": "df0902e74d2572f9559bbbefde8a54a64bbd1cdf1481e1a14331f20dfc271502"
+    },
+    {
+      "mode": "upgrade",
+      "file": "progress.json",
+      "sha256": "50c9ef1a77ff04ffed699b381e17f113e169a531ebc425b80d53ecefa6259358"
+    },
+    {
+      "mode": "upgrade",
+      "file": "runtime-images.txt",
+      "sha256": "40e0303e39f2099e959c6553e3baa6d4e9a3cc986a3f5cd446c86174dfd7f3ff"
+    }
+  ],
+  "independence": "Reviewer executed only pure local oracle/source checks; native Supabase results were independently fetched/replayed, not rerun live by reviewer.",
+  "scope_limits": [
+    "explicit and same_value share one stored value; only two distinct values per field including null",
+    "homogeneous bulk only",
+    "financial tables empty",
+    "SQL DEFAULT assertion checks42501; raw SQL stderr not separately archived",
+    "no provider/browser/concurrency/production test",
+    "no whole-B merge/RC acceptance; DEP-20261021 High remains open"
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "candidate": "8f266bb4c0d12391b34073d43503bfded074d450",
+  "tree": "bc68b5f63c9c5086146e67920c4abc647eb605cd",
+  "base": "b6ee480f6b11901e8714569f22ad6c63ae088d1a",
+  "candidate_blobs": 1435,
+  "base_blobs": 1419,
+  "original_changes": [],
+  "delta": [
+    {
+      "path": ".github/workflows/b3-tenant-entitlement.yml",
+      "before": null,
+      "after": {
+        "sha": "cb68c031de5feb989ab46f2dde54c2c199e3d700",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/API_COMPATIBILITY.md",
+      "before": null,
+      "after": {
+        "sha": "e78ab6c1029b9dc6bd32cbaa9bdab793753500a3",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/DATA_IMPACT.md",
+      "before": null,
+      "after": {
+        "sha": "3d46a5a4b93594b7bc0a69756d8e70e65539b4b3",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/DEPENDENCY_MAP.md",
+      "before": null,
+      "after": {
+        "sha": "974d12d1b5cb8f2fbe80e6ebe6cc3080fabd6bfa",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/GENERATOR.json",
+      "before": null,
+      "after": {
+        "sha": "db93a704b8cf3a04fe874a7319b29f780a6c43bf",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/IMPACT_ANALYSIS.md",
+      "before": null,
+      "after": {
+        "sha": "8926ab03ffb8da3c3d28ce4c4aac777342dac827",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/INTAKE.md",
+      "before": null,
+      "after": {
+        "sha": "9d7ad3560e17b5741b80dc5876af3dfeed6251c5",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/MIGRATION_IMPACT.md",
+      "before": null,
+      "after": {
+        "sha": "82bb1b7b6e5773c2941b38eb17d838a267b07297",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/ROLLBACK_IMPACT.md",
+      "before": null,
+      "after": {
+        "sha": "f6fc4aee85cb1465632a5ceae8236ce5220bfb04",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/SECURITY_IMPACT.md",
+      "before": null,
+      "after": {
+        "sha": "3c30b0e933933a8266df0db65abe4afd234b89eb",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/TENANT_ENTITLEMENT.sql",
+      "before": null,
+      "after": {
+        "sha": "d43f6635bd9b6d7e9ec1798840e8b8b70f076200",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/TEST_IMPACT.md",
+      "before": null,
+      "after": {
+        "sha": "0543fdcb9742dfb485d2c526fce9f376ebd3f646",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "changes/b3-ac02/rollback-compensation.sql",
+      "before": null,
+      "after": {
+        "sha": "e8d3cbefafe57bfbb3a326d48abee9c63ed684c6",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "supabase/migrations/20261021080927_tenant_entitlement_01.sql",
+      "before": null,
+      "after": {
+        "sha": "d43f6635bd9b6d7e9ec1798840e8b8b70f076200",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "tests/account-lifecycle/tenant_entitlement_probe.py",
+      "before": null,
+      "after": {
+        "sha": "92f8f4bc644c6ad107912a77bf9ee605bbdc6abc",
+        "mode": "100644"
+      }
+    },
+    {
+      "path": "tests/account-lifecycle/test_tenant_entitlement_probe.py",
+      "before": null,
+      "after": {
+        "sha": "2c4c55dd1d2a054a584340c41bbaf011d4a2cca7",
+        "mode": "100644"
+      }
+    }
+  ],
+  "protected": {
+    "before": 346,
+    "after": 350
+  },
+  "migrations": {
+    "before": 46,
+    "after": 47
+  },
+  "truncated": false
+}

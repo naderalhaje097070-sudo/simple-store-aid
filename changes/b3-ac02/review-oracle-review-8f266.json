@@ -1,0 +1,100 @@
+{
+  "source": "8f266bb4c0d12391b34073d43503bfded074d450",
+  "new_unit_suite": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0
+  },
+  "independent_truth_table": [
+    {
+      "name": "permission403",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "permission401",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "server_error",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "invalid_value",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "constraint",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "expired_token",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "wrong_error",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "unknown_empty",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "known_rls_empty",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "name": "visible_success",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "malformed403",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "name": "redirect",
+      "expected": false,
+      "actual": false
+    }
+  ],
+  "unit_suite_mutation_controls": [
+    {
+      "name": "accept_generic_http_errors",
+      "rejected": true,
+      "failed_assertions": 6,
+      "errors": 0
+    },
+    {
+      "name": "accept_all_empty_success",
+      "rejected": true,
+      "failed_assertions": 1,
+      "errors": 0
+    },
+    {
+      "name": "accept_nonempty_success",
+      "rejected": true,
+      "failed_assertions": 1,
+      "errors": 0
+    },
+    {
+      "name": "reject_real_permission_denials",
+      "rejected": true,
+      "failed_assertions": 2,
+      "errors": 0
+    }
+  ],
+  "proposal_migration_identical": true,
+  "proposal_sha256": "ba73676bfd7ae7b030105ea050067aa0585584946a4aa4406dab2cf8e933d21f",
+  "db_auth_provider_workflow_actions": false,
+  "limits": "Pure denial-oracle and source checks; RLS contexts and PostgreSQL grants require native evidence."
+}

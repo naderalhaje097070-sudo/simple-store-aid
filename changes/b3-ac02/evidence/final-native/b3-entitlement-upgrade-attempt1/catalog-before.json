@@ -1,0 +1,472 @@
+{
+  "defaults": "0fad2e789a16eb60d1e52e49d653d2e2",
+  "policies": "250693a257528fc819a34227cccad9bb",
+  "triggers": "5cccced191023845f73b0f3f45117e7f",
+  "effective": {
+    "anon": {
+      "id": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "name": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "timezone": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "created_at": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "updated_at": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "business_type": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "owner_user_id": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "trial_ends_at": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "subscription_plan": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "paddle_customer_id": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "subscription_status": {
+        "insert": false,
+        "select": false,
+        "update": false
+      },
+      "paddle_subscription_id": {
+        "insert": false,
+        "select": false,
+        "update": false
+      }
+    },
+    "service_role": {
+      "id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "name": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "timezone": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "created_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "updated_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "business_type": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "owner_user_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "trial_ends_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "subscription_plan": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "paddle_customer_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "subscription_status": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "paddle_subscription_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      }
+    },
+    "authenticated": {
+      "id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "name": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "timezone": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "created_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "updated_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "business_type": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "owner_user_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "trial_ends_at": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "subscription_plan": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "paddle_customer_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "subscription_status": {
+        "insert": true,
+        "select": true,
+        "update": true
+      },
+      "paddle_subscription_id": {
+        "insert": true,
+        "select": true,
+        "update": true
+      }
+    }
+  },
+  "functions": "6c81263889e3eca0f1da55d0fc44431e",
+  "column_acl": {
+    "id": null,
+    "name": null,
+    "timezone": null,
+    "created_at": null,
+    "updated_at": null,
+    "business_type": null,
+    "owner_user_id": null,
+    "trial_ends_at": null,
+    "subscription_plan": null,
+    "paddle_customer_id": null,
+    "subscription_status": null,
+    "paddle_subscription_id": null
+  },
+  "tenant_acl": [
+    "postgres=arwdDxtm/postgres",
+    "authenticated=arwxtm/postgres",
+    "service_role=arwdDxtm/postgres"
+  ],
+  "constraints": "8e25bfdbb219fcd130f51258aaf9ed16",
+  "other_relations": "2067538abea7e29137c6c345926b5e66",
+  "role_memberships": [
+    {
+      "role": "pg_monitor",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_monitor",
+      "member": "supabase_etl_admin",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_monitor",
+      "member": "supabase_read_only_user",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_read_all_settings",
+      "member": "pg_monitor",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_read_all_stats",
+      "member": "pg_monitor",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_stat_scan_tables",
+      "member": "pg_monitor",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_signal_backend",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_read_all_data",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_read_all_data",
+      "member": "supabase_etl_admin",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_read_all_data",
+      "member": "supabase_read_only_user",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "pg_create_subscription",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "anon",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "anon",
+      "member": "authenticator",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "authenticated",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "authenticated",
+      "member": "authenticator",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "service_role",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "service_role",
+      "member": "authenticator",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "authenticator",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "authenticator",
+      "member": "supabase_storage_admin",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "supabase_privileged_role",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "supabase_privileged_role",
+      "member": "supabase_etl_admin",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "supabase_functions_admin",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    },
+    {
+      "role": "supabase_realtime_admin",
+      "member": "postgres",
+      "grantor": "supabase_admin"
+    }
+  ],
+  "tenant_structure": {
+    "oid": "17801",
+    "rls": true,
+    "force": false,
+    "owner": "16384"
+  },
+  "tenant_acl_expanded": [
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "DELETE"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "INSERT"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "MAINTAIN"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "REFERENCES"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "SELECT"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "TRIGGER"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "TRUNCATE"
+    },
+    {
+      "grantee": "16384",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "UPDATE"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "INSERT"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "MAINTAIN"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "REFERENCES"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "SELECT"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "TRIGGER"
+    },
+    {
+      "grantee": "16444",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "UPDATE"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "DELETE"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "INSERT"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "MAINTAIN"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "REFERENCES"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "SELECT"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "TRIGGER"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "TRUNCATE"
+    },
+    {
+      "grantee": "16445",
+      "grantor": "16384",
+      "grantable": false,
+      "privilege": "UPDATE"
+    }
+  ]
+}

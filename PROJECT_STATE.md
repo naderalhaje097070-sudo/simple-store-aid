@@ -1,3 +1,13 @@
+> CURRENT — B3 / AC-02 runtime verified on integration only, 2026-10-21.
+> Exact executable `117f59289a01c56aeb764be27acfbb45663ec439`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where B2/B3 are absent.
+> Native39568502042: fresh47 has240 passing controls; populated46 baseline52 reproduces client trial/billing writes and entitlement-helper bypass; corrected47 has211 passing controls. Existing346 protected paths and46SQL are exact; current350/47. Legitimate onboarding/settings/default14day trial and trusted service rights remain supported.
+> Independent scoped review accepts AC-02 and completes B3 technical review. Formal current-head merge outcome: Changes required due to DEP-20261021 High; no package-B merge/RC approval.
+> General merge blocker DEP-20261021: current G0 full audit exits1 with8 distinct advisories/3 High on unchanged dependencies. The old A manifest also rejects the B protected-source superset. No audit/identity waiver or whole-B/RC acceptance; B4/B5/B6/B7 remain open.
+> ONE NEXT: B4 / APP-02 subscription-event persistence acknowledgment, no real provider calls. Resolve current dependency findings and source-identity reconciliation before B5/B6 final acceptance.
+> No merge, deployment, new/closed PR or production action;20 original draft PR heads/bases remain unchanged. Claim #55/comment6311099521 is completed/released at final handoff; no new execution claim implied.
+> See `changes/b3-ac02/RESULT.md`, `COVERAGE.md`, `DEPENDENCY_AUDIT_BLOCKER.md`, native receipts and independent review.
+> This notice supersedes older CURRENT / ONE NEXT notices below; historical evidence follows unchanged.
+
 > CURRENT — B2 / AC-01 corrected on the integration candidate, 2026-10-20.
 > Exact executable source `7a4fb5811c35a053109860c3155074087b930489`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where this correction is absent.
 > Final native fresh46:95 checks; populated45-to46 upgrade:48 baseline controls reproduce the old bypass and59 corrected-state checks pass. All original B1 paths and45 SQL remain byte/mode exact.

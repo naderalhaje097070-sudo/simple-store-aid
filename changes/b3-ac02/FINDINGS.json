@@ -1,0 +1,26 @@
+{
+  "source": "117f59289a01c56aeb764be27acfbb45663ec439",
+  "findings": [
+    {
+      "id": "AC-02",
+      "severity": "Medium",
+      "status": "accepted on candidate only after final native and independent technical review",
+      "main_fixed": false,
+      "impact": "client-writable trial/billing metadata and stored entitlement-helper bypass; no enforced paywall claim"
+    },
+    {
+      "id": "DEP-20261021",
+      "severity": "High",
+      "status": "open general merge/RC blocker",
+      "introduced_by_B3": false,
+      "evidence": "G0 audit39568502010/job119116554257",
+      "unique_advisories": 8,
+      "application_reachability": "not fully established",
+      "owner": "implementation stream before B5/B6",
+      "detail": "DEPENDENCY_AUDIT_BLOCKER.md"
+    }
+  ],
+  "scoped_B3_accepted": true,
+  "current_head_merge_outcome": "Changes required",
+  "review_sha256": "9f8150a5190d1e2fff0d7616b7772c48a32f3c94d5ac6f67d27c830da67ff650"
+}

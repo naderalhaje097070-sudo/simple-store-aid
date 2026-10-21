@@ -1,0 +1,1079 @@
+{
+  "source_sha": "8f266bb4c0d12391b34073d43503bfded074d450",
+  "controls": [
+    {
+      "name": "exact47_source_migrations",
+      "passed": true
+    },
+    {
+      "name": "exact_chain_after",
+      "passed": true
+    },
+    {
+      "name": "financial_tables_empty",
+      "passed": true
+    },
+    {
+      "name": "owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "banned_owner_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_owner_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "banned_owner_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_owner_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_owner_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "closed_owner_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_owner_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "closed_owner_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "onboarding_auth_user_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "onboarding_real_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_settings_before_name",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_settings_before_business_type",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_settings_before_timezone",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "after_settings_before_protected_values_preserved",
+      "passed": true
+    },
+    {
+      "name": "after_service_before",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "effective_protected_write_rights_absent",
+      "passed": true
+    },
+    {
+      "name": "effective_other_seven_write_rights_preserved",
+      "passed": true
+    },
+    {
+      "name": "service_all_column_rights_retained",
+      "passed": true
+    },
+    {
+      "name": "actual_client_onboarding_minimal_payload",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "original_trial_defaults_preserved",
+      "passed": true
+    },
+    {
+      "name": "existing_trigger_owner_and_profile_link",
+      "passed": true
+    },
+    {
+      "name": "new_client_settings_name",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_client_settings_business_type",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_client_settings_timezone",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_client_settings_protected_values_preserved",
+      "passed": true
+    },
+    {
+      "name": "nonempty_protected_seed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_patch_trial_ends_at_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_trial_ends_at_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_trial_ends_at_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_trial_ends_at_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_trial_ends_at_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_trial_ends_at_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_trial_ends_at_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_trial_ends_at_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_trial_ends_at_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_trial_ends_at_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_trial_ends_at_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_trial_ends_at_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "mixed_setting_trial_ends_at",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "mixed_setting_trial_ends_at_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "upsert_trial_ends_at_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_trial_ends_at_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upsert_new_trial_ends_at_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_new_trial_ends_at_unchanged",
+      "passed": true
+    },
+    {
+      "name": "INSERT_explicit_DEFAULT_trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "INSERT_DEFAULT_trial_ends_at_unchanged",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_explicit_DEFAULT_trial_ends_at",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_DEFAULT_trial_ends_at_unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_status_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_status_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_status_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_status_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_status_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_status_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_status_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_status_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_status_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_status_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_status_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_status_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "mixed_setting_subscription_status",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "mixed_setting_subscription_status_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "upsert_subscription_status_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_subscription_status_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upsert_new_subscription_status_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_new_subscription_status_unchanged",
+      "passed": true
+    },
+    {
+      "name": "INSERT_explicit_DEFAULT_subscription_status",
+      "passed": true
+    },
+    {
+      "name": "INSERT_DEFAULT_subscription_status_unchanged",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_explicit_DEFAULT_subscription_status",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_DEFAULT_subscription_status_unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_plan_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_plan_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_plan_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_plan_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_plan_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_plan_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_plan_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_plan_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_subscription_plan_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_subscription_plan_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_subscription_plan_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_subscription_plan_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "mixed_setting_subscription_plan",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "mixed_setting_subscription_plan_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "upsert_subscription_plan_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_subscription_plan_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upsert_new_subscription_plan_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_new_subscription_plan_unchanged",
+      "passed": true
+    },
+    {
+      "name": "INSERT_explicit_DEFAULT_subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "INSERT_DEFAULT_subscription_plan_unchanged",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_explicit_DEFAULT_subscription_plan",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_DEFAULT_subscription_plan_unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_customer_id_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_customer_id_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "mixed_setting_paddle_customer_id",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "mixed_setting_paddle_customer_id_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "upsert_paddle_customer_id_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_paddle_customer_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upsert_new_paddle_customer_id_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_new_paddle_customer_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "INSERT_explicit_DEFAULT_paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "INSERT_DEFAULT_paddle_customer_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_explicit_DEFAULT_paddle_customer_id",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_DEFAULT_paddle_customer_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_explicit",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_explicit_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_null",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_null_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_patch_paddle_subscription_id_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_same_value",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "owner_insert_paddle_subscription_id_same_value_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "mixed_setting_paddle_subscription_id",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "mixed_setting_paddle_subscription_id_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "upsert_paddle_subscription_id_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_paddle_subscription_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "upsert_new_paddle_subscription_id_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "upsert_new_paddle_subscription_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "INSERT_explicit_DEFAULT_paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "INSERT_DEFAULT_paddle_subscription_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_explicit_DEFAULT_paddle_subscription_id",
+      "passed": true
+    },
+    {
+      "name": "UPDATE_DEFAULT_paddle_subscription_id_unchanged",
+      "passed": true
+    },
+    {
+      "name": "safe_metadata_upsert_supported",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "safe_upsert_does_not_reset_entitlement_defaults",
+      "passed": true
+    },
+    {
+      "name": "multirow_protected_update_atomic",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "multirow_protected_update_atomic_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "homogeneous_bulk_insert_atomic",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "homogeneous_bulk_insert_atomic_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "cross_tenant_protected_patch",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "cross_tenant_protected_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "cross_tenant_settings_rls",
+      "passed": true,
+      "status": 200,
+      "sqlstate": null
+    },
+    {
+      "name": "cross_tenant_settings_rls_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "forged_owner_insert_rls",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "forged_owner_insert_rls_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_a_known_own_tenant_visible",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_a_settings_rls",
+      "passed": true,
+      "status": 200,
+      "sqlstate": null
+    },
+    {
+      "name": "staff_a_settings_rls_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_a_protected_patch",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_a_protected_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_a_protected_own_insert",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_a_protected_own_insert_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_b_known_own_tenant_visible",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_b_settings_rls",
+      "passed": true,
+      "status": 200,
+      "sqlstate": null
+    },
+    {
+      "name": "staff_b_settings_rls_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_b_protected_patch",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_b_protected_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "staff_b_protected_own_insert",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "staff_b_protected_own_insert_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "anonymous_patch",
+      "passed": true,
+      "status": 401,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anonymous_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "anonymous_insert",
+      "passed": true,
+      "status": 401,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "anonymous_insert_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "banned_before_transition_name",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_before_transition_business_type",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_before_transition_timezone",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_before_transition_protected_values_preserved",
+      "passed": true
+    },
+    {
+      "name": "actual_ban_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "banned_old_jwt_protected_patch",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "banned_old_jwt_protected_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "banned_old_jwt_settings",
+      "passed": true,
+      "status": 200,
+      "sqlstate": null
+    },
+    {
+      "name": "banned_old_jwt_settings_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "closed_before_transition_name",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_before_transition_business_type",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_before_transition_timezone",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_before_transition_protected_values_preserved",
+      "passed": true
+    },
+    {
+      "name": "actual_closure_confirmed",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_old_jwt_protected_patch",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "closed_old_jwt_protected_patch_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "closed_old_jwt_settings",
+      "passed": true,
+      "status": 200,
+      "sqlstate": null
+    },
+    {
+      "name": "closed_old_jwt_settings_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "helper_response_209",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expired_trial_helper_false",
+      "passed": true
+    },
+    {
+      "name": "client_cannot_extend_entitlement",
+      "passed": true,
+      "status": 403,
+      "sqlstate": "42501"
+    },
+    {
+      "name": "client_cannot_extend_entitlement_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "helper_response_213",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "helper_stays_false_after_attack",
+      "passed": true
+    },
+    {
+      "name": "service_after_denials",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "helper_response_216",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "trusted_trial_helper_true",
+      "passed": true
+    },
+    {
+      "name": "trusted_insert_all_five_persisted",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_B_unaffected_after_denials_name",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_unaffected_after_denials_business_type",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_unaffected_after_denials_timezone",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_unaffected_after_denials_protected_values_preserved",
+      "passed": true
+    },
+    {
+      "name": "B2_ordinary_scanner_still_denied",
+      "passed": true
+    },
+    {
+      "name": "no_financial_rows_written",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ]
+}

@@ -9,8 +9,10 @@ on:
       - 'src/routes/api/public/payments/webhook.ts'
       - 'changes/b4-app02/WEBHOOK_PERSISTENCE.sql'
       - 'changes/b4-app02/WEBHOOK_BOOTSTRAP.sql'
+      - 'changes/b4-app02/WEBHOOK_ERRORS.sql'
       - 'supabase/migrations/*_webhook_persistence_01.sql'
       - 'supabase/migrations/*_webhook_bootstrap_01.sql'
+      - 'supabase/migrations/*_webhook_errors_01.sql'
 permissions:
   contents: read
 jobs:
@@ -72,16 +74,17 @@ jobs:
           supabase migration up --help > "$RUNNER_TEMP/migration-up-help.txt"
           grep -q -- '--local' "$RUNNER_TEMP/migration-up-help.txt"
           cmp changes/b4-app02/WEBHOOK_PERSISTENCE.sql supabase/migrations/*_webhook_persistence_01.sql
-          count="$(find supabase/migrations -name '*_webhook_bootstrap_01.sql' | wc -l)"
+          cmp changes/b4-app02/WEBHOOK_BOOTSTRAP.sql supabase/migrations/*_webhook_bootstrap_01.sql
+          count="$(find supabase/migrations -name '*_webhook_errors_01.sql' | wc -l)"
           if [[ "$count" == 0 ]]; then
             echo 'ready=false' >> "$GITHUB_OUTPUT"
             work="$RUNNER_TEMP/app02-generator"
             mkdir -p "$work"
             supabase --workdir "$work" init > "$RUNNER_TEMP/generator-init.log" 2>&1
-            supabase --workdir "$work" migration new webhook_bootstrap_01 > "$RUNNER_TEMP/generator-new.log" 2>&1
-            generated="$(find "$work/supabase/migrations" -name '*_webhook_bootstrap_01.sql')"
+            supabase --workdir "$work" migration new webhook_errors_01 > "$RUNNER_TEMP/generator-new.log" 2>&1
+            generated="$(find "$work/supabase/migrations" -name '*_webhook_errors_01.sql')"
             test -n "$generated"
-            cp changes/b4-app02/WEBHOOK_BOOTSTRAP.sql "$generated"
+            cp changes/b4-app02/WEBHOOK_ERRORS.sql "$generated"
             mkdir -p "$RUNNER_TEMP/generated-migration"
             cp "$generated" "$RUNNER_TEMP/generated-migration/"
             GENERATED_FILE="$generated" python - <<'PY'
@@ -89,12 +92,12 @@ jobs:
           from pathlib import Path
           p=Path(os.environ['GENERATED_FILE'])
           r={'filename':p.name,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'cli':'2.101.0',
-             'command':'supabase migration new webhook_bootstrap_01','source':os.environ['GITHUB_SHA'],'database_started':False}
+             'command':'supabase migration new webhook_errors_01','source':os.environ['GITHUB_SHA'],'database_started':False}
           (Path(os.environ['RUNNER_TEMP'])/'generated-migration/generator.json').write_text(json.dumps(r,indent=2)+'\n')
           print('APP02_GENERATOR '+json.dumps(r))
           PY
           elif [[ "$count" == 1 ]]; then
-            cmp changes/b4-app02/WEBHOOK_BOOTSTRAP.sql supabase/migrations/*_webhook_bootstrap_01.sql
+            cmp changes/b4-app02/WEBHOOK_ERRORS.sql supabase/migrations/*_webhook_errors_01.sql
             echo 'ready=true' >> "$GITHUB_OUTPUT"
           else
             exit 2
@@ -102,7 +105,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: steps.detect.outputs.ready == 'false'
         with:
-          name: b4-cli-generated-bootstrap
+          name: b4-cli-generated-errors
           path: ${{ runner.temp }}/generated-migration/
           retention-days: 7
   persistence:
@@ -188,7 +191,7 @@ jobs:
           mkdir -p "$stack/supabase/migrations"
           cp supabase/migrations/*.sql "$stack/supabase/migrations/"
           if [[ "$CONTRACT_MODE" == upgrade ]]; then
-            rm "$stack"/supabase/migrations/*_webhook_persistence_01.sql "$stack"/supabase/migrations/*_webhook_bootstrap_01.sql
+            rm "$stack"/supabase/migrations/*_webhook_persistence_01.sql "$stack"/supabase/migrations/*_webhook_bootstrap_01.sql "$stack"/supabase/migrations/*_webhook_errors_01.sql
           fi
           if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then
             echo 'APP02_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'
@@ -209,7 +212,7 @@ jobs:
             python tests/account-lifecycle/webhook_persistence_probe.py --expected-source "$EXPECTED_SOURCE" \
               --status-file /tmp/monjez-app02/status.json --evidence-dir /tmp/monjez-app02/evidence \
               --private-state /tmp/monjez-app02/private-state.json --phase before
-          cp supabase/migrations/*_webhook_persistence_01.sql supabase/migrations/*_webhook_bootstrap_01.sql "$RUNNER_TEMP/monjez-app02-stack/supabase/migrations/"
+          cp supabase/migrations/*_webhook_persistence_01.sql supabase/migrations/*_webhook_bootstrap_01.sql supabase/migrations/*_webhook_errors_01.sql "$RUNNER_TEMP/monjez-app02-stack/supabase/migrations/"
           supabase --workdir "$RUNNER_TEMP/monjez-app02-stack" migration up --local > "$RUNNER_TEMP/upgrade-private.log" 2>&1
       - name: Actual authorization and invariance
         shell: bash

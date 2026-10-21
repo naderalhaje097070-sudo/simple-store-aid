@@ -176,6 +176,7 @@ class WebhookProbe(ScannerProbe):
         self.control('creation_recovery_stream_absent',prior_created is None,previous_flag=prior_created['cancel_at_period_end'] if prior_created else None)
         self.send('created_original_fields_commit',e)
         created_row=self.row(e);created_receipt=self.receipt(e)
+        self.control('rejected_missing_update_has_no_late_receipt',self.sql("select count(*) from monjez_private.billing_webhook_receipts where environment='live' and event_id='"+bootstrap['event']+"';")=='0')
         self.control('created_cancel_default_false',created_row['cancel_at_period_end'] is False,observed_flag=created_row['cancel_at_period_end'],receipt_outcome=created_receipt['outcome'],request_flag=created_receipt['request']['subscription']['cancel_at_period_end'],resolved_flag=created_receipt['resolved_state']['cancel_at_period_end'],event_type=e['type'])
         self.send('updated_replay_after_created_commits',bootstrap)
         self.control('updated_preserves_created_plan_price',self.row(e)['product_id']=='synthetic-plan' and self.row(e)['price_id']=='synthetic-price' and self.row(e)['cancel_at_period_end'] is True)
@@ -291,8 +292,9 @@ class WebhookProbe(ScannerProbe):
           'public_execute',(select exists(select 1 from pg_proc p,lateral aclexplode(p.proacl) a where p.oid='public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)'::regprocedure and a.grantee=0 and a.privilege_type='EXECUTE')),
           'private',(select jsonb_agg(jsonb_build_object('name',c.relname,'rls',c.relrowsecurity,'auth',has_table_privilege('authenticated',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE'),'anon',has_table_privilege('anon',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE'),'service_truncate',has_table_privilege('service_role',c.oid,'TRUNCATE'),'service_delete',has_table_privilege('service_role',c.oid,'DELETE'))) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='monjez_private' and c.relname in ('billing_tenant_bindings','billing_webhook_receipts'))
         );""")
-        expected=(ROOT/'changes/b4-app02/WEBHOOK_BOOTSTRAP.sql').read_text().split('$function$')[1]
+        expected=(ROOT/'changes/b4-app02/WEBHOOK_ERRORS.sql').read_text().split('$function$')[1]
         self.control('new_RPC_actual_body_matches_forward_correction',data['body']==expected)
+        self.control('application_errors_never_use_serialization_SQLSTATE',"ERRCODE='40001'" not in data['body'] and data['body'].count("ERRCODE='P0001'")>=10)
         self.control('new_RPC_security_invoker_and_pinned_path',data['definer'] is False and 'search_path=pg_catalog, pg_temp' in data['settings'])
         self.control('new_RPC_explicit_service_only',data['execute']=={'anon':False,'authenticated':False,'service_role':True} and data['public_execute'] is False)
         self.control('new_private_tables_RLS_no_client_or_destructive_service_grants',len(data['private'])==2 and all(t['rls'] and not any(t[k] for k in ('auth','anon','service_truncate','service_delete')) for t in data['private']))
@@ -305,9 +307,9 @@ class WebhookProbe(ScannerProbe):
 
     def run(self, phase, state):
         files=sorted((ROOT/'supabase/migrations').glob('*.sql'))
-        self.control('source_exact49_migrations',len(files)==49 and files[-2].name.endswith('_webhook_persistence_01.sql') and files[-1].name.endswith('_webhook_bootstrap_01.sql'))
+        self.control('source_exact50_migrations',len(files)==50 and files[-3].name.endswith('_webhook_persistence_01.sql') and files[-2].name.endswith('_webhook_bootstrap_01.sql') and files[-1].name.endswith('_webhook_errors_01.sql'))
         versions=self.query('select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;')
-        self.control('native_exact_chain_'+phase,versions==[p.name.split('_')[0] for p in (files[:-2] if phase=='before' else files)])
+        self.control('native_exact_chain_'+phase,versions==[p.name.split('_')[0] for p in (files[:-3] if phase=='before' else files)])
         self.control('financial_empty_at_start',all(self.counts()[t]==0 for t in FINANCE_TABLES))
         if phase=='before' or not state.exists():
             actors=self.seed(state)

@@ -12,6 +12,43 @@ on:
 permissions:
   contents: read
 jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MONGEZZ_DEPLOY_TARGET: ci
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: app02-offline-placeholder
+      VITE_SUPABASE_PROJECT_ID: app02-offline
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Frozen dependencies
+        run: bun install --frozen-lockfile
+      - name: Generated formatting
+        run: node scripts/format-generated.mjs --check
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Full lint
+        run: bun run lint
+      - name: Original unit tests
+        run: bun run test:unit
+      - name: Original wire regression
+        run: node tests/account-lifecycle/oc_app_wire.test.mjs
+      - name: Signed webhook handler controls
+        run: node --test tests/account-lifecycle/webhook_handler.test.cjs
+      - name: Build
+        run: bun run build
+      - name: Generation retains tracked files
+        run: git diff --exit-code
   prepare:
     runs-on: ubuntu-latest
     outputs:
@@ -20,6 +57,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: supabase/setup-cli@v2
         with:
           version: '2.101.0'
@@ -80,6 +118,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -91,6 +130,7 @@ jobs:
           bun-version: '1.2.14'
       - name: Frozen install and signed handler controls
         run: |
+          git cat-file -e dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0:src/routes/api/public/payments/webhook.ts
           bun install --frozen-lockfile
           node --test tests/account-lifecycle/webhook_handler.test.cjs
       - uses: supabase/setup-cli@v2

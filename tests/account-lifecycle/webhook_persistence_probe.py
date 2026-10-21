@@ -166,7 +166,9 @@ class WebhookProbe(ScannerProbe):
                 self.send(name+'_same_event_recovery',event)
                 self.control(name+'_one_receipt',self.receipt(event)['outcome']=='applied')
         # Duplicate delivery, alternate notification IDs, lost response and concurrent replay.
-        e=self.event(a);self.send('created_commits',e)
+        bootstrap=self.event(a,type='subscription.updated')
+        self.send('updated_before_created_empty_cache_bootstraps',bootstrap)
+        e=self.next_event(bootstrap,type='subscription.created');self.send('created_equal_snapshot_confirmed',e)
         self.control('created_required_state_visible',self.row(e)['status']=='active' and self.tenant(a)['paddle_subscription_id']==e['sub'])
         self.send('duplicate_exact_delivery',e,unchanged=True)
         equal_type=self.next_event(e,type='subscription.updated')
@@ -242,6 +244,10 @@ class WebhookProbe(ScannerProbe):
             else:code,_=self.request('POST','/rest/v1/rpc/close_owner_account',{},token=actor['token'])
             self.control(label+'_actual_transition',code==200)
             self.send(label+'_trusted_billing_still_durable',self.event(actor))
+        code,_=self.request('PUT','/auth/v1/admin/users/'+actors['staff_b']['uid'],{'ban_duration':'24h'},admin=True)
+        self.control('actual_employee_B_disabled',code==200)
+        code,rows=self.own_rows(actors['staff_a'],'tenants')
+        self.control('active_employee_A_remains_visible',code==200 and len(rows)==1)
         for label in ('anonymous','a','b','staff_a','staff_b','banned','closed'):
             actor=actors.get(label);before=self.snapshot()
             code,body=self.request('POST',RPC,payload,token=actor['token'] if actor else None)

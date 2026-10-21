@@ -106,7 +106,7 @@ BEGIN
   END IF;
   SELECT * INTO v_old FROM public.subscriptions WHERE paddle_subscription_id=v_subscription_id FOR UPDATE;
   SELECT * INTO v_history FROM monjez_private.billing_webhook_receipts
-    WHERE paddle_subscription_id=v_subscription_id LIMIT 1;
+    WHERE environment IN ('sandbox','live') AND paddle_subscription_id=v_subscription_id LIMIT 1;
   IF FOUND AND (v_history.environment IS DISTINCT FROM p_environment OR v_old.id IS NULL) THEN
     RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_historical_identity_requires_reconciliation';
   END IF;

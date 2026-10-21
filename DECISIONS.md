@@ -1,3 +1,9 @@
+## B4 / APP-02 — transactional subscription callback persistence (2026-10-21, candidate only)
+
+The existing signed handler acknowledges database failures and partial writes. Supported callbacks therefore use one service-only SECURITY INVOKER database transaction for subscription, required live cache/binding, and private durable receipt. Exact event retries are idempotent; ambiguous ordering, legacy clocks, missing identity and SQL errors return retryable failure. Provider occurredAt remains a microsecond string, and timestamps beyond database precision are rejected. No provider API lookup or raw payload logging is introduced.
+
+Existing billing readers use environment-qualified subscriptions ordered by created_at. New rows use the immutable provider entity creation time; existing legacy rows keep their arrival timestamps, with conservative ambiguity rejection in both environments. Only created can replace a non-null live binding; non-current updates remain durable without rebinding. Sandbox never mutates the global tenant live cache. Existing canceled-period, trial, financial and retention contracts are preserved. No backfill, historical migration rewrite, rollout, merge or whole-B acceptance is implied. See changes/b4-app02 for limitations and native proof status.
+
 > CURRENT — B2 / AC-01 corrected on the integration candidate, 2026-10-20.
 > Exact executable source `7a4fb5811c35a053109860c3155074087b930489`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where this correction is absent.
 > Final native fresh46:95 checks; populated45-to46 upgrade:48 baseline controls reproduce the old bypass and59 corrected-state checks pass. All original B1 paths and45 SQL remain byte/mode exact.

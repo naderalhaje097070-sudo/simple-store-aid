@@ -1,0 +1,3 @@
+# B4 / APP-02 dependency map
+
+POST route → existing verifyWebhook(raw Request,selected env) → locked Paddle3.8.0 SDK unmarshal/signature → typed normalized supported-event input → Supabase2.110.5 rpc/abortSignal → service-only transaction → subscriptions and tenants live projection + monjez_private billing receipts. Existing billing UI reads subscriptions by tenant+environment; no runtime consumer of tenant subscription_status/plan/customer/subscription cache was found outside webhook. Entitlement helper reads environment-qualified subscriptions/trial_ends_at and remains unchanged. A identity/lock gates and B2/B3 source/grants preserved.

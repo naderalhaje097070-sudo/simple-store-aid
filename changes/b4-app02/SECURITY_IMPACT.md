@@ -1,0 +1,3 @@
+# B4 / APP-02 security impact
+
+Inherited APP-02 High confirmed offline. Deny client/anon/employee new RPC and ledger access; service privilege must be genuine invocation role, not payload/JWT role text. Verify signatures using existing selected-environment secret before any DB request. Reject unknown env, invalid supported payloads, owner/customer/subscription reassignment and environment ID collisions. Logs use fixed safe reason labels, never raw exception/payment identifiers. Existing B2 scanner and B3 protected tenant columns remain exact. Private ledger RLS enabled and all unwanted grants/truncate revoked. Native least-privilege, cross-tenant, two staff/disabled staff and service positive controls required.

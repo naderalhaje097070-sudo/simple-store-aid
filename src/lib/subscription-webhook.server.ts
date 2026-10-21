@@ -117,7 +117,11 @@ export function subscriptionWrite(event: VerifiedEvent, env: PaddleEnv): Subscri
         ? timestamp(data.currentBillingPeriod.startsAt)
         : null,
       period_end: data.currentBillingPeriod ? timestamp(data.currentBillingPeriod.endsAt) : null,
-      cancel_at_period_end: data.scheduledChange?.action === "cancel",
+      // The original created handler omitted this column (new-row default false).
+      // Existing rows retain their stored flag inside the transaction.
+      cancel_at_period_end:
+        event.eventType !== EventName.SubscriptionCreated &&
+        data.scheduledChange?.action === "cancel",
     },
   };
 }

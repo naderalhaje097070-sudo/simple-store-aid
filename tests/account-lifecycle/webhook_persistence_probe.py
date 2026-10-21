@@ -125,6 +125,9 @@ class WebhookProbe(ScannerProbe):
         self.control('baseline_subscription_partial_write_without_tenant',self.row(e) is not None and self.tenant(a)['paddle_subscription_id']!=e['sub'])
         self.unfault('public.tenants')
         self.send('BASELINE_UPDATED_MISSING_ROW_FALSE_200',self.event(a,type='subscription.updated'),baseline=True,unchanged=True)
+        created_flag=self.event(a,cancel=True)
+        self.send('BASELINE_CREATED_SCHEDULED_CANCEL_DEFAULT',created_flag,baseline=True)
+        self.control('baseline_created_cancel_flag_false',self.row(created_flag)['cancel_at_period_end'] is False)
         self.sql("UPDATE public.tenants SET paddle_subscription_id=NULL,paddle_customer_id=NULL,subscription_plan=NULL,subscription_status='trialing' WHERE id='"+a['tenant']+"'; DELETE FROM public.subscriptions;")
 
     def make_legacy(self, actor, number, display=False):
@@ -158,20 +161,24 @@ class WebhookProbe(ScannerProbe):
         # Every required SQL target must roll back on both real error and RETURN NULL.
         for table in ('public.subscriptions','public.tenants','monjez_private.billing_tenant_bindings','monjez_private.billing_webhook_receipts'):
             for kind in ('error','zero'):
-                event=self.event(b,created=stamp(10+self.sequence),at=stamp(1000+self.sequence))
+                event=self.event(b,created=stamp(10+self.sequence),at=stamp(1000+self.sequence),cancel=True)
                 name=table.replace('.','_')+'_'+kind
                 self.fault(table,kind)
                 self.send(name+'_retryable_atomic',event,503,True)
                 self.unfault(table)
                 self.send(name+'_same_event_recovery',event)
-                self.control(name+'_one_receipt',self.receipt(event)['outcome']=='applied')
+                self.control(name+'_one_receipt',self.receipt(event)['outcome']=='applied' and self.row(event)['cancel_at_period_end'] is False)
         # Duplicate delivery, alternate notification IDs, lost response and concurrent replay.
-        bootstrap=self.event(a,type='subscription.updated')
-        self.send('updated_before_created_empty_cache_bootstraps',bootstrap)
-        e=self.next_event(bootstrap,type='subscription.created');self.send('created_equal_snapshot_confirmed',e)
+        bootstrap=self.event(a,type='subscription.updated',cancel=True,product='updated-plan',price='updated-price')
+        self.send('updated_before_created_empty_cache_retries',bootstrap,503,True)
+        e=self.next_event(bootstrap,type='subscription.created',at='2026-01-01T00:00:01Z',product='synthetic-plan',price='synthetic-price')
+        self.send('created_original_fields_commit',e)
+        self.control('created_cancel_default_false',self.row(e)['cancel_at_period_end'] is False)
+        self.send('updated_replay_after_created_commits',bootstrap)
+        self.control('updated_preserves_created_plan_price',self.row(e)['product_id']=='synthetic-plan' and self.row(e)['price_id']=='synthetic-price' and self.row(e)['cancel_at_period_end'] is True)
         self.control('created_required_state_visible',self.row(e)['status']=='active' and self.tenant(a)['paddle_subscription_id']==e['sub'])
         self.send('duplicate_exact_delivery',e,unchanged=True)
-        equal_type=self.next_event(e,type='subscription.updated')
+        equal_type=self.next_event(bootstrap,type='subscription.created',product='synthetic-plan',price='synthetic-price')
         before_row=self.row(e);before_tenant=self.tenant(a)
         self.send('equal_time_different_event_type_same_written_state',equal_type)
         self.control('equal_time_cross_type_no_timestamp_write',self.row(e)==before_row and self.tenant(a)==before_tenant and self.receipt(equal_type)['outcome']=='unchanged')
@@ -198,7 +205,11 @@ class WebhookProbe(ScannerProbe):
         # Out-of-order stream bootstrap with current pointer A: updated B is durable but non-current;
         # an older created B then binds its newest stored status, and late A never rebinds.
         newer=self.event(a,type='subscription.updated',created='2026-02-01T00:00:00Z',at='2026-07-01T00:00:00Z',status='past_due')
-        self.send('updated_B_before_created_B_durable',newer)
+        self.send('updated_B_missing_stream_before_created_retries',newer,503,True)
+        # A pre-existing public row from the old nontransactional handler can still receive
+        # non-current updates before its created notification arrives. Do not invent bootstrap history.
+        self.sql("INSERT INTO public.subscriptions(tenant_id,user_id,paddle_subscription_id,paddle_customer_id,product_id,price_id,status,current_period_start,current_period_end,environment,created_at,updated_at) VALUES ('"+a['tenant']+"','"+a['uid']+"','"+newer['sub']+"','ctm_"+'c'*26+"','synthetic-plan','synthetic-price','active','2026-01-01T00:00:00Z','2026-03-01T00:00:00Z','live','2026-02-01T00:00:00Z','2026-02-01T00:00:00Z');")
+        self.send('updated_existing_B_before_created_notification_durable',newer)
         self.control('non_current_stream_does_not_rebind',self.receipt(newer)['outcome']=='non_current' and self.tenant(a)['paddle_subscription_id']==e['sub'])
         created=self.next_event(newer,type='subscription.created',at='2026-02-01T00:00:01Z',status='active')
         self.send('late_created_B_binds_latest_stored_state',created)
@@ -224,6 +235,16 @@ class WebhookProbe(ScannerProbe):
         self.send('missing_metadata_is_not_success',self.event(a,noMetadata=True),422,True)
         self.send('missing_item_is_not_success',self.event(a,noItems=True),422,True)
         # Environment isolation uses the selected secret; no sandbox cache/binding mutations.
+        missing_cancel=self.event(b,type='subscription.canceled',status='canceled',at='2026-05-01T00:00:00Z',noPeriod=True)
+        self.send('canceled_before_created_empty_stream_retries',missing_cancel,503,True)
+        self.send('canceled_full_period_still_requires_creation',{**missing_cancel,'noPeriod':False},503,True)
+        cancel_created=self.next_event(missing_cancel,type='subscription.created',status='active',at='2026-02-01T00:00:00Z',noPeriod=False)
+        self.send('canceled_stream_creation_recovery',cancel_created)
+        cancel_update=self.next_event(cancel_created,type='subscription.updated',at='2026-03-01T00:00:00Z',cancel=True,product='changed-plan',price='changed-price')
+        self.send('canceled_stream_prior_scheduled_change',cancel_update)
+        self.send('canceled_missing_period_replay_preserves_history',missing_cancel)
+        canceled_row=self.row(missing_cancel)
+        self.control('reversed_canceled_arrival_preserves_original_contract',canceled_row['status']=='canceled' and canceled_row['cancel_at_period_end'] is True and canceled_row['current_period_end'].startswith('2026-03-01') and canceled_row['product_id']=='synthetic-plan')
         live=self.tenant(a);sandbox=self.event(a,env='sandbox',created='2026-09-01T00:00:00Z',at='2026-09-02T00:00:00Z')
         self.send('sandbox_own_subscription_commits',sandbox)
         self.control('sandbox_never_changes_live_cache',self.tenant(a)==live and self.row(sandbox)['environment']=='sandbox')
@@ -260,12 +281,15 @@ class WebhookProbe(ScannerProbe):
 
     def security_catalog(self):
         data=self.query("""select jsonb_build_object(
+          'body',(select prosrc from pg_proc where oid='public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)'::regprocedure),
           'definer',(select prosecdef from pg_proc where oid='public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)'::regprocedure),
           'settings',(select proconfig from pg_proc where oid='public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)'::regprocedure),
           'execute',(select jsonb_object_agg(r,has_function_privilege(r,'public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)','EXECUTE')) from unnest(array['anon','authenticated','service_role']) r),
           'public_execute',(select exists(select 1 from pg_proc p,lateral aclexplode(p.proacl) a where p.oid='public.apply_subscription_webhook(text,text,text,timestamptz,jsonb)'::regprocedure and a.grantee=0 and a.privilege_type='EXECUTE')),
           'private',(select jsonb_agg(jsonb_build_object('name',c.relname,'rls',c.relrowsecurity,'auth',has_table_privilege('authenticated',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE'),'anon',has_table_privilege('anon',c.oid,'SELECT,INSERT,UPDATE,DELETE,TRUNCATE'),'service_truncate',has_table_privilege('service_role',c.oid,'TRUNCATE'),'service_delete',has_table_privilege('service_role',c.oid,'DELETE'))) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='monjez_private' and c.relname in ('billing_tenant_bindings','billing_webhook_receipts'))
         );""")
+        expected=(ROOT/'changes/b4-app02/WEBHOOK_BOOTSTRAP.sql').read_text().split('$function$')[1]
+        self.control('new_RPC_actual_body_matches_forward_correction',data['body']==expected)
         self.control('new_RPC_security_invoker_and_pinned_path',data['definer'] is False and 'search_path=pg_catalog, pg_temp' in data['settings'])
         self.control('new_RPC_explicit_service_only',data['execute']=={'anon':False,'authenticated':False,'service_role':True} and data['public_execute'] is False)
         self.control('new_private_tables_RLS_no_client_or_destructive_service_grants',len(data['private'])==2 and all(t['rls'] and not any(t[k] for k in ('auth','anon','service_truncate','service_delete')) for t in data['private']))
@@ -278,9 +302,9 @@ class WebhookProbe(ScannerProbe):
 
     def run(self, phase, state):
         files=sorted((ROOT/'supabase/migrations').glob('*.sql'))
-        self.control('source_exact48_migrations',len(files)==48 and files[-1].name.endswith('_webhook_persistence_01.sql'))
+        self.control('source_exact49_migrations',len(files)==49 and files[-2].name.endswith('_webhook_persistence_01.sql') and files[-1].name.endswith('_webhook_bootstrap_01.sql'))
         versions=self.query('select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;')
-        self.control('native_exact_chain_'+phase,versions==[p.name.split('_')[0] for p in (files[:-1] if phase=='before' else files)])
+        self.control('native_exact_chain_'+phase,versions==[p.name.split('_')[0] for p in (files[:-2] if phase=='before' else files)])
         self.control('financial_empty_at_start',all(self.counts()[t]==0 for t in FINANCE_TABLES))
         if phase=='before' or not state.exists():
             actors=self.seed(state)

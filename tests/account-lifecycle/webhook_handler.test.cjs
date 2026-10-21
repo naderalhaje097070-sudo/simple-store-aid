@@ -143,3 +143,8 @@ test("deadline returns retryable response and aborts, without claiming rollback"
   assert.ok(Date.now() - start >= 3400 && Date.now() - start < 4800);
   assert.deepEqual(logs, ["persistence_failed"]);
 });
+
+test("created scheduled cancel retains original new-row default false", async () => {
+  const event = await verifyWebhook(request({ ...spec, cancel: true }), "sandbox");
+  assert.equal(subscriptionWrite(event, "sandbox").p_subscription.cancel_at_period_end, false);
+});

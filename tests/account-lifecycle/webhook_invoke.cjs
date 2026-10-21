@@ -64,7 +64,7 @@ function fixture(spec) {
     status: "active",
     created_at: created,
     updated_at: created,
-    import_meta: { external_id: "synthetic-plan", imported_from: "fixture" },
+    import_meta: { external_id: spec.product || "synthetic-plan", imported_from: "fixture" },
   };
   const price = {
     id: "pri_" + "p".repeat(26),
@@ -78,7 +78,7 @@ function fixture(spec) {
     status: "active",
     created_at: created,
     updated_at: created,
-    import_meta: { external_id: "synthetic-price", imported_from: "fixture" },
+    import_meta: { external_id: spec.price || "synthetic-price", imported_from: "fixture" },
   };
   const event = {
     event_id: spec.event,
@@ -164,7 +164,8 @@ if (require.main === module) {
         };
       }),
     );
-    process.stdout.write(JSON.stringify(results) + "\n");
+    // All handler responses are resolved. Flush the safe summary, then close test-only keepalive handles.
+    process.stdout.write(JSON.stringify(results) + "\n", () => process.exit(0));
   })().catch(() => {
     process.stderr.write("APP02_INVOCATION_FAILED\n");
     process.exitCode = 2;

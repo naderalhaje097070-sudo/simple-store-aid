@@ -172,8 +172,11 @@ class WebhookProbe(ScannerProbe):
         bootstrap=self.event(a,type='subscription.updated',cancel=True,product='updated-plan',price='updated-price')
         self.send('updated_before_created_empty_cache_retries',bootstrap,503,True)
         e=self.next_event(bootstrap,type='subscription.created',at='2026-01-01T00:00:01Z',product='synthetic-plan',price='synthetic-price')
+        prior_created=self.row(e)
+        self.control('creation_recovery_stream_absent',prior_created is None,previous_flag=prior_created['cancel_at_period_end'] if prior_created else None)
         self.send('created_original_fields_commit',e)
-        self.control('created_cancel_default_false',self.row(e)['cancel_at_period_end'] is False)
+        created_row=self.row(e);created_receipt=self.receipt(e)
+        self.control('created_cancel_default_false',created_row['cancel_at_period_end'] is False,observed_flag=created_row['cancel_at_period_end'],receipt_outcome=created_receipt['outcome'],request_flag=created_receipt['request']['subscription']['cancel_at_period_end'],resolved_flag=created_receipt['resolved_state']['cancel_at_period_end'],event_type=e['type'])
         self.send('updated_replay_after_created_commits',bootstrap)
         self.control('updated_preserves_created_plan_price',self.row(e)['product_id']=='synthetic-plan' and self.row(e)['price_id']=='synthetic-price' and self.row(e)['cancel_at_period_end'] is True)
         self.control('created_required_state_visible',self.row(e)['status']=='active' and self.tenant(a)['paddle_subscription_id']==e['sub'])
@@ -312,8 +315,10 @@ class WebhookProbe(ScannerProbe):
             legacy={'event':self.make_legacy(actors['legacy'],9000),'display':self.make_legacy(actors['legacy_order'],9001)}
         else:
             saved=json.loads(state.read_text());actors=saved['actors'];legacy=saved['legacy']
-            self.control('populated_upgrade_all_existing_data_preserved',self.snapshot(False)==saved['snapshot'])
-            self.control('populated_upgrade_existing_catalog_preserved',self.catalog()==saved['catalog'])
+            preservation={'source':self.source,'before_fingerprints':saved['snapshot'],'after_fingerprints':self.snapshot(False),'before_catalog':saved['catalog'],'after_catalog':self.catalog()}
+            (self.evidence_dir/'populated-preservation.json').write_text(json.dumps(preservation,indent=2)+'\n')
+            self.control('populated_upgrade_all_existing_data_preserved',preservation['before_fingerprints']==preservation['after_fingerprints'])
+            self.control('populated_upgrade_existing_catalog_preserved',preservation['before_catalog']==preservation['after_catalog'])
             self.control('populated_upgrade_new_private_tables_empty',all(self.snapshot()[n]['count']==0 for n in PRIVATE))
         if phase=='before':
             state.write_text(json.dumps({'actors':actors,'legacy':legacy,'snapshot':self.snapshot(False),'catalog':self.catalog()}));state.chmod(0o600)

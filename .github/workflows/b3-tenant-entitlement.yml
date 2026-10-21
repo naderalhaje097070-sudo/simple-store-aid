@@ -170,15 +170,24 @@ jobs:
             python tests/account-lifecycle/tenant_entitlement_probe.py --expected-source "$EXPECTED_SOURCE" \
               --status-file /tmp/monjez-ac02/status.json --evidence-dir /tmp/monjez-ac02/evidence \
               --private-state /tmp/monjez-ac02/private-state.json --phase after
+      - name: Runtime image identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker ps --format '{{.Image}}' | sort -u > "$RUNNER_TEMP/runtime-images.txt"
+          sudo install -m 600 -o ac02 -g ac02 "$RUNNER_TEMP/runtime-images.txt" /tmp/monjez-ac02/evidence/runtime-images.txt
       - name: Local migration history and advisor availability
         shell: bash
         run: |
           set -euo pipefail
           supabase --workdir "$RUNNER_TEMP/monjez-ac02-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
+          sudo install -m 600 -o ac02 -g ac02 "$RUNNER_TEMP/migrations.txt" /tmp/monjez-ac02/evidence/migrations.txt
           if grep -q -- '--local' "$RUNNER_TEMP/advisors-help.txt"; then
             supabase --workdir "$RUNNER_TEMP/monjez-ac02-stack" db advisors --local > "$RUNNER_TEMP/advisors-private.txt" 2>&1
+            sudo install -m 600 -o ac02 -g ac02 "$RUNNER_TEMP/advisors-private.txt" /tmp/monjez-ac02/evidence/advisors.txt
           else
             echo 'AC02_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'
+            echo 'local advisor unavailable; no remote fallback' | sudo -u ac02 tee /tmp/monjez-ac02/evidence/advisors-unavailable.txt
           fi
       - name: Cleanup and safe final receipts
         id: publication

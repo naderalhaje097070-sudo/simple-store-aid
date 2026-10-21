@@ -1,0 +1,8 @@
+{
+  "filename": "20261021080927_tenant_entitlement_01.sql",
+  "sha256": "ba73676bfd7ae7b030105ea050067aa0585584946a4aa4406dab2cf8e933d21f",
+  "cli": "2.101.0",
+  "command": "supabase migration new tenant_entitlement_01",
+  "source": "435e45ea92fbe0b6bd33f199e06383856e3f762d",
+  "database_started": false
+}

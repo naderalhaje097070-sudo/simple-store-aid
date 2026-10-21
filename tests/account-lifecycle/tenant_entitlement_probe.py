@@ -219,12 +219,21 @@ class EntitlementProbe(ScannerProbe):
             self.control('trusted_trial_helper_true',self.entitlement(a) is True)
             code,rows=self.request('POST','/rest/v1/tenants',{'name':'Trusted billing insert','owner_user_id':b['uid'],**VALUES},admin=True)
             self.control('trusted_insert_all_five_persisted',code==201 and len(rows)==1 and all(rows[0][k]==v for k,v in VALUES.items()),status=code)
+            staff=actors['staff_b']
+            code,rows=self.own_rows(staff,'tenants')
+            self.control('staff_before_ban_known_row_positive',code==200 and len(rows)==1,status=code)
+            code,_=self.request('PUT','/auth/v1/admin/users/'+staff['uid'],{'ban_duration':'24h'},admin=True)
+            self.control('actual_employee_ban_confirmed',code==200,status=code)
+            self.denied('disabled_employee_old_jwt_protected_patch','PATCH','/rest/v1/tenants?id=eq.'+staff['tenant'],VALUES,staff)
+            self.denied('disabled_employee_old_jwt_settings','PATCH','/rest/v1/tenants?id=eq.'+staff['tenant'],{'timezone':'UTC'},staff,rls=True)
+            code,rows=self.own_rows(staff,'tenants')
+            self.control('disabled_employee_old_jwt_known_row_hidden',safe_denial(code,rows,rls=True),status=code)
             self.settings('owner_B_unaffected_after_denials',b)
             self.control('B2_ordinary_scanner_still_denied',explicit_denial(*self.scan(a),'forbidden_platform_admin'))
         self.control('no_financial_rows_written',all(self.counts()[t]==0 for t in FINANCE_TABLES))
         self.control('tracked_source_unchanged',subprocess.run(['git','diff','--quiet','HEAD','--']).returncode==0)
         report={'source':self.source,'phase':phase,'checks':self.controls,'passed':len(self.controls),'failed':0,
-            'schema_versions':versions,'fingerprints':self.snapshot(),'b3_runtime_accepted':phase=='after',
+            'schema_versions':versions,'postgres_version':self.query('select to_jsonb(version());'),'fingerprints':self.snapshot(),'b3_runtime_accepted':phase=='after',
             'independent_review':'pending','package_B_accepted':False,
             'limits':['synthetic loopback only','financial tables empty','no provider calls','no paywall enforcement claim','B4/B5 deferred']}
         (self.evidence_dir/('entitlement-'+phase+'.json')).write_text(json.dumps(report,indent=2)+'\n')

@@ -58,7 +58,7 @@ jobs:
           out="$RUNNER_TEMP/b-dep-prepare"
           gen_dir="$(mktemp -d)"
           cp package.json bun.lock bunfig.toml "$gen_dir/"
-          for spec in '@modelcontextprotocol/sdk@1.32.0' 'hono@4.13.11' 'vite@8.1.6' 'launch-editor@2.14.2'; do
+          for spec in '@modelcontextprotocol/sdk@1.32.0' 'hono@4.13.11' 'vite@8.1.6' 'launch-editor@2.14.2' 'dompurify@3.4.17' 'ip-address@10.7.4'; do
             name="$(printf '%s' "$spec" | tr '/@' '__')"
             npm view "$spec" --json > "$out/metadata-$name.json"
             (cd "$out" && npm pack "$spec" --ignore-scripts --json > "pack-$name.json")
@@ -67,7 +67,7 @@ jobs:
           import json,sys,datetime
           from pathlib import Path
           p=Path(sys.argv[1]);out=Path(sys.argv[2]);d=json.loads(p.read_text())
-          targets={'@modelcontextprotocol/sdk':'1.32.0','hono':'4.13.11','launch-editor':'2.14.2'}
+          targets={'@modelcontextprotocol/sdk':'1.32.0','hono':'4.13.11','launch-editor':'2.14.2','dompurify':'3.4.17','ip-address':'10.7.4'}
           for key in ['overrides','resolutions']:
             for name,version in targets.items():d[key][name]=version
           d['devDependencies']['vite']='8.1.6'

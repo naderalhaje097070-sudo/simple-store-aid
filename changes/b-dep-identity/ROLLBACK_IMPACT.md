@@ -1,0 +1,2 @@
+# Rollback impact
+Candidate only: additive revert of this batch's package/lock, handwritten request boundary, entry call and active B verifier/test changes. Retain historical evidence and immutable A manifest. Returning to pre-batch dependencies restores known current advisories and is not a release recommendation. No DB/data/provider rollback, account reopening or financial compensation occurs. No merge/deploy authorized by verification or review.

@@ -6,6 +6,7 @@ import {
 } from "../config/supabase-build-config";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { boundMcpRequest } from "./lib/mcp/request-boundary";
 
 declare const __MONGEZZ_BUILD_DEPLOY_TARGET__: string;
 declare const __MONGEZZ_BUILD_SUPABASE_URL__: string;
@@ -105,8 +106,10 @@ export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       verifyServerEnvironment(env);
+      const bounded = await boundMcpRequest(request);
+      if (bounded instanceof Response) return bounded;
       const handler = await getServerEntry();
-      const response = await handler.fetch(request, env, ctx);
+      const response = await handler.fetch(bounded, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);

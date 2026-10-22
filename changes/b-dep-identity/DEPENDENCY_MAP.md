@@ -1,0 +1,4 @@
+# Dependency map
+package.json -> official Bun1.4-generated bun.lock -> SDK1.32.0/Hono4.13.11/launch-editor2.14.2/Vite8.1.6 -> existing Lovable adapter/generator, TanStack runtime and build. Node22 satisfies unchanged engine requirements. Existing wrapper0.20.1 and esbuild0.28.1 exception stay fixed. Vite bundled launch-editor requires the Vite update as well as the standalone override.
+
+src/server.ts -> request-boundary.ts -> public locked @tanstack/router-core/ssr/server getNormalizedURL -> original delegated server entry -> original generated MCP routes/auth/tools. All four read-only tools have at most two scalar argument keys. Original auth/RLS/closure/financial and billing contracts remain in force. Identity capture -> schema2 verifier -> exact tracked/worktree modes + protected blob/path inventory + fixed A and B migration anchors.

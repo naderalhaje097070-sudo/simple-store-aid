@@ -10,7 +10,9 @@ const patchedPackages = [
   // GHSA-p6vx-979v-rg4c: the framework's serializer must also be patched.
   { name: "seroval", minimum: [1, 6, 2] },
   // PRIMARY-SEC-002: registry Critical/High dependency advisories triaged on 2026-10-10.
-  { name: "@modelcontextprotocol/sdk", minimum: [1, 31, 0] },
+  { name: "@modelcontextprotocol/sdk", minimum: [1, 32, 0] },
+  { name: "vite", minimum: [8, 1, 6] },
+  { name: "launch-editor", minimum: [2, 14, 2] },
   { name: "browserslist", minimum: [4, 28, 7] },
   { name: "fast-uri", minimum: [3, 1, 8] },
   { name: "ip-address", minimum: [10, 7, 1] },
@@ -32,7 +34,7 @@ const patchedPackageMajors = new Map([
   // G0-QS-01: preserve the reviewed stable 6.x parser/serializer security floor.
   ["qs", new Map([[6, [6, 16, 0]]])],
   // G0-HONO-01: all copies must stay on the reviewed, patched stable 4.x line.
-  ["hono", new Map([[4, [4, 13, 7]]])],
+  ["hono", new Map([[4, [4, 13, 11]]])],
   [
     "brace-expansion",
     new Map([

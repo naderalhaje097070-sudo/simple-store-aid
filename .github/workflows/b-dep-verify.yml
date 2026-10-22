@@ -11,6 +11,7 @@ on:
       - src/server.ts
       - tests/b-dependency/**
       - tests/unit/mcp-request-boundary.test.ts
+      - tests/unit/ip-address-security.test.ts
       - tests/g01-acceptance/integrated-b-source.json
       - tests/g01-acceptance/integrated_identity.py
       - tests/g01-acceptance/test_integrated_identity.py
@@ -81,6 +82,12 @@ jobs:
           git diff --exit-code
           python tests/g01-acceptance/capture.py identity
           cp "$RUNNER_TEMP/g01-evidence/identity.json" "$RUNNER_TEMP/b-dep-identity-after.json"
+      - name: Pinned browser tooling for sanitizer compatibility
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt
+          python -m playwright install chromium --only-shell --with-deps
+      - name: Installed sanitizer original and current offline security contracts
+        run: python tests/b-dependency/sanitizer.py "$RUNNER_TEMP/b-dep-sanitizer.json"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -89,4 +96,5 @@ jobs:
             ${{ runner.temp }}/b-dep-native-http.json
             ${{ runner.temp }}/b-dep-identity-before.json
             ${{ runner.temp }}/b-dep-identity-after.json
+            ${{ runner.temp }}/b-dep-sanitizer.json
           if-no-files-found: warn

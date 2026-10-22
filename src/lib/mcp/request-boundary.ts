@@ -10,13 +10,18 @@ export const MCP_READ_DEADLINE_MS = 5_000;
 function rejection(status: number): Response {
   return Response.json(
     { error: status === 413 ? "MCP_REQUEST_LIMIT" : "MCP_REQUEST_INVALID" },
-    { status, headers: { "cache-control": "no-store" } },
+    { status, headers: { "cache-control": "no-store", connection: "close" } },
   );
 }
 
 function rejectUnread(request: Request, status: number): Response {
-  // Do not wait for a client-controlled cancellation promise on early refusal.
-  if (request.body && !request.body.locked) void request.body.cancel().catch(() => {});
+  // Cancel only an already-aborted request. On Node, canceling an active
+  // Readable.toWeb(req) destroys its socket before the refusal can be sent.
+  // Connection: close makes Node close after flushing the response; other hosts
+  // own their request transport lifecycle. Never drain or tee unbounded input.
+  if (request.signal.aborted && request.body && !request.body.locked) {
+    void request.body.cancel().catch(() => {});
+  }
   return rejection(status);
 }
 
@@ -91,8 +96,9 @@ export async function boundMcpRequest(request: Request): Promise<Request | Respo
   } finally {
     if (timer !== undefined) clearTimeout(timer);
     request.signal.removeEventListener("abort", abort);
-    // A client-controlled stalled stream must not hold a rejection open.
-    void reader.cancel().catch(() => {});
+    // Preserve the response channel for active uploads; release the lock back
+    // to the host. Aborted input may be canceled without waiting on the client.
+    if (request.signal.aborted) void reader.cancel().catch(() => {});
     reader.releaseLock();
   }
 }

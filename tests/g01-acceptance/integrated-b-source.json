@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "3851c9f5567142ad340f63f56df78fe15493724d",
+  "snapshot_tree_before_manifest": "0d0ba2cd60d83d17e4158bca6bd3aca74ac7cce8",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -26,12 +26,12 @@
     },
     {
       "path": ".github/workflows/b-dep-prepare.yml",
-      "sha": "4b7f45bcd0181433c8aeaee98d886e999ac2d876",
+      "sha": "eb229601ac20e0d5149cf79c9c16f51db7e1fd61",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/b-dep-verify.yml",
-      "sha": "2240a09b953560f3406548d0c3f030df1877411d",
+      "sha": "fa5ad83dac63c44318e8e679560f26c8bcd33887",
       "mode": "100644"
     },
     {
@@ -141,7 +141,7 @@
     },
     {
       "path": ".github/workflows/integration-verification.yml",
-      "sha": "92e94f45afc2b1c69847d147c525e0dad2b30693",
+      "sha": "1e760605af94cca17b22aac787bc222f790313d4",
       "mode": "100644"
     },
     {
@@ -226,7 +226,7 @@
     },
     {
       "path": "bun.lock",
-      "sha": "f16a50590db056e5bc00fbbf56e58a1df02d4bfc",
+      "sha": "b8b21bd7d143461e2285f7dddc7dfce3ab290c02",
       "mode": "100644"
     },
     {
@@ -291,7 +291,7 @@
     },
     {
       "path": "package.json",
-      "sha": "f3b007ce77f6f662dc771db0b1b145954fb2c35b",
+      "sha": "da1754962e0f0c8d1c950bc7f4b73d6fb286e776",
       "mode": "100644"
     },
     {
@@ -831,7 +831,7 @@
     },
     {
       "path": "src/lib/mcp/request-boundary.ts",
-      "sha": "06dbbe25dd0e7b769e318b59927a644752ca83f7",
+      "sha": "7ac4fe0bdc2266bc794dfd95fed49562ee9d4587",
       "mode": "100644"
     },
     {
@@ -1486,7 +1486,27 @@
     },
     {
       "path": "tests/b-dependency/native-http.mjs",
-      "sha": "4aa86faad434ca0b59adf93d7e812abf39cb8976",
+      "sha": "fe6d9d3cfda8c1fd6e963d9317efd5d7e66b8da1",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b-dependency/sanitizer-cases.js",
+      "sha": "6f7512c9dea02645974fecf7cdbdcceac887a62f",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b-dependency/sanitizer.py",
+      "sha": "c32c377fe5e08ab099568638f078254b3931f99a",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b-dependency/webhook-bridge.cjs",
+      "sha": "6d0267aef0097a4915ee4194c0661f4e1dfb4e39",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b-dependency/webhook-bridge.test.cjs",
+      "sha": "40d0017a1476a3c155f87b3ff6b238136bb384e7",
       "mode": "100644"
     },
     {
@@ -1606,7 +1626,7 @@
     },
     {
       "path": "tests/g0-integrated-types/runtime.cjs",
-      "sha": "cee921fe926ebf3c2688b72f0f0567ded78ef91b",
+      "sha": "3b5bfb35d5a84baed5b182351fc4980a99bf63c6",
       "mode": "100644"
     },
     {
@@ -1771,12 +1791,17 @@
     },
     {
       "path": "tests/unit/dependency-security.test.ts",
-      "sha": "7bdbf72057b2ffc0aa7d0203877f79d260ff2d95",
+      "sha": "dfccc2c1fc4c3b261d8cfe7a604198632c85aca9",
       "mode": "100644"
     },
     {
       "path": "tests/unit/invoice-selectors.test.ts",
       "sha": "611d95ec4f7094b1acb60dcf2a1fab55debece28",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/unit/ip-address-security.test.ts",
+      "sha": "ec3f702cfbafa6efa9f1cde03dfba75863a62c49",
       "mode": "100644"
     },
     {
@@ -1796,7 +1821,7 @@
     },
     {
       "path": "tests/unit/mcp-request-boundary.test.ts",
-      "sha": "6218d704d1a705da7089ed74ca12aafa8e0cb362",
+      "sha": "224282f9d5946c52e8b437aea6ab5563e4945274",
       "mode": "100644"
     },
     {

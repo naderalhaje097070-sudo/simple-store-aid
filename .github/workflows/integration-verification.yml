@@ -49,7 +49,10 @@ jobs:
     - name: Unit tests
       run: bun run test:unit
     - name: Type erasure and actual hook callback wire replay
-      run: node tests/g0-integrated-types/runtime.cjs
+      run: |
+        node --test tests/b-dependency/webhook-bridge.test.cjs
+        node --test tests/account-lifecycle/webhook_handler.test.cjs
+        node tests/g0-integrated-types/runtime.cjs
     - name: Build entry failure and forwarding contracts
       run: python tests/g0-integrated-types/test_build_entry.py
     - name: Focused foundation read and CI regressions

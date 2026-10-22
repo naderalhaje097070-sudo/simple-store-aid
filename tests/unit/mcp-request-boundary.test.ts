@@ -104,7 +104,7 @@ test("declared oversize and invalid lengths fail before reading the body", async
   expect(await status(post("{}", "/mcp", { "content-length": "invalid" }))).toBe(400);
 });
 
-test("early length refusals cancel an unread body without awaiting hostile cancellation", async () => {
+test("early refusals preserve the response transport and signal close-after-response", async () => {
   for (const length of ["65537", "invalid"]) {
     let canceled = false;
     const body = new ReadableStream<Uint8Array>({
@@ -115,7 +115,8 @@ test("early length refusals cancel an unread body without awaiting hostile cance
     });
     const options = { method: "POST", body, headers: { "content-length": length }, duplex: "half" };
     expect([400, 413]).toContain(await status(new Request("http://127.0.0.1/mcp", options)));
-    expect(canceled).toBe(true);
+    expect(canceled).toBe(false);
+    expect(body.locked).toBe(false);
   }
 });
 
@@ -147,6 +148,7 @@ test("malformed JSON and invalid UTF-8 get fixed errors without echoing input", 
     expect(result.status).toBe(400);
     expect(await result.json()).toEqual({ error: "MCP_REQUEST_INVALID" });
     expect(result.headers.get("cache-control")).toBe("no-store");
+    expect(result.headers.get("connection")).toBe("close");
   }
 });
 

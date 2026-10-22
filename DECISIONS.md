@@ -1,3 +1,17 @@
+## B4 / APP-02 — final scoped evidence and next gate (22 October 2026)
+
+Final50 source `f3b702440a4ffd17038f3c668a2f446620a97919` supersedes the interim49 verification status below. Run39614265434 passed fresh206, populated baseline53/corrected169 and frozen76+22 compatibility controls. Independent scoped review accepts APP-02 on this integration candidate only; the formal whole-head outcome remains Changes required because dependency High findings and the preserved A manifest barrier are open. The earlier complete-snapshot assumption and failing diagnostics remain withdrawn/failed in the retained history. Docs-only delivery must preserve358 protected identities/50SQL. The next separately claimed step is dependency remediation and source-identity reconciliation before B5/B6; no merge or deployment follows from this decision.
+
+## B4 / APP-02 — application refusal and database retries (21October2026, candidate only)
+
+Do not use engine SQLSTATE40001 for billing-domain ambiguity. Supabase documents that PostgREST14 can retry it internally, even after the HTTP client times out. Our diagnostic observed an absent stream, followed by created receipt request/statefalse, then a storedtrue flag consistent with the previous updated callback running later. The source normalizer was correct. All ten domain refusals use P0001 in a new CLI-generated50 forward function replacement; the route maps that RPC error to503 for explicit replay. Driver-level traces were not captured, so the mechanism is attributed to the official source and the observed ordering witness.48/49 stay immutable and new native stacks start without old pending requests. See POSTGREST_RETRY_ROOT_CAUSE.md for primary sources and exact evidence.
+
+## B4 / APP-02 arrival-order correction —21October2026 (candidate only)
+
+The initial complete-snapshot bootstrap assumption is withdrawn: the old handler deliberately preserves original plan/price and prior periods/cancel flag, which a later updated/canceled snapshot cannot reconstruct. Such callbacks now return retryable503 when their public subscription stream is absent; created establishes original fields, followed by replay in provider order. This preserves the business contract instead of inventing historical state. A created scheduled-change payload retains the old new-row cancel flag defaultfalse; existing flags remain preserved.
+
+Migration48 was already applied in disposable verification and remains byte-identical. The correction uses a second CLI-generated forward migration49, replacing only the newly introduced function. Existing47 migrations, old public functions/grants and live signature helper remain exact. Earlier188-check runs do not cover the newly found cases and are retained as limited historical evidence, followed by final49 verification.
+
 ## B4 / APP-02 — transactional subscription callback persistence (2026-10-21, candidate only)
 
 The existing signed handler acknowledges database failures and partial writes. Supported callbacks therefore use one service-only SECURITY INVOKER database transaction for subscription, required live cache/binding, and private durable receipt. Exact event retries are idempotent; ambiguous ordering, legacy clocks, missing identity and SQL errors return retryable failure. Provider occurredAt remains a microsecond string, and timestamps beyond database precision are rejected. No provider API lookup or raw payload logging is introduced.

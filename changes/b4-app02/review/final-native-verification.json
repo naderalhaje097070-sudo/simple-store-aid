@@ -1,0 +1,236 @@
+{
+  "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+  "run": {
+    "id": 39614265434,
+    "head_sha": "f3b702440a4ffd17038f3c668a2f446620a97919",
+    "run_attempt": 1,
+    "status": "completed",
+    "conclusion": "success",
+    "event": "push",
+    "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39614265434"
+  },
+  "reviewer_live_db": false,
+  "provider_calls": false,
+  "artifacts": [
+    {
+      "name": "b4-webhook-fresh-attempt1",
+      "artifact_id": 12351144140,
+      "zip_sha256": "d37f0592131e6b96f6ce5bf9d20ecec2105a8bbf59f12df451c5638f6412a95f",
+      "files": {
+        "advisors.txt": "120a6c7900ebe3e3902908d4e430f6b616d52e152f55f5040b4685d4fdf8c246",
+        "billing-security-catalog.json": "0dbc5dd97a22a98b1a1c59bd4a1ce03a055517c8bc4d9c870fad26554d0ef41e",
+        "cleanup.json": "e272f8872d1f9f0a68d4391b6c12259fd2a352f5438e30e88a360d7ba2a8775a",
+        "migrations.txt": "eb01fde784580053f5aa2766cfd5898c9264584d4300e522d33d13265268f82c",
+        "progress.json": "184425059ac7ff7dd3fca232582f6e2167bf960568f9a745791bd5458fbbc916",
+        "webhook-after.json": "2c291764209a21613aaeaaf1740e343bca819f50940a760b402893676562f4a3",
+        "runtime-images.txt": "40e0303e39f2099e959c6553e3baa6d4e9a3cc986a3f5cd446c86174dfd7f3ff"
+      },
+      "passed": 206,
+      "named_required_statuses": {
+        "updated_before_created_empty_cache_retries": 503,
+        "created_original_fields_commit": 200,
+        "updated_replay_after_created_commits": 200,
+        "updated_B_missing_stream_before_created_retries": 503,
+        "updated_existing_B_before_created_notification_durable": 200,
+        "late_created_B_binds_latest_stored_state": 200,
+        "legacy_display_order_conflict_retries": 503,
+        "sandbox_legacy_display_order_conflict_retries": 503,
+        "missing_public_row_does_not_reassign_tenant_customer": 503,
+        "missing_public_row_does_not_reassign_environment": 503,
+        "canceled_before_created_empty_stream_retries": 503,
+        "canceled_full_period_still_requires_creation": 503,
+        "canceled_missing_period_replay_preserves_history": 200,
+        "wrong_secret_rejected_before_database": 400,
+        "invalid_environment_rejected_before_database": 400
+      },
+      "actual_created_flag_observation": {
+        "name": "created_cancel_default_false",
+        "passed": true,
+        "observed_flag": false,
+        "receipt_outcome": "applied",
+        "request_flag": false,
+        "resolved_flag": false,
+        "event_type": "subscription.created"
+      },
+      "fingerprint_inventory": [
+        "orders",
+        "tenants",
+        "couriers",
+        "expenses",
+        "payments",
+        "products",
+        "profiles",
+        "customers",
+        "day_closes",
+        "user_roles",
+        "order_items",
+        "subscriptions",
+        "email_send_log",
+        "platform_admins",
+        "tenant_counters",
+        "email_send_state",
+        "private_closures",
+        "suppressed_emails",
+        "security_scan_runs",
+        "financial_audit_log",
+        "security_scan_findings",
+        "billing_tenant_bindings",
+        "billing_webhook_receipts",
+        "email_unsubscribe_tokens",
+        "platform_admin_audit_log"
+      ],
+      "body_sha256": "00b53c4b157c130d07beeb52263501743c1837aa27ee2118a27abfaf4fe73266",
+      "cleanup": {
+        "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+        "credential_free_canary_rejected": true,
+        "unexpected_ipv4_rejects": 0,
+        "ipv6_rejects": 0,
+        "status_removed": true,
+        "state_removed": true,
+        "stack_removed": true
+      },
+      "advisor_levels": {
+        "WARN": 45
+      },
+      "advisor_names": {
+        "auth_rls_initplan": 43,
+        "multiple_permissive_policies": 2
+      },
+      "runtime_images": [
+        "ghcr.io/supabase/edge-runtime:v1.73.13",
+        "ghcr.io/supabase/gotrue:v2.188.1",
+        "ghcr.io/supabase/kong:2.8.1",
+        "ghcr.io/supabase/logflare:1.39.1",
+        "ghcr.io/supabase/mailpit:v1.22.3",
+        "ghcr.io/supabase/postgres-meta:v0.96.4",
+        "ghcr.io/supabase/postgres:17.6.1.106",
+        "ghcr.io/supabase/postgrest:v14.10",
+        "ghcr.io/supabase/realtime:v2.86.3",
+        "ghcr.io/supabase/storage-api:v1.54.1",
+        "ghcr.io/supabase/studio:2026.04.28-sha-89d08a2",
+        "ghcr.io/supabase/vector:0.53.0-alpine"
+      ]
+    },
+    {
+      "name": "b4-webhook-upgrade-attempt1",
+      "artifact_id": 12350993751,
+      "zip_sha256": "9543465e1b88a5743b51159b73d2f7c3cfcb59e6259c9cf2fddaafd2cf2941e1",
+      "files": {
+        "advisors.txt": "120a6c7900ebe3e3902908d4e430f6b616d52e152f55f5040b4685d4fdf8c246",
+        "billing-security-catalog.json": "0dbc5dd97a22a98b1a1c59bd4a1ce03a055517c8bc4d9c870fad26554d0ef41e",
+        "cleanup.json": "e272f8872d1f9f0a68d4391b6c12259fd2a352f5438e30e88a360d7ba2a8775a",
+        "migrations.txt": "eb01fde784580053f5aa2766cfd5898c9264584d4300e522d33d13265268f82c",
+        "populated-preservation.json": "08015051d646f4dbe34d5b741ae1992d6f93e13a75714a21dc0c0826b6342a1c",
+        "progress.json": "5f98038bdf31d4633a34327f9f29f2df11430196960e660fba3efcf6df8f4809",
+        "runtime-images.txt": "40e0303e39f2099e959c6553e3baa6d4e9a3cc986a3f5cd446c86174dfd7f3ff",
+        "webhook-after.json": "abe939e2405fd8e57735239da7834fecdeb3e1b95f958e27c8a9e0bb07cd9afe",
+        "webhook-before.json": "ede25e576b739713b5e93eac78fc5b8bad8398fa531feb13f2124a502651e0b5"
+      },
+      "passed": 169,
+      "named_required_statuses": {
+        "updated_before_created_empty_cache_retries": 503,
+        "created_original_fields_commit": 200,
+        "updated_replay_after_created_commits": 200,
+        "updated_B_missing_stream_before_created_retries": 503,
+        "updated_existing_B_before_created_notification_durable": 200,
+        "late_created_B_binds_latest_stored_state": 200,
+        "legacy_display_order_conflict_retries": 503,
+        "sandbox_legacy_display_order_conflict_retries": 503,
+        "missing_public_row_does_not_reassign_tenant_customer": 503,
+        "missing_public_row_does_not_reassign_environment": 503,
+        "canceled_before_created_empty_stream_retries": 503,
+        "canceled_full_period_still_requires_creation": 503,
+        "canceled_missing_period_replay_preserves_history": 200,
+        "wrong_secret_rejected_before_database": 400,
+        "invalid_environment_rejected_before_database": 400
+      },
+      "actual_created_flag_observation": {
+        "name": "created_cancel_default_false",
+        "passed": true,
+        "observed_flag": false,
+        "receipt_outcome": "applied",
+        "request_flag": false,
+        "resolved_flag": false,
+        "event_type": "subscription.created"
+      },
+      "fingerprint_inventory": [
+        "orders",
+        "tenants",
+        "couriers",
+        "expenses",
+        "payments",
+        "products",
+        "profiles",
+        "customers",
+        "day_closes",
+        "user_roles",
+        "order_items",
+        "subscriptions",
+        "email_send_log",
+        "platform_admins",
+        "tenant_counters",
+        "email_send_state",
+        "private_closures",
+        "suppressed_emails",
+        "security_scan_runs",
+        "financial_audit_log",
+        "security_scan_findings",
+        "billing_tenant_bindings",
+        "billing_webhook_receipts",
+        "email_unsubscribe_tokens",
+        "platform_admin_audit_log"
+      ],
+      "body_sha256": "00b53c4b157c130d07beeb52263501743c1837aa27ee2118a27abfaf4fe73266",
+      "cleanup": {
+        "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+        "credential_free_canary_rejected": true,
+        "unexpected_ipv4_rejects": 0,
+        "ipv6_rejects": 0,
+        "status_removed": true,
+        "state_removed": true,
+        "stack_removed": true
+      },
+      "advisor_levels": {
+        "WARN": 45
+      },
+      "advisor_names": {
+        "auth_rls_initplan": 43,
+        "multiple_permissive_policies": 2
+      },
+      "runtime_images": [
+        "ghcr.io/supabase/edge-runtime:v1.73.13",
+        "ghcr.io/supabase/gotrue:v2.188.1",
+        "ghcr.io/supabase/kong:2.8.1",
+        "ghcr.io/supabase/logflare:1.39.1",
+        "ghcr.io/supabase/mailpit:v1.22.3",
+        "ghcr.io/supabase/postgres-meta:v0.96.4",
+        "ghcr.io/supabase/postgres:17.6.1.106",
+        "ghcr.io/supabase/postgrest:v14.10",
+        "ghcr.io/supabase/realtime:v2.86.3",
+        "ghcr.io/supabase/storage-api:v1.54.1",
+        "ghcr.io/supabase/studio:2026.04.28-sha-89d08a2",
+        "ghcr.io/supabase/vector:0.53.0-alpine"
+      ],
+      "baseline_passed": 53,
+      "preservation": {
+        "fingerprint_inventory_count": 23,
+        "catalog_components": [
+          "cron",
+          "policies",
+          "triggers",
+          "functions",
+          "relations"
+        ],
+        "fingerprints_equal": true,
+        "catalog_equal": true
+      }
+    }
+  ],
+  "limitations": [
+    "stored native evidence replay; no independently live DB test",
+    "credential-pattern scan only; actual-value guard was performed natively before secret cleanup",
+    "counts include fixture setup and invariance controls, not distinct vulnerabilities",
+    "no deployed HTTP/browser or real provider integration",
+    "no production legacy reconciliation or populated financial-history test"
+  ]
+}

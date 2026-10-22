@@ -1,3 +1,13 @@
+> CURRENT — B4 / APP-02 technically accepted on integration only; delivery 2026-10-22 (native tests 2026-10-21).
+> Exact executable `f3b702440a4ffd17038f3c668a2f446620a97919`, tree `6bc91e3b942dccfa5beab67b57f0c22c15b78917`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where B corrections are absent.
+> Native39614265434: fresh50 has206 passing controls; populated47 baseline53 reproduces old-handler failures; corrected50 has169. Frozen compatibility passes76 original tests plus22 signed-handler tests, types/lint/wire/build/generated-file invariance. Both disposable stacks are removed. Each artifact retains45 advisor WARN and0 ERROR; no clean-advisor claim.
+> Independent final review accepts APP-02 only and completes the scoped B4 technical review. Formal current-head verdict: **Changes required**, because DEP-20261021 High and the preserved A source-manifest barrier remain open. No whole-B/B5/B6/RC/release acceptance.
+> Current source identity358 protected paths/50SQL;349 of350 prior protected paths and all47 original SQL remain exact, with only the intended old webhook route replaced. Applied48/49 remain exact; CLI-generated50 changes only application refusal SQLSTATE40001 toP0001. Dependencies/signature helper/B2/B3 protections remain unchanged.
+> ONE NEXT: separately claim dependency remediation and B source-identity reconciliation, then satisfy B5/B6 under canonical #70/comment6263266625. No suppression, manifest weakening or inherited-A waiver.
+> No merge, deployment, PR closure, provider call, production operation or new spending;20 original draft heads/bases remain unchanged. B4 claim #55/comment6312231207 is completed/released through the final handoff in #55; no next execution claim is implied.
+> See `changes/b4-app02/RESULT.md`, `COVERAGE.md`, final native evidence and `review/FINAL_B4_REVIEW.md`. The docs-only publication SHA and independent preservation receipt are recorded in #55 after publication, without altering tested source.
+> This notice supersedes older CURRENT / ONE NEXT notices below; historical evidence follows unchanged.
+
 > CURRENT — B3 / AC-02 runtime verified on integration only, 2026-10-21.
 > Exact executable `117f59289a01c56aeb764be27acfbb45663ec439`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where B2/B3 are absent.
 > Native39568502042: fresh47 has240 passing controls; populated46 baseline52 reproduces client trial/billing writes and entitlement-helper bypass; corrected47 has211 passing controls. Existing346 protected paths and46SQL are exact; current350/47. Legitimate onboarding/settings/default14day trial and trusted service rights remain supported.

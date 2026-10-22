@@ -1,0 +1,32 @@
+{
+  "definer": false,
+  "execute": {
+    "anon": false,
+    "service_role": true,
+    "authenticated": false
+  },
+  "private": [
+    {
+      "rls": true,
+      "anon": false,
+      "auth": false,
+      "name": "billing_tenant_bindings",
+      "service_delete": false,
+      "service_truncate": false
+    },
+    {
+      "rls": true,
+      "anon": false,
+      "auth": false,
+      "name": "billing_webhook_receipts",
+      "service_delete": false,
+      "service_truncate": false
+    }
+  ],
+  "settings": [
+    "search_path=pg_catalog, pg_temp",
+    "lock_timeout=2s",
+    "TimeZone=UTC"
+  ],
+  "public_execute": false
+}

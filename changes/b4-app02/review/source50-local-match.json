@@ -1,0 +1,68 @@
+{
+  "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+  "protected": 358,
+  "matched": 352,
+  "missing": [
+    {
+      "path": "public/icons/apple-touch-icon.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee6cbc691a16aabbd987d44fc516ebec4cad916c",
+      "size": 15682,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ee6cbc691a16aabbd987d44fc516ebec4cad916c"
+    },
+    {
+      "path": "public/icons/icon-192.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ba7458679e973b70eef1cd00c531d41251c1729",
+      "size": 16837,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7ba7458679e973b70eef1cd00c531d41251c1729"
+    },
+    {
+      "path": "public/icons/icon-512.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a132edb424af312461d838268c3221b4a9f8b0e",
+      "size": 13932,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8a132edb424af312461d838268c3221b4a9f8b0e"
+    },
+    {
+      "path": "public/icons/icon-maskable-512.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bf841e0a7dd57a8af7a8167cc3c7a29238d8acc",
+      "size": 70422,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7bf841e0a7dd57a8af7a8167cc3c7a29238d8acc"
+    },
+    {
+      "path": "public/og-image.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a69beb9368e62c5f4e9eec8415563f40dd35e7d1",
+      "size": 67593,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a69beb9368e62c5f4e9eec8415563f40dd35e7d1"
+    },
+    {
+      "path": "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de77dc65e2e89b22d1c4cdbf16d33db1b638c4d6",
+      "size": 20181,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/de77dc65e2e89b22d1c4cdbf16d33db1b638c4d6"
+    }
+  ],
+  "mismatched": [],
+  "mode_mismatched": [
+    {
+      "path": "tests/e2e/run.sh",
+      "expected": "100755",
+      "actual": "100644"
+    },
+    {
+      "path": "tests/financial-rules/run.sh",
+      "expected": "100755",
+      "actual": "100644"
+    }
+  ]
+}

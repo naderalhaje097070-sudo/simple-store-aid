@@ -1,0 +1,21 @@
+Source: f3b702440a4ffd17038f3c668a2f446620a97919
+Run: 39614265434, attempt 1; compatibility job: 119270964453
+Read independently from GitHub workflow job logs API; selected lines, not a complete log.
+2026-10-21T14:08:57.7701942Z node: v22.23.3
+2026-10-21T14:08:57.7833509Z   bun-version: 1.2.14
+2026-10-21T14:08:59.4761932Z 1.2.14+6a363a38d
+2026-10-21T14:08:59.4772409Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-21T14:08:59.4923572Z ##[group]Run bun install --frozen-lockfile
+2026-10-21T14:08:59.4924118Z bun install --frozen-lockfile
+2026-10-21T14:08:59.5203244Z bun install v1.2.14 (6a363a38)
+2026-10-21T14:09:06.8198967Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-21T14:09:31.1288836Z ✖ 12 problems (0 errors, 12 warnings)
+2026-10-21T14:09:31.2701952Z bun test v1.2.14 (6a363a38)
+2026-10-21T14:09:35.2863684Z  76 pass
+2026-10-21T14:09:35.2864966Z  221 expect() calls
+2026-10-21T14:09:35.2951301Z ##[group]Run node tests/account-lifecycle/oc_app_wire.test.mjs
+2026-10-21T14:09:35.2952146Z node tests/account-lifecycle/oc_app_wire.test.mjs
+2026-10-21T14:09:39.4236289Z # pass 22
+2026-10-21T14:09:39.4236817Z # fail 0
+2026-10-21T14:09:54.3207144Z ##[group]Run git diff --exit-code
+2026-10-21T14:09:54.3207782Z git diff --exit-code

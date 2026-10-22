@@ -1,0 +1,12 @@
+{
+  "source": "d86a6278bbd2513d34a45cf5390d2c69fb820611",
+  "run": 39611234351,
+  "fresh_controls": 93,
+  "upgrade_after_controls": 56,
+  "failed_control": "created_cancel_default_false",
+  "fresh_job": 119260474327,
+  "upgrade_job": 119260474642,
+  "disposition": "incomplete; diagnosis pending; no SQL or oracle weakening",
+  "next_source": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333",
+  "scope_of_next_change": "safe observed values and populated pre/post fingerprint/catalog export only"
+}

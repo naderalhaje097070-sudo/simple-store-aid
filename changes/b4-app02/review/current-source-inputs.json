@@ -1,0 +1,25 @@
+{
+  "base": "dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0",
+  "candidate_sha": null,
+  "inputs": [
+    {
+      "path": "src/lib/subscription-webhook.server.ts",
+      "first_reviewed_sha256": "58828eb01b35d32b3364e158c485a41420a5c3e95c83957cf312628a3e3f251e",
+      "current_sha256": "58828eb01b35d32b3364e158c485a41420a5c3e95c83957cf312628a3e3f251e",
+      "unchanged": true
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "first_reviewed_sha256": "be7da785c48e97a340d2f35c2e2525abd90881a21abefabcb92b8ad6977881f6",
+      "current_sha256": "be7da785c48e97a340d2f35c2e2525abd90881a21abefabcb92b8ad6977881f6",
+      "unchanged": true
+    },
+    {
+      "path": "changes/b4-app02/WEBHOOK_PERSISTENCE.sql",
+      "first_reviewed_sha256": "9df379f65dfa8c2e22b0f143da0203b44dea501f1c596f8214871c34cdcbe408",
+      "current_sha256": "9df379f65dfa8c2e22b0f143da0203b44dea501f1c596f8214871c34cdcbe408",
+      "unchanged": true
+    }
+  ],
+  "proof": "read-only local prototype source inspection; no SQL, provider or production execution"
+}

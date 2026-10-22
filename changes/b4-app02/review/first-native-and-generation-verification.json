@@ -1,0 +1,472 @@
+{
+  "source": "371c5ebed5d6d821d15f442925995f24b04e8c5e",
+  "run": 39608299485,
+  "artifacts": [
+    {
+      "id": 12349847487,
+      "name": "b4-webhook-fresh-attempt1",
+      "size_in_bytes": 9182,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349847487",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349847487/zip",
+      "expired": false,
+      "created_at": "2026-10-21T13:37:23Z",
+      "expires_at": "2026-10-28T13:37:23Z",
+      "updated_at": "2026-10-21T13:37:23Z",
+      "digest": "sha256:b4c2a12b7da54775f8879a397ae286ddf85473677c6e4329fe4339080e4c9a48",
+      "workflow_run": {
+        "id": 39608299485,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "371c5ebed5d6d821d15f442925995f24b04e8c5e"
+      }
+    },
+    {
+      "id": 12348748658,
+      "name": "b4-webhook-upgrade-attempt1",
+      "size_in_bytes": 996,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348748658",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348748658/zip",
+      "expired": false,
+      "created_at": "2026-10-21T13:32:57Z",
+      "expires_at": "2026-10-28T13:32:56Z",
+      "updated_at": "2026-10-21T13:32:57Z",
+      "digest": "sha256:8a2d7d549ac8a20f5b95d6cc6455dc8e5d06be2cc8b316d29c90f418f9adcd2f",
+      "workflow_run": {
+        "id": 39608299485,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "371c5ebed5d6d821d15f442925995f24b04e8c5e"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "id": 119250183908,
+      "name": "prepare",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39608299485,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run set -euo pipefail",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5
+        },
+        {
+          "name": "Post Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        }
+      ]
+    },
+    {
+      "id": 119250298958,
+      "name": "persistence (fresh)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 39608299485,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Frozen install and signed handler controls",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Discover pinned CLI operations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Restrict probe UID before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Start disposable full chain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Baseline then populated local upgrade",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11
+        },
+        {
+          "name": "Actual authorization and invariance",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Runtime image identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Local migration history and advisor availability",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Cleanup and safe final receipts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 30
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 31
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33
+        }
+      ]
+    },
+    {
+      "id": 119250299350,
+      "name": "persistence (upgrade)",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_id": 39608299485,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Frozen install and signed handler controls",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Discover pinned CLI operations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Restrict probe UID before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Start disposable full chain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Baseline then populated local upgrade",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 11
+        },
+        {
+          "name": "Actual authorization and invariance",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12
+        },
+        {
+          "name": "Runtime image identity",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13
+        },
+        {
+          "name": "Local migration history and advisor availability",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 14
+        },
+        {
+          "name": "Cleanup and safe final receipts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 29
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 30
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 31
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 33
+        }
+      ]
+    }
+  ],
+  "first_failure_excerpts": [
+    "fetch-depth: 1",
+    "[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +371c5ebed5d6d821d15f442925995f24b04e8c5e:refs/remotes/origin/integration/g0-g1-reconcile-2026-10-18",
+    "sudo iptables -N APP02",
+    "sudo iptables -A APP02 -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322 -j ACCEPT",
+    "sudo iptables -A APP02 -j REJECT --reject-with icmp-port-unreachable",
+    "sudo iptables -I OUTPUT 1 -m owner --uid-owner \"$uid\" -j APP02",
+    "    print('APP02_CREDENTIAL_FREE_EGRESS_REJECTED')",
+    "    raise SystemExit('APP02_FIREWALL_FAILED')",
+    "sudo iptables -nvxL APP02 > \"$RUNNER_TEMP/firewall-before.txt\"",
+    "APP02_CREDENTIAL_FREE_EGRESS_REJECTED",
+    "  echo 'APP02_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'",
+    "APP02_HARNESS_FAILURE signed route invocation failed",
+    "##[error]Process completed with exit code 2.",
+    "after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','APP02'],text=True))",
+    "    print('APP02_PUBLICATION_BLOCKED '+(out/'publication-blocked.json').read_text())",
+    "print('APP02_CLEANUP '+json.dumps(cleanup))",
+    "APP02_CLEANUP {\"source\": \"371c5ebed5d6d821d15f442925995f24b04e8c5e\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true}"
+  ],
+  "compatibility": {
+    "source": "7c6ed73886aa3a23c03f78c77762e900174ec368",
+    "run": 39609182665,
+    "job": 119253233479,
+    "status": "success",
+    "excerpts": [
+      "(Use `node --trace-deprecation ...` to show where the warning was created)",
+      "bun install --frozen-lockfile",
+      "bun install v1.2.14 (6a363a38)",
+      "GENERATED_FORMAT_CHECK_PASS: 9",
+      "##[warning]  19:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  53:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "##[warning]  42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')",
+      "##[warning]  46:6  warning  React Hook useEffect has a missing dependency: 'initial'. Either include it or remove the dependency array. If 'setPrice' needs the current value of 'initial', you can also switch to useReducer instead of useState and read 'initial' in the reducer  react-hooks/exhaustive-deps",
+      "##[warning]  4:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components",
+      "✖ 12 problems (0 errors, 12 warnings)",
+      "0 errors and 1 warning potentially fixable with the `--fix` option.",
+      "bun test v1.2.14 (6a363a38)",
+      "(pass) only the exact database lifecycle error is an account denial [5.00ms]",
+      "OC_APP_WIRE: four locked JSON result/error round trips PASS",
+      "# Subtest: transport rejection is retryable without raw error logging",
+      "ok 12 - transport rejection is retryable without raw error logging",
+      "# tests 21",
+      "# pass 21",
+      "# fail 0",
+      "- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.",
+      "GENERATED_FORMAT_WRITE_PASS: 9",
+      "(Use `node --trace-deprecation ...` to show where the warning was created)"
+    ]
+  },
+  "generator49": {
+    "source": "c5a362116d2455077a604c75f27b89198cbb6c11",
+    "run": 39610882184,
+    "metadata": [
+      {
+        "id": 12349883953,
+        "name": "b4-cli-generated-bootstrap",
+        "size_in_bytes": 4158,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349883953",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349883953/zip",
+        "expired": false,
+        "created_at": "2026-10-21T13:46:22Z",
+        "expires_at": "2026-10-28T13:46:21Z",
+        "updated_at": "2026-10-21T13:46:22Z",
+        "digest": "sha256:737a86fc651cfecb5af82a9f8133486d3d66209a504b98d814193185e8167d34",
+        "workflow_run": {
+          "id": 39610882184,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "c5a362116d2455077a604c75f27b89198cbb6c11"
+        }
+      }
+    ],
+    "local_zip_sha256": "737a86fc651cfecb5af82a9f8133486d3d66209a504b98d814193185e8167d34",
+    "payload_sha256": "c905a149d7deb0cb9b22080142152a5a06aa2c982b4ee7f907c63a434cff3f75"
+  },
+  "limits": "Historical partial results only. Final B4 decision deferred; no independent live DB/provider execution."
+}

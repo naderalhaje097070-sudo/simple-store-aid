@@ -1,0 +1,445 @@
+{
+  "source_sha": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333",
+  "controls": [
+    {
+      "name": "source_exact49_migrations",
+      "passed": true
+    },
+    {
+      "name": "native_exact_chain_after",
+      "passed": true
+    },
+    {
+      "name": "financial_empty_at_start",
+      "passed": true
+    },
+    {
+      "name": "app02_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_b_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_order_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_order_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_banned_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_banned_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_closed_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_closed_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_b_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_matching_snapshot_repairs_partial_cache",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_preserves_server_floor_and_subscription_timestamp",
+      "passed": true
+    },
+    {
+      "name": "legacy_exact_later_noop",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_noop_preserves_updated_at_and_floor",
+      "passed": true
+    },
+    {
+      "name": "legacy_ambiguous_different_state_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "legacy_ambiguous_different_state_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "legacy_event_past_floor_applies",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_older_after_known_watermark_stale",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_stale_does_not_rollback",
+      "passed": true
+    },
+    {
+      "name": "legacy_binding_creation_learned",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_display_order_conflict_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "legacy_display_order_conflict_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "sandbox_legacy_display_order_conflict_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "sandbox_legacy_display_order_conflict_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_subscriptions_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_subscriptions_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_subscriptions_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_subscriptions_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_tenants_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_tenants_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_tenants_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_tenants_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "updated_before_created_empty_cache_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "updated_before_created_empty_cache_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "creation_recovery_stream_absent",
+      "passed": true,
+      "previous_flag": null
+    },
+    {
+      "name": "created_original_fields_commit",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "created_cancel_default_false",
+      "passed": false,
+      "observed_flag": true,
+      "receipt_outcome": "applied",
+      "request_flag": false,
+      "resolved_flag": false,
+      "event_type": "subscription.created"
+    }
+  ]
+}

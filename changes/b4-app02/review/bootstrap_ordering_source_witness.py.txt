@@ -1,0 +1,75 @@
+"""Offline source-derived trace only; does not execute SQL, SDK or any network call."""
+from copy import deepcopy
+from hashlib import sha256
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+SQL = ROOT / "b4/source/supabase/migrations/20261021132651_webhook_persistence_01.sql"
+EXPECTED = "95b527271e552f20bfb8a0e07627e0195ed681c46e3f8cbcb7d5daaa4a98a66d"
+
+def trace(events):
+    row = None
+    latest = None
+    for event in events:
+        if latest is not None and event["at"] < latest:
+            continue
+        old = row or {}
+        kind = event["type"]
+        row = {
+            "status": event["status"],
+            "product_id": old.get("product_id") if old and kind != "created" else event["product_id"],
+            "price_id": old.get("price_id") if old and kind != "created" else event["price_id"],
+            "period_end": old.get("period_end") if old and kind == "canceled" else event.get("period_end") or old.get("period_end"),
+            "cancel_at_period_end": old["cancel_at_period_end"] if old and kind != "updated" else event.get("cancel_at_period_end", False),
+        }
+        latest = event["at"]
+    return row
+
+def event(kind, at, **changes):
+    return {"type": kind, "at": at, "status": "canceled" if kind == "canceled" else "active",
+            "product_id": "basic", "price_id": "basic-monthly", "period_end": "2026-12-01T00:00:00Z",
+            "cancel_at_period_end": False, **changes}
+
+def entitled(row):
+    # Exact relevant branch of the retained helper, with an expired trial and one canceled stream.
+    return row["status"] == "canceled" and row["period_end"] is not None and row["period_end"] > "2026-10-21T00:00:00Z"
+
+def main():
+    raw = SQL.read_bytes()
+    assert sha256(raw).hexdigest() == EXPECTED
+    text = raw.decode()
+    for fragment in ["p_event_type='subscription.canceled' THEN v_old.current_period_end",
+                     "p_event_type<>'subscription.created' THEN v_old.product_id",
+                     "p_event_type<>'subscription.updated' THEN coalesce(v_old.cancel_at_period_end,false)",
+                     "IF v_outcome='applied' THEN", "v_outcome := 'stale'"]:
+        assert fragment in text, fragment
+    created = event("created", "2026-10-01T00:00:00Z")
+    canceled_null = event("canceled", "2026-10-20T00:00:00Z", period_end=None)
+    ordered, reverse = trace([created, canceled_null]), trace([canceled_null, created])
+    assert ordered["period_end"] != reverse["period_end"]
+    assert entitled(ordered) is True and entitled(reverse) is False
+    scheduled = event("updated", "2026-10-15T00:00:00Z", cancel_at_period_end=True)
+    canceled_full = event("canceled", "2026-10-20T00:00:00Z")
+    flag_ordered, flag_reverse = trace([created, scheduled, canceled_full]), trace([canceled_full, scheduled, created])
+    assert flag_ordered["cancel_at_period_end"] is True and flag_reverse["cancel_at_period_end"] is False
+    changed_plan = event("updated", "2026-10-15T00:00:00Z", product_id="pro", price_id="pro-monthly")
+    plan_ordered, plan_reverse = trace([created, changed_plan]), trace([changed_plan, created])
+    assert plan_ordered["product_id"] == "basic" and plan_reverse["product_id"] == "pro"
+    result = {
+        "proof": "deterministic source-derived contract trace; not execution of SQL/SDK/HTTP",
+        "reviewed_source": "7c6ed73886aa3a23c03f78c77762e900174ec368",
+        "migration48_sha256": EXPECTED,
+        "assumptions": "single valid tenant/owner/stream, empty initial cache, valid mapped items, expired trial, no competing rows",
+        "counterexamples": [
+            {"case": "canceled_null_period_before_created", "ordered": ordered, "reverse": reverse,
+             "helper_relevant_branch_ordered": entitled(ordered), "helper_relevant_branch_reverse": entitled(reverse)},
+            {"case": "canceled_full_period_before_scheduled_update_and_created", "ordered": flag_ordered, "reverse": flag_reverse},
+            {"case": "updated_plan_before_created", "ordered": plan_ordered, "reverse": plan_reverse},
+        ],
+    }
+    print(json.dumps(result, indent=2))
+
+if __name__ == "__main__":
+    main()
+

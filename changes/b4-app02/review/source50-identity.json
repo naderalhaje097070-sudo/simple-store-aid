@@ -1,0 +1,3197 @@
+{
+  "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+  "tree": "6bc91e3b942dccfa5beab67b57f0c22c15b78917",
+  "base": "dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0",
+  "base_tree": "fde7e619b6066258cf9bb576060292914363ec4e",
+  "complete": true,
+  "base_blob_count": 1503,
+  "source_blob_count": 1525,
+  "base_protected_count": 350,
+  "source_protected_count": 358,
+  "source_sql_count": 50,
+  "old_protected_changed": [
+    "src/routes/api/public/payments/webhook.ts"
+  ],
+  "old_sql_changed": [],
+  "deleted": [],
+  "new_protected": [
+    ".github/workflows/b4-webhook-persistence.yml",
+    "src/lib/subscription-webhook.server.ts",
+    "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+    "supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+    "supabase/migrations/20261021140746_webhook_errors_01.sql",
+    "tests/account-lifecycle/webhook_handler.test.cjs",
+    "tests/account-lifecycle/webhook_invoke.cjs",
+    "tests/account-lifecycle/webhook_persistence_probe.py"
+  ],
+  "protected": [
+    {
+      "path": ".env.example",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "962d763602e1ecae0200f06b03e3ce9164614d25",
+      "size": 1348,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/962d763602e1ecae0200f06b03e3ce9164614d25"
+    },
+    {
+      "path": ".github/workflows/account-lifecycle-baseline.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f20fca3d2e2359443c1d312fef4ba785fa90f3f",
+      "size": 3779,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3f20fca3d2e2359443c1d312fef4ba785fa90f3f"
+    },
+    {
+      "path": ".github/workflows/account-lifecycle-correction.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7859834486de7a17f7a178b06bb8024449002869",
+      "size": 5602,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7859834486de7a17f7a178b06bb8024449002869"
+    },
+    {
+      "path": ".github/workflows/auth-natural-expiry.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4b204767a7ac54eb9b87f1e09e16ce43c730b25",
+      "size": 10827,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e4b204767a7ac54eb9b87f1e09e16ce43c730b25"
+    },
+    {
+      "path": ".github/workflows/b1-composition.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6fdee102c44f60c7dc0b08e79f1687711ddf6cf1",
+      "size": 1696,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6fdee102c44f60c7dc0b08e79f1687711ddf6cf1"
+    },
+    {
+      "path": ".github/workflows/b2-scanner-auth.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bed011540e3ffe9f036aba58d189084399c96020",
+      "size": 12815,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bed011540e3ffe9f036aba58d189084399c96020"
+    },
+    {
+      "path": ".github/workflows/b3-tenant-entitlement.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb68c031de5feb989ab46f2dde54c2c199e3d700",
+      "size": 13612,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cb68c031de5feb989ab46f2dde54c2c199e3d700"
+    },
+    {
+      "path": ".github/workflows/b4-webhook-persistence.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d9d18b7878208991d8dd342a6808c7136dadf58",
+      "size": 15958,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4d9d18b7878208991d8dd342a6808c7136dadf58"
+    },
+    {
+      "path": ".github/workflows/ephemeral-financial-rules.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6f3c6a63c76861bfeb277df137aa4095c221fce",
+      "size": 4945,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c6f3c6a63c76861bfeb277df137aa4095c221fce"
+    },
+    {
+      "path": ".github/workflows/g0-babel-prepare.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "332e5e1a954ee915188bafa6bc98bbd2b6017f45",
+      "size": 3258,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/332e5e1a954ee915188bafa6bc98bbd2b6017f45"
+    },
+    {
+      "path": ".github/workflows/g0-babel-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "41bbbf7d77051c85b7e5af85cc3407020f6243b6",
+      "size": 2443,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/41bbbf7d77051c85b7e5af85cc3407020f6243b6"
+    },
+    {
+      "path": ".github/workflows/g0-dompurify-prepare.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f2c8bab19bb36f15d6fbef1dc78777b72af84bd",
+      "size": 3594,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f2c8bab19bb36f15d6fbef1dc78777b72af84bd"
+    },
+    {
+      "path": ".github/workflows/g0-dompurify-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "498db2b2e75dd224fd69f873d967ce7227a5fd9f",
+      "size": 3204,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/498db2b2e75dd224fd69f873d967ce7227a5fd9f"
+    },
+    {
+      "path": ".github/workflows/g0-esbuild-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e0fabfde9e32040bad085db461dfbeddb83cc94",
+      "size": 3416,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1e0fabfde9e32040bad085db461dfbeddb83cc94"
+    },
+    {
+      "path": ".github/workflows/g0-hono-audit.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b34c329068beb1f44394074f1a5d6d068607d079",
+      "size": 1916,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b34c329068beb1f44394074f1a5d6d068607d079"
+    },
+    {
+      "path": ".github/workflows/g0-hono-prepare.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7b18b417b225bd3a1a6e4fa14cc49f2670b78b60",
+      "size": 2376,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7b18b417b225bd3a1a6e4fa14cc49f2670b78b60"
+    },
+    {
+      "path": ".github/workflows/g0-hono-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2767090253c87336daa857af396cc952d8b73770",
+      "size": 2257,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2767090253c87336daa857af396cc952d8b73770"
+    },
+    {
+      "path": ".github/workflows/g0-node-server-baseline.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29e0d82b34154cd7428c5d3b6450abd4db640469",
+      "size": 1750,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/29e0d82b34154cd7428c5d3b6450abd4db640469"
+    },
+    {
+      "path": ".github/workflows/g0-node-server-prepare.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ca9a99f52e45389f1dcca83b7ecd36b795826ab",
+      "size": 4195,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4ca9a99f52e45389f1dcca83b7ecd36b795826ab"
+    },
+    {
+      "path": ".github/workflows/g0-node-server-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "34c97d18cfa971a590c3d9421a2bb22642a8006b",
+      "size": 3212,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/34c97d18cfa971a590c3d9421a2bb22642a8006b"
+    },
+    {
+      "path": ".github/workflows/g0-qs-prepare.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8fab0b5c826046a4180ac7d0bb1247e20400f86d",
+      "size": 3117,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8fab0b5c826046a4180ac7d0bb1247e20400f86d"
+    },
+    {
+      "path": ".github/workflows/g0-qs-verify.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a324060292d35fa33b1cc1f764c630392d5478f2",
+      "size": 2408,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a324060292d35fa33b1cc1f764c630392d5478f2"
+    },
+    {
+      "path": ".github/workflows/g01-acceptance.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "30769364ae1e40c3ca93a467bb667dd312174be9",
+      "size": 22198,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/30769364ae1e40c3ca93a467bb667dd312174be9"
+    },
+    {
+      "path": ".github/workflows/g01-runtime-retry.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13f911da2f60ad1ac08778e4348c207de02ab5e3",
+      "size": 22426,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/13f911da2f60ad1ac08778e4348c207de02ab5e3"
+    },
+    {
+      "path": ".github/workflows/integration-g0-inventory.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "272cdf94e95c79e1a0daf10cbf75eeb6f185303a",
+      "size": 5088,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/272cdf94e95c79e1a0daf10cbf75eeb6f185303a"
+    },
+    {
+      "path": ".github/workflows/integration-verification.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "92e94f45afc2b1c69847d147c525e0dad2b30693",
+      "size": 5250,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/92e94f45afc2b1c69847d147c525e0dad2b30693"
+    },
+    {
+      "path": ".github/workflows/isolated-auth-smoke.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2142e48cebcdb79e105e55c11f9da05bad7089e",
+      "size": 7428,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b2142e48cebcdb79e105e55c11f9da05bad7089e"
+    },
+    {
+      "path": ".github/workflows/mcp-issuer-contract.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "495872f7f15bb7136816f9157c70f36e666c0f44",
+      "size": 905,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/495872f7f15bb7136816f9157c70f36e666c0f44"
+    },
+    {
+      "path": ".github/workflows/mcp-lifecycle-probe.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a61132c16d6dc8d5f0dc62e67c80a283bdaf24a",
+      "size": 5591,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5a61132c16d6dc8d5f0dc62e67c80a283bdaf24a"
+    },
+    {
+      "path": ".github/workflows/mcp-tanstack-route.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c2b27d26672e60df055f02e0b4c3cca69fbf9d3",
+      "size": 10417,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7c2b27d26672e60df055f02e0b4c3cca69fbf9d3"
+    },
+    {
+      "path": ".github/workflows/oc-app.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99d28b6741598346e58c6be21f7764881b14616d",
+      "size": 12367,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/99d28b6741598346e58c6be21f7764881b14616d"
+    },
+    {
+      "path": ".github/workflows/owner-closure.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d3c94f14a70a178a278282b65905fecf1080196",
+      "size": 12057,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6d3c94f14a70a178a278282b65905fecf1080196"
+    },
+    {
+      "path": ".github/workflows/owner-retention-catalog.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a834cf0ac4991d3b9e1c4dfcf869513d21fb72d",
+      "size": 11315,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6a834cf0ac4991d3b9e1c4dfcf869513d21fb72d"
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0730862c39917c9fde932a2f7e633933a645c3f5",
+      "size": 3519,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0730862c39917c9fde932a2f7e633933a645c3f5"
+    },
+    {
+      "path": ".github/workflows/sec-ci-gate4-probe.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
+      "size": 11222,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a9b792109d47ce28cb9eaa1c8ded51862aea68b4"
+    },
+    {
+      "path": ".github/workflows/sec-env-gate4-probe.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "039c7308cc67e1daf91bd49bdadab08fcb9ad36e",
+      "size": 14511,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/039c7308cc67e1daf91bd49bdadab08fcb9ad36e"
+    },
+    {
+      "path": ".github/workflows/sec-truncate.yml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd001c6bdae9c46cf0c95c800c54d917b5cd60c0",
+      "size": 17405,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fd001c6bdae9c46cf0c95c800c54d917b5cd60c0"
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0ae00ce43b9dcb0a4c256eab27ae8cbcd06cc38c",
+      "size": 464,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0ae00ce43b9dcb0a4c256eab27ae8cbcd06cc38c"
+    },
+    {
+      "path": ".lovable/mcp/manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e6371cf05b3c04b9fa2596b604f5a1b7ecb33d3",
+      "size": 3464,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5e6371cf05b3c04b9fa2596b604f5a1b7ecb33d3"
+    },
+    {
+      "path": ".lovable/project.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c835e691e5ea91558b6e5dc679e65e3d0fb8a1d1",
+      "size": 71,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c835e691e5ea91558b6e5dc679e65e3d0fb8a1d1"
+    },
+    {
+      "path": ".prettierignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be49b2655e2222e8a688f616a5c13500298801a0",
+      "size": 92,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/be49b2655e2222e8a688f616a5c13500298801a0"
+    },
+    {
+      "path": ".prettierrc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "90abee2393e79dff7ec36856c94f662a263f0107",
+      "size": 90,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/90abee2393e79dff7ec36856c94f662a263f0107"
+    },
+    {
+      "path": "bun.lock",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8db84562051e5ff2837fa67f907aef9a0cd4b863",
+      "size": 360311,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8db84562051e5ff2837fa67f907aef9a0cd4b863"
+    },
+    {
+      "path": "bunfig.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "404c27d65cbde9ae5f365d179ed0e16a0473f8c5",
+      "size": 386,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/404c27d65cbde9ae5f365d179ed0e16a0473f8c5"
+    },
+    {
+      "path": "changes/env-native-01/generate-correction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36f50b156b15362ae18c6fa96af20d926c722930",
+      "size": 4404,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/36f50b156b15362ae18c6fa96af20d926c722930"
+    },
+    {
+      "path": "changes/env-native-01/inventory-generator.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4fa8a18ae140d357be06fcb593190cbd2cd16ee",
+      "size": 4893,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e4fa8a18ae140d357be06fcb593190cbd2cd16ee"
+    },
+    {
+      "path": "changes/primary-env-001/native-runner/auth-tenant-probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79c3a21c3b0d4a9b0d8cd884aa1758f4b4541a30",
+      "size": 5870,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/79c3a21c3b0d4a9b0d8cd884aa1758f4b4541a30"
+    },
+    {
+      "path": "changes/primary-env-001/native-runner/auth-ui-runner.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bbe1fd38d18165160678b7b3981b2acb93d5067",
+      "size": 1168,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2bbe1fd38d18165160678b7b3981b2acb93d5067"
+    },
+    {
+      "path": "changes/primary-env-001/native-runner/build-checks.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a098a0de309e10ddaac270ba70384d197a0923e2",
+      "size": 1904,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a098a0de309e10ddaac270ba70384d197a0923e2"
+    },
+    {
+      "path": "changes/primary-env-001/native-runner/pack-evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "494b64505191266fd0220e09168a76c09a5b506d",
+      "size": 2609,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/494b64505191266fd0220e09168a76c09a5b506d"
+    },
+    {
+      "path": "components.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0817a84e832a693e7a79a911efe0b081bd97e06",
+      "size": 443,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f0817a84e832a693e7a79a911efe0b081bd97e06"
+    },
+    {
+      "path": "config/supabase-build-config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa6e8114a0a82cf846ab807cee3ce22884369e3a",
+      "size": 8735,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fa6e8114a0a82cf846ab807cee3ce22884369e3a"
+    },
+    {
+      "path": "docs/g0-node-server/review-guard-replay.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "168d9f01ff1081746cf810899e4f1cda6f5c2778",
+      "size": 3168,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/168d9f01ff1081746cf810899e4f1cda6f5c2778"
+    },
+    {
+      "path": "eslint.config.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b944efec899be5cf56c5b5fda84de0f287105e7c",
+      "size": 1288,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b944efec899be5cf56c5b5fda84de0f287105e7c"
+    },
+    {
+      "path": "package-lock.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "911855003439a83e67d4bc37058e091a65e67642",
+      "size": 293830,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/911855003439a83e67d4bc37058e091a65e67642"
+    },
+    {
+      "path": "package.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c6093ee357e7df3b7abf2d0b449b742f5864404",
+      "size": 4537,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6c6093ee357e7df3b7abf2d0b449b742f5864404"
+    },
+    {
+      "path": "public/favicon.svg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8e6913b58555d9b9e0cdbe110df79a3773a34df",
+      "size": 304,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e8e6913b58555d9b9e0cdbe110df79a3773a34df"
+    },
+    {
+      "path": "public/icons/apple-touch-icon.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee6cbc691a16aabbd987d44fc516ebec4cad916c",
+      "size": 15682,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ee6cbc691a16aabbd987d44fc516ebec4cad916c"
+    },
+    {
+      "path": "public/icons/icon-192.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7ba7458679e973b70eef1cd00c531d41251c1729",
+      "size": 16837,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7ba7458679e973b70eef1cd00c531d41251c1729"
+    },
+    {
+      "path": "public/icons/icon-512.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a132edb424af312461d838268c3221b4a9f8b0e",
+      "size": 13932,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8a132edb424af312461d838268c3221b4a9f8b0e"
+    },
+    {
+      "path": "public/icons/icon-maskable-512.png",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bf841e0a7dd57a8af7a8167cc3c7a29238d8acc",
+      "size": 70422,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7bf841e0a7dd57a8af7a8167cc3c7a29238d8acc"
+    },
+    {
+      "path": "public/llms.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2467d30a52b86902e639868d049d40482adc8cbf",
+      "size": 687,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2467d30a52b86902e639868d049d40482adc8cbf"
+    },
+    {
+      "path": "public/manifest.webmanifest",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abc2b0c7db44967eeb0393732c2812cf4a3bc002",
+      "size": 688,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/abc2b0c7db44967eeb0393732c2812cf4a3bc002"
+    },
+    {
+      "path": "public/offline.html",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5ff67824b0a4d2f6d0a65452b19016e1dbcce0e",
+      "size": 1798,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c5ff67824b0a4d2f6d0a65452b19016e1dbcce0e"
+    },
+    {
+      "path": "public/og-image.jpg",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a69beb9368e62c5f4e9eec8415563f40dd35e7d1",
+      "size": 67593,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a69beb9368e62c5f4e9eec8415563f40dd35e7d1"
+    },
+    {
+      "path": "public/robots.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fa57d1e5502c06e0d70fde39b32afddb62c4709",
+      "size": 170,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4fa57d1e5502c06e0d70fde39b32afddb62c4709"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c384708298e469749c950cb4ab9865820b8e721b",
+      "size": 841,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c384708298e469749c950cb4ab9865820b8e721b"
+    },
+    {
+      "path": "scripts/e2e/seed-allowlist.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85b37344fa553e29cebf018b3095cc975d6532f2",
+      "size": 991,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/85b37344fa553e29cebf018b3095cc975d6532f2"
+    },
+    {
+      "path": "scripts/format-generated.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b616a768f6dccba95a2a25c684d381fc49eef32d",
+      "size": 2497,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b616a768f6dccba95a2a25c684d381fc49eef32d"
+    },
+    {
+      "path": "scripts/generated-format-manifest.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36d4443fabeda1170407a27fc164d1edf9821347",
+      "size": 2343,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/36d4443fabeda1170407a27fc164d1edf9821347"
+    },
+    {
+      "path": "scripts/lint-changed.sh",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0db9881f05739cf7e737e4cb5aa1aaae8166afb2",
+      "size": 724,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0db9881f05739cf7e737e4cb5aa1aaae8166afb2"
+    },
+    {
+      "path": "src/components/DateRangeFilter.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69946cede1a0ba3413aa751399f66ade67dad8e7",
+      "size": 6251,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/69946cede1a0ba3413aa751399f66ade67dad8e7"
+    },
+    {
+      "path": "src/components/PaymentTestModeBanner.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39af713e03c800e02717521c7b95ef896fbbad53",
+      "size": 693,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/39af713e03c800e02717521c7b95ef896fbbad53"
+    },
+    {
+      "path": "src/components/ui/accordion.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16ee9004561ab0de3cc53789d5265cba511c8570",
+      "size": 2015,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/16ee9004561ab0de3cc53789d5265cba511c8570"
+    },
+    {
+      "path": "src/components/ui/alert-dialog.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "072a66562e9d94e33ccaf32d27c8efe3a52e7c32",
+      "size": 4183,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/072a66562e9d94e33ccaf32d27c8efe3a52e7c32"
+    },
+    {
+      "path": "src/components/ui/alert.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd0a0627702e492c3f02607dbc77025999c5ed13",
+      "size": 1589,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cd0a0627702e492c3f02607dbc77025999c5ed13"
+    },
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9e6f4bf9e1c01d6d7022b53e68438e61746c86c",
+      "size": 143,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c9e6f4bf9e1c01d6d7022b53e68438e61746c86c"
+    },
+    {
+      "path": "src/components/ui/avatar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7904926b9d89e90f6e9a3a9dad2abeed5af99c2e",
+      "size": 1413,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7904926b9d89e90f6e9a3a9dad2abeed5af99c2e"
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3aabd17e73034f71efdd2f301f8a81ab8cdae23c",
+      "size": 1123,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3aabd17e73034f71efdd2f301f8a81ab8cdae23c"
+    },
+    {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94eb6291a6f26846562a63438b3c49595e9bff25",
+      "size": 2749,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/94eb6291a6f26846562a63438b3c49595e9bff25"
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc3bc9f6bbefc3155d1f4d053ff58f9b8662edbe",
+      "size": 1894,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bc3bc9f6bbefc3155d1f4d053ff58f9b8662edbe"
+    },
+    {
+      "path": "src/components/ui/calendar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "781f8853f2a4044c305cc862f832a2b01d41d3d7",
+      "size": 7210,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/781f8853f2a4044c305cc862f832a2b01d41d3d7"
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d886b020243248cee648b14274a763b325a3bc55",
+      "size": 1817,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d886b020243248cee648b14274a763b325a3bc55"
+    },
+    {
+      "path": "src/components/ui/carousel.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5dd7455702b2fb2c9561dd3b1ed700210ef3be3d",
+      "size": 6200,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5dd7455702b2fb2c9561dd3b1ed700210ef3be3d"
+    },
+    {
+      "path": "src/components/ui/chart.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f27e7ca5343ccc102441afeb45ef946e1d504944",
+      "size": 10570,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f27e7ca5343ccc102441afeb45ef946e1d504944"
+    },
+    {
+      "path": "src/components/ui/checkbox.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f01d47c865e9ce28610b16bfa4021a88beebec3e",
+      "size": 1043,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f01d47c865e9ce28610b16bfa4021a88beebec3e"
+    },
+    {
+      "path": "src/components/ui/collapsible.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cb003d17563549c97d3d349477c0aa073b2244aa",
+      "size": 335,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cb003d17563549c97d3d349477c0aa073b2244aa"
+    },
+    {
+      "path": "src/components/ui/command.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc859d7281e5b4fef5a2b71ea30459e0745003a8",
+      "size": 4876,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/dc859d7281e5b4fef5a2b71ea30459e0745003a8"
+    },
+    {
+      "path": "src/components/ui/context-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bad5ecec471b1fffa49c1f23a43f4d69ebb4edb3",
+      "size": 7391,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bad5ecec471b1fffa49c1f23a43f4d69ebb4edb3"
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ed559e3d6f2ab5f0d0287f56c63fbcd48a47b87",
+      "size": 3648,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8ed559e3d6f2ab5f0d0287f56c63fbcd48a47b87"
+    },
+    {
+      "path": "src/components/ui/drawer.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "33533cc7600c40d506a3d308d16ef25f95af3e9d",
+      "size": 2973,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/33533cc7600c40d506a3d308d16ef25f95af3e9d"
+    },
+    {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f11da936afd13d3036831b96e8d36f62bf2b81de",
+      "size": 7596,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f11da936afd13d3036831b96e8d36f62bf2b81de"
+    },
+    {
+      "path": "src/components/ui/form.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d15828dac1306f42581c2aa2aa45d04c65522db",
+      "size": 4201,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4d15828dac1306f42581c2aa2aa45d04c65522db"
+    },
+    {
+      "path": "src/components/ui/hover-card.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36f3b7976293638d6c1eef6c426847107dbf766f",
+      "size": 1246,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/36f3b7976293638d6c1eef6c426847107dbf766f"
+    },
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95d1f4c303a394a313c79f27184456bef5d99ae5",
+      "size": 2161,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/95d1f4c303a394a313c79f27184456bef5d99ae5"
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7db524115c08e80b10d5282d1bb504b06b238d17",
+      "size": 776,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7db524115c08e80b10d5282d1bb504b06b238d17"
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "392197c3b43d69a9b426d49dec06d32ff53ea8d4",
+      "size": 716,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/392197c3b43d69a9b426d49dec06d32ff53ea8d4"
+    },
+    {
+      "path": "src/components/ui/menubar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5c9eb98d5eaca6f6da74f71e73893c739da6cb3e",
+      "size": 8546,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5c9eb98d5eaca6f6da74f71e73893c739da6cb3e"
+    },
+    {
+      "path": "src/components/ui/navigation-menu.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94b2ecc95158b20a18bd986d1313558a128c480f",
+      "size": 5152,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/94b2ecc95158b20a18bd986d1313558a128c480f"
+    },
+    {
+      "path": "src/components/ui/pagination.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f8cd41fbaad75c338aec493b5c750b65f95845c5",
+      "size": 2739,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f8cd41fbaad75c338aec493b5c750b65f95845c5"
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc78a209bbda251914e8ee4633c303ba55a59d2c",
+      "size": 1352,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/dc78a209bbda251914e8ee4633c303ba55a59d2c"
+    },
+    {
+      "path": "src/components/ui/progress.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1741cd2f42b7b3c7edcabee07c06e8750556f5ed",
+      "size": 781,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1741cd2f42b7b3c7edcabee07c06e8750556f5ed"
+    },
+    {
+      "path": "src/components/ui/radio-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38a1a6629d76c4a6f445eb85aa8c6d485b9c064a",
+      "size": 1405,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/38a1a6629d76c4a6f445eb85aa8c6d485b9c064a"
+    },
+    {
+      "path": "src/components/ui/resizable.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02e9460e72e5e0afa5f71264f0fcd4a16d021aea",
+      "size": 1552,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/02e9460e72e5e0afa5f71264f0fcd4a16d021aea"
+    },
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69febe58466d6309bdfc74bdca456c7aac448f79",
+      "size": 1635,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/69febe58466d6309bdfc74bdca456c7aac448f79"
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3fdfc929eb90d4f33e2591e94cdfb2278d1b5c38",
+      "size": 5749,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3fdfc929eb90d4f33e2591e94cdfb2278d1b5c38"
+    },
+    {
+      "path": "src/components/ui/separator.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f5966c41731e846b2bc97de315471ea605ffe86",
+      "size": 723,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5f5966c41731e846b2bc97de315471ea605ffe86"
+    },
+    {
+      "path": "src/components/ui/sheet.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0aedeb766169d085f3b4bb72e80eac6fe552b971",
+      "size": 4248,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0aedeb766169d085f3b4bb72e80eac6fe552b971"
+    },
+    {
+      "path": "src/components/ui/sidebar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3922680246adfbcdc91110f779eea0b291222a54",
+      "size": 23975,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3922680246adfbcdc91110f779eea0b291222a54"
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d9a616758e39fcbc07480484a308ffb9d9fba5d",
+      "size": 239,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6d9a616758e39fcbc07480484a308ffb9d9fba5d"
+    },
+    {
+      "path": "src/components/ui/slider.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e56622ad7eec5f4e98dc870f745c2e066c66f10e",
+      "size": 1025,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e56622ad7eec5f4e98dc870f745c2e066c66f10e"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a214692adeeea9cfe4acd8659b1b7e0fd4f756f",
+      "size": 734,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7a214692adeeea9cfe4acd8659b1b7e0fd4f756f"
+    },
+    {
+      "path": "src/components/ui/switch.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6338184e11d92961b4dfd06f151ce5ada7dd838c",
+      "size": 1156,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6338184e11d92961b4dfd06f151ce5ada7dd838c"
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49d2d5c7c3e9d2d43fb2a2e423c751ec77da4279",
+      "size": 2820,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/49d2d5c7c3e9d2d43fb2a2e423c751ec77da4279"
+    },
+    {
+      "path": "src/components/ui/tabs.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6047b50eb6db8395f79c666e488d71881155d97e",
+      "size": 1934,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6047b50eb6db8395f79c666e488d71881155d97e"
+    },
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29330b61811cf9aaac31a94f981728f898229bd5",
+      "size": 677,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/29330b61811cf9aaac31a94f981728f898229bd5"
+    },
+    {
+      "path": "src/components/ui/toggle-group.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2c9f8ee385d50f14ca51f63db9cad9b92accd47",
+      "size": 1752,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d2c9f8ee385d50f14ca51f63db9cad9b92accd47"
+    },
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d146b6a1051516735339895093cbcbcfeb9a3e8",
+      "size": 1534,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9d146b6a1051516735339895093cbcbcfeb9a3e8"
+    },
+    {
+      "path": "src/components/ui/tooltip.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07e55fafdcf32ee9a57164a07c89422e61c6ac2e",
+      "size": 1278,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/07e55fafdcf32ee9a57164a07c89422e61c6ac2e"
+    },
+    {
+      "path": "src/domain/finance/invoice-selectors.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35e435896b0b8ce178d4679153a76ab348f4b504",
+      "size": 2552,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/35e435896b0b8ce178d4679153a76ab348f4b504"
+    },
+    {
+      "path": "src/features/.gitkeep",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "src/features/couriers/CouriersScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4de869f12941f2af893ae475b96e6d6bd24f03c",
+      "size": 5001,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b4de869f12941f2af893ae475b96e6d6bd24f03c"
+    },
+    {
+      "path": "src/features/customers/AddCustomerInline.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d834fd65b3f60d32bb006d43a730151125f79234",
+      "size": 2779,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d834fd65b3f60d32bb006d43a730151125f79234"
+    },
+    {
+      "path": "src/features/customers/CustomersScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5219d2f4cba049e33f1f7fefe58c05f5f153579a",
+      "size": 4134,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5219d2f4cba049e33f1f7fefe58c05f5f153579a"
+    },
+    {
+      "path": "src/features/home/HomeScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f37278a10607613843c89e0ea8939c5c0da13c7",
+      "size": 14285,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f37278a10607613843c89e0ea8939c5c0da13c7"
+    },
+    {
+      "path": "src/features/inventory/AddProductSheet.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ece2905516a421e9c1e0dfa84074bcf4173b0775",
+      "size": 8319,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ece2905516a421e9c1e0dfa84074bcf4173b0775"
+    },
+    {
+      "path": "src/features/inventory/InventoryScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "048832afc1b558ac7b1574949e059472e91244fc",
+      "size": 8454,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/048832afc1b558ac7b1574949e059472e91244fc"
+    },
+    {
+      "path": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b25f346fee598cdaff1be902d0b45b61a9f3b023",
+      "size": 14824,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b25f346fee598cdaff1be902d0b45b61a9f3b023"
+    },
+    {
+      "path": "src/features/invoices/InvoicesScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7fa5bacdad3dd5983ed23bc003920055bf14ff09",
+      "size": 3076,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7fa5bacdad3dd5983ed23bc003920055bf14ff09"
+    },
+    {
+      "path": "src/features/layout/BottomNav.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "092dbbe0e3723c211f369fe86b8541ae0ff7e858",
+      "size": 2465,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/092dbbe0e3723c211f369fe86b8541ae0ff7e858"
+    },
+    {
+      "path": "src/features/layout/DesktopSidebar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3c7f03e58b0c3e64de79ca3bf50043762192392",
+      "size": 4460,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f3c7f03e58b0c3e64de79ca3bf50043762192392"
+    },
+    {
+      "path": "src/features/layout/TopBar.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "358c2555c68161d3792e504ef34b9e20901e1e3c",
+      "size": 984,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/358c2555c68161d3792e504ef34b9e20901e1e3c"
+    },
+    {
+      "path": "src/features/pilot/PilotScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7248d317f082e4c363a69f8aadcec0e90576a9b9",
+      "size": 11075,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7248d317f082e4c363a69f8aadcec0e90576a9b9"
+    },
+    {
+      "path": "src/features/reports/CollectedScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bf4eb326e11cc856b659d57206e19c69b0205769",
+      "size": 4858,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bf4eb326e11cc856b659d57206e19c69b0205769"
+    },
+    {
+      "path": "src/features/reports/ProfitScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bc3bad01724d6b4807a64f3a10b8b0cdb6624446",
+      "size": 3839,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bc3bad01724d6b4807a64f3a10b8b0cdb6624446"
+    },
+    {
+      "path": "src/features/settings/SettingsScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29bc4b0f278523438e43d3119b46b268442f5c60",
+      "size": 6198,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/29bc4b0f278523438e43d3119b46b268442f5c60"
+    },
+    {
+      "path": "src/features/shared/AppContext.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f8c09ba86c1b558d8d04e700817b3276516e6c5",
+      "size": 4937,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f8c09ba86c1b558d8d04e700817b3276516e6c5"
+    },
+    {
+      "path": "src/features/shared/EmptyState.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "31d9d514ae8e165ae7c07f1b7ac474d410a848af",
+      "size": 295,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/31d9d514ae8e165ae7c07f1b7ac474d410a848af"
+    },
+    {
+      "path": "src/features/shared/FinancialReadBoundary.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "380c76602ab39604fb739dfb73b4974466d4afa1",
+      "size": 2486,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/380c76602ab39604fb739dfb73b4974466d4afa1"
+    },
+    {
+      "path": "src/features/shared/Money.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f68bac1f42154bcc994296deb86e417a967b595e",
+      "size": 480,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f68bac1f42154bcc994296deb86e417a967b595e"
+    },
+    {
+      "path": "src/features/shared/Sheet.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "306ca1c3b4f5b68bc476543fa6aa90fbee219947",
+      "size": 897,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/306ca1c3b4f5b68bc476543fa6aa90fbee219947"
+    },
+    {
+      "path": "src/features/shared/StatusChip.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4cdc9e8b1150de546790c36be91a6c7a237bf59b",
+      "size": 775,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4cdc9e8b1150de546790c36be91a6c7a237bf59b"
+    },
+    {
+      "path": "src/features/shared/Toast.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3ec1548c4b1efeaa814f5b236466b4e37e7b1ef",
+      "size": 590,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e3ec1548c4b1efeaa814f5b236466b4e37e7b1ef"
+    },
+    {
+      "path": "src/features/shared/financial-read-state.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ece80c5ee61835c9933bbf169f4c0248dac3f93a",
+      "size": 2085,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ece80c5ee61835c9933bbf169f4c0248dac3f93a"
+    },
+    {
+      "path": "src/features/shared/types.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ba152a3ae5c68bcdc22bd12856e32704b45708d",
+      "size": 1994,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ba152a3ae5c68bcdc22bd12856e32704b45708d"
+    },
+    {
+      "path": "src/features/shop/ShopHubScreen.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7a6c80b8aa7660bca72a17b23e235be10322308",
+      "size": 3069,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d7a6c80b8aa7660bca72a17b23e235be10322308"
+    },
+    {
+      "path": "src/hooks/use-mobile.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "502fd323934501eab408a396a9ae4a07c0ae3560",
+      "size": 576,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/502fd323934501eab408a396a9ae4a07c0ae3560"
+    },
+    {
+      "path": "src/hooks/usePaddleCheckout.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6bf0944b1b93d751d2dfbeae923c1e17c826d654",
+      "size": 1103,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6bf0944b1b93d751d2dfbeae923c1e17c826d654"
+    },
+    {
+      "path": "src/hooks/useTheme.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36eeac15a0fc19369d7d9d9890297faaabddda70",
+      "size": 1211,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/36eeac15a0fc19369d7d9d9890297faaabddda70"
+    },
+    {
+      "path": "src/integrations/lovable/index.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd9550c59c7465e48ca5328eb7d794251a3d188e",
+      "size": 983,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/dd9550c59c7465e48ca5328eb7d794251a3d188e"
+    },
+    {
+      "path": "src/integrations/supabase/auth-attacher.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cbedca6167a1e9f52826e86c62ffbe669a24d081",
+      "size": 617,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cbedca6167a1e9f52826e86c62ffbe669a24d081"
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4ee311cfbb2da3c06c0405801b347b92e29082c4",
+      "size": 3191,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4ee311cfbb2da3c06c0405801b347b92e29082c4"
+    },
+    {
+      "path": "src/integrations/supabase/client.server.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f63eeb841c3a7954fc501f2c9f225429dd35cf2d",
+      "size": 2766,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f63eeb841c3a7954fc501f2c9f225429dd35cf2d"
+    },
+    {
+      "path": "src/integrations/supabase/client.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "63809f2aaf351d70a6fe57a827afdcee72b25663",
+      "size": 2471,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/63809f2aaf351d70a6fe57a827afdcee72b25663"
+    },
+    {
+      "path": "src/integrations/supabase/types.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7216cdaf91f4d49b3b5ae49fb40fe886e10a727b",
+      "size": 36222,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7216cdaf91f4d49b3b5ae49fb40fe886e10a727b"
+    },
+    {
+      "path": "src/lib/account-state.server.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4967ff9f59587cbc6162e2ba19f5b2154cae2e18",
+      "size": 1283,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4967ff9f59587cbc6162e2ba19f5b2154cae2e18"
+    },
+    {
+      "path": "src/lib/business-types.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c28cf3859be32a91761e3d6d64a4235edd49a5e7",
+      "size": 676,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c28cf3859be32a91761e3d6d64a4235edd49a5e7"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f",
+      "size": 27692,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f"
+    },
+    {
+      "path": "src/lib/error-capture.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "171c9b5800c5b17efc0598eae4c760b3778021e6",
+      "size": 906,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/171c9b5800c5b17efc0598eae4c760b3778021e6"
+    },
+    {
+      "path": "src/lib/error-page.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "725235ce7bdf496daf2d870148978939f4f40a9b",
+      "size": 1371,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/725235ce7bdf496daf2d870148978939f4f40a9b"
+    },
+    {
+      "path": "src/lib/invoice-pdf.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "089e9735612ce2f7e22b3918b74054097f3e4889",
+      "size": 19649,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/089e9735612ce2f7e22b3918b74054097f3e4889"
+    },
+    {
+      "path": "src/lib/lovable-error-reporting.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1f9b1b009111538a2a65a79edf1f85a4f3424f1",
+      "size": 830,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d1f9b1b009111538a2a65a79edf1f85a4f3424f1"
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+      "size": 1352,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3b51435ffacb868c7357d0b340a6f7f0d20fe88d"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-customers.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aefb9e1ee5d3ea08570b1da7f02f8c0af953bd29",
+      "size": 1455,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/aefb9e1ee5d3ea08570b1da7f02f8c0af953bd29"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-products.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8835e58960be140ab5a301d4527ad526f291eac8",
+      "size": 1555,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8835e58960be140ab5a301d4527ad526f291eac8"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-recent-orders.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0439a6a23aec4f165965b19a54e1e1473510516f",
+      "size": 1637,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0439a6a23aec4f165965b19a54e1e1473510516f"
+    },
+    {
+      "path": "src/lib/mcp/tools/today-summary.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5451d4f1d49d26edad871bbc3833ebf45ed64dfc",
+      "size": 1177,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5451d4f1d49d26edad871bbc3833ebf45ed64dfc"
+    },
+    {
+      "path": "src/lib/paddle.server.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a6195712a4956d670dfc9bc8fff323fcfc9ae1c4",
+      "size": 1945,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a6195712a4956d670dfc9bc8fff323fcfc9ae1c4"
+    },
+    {
+      "path": "src/lib/paddle.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4a422678b31efff0c2eb7e7b2983428097010b9a",
+      "size": 1760,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4a422678b31efff0c2eb7e7b2983428097010b9a"
+    },
+    {
+      "path": "src/lib/pwa-register.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec6ce2414ff0fdc387556060d8aae03ddd0ce189",
+      "size": 2037,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ec6ce2414ff0fdc387556060d8aae03ddd0ce189"
+    },
+    {
+      "path": "src/lib/subscription-webhook.server.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9333457594afe25d90ce2d63bdc4f2c7db000fb3",
+      "size": 6203,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9333457594afe25d90ce2d63bdc4f2c7db000fb3"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a5ef193506d07d0459fec4f187af08283094d7c8",
+      "size": 169,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a5ef193506d07d0459fec4f187af08283094d7c8"
+    },
+    {
+      "path": "src/routeTree.gen.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "773224349572a5a572dc387329b846c973b24bab",
+      "size": 15085,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/773224349572a5a572dc387329b846c973b24bab"
+    },
+    {
+      "path": "src/router.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3423d598036579e62f42faec438f868b4bb0bb17",
+      "size": 394,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3423d598036579e62f42faec438f868b4bb0bb17"
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d59dbb0cb68b13f8085c8f702fb9672156b1c974",
+      "size": 4228,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d59dbb0cb68b13f8085c8f702fb9672156b1c974"
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e",
+      "size": 845,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e631701c3f93723ca95bc2fe95cfb655b0a08c2e"
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3",
+      "size": 819,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3"
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac78a6d33a40bbf0111db81c81a82202c1ffa708",
+      "size": 831,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ac78a6d33a40bbf0111db81c81a82202c1ffa708"
+    },
+    {
+      "path": "src/routes/__root.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07baa469d4147f9870cff0c0628f0b65f97fcfae",
+      "size": 5112,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/07baa469d4147f9870cff0c0628f0b65f97fcfae"
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af60f2be20d9b827da680b5e9a375307d11693e3",
+      "size": 108375,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/af60f2be20d9b827da680b5e9a375307d11693e3"
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab896a541cb4031400f5f311b2aedfa4bdc9d6f3",
+      "size": 10534,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ab896a541cb4031400f5f311b2aedfa4bdc9d6f3"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bb89aa6d939d5d0316eb6dd4d31c59596896477c",
+      "size": 4488,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bb89aa6d939d5d0316eb6dd4d31c59596896477c"
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85976c3b4b8205df04990c0c2877febb504e791b",
+      "size": 35668,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/85976c3b4b8205df04990c0c2877febb504e791b"
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0eb206f28305c00fa0f9722cdfb7185e88673f1c",
+      "size": 2077,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0eb206f28305c00fa0f9722cdfb7185e88673f1c"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06ab5598a53d1170401ec8b46451f51c9e911c40",
+      "size": 1020,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/06ab5598a53d1170401ec8b46451f51c9e911c40"
+    },
+    {
+      "path": "src/routes/auth.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "77384b5056a714a0aeaa250ea810c2727c29e48f",
+      "size": 12550,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/77384b5056a714a0aeaa250ea810c2727c29e48f"
+    },
+    {
+      "path": "src/routes/guide.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2c0517a4bb27fe5daa8fbcccf529bde4ec9f7e8",
+      "size": 16030,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c2c0517a4bb27fe5daa8fbcccf529bde4ec9f7e8"
+    },
+    {
+      "path": "src/routes/index.tsx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1474d6446b23e191d732c12a90be6f0e1ffbaf8a",
+      "size": 34421,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1474d6446b23e191d732c12a90be6f0e1ffbaf8a"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26fc649b7fadf13d11e509f6b1fadcbb3300b682",
+      "size": 13749,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/26fc649b7fadf13d11e509f6b1fadcbb3300b682"
+    },
+    {
+      "path": "src/routes/mcp.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0436bb4ab0d9567668c13dcb4a7f73a1958cbdc8",
+      "size": 673,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0436bb4ab0d9567668c13dcb4a7f73a1958cbdc8"
+    },
+    {
+      "path": "src/routes/sitemap[.]xml.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e45e999063d0feacd7db4e41751de38caa0e10c",
+      "size": 1485,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5e45e999063d0feacd7db4e41751de38caa0e10c"
+    },
+    {
+      "path": "src/server.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ac35a67afe5ba1682108a044bbb36ebc12e0d440",
+      "size": 4316,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ac35a67afe5ba1682108a044bbb36ebc12e0d440"
+    },
+    {
+      "path": "src/start.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2b6bb36c089cce08d18def495d0ad716e484818a",
+      "size": 853,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2b6bb36c089cce08d18def495d0ad716e484818a"
+    },
+    {
+      "path": "src/styles.css",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "526d5504cfcd6a8339aa17ff946e79d64a20d372",
+      "size": 4716,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/526d5504cfcd6a8339aa17ff946e79d64a20d372"
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+      "size": 850,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3c7dbd8e0954a606b6ba7f4fced3261f0b496541"
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f53bb0695f56148d678fac7feb5e9328a58d860",
+      "size": 49,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0f53bb0695f56148d678fac7feb5e9328a58d860"
+    },
+    {
+      "path": "supabase/config.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2bb3ba142526e89d97f8736ff0953cfd2bdf6839",
+      "size": 35,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2bb3ba142526e89d97f8736ff0953cfd2bdf6839"
+    },
+    {
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29",
+      "size": 4413,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29"
+    },
+    {
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b7746f47b990dd4b50089d56b751bd4a78e17fc7",
+      "size": 710,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b7746f47b990dd4b50089d56b751bd4a78e17fc7"
+    },
+    {
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a585730de455ddc5a78dc9f3e09fd3e93ca02e79",
+      "size": 6146,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a585730de455ddc5a78dc9f3e09fd3e93ca02e79"
+    },
+    {
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d5426e64c1fd8d9dad78f42d56d061be778a0ed",
+      "size": 4942,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7d5426e64c1fd8d9dad78f42d56d061be778a0ed"
+    },
+    {
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abda83bdb5295dfa6d51d8f5af7d75688631eee0",
+      "size": 1490,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/abda83bdb5295dfa6d51d8f5af7d75688631eee0"
+    },
+    {
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0dc22071a5448abdb0a95a56c97d24adbf2019df",
+      "size": 193,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0dc22071a5448abdb0a95a56c97d24adbf2019df"
+    },
+    {
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88fd9836826e875faa98fde0bc6311c1672b69f1",
+      "size": 9160,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/88fd9836826e875faa98fde0bc6311c1672b69f1"
+    },
+    {
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eb128740f70e1adf13146b7f7ab5182fbbefb13b",
+      "size": 13806,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/eb128740f70e1adf13146b7f7ab5182fbbefb13b"
+    },
+    {
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "268a59b85f26e7556e539920327102fe520420be",
+      "size": 564,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/268a59b85f26e7556e539920327102fe520420be"
+    },
+    {
+      "path": "supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5f2f721207a778d60eee35ddc14bd0990b76bdf",
+      "size": 777,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f5f2f721207a778d60eee35ddc14bd0990b76bdf"
+    },
+    {
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "06ea226cbffa018e831e8a3f9dc784813e588bd6",
+      "size": 1913,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/06ea226cbffa018e831e8a3f9dc784813e588bd6"
+    },
+    {
+      "path": "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948",
+      "size": 1090,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948"
+    },
+    {
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "664530b175a3e0e2707f374906840ca8fda26dae",
+      "size": 21314,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/664530b175a3e0e2707f374906840ca8fda26dae"
+    },
+    {
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a15606bb8d4b287cf0def00b402e16c9b89afdb8",
+      "size": 3341,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a15606bb8d4b287cf0def00b402e16c9b89afdb8"
+    },
+    {
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231",
+      "size": 530,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231"
+    },
+    {
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83b0aeb7693c3228d003d55c20000963f0725200",
+      "size": 829,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/83b0aeb7693c3228d003d55c20000963f0725200"
+    },
+    {
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7e5df32149acd8a3227651f88bdc7d83c6e5c04",
+      "size": 20566,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c7e5df32149acd8a3227651f88bdc7d83c6e5c04"
+    },
+    {
+      "path": "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2164cfdb56c1479e208e2cea4c28aaf425cc4919",
+      "size": 4175,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2164cfdb56c1479e208e2cea4c28aaf425cc4919"
+    },
+    {
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0ea200dde8b88134593c59f2d419da234721ffd",
+      "size": 929,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d0ea200dde8b88134593c59f2d419da234721ffd"
+    },
+    {
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a98ca8632905061be5501dbfe86dd7b880dd51c4",
+      "size": 733,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a98ca8632905061be5501dbfe86dd7b880dd51c4"
+    },
+    {
+      "path": "supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b1431806f4db21019257c9a4e2c80b5c07097e5c",
+      "size": 278,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b1431806f4db21019257c9a4e2c80b5c07097e5c"
+    },
+    {
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "85a67ecfbc006125496e9afebef0d629e0db6199",
+      "size": 5929,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/85a67ecfbc006125496e9afebef0d629e0db6199"
+    },
+    {
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df5f868ba59ca95f75d179eceb96e4b81fae342f",
+      "size": 6251,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/df5f868ba59ca95f75d179eceb96e4b81fae342f"
+    },
+    {
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "07048605f67628ed5b54c5bafd0bb3c388509b76",
+      "size": 24384,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/07048605f67628ed5b54c5bafd0bb3c388509b76"
+    },
+    {
+      "path": "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2df0d72d4d6626196451b284721b3e08bc83603f",
+      "size": 88,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2df0d72d4d6626196451b284721b3e08bc83603f"
+    },
+    {
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "55ce1238fecfb08c39a2c7d9bf1849d927c2733e",
+      "size": 7837,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/55ce1238fecfb08c39a2c7d9bf1849d927c2733e"
+    },
+    {
+      "path": "supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c69a97c145c8530c44d941f6b418aad9fb8e60a",
+      "size": 76,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1c69a97c145c8530c44d941f6b418aad9fb8e60a"
+    },
+    {
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef",
+      "size": 3239,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef"
+    },
+    {
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d9c5c0341d063533bd00cded2447e46e96c3a3dd",
+      "size": 930,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d9c5c0341d063533bd00cded2447e46e96c3a3dd"
+    },
+    {
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad099717609b3c27c8fd66be5975d49a489a28f2",
+      "size": 155,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ad099717609b3c27c8fd66be5975d49a489a28f2"
+    },
+    {
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9b5a7f75e6343fc761267ff9123c490add1ebb05",
+      "size": 3271,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9b5a7f75e6343fc761267ff9123c490add1ebb05"
+    },
+    {
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c35e58bcef2781750fba2d79cc154fcb0293f28",
+      "size": 3984,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6c35e58bcef2781750fba2d79cc154fcb0293f28"
+    },
+    {
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0cf75d0764d058057439b540a29883235ade7942",
+      "size": 1589,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0cf75d0764d058057439b540a29883235ade7942"
+    },
+    {
+      "path": "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2f6bd895abf01ea11fa4147f2793f2598f27e6bb",
+      "size": 804,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2f6bd895abf01ea11fa4147f2793f2598f27e6bb"
+    },
+    {
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2892a0adb6e567aa11a9a98795f5bc348a833cd",
+      "size": 6249,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d2892a0adb6e567aa11a9a98795f5bc348a833cd"
+    },
+    {
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "381d968d10f1265a909fc0fdb66f77adbf79af4f",
+      "size": 5227,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/381d968d10f1265a909fc0fdb66f77adbf79af4f"
+    },
+    {
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "37d81c014f40e53626ba09714c843b976fdac7eb",
+      "size": 2892,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/37d81c014f40e53626ba09714c843b976fdac7eb"
+    },
+    {
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dfb505f8f0f7de742b04c9ebe295f7466c800dea",
+      "size": 535,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/dfb505f8f0f7de742b04c9ebe295f7466c800dea"
+    },
+    {
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0aa11bba4ba0c4d95c42f37aaf957a1d007f7011",
+      "size": 11730,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0aa11bba4ba0c4d95c42f37aaf957a1d007f7011"
+    },
+    {
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5",
+      "size": 904,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5"
+    },
+    {
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81d0bfa72c2a59333591ed2236931c4623a740f3",
+      "size": 967,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/81d0bfa72c2a59333591ed2236931c4623a740f3"
+    },
+    {
+      "path": "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe",
+      "size": 56641,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d632a985f2330c8f969cd49aa9a7d5fba2e38bfe"
+    },
+    {
+      "path": "supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f",
+      "size": 468,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b5a992be872a2d9d4d896eed8a80c54cf6379b9f"
+    },
+    {
+      "path": "supabase/migrations/20261013120223_sec_truncate_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ccab1b2f5bb2922d75210b538656f948fa7003d8",
+      "size": 1746,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ccab1b2f5bb2922d75210b538656f948fa7003d8"
+    },
+    {
+      "path": "supabase/migrations/20261013221918_owner_closure_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4fbd720b034198ae4b550de4517576f804edf948",
+      "size": 3486,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4fbd720b034198ae4b550de4517576f804edf948"
+    },
+    {
+      "path": "supabase/migrations/20261020210549_scanner_auth_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+      "size": 6049,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f2f6598eb9349ae1674254ff1120479aebdcd84f"
+    },
+    {
+      "path": "supabase/migrations/20261021080927_tenant_entitlement_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d43f6635bd9b6d7e9ec1798840e8b8b70f076200",
+      "size": 711,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d43f6635bd9b6d7e9ec1798840e8b8b70f076200"
+    },
+    {
+      "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+      "size": 18441,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+    },
+    {
+      "path": "supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1bb458f7f7e31313fdd17246df811ef54b0915b8",
+      "size": 16834,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1bb458f7f7e31313fdd17246df811ef54b0915b8"
+    },
+    {
+      "path": "supabase/migrations/20261021140746_webhook_errors_01.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f981d01a333703a1cab4d1c95010f165ce58ea5",
+      "size": 16810,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f981d01a333703a1cab4d1c95010f165ce58ea5"
+    },
+    {
+      "path": "tests/account-lifecycle/correction_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c2e5e57935f07cd27758ff0c75e0d21d86890e2",
+      "size": 28057,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7c2e5e57935f07cd27758ff0c75e0d21d86890e2"
+    },
+    {
+      "path": "tests/account-lifecycle/evidence_guard.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62e9ef351271c0394bdcce3d17c3fd421eb917e2",
+      "size": 4911,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/62e9ef351271c0394bdcce3d17c3fd421eb917e2"
+    },
+    {
+      "path": "tests/account-lifecycle/independent_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65051705e9161e035105b6b52152a92e24c131b0",
+      "size": 17544,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/65051705e9161e035105b6b52152a92e24c131b0"
+    },
+    {
+      "path": "tests/account-lifecycle/live_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee8e584a563dec25c2a970feebfc91b19e8f2d46",
+      "size": 18407,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ee8e584a563dec25c2a970feebfc91b19e8f2d46"
+    },
+    {
+      "path": "tests/account-lifecycle/mcp_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fafb0848e65fa729104187de770917df8ea3c4e6",
+      "size": 20163,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fafb0848e65fa729104187de770917df8ea3c4e6"
+    },
+    {
+      "path": "tests/account-lifecycle/mcp_server.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf7a9fafa6d900c3a4a4dab1069475ea099f8848",
+      "size": 2837,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cf7a9fafa6d900c3a4a4dab1069475ea099f8848"
+    },
+    {
+      "path": "tests/account-lifecycle/natural_expiry_contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38b3290cec8e20dad47d46dcb6ccf6b0738fd98e",
+      "size": 4376,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/38b3290cec8e20dad47d46dcb6ccf6b0738fd98e"
+    },
+    {
+      "path": "tests/account-lifecycle/natural_expiry_crypto.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a4314b632cd35da17f89b7cdd4a788628289c595",
+      "size": 2024,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a4314b632cd35da17f89b7cdd4a788628289c595"
+    },
+    {
+      "path": "tests/account-lifecycle/natural_expiry_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "94dcecfb083f420a8edeff46352373407e3b0125",
+      "size": 20411,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/94dcecfb083f420a8edeff46352373407e3b0125"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_client.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee38cc227e87b2c3aa00ead5f52efedd7be3973c",
+      "size": 1836,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ee38cc227e87b2c3aa00ead5f52efedd7be3973c"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_guard.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdc2a16f979c62983224bfe249ab07b594620c89",
+      "size": 5770,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fdc2a16f979c62983224bfe249ab07b594620c89"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d0514aa7d820d5029d7e313516af844349bf2a17",
+      "size": 15345,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d0514aa7d820d5029d7e313516af844349bf2a17"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_wire.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1023e8dc8adfcfb62541774401ce1e0a513f546",
+      "size": 859,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e1023e8dc8adfcfb62541774401ce1e0a513f546"
+    },
+    {
+      "path": "tests/account-lifecycle/owner_catalog.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e2af6dc8c364888b985056b550a9f21630b76810",
+      "size": 7088,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e2af6dc8c364888b985056b550a9f21630b76810"
+    },
+    {
+      "path": "tests/account-lifecycle/owner_catalog_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cd0602daf8f9ef5d486ab2665d29c78596e27bac",
+      "size": 14748,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cd0602daf8f9ef5d486ab2665d29c78596e27bac"
+    },
+    {
+      "path": "tests/account-lifecycle/owner_closure_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e42521ffcbe47adab56941f216980d95b803f1f",
+      "size": 28799,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7e42521ffcbe47adab56941f216980d95b803f1f"
+    },
+    {
+      "path": "tests/account-lifecycle/scanner_auth_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8e7a747c9bbd857ab0a559f6978017a98b81b9eb",
+      "size": 14720,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8e7a747c9bbd857ab0a559f6978017a98b81b9eb"
+    },
+    {
+      "path": "tests/account-lifecycle/scanner_evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "95b13d0f82eec2fd14af29c0bab1ed7acf29e6bf",
+      "size": 2178,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/95b13d0f82eec2fd14af29c0bab1ed7acf29e6bf"
+    },
+    {
+      "path": "tests/account-lifecycle/tanstack_route_build.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e4adb2385bb665f5a69cea72659aab956eafaa6b",
+      "size": 4203,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e4adb2385bb665f5a69cea72659aab956eafaa6b"
+    },
+    {
+      "path": "tests/account-lifecycle/tanstack_route_guard.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d4863b41987190264d11e9fa16035b0d8e632356",
+      "size": 3855,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d4863b41987190264d11e9fa16035b0d8e632356"
+    },
+    {
+      "path": "tests/account-lifecycle/tanstack_route_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d7204327ee08b3d8d41fe58d49b0d1c083fc5fea",
+      "size": 21510,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d7204327ee08b3d8d41fe58d49b0d1c083fc5fea"
+    },
+    {
+      "path": "tests/account-lifecycle/tenant_entitlement_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df5b9bcdfe90c74f96d8f70bd5b29fb847059f76",
+      "size": 22117,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/df5b9bcdfe90c74f96d8f70bd5b29fb847059f76"
+    },
+    {
+      "path": "tests/account-lifecycle/test_correction_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "74038a05e9aa8deb61dc9270c1ee5948b719871f",
+      "size": 5626,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/74038a05e9aa8deb61dc9270c1ee5948b719871f"
+    },
+    {
+      "path": "tests/account-lifecycle/test_evidence_guard.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a395145a3d6d6187d0014efb6a5dd054388b613f",
+      "size": 5140,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a395145a3d6d6187d0014efb6a5dd054388b613f"
+    },
+    {
+      "path": "tests/account-lifecycle/test_independent_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c5cc2aeb0d231ef96e00eabf9e24578026dc2677",
+      "size": 6421,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c5cc2aeb0d231ef96e00eabf9e24578026dc2677"
+    },
+    {
+      "path": "tests/account-lifecycle/test_live_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17a4def863b66530f7c90721610603386a08fe25",
+      "size": 3014,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/17a4def863b66530f7c90721610603386a08fe25"
+    },
+    {
+      "path": "tests/account-lifecycle/test_mcp_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9fee05d3cede7ea505adbccebebb1f3ad0e065a9",
+      "size": 2653,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9fee05d3cede7ea505adbccebebb1f3ad0e065a9"
+    },
+    {
+      "path": "tests/account-lifecycle/test_natural_expiry_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "119e878f620d79bbcc9d7263464e50f8f458fdd8",
+      "size": 5713,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/119e878f620d79bbcc9d7263464e50f8f458fdd8"
+    },
+    {
+      "path": "tests/account-lifecycle/test_oauth_consent_fixture.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a981dab7bd3e0c09b7b69f0314df2d98b1b2ef0c",
+      "size": 3693,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a981dab7bd3e0c09b7b69f0314df2d98b1b2ef0c"
+    },
+    {
+      "path": "tests/account-lifecycle/test_owner_catalog_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "777208a5c68ef2bc6094d2949ad11c98bd962d2c",
+      "size": 4936,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/777208a5c68ef2bc6094d2949ad11c98bd962d2c"
+    },
+    {
+      "path": "tests/account-lifecycle/test_owner_closure_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "abeea7e0bb696df576131831f549177abf4fa0dc",
+      "size": 1076,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/abeea7e0bb696df576131831f549177abf4fa0dc"
+    },
+    {
+      "path": "tests/account-lifecycle/test_scanner_auth_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bc49d93ebbfca83a2b9ae89307e44ea86650b74",
+      "size": 3050,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7bc49d93ebbfca83a2b9ae89307e44ea86650b74"
+    },
+    {
+      "path": "tests/account-lifecycle/test_tanstack_route_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "82769956b098da9db2afb4ddfe852ff2b3c6f79f",
+      "size": 4473,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/82769956b098da9db2afb4ddfe852ff2b3c6f79f"
+    },
+    {
+      "path": "tests/account-lifecycle/test_tenant_entitlement_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c4c55dd1d2a054a584340c41bbaf011d4a2cca7",
+      "size": 1200,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/2c4c55dd1d2a054a584340c41bbaf011d4a2cca7"
+    },
+    {
+      "path": "tests/account-lifecycle/test_truncate_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f6fa8e139586c820889a92beac86a365adc568f3",
+      "size": 4651,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/f6fa8e139586c820889a92beac86a365adc568f3"
+    },
+    {
+      "path": "tests/account-lifecycle/truncate_privileges.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "641c35ff93951631404ab9e0b1a372a8b39e4c90",
+      "size": 2097,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/641c35ff93951631404ab9e0b1a372a8b39e4c90"
+    },
+    {
+      "path": "tests/account-lifecycle/truncate_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a21a700c3db4014f547258d7fa40f660d1f70e7f",
+      "size": 16663,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a21a700c3db4014f547258d7fa40f660d1f70e7f"
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_handler.test.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa74ca54ffd78fba52724619e1c7ed8e7a181902",
+      "size": 5445,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fa74ca54ffd78fba52724619e1c7ed8e7a181902"
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_invoke.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c7bf6d9b1c5be986d2d8df365bbe317db21a556",
+      "size": 6052,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7c7bf6d9b1c5be986d2d8df365bbe317db21a556"
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_persistence_probe.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e676a1fc6a753a31d146b2b5f4e514cad5f8ca8e",
+      "size": 31195,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e676a1fc6a753a31d146b2b5f4e514cad5f8ca8e"
+    },
+    {
+      "path": "tests/app-debt-missing-customer/browser.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79e93d5b7486a0e3066b2d223ebf7a63d835ae62",
+      "size": 9544,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/79e93d5b7486a0e3066b2d223ebf7a63d835ae62"
+    },
+    {
+      "path": "tests/app-debt-missing-customer/build.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "eda5586ef63a16ebfeaf8b625d1926d72f1b891e",
+      "size": 3843,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/eda5586ef63a16ebfeaf8b625d1926d72f1b891e"
+    },
+    {
+      "path": "tests/app-financial-read/browser.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26b7350f1aafea4b7e296ae5b385773a4e91ce66",
+      "size": 9839,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/26b7350f1aafea4b7e296ae5b385773a4e91ce66"
+    },
+    {
+      "path": "tests/app-financial-read/build.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6a5d16ad91ef88fde7a8335ae0ede31005268b4",
+      "size": 9925,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e6a5d16ad91ef88fde7a8335ae0ede31005268b4"
+    },
+    {
+      "path": "tests/app-financial-read/replay.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a901644feb8503356d4e17c1add5dba3d5b04892",
+      "size": 11291,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a901644feb8503356d4e17c1add5dba3d5b04892"
+    },
+    {
+      "path": "tests/day-close-clock/replay.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69cdfdd9ac4468bc39a7c37edd9dac01ad68279a",
+      "size": 7349,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/69cdfdd9ac4468bc39a7c37edd9dac01ad68279a"
+    },
+    {
+      "path": "tests/e2e/__pycache__/sale-dashboard-close.cpython-313.pyc",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "de77dc65e2e89b22d1c4cdbf16d33db1b638c4d6",
+      "size": 20181,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/de77dc65e2e89b22d1c4cdbf16d33db1b638c4d6"
+    },
+    {
+      "path": "tests/e2e/browser_network_guard.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ddebad5aba645cff1aae59b9d1c1e373c51bf598",
+      "size": 2823,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ddebad5aba645cff1aae59b9d1c1e373c51bf598"
+    },
+    {
+      "path": "tests/e2e/isolated-auth-smoke.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a89e812bebed660e7ef29be962807906bdb3bfa0",
+      "size": 8628,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a89e812bebed660e7ef29be962807906bdb3bfa0"
+    },
+    {
+      "path": "tests/e2e/rapid-click-sale.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4d5c2c669cad99f4749f3b179161b26f3ffdd45e",
+      "size": 22470,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4d5c2c669cad99f4749f3b179161b26f3ffdd45e"
+    },
+    {
+      "path": "tests/e2e/run.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "bb21340a1614fcc2e161c6342a501dfb14a88e13",
+      "size": 992,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bb21340a1614fcc2e161c6342a501dfb14a88e13"
+    },
+    {
+      "path": "tests/e2e/sale-dashboard-close.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9",
+      "size": 13537,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1a63ea92fe5f6eb9e0d30841954f6742b7ee0de9"
+    },
+    {
+      "path": "tests/e2e/write_harness_guard.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cb2435fe47ef5ca5777318643754e5f26c3a3b0",
+      "size": 10237,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5cb2435fe47ef5ca5777318643754e5f26c3a3b0"
+    },
+    {
+      "path": "tests/financial-rules/rules.sql",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9e884003965ac1f2b7043fd361d76d499aed11ae",
+      "size": 19148,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9e884003965ac1f2b7043fd361d76d499aed11ae"
+    },
+    {
+      "path": "tests/financial-rules/run.sh",
+      "mode": "100755",
+      "type": "blob",
+      "sha": "47553eedbd86c8d4984b59ac5287220d141931e2",
+      "size": 1816,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/47553eedbd86c8d4984b59ac5287220d141931e2"
+    },
+    {
+      "path": "tests/g0-babel/contracts.test.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf0f47ad3abff6ca8741fceb760feed71c7e71ad",
+      "size": 3974,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cf0f47ad3abff6ca8741fceb760feed71c7e71ad"
+    },
+    {
+      "path": "tests/g0-babel/evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e29f2b985df80373619306a8404d0f9bb2bce376",
+      "size": 7697,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e29f2b985df80373619306a8404d0f9bb2bce376"
+    },
+    {
+      "path": "tests/g0-dompurify/browser-cases.js",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b57c51dae2e9f3c5b42e640e6ed5f4417b823d68",
+      "size": 4860,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b57c51dae2e9f3c5b42e640e6ed5f4417b823d68"
+    },
+    {
+      "path": "tests/g0-dompurify/browser.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2376b9e9611a66fe0ab00e219b8f48b6dcbc717",
+      "size": 5991,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b2376b9e9611a66fe0ab00e219b8f48b6dcbc717"
+    },
+    {
+      "path": "tests/g0-dompurify/evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ff2efa3eb61c9b9f704f7574e28d7e642b6e3a66",
+      "size": 4526,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ff2efa3eb61c9b9f704f7574e28d7e642b6e3a66"
+    },
+    {
+      "path": "tests/g0-dompurify/pdf-entry.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f25edc734aacd684ec172bf8bf87674b83ec66a",
+      "size": 589,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f25edc734aacd684ec172bf8bf87674b83ec66a"
+    },
+    {
+      "path": "tests/g0-esbuild/collect.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "84999aa00c30d14783e685defcd31c2ee4d76564",
+      "size": 754,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/84999aa00c30d14783e685defcd31c2ee4d76564"
+    },
+    {
+      "path": "tests/g0-esbuild/compatibility.test.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "df1fc30e01b132acb515c0545c5bc2122a4ccbb2",
+      "size": 7259,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/df1fc30e01b132acb515c0545c5bc2122a4ccbb2"
+    },
+    {
+      "path": "tests/g0-esbuild/evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e521bea632da1132db0e6823a048ea846415c574",
+      "size": 8780,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e521bea632da1132db0e6823a048ea846415c574"
+    },
+    {
+      "path": "tests/g0-esbuild/official.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d19dd8c878191609c44a9146ac7339960307b563",
+      "size": 2665,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d19dd8c878191609c44a9146ac7339960307b563"
+    },
+    {
+      "path": "tests/g0-esbuild/security.test.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "208b5d84687ac672df4e23ad8bf6ee6470e11862",
+      "size": 2921,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/208b5d84687ac672df4e23ad8bf6ee6470e11862"
+    },
+    {
+      "path": "tests/g0-esbuild/unpack.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "50ee66967ca1ca0f98cb0bb5b22884bec5d00e06",
+      "size": 2600,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/50ee66967ca1ca0f98cb0bb5b22884bec5d00e06"
+    },
+    {
+      "path": "tests/g0-hono/verify.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c313408cae13c53feef9b92f05b854c5fddf7426",
+      "size": 7205,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c313408cae13c53feef9b92f05b854c5fddf7426"
+    },
+    {
+      "path": "tests/g0-integrated-types/runtime.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cee921fe926ebf3c2688b72f0f0567ded78ef91b",
+      "size": 11378,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cee921fe926ebf3c2688b72f0f0567ded78ef91b"
+    },
+    {
+      "path": "tests/g0-integrated-types/test_build_entry.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "028a828fc0db659ced8ba0cd67d69d10bc03e87c",
+      "size": 2184,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/028a828fc0db659ced8ba0cd67d69d10bc03e87c"
+    },
+    {
+      "path": "tests/g0-node-server/contracts.test.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab7d4969e08fdd217807608469f62ffc2bdc4cb7",
+      "size": 10583,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ab7d4969e08fdd217807608469f62ffc2bdc4cb7"
+    },
+    {
+      "path": "tests/g0-node-server/evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "75ccb0e2954c46b92ef265dcb37b7d90b25b5624",
+      "size": 8870,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/75ccb0e2954c46b92ef265dcb37b7d90b25b5624"
+    },
+    {
+      "path": "tests/g0-node-server/probe.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd2698cd5e152442da5f060238347f0627f593a7",
+      "size": 2516,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fd2698cd5e152442da5f060238347f0627f593a7"
+    },
+    {
+      "path": "tests/g0-qs/evidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16d7959fff43986f35005e10cd5dfc3cbdbfe362",
+      "size": 5013,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/16d7959fff43986f35005e10cd5dfc3cbdbfe362"
+    },
+    {
+      "path": "tests/g0-qs/qs-contract.test.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39775ca723733cfff279844aaf57f8948e6b574d",
+      "size": 5533,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/39775ca723733cfff279844aaf57f8948e6b574d"
+    },
+    {
+      "path": "tests/g01-acceptance/capture.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a3d8e717c4da8e42957238abec994edbfe464bc",
+      "size": 5645,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1a3d8e717c4da8e42957238abec994edbfe464bc"
+    },
+    {
+      "path": "tests/g01-acceptance/cleanup.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fd229bcc98ea2a773ad93f2bed0d19a227dd3004",
+      "size": 2059,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fd229bcc98ea2a773ad93f2bed0d19a227dd3004"
+    },
+    {
+      "path": "tests/g01-acceptance/diagnose_cli.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d588537317165c9c83f4610b8f25ab660ae2c51",
+      "size": 4575,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/6d588537317165c9c83f4610b8f25ab660ae2c51"
+    },
+    {
+      "path": "tests/g01-acceptance/dns_trace.c",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b01961092aa3780dd942b5bfa2a7833c56cac8f",
+      "size": 2607,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4b01961092aa3780dd942b5bfa2a7833c56cac8f"
+    },
+    {
+      "path": "tests/g01-acceptance/dns_trace.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c62468c13c6af1937753cb0d8533e358deef7f49",
+      "size": 1535,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c62468c13c6af1937753cb0d8533e358deef7f49"
+    },
+    {
+      "path": "tests/g01-acceptance/egress_trace.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80d164539a5fa57a052419cfb592c9676cfa5e54",
+      "size": 10231,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/80d164539a5fa57a052419cfb592c9676cfa5e54"
+    },
+    {
+      "path": "tests/g01-acceptance/g1-source-overrides.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8fe926929fa9464a8d4a9849914eb2c2ea7a0fee",
+      "size": 280,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8fe926929fa9464a8d4a9849914eb2c2ea7a0fee"
+    },
+    {
+      "path": "tests/g01-acceptance/guard_receipt.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "04b9d9e4c80be0c4858a3670a3da051190fbc9e8",
+      "size": 1816,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/04b9d9e4c80be0c4858a3670a3da051190fbc9e8"
+    },
+    {
+      "path": "tests/g01-acceptance/integrated_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebf4451bdf9af50a0609625031b68ecb2a643114",
+      "size": 4068,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ebf4451bdf9af50a0609625031b68ecb2a643114"
+    },
+    {
+      "path": "tests/g01-acceptance/runtime.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a19c7fe3f067540488bf44ecddb076560191308b",
+      "size": 15627,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a19c7fe3f067540488bf44ecddb076560191308b"
+    },
+    {
+      "path": "tests/g01-acceptance/source54.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0fde95390121e0de0e739c213d0b7b508e38c710",
+      "size": 61828,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/0fde95390121e0de0e739c213d0b7b508e38c710"
+    },
+    {
+      "path": "tests/g01-acceptance/test_cf_fetch.cjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe778ba99a74bcada529bc7f43a1b5a882990d6a",
+      "size": 3663,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fe778ba99a74bcada529bc7f43a1b5a882990d6a"
+    },
+    {
+      "path": "tests/g01-acceptance/test_cleanup.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "814ee3941c9fdb337c44970e0fb8d33ef1d80507",
+      "size": 2000,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/814ee3941c9fdb337c44970e0fb8d33ef1d80507"
+    },
+    {
+      "path": "tests/g01-acceptance/test_egress_trace.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "60e44743a4d1c91d9f5d3af10b32a7138dca2881",
+      "size": 6674,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/60e44743a4d1c91d9f5d3af10b32a7138dca2881"
+    },
+    {
+      "path": "tests/g01-acceptance/test_g1_contracts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c81b1215cd17113f829f291c222bff079914252a",
+      "size": 4167,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c81b1215cd17113f829f291c222bff079914252a"
+    },
+    {
+      "path": "tests/g01-acceptance/test_integrated_identity.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8eb2ba1ab0fd2ec15ac8865c431c60b8130c4812",
+      "size": 6143,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8eb2ba1ab0fd2ec15ac8865c431c60b8130c4812"
+    },
+    {
+      "path": "tests/g01-acceptance/test_process_map.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a7595b19b8e8eae1b14e63c05b4606c12dcbc2e",
+      "size": 5505,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9a7595b19b8e8eae1b14e63c05b4606c12dcbc2e"
+    },
+    {
+      "path": "tests/gate4/sec-ci/probe.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8ef303e15c6b4d39767ce6a76715c1f44c7ab2a",
+      "size": 2840,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e8ef303e15c6b4d39767ce6a76715c1f44c7ab2a"
+    },
+    {
+      "path": "tests/gate4/sec-env/browser-network.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8dcd2113208201485ce1b49be509bea457090963",
+      "size": 12242,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8dcd2113208201485ce1b49be509bea457090963"
+    },
+    {
+      "path": "tests/gate4/sec-env/probe.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "992d3fa7cf62047e823818405cb4ca4e081f6d4b",
+      "size": 18882,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/992d3fa7cf62047e823818405cb4ca4e081f6d4b"
+    },
+    {
+      "path": "tests/gate4/sec-env/requirements.txt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cecdc6c3450a494085ded0e124ed5c3f7767d843",
+      "size": 74,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/cecdc6c3450a494085ded0e124ed5c3f7767d843"
+    },
+    {
+      "path": "tests/gate4/sec-env/server-boundary.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a058c1b8160d7d9ef480c5fba6da51fc9f538652",
+      "size": 3769,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a058c1b8160d7d9ef480c5fba6da51fc9f538652"
+    },
+    {
+      "path": "tests/gate4/sec-env/visual-runtime-contract.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67b661c44fe9b9e195035f6fc7d5519feb4f732e",
+      "size": 8323,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/67b661c44fe9b9e195035f6fc7d5519feb4f732e"
+    },
+    {
+      "path": "tests/test_changed_lint.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13ee29534b563855730dc99df2d8c648514508d8",
+      "size": 5134,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/13ee29534b563855730dc99df2d8c648514508d8"
+    },
+    {
+      "path": "tests/trial-status/replay.mjs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e1f0745d5476893d2f551a2b94247e41c37d49cb",
+      "size": 7747,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e1f0745d5476893d2f551a2b94247e41c37d49cb"
+    },
+    {
+      "path": "tests/unit/account-state.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "98311c164de2697ce52d78392f69ec0b5fd08a30",
+      "size": 2412,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/98311c164de2697ce52d78392f69ec0b5fd08a30"
+    },
+    {
+      "path": "tests/unit/dependency-security.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7dda51bc4eff6f5ea6b611ef1afb626c8cd546d",
+      "size": 4566,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a7dda51bc4eff6f5ea6b611ef1afb626c8cd546d"
+    },
+    {
+      "path": "tests/unit/invoice-selectors.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "611d95ec4f7094b1acb60dcf2a1fab55debece28",
+      "size": 5378,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/611d95ec4f7094b1acb60dcf2a1fab55debece28"
+    },
+    {
+      "path": "tests/unit/mcp-dependency-compatibility.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4b46b248d53fbebccde68dafdd183d20b9c14bb3",
+      "size": 3153,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4b46b248d53fbebccde68dafdd183d20b9c14bb3"
+    },
+    {
+      "path": "tests/unit/mcp-issuer-verifier.fixture.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0d0592d30266a5286996cc12c0c3c5e53e52932",
+      "size": 2736,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a0d0592d30266a5286996cc12c0c3c5e53e52932"
+    },
+    {
+      "path": "tests/unit/mcp-issuer.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38b117755055565c0824bbcd72e5f9550f2b781c",
+      "size": 5427,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/38b117755055565c0824bbcd72e5f9550f2b781c"
+    },
+    {
+      "path": "tests/unit/supabase-build-config.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e451e1ccceb74254eee0e4222456c9d5353bad79",
+      "size": 10757,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e451e1ccceb74254eee0e4222456c9d5353bad79"
+    },
+    {
+      "path": "tests/unit/supabase-public-key.test.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed06e5912a055ebcc663b80055fd2f448bbcdade",
+      "size": 1110,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ed06e5912a055ebcc663b80055fd2f448bbcdade"
+    },
+    {
+      "path": "tests/visual/mobile-rtl-smoke.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f9f976654934990414aa15fd6881af1c0fce19c",
+      "size": 13094,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8f9f976654934990414aa15fd6881af1c0fce19c"
+    },
+    {
+      "path": "tsconfig.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "533d40171d4cbc61370abbffca39ba9256ad5927",
+      "size": 672,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/533d40171d4cbc61370abbffca39ba9256ad5927"
+    },
+    {
+      "path": "vite.config.ts",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+      "size": 5581,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/49a13546eaec2ec05a9842576fc0ce200049f3a6"
+    }
+  ],
+  "delta": [
+    {
+      "path": ".github/workflows/b4-webhook-persistence.yml",
+      "base": null,
+      "head": {
+        "path": ".github/workflows/b4-webhook-persistence.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4d9d18b7878208991d8dd342a6808c7136dadf58",
+        "size": 15958,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4d9d18b7878208991d8dd342a6808c7136dadf58"
+      }
+    },
+    {
+      "path": "DECISIONS.md",
+      "base": {
+        "path": "DECISIONS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e275e84f1e2f0ccc89f84a1ff04ff5522cb7365a",
+        "size": 45807,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e275e84f1e2f0ccc89f84a1ff04ff5522cb7365a"
+      },
+      "head": {
+        "path": "DECISIONS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9faafb9c770ba14318de5cce6a4bde462a80f7a4",
+        "size": 47095,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9faafb9c770ba14318de5cce6a4bde462a80f7a4"
+      }
+    },
+    {
+      "path": "changes/b4-app02/API_COMPATIBILITY.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/API_COMPATIBILITY.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b9a0b43214fe082ca9b46fa36010f1f39186bc11",
+        "size": 2136,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b9a0b43214fe082ca9b46fa36010f1f39186bc11"
+      }
+    },
+    {
+      "path": "changes/b4-app02/BASELINE_OFFLINE.json",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/BASELINE_OFFLINE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8c3ffa295f3bfc4124787952504f6aa78213faf3",
+        "size": 899,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8c3ffa295f3bfc4124787952504f6aa78213faf3"
+      }
+    },
+    {
+      "path": "changes/b4-app02/DATA_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/DATA_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8bba0d8906d765205e32f442c34b9b70293ab0ef",
+        "size": 2501,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8bba0d8906d765205e32f442c34b9b70293ab0ef"
+      }
+    },
+    {
+      "path": "changes/b4-app02/DEPENDENCY_MAP.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/DEPENDENCY_MAP.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "eb770eaaecc59c560e9597e3e55b55cbbc684f75",
+        "size": 658,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/eb770eaaecc59c560e9597e3e55b55cbbc684f75"
+      }
+    },
+    {
+      "path": "changes/b4-app02/IMPACT_ANALYSIS.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/IMPACT_ANALYSIS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bd02875f20ac1a0b7d6abae0448e29e10457a72e",
+        "size": 1803,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bd02875f20ac1a0b7d6abae0448e29e10457a72e"
+      }
+    },
+    {
+      "path": "changes/b4-app02/INTAKE.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/INTAKE.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c5538bdaa740b58ef00a6c67aadda6351b652785",
+        "size": 1423,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c5538bdaa740b58ef00a6c67aadda6351b652785"
+      }
+    },
+    {
+      "path": "changes/b4-app02/MIGRATION_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/MIGRATION_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1b800ee63114c47de21a1a443a36859babfd7d43",
+        "size": 2246,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1b800ee63114c47de21a1a443a36859babfd7d43"
+      }
+    },
+    {
+      "path": "changes/b4-app02/ROLLBACK_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/ROLLBACK_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3c4d04ead458d085cffffbdf44d36af8dafce409",
+        "size": 457,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3c4d04ead458d085cffffbdf44d36af8dafce409"
+      }
+    },
+    {
+      "path": "changes/b4-app02/SECURITY_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/SECURITY_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a271011150dd41eb20d22a1f67e770fd4ec3c226",
+        "size": 721,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a271011150dd41eb20d22a1f67e770fd4ec3c226"
+      }
+    },
+    {
+      "path": "changes/b4-app02/TEST_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/TEST_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3042131bfe399326f4ceee6194a6671ea32984e1",
+        "size": 841,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3042131bfe399326f4ceee6194a6671ea32984e1"
+      }
+    },
+    {
+      "path": "changes/b4-app02/WEBHOOK_BOOTSTRAP.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/WEBHOOK_BOOTSTRAP.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1bb458f7f7e31313fdd17246df811ef54b0915b8",
+        "size": 16834,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1bb458f7f7e31313fdd17246df811ef54b0915b8"
+      }
+    },
+    {
+      "path": "changes/b4-app02/WEBHOOK_ERRORS.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/WEBHOOK_ERRORS.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9f981d01a333703a1cab4d1c95010f165ce58ea5",
+        "size": 16810,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f981d01a333703a1cab4d1c95010f165ce58ea5"
+      }
+    },
+    {
+      "path": "changes/b4-app02/WEBHOOK_PERSISTENCE.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/WEBHOOK_PERSISTENCE.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+        "size": 18441,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+      }
+    },
+    {
+      "path": "changes/b4-app02/rollback-compensation.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/rollback-compensation.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "97eabf7303a0cf89b08897eb9b421d7a275e699d",
+        "size": 211,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/97eabf7303a0cf89b08897eb9b421d7a275e699d"
+      }
+    },
+    {
+      "path": "src/lib/subscription-webhook.server.ts",
+      "base": null,
+      "head": {
+        "path": "src/lib/subscription-webhook.server.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9333457594afe25d90ce2d63bdc4f2c7db000fb3",
+        "size": 6203,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9333457594afe25d90ce2d63bdc4f2c7db000fb3"
+      }
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "base": {
+        "path": "src/routes/api/public/payments/webhook.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "26f6e0592a5337a929c9a2e0fafdb20872e0e526",
+        "size": 5049,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/26f6e0592a5337a929c9a2e0fafdb20872e0e526"
+      },
+      "head": {
+        "path": "src/routes/api/public/payments/webhook.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "06ab5598a53d1170401ec8b46451f51c9e911c40",
+        "size": 1020,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/06ab5598a53d1170401ec8b46451f51c9e911c40"
+      }
+    },
+    {
+      "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+      "base": null,
+      "head": {
+        "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+        "size": 18441,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+      }
+    },
+    {
+      "path": "supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+      "base": null,
+      "head": {
+        "path": "supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1bb458f7f7e31313fdd17246df811ef54b0915b8",
+        "size": 16834,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1bb458f7f7e31313fdd17246df811ef54b0915b8"
+      }
+    },
+    {
+      "path": "supabase/migrations/20261021140746_webhook_errors_01.sql",
+      "base": null,
+      "head": {
+        "path": "supabase/migrations/20261021140746_webhook_errors_01.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9f981d01a333703a1cab4d1c95010f165ce58ea5",
+        "size": 16810,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9f981d01a333703a1cab4d1c95010f165ce58ea5"
+      }
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_handler.test.cjs",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_handler.test.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fa74ca54ffd78fba52724619e1c7ed8e7a181902",
+        "size": 5445,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/fa74ca54ffd78fba52724619e1c7ed8e7a181902"
+      }
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_invoke.cjs",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_invoke.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7c7bf6d9b1c5be986d2d8df365bbe317db21a556",
+        "size": 6052,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/7c7bf6d9b1c5be986d2d8df365bbe317db21a556"
+      }
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_persistence_probe.py",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_persistence_probe.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e676a1fc6a753a31d146b2b5f4e514cad5f8ca8e",
+        "size": 31195,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e676a1fc6a753a31d146b2b5f4e514cad5f8ca8e"
+      }
+    }
+  ]
+}

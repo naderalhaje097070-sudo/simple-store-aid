@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "0d0ba2cd60d83d17e4158bca6bd3aca74ac7cce8",
+  "snapshot_tree_before_manifest": "0feda472de3da9ad4c7593683f8a598bbd7668ef",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -831,7 +831,7 @@
     },
     {
       "path": "src/lib/mcp/request-boundary.ts",
-      "sha": "7ac4fe0bdc2266bc794dfd95fed49562ee9d4587",
+      "sha": "d62d72ffd20f91ac74f367df47e08f7d4bf68b36",
       "mode": "100644"
     },
     {

@@ -90,7 +90,14 @@ export async function boundMcpRequest(request: Request): Promise<Request | Respo
     if (!withinStructureLimit(input)) return rejection(413);
     // Replay the original bytes, headers and abort signal to existing auth and
     // protocol handlers. Do not reserialize, log inputs, or change non-MCP flows.
-    return new Request(request, { body });
+    // srvx supplies a lazy Request subclass without Undici's private slots.
+    // Use public properties so native Node Request can replay it safely.
+    return new Request(request.url, {
+      method: request.method,
+      headers: request.headers,
+      signal: request.signal,
+      body,
+    });
   } catch {
     return rejection(400);
   } finally {

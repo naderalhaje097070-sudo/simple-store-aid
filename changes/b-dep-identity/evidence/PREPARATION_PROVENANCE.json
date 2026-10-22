@@ -1,0 +1,1183 @@
+[
+  {
+    "run": 39832200307,
+    "artifact": 12449188097,
+    "original_bytes": 1807813,
+    "original_sha256": "e25bf9177867bc30902622586b967452643643a869f253fc7f4e860d3f4460c5",
+    "capsule": "preparation-39832200307.zip",
+    "capsule_bytes": 184351,
+    "capsule_sha256": "8e3f8aeaf85d208c6ebda472ab5eb756a5e34784fb8ed1b8c77802ee11128c57",
+    "omitted": [
+      "bun.lock",
+      "candidate-bun.lock",
+      "hono-4.13.11.tgz",
+      "launch-editor-2.14.2.tgz",
+      "modelcontextprotocol-sdk-1.32.0.tgz",
+      "vite-8.1.6.tgz"
+    ],
+    "members": [
+      {
+        "path": "generator-revision.txt",
+        "bytes": 16,
+        "sha256": "8b447e9dcaedd024555a3b284c51c7acfc17253165b90e27eb9dacb556a9de3c",
+        "original_member": "generator-revision.txt",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.json",
+        "bytes": 4081,
+        "sha256": "5e83688975d1947a320a0dd3cd55819a7e337bad4d8a88476f8e719f2c2adebd",
+        "original_member": "baseline-audit.json",
+        "derived": false
+      },
+      {
+        "path": "candidate-sha256.txt",
+        "bytes": 232,
+        "sha256": "89c0238d6a7827d75cad8e6b44c3328e1067e8dee1e7087b417e29c4b515bae4",
+        "original_member": "candidate-sha256.txt",
+        "derived": false
+      },
+      {
+        "path": "generator.log",
+        "bytes": 149,
+        "sha256": "eb9ba8badf65383abff3a325d7281a231d198b9b588601ba8a6c40b1d8c2c6b0",
+        "original_member": "generator.log",
+        "derived": false
+      },
+      {
+        "path": "graph-delta.json",
+        "bytes": 5552,
+        "sha256": "520c8a0da6d53f9a0534c36f301bcfc6851d80a8efdabd670ec1b082b78e4756",
+        "original_member": null,
+        "derived": true
+      },
+      {
+        "path": "bunfig.toml",
+        "bytes": 386,
+        "sha256": "2606e248dd6fc7c17f87a50f5e2c55120560ca858cd0007c0419704296f25f5a",
+        "original_member": "bunfig.toml",
+        "derived": false
+      },
+      {
+        "path": "expected-package.json",
+        "bytes": 4599,
+        "sha256": "e324328577bb6f73b607d04b20cdb317e457f5910f9ff5953ebde7fe72c3f0c9",
+        "original_member": "expected-package.json",
+        "derived": false
+      },
+      {
+        "path": "pack-hono_4.13.11.json",
+        "bytes": 63533,
+        "sha256": "8da4fcf43aaff25dddcdf1dcf2ffa634900df665d9ced24e98589fe9e0dcbcc3",
+        "original_member": "pack-hono_4.13.11.json",
+        "derived": false
+      },
+      {
+        "path": "package.json",
+        "bytes": 4537,
+        "sha256": "df4bf9dc7029126150057820b46c0f656593fe1c3263b5c38d59e419f32e4720",
+        "original_member": "package.json",
+        "derived": false
+      },
+      {
+        "path": "metadata-launch-editor_2.14.2.json",
+        "bytes": 4083,
+        "sha256": "2227d4d472df1d0a9dcbf83b1d7db492d9f07088aab941623cec4eee410b02d6",
+        "original_member": "metadata-launch-editor_2.14.2.json",
+        "derived": false
+      },
+      {
+        "path": "metadata-hono_4.13.11.json",
+        "bytes": 50955,
+        "sha256": "01f14d988f44e6e057462e164a1bf8fa899cc6c98dc5d391d487e6003da86136",
+        "original_member": "metadata-hono_4.13.11.json",
+        "derived": false
+      },
+      {
+        "path": "pack-vite_8.1.6.json",
+        "bytes": 3952,
+        "sha256": "dbbd4ec345d8db282024365aca98bc59d027b52a5120c10ac32e02e2aad1f36e",
+        "original_member": "pack-vite_8.1.6.json",
+        "derived": false
+      },
+      {
+        "path": "source.txt",
+        "bytes": 41,
+        "sha256": "951c24c75bd99b806dead98120dbe7618e56e84ea9c2c443cbacbcdd8e3ac660",
+        "original_member": "source.txt",
+        "derived": false
+      },
+      {
+        "path": "metadata-vite_8.1.6.json",
+        "bytes": 53864,
+        "sha256": "09e734965cc77523417d6939801fc7742c70be46967e29c839e1fd30e72bc8f2",
+        "original_member": "metadata-vite_8.1.6.json",
+        "derived": false
+      },
+      {
+        "path": "candidate-package.json",
+        "bytes": 4599,
+        "sha256": "e324328577bb6f73b607d04b20cdb317e457f5910f9ff5953ebde7fe72c3f0c9",
+        "original_member": "candidate-package.json",
+        "derived": false
+      },
+      {
+        "path": "pack-_modelcontextprotocol_sdk_1.32.0.json",
+        "bytes": 84318,
+        "sha256": "4d8b6d01970455719627912ff636aa7f3f14d71791fe2176120888b7752e20d7",
+        "original_member": "pack-_modelcontextprotocol_sdk_1.32.0.json",
+        "derived": false
+      },
+      {
+        "path": "bun-tool-pack.json",
+        "bytes": 738,
+        "sha256": "1f9b1761f5bfe0925ef2d3e26fd6936ca797b599f7297844544ee067d39b2933",
+        "original_member": "bun-tool-pack.json",
+        "derived": false
+      },
+      {
+        "path": "audit-help.txt",
+        "bytes": 552,
+        "sha256": "8484bbdef7570e9f5e22291917057ec1e84a54760b464a8e8aad38885aac4a72",
+        "original_member": "audit-help.txt",
+        "derived": false
+      },
+      {
+        "path": "pack-launch-editor_2.14.2.json",
+        "bytes": 1948,
+        "sha256": "13f978bd5160b0fb8aa3e70bf5dbf9e8e57e72b4b4514ce51fe8c76d6817e3d7",
+        "original_member": "pack-launch-editor_2.14.2.json",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.exit",
+        "bytes": 2,
+        "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "original_member": "baseline-audit.exit",
+        "derived": false
+      },
+      {
+        "path": "frozen-baseline.log",
+        "bytes": 2312,
+        "sha256": "f8d92d3acb19ece6279739585331ff0bfcd5a02c874f1a407693aa00349a2af9",
+        "original_member": "frozen-baseline.log",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.stderr",
+        "bytes": 49,
+        "sha256": "c3b2a25099614cad289f037087aaa4d6cff46bd1b03247aa5559f2d8bf3f56e7",
+        "original_member": "baseline-audit.stderr",
+        "derived": false
+      },
+      {
+        "path": "metadata-_modelcontextprotocol_sdk_1.32.0.json",
+        "bytes": 12554,
+        "sha256": "7ae0417653e0ed91b4d67485010d64c60b7b484fc1b3f358ec547cbb2dc6f1c8",
+        "original_member": "metadata-_modelcontextprotocol_sdk_1.32.0.json",
+        "derived": false
+      },
+      {
+        "path": "wrapper/LICENSE",
+        "bytes": 1069,
+        "sha256": "afb56bc26c285e9b0f23e8e59a77f65b768ac48af3810ee16d581f4116ae3b1b",
+        "original_member": "wrapper/LICENSE",
+        "derived": false
+      },
+      {
+        "path": "wrapper/package.json",
+        "bytes": 5168,
+        "sha256": "3b6cc0387651f83a50ff9d9dffa900ec39ca5898581fe6f2aedd1476555b77b8",
+        "original_member": "wrapper/package.json",
+        "derived": false
+      },
+      {
+        "path": "wrapper/README.internal.md",
+        "bytes": 18720,
+        "sha256": "d0159ee6ad865ceb1fafa785067654b29c69e1ff5eb0b25189b45a25c8fff6f4",
+        "original_member": "wrapper/README.internal.md",
+        "derived": false
+      },
+      {
+        "path": "wrapper/README.md",
+        "bytes": 24794,
+        "sha256": "10a8e36b79e2217e292a4fc4207de78b0eed4399f4fe1e70d48d918599049f27",
+        "original_member": "wrapper/README.md",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/base-CFy5vZ5Z.d.ts",
+        "bytes": 1269,
+        "sha256": "c7b4e4969f3f18c4498124db1d0d2f50d5f2ee4f4cefc086d3d1559bbd49e7eb",
+        "original_member": "wrapper/dist/base-CFy5vZ5Z.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-UQK5UO6C.js",
+        "bytes": 861,
+        "sha256": "232084c94b203f072ebba143d2e74cc085c91b31c2f03976792e5e0605410df0",
+        "original_member": "wrapper/dist/chunk-UQK5UO6C.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-Y3ZFPEQH.js",
+        "bytes": 178,
+        "sha256": "93b2f533986054375001033a9f9098188bcf849b186fa6b380b7b8677d29a025",
+        "original_member": "wrapper/dist/chunk-Y3ZFPEQH.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-IUWLXNFW.js",
+        "bytes": 3463,
+        "sha256": "290e4274aab15bac7a0694e39cc4ade0f9587825765364a1240452b3d50056c9",
+        "original_member": "wrapper/dist/chunk-IUWLXNFW.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/io-D4srzRKc.d.ts",
+        "bytes": 495,
+        "sha256": "775e5f72af32c3a9b3a0dd71b43aa4a698605e3c7e178cc87e9e37a8c89dd693",
+        "original_member": "wrapper/dist/io-D4srzRKc.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-MA5H6PSF.js",
+        "bytes": 1297,
+        "sha256": "a491c674648a66da5c2776516f25838552ab4cfafbdb913d28ac5cc1ed686f1b",
+        "original_member": "wrapper/dist/chunk-MA5H6PSF.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/types-CPkhCRxc.d.ts",
+        "bytes": 12896,
+        "sha256": "210309f2bc6f804c65b6c0c7472820aabf9162addf4d739ca853a689575e0a8b",
+        "original_member": "wrapper/dist/types-CPkhCRxc.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-XQWJN6DC.js",
+        "bytes": 396,
+        "sha256": "69284fb571c31b4cf1df526acaf288577beb55cbf247125bc738705305b15005",
+        "original_member": "wrapper/dist/chunk-XQWJN6DC.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-H37EB22A.js",
+        "bytes": 3733,
+        "sha256": "c037d101359b9a22745306b98982be8d044879edc63c84ada304df2b716a1e1c",
+        "original_member": "wrapper/dist/chunk-H37EB22A.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.d.cts",
+        "bytes": 3368,
+        "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57",
+        "original_member": "wrapper/dist/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.cjs",
+        "bytes": 11243,
+        "sha256": "853589d2645ce45e50c34cfb0d64799603e053362d505c04900829ec43233ec2",
+        "original_member": "wrapper/dist/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.js",
+        "bytes": 6518,
+        "sha256": "a572591e6ef3038be89d4833bb93c07deaf3d8a76b48fe2c186e84739420ea85",
+        "original_member": "wrapper/dist/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-VW7B32WL.js",
+        "bytes": 63,
+        "sha256": "b1c83f7df443e4c781a00e854f2fc2e0bd1aca32d0fff33b647e9884d6879b6f",
+        "original_member": "wrapper/dist/chunk-VW7B32WL.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-PTPLMKOV.js",
+        "bytes": 1835,
+        "sha256": "ef8b52aa0eafacbfa04672e16677f6b53a4a93762e6ad4d79b054ef89619f9dc",
+        "original_member": "wrapper/dist/chunk-PTPLMKOV.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/authorize-BMeXd_Sh.d.ts",
+        "bytes": 1192,
+        "sha256": "bae3f95e2d8bc798f2a4728385ec5a66fc8fd8624459b8f0f7b63154c26d19f0",
+        "original_member": "wrapper/dist/authorize-BMeXd_Sh.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.d.ts",
+        "bytes": 3368,
+        "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57",
+        "original_member": "wrapper/dist/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-VOMKN2HP.js",
+        "bytes": 2869,
+        "sha256": "9cf43c815c2a32a318ca42a0f6d7c7d10e3859c08dd2c19928a3fa26304e78fc",
+        "original_member": "wrapper/dist/chunk-VOMKN2HP.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-6QFZYYUV.js",
+        "bytes": 285,
+        "sha256": "7c2531b4ca1efa3b132fd5e73fb2b4998d8a9fc39c8edceb4a3f0d8ff84d14b9",
+        "original_member": "wrapper/dist/chunk-6QFZYYUV.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-H7W77K6V.js",
+        "bytes": 4212,
+        "sha256": "cb7c2d4428e15ced3f2240ccf049a906be05cdb6fea6d8555617a6a47ad53592",
+        "original_member": "wrapper/dist/chunk-H7W77K6V.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-6DXGZZA4.js",
+        "bytes": 169,
+        "sha256": "8879e9a04947a55e2c29f482d9065784d3966b05e53afb7d9d7dbfd735b89a29",
+        "original_member": "wrapper/dist/chunk-6DXGZZA4.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-M35C7Y3M.js",
+        "bytes": 25138,
+        "sha256": "6ae8ed3d7fabe2b13892ccc14cdd2e3db66fe07fd5489fe340d6ea3c79861055",
+        "original_member": "wrapper/dist/chunk-M35C7Y3M.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.d.ts",
+        "bytes": 478,
+        "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.cjs",
+        "bytes": 19225,
+        "sha256": "64aa78aa9529eb722f2109a925ef5bd330ddd12bf8d76fe1d56f702bd1fd4a6c",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.d.cts",
+        "bytes": 478,
+        "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.js",
+        "bytes": 268,
+        "sha256": "0cecafa10afe499adeebaecb1a74d712fb93258132ab90c959ab6358e426a214",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.js",
+        "bytes": 5525,
+        "sha256": "6ede0d01fc7b8a945c434b63bbf807eb6d9826a7d0653be6e92834d4ba6a8513",
+        "original_member": "wrapper/dist/cli/extract-manifest.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.d.cts",
+        "bytes": 20,
+        "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725",
+        "original_member": "wrapper/dist/cli/extract-manifest.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.d.ts",
+        "bytes": 20,
+        "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725",
+        "original_member": "wrapper/dist/cli/extract-manifest.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.cjs",
+        "bytes": 7178,
+        "sha256": "98e2074c07c870efb49155bd819071adff6360638b91284237edc49bf0d210b8",
+        "original_member": "wrapper/dist/cli/extract-manifest.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.cjs",
+        "bytes": 11516,
+        "sha256": "beada1a82ea3d0a6ba7bd65bf0fee6eeb24c69260f60772facb99ed21f8d9341",
+        "original_member": "wrapper/dist/stacks/supabase/vite.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.d.ts",
+        "bytes": 2122,
+        "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08",
+        "original_member": "wrapper/dist/stacks/supabase/vite.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.d.cts",
+        "bytes": 2122,
+        "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08",
+        "original_member": "wrapper/dist/stacks/supabase/vite.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.d.cts",
+        "bytes": 2206,
+        "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b",
+        "original_member": "wrapper/dist/stacks/supabase/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.cjs",
+        "bytes": 45686,
+        "sha256": "f84d4a0bbee53a4c0723519d6a156a824c30bf836f45d609c9606257fcad7d31",
+        "original_member": "wrapper/dist/stacks/supabase/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.js",
+        "bytes": 3225,
+        "sha256": "4afb6c75d20d6d97c7d02a08e6e734c3db58dcf717d9fa6a2f3f22d0d3b65dba",
+        "original_member": "wrapper/dist/stacks/supabase/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.d.ts",
+        "bytes": 2206,
+        "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b",
+        "original_member": "wrapper/dist/stacks/supabase/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.js",
+        "bytes": 9726,
+        "sha256": "f54f5db0b9abbb37e3d1004636d0f1e9fbf80e8dc2c4249fd247dffc8b7d66dd",
+        "original_member": "wrapper/dist/stacks/supabase/vite.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.cjs",
+        "bytes": 13547,
+        "sha256": "035c56a7dea7c7edfac567dc70447aeae35cc6f982b65fe29f3cf712a563cbec",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.d.ts",
+        "bytes": 4462,
+        "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.d.cts",
+        "bytes": 4462,
+        "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.d.cts",
+        "bytes": 2144,
+        "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4",
+        "original_member": "wrapper/dist/stacks/tanstack/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.cjs",
+        "bytes": 44484,
+        "sha256": "ca9c20ec04c178f12c186a360e59ef119e84d4e413e39a17425265d2b1b1a2f3",
+        "original_member": "wrapper/dist/stacks/tanstack/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.js",
+        "bytes": 1898,
+        "sha256": "c210b27928ccc2d4c18f4593348fcde84e58558d7351738c4a2bc3fb3b477558",
+        "original_member": "wrapper/dist/stacks/tanstack/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.d.ts",
+        "bytes": 2144,
+        "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4",
+        "original_member": "wrapper/dist/stacks/tanstack/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.js",
+        "bytes": 11831,
+        "sha256": "8f543024ebbcae6eff7472c014e912d0b108d4ff4efafca8dae1d0434aef622c",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.d.cts",
+        "bytes": 766,
+        "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38",
+        "original_member": "wrapper/dist/protocols/rest/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.cjs",
+        "bytes": 28915,
+        "sha256": "1fc23099cddfa28f116dc8f7cf49f0f4c90cc03cd22955b5ac232adaadf334d3",
+        "original_member": "wrapper/dist/protocols/rest/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.js",
+        "bytes": 405,
+        "sha256": "09121f8c3b08a4f6cdc731f0281aa8a9ce261a93a8b641f140e8dabb2c837727",
+        "original_member": "wrapper/dist/protocols/rest/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.d.ts",
+        "bytes": 766,
+        "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38",
+        "original_member": "wrapper/dist/protocols/rest/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.d.cts",
+        "bytes": 863,
+        "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27",
+        "original_member": "wrapper/dist/protocols/mcp/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.cjs",
+        "bytes": 25637,
+        "sha256": "0ed0bbeaafb77ddb580c169a484578c7aca327c47ef43ee8c9d14a5967161e83",
+        "original_member": "wrapper/dist/protocols/mcp/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.js",
+        "bytes": 313,
+        "sha256": "3a079b0de11a1dd39014fb76a462d01ee53f13baedb253aeb841acc52a03be73",
+        "original_member": "wrapper/dist/protocols/mcp/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.d.ts",
+        "bytes": 863,
+        "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27",
+        "original_member": "wrapper/dist/protocols/mcp/index.d.ts",
+        "derived": false
+      }
+    ]
+  },
+  {
+    "run": 39871588469,
+    "artifact": 12466467188,
+    "original_bytes": 2235288,
+    "original_sha256": "18943a8705e9de478b282ba5cc14ac2c2f834251d057880af2175b76ab790fb6",
+    "capsule": "preparation-39871588469.zip",
+    "capsule_bytes": 193302,
+    "capsule_sha256": "a3f3530ed6e5108a0979bec2437237265e12e41c542ab841efcc01999e5afd0d",
+    "omitted": [
+      "bun.lock",
+      "candidate-bun.lock",
+      "dompurify-3.4.17.tgz",
+      "hono-4.13.11.tgz",
+      "ip-address-10.7.4.tgz",
+      "launch-editor-2.14.2.tgz",
+      "modelcontextprotocol-sdk-1.32.0.tgz",
+      "vite-8.1.6.tgz"
+    ],
+    "members": [
+      {
+        "path": "generator-revision.txt",
+        "bytes": 16,
+        "sha256": "8b447e9dcaedd024555a3b284c51c7acfc17253165b90e27eb9dacb556a9de3c",
+        "original_member": "generator-revision.txt",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.json",
+        "bytes": 1335,
+        "sha256": "8dd3aa1d30d06600aea4ea5ea9f8386a6eb7c2bf808b4723a1be8b2340aea211",
+        "original_member": "baseline-audit.json",
+        "derived": false
+      },
+      {
+        "path": "candidate-sha256.txt",
+        "bytes": 232,
+        "sha256": "7fb7e43c70332b2106aae61c4ac4a81710990b9b808bdebcee5bb610bc6c3214",
+        "original_member": "candidate-sha256.txt",
+        "derived": false
+      },
+      {
+        "path": "generator.log",
+        "bytes": 151,
+        "sha256": "9924a8e4f14a68781c034410643468a94bcc727d936c754e6db99f46fc55386d",
+        "original_member": "generator.log",
+        "derived": false
+      },
+      {
+        "path": "bunfig.toml",
+        "bytes": 386,
+        "sha256": "2606e248dd6fc7c17f87a50f5e2c55120560ca858cd0007c0419704296f25f5a",
+        "original_member": "bunfig.toml",
+        "derived": false
+      },
+      {
+        "path": "expected-package.json",
+        "bytes": 4599,
+        "sha256": "6639b84c2dd6537d59ac600dbd3e35db5aa16724f45fbecb56c656f2fe4b885e",
+        "original_member": "expected-package.json",
+        "derived": false
+      },
+      {
+        "path": "pack-hono_4.13.11.json",
+        "bytes": 63533,
+        "sha256": "8da4fcf43aaff25dddcdf1dcf2ffa634900df665d9ced24e98589fe9e0dcbcc3",
+        "original_member": "pack-hono_4.13.11.json",
+        "derived": false
+      },
+      {
+        "path": "package.json",
+        "bytes": 4599,
+        "sha256": "e324328577bb6f73b607d04b20cdb317e457f5910f9ff5953ebde7fe72c3f0c9",
+        "original_member": "package.json",
+        "derived": false
+      },
+      {
+        "path": "metadata-launch-editor_2.14.2.json",
+        "bytes": 4083,
+        "sha256": "2227d4d472df1d0a9dcbf83b1d7db492d9f07088aab941623cec4eee410b02d6",
+        "original_member": "metadata-launch-editor_2.14.2.json",
+        "derived": false
+      },
+      {
+        "path": "pack-dompurify_3.4.17.json",
+        "bytes": 2713,
+        "sha256": "b0f80723ea58401a5e9d26cb9629eaf34148bde5d1866c6a532dbada1266f47e",
+        "original_member": "pack-dompurify_3.4.17.json",
+        "derived": false
+      },
+      {
+        "path": "metadata-hono_4.13.11.json",
+        "bytes": 50955,
+        "sha256": "01f14d988f44e6e057462e164a1bf8fa899cc6c98dc5d391d487e6003da86136",
+        "original_member": "metadata-hono_4.13.11.json",
+        "derived": false
+      },
+      {
+        "path": "pack-vite_8.1.6.json",
+        "bytes": 3952,
+        "sha256": "dbbd4ec345d8db282024365aca98bc59d027b52a5120c10ac32e02e2aad1f36e",
+        "original_member": "pack-vite_8.1.6.json",
+        "derived": false
+      },
+      {
+        "path": "metadata-ip-address_10.7.4.json",
+        "bytes": 8205,
+        "sha256": "32ea34736ff791dbed858b014e5075f410837f2ddc81b126b9d1cfce99b5b26b",
+        "original_member": "metadata-ip-address_10.7.4.json",
+        "derived": false
+      },
+      {
+        "path": "source.txt",
+        "bytes": 41,
+        "sha256": "ed1004bd2544ce1fd2abb0863e7c670e42eff155214f7b45ebc079ed7de9eb2b",
+        "original_member": "source.txt",
+        "derived": false
+      },
+      {
+        "path": "metadata-vite_8.1.6.json",
+        "bytes": 53864,
+        "sha256": "09e734965cc77523417d6939801fc7742c70be46967e29c839e1fd30e72bc8f2",
+        "original_member": "metadata-vite_8.1.6.json",
+        "derived": false
+      },
+      {
+        "path": "candidate-package.json",
+        "bytes": 4599,
+        "sha256": "6639b84c2dd6537d59ac600dbd3e35db5aa16724f45fbecb56c656f2fe4b885e",
+        "original_member": "candidate-package.json",
+        "derived": false
+      },
+      {
+        "path": "pack-_modelcontextprotocol_sdk_1.32.0.json",
+        "bytes": 84318,
+        "sha256": "4d8b6d01970455719627912ff636aa7f3f14d71791fe2176120888b7752e20d7",
+        "original_member": "pack-_modelcontextprotocol_sdk_1.32.0.json",
+        "derived": false
+      },
+      {
+        "path": "bun-tool-pack.json",
+        "bytes": 738,
+        "sha256": "1f9b1761f5bfe0925ef2d3e26fd6936ca797b599f7297844544ee067d39b2933",
+        "original_member": "bun-tool-pack.json",
+        "derived": false
+      },
+      {
+        "path": "audit-help.txt",
+        "bytes": 552,
+        "sha256": "8484bbdef7570e9f5e22291917057ec1e84a54760b464a8e8aad38885aac4a72",
+        "original_member": "audit-help.txt",
+        "derived": false
+      },
+      {
+        "path": "pack-launch-editor_2.14.2.json",
+        "bytes": 1948,
+        "sha256": "13f978bd5160b0fb8aa3e70bf5dbf9e8e57e72b4b4514ce51fe8c76d6817e3d7",
+        "original_member": "pack-launch-editor_2.14.2.json",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.exit",
+        "bytes": 2,
+        "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "original_member": "baseline-audit.exit",
+        "derived": false
+      },
+      {
+        "path": "metadata-dompurify_3.4.17.json",
+        "bytes": 16961,
+        "sha256": "512970c48b0b8843c75eac20b6e65c166b68588693539519978bf62228c4787e",
+        "original_member": "metadata-dompurify_3.4.17.json",
+        "derived": false
+      },
+      {
+        "path": "frozen-baseline.log",
+        "bytes": 2311,
+        "sha256": "31162e5ea08760ac354ae957a2f10a6aaaa24d6470fc9bfe4014919e9c07b12b",
+        "original_member": "frozen-baseline.log",
+        "derived": false
+      },
+      {
+        "path": "baseline-audit.stderr",
+        "bytes": 49,
+        "sha256": "c3b2a25099614cad289f037087aaa4d6cff46bd1b03247aa5559f2d8bf3f56e7",
+        "original_member": "baseline-audit.stderr",
+        "derived": false
+      },
+      {
+        "path": "metadata-_modelcontextprotocol_sdk_1.32.0.json",
+        "bytes": 12554,
+        "sha256": "7ae0417653e0ed91b4d67485010d64c60b7b484fc1b3f358ec547cbb2dc6f1c8",
+        "original_member": "metadata-_modelcontextprotocol_sdk_1.32.0.json",
+        "derived": false
+      },
+      {
+        "path": "pack-ip-address_10.7.4.json",
+        "bytes": 3365,
+        "sha256": "2c09e2bdfbae6ab276f964cd05067904840f593807c266580a2b78bbc9c3f6b4",
+        "original_member": "pack-ip-address_10.7.4.json",
+        "derived": false
+      },
+      {
+        "path": "wrapper/LICENSE",
+        "bytes": 1069,
+        "sha256": "afb56bc26c285e9b0f23e8e59a77f65b768ac48af3810ee16d581f4116ae3b1b",
+        "original_member": "wrapper/LICENSE",
+        "derived": false
+      },
+      {
+        "path": "wrapper/package.json",
+        "bytes": 5168,
+        "sha256": "3b6cc0387651f83a50ff9d9dffa900ec39ca5898581fe6f2aedd1476555b77b8",
+        "original_member": "wrapper/package.json",
+        "derived": false
+      },
+      {
+        "path": "wrapper/README.internal.md",
+        "bytes": 18720,
+        "sha256": "d0159ee6ad865ceb1fafa785067654b29c69e1ff5eb0b25189b45a25c8fff6f4",
+        "original_member": "wrapper/README.internal.md",
+        "derived": false
+      },
+      {
+        "path": "wrapper/README.md",
+        "bytes": 24794,
+        "sha256": "10a8e36b79e2217e292a4fc4207de78b0eed4399f4fe1e70d48d918599049f27",
+        "original_member": "wrapper/README.md",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/base-CFy5vZ5Z.d.ts",
+        "bytes": 1269,
+        "sha256": "c7b4e4969f3f18c4498124db1d0d2f50d5f2ee4f4cefc086d3d1559bbd49e7eb",
+        "original_member": "wrapper/dist/base-CFy5vZ5Z.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-UQK5UO6C.js",
+        "bytes": 861,
+        "sha256": "232084c94b203f072ebba143d2e74cc085c91b31c2f03976792e5e0605410df0",
+        "original_member": "wrapper/dist/chunk-UQK5UO6C.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-Y3ZFPEQH.js",
+        "bytes": 178,
+        "sha256": "93b2f533986054375001033a9f9098188bcf849b186fa6b380b7b8677d29a025",
+        "original_member": "wrapper/dist/chunk-Y3ZFPEQH.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-IUWLXNFW.js",
+        "bytes": 3463,
+        "sha256": "290e4274aab15bac7a0694e39cc4ade0f9587825765364a1240452b3d50056c9",
+        "original_member": "wrapper/dist/chunk-IUWLXNFW.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/io-D4srzRKc.d.ts",
+        "bytes": 495,
+        "sha256": "775e5f72af32c3a9b3a0dd71b43aa4a698605e3c7e178cc87e9e37a8c89dd693",
+        "original_member": "wrapper/dist/io-D4srzRKc.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-MA5H6PSF.js",
+        "bytes": 1297,
+        "sha256": "a491c674648a66da5c2776516f25838552ab4cfafbdb913d28ac5cc1ed686f1b",
+        "original_member": "wrapper/dist/chunk-MA5H6PSF.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/types-CPkhCRxc.d.ts",
+        "bytes": 12896,
+        "sha256": "210309f2bc6f804c65b6c0c7472820aabf9162addf4d739ca853a689575e0a8b",
+        "original_member": "wrapper/dist/types-CPkhCRxc.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-XQWJN6DC.js",
+        "bytes": 396,
+        "sha256": "69284fb571c31b4cf1df526acaf288577beb55cbf247125bc738705305b15005",
+        "original_member": "wrapper/dist/chunk-XQWJN6DC.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-H37EB22A.js",
+        "bytes": 3733,
+        "sha256": "c037d101359b9a22745306b98982be8d044879edc63c84ada304df2b716a1e1c",
+        "original_member": "wrapper/dist/chunk-H37EB22A.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.d.cts",
+        "bytes": 3368,
+        "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57",
+        "original_member": "wrapper/dist/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.cjs",
+        "bytes": 11243,
+        "sha256": "853589d2645ce45e50c34cfb0d64799603e053362d505c04900829ec43233ec2",
+        "original_member": "wrapper/dist/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.js",
+        "bytes": 6518,
+        "sha256": "a572591e6ef3038be89d4833bb93c07deaf3d8a76b48fe2c186e84739420ea85",
+        "original_member": "wrapper/dist/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-VW7B32WL.js",
+        "bytes": 63,
+        "sha256": "b1c83f7df443e4c781a00e854f2fc2e0bd1aca32d0fff33b647e9884d6879b6f",
+        "original_member": "wrapper/dist/chunk-VW7B32WL.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-PTPLMKOV.js",
+        "bytes": 1835,
+        "sha256": "ef8b52aa0eafacbfa04672e16677f6b53a4a93762e6ad4d79b054ef89619f9dc",
+        "original_member": "wrapper/dist/chunk-PTPLMKOV.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/authorize-BMeXd_Sh.d.ts",
+        "bytes": 1192,
+        "sha256": "bae3f95e2d8bc798f2a4728385ec5a66fc8fd8624459b8f0f7b63154c26d19f0",
+        "original_member": "wrapper/dist/authorize-BMeXd_Sh.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/index.d.ts",
+        "bytes": 3368,
+        "sha256": "1d640e47f63a7893625dcfe3ca721d4b234e678636a80dfe6f209c10406d4a57",
+        "original_member": "wrapper/dist/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-VOMKN2HP.js",
+        "bytes": 2869,
+        "sha256": "9cf43c815c2a32a318ca42a0f6d7c7d10e3859c08dd2c19928a3fa26304e78fc",
+        "original_member": "wrapper/dist/chunk-VOMKN2HP.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-6QFZYYUV.js",
+        "bytes": 285,
+        "sha256": "7c2531b4ca1efa3b132fd5e73fb2b4998d8a9fc39c8edceb4a3f0d8ff84d14b9",
+        "original_member": "wrapper/dist/chunk-6QFZYYUV.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-H7W77K6V.js",
+        "bytes": 4212,
+        "sha256": "cb7c2d4428e15ced3f2240ccf049a906be05cdb6fea6d8555617a6a47ad53592",
+        "original_member": "wrapper/dist/chunk-H7W77K6V.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-6DXGZZA4.js",
+        "bytes": 169,
+        "sha256": "8879e9a04947a55e2c29f482d9065784d3966b05e53afb7d9d7dbfd735b89a29",
+        "original_member": "wrapper/dist/chunk-6DXGZZA4.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/chunk-M35C7Y3M.js",
+        "bytes": 25138,
+        "sha256": "6ae8ed3d7fabe2b13892ccc14cdd2e3db66fe07fd5489fe340d6ea3c79861055",
+        "original_member": "wrapper/dist/chunk-M35C7Y3M.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.d.ts",
+        "bytes": 478,
+        "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.cjs",
+        "bytes": 19225,
+        "sha256": "64aa78aa9529eb722f2109a925ef5bd330ddd12bf8d76fe1d56f702bd1fd4a6c",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.d.cts",
+        "bytes": 478,
+        "sha256": "1c175ba76e8c38b6aff36f9c4b319ed8c49d5bbe93c79eb4f0a5190c7c72277f",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/oauth-metadata.js",
+        "bytes": 268,
+        "sha256": "0cecafa10afe499adeebaecb1a74d712fb93258132ab90c959ab6358e426a214",
+        "original_member": "wrapper/dist/protocols/oauth-metadata.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.js",
+        "bytes": 5525,
+        "sha256": "6ede0d01fc7b8a945c434b63bbf807eb6d9826a7d0653be6e92834d4ba6a8513",
+        "original_member": "wrapper/dist/cli/extract-manifest.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.d.cts",
+        "bytes": 20,
+        "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725",
+        "original_member": "wrapper/dist/cli/extract-manifest.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.d.ts",
+        "bytes": 20,
+        "sha256": "a59c47872b71f12589942892464e764c0db350c20b72228645615cc36e0a0725",
+        "original_member": "wrapper/dist/cli/extract-manifest.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/cli/extract-manifest.cjs",
+        "bytes": 7178,
+        "sha256": "98e2074c07c870efb49155bd819071adff6360638b91284237edc49bf0d210b8",
+        "original_member": "wrapper/dist/cli/extract-manifest.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.cjs",
+        "bytes": 11516,
+        "sha256": "beada1a82ea3d0a6ba7bd65bf0fee6eeb24c69260f60772facb99ed21f8d9341",
+        "original_member": "wrapper/dist/stacks/supabase/vite.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.d.ts",
+        "bytes": 2122,
+        "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08",
+        "original_member": "wrapper/dist/stacks/supabase/vite.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.d.cts",
+        "bytes": 2122,
+        "sha256": "1faf3554280039b572fa96d1bc0d399d91771b118430410e590632aa53354d08",
+        "original_member": "wrapper/dist/stacks/supabase/vite.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.d.cts",
+        "bytes": 2206,
+        "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b",
+        "original_member": "wrapper/dist/stacks/supabase/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.cjs",
+        "bytes": 45686,
+        "sha256": "f84d4a0bbee53a4c0723519d6a156a824c30bf836f45d609c9606257fcad7d31",
+        "original_member": "wrapper/dist/stacks/supabase/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.js",
+        "bytes": 3225,
+        "sha256": "4afb6c75d20d6d97c7d02a08e6e734c3db58dcf717d9fa6a2f3f22d0d3b65dba",
+        "original_member": "wrapper/dist/stacks/supabase/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/index.d.ts",
+        "bytes": 2206,
+        "sha256": "5f39744554ef4d2d9792f23bf433a50d153e311dc0f1e1523fd3968c92efcf1b",
+        "original_member": "wrapper/dist/stacks/supabase/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/supabase/vite.js",
+        "bytes": 9726,
+        "sha256": "f54f5db0b9abbb37e3d1004636d0f1e9fbf80e8dc2c4249fd247dffc8b7d66dd",
+        "original_member": "wrapper/dist/stacks/supabase/vite.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.cjs",
+        "bytes": 13547,
+        "sha256": "035c56a7dea7c7edfac567dc70447aeae35cc6f982b65fe29f3cf712a563cbec",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.d.ts",
+        "bytes": 4462,
+        "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.d.cts",
+        "bytes": 4462,
+        "sha256": "015ebeb5045b6492eed0102d6e1fb6106556d08fbfa9f9476b65207be2fc25ce",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.d.cts",
+        "bytes": 2144,
+        "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4",
+        "original_member": "wrapper/dist/stacks/tanstack/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.cjs",
+        "bytes": 44484,
+        "sha256": "ca9c20ec04c178f12c186a360e59ef119e84d4e413e39a17425265d2b1b1a2f3",
+        "original_member": "wrapper/dist/stacks/tanstack/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.js",
+        "bytes": 1898,
+        "sha256": "c210b27928ccc2d4c18f4593348fcde84e58558d7351738c4a2bc3fb3b477558",
+        "original_member": "wrapper/dist/stacks/tanstack/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/index.d.ts",
+        "bytes": 2144,
+        "sha256": "eda8121324315bd36728cf944a0db654b39a5f777b27653e45e59549b0989be4",
+        "original_member": "wrapper/dist/stacks/tanstack/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/stacks/tanstack/vite.js",
+        "bytes": 11831,
+        "sha256": "8f543024ebbcae6eff7472c014e912d0b108d4ff4efafca8dae1d0434aef622c",
+        "original_member": "wrapper/dist/stacks/tanstack/vite.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.d.cts",
+        "bytes": 766,
+        "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38",
+        "original_member": "wrapper/dist/protocols/rest/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.cjs",
+        "bytes": 28915,
+        "sha256": "1fc23099cddfa28f116dc8f7cf49f0f4c90cc03cd22955b5ac232adaadf334d3",
+        "original_member": "wrapper/dist/protocols/rest/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.js",
+        "bytes": 405,
+        "sha256": "09121f8c3b08a4f6cdc731f0281aa8a9ce261a93a8b641f140e8dabb2c837727",
+        "original_member": "wrapper/dist/protocols/rest/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/rest/index.d.ts",
+        "bytes": 766,
+        "sha256": "218e79c23f3dcde8847bc116a99124d8019bb3ecdfab5ac27ccdec508de12e38",
+        "original_member": "wrapper/dist/protocols/rest/index.d.ts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.d.cts",
+        "bytes": 863,
+        "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27",
+        "original_member": "wrapper/dist/protocols/mcp/index.d.cts",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.cjs",
+        "bytes": 25637,
+        "sha256": "0ed0bbeaafb77ddb580c169a484578c7aca327c47ef43ee8c9d14a5967161e83",
+        "original_member": "wrapper/dist/protocols/mcp/index.cjs",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.js",
+        "bytes": 313,
+        "sha256": "3a079b0de11a1dd39014fb76a462d01ee53f13baedb253aeb841acc52a03be73",
+        "original_member": "wrapper/dist/protocols/mcp/index.js",
+        "derived": false
+      },
+      {
+        "path": "wrapper/dist/protocols/mcp/index.d.ts",
+        "bytes": 863,
+        "sha256": "9c63f941599ee062a386789b00a5d5e01f13cd0e2385a1c7ea469b3fd55b1b27",
+        "original_member": "wrapper/dist/protocols/mcp/index.d.ts",
+        "derived": false
+      }
+    ]
+  }
+]

@@ -1,0 +1,878 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "tested_source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+  "current_runs": [
+    {
+      "run_id": 39872844085,
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39872844085",
+      "source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120151193077,
+          "name": "compatibility",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39872844085,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Frozen dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Locked serialization exports",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Generated formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Full lint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Original OC APP wire regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Generation retains tracked files",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 26
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 27
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39872844063,
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39872844063",
+      "source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120151192916,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39872844063,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Check reviewed generated source formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Exact integrated source identity and fail-closed mutations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Full repository lint including CommonJS and ESM",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Read-only existing CI policy contract",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Type erasure and actual hook callback wire replay",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Build entry failure and forwarding contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Focused foundation read and CI regressions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Offline server environment boundary",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Install pinned browser test tooling",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Verify browser redirect, WebSocket and origin containment",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Actual financial read UI and export regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Build from mode-specific env file",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Verify generation leaves tracked application files intact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Recheck complete protected source after both builds",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Upload quality diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            },
+            {
+              "name": "Upload source identity receipt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Post Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 46
+            },
+            {
+              "name": "Post Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 47
+            },
+            {
+              "name": "Post Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 48
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 49
+            }
+          ]
+        },
+        {
+          "id": 120151193062,
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39872844063,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Complete supported audit with actual exit preserved",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Upload complete audit output",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 39872844084,
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39872844084",
+      "source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120151192724,
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39872844084,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Supported full current audit",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        },
+        {
+          "id": 120151192922,
+          "name": "entry",
+          "status": "completed",
+          "conclusion": "success",
+          "run_id": 39872844084,
+          "logs_url": null,
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Actual entry placement and source inventory negative controls",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Build actual standalone server with dummy loopback identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Actual native HTTP request boundary and existing unauthenticated rejection",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Build does not mutate source",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Pinned browser tooling for sanitizer compatibility",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Installed sanitizer original and current offline security contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12467780276,
+      "name": "b-dep-native-entry",
+      "size_in_bytes": 2197,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12467780276",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12467780276/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:41:27Z",
+      "expires_at": "2027-01-20T23:35:57Z",
+      "updated_at": "2026-10-22T23:41:27Z",
+      "digest": "sha256:5a978de4bde13f9f79118d833aeaa0252304467e0694e9dcbb5e970229c82fdb",
+      "workflow_run": {
+        "id": 39872844084,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "2de022a5e50a2e1d1761bfad92344505d146a750"
+      }
+    },
+    {
+      "id": 12466153957,
+      "name": "b-dep-audit",
+      "size_in_bytes": 549,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466153957",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466153957/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:36:06Z",
+      "expires_at": "2027-01-20T23:35:57Z",
+      "updated_at": "2026-10-22T23:36:06Z",
+      "digest": "sha256:211b414a808149eb6801da93cb2e5f9797c55b777350f78cecb5aeb21fd6240d",
+      "workflow_run": {
+        "id": 39872844084,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "2de022a5e50a2e1d1761bfad92344505d146a750"
+      }
+    },
+    {
+      "id": 12467575158,
+      "name": "quality-diagnostics",
+      "size_in_bytes": 2134,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12467575158",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12467575158/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:38:18Z",
+      "expires_at": "2027-01-20T23:35:57Z",
+      "updated_at": "2026-10-22T23:38:18Z",
+      "digest": "sha256:e1b8e8841f90327d4937c0ae130d78553f191888b8fbc76d55d4222441676336",
+      "workflow_run": {
+        "id": 39872844063,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "2de022a5e50a2e1d1761bfad92344505d146a750"
+      }
+    },
+    {
+      "id": 12466558721,
+      "name": "integration-full-audit",
+      "size_in_bytes": 161,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466558721",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466558721/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:36:04Z",
+      "expires_at": "2026-10-29T23:36:04Z",
+      "updated_at": "2026-10-22T23:36:04Z",
+      "digest": "sha256:4516f8c64abdb5da7630b259b5b423755c342c6970a9707bf7f0c2bc62570fec",
+      "workflow_run": {
+        "id": 39872844063,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "2de022a5e50a2e1d1761bfad92344505d146a750"
+      }
+    },
+    {
+      "id": 12465934956,
+      "name": "integration-source-identity",
+      "size_in_bytes": 375,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12465934956",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12465934956/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:38:19Z",
+      "expires_at": "2026-10-29T23:38:19Z",
+      "updated_at": "2026-10-22T23:38:19Z",
+      "digest": "sha256:2f81843a12247e8019a5869b1d387158bcbd87b74dd0a402e62e42d381061eb6",
+      "workflow_run": {
+        "id": 39872844063,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "2de022a5e50a2e1d1761bfad92344505d146a750"
+      }
+    },
+    {
+      "id": 12466098932,
+      "name": "g01-runtime-attempt1",
+      "size_in_bytes": 2499,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466098932",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466098932/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:34:55Z",
+      "expires_at": "2026-10-29T23:34:54Z",
+      "updated_at": "2026-10-22T23:34:55Z",
+      "digest": "sha256:e59f57e128746fe0943f9c90b0afffe8f97fa3c09a2ef34c94c228df2505f9c2",
+      "workflow_run": {
+        "id": 39871214992,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "9266f848a03e0e6f700c23518eafd0c7ed750d6b"
+      }
+    },
+    {
+      "id": 12466062193,
+      "name": "g01-environment-attempt1",
+      "size_in_bytes": 375,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466062193",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466062193/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:21:42Z",
+      "expires_at": "2026-10-29T23:21:42Z",
+      "updated_at": "2026-10-22T23:21:42Z",
+      "digest": "sha256:8d6959f74f210e7ab9a59f13542a58e0ba0214ad7da07166f05b43bc88026c63",
+      "workflow_run": {
+        "id": 39871214992,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "9266f848a03e0e6f700c23518eafd0c7ed750d6b"
+      }
+    },
+    {
+      "id": 12466932640,
+      "name": "b-dep-native-entry",
+      "size_in_bytes": 401,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466932640",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466932640/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:32:56Z",
+      "expires_at": "2027-01-20T23:32:14Z",
+      "updated_at": "2026-10-22T23:32:56Z",
+      "digest": "sha256:be31f07bd52a6c9e0e1d541372eab6345e79e3435956215efbdb9178743849af",
+      "workflow_run": {
+        "id": 39872436078,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "a979d1a6d8aa34ff88a69c749b1185395f7a94f6"
+      }
+    },
+    {
+      "id": 12466862625,
+      "name": "b-dep-audit",
+      "size_in_bytes": 549,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466862625",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12466862625/zip",
+      "expired": false,
+      "created_at": "2026-10-22T23:32:23Z",
+      "expires_at": "2027-01-20T23:32:14Z",
+      "updated_at": "2026-10-22T23:32:23Z",
+      "digest": "sha256:2fbf63f872fffb77b29ca4c9acce2c91b79205dc28d943bbaf0ba3c70c697b15",
+      "workflow_run": {
+        "id": 39872436078,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "a979d1a6d8aa34ff88a69c749b1185395f7a94f6"
+      }
+    }
+  ],
+  "pr_observation": [
+    {
+      "number": 71,
+      "draft": true,
+      "head": "7f74b704c4b66d3da1605aa509b7c8e1eb104507",
+      "head_ref": "fix/oc-app-01-2026-10-14",
+      "base": "92ebd529c79ae1df98ec02245d3c22d6bcfc557f",
+      "base_ref": "docs/owner-closure-blocker-2026-10-13"
+    },
+    {
+      "number": 69,
+      "draft": true,
+      "head": "92ebd529c79ae1df98ec02245d3c22d6bcfc557f",
+      "head_ref": "docs/owner-closure-blocker-2026-10-13",
+      "base": "00923287d804f99faa1b70d28cece17f9f33eac3",
+      "base_ref": "fix/sec-truncate-01-2026-10-13"
+    },
+    {
+      "number": 68,
+      "draft": true,
+      "head": "00923287d804f99faa1b70d28cece17f9f33eac3",
+      "head_ref": "fix/sec-truncate-01-2026-10-13",
+      "base": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+      "base_ref": "test/owner-retention-catalog-2026-10-12"
+    },
+    {
+      "number": 67,
+      "draft": true,
+      "head": "6af3e15028a798752eda98c30924b7b30620a356",
+      "head_ref": "docs/security-review-method-2026-10-13",
+      "base": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+      "base_ref": "test/owner-retention-catalog-2026-10-12"
+    },
+    {
+      "number": 66,
+      "draft": true,
+      "head": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+      "head_ref": "test/owner-retention-catalog-2026-10-12",
+      "base": "f37885b1ff5dcc9ab113e5cbee4516b485cedadd",
+      "base_ref": "docs/account-deletion-safety-intake-2026-10-12"
+    },
+    {
+      "number": 65,
+      "draft": true,
+      "head": "f37885b1ff5dcc9ab113e5cbee4516b485cedadd",
+      "head_ref": "docs/account-deletion-safety-intake-2026-10-12",
+      "base": "2ae95ed6175e0859b4c0a1d36d1110f99f19c792",
+      "base_ref": "test/auth-natural-expiry-2026-10-12"
+    },
+    {
+      "number": 64,
+      "draft": true,
+      "head": "2ae95ed6175e0859b4c0a1d36d1110f99f19c792",
+      "head_ref": "test/auth-natural-expiry-2026-10-12",
+      "base": "3cb0d82afe31eb2d81538fd7ae631c10fdfa0357",
+      "base_ref": "test/mcp-tanstack-route-2026-10-11"
+    },
+    {
+      "number": 63,
+      "draft": true,
+      "head": "3cb0d82afe31eb2d81538fd7ae631c10fdfa0357",
+      "head_ref": "test/mcp-tanstack-route-2026-10-11",
+      "base": "26d6e271ad1a50a26390d25d3236edb5ab47fff7",
+      "base_ref": "fix/mcp-local-issuer-2026-10-11"
+    },
+    {
+      "number": 62,
+      "draft": true,
+      "head": "26d6e271ad1a50a26390d25d3236edb5ab47fff7",
+      "head_ref": "fix/mcp-local-issuer-2026-10-11",
+      "base": "315751c46678fa18ffc35dae1e8d6e2cb9b30335",
+      "base_ref": "test/mcp-lifecycle-01-2026-10-11"
+    },
+    {
+      "number": 61,
+      "draft": true,
+      "head": "315751c46678fa18ffc35dae1e8d6e2cb9b30335",
+      "head_ref": "test/mcp-lifecycle-01-2026-10-11",
+      "base": "e4ee6bafc8adec292826769ec37ad1d21e97ae95",
+      "base_ref": "test/env-native-01-review-evidence-2026-10-11"
+    },
+    {
+      "number": 60,
+      "draft": true,
+      "head": "e4ee6bafc8adec292826769ec37ad1d21e97ae95",
+      "head_ref": "test/env-native-01-review-evidence-2026-10-11",
+      "base": "fd95ad2e1966362719965ef282de1e2eb66cb070",
+      "base_ref": "fix/env-native-01-live-account-2026-10-11"
+    },
+    {
+      "number": 59,
+      "draft": true,
+      "head": "fd95ad2e1966362719965ef282de1e2eb66cb070",
+      "head_ref": "fix/env-native-01-live-account-2026-10-11",
+      "base": "b8fd5e95ab1f6eee07bb6198da3169cd46916962",
+      "base_ref": "test/env-native-01-clean-baseline-2026-10-11"
+    },
+    {
+      "number": 58,
+      "draft": true,
+      "head": "b8fd5e95ab1f6eee07bb6198da3169cd46916962",
+      "head_ref": "test/env-native-01-clean-baseline-2026-10-11",
+      "base": "fd2bed16a051a6d4de44f8b97c1a5ba9a36e50fc",
+      "base_ref": "test/env-native-01-lifecycle-intake-2026-10-10"
+    },
+    {
+      "number": 57,
+      "draft": true,
+      "head": "fd2bed16a051a6d4de44f8b97c1a5ba9a36e50fc",
+      "head_ref": "test/env-native-01-lifecycle-intake-2026-10-10",
+      "base": "b9aa56bc3bb30948d95961c06fd493dfb866f476",
+      "base_ref": "docs/primary-resume-001-2026-10-10"
+    },
+    {
+      "number": 56,
+      "draft": true,
+      "head": "b9aa56bc3bb30948d95961c06fd493dfb866f476",
+      "head_ref": "docs/primary-resume-001-2026-10-10",
+      "base": "57fb508b9d239aaf4676352dd97654341416c46a",
+      "base_ref": "sec/primary-env-001-reconcile-2026-10-10"
+    },
+    {
+      "number": 50,
+      "draft": true,
+      "head": "193412a01938d752a98689d85acd727664e4dc8e",
+      "head_ref": "impl/fin-idem-001-candidate",
+      "base": "3106b4710fb9214d6f406d5a3fe7bf44fa2823e6",
+      "base_ref": "impl/fin-courier-pr-a-candidate"
+    },
+    {
+      "number": 49,
+      "draft": true,
+      "head": "3106b4710fb9214d6f406d5a3fe7bf44fa2823e6",
+      "head_ref": "impl/fin-courier-pr-a-candidate",
+      "base": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+      "base_ref": "test/fin-courier-001-gate4-clean"
+    },
+    {
+      "number": 39,
+      "draft": true,
+      "head": "d9ba8709e903e290d375208a3469610f155ecb48",
+      "head_ref": "test/fin-idem-001-gate4",
+      "base": "090d5564fa368f826316c9dc992a133c4e4872c4",
+      "base_ref": "fin/fin-idem-001-gates-0-3"
+    },
+    {
+      "number": 35,
+      "draft": true,
+      "head": "090d5564fa368f826316c9dc992a133c4e4872c4",
+      "head_ref": "fin/fin-idem-001-gates-0-3",
+      "base": "983b746e5c6639dcdc5e6557381ad5619abaa046",
+      "base_ref": "main"
+    },
+    {
+      "number": 27,
+      "draft": true,
+      "head": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+      "head_ref": "test/fin-courier-001-gate4-clean",
+      "base": "983b746e5c6639dcdc5e6557381ad5619abaa046",
+      "base_ref": "main"
+    }
+  ],
+  "no_tests_claimed_on_documentation_descendant": true
+}

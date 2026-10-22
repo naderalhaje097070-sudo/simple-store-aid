@@ -1,0 +1,119 @@
+{
+  "reviewer": "/root/dep_identity_review",
+  "date": "2026-10-23",
+  "timezone": "Africa/Tripoli",
+  "source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+  "tree": "5ed3276420424cd5ed5536d49b269be27a46ef5b",
+  "scoped_batch": "B-DEP-IDENTITY-01 technical acceptance",
+  "scoped_outcome": "Accepted within the reviewed dependency/request-boundary/source-identity scope",
+  "formal_whole_head_verdict": "Blocked pending missing evidence",
+  "source_preservation": {
+    "protected_blob_modes": 369,
+    "all_match": true,
+    "frozen_A_blob": "b79640f400a32924f114e19ec51a728be94b6afd",
+    "original_A_migrations": 41,
+    "applied_B_migrations": 50,
+    "all50_base_blob_modes_exact": true,
+    "deleted_prior_paths": 0
+  },
+  "native": {
+    "runs": [
+      {
+        "run": 39872844085,
+        "result": "SUCCESS",
+        "unit_tests": 94,
+        "expectations": 291
+      },
+      {
+        "run": 39872844063,
+        "result": "SUCCESS",
+        "jobs": [
+          "quality",
+          "audit"
+        ],
+        "identity": 369,
+        "migrations": 50,
+        "identity_fixtures": 29,
+        "webhook_bridge": 4,
+        "signed_handler": 22,
+        "financial_read": 43,
+        "chromium_ui": 10,
+        "browser_transport": 67
+      },
+      {
+        "run": 39872844084,
+        "result": "SUCCESS",
+        "jobs": [
+          "audit",
+          "entry"
+        ],
+        "actual_entry": 3,
+        "identity_fixtures": 29,
+        "native_HTTP": 11,
+        "sanitizer_original": 10,
+        "sanitizer_current": 4,
+        "network_violations": 0
+      }
+    ]
+  },
+  "native_artifact": {
+    "id": 12467780276,
+    "sha256": "5a978de4bde13f9f79118d833aeaa0252304467e0694e9dcbb5e970229c82fdb",
+    "members": 4,
+    "raw_and_extracted_verified": true
+  },
+  "independent_replays": {
+    "identity_python_fixtures": 29,
+    "applied_B_SQL_manifest_rewrite_pre_fix": "reproduced accepted incorrectly; corrected regression now rejects",
+    "srvx_source_files": 5,
+    "srvx_source_version": "0.11.16",
+    "source_blob_hashes_exact": true,
+    "request_private_slot_reproduction_node": "24.19.0",
+    "app_node22_native": "CI evidence inspected, no reviewer live app rerun"
+  },
+  "independent_artifact_checks": {
+    "current_audit_empty_dict": true,
+    "sanitizer_dom_distribution_matches_official_tarball": true,
+    "DOMPurify_and_ip_tarball_integrities_verified": true,
+    "preparation_followup_only_DOM_and_IP_changed": true,
+    "G0_read43_UI10_receipts_inspected": true
+  },
+  "findings": {
+    "applied_B_migration_anchor": "CLOSED",
+    "active_input_cancellation": "CLOSED on current actual native proof",
+    "srvx_request_replay": "CLOSED on current actual native proof",
+    "unresolved_introduced_Critical_High": []
+  },
+  "remaining": {
+    "B5": "effective50 migration runtime/lifecycle/REST/RPC/MCP fresh+populated proof",
+    "B6": "independent composed runtime review",
+    "old_G1": {
+      "run": 39871214992,
+      "job": 120145831792,
+      "source": "9266f848a03e0e6f700c23518eafd0c7ed750d6b",
+      "exit": 2,
+      "reason": "exact41_migrations",
+      "cleanup": "PASS",
+      "credential_scan": "PASS",
+      "green": false
+    },
+    "native_windows": false,
+    "Worker_HTTP2_refusal_portability": false,
+    "live_provider": false,
+    "financial_database_acceptance": false,
+    "merge_deploy_authorized": false
+  },
+  "final_ref_check": {
+    "main": "18700dee8ecdda2e457c0aa18c4f83a81b042019",
+    "integration": "2de022a5e50a2e1d1761bfad92344505d146a750",
+    "open_PRs": 20,
+    "all_draft": true
+  },
+  "reviewer_actions": {
+    "implementation_edits": false,
+    "GitHub_writes": false,
+    "production_or_provider_operations": false,
+    "historical_suite_reruns": false
+  },
+  "pending_publication": "Final docs-only head must independently preserve all369 protected entries, frozen A, all50SQL and current B manifest; INDEX must match actual packet contents. No runtime retest claimed on that docs-only descendant."
+}

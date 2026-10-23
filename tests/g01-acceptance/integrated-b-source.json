@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "904f804660523570728b00c278eee66310724372",
+  "snapshot_tree_before_manifest": "b3d41c05a9a7d9da5095fc31a79d8093a7885be3",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -52,11 +52,6 @@
     {
       "path": ".github/workflows/b4-webhook-persistence.yml",
       "sha": "4d9d18b7878208991d8dd342a6808c7136dadf58",
-      "mode": "100644"
-    },
-    {
-      "path": ".github/workflows/b5-build-diagnostic.yml",
-      "sha": "75e286ba7ce558f5c4785cd932fb9b7c82da8551",
       "mode": "100644"
     },
     {
@@ -1541,7 +1536,7 @@
     },
     {
       "path": "tests/b5-lifecycle/ssr_runtime.py",
-      "sha": "9fcaf836aba1e596c141862929745dcb642423d7",
+      "sha": "517b453932b1151c1d6b1dd31aa031358efd5bab",
       "mode": "100644"
     },
     {
@@ -1886,7 +1881,7 @@
     },
     {
       "path": "vite.config.ts",
-      "sha": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+      "sha": "9f86f07d89e56d33ad93cc0ec38b2731a0e158f2",
       "mode": "100644"
     }
   ],

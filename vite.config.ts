@@ -40,6 +40,12 @@ export default defineConfig(async (configEnv) => {
       server: { entry: "server" },
     },
     vite: {
+      // Bundle the SSR intermediate graph together to avoid exporting CommonJS
+      // helpers from an entry that imports their consumers before initialization.
+      // Nitro still emits server modules; client chunking stays unchanged.
+      environments: {
+        ssr: { build: { rolldownOptions: { output: { codeSplitting: false } } } },
+      },
       // Inject only values that have already passed the explicit deployment-target
       // contract. The __MONGEZZ_BUILD_* constants bind the same non-secret public
       // identity into the server bundle so runtime Worker bindings cannot silently

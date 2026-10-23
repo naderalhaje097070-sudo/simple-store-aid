@@ -230,6 +230,9 @@ try:
     with (root/'g01-build-private.log').open('wb') as log:
         result=subprocess.run(['bun','run','build'],env=buildenv,stdout=log,stderr=subprocess.STDOUT,timeout=300)
     check('actual_default_Cloudflare_build',result.returncode==0 and Path('.output/server/wrangler.json').is_file())
+    graph_path=out/'build-graph.json'
+    graph=subprocess.run(['node','tests/b5-build/graph.mjs',str(graph_path),'--require-no-eager-cycle'],capture_output=True,text=True)
+    check('actual_emitted_SSR_no_eager_helper_cycle',graph.returncode==0 and graph_path.is_file())
     record['build_warnings']={'precache_zero':bool(re.search(r'precache\s+.*0 entries',(root/'g01-build-private.log').read_text()))}
     subprocess.run(['sudo','mkdir','-p','/tmp/g01-runtime'],check=True)
     subprocess.run(['sudo','cp','-a','.output','/tmp/g01-runtime/'],check=True)

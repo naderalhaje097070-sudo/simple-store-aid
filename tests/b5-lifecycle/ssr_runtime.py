@@ -148,6 +148,22 @@ def start(conflict=False):
         if failed:readiness['private_log_sha256']=hashlib.sha256(log.read_bytes()).hexdigest()
         readiness['log_drained_before_classification']=failed
         readiness['log_categories']=sorted(k for k,v in categories.items() if v in text)
+        if failed:
+            # Bounded actual TypeError evidence after static classification proved
+            # insufficient. Never export arbitrary logs, HTTP bodies or request data.
+            errors=[]
+            for line in text.splitlines():
+                if 'TypeError:' not in line:continue
+                line=line[line.index('TypeError:'):]
+                for secret in private_secrets:
+                    if secret:line=line.replace(secret,'[PRIVATE]')
+                line=re.sub(r'https?://\S+|file://\S+','[URL]',line)
+                line=re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|sb_(?:secret|publishable)_[A-Za-z0-9_-]+','[CREDENTIAL]',line)
+                line=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',line)[:300]
+                if line not in errors:errors.append(line)
+                if len(errors)==3:break
+            readiness['bounded_type_errors']=errors
+            assert not any(secret and secret in json.dumps(readiness) for secret in private_secrets)
         record.setdefault('readiness',{})[label]=readiness
         (out/('readiness-'+label+'.json')).write_text(json.dumps(readiness,indent=2)+'\n')
     for _ in range(100):

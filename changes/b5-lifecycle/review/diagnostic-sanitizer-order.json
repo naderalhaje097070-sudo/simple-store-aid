@@ -1,0 +1,7 @@
+{
+  "scope": "synthetic-only sanitizer boundary fixture, no real secret or app execution",
+  "old_order_leaves_credential_prefix": true,
+  "old_final_exact_secret_check_misses_prefix": true,
+  "ANSI_first_then_redact_removes_prefix": true,
+  "truncate_last_preserved": true
+}

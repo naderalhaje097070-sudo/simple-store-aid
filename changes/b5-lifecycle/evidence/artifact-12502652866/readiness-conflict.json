@@ -1,0 +1,17 @@
+{
+  "phase": "conflict",
+  "http_status_counts": {
+    "500": 1
+  },
+  "transport_error_counts": {
+    "URLError": 4
+  },
+  "attempts": 5,
+  "last_response": {
+    "status": 500,
+    "length": 1312,
+    "sha256": "7bda1ad24ab9d11b6b7039b1296d95982eee5cd6812224564749812b040c010a"
+  },
+  "log_drained_before_classification": false,
+  "log_categories": []
+}

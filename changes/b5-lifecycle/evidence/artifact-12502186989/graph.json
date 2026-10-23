@@ -1,0 +1,3023 @@
+{
+  "diagnostic_only": true,
+  "source": "07883fd15554df5b9210923fef36acdcd6ceb7cb",
+  "variant": "baseline",
+  "no_database_or_app_execution": true,
+  "packages": {
+    "vite": {
+      "path": "node_modules/vite/package.json",
+      "version": "8.1.6"
+    },
+    "root_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    },
+    "vite_rolldown": {
+      "path": "node_modules/vite/node_modules/rolldown/package.json",
+      "version": "1.1.5"
+    },
+    "nitro": {
+      "path": "node_modules/nitro/package.json",
+      "version": "3.0.260603-beta"
+    }
+  },
+  "helper_cycles": [
+    {
+      "consumer": "_libs/@tanstack/react-router+[...].mjs",
+      "binding": {
+        "local": "__commonJSMin",
+        "imported": "r",
+        "from": {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        "line": 4
+      },
+      "definition": {
+        "local": "__commonJSMin",
+        "exported": "r",
+        "line": 386
+      },
+      "static_cycle": [
+        "_libs/@tanstack/react-router+[...].mjs",
+        "_ssr/ssr.mjs",
+        "_libs/@tanstack/router-core+[...].mjs",
+        "_libs/@tanstack/react-router+[...].mjs"
+      ]
+    },
+    {
+      "consumer": "_libs/react+tanstack__react-query.mjs",
+      "binding": {
+        "local": "__commonJSMin",
+        "imported": "r",
+        "from": {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        "line": 2
+      },
+      "definition": {
+        "local": "__commonJSMin",
+        "exported": "r",
+        "line": 386
+      },
+      "static_cycle": [
+        "_libs/react+tanstack__react-query.mjs",
+        "_ssr/ssr.mjs",
+        "_libs/@tanstack/router-core+[...].mjs",
+        "_libs/@tanstack/react-router+[...].mjs",
+        "_libs/react+tanstack__react-query.mjs"
+      ]
+    }
+  ],
+  "modules": {
+    "_._lovable.oauth.consent-D4nBWVZz.mjs": {
+      "sha256": "3ca83ec7e9818b2bd32a5181c8204624d8605b02ebdca48afb822c80513e3ffb",
+      "bytes": 1622,
+      "static_imports": [
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_._lovable.oauth.consent-DS_MDyUZ.mjs",
+          "exists": true
+        },
+        {
+          "module": "_._lovable.oauth.consent-ybJL7DXG.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_._lovable.oauth.consent-DS_MDyUZ.mjs": {
+      "sha256": "2d47701457affa1ae824ac20169ab2b53fd5b8ecf5118002c0a982e024165c4e",
+      "bytes": 693,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_._lovable.oauth.consent-ybJL7DXG.mjs": {
+      "sha256": "98fa0065ee1f9aa1ca12997dc639b2becd59c3869ca7d573d51a542c21ee7814",
+      "bytes": 2896,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_._lovable.oauth.consent-D4nBWVZz.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "__23tanstack-start-server-fn-resolver-CdN8tT6I.mjs": {
+      "sha256": "e2394f66d492eb219bceeb937ddfbd2da13a8f84a8bbcbbad84d9b3a0d16fd8d",
+      "bytes": 857,
+      "static_imports": [],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/payments.functions-Br-i2bGO.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_chunks/ssr-renderer.mjs": {
+      "sha256": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+      "bytes": 602,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@lovable.dev/mcp-js+[...].mjs": {
+      "sha256": "014cbe8feb480c2c87a1759516533affa3df46d0cfe287ecb6f688e97201a69c",
+      "bytes": 1154145,
+      "static_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "external": "cloudflare:workers"
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 19104
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19239
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19376
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20045
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20186
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20210
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20306
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20348
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20406
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20426
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20590
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20616
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20740
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20846
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20913
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20943
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21018
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21564
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21577
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21591
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21834
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22437
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22621
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23023
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23600
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23611
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23714
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23731
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23774
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23819
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23846
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23878
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23902
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23968
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23992
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24000
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24063
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24084
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24127
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24162
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24214
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24267
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24280
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24307
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24391
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24472
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24508
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24597
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24642
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24697
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24724
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24736
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24782
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24807
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24864
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24877
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24918
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25006
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25012
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25032
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25050
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25061
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25308
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25400
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25588
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25723
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25860
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26529
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26670
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26694
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26790
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26832
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26890
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26910
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27074
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27100
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27224
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27330
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27397
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27472
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27599
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28018
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28045
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28288
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28296
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28865
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28876
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28979
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28996
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29039
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29062
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29084
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29111
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29143
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29167
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29233
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29257
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29265
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29328
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29349
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29392
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29427
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29479
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29532
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29545
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29572
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29656
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29737
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29773
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29862
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29907
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29962
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29989
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30001
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30047
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30072
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30129
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30142
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30183
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30271
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30277
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30297
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30315
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30326
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30573
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30665
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30743
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 32236
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@supabase/storage-js+[...].mjs": {
+      "sha256": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+      "bytes": 118947,
+      "static_imports": [
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/react-router+[...].mjs": {
+      "sha256": "205007b90bd8b58c8517798a17207d7b98c0eae1f289f7bf9b120ea1bc3d28e7",
+      "bytes": 753545,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        },
+        {
+          "external": "node:stream"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 4
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 6594
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 6645
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 6659
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 6722
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 8898
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9054
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13316
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 17207
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/router-core+[...].mjs": {
+      "sha256": "d1f86d05ce63888a430c3710bd53190b3a54c9adcd7400f064bc9dbbb109d013",
+      "bytes": 39027,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/babel__runtime.mjs": {
+      "sha256": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+      "bytes": 4014,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/canvg+[...].mjs": {
+      "sha256": "83365cd2c93bd7fdfa8c8027722172f04c5378182ebd535b33bd910b9b55571f",
+      "bytes": 324054,
+      "static_imports": [
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 4
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 7
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 18
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 38
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 46
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 55
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 65
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 77
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 90
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 100
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 114
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 121
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 131
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 140
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 150
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 158
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 170
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 175
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 182
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 206
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 217
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 222
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 237
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 249
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 260
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 270
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 285
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 290
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 308
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 324
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 332
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 341
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 362
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 379
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 404
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 414
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 425
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 437
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 458
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 470
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 481
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 523
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 536
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 550
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 562
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 570
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 580
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 585
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 653
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 698
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 728
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 738
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 747
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 758
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 768
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 776
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 802
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 821
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 834
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 843
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 863
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 880
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 898
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 932
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 953
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 958
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 963
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 974
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 982
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 993
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1019
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1033
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1044
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1062
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1072
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1080
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1101
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1156
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1169
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1180
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1189
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1203
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1208
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1213
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1222
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1228
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1321
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1333
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1361
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1367
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1373
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1438
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1447
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1464
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1469
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1509
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1528
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1778
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1783
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1794
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1806
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1821
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1847
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1915
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1956
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1965
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2005
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2029
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2056
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2073
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2088
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2107
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2117
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2127
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2168
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2177
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2197
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2258
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2268
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2278
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2364
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2375
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2439
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2465
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2473
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2507
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2522
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2542
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2585
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2629
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2729
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2740
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2750
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2767
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2813
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2822
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2841
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2878
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2897
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2989
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2999
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3043
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3080
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3087
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3118
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3154
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3167
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3183
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3215
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3297
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3331
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3386
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3391
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3415
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3428
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3441
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3700
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3718
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3736
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3744
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 4208
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dijkstrajs.mjs": {
+      "sha256": "732cf6c2ec900b9194fb70a14c8daf652647309cdaab2e402c099678ccc3163d",
+      "bytes": 3707,
+      "static_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 3
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dompurify.mjs": {
+      "sha256": "bf2cd49d9b56af210f280a10a31f6be4efd383ca0420058ce9ef7d757fb5c7fb",
+      "bytes": 85836,
+      "static_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fast-png+iobuffer+pako.mjs": {
+      "sha256": "79024f43fbceacbd9007fa580d5d6f62779149b182eedd9258bf67c1f59da6db",
+      "bytes": 143237,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fflate.mjs": {
+      "sha256": "c4f37ef6d5ed52b51fa13e7d8d6215754f079583358fe8c93d4f3ac08924b671",
+      "bytes": 11908,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3+rou3+srvx.mjs": {
+      "sha256": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+      "bytes": 14213,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3-v2+srvx.mjs": {
+      "sha256": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+      "bytes": 9728,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/hookable.mjs": {
+      "sha256": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+      "bytes": 1165,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/html2canvas.mjs": {
+      "sha256": "c31217992193feeb8ce39a9291af022640e43e4de7ce6968f4c398307388f9b9",
+      "bytes": 318392,
+      "static_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/jspdf.mjs": {
+      "sha256": "8bbab72ee79c71cb70edcdaec9c3de066a08d60391cb76a3f82f53b7209a7a2d",
+      "bytes": 476977,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fflate.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fast-png+iobuffer+pako.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/dompurify.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/canvg+[...].mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__cloud-auth-js.mjs": {
+      "sha256": "8a6d7abb8361ca553addc521048b26afdf975fd47cba1ec8006c0f2327c81fa9",
+      "bytes": 6703,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__email-js.mjs": {
+      "sha256": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+      "bytes": 2622,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lucide-react.mjs": {
+      "sha256": "5a908e7cdbba68b77fd083790df335e32d1240feecaff77d4219afef6cd40c32",
+      "bytes": 25819,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/paddle__paddle-node-sdk.mjs": {
+      "sha256": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+      "bytes": 201151,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/pngjs.mjs": {
+      "sha256": "45f8e828c2381dfe278f7cf361448943c1aa43755daa3aafa3f29a6d474f8a90",
+      "bytes": 56295,
+      "static_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 5
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 113
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 207
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 220
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 328
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 387
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 415
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 614
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 952
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1064
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1199
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1278
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1309
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1402
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1430
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1449
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1524
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1548
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1560
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/qrcode.mjs": {
+      "sha256": "44e28c7e2798050cae7154c9cea4e494f6a42d444e3b7ea11645295d76802f83",
+      "bytes": 76913,
+      "static_imports": [
+        {
+          "module": "_libs/dijkstrajs.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/pngjs.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 3
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 6
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 105
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 138
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 165
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 226
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 294
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 315
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 506
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 869
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 915
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 962
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1002
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1015
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1041
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1198
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1295
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1319
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1352
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1436
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1459
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1490
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1769
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2064
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2132
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2196
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2252
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2274
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2337
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2347
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2398
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2412
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2461
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2520
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2576
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/react+tanstack__react-query.mjs": {
+      "sha256": "2818a1aabbac88360e25cbedc1819674bcbc09327644eb3cca07cfa14c477aad",
+      "bytes": 24171,
+      "static_imports": [
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "r",
+          "from": {
+            "module": "_ssr/ssr.mjs",
+            "exists": true
+          },
+          "line": 2
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 14
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 40
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 54
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 421
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/supabase__auth-js+tslib.mjs": {
+      "sha256": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+      "bytes": 303179,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__functions-js.mjs": {
+      "sha256": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+      "bytes": 12354,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__phoenix.mjs": {
+      "sha256": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+      "bytes": 49126,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__postgrest-js.mjs": {
+      "sha256": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+      "bytes": 105419,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__realtime-js+unenv.mjs": {
+      "sha256": "289265e75972c3865e53992ba0dffdf59d7d7e2b90c1761d39bd60cf9ca57314",
+      "bytes": 78390,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__phoenix.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__supabase-js.mjs": {
+      "sha256": "e3817cc1307671eb40c3004c9d2687e217789e108ce0e4d3d3658ee1845133d8",
+      "bytes": 36071,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__functions-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__postgrest-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@supabase/storage-js+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__history.mjs": {
+      "sha256": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+      "bytes": 12505,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__query-core.mjs": {
+      "sha256": "59a1875f17896b0f383ce94bd776fecdbe4c72776ffce18f5b3cdfae995f16dc",
+      "bytes": 65690,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/zod.mjs": {
+      "sha256": "6688464949cfa4f2c24d499ad92db7778a87aef350e936aa63ebe4090fdc244a",
+      "bytes": 107354,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/app-BGrRt-ZE.mjs": {
+      "sha256": "6a4194355d83ade2bb37c865f0432089badeaf2f7fdd5fa7a7e5363adc6c4b1f",
+      "bytes": 255871,
+      "static_imports": [
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/useTheme-11HVCO0w.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/db-CqIk_Ixz.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/jspdf.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/qrcode.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/app-CM8H2GxL.mjs": {
+      "sha256": "ec672a2868441d1f924505bf4c16157d434dfcfdc21a44e1c6996ba529bd6f06",
+      "bytes": 1578,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/auth-BL8wXm4K.mjs": {
+      "sha256": "416946a13ea8918814ecd9c141c16308575d162d5f08793718e8709373d6b9b2",
+      "bytes": 13620,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/auth-CIEGfr6I.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__cloud-auth-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/auth-CIEGfr6I.mjs": {
+      "sha256": "d9d4db580c199d3b0e1d6fdec96531dab1377da58a5e12e4b740d86489f8aed1",
+      "bytes": 855,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/auth-BL8wXm4K.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/auth-middleware-CsniiHl4.mjs": {
+      "sha256": "a567c3c38a0baf49e7466550a2e1e9ba367b4906de8152feee6a296428a97942",
+      "bytes": 2766,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__supabase-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createServerFn-ChNsXfvL.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createMiddleware-B_4t7rW1.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/billing-BEEY0E4I.mjs": {
+      "sha256": "ce92f2097b48f578f357d110a25f1bf82f5197e590a0e03f81736c9e10cee326",
+      "bytes": 14138,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/db-CqIk_Ixz.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createServerFn-ChNsXfvL.mjs",
+          "exists": true
+        },
+        {
+          "module": "__23tanstack-start-server-fn-resolver-CdN8tT6I.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/auth-middleware-CsniiHl4.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/client-Dfai08Js.mjs": {
+      "sha256": "511ca84fec6d2abe22b9b5f95a6b5e56f043744b0e95ca5ee682ee2d436c529d",
+      "bytes": 1968,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__supabase-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/createMiddleware-B_4t7rW1.mjs": {
+      "sha256": "908bb92d71f132f655419a1cf1a932fe0572f138d5d376b4cfdc12b1c310622b",
+      "bytes": 836,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/createServerFn-ChNsXfvL.mjs": {
+      "sha256": "2474f28c79e15934a376d0c9a9911edd71de78660cb56019e7741ecbd5e94dd1",
+      "bytes": 12389,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/router-core+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/h3-v2+srvx.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:async_hooks"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/db-CqIk_Ixz.mjs": {
+      "sha256": "679d8330923d43866ba2e742ec07e5a1379b27e60fa130d1850d0c72da99264d",
+      "bytes": 17396,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/empty-plugin-adapters-D9UWiqvJ.mjs": {
+      "sha256": "ee1957ac485b923838aecb47c3427e91eb7275698cefcda4a6c9018e6cdb1c9e",
+      "bytes": 230,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/guide-C-mUhtrG.mjs": {
+      "sha256": "7e7d0bc226dd26a0ba92e58cf841b0da32c530821cc1c27da06437a4ccb1828d",
+      "bytes": 22804,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/onboarding-DUdAzHeo.mjs": {
+      "sha256": "c165be395e99f4fbfccdc45a0422b6fc5f7b523c0395bbc6186c0183e1d7f6c1",
+      "bytes": 4386,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/paddle.server-DUFMhm_W.mjs": {
+      "sha256": "7a6ed5144d461d5b8b9f1e196073f7526936e2525a1b1803dd9899de8a9f79e3",
+      "bytes": 1715,
+      "static_imports": [
+        {
+          "module": "_libs/paddle__paddle-node-sdk.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/payments.functions-Br-i2bGO.mjs": {
+      "sha256": "849001003f9c7fa1e5fc2e6d527853ee981403513959954396f0e08404acf7fa",
+      "bytes": 2116,
+      "static_imports": [
+        {
+          "module": "_ssr/createServerFn-ChNsXfvL.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/auth-middleware-CsniiHl4.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/paddle.server-DUFMhm_W.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/platform-admin-DKPINFNE.mjs": {
+      "sha256": "e1e6cbaf11ff125cec3a223445771052ad631002215a07a69bdc303b83b002aa",
+      "bytes": 45280,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/pwa-register-B1ZRVBaA.mjs": {
+      "sha256": "5b4d715badc882af15b2ba344a559deb66e75362fff9adc5834f849a19fe3ada",
+      "bytes": 1520,
+      "static_imports": [],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/virtual_pwa-register-BG3HAM5h.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/route-HOOHH6jq.mjs": {
+      "sha256": "fbba08ce06d9584ae3aaf54d8ceccbc4a42d4986e355b3d4ab1db23930b55781",
+      "bytes": 1939,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/router-9xEd_9y_.mjs": {
+      "sha256": "e766908803b08d18073c2b8ace312f252dbeef86c6cc8d6b136b386f2190c734",
+      "bytes": 36036,
+      "static_imports": [
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__supabase-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_._lovable.oauth.consent-D4nBWVZz.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/useTheme-11HVCO0w.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/auth-CIEGfr6I.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/paddle__paddle-node-sdk.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/paddle.server-DUFMhm_W.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/zod.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__email-js.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/pwa-register-B1ZRVBaA.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/routes-C2lbA2Hl.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/route-HOOHH6jq.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/guide-C-mUhtrG.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/app-CM8H2GxL.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/app-BGrRt-ZE.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/billing-BEEY0E4I.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/onboarding-DUdAzHeo.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/platform-admin-DKPINFNE.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/routes-C2lbA2Hl.mjs": {
+      "sha256": "0bf3b94848e126d400fcef9fbb055126750657281d24db0701c3bee3636f0641",
+      "bytes": 43593,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/server-C2kijRYG.mjs": {
+      "sha256": "24ec374d990490109fc90f285732110bba304d71159e72ea899fa89fbb89609e",
+      "bytes": 61448,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/router-core+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createServerFn-ChNsXfvL.mjs",
+          "exists": true
+        },
+        {
+          "module": "__23tanstack-start-server-fn-resolver-CdN8tT6I.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createMiddleware-B_4t7rW1.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_tanstack-start-manifest_v-szhW_DBS.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/router-9xEd_9y_.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/start-DdsRZs7K.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/empty-plugin-adapters-D9UWiqvJ.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/ssr.mjs": {
+      "sha256": "8a3094bda03f442173fb591a0351a8830aa422b825bb71ac07152d5cc9b3516f",
+      "bytes": 16630,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/router-core+[...].mjs",
+          "exists": true
+        },
+        {
+          "external": "node:module"
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/server-C2kijRYG.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [
+        {
+          "name": "__commonJSMin",
+          "kind": "ArrowFunctionExpression",
+          "line": 19
+        }
+      ],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": [
+        {
+          "local": "__commonJSMin",
+          "exported": "r",
+          "line": 386
+        }
+      ]
+    },
+    "_ssr/start-DdsRZs7K.mjs": {
+      "sha256": "dcbcf271a0e0adb139ca22a2bdc8092adb381f7d4751480f33b11953f8b300c3",
+      "bytes": 1846,
+      "static_imports": [
+        {
+          "module": "_ssr/client-Dfai08Js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/createMiddleware-B_4t7rW1.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/useTheme-11HVCO0w.mjs": {
+      "sha256": "ee4e685cd91bace681a30ec6cba699023ae3e2602641e6e3432fa435d38eaecd",
+      "bytes": 1223,
+      "static_imports": [
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/virtual_pwa-register-BG3HAM5h.mjs": {
+      "sha256": "39ffd08829c6e6e38515ea1a10e2780fd8023fb03c51f1398fcd48b9f016c93a",
+      "bytes": 2300,
+      "static_imports": [],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/workbox-window.prod.es5-CkHxznpn.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_ssr/workbox-window.prod.es5-CkHxznpn.mjs": {
+      "sha256": "8846b49ccda706239754bd66b5a0ce6425433ce2148d0eb3b7d264e836fc2893",
+      "bytes": 7564,
+      "static_imports": [
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_tanstack-start-manifest_v-szhW_DBS.mjs": {
+      "sha256": "4331754a4b27d528db6f7aa237a3aabb712b871117b95580af38f04b95c55e86",
+      "bytes": 3759,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "index.mjs": {
+      "sha256": "8f428a8d2bde621ad911844a844d65c6fd76dc96291c1c951df419dbfc725356",
+      "bytes": 19737,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/hookable.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "module": "_chunks/ssr-renderer.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    }
+  }
+}

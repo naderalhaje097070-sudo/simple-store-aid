@@ -1,0 +1,23 @@
+{
+  "phase": "matching",
+  "http_status_counts": {
+    "500": 96
+  },
+  "transport_error_counts": {
+    "URLError": 4
+  },
+  "attempts": 100,
+  "last_response": {
+    "status": 500,
+    "length": 57,
+    "sha256": "39aaf076d37bdcf0bd0206deeb90af13ae7a26e4c52f2b71145f08bb02591b9c"
+  },
+  "private_log_sha256": "07d99901a2cd1e9012fddbb5916b310ff2baad32e9ea53a8c4778a0f0c555afe",
+  "log_drained_before_classification": true,
+  "log_categories": [
+    "type_error"
+  ],
+  "bounded_type_errors": [
+    "TypeError: __commonJSMin is not a function"
+  ]
+}

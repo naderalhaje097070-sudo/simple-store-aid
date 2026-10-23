@@ -1,0 +1,17 @@
+{
+  "scope": "Synthetic AST diagnostic regression only; current graph.mjs executed with read-only old dependencies, no actual application or frozen-current runtime acceptance.",
+  "cases": [
+    {
+      "case": "eager",
+      "exit": 1,
+      "static_cycles": 1,
+      "direct_eager_cycles": 1
+    },
+    {
+      "case": "deferred",
+      "exit": 0,
+      "static_cycles": 1,
+      "direct_eager_cycles": 0
+    }
+  ]
+}

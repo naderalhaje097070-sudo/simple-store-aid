@@ -1,0 +1,539 @@
+{
+  "source_sha": "5c13491178d0b40fa7be30c0900ddb684c14d94a",
+  "checks": [
+    {
+      "name": "exact_initial_chain_upgrade",
+      "passed": true
+    },
+    {
+      "name": "empty_disposable_fixture_initially",
+      "passed": true
+    },
+    {
+      "name": "B5_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "B5_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "B5_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "B5_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "B5_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "B5_staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "B5_staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_future_banned_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_future_banned_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "B5_future_banned_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "B5_future_banned_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "B5_future_banned_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "existing_owner_rest_product_created",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "approved_sale_rpc_succeeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_product_values",
+      "passed": true
+    },
+    {
+      "name": "independent_direct_cash_order",
+      "passed": true
+    },
+    {
+      "name": "independent_item_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "independent_payment_values_and_links",
+      "passed": true
+    },
+    {
+      "name": "nonempty_actor_linked_financial_audit",
+      "passed": true
+    },
+    {
+      "name": "counter_present_at_real_baseline",
+      "passed": true
+    },
+    {
+      "name": "A_real_owned_customer",
+      "passed": true
+    },
+    {
+      "name": "B_real_owned_customer",
+      "passed": true
+    },
+    {
+      "name": "historical41_missing_closure_explicit_red",
+      "passed": true
+    },
+    {
+      "name": "baseline_attempt_does_not_change_history",
+      "passed": true
+    },
+    {
+      "name": "real_populated41_to50_migration",
+      "passed": true
+    },
+    {
+      "name": "all_original22_public_and_auth_identity_preserved",
+      "passed": true
+    },
+    {
+      "name": "postgrest50_discovery_and_exact_staff_denial",
+      "passed": true
+    },
+    {
+      "name": "exact_effective50_chain",
+      "passed": true
+    },
+    {
+      "name": "all_three_new_private_tables_empty",
+      "passed": true
+    },
+    {
+      "name": "live_tenant_indexes_observed",
+      "passed": true
+    },
+    {
+      "name": "owner_not_uniquely_constrained",
+      "passed": true
+    },
+    {
+      "name": "no_unresolved_unique_expression_index",
+      "passed": true
+    },
+    {
+      "name": "client_truncate_denied_all22",
+      "passed": true
+    },
+    {
+      "name": "private_marker_rls_and_restrict_reference",
+      "passed": true
+    },
+    {
+      "name": "private_marker_clients_no_dml",
+      "passed": true
+    },
+    {
+      "name": "exact_self_entry_acl_and_search_path",
+      "passed": true
+    },
+    {
+      "name": "existing_active_guard_acl_preserved",
+      "passed": true
+    },
+    {
+      "name": "all_private_client_read_and_truncate_denied",
+      "passed": true
+    },
+    {
+      "name": "genuine_oauth_client",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_initial_A",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_initial_B",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_initial_staff",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_initial_banned",
+      "passed": true
+    },
+    {
+      "name": "compiler_identifies_one_real_price_function",
+      "passed": true,
+      "count": 1
+    },
+    {
+      "name": "composed_before_A_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_composed_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_composed_before_A",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_composed_before_A",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_composed_before_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_composed_before_A",
+      "passed": true
+    },
+    {
+      "name": "invocation_82_list_products_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_84_list_customers_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_86_list_recent_orders_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_88_today_summary_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_A_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "composed_before_B_provider_valid",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_own_tenant",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_summary_rpc",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_composed_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_composed_before_B",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_composed_before_B",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_composed_before_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_composed_before_B",
+      "passed": true
+    },
+    {
+      "name": "invocation_98_list_products_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_list_products",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_100_list_customers_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_list_customers",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_102_list_recent_orders_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_list_recent_orders",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "invocation_104_today_summary_genuine_token_still_live",
+      "passed": true
+    },
+    {
+      "name": "composed_before_B_today_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "actual_metadata_local_resource_and_issuer",
+      "passed": true
+    },
+    {
+      "name": "actual_route_missing_auth_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "actual_route_malformed_auth_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "actual_route_oauth_client_claim_absent_auth_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "host_issuer_stays_trusted",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_hostile_host",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_hostile_host",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_hostile_host",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_hostile_host",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_hostile_host",
+      "passed": true
+    },
+    {
+      "name": "forwarded_issuer_stays_trusted",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_hostile_forwarded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_hostile_forwarded",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_hostile_forwarded",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_hostile_forwarded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_hostile_forwarded",
+      "passed": true
+    },
+    {
+      "name": "headers_no_remote_jwks_or_discovery",
+      "passed": false
+    }
+  ]
+}

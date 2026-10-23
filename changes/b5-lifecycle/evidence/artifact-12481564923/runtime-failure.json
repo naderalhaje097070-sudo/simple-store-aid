@@ -1,0 +1,72 @@
+{
+  "source_sha": "5c13491178d0b40fa7be30c0900ddb684c14d94a",
+  "verification_batch": "B5-COMPOSED-SSR-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    }
+  },
+  "failure_type": "IdentityError",
+  "failed_phase": "after_exact_local_API",
+  "reason": "Protected source path set changed"
+}

@@ -1,3 +1,9 @@
+> Scope amendment after demonstrated native failure: f34 includes the minimal SSR-only Vite build setting and current emitted-graph regression described in SSR_FIX_DESIGN.md. The original test-only expectation below is historical; its no-product-policy/SQL/dependency boundaries still apply. Server module layout/loading is affected; additive config rollback restores the old known failure. Standing owner continuation covers this routine isolated correction. Full native evidence/B6 remain required; no merge/deploy authorization.
+
+---
+
+Original intake/design before runtime findings:
+
 # B5-COMPOSED-LIFECYCLE-01 intake and design
 
 23October2026, Africa/Tripoli. Canonical70/comment6263266625; soleclaim55/comment6354262307. Base93faeb4077e01a00ff07ca252018fa7437f93ca4, acceptedmain18700dee. Standing owner continuation authorizes routine isolated B5 verification; one implementer/root, separate read-only adversarial/B6review. High-risk test/CI acceptance scope, not application/SQL/policy development.

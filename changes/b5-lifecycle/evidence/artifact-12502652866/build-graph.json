@@ -1,0 +1,2666 @@
+{
+  "diagnostic_only": true,
+  "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+  "no_database_or_app_execution": true,
+  "packages": {
+    "vite": {
+      "path": "node_modules/vite/package.json",
+      "version": "8.1.6"
+    },
+    "root_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    },
+    "vite_rolldown": {
+      "path": "node_modules/vite/node_modules/rolldown/package.json",
+      "version": "1.1.5"
+    },
+    "nitro": {
+      "path": "node_modules/nitro/package.json",
+      "version": "3.0.260603-beta"
+    },
+    "nitro_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    }
+  },
+  "helper_cycles": [],
+  "eager_helper_cycles": [],
+  "scope": "Direct module-level helper calls only; deferred function calls and unknown aliases are not classified as eager. Static export-all edges included.",
+  "public_hashes": {
+    "_headers": "8986b1072b0e2a0646b4787388991bb50bc2b87b69a037d8531a62ff4d2c2ff3",
+    "assets/_._lovable.oauth.consent-CCu-6CNP.js": "1530d933f00840836461aac666cbe523a8cacc72df1d753c38670e6b93fc8a15",
+    "assets/_._lovable.oauth.consent-CwmFybd_.js": "94e47a688285b47db7e692bb4f741c3ba26555451a0642afb001f4433abcb58a",
+    "assets/app-JDfpUFru.js": "cd017a191c28c0588ae1c5b28cf025279cbf5bfc69d49654bc923c302449abb3",
+    "assets/app-wXvLxusC.js": "da4887fbd3fd28a27b3c32b952e03e4e914598cbbf9a3a0206686e5df9b96a40",
+    "assets/arrow-left-DKuGIhZq.js": "829d75fd174f055f12c4f722bf2f7be58695e8d1b6895d6b84de2e53e81c8049",
+    "assets/auth-Be8bucN1.js": "5e622175f9ef5f3e18ff5fde2df86db60a344df5a2bd9db75fa4396cfbfaf548",
+    "assets/billing-nCpfEp_L.js": "4397f3b752efeda0b200e1846c46c503ffeeacdaed2afc852b14e8623c7cc6d2",
+    "assets/client-C9NWj6_l.js": "24daa07258cccb80b7698766dec6cec1957a6771f37acd910122c3080efa8991",
+    "assets/createLucideIcon-DGPfniA1.js": "f58337cca5f36c1b2c8fff2ff09f7dd4ad635c5487bc0b1264bdf47a0e99e62e",
+    "assets/db-BJvXHLGB.js": "68f7e34f03d05033e218a7a074f48a3685b8429b48d002ea31466929cbc9ec28",
+    "assets/guide-DjRGDxzS.js": "432b00464244bbfc724e962252683e18fe4e4e8c1f962727f070a36a4fa76008",
+    "assets/html2canvas-CIX34xnf.js": "4312f913cae1aca7edec2dee684ce2cbcb2dbaaa30cbb93ab48a00bd710efcb0",
+    "assets/index-DrPodg-J.js": "dbcf8e9910b6ed164595465eb003d8e17b25613d3031c91752aabcaaebee96aa",
+    "assets/index.es-BVI-yroT.js": "a93ef8c21bb0e8f67a0967587dfce8091dbb303c7e55d322f217137cfc1786d8",
+    "assets/invariant-CgFvOqN2.js": "9581f7b30cfddeea2063d0f9ee9c4712ebd265221d0caa1b8b78828399b5e883",
+    "assets/jsx-runtime-By8HlURe.js": "91463f10a0a3d312febb9fd269f8b68e78b6947b427d43f5d32a64422bc533c8",
+    "assets/lazyRouteComponent-CUrt3gPz.js": "67592668f178f96898213990dc79ebb02e144cd68977f2487b329e3c6f15a783",
+    "assets/link-DiJks9SA.js": "67e8839195c32f07ad839805a7ef2bfb94737714d00d75727521d078bf31b605",
+    "assets/matchContext-D5yzrWWZ.js": "141dab6927426145f1e4497af757c6415a2e330a4b8a1b63431ca8b3e512340f",
+    "assets/not-found-DIgawKw1.js": "ac8e8967ff892a5b649d743b4cb012a73eb22845ecac5325129d4ec5c99c83fc",
+    "assets/onboarding-DjKUbSj0.js": "2fc08d92b1d4fb8ab87a8620ff52980965e4119410b29a38f164ae3fc37e14c0",
+    "assets/platform-admin-DH7e3710.js": "4f39a1b2439ffeea6a72b2935adff20eeadebc270a7aa4b18252ae78a501d580",
+    "assets/preload-helper-Czpn1I53.js": "aba87f2a53e45ecdc9113fc30387d16e449d1676428cf5f82dd624c1df97d152",
+    "assets/purify.es-wSQYG3tN.js": "106cfe6025d8ca4bf6fafc8e32e2f1c9b4fa6aafbc5aca7093e397108cdabe50",
+    "assets/pwa-register-DkX6BrsM.js": "15380c59672edd754e592f18417e6a1dc89638f4698475ccee6cf7008768c165",
+    "assets/react-DPqvtlQV.js": "e186a800bc342ab818fbadb03d664c6f5dbe8b2325443401bc022aca2084b6e3",
+    "assets/rolldown-runtime-QTnfLwEv.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+    "assets/route-BtibiMke.js": "08fa1676e35b6cdbafeaf92482b58f2e8c42babbbe4fc19cdfa55ac09b2f2144",
+    "assets/routes-BM6FmgoX.js": "d249c1a3fd5f70054000d375dc8eba4fa88ceaf9731b87a560cd531002b44870",
+    "assets/sparkles-D0dhJp08.js": "994f9a23615cb032cfeecaa28824d0cd67cb7340b0c4e50a26531d8e32e16a57",
+    "assets/styles-CJRPN73i.css": "b0f001d8677a1f22b97e0f2e653c683de4241250d65066b9892c31e94fff0010",
+    "assets/typeof-B5XbjTb1.js": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+    "assets/useNavigate-CZzmch58.js": "2297f12756a227a5ac65619bdbd3899cb401872f791f802889a0d2c6bd6ef9ac",
+    "assets/useRouter-CI6lzJu4.js": "da01772613ca7bc8f91521e98c705fa6796dd4dd191b43205789bc38973e57e4",
+    "assets/useSelector-B2E0INEz.js": "1011b0cc84877f862801d6d23bd5dd41a5a9372d6664db3b1476fd3b5547c4d2",
+    "assets/virtual_pwa-register-CM2BOEVr.js": "00773a5e3f3f4c4c2d51657937ede524ce269c14286d82e7dedaefcb56295e8a",
+    "assets/workbox-window.prod.es5-Bd17z0YL.js": "17bcc17d60dc78f927834b880c39649b03af46fd1f5cdbb8c42c5ae2b515dce9",
+    "assets/x-DEq0QWkK.js": "7addc0f12f7894304d1739e4a1267505f82d5230caf02e93f9e3f3f95dda2b17",
+    "favicon.svg": "a851d67cb92db6d6b40652a52ef9492d1736dd66e913135f012a8ee269002ec6",
+    "icons/apple-touch-icon.png": "97ac6dc44304302cdcf96b9d5826c8bad4dd52713cb422f5a4e624147ac00867",
+    "icons/icon-192.png": "d80e5de3c116c8385bf59ef0934f52cc3b589059fbde9d409ca058e1d52dc4ae",
+    "icons/icon-512.png": "2214f9ef7c5883701ad6be692e226f37925a34403bf3bdebd50b30fbadb261f9",
+    "icons/icon-maskable-512.png": "9528540e3192397e1b0b04c8ad4d88b5a5566b5de1c2611e3cc5c290fac27a6c",
+    "llms.txt": "f873184e93b829cb405c9f36bf6f598cf023f2f01c2e389951e4403129c948e0",
+    "manifest.webmanifest": "8ef3c70b729cb18dcbc29896e8bad76422eab993984efc70dd70f0bc60bca1b5",
+    "offline.html": "9317fe3feedecbd7917a182f49fae4f4631a23eeb6e7c7dd666304ff6c3f43c9",
+    "og-image.jpg": "8964d7fb385834b3e14deee658cecc4ba7a23cfb8917195dfc6b5e7adc413241",
+    "robots.txt": "9703f23c55c4795b376b9916c2d74478cb3e4f5fe6ed4d3917024811622c3f19"
+  },
+  "modules": {
+    "_chunks/ssr-renderer.mjs": {
+      "sha256": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+      "bytes": 602,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@lovable.dev/mcp-js+[...].mjs": {
+      "sha256": "0510d881ebb4060778cb6a40b3621f11eb55ef3a5fd993c074a34a0eaee033c0",
+      "bytes": 1154145,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "external": "cloudflare:workers"
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 19104,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19239,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19376,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20045,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20186,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20210,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20306,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20348,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20406,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20426,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20590,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20616,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20740,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20846,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20913,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20943,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21018,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21145,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21564,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21577,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21591,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21834,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22437,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22621,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23023,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23031,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23600,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23611,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23714,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23731,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23774,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23797,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23819,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23846,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23878,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23902,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23968,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23992,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24000,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24063,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24084,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24127,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24162,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24214,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24267,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24280,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24307,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24391,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24472,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24508,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24597,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24642,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24697,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24724,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24736,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24782,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24807,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24864,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24877,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24918,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25006,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25012,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25032,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25050,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25061,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25308,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25400,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25588,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25723,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25860,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26529,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26670,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26694,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26790,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26832,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26890,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26910,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27074,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27100,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27224,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27330,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27397,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27472,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27599,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28018,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28031,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28045,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28288,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28296,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28865,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28876,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28979,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28996,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29039,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29062,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29084,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29111,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29143,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29167,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29233,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29257,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29265,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29328,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29349,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29392,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29427,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29479,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29532,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29545,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29572,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29656,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29737,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29773,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29862,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29907,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29962,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29989,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30001,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30047,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30072,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30129,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30142,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30183,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30271,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30277,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30297,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30315,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30326,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30573,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30665,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30743,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 32236,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@supabase/storage-js+[...].mjs": {
+      "sha256": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+      "bytes": 118947,
+      "static_imports": [
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/react-router+[...].mjs": {
+      "sha256": "ada74c35b5c035fe433def2e363a93ca8b705302bc8f8e3c164a4c58d8ee8fe9",
+      "bytes": 753545,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        },
+        {
+          "external": "node:stream"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 7627,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7678,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7692,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7755,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 8898,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9031,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9054,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13316,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 17207,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/router-core+[...].mjs": {
+      "sha256": "e46e9c10a9c5f0638e73d332d9958c07b0504bd6c13e6ab953dd96abcece6402",
+      "bytes": 39027,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/babel__runtime.mjs": {
+      "sha256": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+      "bytes": 4014,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/canvg+[...].mjs": {
+      "sha256": "d2790523696ed08a508a1acb5d26b0b6e5a593696a3c6899bc9d3bbda3b7974e",
+      "bytes": 324054,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 7,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 18,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 38,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 46,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 55,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 65,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 77,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 90,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 100,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 114,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 121,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 131,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 140,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 150,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 158,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 170,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 175,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 182,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 206,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 217,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 222,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 237,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 249,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 260,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 270,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 285,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 290,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 308,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 324,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 332,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 341,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 362,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 379,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 404,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 414,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 425,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 437,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 458,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 470,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 481,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 523,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 536,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 550,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 562,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 570,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 580,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 585,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 653,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 698,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 728,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 738,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 747,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 758,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 768,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 776,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 802,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 821,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 834,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 843,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 863,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 880,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 898,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 932,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 953,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 958,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 963,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 974,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 982,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 993,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1019,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1033,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1044,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1062,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1072,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1080,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1101,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1145,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1156,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1169,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1180,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1189,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1203,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1208,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1213,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1222,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1228,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1321,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1333,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1361,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1367,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1373,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1438,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1447,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1464,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1469,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1509,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1528,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1778,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1783,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1794,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1806,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1821,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1847,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1915,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1956,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1965,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2005,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2029,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2056,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2073,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2088,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2107,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2117,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2127,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2145,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2168,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2177,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2197,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2258,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2268,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2278,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2364,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2375,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2439,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2465,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2473,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2507,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2522,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2542,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2585,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2629,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2729,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2740,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2750,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2767,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2797,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2813,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2822,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2841,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2878,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2897,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2989,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2999,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3043,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3080,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3087,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3118,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3154,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3167,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3183,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3215,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3297,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3331,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3386,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3391,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3415,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3428,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3441,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3700,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3718,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3736,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3744,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 4208,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dijkstrajs.mjs": {
+      "sha256": "d53e624b13ce260f4bb7bfd14d5818b680bae6115dd2ead449dbb284a241734c",
+      "bytes": 3707,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 3,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dompurify.mjs": {
+      "sha256": "68d14f605e18082ce115200c87fdc7e99cbc79f195a5a2647c91512d4bc438d9",
+      "bytes": 85836,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fast-png+iobuffer+pako.mjs": {
+      "sha256": "79024f43fbceacbd9007fa580d5d6f62779149b182eedd9258bf67c1f59da6db",
+      "bytes": 143237,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fflate.mjs": {
+      "sha256": "c4f37ef6d5ed52b51fa13e7d8d6215754f079583358fe8c93d4f3ac08924b671",
+      "bytes": 11908,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3+rou3+srvx.mjs": {
+      "sha256": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+      "bytes": 14213,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3-v2+srvx.mjs": {
+      "sha256": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+      "bytes": 9728,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/hookable.mjs": {
+      "sha256": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+      "bytes": 1165,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/html2canvas.mjs": {
+      "sha256": "0afb6880d707c18677068778aeb2f618a0d98576eb07e9c22becbec69e05d013",
+      "bytes": 318392,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/jspdf.mjs": {
+      "sha256": "8bbab72ee79c71cb70edcdaec9c3de066a08d60391cb76a3f82f53b7209a7a2d",
+      "bytes": 476977,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fflate.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fast-png+iobuffer+pako.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/dompurify.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/canvg+[...].mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__cloud-auth-js.mjs": {
+      "sha256": "8a6d7abb8361ca553addc521048b26afdf975fd47cba1ec8006c0f2327c81fa9",
+      "bytes": 6703,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__email-js.mjs": {
+      "sha256": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+      "bytes": 2622,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lucide-react.mjs": {
+      "sha256": "453c731b5ddf36011c6b2eafb1348422717bd515ae4a5b7e4f995e365512b913",
+      "bytes": 25819,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/paddle__paddle-node-sdk.mjs": {
+      "sha256": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+      "bytes": 201151,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/pngjs.mjs": {
+      "sha256": "4e22132990f625798bf9151f3008befc5ddc481dd054cc51a8185f653f19395c",
+      "bytes": 56295,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 5,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 113,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 207,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 220,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 328,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 387,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 415,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 614,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 797,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 952,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1064,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1199,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1278,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1309,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1402,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1430,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1449,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1524,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1548,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1560,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/qrcode.mjs": {
+      "sha256": "433b811c0245c60f08fbeca1155e56af2445e93a6709a7dc71bb72eb28ba7c9c",
+      "bytes": 76913,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/dijkstrajs.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/pngjs.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 6,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 105,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 138,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 165,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 226,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 294,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 315,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 506,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 869,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 915,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 962,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1002,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1015,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1041,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1198,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1295,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1319,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1352,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1436,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1459,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1490,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1769,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2064,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2132,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2196,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2252,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2274,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2337,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2347,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2398,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2412,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2461,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2520,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2576,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/react+tanstack__react-query.mjs": {
+      "sha256": "0cdfa9cc7949980af3b5e77e7d7379ba93e05d8b6cdf006ae7dd8dcd5c0d81b2",
+      "bytes": 24171,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 14,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 381,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 395,
+          "direct_top_level": true
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 421,
+          "direct_top_level": true
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/supabase__auth-js+tslib.mjs": {
+      "sha256": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+      "bytes": 303179,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__functions-js.mjs": {
+      "sha256": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+      "bytes": 12354,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__phoenix.mjs": {
+      "sha256": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+      "bytes": 49126,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__postgrest-js.mjs": {
+      "sha256": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+      "bytes": 105419,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__realtime-js+unenv.mjs": {
+      "sha256": "ffb293af75113c58c16dce88d14dd5469ea00fde748ffb3d2300a74b5fbbad64",
+      "bytes": 78390,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__phoenix.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__supabase-js.mjs": {
+      "sha256": "f0f30bc067571a577f6ca478ef021b126054e271721c7f647d9e6e054afaccc7",
+      "bytes": 36071,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__functions-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__postgrest-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@supabase/storage-js+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__history.mjs": {
+      "sha256": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+      "bytes": 12505,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__query-core.mjs": {
+      "sha256": "59a1875f17896b0f383ce94bd776fecdbe4c72776ffce18f5b3cdfae995f16dc",
+      "bytes": 65690,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/zod.mjs": {
+      "sha256": "6688464949cfa4f2c24d499ad92db7778a87aef350e936aa63ebe4090fdc244a",
+      "bytes": 107354,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_runtime.mjs": {
+      "sha256": "fe52b1d422e18ae520ffd8e1d5f5d5d655ed07212b2a542004fe9334eddc1d50",
+      "bytes": 1904,
+      "static_imports": [
+        {
+          "external": "node:module"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [
+        {
+          "name": "__commonJSMin",
+          "kind": "ArrowFunctionExpression",
+          "line": 17
+        }
+      ],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": [
+        {
+          "local": "__commonJSMin",
+          "exported": "t",
+          "line": 44
+        }
+      ]
+    },
+    "_ssr/ssr.mjs": {
+      "sha256": "5253e7ebbd8c9a11626c1ac429dfbcc3f26da390934d99e9fd901c92d4f82082",
+      "bytes": 584904,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/router-core+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/h3-v2+srvx.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/paddle__paddle-node-sdk.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__supabase-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__cloud-auth-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/zod.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/jspdf.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/qrcode.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__email-js.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        },
+        {
+          "external": "node:async_hooks"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "index.mjs": {
+      "sha256": "4e0d329c198f5c0019acf8c8838027cee83f459424a11908c9eb10fe5bd6e6be",
+      "bytes": 19737,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/hookable.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "module": "_chunks/ssr-renderer.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    }
+  }
+}

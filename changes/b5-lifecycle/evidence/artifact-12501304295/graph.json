@@ -1,0 +1,2241 @@
+{
+  "diagnostic_only": true,
+  "source": "07883fd15554df5b9210923fef36acdcd6ceb7cb",
+  "variant": "single-ssr",
+  "no_database_or_app_execution": true,
+  "packages": {
+    "vite": {
+      "path": "node_modules/vite/package.json",
+      "version": "8.1.6"
+    },
+    "root_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    },
+    "vite_rolldown": {
+      "path": "node_modules/vite/node_modules/rolldown/package.json",
+      "version": "1.1.5"
+    },
+    "nitro": {
+      "path": "node_modules/nitro/package.json",
+      "version": "3.0.260603-beta"
+    }
+  },
+  "helper_cycles": [],
+  "modules": {
+    "_chunks/ssr-renderer.mjs": {
+      "sha256": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+      "bytes": 602,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@lovable.dev/mcp-js+[...].mjs": {
+      "sha256": "0510d881ebb4060778cb6a40b3621f11eb55ef3a5fd993c074a34a0eaee033c0",
+      "bytes": 1154145,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "external": "cloudflare:workers"
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 19104
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19239
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 19376
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20045
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20186
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20210
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20306
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20348
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20406
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20426
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20590
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20616
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20740
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20846
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20913
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 20943
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21018
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21564
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21577
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21591
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 21834
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22437
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 22621
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23023
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23600
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23611
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23714
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23731
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23774
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23819
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23846
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23878
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23902
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23968
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 23992
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24000
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24063
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24084
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24127
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24162
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24214
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24267
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24280
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24307
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24391
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24472
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24508
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24597
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24642
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24697
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24724
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24736
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24782
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24807
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24864
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24877
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 24918
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25006
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25012
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25032
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25050
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25061
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25308
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25400
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25588
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25723
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 25860
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26529
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26670
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26694
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26790
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26832
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26890
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 26910
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27074
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27100
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27224
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27330
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27397
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27472
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 27599
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28018
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28045
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28288
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28296
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28865
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28876
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28979
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 28996
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29039
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29062
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29084
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29111
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29143
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29167
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29233
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29257
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29265
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29328
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29349
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29392
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29427
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29479
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29532
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29545
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29572
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29656
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29737
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29773
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29862
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29907
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29962
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29989
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30001
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30047
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30072
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30129
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30142
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30183
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30271
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30277
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30297
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30315
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30326
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30573
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30665
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 30743
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 32236
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@supabase/storage-js+[...].mjs": {
+      "sha256": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+      "bytes": 118947,
+      "static_imports": [
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/react-router+[...].mjs": {
+      "sha256": "ada74c35b5c035fe433def2e363a93ca8b705302bc8f8e3c164a4c58d8ee8fe9",
+      "bytes": 753545,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        },
+        {
+          "external": "node:stream"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 7627
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7678
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7692
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 7755
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 8898
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9031
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 9054
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13316
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 17207
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/@tanstack/router-core+[...].mjs": {
+      "sha256": "e46e9c10a9c5f0638e73d332d9958c07b0504bd6c13e6ab953dd96abcece6402",
+      "bytes": 39027,
+      "static_imports": [
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/babel__runtime.mjs": {
+      "sha256": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+      "bytes": 4014,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/canvg+[...].mjs": {
+      "sha256": "d2790523696ed08a508a1acb5d26b0b6e5a593696a3c6899bc9d3bbda3b7974e",
+      "bytes": 324054,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 7
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 18
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 29
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 38
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 46
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 55
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 65
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 77
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 90
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 100
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 114
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 121
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 131
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 140
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 150
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 158
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 170
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 175
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 182
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 206
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 217
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 222
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 237
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 249
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 260
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 270
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 285
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 290
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 308
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 324
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 332
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 341
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 362
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 379
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 404
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 414
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 425
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 437
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 458
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 470
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 481
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 523
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 536
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 550
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 562
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 570
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 580
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 585
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 653
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 698
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 728
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 738
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 747
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 758
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 768
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 776
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 802
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 821
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 834
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 843
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 863
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 880
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 898
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 932
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 953
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 958
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 963
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 974
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 982
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 993
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1019
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1033
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1044
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1062
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1072
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1080
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1101
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1156
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1169
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1180
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1189
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1203
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1208
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1213
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1222
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1228
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1321
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1333
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1361
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1367
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1373
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1438
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1447
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1464
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1469
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1509
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1528
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1778
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1783
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1794
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1806
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1821
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1847
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1915
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1956
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1965
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2005
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2029
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2056
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2073
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2088
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2107
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2117
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2127
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2145
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2168
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2177
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2197
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2258
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2268
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2278
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2364
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2375
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2439
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2465
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2473
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2507
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2522
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2542
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2585
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2629
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2729
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2740
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2750
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2767
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2813
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2822
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2841
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2878
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2897
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2989
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2999
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3043
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3080
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3087
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3118
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3154
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3167
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3183
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3215
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3297
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3331
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3386
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3391
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3415
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3428
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3441
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3700
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3718
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3736
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 3744
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 4208
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dijkstrajs.mjs": {
+      "sha256": "d53e624b13ce260f4bb7bfd14d5818b680bae6115dd2ead449dbb284a241734c",
+      "bytes": 3707,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 3
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/dompurify.mjs": {
+      "sha256": "68d14f605e18082ce115200c87fdc7e99cbc79f195a5a2647c91512d4bc438d9",
+      "bytes": 85836,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fast-png+iobuffer+pako.mjs": {
+      "sha256": "79024f43fbceacbd9007fa580d5d6f62779149b182eedd9258bf67c1f59da6db",
+      "bytes": 143237,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/fflate.mjs": {
+      "sha256": "c4f37ef6d5ed52b51fa13e7d8d6215754f079583358fe8c93d4f3ac08924b671",
+      "bytes": 11908,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3+rou3+srvx.mjs": {
+      "sha256": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+      "bytes": 14213,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/h3-v2+srvx.mjs": {
+      "sha256": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+      "bytes": 9728,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/hookable.mjs": {
+      "sha256": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+      "bytes": 1165,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/html2canvas.mjs": {
+      "sha256": "0afb6880d707c18677068778aeb2f618a0d98576eb07e9c22becbec69e05d013",
+      "bytes": 318392,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/jspdf.mjs": {
+      "sha256": "8bbab72ee79c71cb70edcdaec9c3de066a08d60391cb76a3f82f53b7209a7a2d",
+      "bytes": 476977,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/babel__runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fflate.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/fast-png+iobuffer+pako.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/dompurify.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/canvg+[...].mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__cloud-auth-js.mjs": {
+      "sha256": "8a6d7abb8361ca553addc521048b26afdf975fd47cba1ec8006c0f2327c81fa9",
+      "bytes": 6703,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lovable.dev__email-js.mjs": {
+      "sha256": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+      "bytes": 2622,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/lucide-react.mjs": {
+      "sha256": "453c731b5ddf36011c6b2eafb1348422717bd515ae4a5b7e4f995e365512b913",
+      "bytes": 25819,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/paddle__paddle-node-sdk.mjs": {
+      "sha256": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+      "bytes": 201151,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/pngjs.mjs": {
+      "sha256": "4e22132990f625798bf9151f3008befc5ddc481dd054cc51a8185f653f19395c",
+      "bytes": 56295,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 5
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 113
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 207
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 220
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 328
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 351
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 387
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 415
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 614
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 797
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 848
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 952
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1064
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1199
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1278
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1309
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1402
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1430
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1449
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1524
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1548
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1560
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/qrcode.mjs": {
+      "sha256": "433b811c0245c60f08fbeca1155e56af2445e93a6709a7dc71bb72eb28ba7c9c",
+      "bytes": 76913,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/dijkstrajs.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/pngjs.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:buffer"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 6
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 13
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 105
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 138
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 165
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 226
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 294
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 315
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 506
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 869
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 915
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 962
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1002
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1015
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1041
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1198
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1295
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1319
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1352
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1436
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1459
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1490
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 1769
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2064
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2132
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2196
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2252
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2274
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2337
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2347
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2398
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2412
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2461
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2520
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 2576
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/react+tanstack__react-query.mjs": {
+      "sha256": "0cdfa9cc7949980af3b5e77e7d7379ba93e05d8b6cdf006ae7dd8dcd5c0d81b2",
+      "bytes": 24171,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [
+        {
+          "local": "__commonJSMin",
+          "imported": "t",
+          "from": {
+            "module": "_runtime.mjs",
+            "exists": true
+          },
+          "line": 1
+        }
+      ],
+      "helper_calls": [
+        {
+          "name": "__commonJSMin",
+          "line": 14
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 381
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 395
+        },
+        {
+          "name": "__commonJSMin",
+          "line": 421
+        }
+      ],
+      "helper_exports": []
+    },
+    "_libs/supabase__auth-js+tslib.mjs": {
+      "sha256": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+      "bytes": 303179,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__functions-js.mjs": {
+      "sha256": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+      "bytes": 12354,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__phoenix.mjs": {
+      "sha256": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+      "bytes": 49126,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__postgrest-js.mjs": {
+      "sha256": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+      "bytes": 105419,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__realtime-js+unenv.mjs": {
+      "sha256": "ffb293af75113c58c16dce88d14dd5469ea00fde748ffb3d2300a74b5fbbad64",
+      "bytes": 78390,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__phoenix.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/supabase__supabase-js.mjs": {
+      "sha256": "f0f30bc067571a577f6ca478ef021b126054e271721c7f647d9e6e054afaccc7",
+      "bytes": 36071,
+      "static_imports": [
+        {
+          "module": "_libs/supabase__realtime-js+unenv.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__auth-js+tslib.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__functions-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__postgrest-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@supabase/storage-js+[...].mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__history.mjs": {
+      "sha256": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+      "bytes": 12505,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/tanstack__query-core.mjs": {
+      "sha256": "59a1875f17896b0f383ce94bd776fecdbe4c72776ffce18f5b3cdfae995f16dc",
+      "bytes": 65690,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_libs/zod.mjs": {
+      "sha256": "6688464949cfa4f2c24d499ad92db7778a87aef350e936aa63ebe4090fdc244a",
+      "bytes": 107354,
+      "static_imports": [],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "_runtime.mjs": {
+      "sha256": "fe52b1d422e18ae520ffd8e1d5f5d5d655ed07212b2a542004fe9334eddc1d50",
+      "bytes": 1904,
+      "static_imports": [
+        {
+          "external": "node:module"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [
+        {
+          "name": "__commonJSMin",
+          "kind": "ArrowFunctionExpression",
+          "line": 17
+        }
+      ],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": [
+        {
+          "local": "__commonJSMin",
+          "exported": "t",
+          "line": 44
+        }
+      ]
+    },
+    "_ssr/ssr.mjs": {
+      "sha256": "be54b53feecd4a51b947736fb1d4f45afcaea8e23f327d9475e0110bc509885a",
+      "bytes": 584536,
+      "static_imports": [
+        {
+          "module": "_runtime.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@lovable.dev/mcp-js+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/react-router+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/@tanstack/router-core+[...].mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__history.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/react+tanstack__react-query.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/h3-v2+srvx.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/paddle__paddle-node-sdk.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/supabase__supabase-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/tanstack__query-core.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lucide-react.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__cloud-auth-js.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/zod.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/jspdf.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/html2canvas.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/qrcode.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/lovable.dev__email-js.mjs",
+          "exists": true
+        },
+        {
+          "external": "node:process"
+        },
+        {
+          "external": "node:async_hooks"
+        }
+      ],
+      "dynamic_imports": [],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    },
+    "index.mjs": {
+      "sha256": "d6a9f4490ec7d74354dd7b99d785d4d4b9e460e041f4db3f415a55f59b8c6ddc",
+      "bytes": 19737,
+      "static_imports": [
+        {
+          "module": "_libs/h3+rou3+srvx.mjs",
+          "exists": true
+        },
+        {
+          "module": "_libs/hookable.mjs",
+          "exists": true
+        }
+      ],
+      "dynamic_imports": [
+        {
+          "module": "_ssr/ssr.mjs",
+          "exists": true
+        },
+        {
+          "module": "_chunks/ssr-renderer.mjs",
+          "exists": true
+        }
+      ],
+      "helper_definitions": [],
+      "helper_imports": [],
+      "helper_calls": [],
+      "helper_exports": []
+    }
+  }
+}

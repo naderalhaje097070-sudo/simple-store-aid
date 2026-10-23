@@ -1,0 +1,50 @@
+{
+  "source": "8c88ca7b06dbe80fc7d705bc09ed5103f8546eca",
+  "run": 39955964137,
+  "scope": "Controlled dummy-key build comparison; no application/database invocation or SSR/runtime acceptance.",
+  "baseline": {
+    "artifact": 12502751179,
+    "server_modules": 64,
+    "server_js_bytes": 5224870,
+    "structural_cycles": 2,
+    "direct_eager_cycles": 2
+  },
+  "candidate": {
+    "artifact": 12502148249,
+    "server_modules": 35,
+    "server_js_bytes": 5229436,
+    "structural_cycles": 0,
+    "direct_eager_cycles": 0
+  },
+  "public_files": 49,
+  "all_public_file_hashes_exact": true,
+  "all_compiler_package_resolutions_exact": true,
+  "packages": {
+    "vite": {
+      "path": "node_modules/vite/package.json",
+      "version": "8.1.6"
+    },
+    "root_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    },
+    "vite_rolldown": {
+      "path": "node_modules/vite/node_modules/rolldown/package.json",
+      "version": "1.1.5"
+    },
+    "nitro": {
+      "path": "node_modules/nitro/package.json",
+      "version": "3.0.260603-beta"
+    },
+    "nitro_rolldown": {
+      "path": "node_modules/rolldown/package.json",
+      "version": "1.1.0"
+    }
+  },
+  "candidate_helper_leaf_local_imports": [
+    {
+      "external": "node:module"
+    }
+  ],
+  "limits": "Oracle classifies direct module-level named helper calls with ArrowFunction initialization and static back-edges, not IIFEs/unknown aliases/all runtime correctness. Final current actual SSR/AuthUI/conflict/egress remains required."
+}

@@ -1,0 +1,19 @@
+{
+  "wrapper": "0.20.1",
+  "source": "exact official published wrapper artifact already integrity-verified in dependency batch",
+  "runtime": "v24.19.0",
+  "loadedUnusedAuthDependency": "existing jose6.2.3; no JWT/auth path executed",
+  "networkCalls": 0,
+  "noKeyEmissions": 0,
+  "dummyKeyEmissions": 1,
+  "observed": [
+    {
+      "origin": "https://api.lovable.dev",
+      "path": "/v1/app-mcp-usage",
+      "method": "POST",
+      "dummyBearer": true,
+      "json": true
+    }
+  ],
+  "scope": "controlled module emission reproduction; not a native B5 blocked-URL packet trace"
+}

@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "3810a85eb62d4a2eabe4bf93fc2720e26f6476a2",
+  "snapshot_tree_before_manifest": "acaeb403ac4d595cc49f0c5d0a2c51f52cf5d4bb",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -56,7 +56,7 @@
     },
     {
       "path": ".github/workflows/b5-lifecycle.yml",
-      "sha": "41b3a4f560e0fff09ea70e5d1eea7bb49eabc6a8",
+      "sha": "e7b8eb72a55375cde4585fa8472cb24c92a2c51a",
       "mode": "100644"
     },
     {
@@ -1515,8 +1515,13 @@
       "mode": "100644"
     },
     {
+      "path": "tests/b5-lifecycle/app_guard.mjs",
+      "sha": "3452671ab61de9ad87aee5d18ed739996d46bf81",
+      "mode": "100644"
+    },
+    {
       "path": "tests/b5-lifecycle/composed.py",
-      "sha": "2b74267acba5ef258c5dbf60e46f0a832749362c",
+      "sha": "f4fb93b127be9bd8d173f82e44135fef7c18c764",
       "mode": "100644"
     },
     {

@@ -82,8 +82,8 @@ jobs:
         $(id -u mcp-route)\"\nsudo iptables -N MCP_ROUTE\nsudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT\n\
         sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable\nsudo iptables -I OUTPUT 1 -m owner\
         \ --uid-owner \"$uid\" -j MCP_ROUTE\nsudo ip6tables -I OUTPUT 1 -m owner --uid-owner \"$uid\" -j REJECT\n\
-        sudo install -d -m 755 -o mcp-route -g mcp-route /tmp/monjez-tanstack-route\nsudo install -m 644 tests/account-lifecycle/oc_app_guard.mjs\
-        \ /tmp/monjez-tanstack-route/guard.mjs\ncmp tests/account-lifecycle/oc_app_guard.mjs /tmp/monjez-tanstack-route/guard.mjs\n\
+        sudo install -d -m 755 -o mcp-route -g mcp-route /tmp/monjez-tanstack-route\nsudo install -m 644 tests/b5-lifecycle/app_guard.mjs\
+        \ /tmp/monjez-tanstack-route/guard.mjs\ncmp tests/b5-lifecycle/app_guard.mjs /tmp/monjez-tanstack-route/guard.mjs\n\
         sudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \\\n  LOVABLE_API_KEY=oc-app-dummy PADDLE_SANDBOX_API_KEY=oc-app-dummy\
         \ PADDLE_LIVE_API_KEY=oc-app-dummy \\\n  MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json\
         \ \\\n  \"$(command -v node)\" --import /tmp/monjez-tanstack-route/guard.mjs --input-type=module -e ''\n\
@@ -220,6 +220,14 @@ jobs:
     - name: Diagnose pinned CLI installer with bounded phase evidence
       timeout-minutes: 3
       run: python tests/g01-acceptance/diagnose_cli.py
+    - name: Move reviewed installer outside protected source before runtime inventory
+      run: 'set -euo pipefail
+
+        mv .g01-cli-action "$RUNNER_TEMP/g01-cli-action-reviewed"
+
+        test ! -e .g01-cli-action
+
+        python tests/b5-lifecycle/inventory.py'
     - name: Install local database and firewall tools
       run: 'sudo apt-get update -qq
 

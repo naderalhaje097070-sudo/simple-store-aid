@@ -267,6 +267,7 @@ class ComposedProbe(ClosureProbe, PriceProbe):
             self.record('faults_exercised_exact_state_boundary', self.state()['injected_faults'] == ['database', 'transport', 'timeout'])
             self.firewall_after('app')
             self.record('no_unstubbed_external_fetch', self.state()['external_blocked'] == 0)
+            self.record('official_metrics_dummy_sink_exercised', self.state()['metrics_stub_calls'] > 0)
             self.chain(inv['full_versions'], 'exact50_at_finish')
             self.record('tracked_source_unchanged', subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0)
             report = {'source': self.source, 'mode': mode, 'checks': self.controls, 'passed': len(self.controls), 'failed': 0,
@@ -295,6 +296,11 @@ def main():
         probe.run_composed(args.mode)
     except (HarnessFailure, RuntimeError, ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError) as error:
         args.evidence_dir.mkdir(exist_ok=True, parents=True)
+        if probe and (probe.runtime / 'app.json').exists():
+            state = probe.state()
+            diagnostics = {'source': args.expected_source, 'external_blocked': state.get('external_blocked'),
+                           'external_denials': state.get('external_denials', [])}
+            (args.evidence_dir / 'blocked-transport.json').write_text(json.dumps(diagnostics, indent=2) + '\n')
         safe = str(error) if isinstance(error, HarnessFailure) else type(error).__name__
         result = {'source': args.expected_source, 'mode': args.mode, 'failed': True, 'reason': safe, 'integration_accepted': False}
         publish_result(args.evidence_dir, result, (probe.secrets + probe.oauth_refresh_tokens) if probe else [])

@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "657f53b669bdffdf152fda36af62cf02d4a5b94d",
+  "snapshot_tree_before_manifest": "904f804660523570728b00c278eee66310724372",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -1521,7 +1521,7 @@
     },
     {
       "path": "tests/b5-build/graph.mjs",
-      "sha": "9eb6d52527ce0d04058d0dc30c60473fad7ebc11",
+      "sha": "321a8729a9b712181c2892e44a81c345e3be2005",
       "mode": "100644"
     },
     {

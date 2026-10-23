@@ -39,7 +39,7 @@ for (const path of files) {
       exists: existsSync(resolve(dirname(path), value)),
     };
   }
-  function walk(node) {
+  function walk(node, functionDepth = 0) {
     if (!node || typeof node !== "object") return;
     if (node.type === "ImportDeclaration") {
       item.static_imports.push(target(node.source.value));
@@ -63,6 +63,7 @@ for (const path of files) {
             line: node.loc.start.line,
           });
     }
+    if (node.type === "ExportAllDeclaration") item.static_imports.push(target(node.source.value));
     if (node.type === "ImportExpression" && typeof node.source.value === "string")
       item.dynamic_imports.push(target(node.source.value));
     if (node.type === "VariableDeclarator" && /^__commonJS(?:Min)?$/.test(node.id.name ?? ""))
@@ -72,11 +73,20 @@ for (const path of files) {
         line: node.loc.start.line,
       });
     if (node.type === "CallExpression" && /^__commonJS(?:Min)?$/.test(node.callee.name ?? ""))
-      item.helper_calls.push({ name: node.callee.name, line: node.loc.start.line });
+      item.helper_calls.push({
+        name: node.callee.name,
+        line: node.loc.start.line,
+        direct_top_level: functionDepth === 0,
+      });
+    const childDepth =
+      functionDepth +
+      (/^(?:FunctionDeclaration|FunctionExpression|ArrowFunctionExpression)$/.test(node.type)
+        ? 1
+        : 0);
     for (const [key, value] of Object.entries(node)) {
       if (key === "loc") continue;
-      if (Array.isArray(value)) value.forEach(walk);
-      else if (value && typeof value === "object") walk(value);
+      if (Array.isArray(value)) value.forEach((child) => walk(child, childDepth));
+      else if (value && typeof value === "object") walk(value, childDepth);
     }
   }
   walk(ast);
@@ -111,6 +121,15 @@ const resolvePackage = (name, from) => {
     version: JSON.parse(readFileSync(path, "utf8")).version,
   };
 };
+const public_hashes = {};
+function hashPublic(dir) {
+  for (const e of readdirSync(dir, { withFileTypes: true })) {
+    const p = resolve(dir, e.name);
+    if (e.isDirectory()) hashPublic(p);
+    else public_hashes[relative(resolve(".output/public"), p)] = sha(readFileSync(p));
+  }
+}
+hashPublic(resolve(".output/public"));
 const record = {
   diagnostic_only: true,
   source: process.env.EXPECTED_SOURCE,
@@ -121,8 +140,23 @@ const record = {
     root_rolldown: resolvePackage("rolldown", resolve("package.json")),
     vite_rolldown: resolvePackage("rolldown", require.resolve("vite/package.json")),
     nitro: resolvePackage("nitro", resolve("package.json")),
+    nitro_rolldown: resolvePackage("rolldown", require.resolve("nitro/package.json")),
   },
   helper_cycles,
+  eager_helper_cycles: helper_cycles.filter(
+    (cycle) =>
+      modules[cycle.consumer].helper_calls.some(
+        (call) => call.name === cycle.binding.local && call.direct_top_level,
+      ) &&
+      modules[cycle.binding.from.module].helper_definitions.some(
+        (definition) =>
+          definition.name === cycle.definition.local &&
+          definition.kind === "ArrowFunctionExpression",
+      ),
+  ),
+  scope:
+    "Direct module-level helper calls only; deferred function calls and unknown aliases are not classified as eager. Static export-all edges included.",
+  public_hashes,
   modules,
 };
 writeFileSync(process.argv[2], JSON.stringify(record, null, 2) + "\n");
@@ -134,3 +168,5 @@ console.log(
     packages: record.packages,
   }),
 );
+if (process.argv.includes("--require-no-eager-cycle") && record.eager_helper_cycles.length)
+  process.exitCode = 1;

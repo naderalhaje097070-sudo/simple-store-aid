@@ -1,0 +1,75 @@
+name: B5 isolated SSR build graph diagnosis
+on:
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths:
+      - .github/workflows/b5-build-diagnostic.yml
+      - tests/b5-build/**
+permissions:
+  contents: read
+jobs:
+  graph:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [baseline, single-ssr]
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      B5_BUILD_VARIANT: ${{ matrix.variant }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: b5-build-public-placeholder
+      SUPABASE_PUBLISHABLE_KEY: b5-build-public-placeholder
+      VITE_SUPABASE_PROJECT_ID: b5-build-local
+      SUPABASE_PROJECT_ID: b5-build-local
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - run: bun install --frozen-lockfile
+      - name: Exact baseline source before credential-free build experiment
+        run: python tests/g01-acceptance/capture.py identity
+      - name: Actual default build or isolated SSR chunking candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/b5-build-graph"
+          cp vite.config.ts "$RUNNER_TEMP/b5-original-vite.ts"
+          trap 'cp "$RUNNER_TEMP/b5-original-vite.ts" vite.config.ts' EXIT
+          if [[ "$B5_BUILD_VARIANT" == single-ssr ]]; then
+            python - <<'PY'
+          from pathlib import Path
+          p=Path('vite.config.ts');s=p.read_text()
+          anchor='    vite: {\n'
+          assert s.count(anchor)==1
+          candidate='      environments: { ssr: { build: { rolldownOptions: { output: { codeSplitting: false } } } } },\n'
+          p.write_text(s.replace(anchor,anchor+candidate))
+          PY
+          fi
+          git diff --numstat > "$RUNNER_TEMP/b5-build-graph/experimental-source-delta.txt"
+          bun run build > "$RUNNER_TEMP/b5-build-private.log" 2>&1
+          node tests/b5-build/graph.mjs "$RUNNER_TEMP/b5-build-graph/graph.json"
+      - name: Restore source and verify exact inventory after experiment
+        if: always()
+        run: |
+          git diff --exit-code
+          python tests/g01-acceptance/capture.py identity
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b5-build-${{ matrix.variant }}
+          path: ${{ runner.temp }}/b5-build-graph
+          if-no-files-found: error
+          retention-days: 7

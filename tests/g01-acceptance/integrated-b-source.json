@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "dcd41f2f9a285c5cfc752d1a080d3c04261e6920",
+  "snapshot_tree_before_manifest": "657f53b669bdffdf152fda36af62cf02d4a5b94d",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -52,6 +52,11 @@
     {
       "path": ".github/workflows/b4-webhook-persistence.yml",
       "sha": "4d9d18b7878208991d8dd342a6808c7136dadf58",
+      "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/b5-build-diagnostic.yml",
+      "sha": "75e286ba7ce558f5c4785cd932fb9b7c82da8551",
       "mode": "100644"
     },
     {
@@ -1512,6 +1517,11 @@
     {
       "path": "tests/b-dependency/webhook-bridge.test.cjs",
       "sha": "40d0017a1476a3c155f87b3ff6b238136bb384e7",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b5-build/graph.mjs",
+      "sha": "9eb6d52527ce0d04058d0dc30c60473fad7ebc11",
       "mode": "100644"
     },
     {

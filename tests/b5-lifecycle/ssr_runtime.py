@@ -123,13 +123,48 @@ def start(conflict=False):
              '--config','/tmp/g01-runtime/.output/server/wrangler.json','--env-file',str(envfile),
              '--compatibility-date','2026-08-08','--ip','127.0.0.1','--port','8080']
     with log.open('wb') as output:process=subprocess.Popen(command,stdout=output,stderr=output,cwd=runtime)
+    readiness={'phase':label,'http_status_counts':{},'transport_error_counts':{},'attempts':0}
+    def diagnostic(failed=False):
+        # Private text is classified locally; publish no text, URL, key or body.
+        if failed:stop()
+        text=log.read_text(errors='replace') if failed else ''
+        categories={
+            'sec_env_config':'SEC_ENV_CONFIG_ERROR',
+            'sec_env_binding':'SEC_ENV_BINDING_CONFLICT',
+            'reference_error':'ReferenceError:',
+            'type_error':'TypeError:',
+            'module_not_found':'Cannot find module',
+            'module_not_found_code':'ERR_MODULE_NOT_FOUND',
+            'worker_module_missing':'No such module',
+            'module_export':'does not provide an export named',
+            'dynamic_require':'Dynamic require',
+            'not_implemented':'not implemented',
+            'http_error':'HTTPError',
+            'unhandled':'Unhandled',
+            'workerd_failure':'workerd/server/server.c++',
+            'port_in_use':'EADDRINUSE',
+            'permission_denied':'EACCES',
+        }
+        if failed:readiness['private_log_sha256']=hashlib.sha256(log.read_bytes()).hexdigest()
+        readiness['log_drained_before_classification']=failed
+        readiness['log_categories']=sorted(k for k,v in categories.items() if v in text)
+        record.setdefault('readiness',{})[label]=readiness
+        (out/('readiness-'+label+'.json')).write_text(json.dumps(readiness,indent=2)+'\n')
     for _ in range(100):
-        if process.poll() is not None:raise RuntimeError('emulator exited')
+        readiness['attempts']+=1
+        if process.poll() is not None:
+            diagnostic(True);raise RuntimeError('emulator exited')
         try:
             code,body=http('/')
-            if (not conflict and code==200) or (conflict and code==500):return code,body,log
-        except (urllib.error.URLError,TimeoutError):pass
+            readiness['http_status_counts'][str(code)]=readiness['http_status_counts'].get(str(code),0)+1
+            readiness['last_response']={'status':code,'length':len(body),'sha256':hashlib.sha256(body).hexdigest()}
+            if (not conflict and code==200) or (conflict and code==500):
+                diagnostic();return code,body,log
+        except (urllib.error.URLError,TimeoutError) as error:
+            kind='TimeoutError' if isinstance(error,TimeoutError) else 'URLError'
+            readiness['transport_error_counts'][kind]=readiness['transport_error_counts'].get(kind,0)+1
         time.sleep(.5)
+    diagnostic(True)
     raise RuntimeError('emulator readiness failed')
 
 try:

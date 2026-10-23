@@ -138,12 +138,20 @@ globalThis.fetch = (input, init) => {
     // Diagnostic contains destination origin and a fixed path class only.
     // No URL query, credentials, headers, body or caller-provided error text.
     if (state.external_denials.length < 8) {
-      const known = ["/auth/v1/.well-known/jwks.json", "/.well-known/oauth-protected-resource", "/mcp", "/paddle/prices"];
+      const known = [
+        "/auth/v1/.well-known/jwks.json",
+        "/.well-known/oauth-protected-resource",
+        "/mcp",
+        "/paddle/prices",
+      ];
       state.external_denials.push({
         origin: url.origin.slice(0, 200),
         path_class: known.includes(url.pathname) ? url.pathname : "other",
         method: request.method,
-        callers: new Error("B5_BLOCKED_DESTINATION").stack.split("\n").slice(1, 5).map((line) => line.slice(0, 400)),
+        callers: new Error("B5_BLOCKED_DESTINATION").stack
+          .split("\n")
+          .slice(1, 5)
+          .map((line) => line.slice(0, 400)),
       });
     }
     save();

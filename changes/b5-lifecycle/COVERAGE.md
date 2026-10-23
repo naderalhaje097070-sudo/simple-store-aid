@@ -18,3 +18,5 @@ All rows are pending current native receipts; source5c13491178d0b40fa7be30c0900d
 | B5-12 | Evidence and cleanup | No secrets in artifacts; everyprocess/stack/status/runtime removed; source unchanged | actual key scan/quarantine plus source-specific raw artifacts; independent B6 review |
 
 No whole product/RC/production/provider/Cloudflare deployment/HTTP2/Windows/concurrency/restore/Pilot or executed rollback acceptance is implied. B4 prior45 advisorWARN remain historical unresolved scope, not a current clean-advisor claim. Independent B6 may request specific missing proof; no fixed test count substitutes for these contracts.
+
+Explicit retained limits: same-tenant staff continuity after ownerB closure is not exercised (the active staff control belongs toA). Natural real-token expiry and onboarding/default14 contracts reuse their preserved prior source-bound receipts rather than being relabeled current native proof. This batch does not decide retention duration, cancellation/paywall policy or employee product scope.

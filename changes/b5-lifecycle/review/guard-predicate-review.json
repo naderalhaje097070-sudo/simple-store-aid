@@ -1,0 +1,17 @@
+{
+  "scope": "reviewer extraction of actual fetch predicate; no native network/app/database",
+  "good_metrics_204": true,
+  "rejected_mutations": [
+    "GET",
+    "PUT",
+    "other-origin",
+    "other-path",
+    "query",
+    "other-bearer",
+    "no-bearer",
+    "other-content"
+  ],
+  "unknown_external_counter": 8,
+  "metrics_counter": 1,
+  "native_fetch_calls": 0
+}

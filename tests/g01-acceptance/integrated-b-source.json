@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "acaeb403ac4d595cc49f0c5d0a2c51f52cf5d4bb",
+  "snapshot_tree_before_manifest": "dbca0e39c627fec7eef72d1fd040a3e666484a89",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -1516,7 +1516,7 @@
     },
     {
       "path": "tests/b5-lifecycle/app_guard.mjs",
-      "sha": "3452671ab61de9ad87aee5d18ed739996d46bf81",
+      "sha": "fbd229c2f47062103a380804ecbb26c4a33637cb",
       "mode": "100644"
     },
     {
@@ -1531,7 +1531,7 @@
     },
     {
       "path": "tests/b5-lifecycle/ssr_runtime.py",
-      "sha": "7acab0758487c06f24af5b8c208de68f25b6eb9d",
+      "sha": "8069ab1ee6595f7416a754012a5dd520d5c39b59",
       "mode": "100644"
     },
     {

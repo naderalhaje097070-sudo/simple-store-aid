@@ -155,11 +155,12 @@ def start(conflict=False):
             for line in text.splitlines():
                 if 'TypeError:' not in line:continue
                 line=line[line.index('TypeError:'):]
-                for secret in private_secrets:
+                line=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',line)
+                for secret in sorted(private_secrets,key=len,reverse=True):
                     if secret:line=line.replace(secret,'[PRIVATE]')
                 line=re.sub(r'https?://\S+|file://\S+','[URL]',line)
                 line=re.sub(r'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|sb_(?:secret|publishable)_[A-Za-z0-9_-]+','[CREDENTIAL]',line)
-                line=re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]','',line)[:300]
+                line=line[:300]
                 if line not in errors:errors.append(line)
                 if len(errors)==3:break
             readiness['bounded_type_errors']=errors

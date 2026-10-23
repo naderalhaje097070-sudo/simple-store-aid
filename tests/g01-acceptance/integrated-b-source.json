@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "ee3bbae16c36748bc3b785109e9ed4b944f543d1",
+  "snapshot_tree_before_manifest": "dcd41f2f9a285c5cfc752d1a080d3c04261e6920",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -1531,7 +1531,7 @@
     },
     {
       "path": "tests/b5-lifecycle/ssr_runtime.py",
-      "sha": "f8ab4713ae3f27fb04ad18f8f7baa95964227892",
+      "sha": "9fcaf836aba1e596c141862929745dcb642423d7",
       "mode": "100644"
     },
     {

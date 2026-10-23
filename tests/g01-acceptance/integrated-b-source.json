@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "0feda472de3da9ad4c7593683f8a598bbd7668ef",
+  "snapshot_tree_before_manifest": "3810a85eb62d4a2eabe4bf93fc2720e26f6476a2",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -52,6 +52,11 @@
     {
       "path": ".github/workflows/b4-webhook-persistence.yml",
       "sha": "4d9d18b7878208991d8dd342a6808c7136dadf58",
+      "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/b5-lifecycle.yml",
+      "sha": "41b3a4f560e0fff09ea70e5d1eea7bb49eabc6a8",
       "mode": "100644"
     },
     {
@@ -1507,6 +1512,26 @@
     {
       "path": "tests/b-dependency/webhook-bridge.test.cjs",
       "sha": "40d0017a1476a3c155f87b3ff6b238136bb384e7",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b5-lifecycle/composed.py",
+      "sha": "2b74267acba5ef258c5dbf60e46f0a832749362c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b5-lifecycle/inventory.py",
+      "sha": "d6659026c97627f53eeab1d38e6d2d12ef51dbad",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b5-lifecycle/ssr_runtime.py",
+      "sha": "7acab0758487c06f24af5b8c208de68f25b6eb9d",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b5-lifecycle/test_contract.py",
+      "sha": "f718cc2c498dce709eee2c4e62f31e3ac13a44c6",
       "mode": "100644"
     },
     {

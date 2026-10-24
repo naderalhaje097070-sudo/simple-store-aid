@@ -1,21 +1,19 @@
-name: Account Lifecycle Baseline
-
-on:
-  pull_request:
-    paths:
-      - 'tests/account-lifecycle/live_probe.py'
-      - 'tests/account-lifecycle/test_live_probe.py'
-      - '.github/workflows/account-lifecycle-baseline.yml'
-
+name: Historical 41 - Account Lifecycle Baseline
+'on':
+  workflow_dispatch:
+    inputs:
+      historical_source:
+        description: Explicit 40-hex repository commit for historical 41-migration benchmark, not current B50 acceptance
+        required: true
+        type: string
 permissions:
   contents: read
-
 jobs:
   lifecycle-baseline:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+      EXPECTED_SOURCE: ${{ inputs.historical_source }}
       MONGEZZ_DEPLOY_TARGET: ci
       MONGEZZ_E2E_WRITE_TEST: '1'
       CI_ISOLATED_SUPABASE: '1'
@@ -28,71 +26,102 @@ jobs:
       PGPASSWORD: postgres
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: Checkout exact candidate
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          persist-credentials: false
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Check new lifecycle harness safety
-        run: python -m unittest discover -s tests/account-lifecycle -p test_live_probe.py -v
-      - name: Setup pinned Supabase CLI
-        uses: supabase/setup-cli@v2
-        with:
-          version: '2.101.0'
-      - name: Inspect CLI and validate isolated intent
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(supabase --version)" = '2.101.0'
-          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
-          supabase --help > "$RUNNER_TEMP/lifecycle-cli-help.txt"
-          grep -q -- '--workdir' "$RUNNER_TEMP/lifecycle-cli-help.txt"
-          supabase start --help > "$RUNNER_TEMP/lifecycle-start-help.txt"
-          python tests/e2e/write_harness_guard.py --preflight-only
-      - name: Install PostgreSQL client
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y postgresql-client > "$RUNNER_TEMP/lifecycle-psql-install.log" 2>&1
-      - name: Start fresh disposable stack
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          stack="$RUNNER_TEMP/monjez-lifecycle-stack"
-          mkdir -p "$stack"
-          supabase --workdir "$stack" init > "$RUNNER_TEMP/lifecycle-init.log" 2>&1
-          cp -a supabase/migrations "$stack/supabase/migrations"
-          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/lifecycle-start.log" 2>&1; then
-            echo 'ENV_NATIVE_01_STACK_START_FAILURE: raw infrastructure output withheld'
-            exit 1
-          fi
-          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/lifecycle-status.json"
-          chmod 600 "$RUNNER_TEMP/lifecycle-status.json"
-      - name: Run focused clean lifecycle baseline
-        shell: bash
-        run: |
-          set -euo pipefail
-          python tests/account-lifecycle/live_probe.py \
-            --status-file "$RUNNER_TEMP/lifecycle-status.json" \
-            --evidence-dir "$RUNNER_TEMP/lifecycle-evidence" \
-            --expected-source "$EXPECTED_SOURCE"
-      - name: Upload sanitized lifecycle evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: account-lifecycle-baseline
-          path: ${{ runner.temp }}/lifecycle-evidence/
-          retention-days: 7
-          if-no-files-found: warn
-      - name: Stop disposable stack and remove keys
-        if: always()
-        shell: bash
-        run: |
-          rm -f "$RUNNER_TEMP/lifecycle-status.json"
-          if [[ -d "$RUNNER_TEMP/monjez-lifecycle-stack/supabase" ]]; then
-            supabase --workdir "$RUNNER_TEMP/monjez-lifecycle-stack" stop --no-backup > "$RUNNER_TEMP/lifecycle-stop.log" 2>&1
-          fi
+    - name: Validate explicit historical benchmark provenance before checkout
+      run: 'python - <<''PYHISTORY''
+
+        import os,re,json
+
+        source=os.environ[''HISTORICAL_SOURCE'']
+
+        assert re.fullmatch(''[0-9a-f]{40}'',source), ''Full historical commit SHA required''
+
+        print(json.dumps({''scope'':''historical benchmark only; not B50 PR acceptance'',''historical_source'':source,''routing_source'':os.environ[''HISTORICAL_ROUTING_SOURCE'']}))
+
+        PYHISTORY'
+    - name: Checkout exact candidate
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.historical_source }}
+        persist-credentials: false
+    - name: Verify historical checkout and phase inventory before credentials
+      run: 'python - <<''PYPHASE''
+
+        import os,subprocess,json
+
+        from pathlib import Path
+
+        source=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()
+
+        assert source==os.environ[''HISTORICAL_SOURCE''], ''Historical source mismatch''
+
+        files=sorted(Path(''supabase/migrations'').glob(''*.sql''))
+
+        assert len(files)==41, ''Selected commit does not match historical schema phase''
+
+        subprocess.run([''git'',''diff'',''--quiet'',''HEAD'',''--''],check=True)
+
+        print(json.dumps({''scope'':''historical only'',''source'':source,''migration_count'':len(files)}))
+
+        PYPHASE'
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Check new lifecycle harness safety
+      run: python -m unittest discover -s tests/account-lifecycle -p test_live_probe.py -v
+    - name: Setup pinned Supabase CLI
+      uses: supabase/setup-cli@v2
+      with:
+        version: 2.101.0
+    - name: Inspect CLI and validate isolated intent
+      shell: bash
+      run: 'set -euo pipefail
+
+        test "$(supabase --version)" = ''2.101.0''
+
+        test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+
+        supabase --help > "$RUNNER_TEMP/lifecycle-cli-help.txt"
+
+        grep -q -- ''--workdir'' "$RUNNER_TEMP/lifecycle-cli-help.txt"
+
+        supabase start --help > "$RUNNER_TEMP/lifecycle-start-help.txt"
+
+        python tests/e2e/write_harness_guard.py --preflight-only
+
+        '
+    - name: Install PostgreSQL client
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y postgresql-client > "$RUNNER_TEMP/lifecycle-psql-install.log" 2>&1
+
+        '
+    - name: Start fresh disposable stack
+      shell: bash
+      run: "set -euo pipefail\numask 077\nstack=\"$RUNNER_TEMP/monjez-lifecycle-stack\"\nmkdir -p \"$stack\"\nsupabase\
+        \ --workdir \"$stack\" init > \"$RUNNER_TEMP/lifecycle-init.log\" 2>&1\ncp -a supabase/migrations \"$stack/supabase/migrations\"\
+        \nif ! supabase --workdir \"$stack\" start > \"$RUNNER_TEMP/lifecycle-start.log\" 2>&1; then\n  echo 'ENV_NATIVE_01_STACK_START_FAILURE:\
+        \ raw infrastructure output withheld'\n  exit 1\nfi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/lifecycle-status.json\"\
+        \nchmod 600 \"$RUNNER_TEMP/lifecycle-status.json\"\n"
+    - name: Run focused clean lifecycle baseline
+      shell: bash
+      run: "set -euo pipefail\npython tests/account-lifecycle/live_probe.py \\\n  --status-file \"$RUNNER_TEMP/lifecycle-status.json\"\
+        \ \\\n  --evidence-dir \"$RUNNER_TEMP/lifecycle-evidence\" \\\n  --expected-source \"$EXPECTED_SOURCE\"\n"
+    - name: Upload sanitized lifecycle evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: account-lifecycle-baseline
+        path: ${{ runner.temp }}/lifecycle-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+    - name: Stop disposable stack and remove keys
+      if: always()
+      shell: bash
+      run: "rm -f \"$RUNNER_TEMP/lifecycle-status.json\"\nif [[ -d \"$RUNNER_TEMP/monjez-lifecycle-stack/supabase\"\
+        \ ]]; then\n  supabase --workdir \"$RUNNER_TEMP/monjez-lifecycle-stack\" stop --no-backup > \"$RUNNER_TEMP/lifecycle-stop.log\"\
+        \ 2>&1\nfi\n"
+    name: Historical 41 - lifecycle-baseline (${{ inputs.historical_source }})
+env:
+  HISTORICAL_SOURCE: ${{ inputs.historical_source }}
+  HISTORICAL_ROUTING_SOURCE: ${{ github.sha }}

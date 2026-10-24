@@ -1,0 +1,495 @@
+{
+  "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+  "method": "Actual GitHub run/job results after PR71 preparation. Two groups of PR-triggered runs are observed; exact webhook action attribution is not claimed. No failed result is promoted. Catalog immutable43 mismatch is proven; correction upgrade bootstrap failure is a separate infrastructure/fixture boundary, not automatically a count diagnosis.",
+  "latest_by_name": [
+    {
+      "run": 40073535521,
+      "name": "SEC-ENV Gate 4 Probe",
+      "path": ".github/workflows/sec-env-gate4-probe.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922440,
+          "name": "environment-contract",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073535455,
+      "name": "Owner Retention Catalog",
+      "path": ".github/workflows/owner-retention-catalog.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922193,
+          "name": "catalog",
+          "conclusion": "failure",
+          "failed": [
+            "Focused offline catalog oracle"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535433,
+      "name": "MCP Issuer Contract",
+      "path": ".github/workflows/mcp-issuer-contract.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922020,
+          "name": "contract",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073535502,
+      "name": "Quality",
+      "path": ".github/workflows/quality.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922184,
+          "name": "quality",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073535514,
+      "name": "Ephemeral Financial Rules",
+      "path": ".github/workflows/ephemeral-financial-rules.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922176,
+          "name": "financial-rules",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073535474,
+      "name": "MCP Lifecycle Probe",
+      "path": ".github/workflows/mcp-lifecycle-probe.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922248,
+          "name": "mcp-lifecycle",
+          "conclusion": "failure",
+          "failed": [
+            "Run actual application MCP probe"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535441,
+      "name": "Account Lifecycle Baseline",
+      "path": ".github/workflows/account-lifecycle-baseline.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922156,
+          "name": "lifecycle-baseline",
+          "conclusion": "failure",
+          "failed": [
+            "Run focused clean lifecycle baseline"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535463,
+      "name": "Account Lifecycle Correction",
+      "path": ".github/workflows/account-lifecycle-correction.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922336,
+          "name": "lifecycle-correction (upgrade)",
+          "conclusion": "failure",
+          "failed": [
+            "Start fresh disposable stack"
+          ]
+        },
+        {
+          "id": 120811922443,
+          "name": "lifecycle-correction (fresh)",
+          "conclusion": "failure",
+          "failed": [
+            "Run focused lifecycle correction"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535431,
+      "name": "Auth Natural Expiry",
+      "path": ".github/workflows/auth-natural-expiry.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922141,
+          "name": "natural-expiry",
+          "conclusion": "failure",
+          "failed": [
+            "Test naturally elapsed same token on real HTTP route"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535490,
+      "name": "SEC-CI Gate 4 Probe",
+      "path": ".github/workflows/sec-ci-gate4-probe.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922357,
+          "name": "candidate-auth",
+          "conclusion": "success",
+          "failed": []
+        },
+        {
+          "id": 120811922621,
+          "name": "policy-contract",
+          "conclusion": "success",
+          "failed": []
+        },
+        {
+          "id": 120811922656,
+          "name": "candidate-financial",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073535523,
+      "name": "MCP TanStack Route",
+      "path": ".github/workflows/mcp-tanstack-route.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811922368,
+          "name": "tanstack-route",
+          "conclusion": "failure",
+          "failed": [
+            "Test complete real HTTP route"
+          ]
+        }
+      ]
+    },
+    {
+      "run": 40073535457,
+      "name": "Isolated Auth UI Smoke",
+      "path": ".github/workflows/isolated-auth-smoke.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 120811922075,
+          "name": "authenticated-ui",
+          "conclusion": "success",
+          "failed": []
+        }
+      ]
+    },
+    {
+      "run": 40073534335,
+      "name": "OC APP Price Lifecycle",
+      "path": ".github/workflows/oc-app.yml",
+      "head": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 120811919454,
+          "name": "quality",
+          "conclusion": "success",
+          "failed": []
+        },
+        {
+          "id": 120811919636,
+          "name": "price",
+          "conclusion": "failure",
+          "failed": [
+            "Focused actual price server function"
+          ]
+        }
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "id": 40073535521,
+      "name": "SEC-ENV Gate 4 Probe",
+      "path": ".github/workflows/sec-env-gate4-probe.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535521"
+    },
+    {
+      "id": 40073535455,
+      "name": "Owner Retention Catalog",
+      "path": ".github/workflows/owner-retention-catalog.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535455"
+    },
+    {
+      "id": 40073535433,
+      "name": "MCP Issuer Contract",
+      "path": ".github/workflows/mcp-issuer-contract.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535433"
+    },
+    {
+      "id": 40073535502,
+      "name": "Quality",
+      "path": ".github/workflows/quality.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535502"
+    },
+    {
+      "id": 40073535514,
+      "name": "Ephemeral Financial Rules",
+      "path": ".github/workflows/ephemeral-financial-rules.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535514"
+    },
+    {
+      "id": 40073535474,
+      "name": "MCP Lifecycle Probe",
+      "path": ".github/workflows/mcp-lifecycle-probe.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535474"
+    },
+    {
+      "id": 40073535441,
+      "name": "Account Lifecycle Baseline",
+      "path": ".github/workflows/account-lifecycle-baseline.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535441"
+    },
+    {
+      "id": 40073535463,
+      "name": "Account Lifecycle Correction",
+      "path": ".github/workflows/account-lifecycle-correction.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535463"
+    },
+    {
+      "id": 40073535431,
+      "name": "Auth Natural Expiry",
+      "path": ".github/workflows/auth-natural-expiry.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535431"
+    },
+    {
+      "id": 40073535490,
+      "name": "SEC-CI Gate 4 Probe",
+      "path": ".github/workflows/sec-ci-gate4-probe.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535490"
+    },
+    {
+      "id": 40073535523,
+      "name": "MCP TanStack Route",
+      "path": ".github/workflows/mcp-tanstack-route.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535523"
+    },
+    {
+      "id": 40073535457,
+      "name": "Isolated Auth UI Smoke",
+      "path": ".github/workflows/isolated-auth-smoke.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:16Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535457"
+    },
+    {
+      "id": 40073535306,
+      "name": "Owner Retention Catalog",
+      "path": ".github/workflows/owner-retention-catalog.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535306"
+    },
+    {
+      "id": 40073535308,
+      "name": "MCP Issuer Contract",
+      "path": ".github/workflows/mcp-issuer-contract.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535308"
+    },
+    {
+      "id": 40073535324,
+      "name": "Quality",
+      "path": ".github/workflows/quality.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "success",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535324"
+    },
+    {
+      "id": 40073535339,
+      "name": "Account Lifecycle Baseline",
+      "path": ".github/workflows/account-lifecycle-baseline.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535339"
+    },
+    {
+      "id": 40073535323,
+      "name": "Auth Natural Expiry",
+      "path": ".github/workflows/auth-natural-expiry.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535323"
+    },
+    {
+      "id": 40073535305,
+      "name": "Account Lifecycle Correction",
+      "path": ".github/workflows/account-lifecycle-correction.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535305"
+    },
+    {
+      "id": 40073535318,
+      "name": "MCP Lifecycle Probe",
+      "path": ".github/workflows/mcp-lifecycle-probe.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535318"
+    },
+    {
+      "id": 40073535348,
+      "name": "MCP TanStack Route",
+      "path": ".github/workflows/mcp-tanstack-route.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "pull_request",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:15Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073535348"
+    },
+    {
+      "id": 40073534335,
+      "name": "OC APP Price Lifecycle",
+      "path": ".github/workflows/oc-app.yml",
+      "source": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+      "status": "completed",
+      "conclusion": "failure",
+      "event": "push",
+      "attempt": 1,
+      "created_at": "2026-10-24T07:17:14Z",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40073534335"
+    }
+  ]
+}

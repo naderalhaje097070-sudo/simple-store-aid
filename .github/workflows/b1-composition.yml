@@ -1,21 +1,36 @@
 name: B1 composition compatibility
-
-on:
+'on':
   push:
     branches:
-      - integration/g0-g1-reconcile-2026-10-18
+    - integration/g0-g1-reconcile-2026-10-18
     paths:
-      - '.github/workflows/b1-composition.yml'
-      - 'config/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'vite.config.ts'
-      - 'package.json'
-      - 'bun.lock'
-
+    - .github/workflows/b1-composition.yml
+    - config/**
+    - src/**
+    - tests/**
+    - vite.config.ts
+    - package.json
+    - bun.lock
+  pull_request:
+    branches:
+    - main
+    types:
+    - opened
+    - synchronize
+    - reopened
+    paths:
+    - src/**
+    - config/**
+    - scripts/**
+    - tests/**
+    - supabase/migrations/**
+    - package.json
+    - bun.lock
+    - vite.config.ts
+    - tsconfig.json
+    - .github/workflows/**
 permissions:
   contents: read
-
 jobs:
   compatibility:
     runs-on: ubuntu-latest
@@ -26,30 +41,37 @@ jobs:
       VITE_SUPABASE_PUBLISHABLE_KEY: b1-offline-placeholder
       VITE_SUPABASE_PROJECT_ID: b1-offline
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: '1.2.14'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Frozen dependencies
-        run: bun install --frozen-lockfile
-      - name: Locked serialization exports
-        run: node --input-type=module -e 'for (const p of ["@tanstack/router-core", "@tanstack/router-core/ssr/client"]) { const m = await import(p); console.log(p, Object.keys(m).filter(x => /eroval/.test(x))); }'
-      - name: Generated formatting
-        run: node scripts/format-generated.mjs --check
-      - name: Typecheck
-        run: bun run typecheck
-      - name: Full lint
-        run: bun run lint
-      - name: Unit tests
-        run: bun run test:unit
-      - name: Original OC APP wire regression
-        run: node tests/account-lifecycle/oc_app_wire.test.mjs
-      - name: Build
-        if: '!cancelled() && success()'
-        run: bun run build
-      - name: Generation retains tracked files
-        if: '!cancelled() && success()'
-        run: git diff --exit-code
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.2.14
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Frozen dependencies
+      run: bun install --frozen-lockfile
+    - name: Verify actual PR-head routing and historical benchmark boundaries
+      run: node --test tests/b7-ci-routing/contract.test.cjs
+    - name: Locked serialization exports
+      run: node --input-type=module -e 'for (const p of ["@tanstack/router-core", "@tanstack/router-core/ssr/client"])
+        { const m = await import(p); console.log(p, Object.keys(m).filter(x => /eroval/.test(x))); }'
+    - name: Generated formatting
+      run: node scripts/format-generated.mjs --check
+    - name: Typecheck
+      run: bun run typecheck
+    - name: Full lint
+      run: bun run lint
+    - name: Unit tests
+      run: bun run test:unit
+    - name: Original OC APP wire regression
+      run: node tests/account-lifecycle/oc_app_wire.test.mjs
+    - name: Build
+      if: '!cancelled() && success()'
+      run: bun run build
+    - name: Generation retains tracked files
+      if: '!cancelled() && success()'
+      run: git diff --exit-code

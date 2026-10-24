@@ -1,11 +1,11 @@
-name: Owner Retention Catalog
-on:
-  pull_request:
-    paths:
-      - 'tests/account-lifecycle/owner_catalog*'
-      - 'tests/account-lifecycle/test_owner_catalog_probe.py'
-      - '.github/workflows/owner-retention-catalog.yml'
-      - 'changes/owner-retention-verify/**'
+name: Historical 43 - Owner Retention Catalog
+'on':
+  workflow_dispatch:
+    inputs:
+      historical_source:
+        description: Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+      EXPECTED_SOURCE: ${{ inputs.historical_source }}
       MONGEZZ_DEPLOY_TARGET: ci
       MONGEZZ_E2E_WRITE_TEST: '1'
       CI_ISOLATED_SUPABASE: '1'
@@ -26,194 +26,186 @@ jobs:
       PGPASSWORD: postgres
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: Checkout exact source
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          persist-credentials: false
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Focused offline catalog oracle
-        run: python -m unittest discover -s tests/account-lifecycle -p test_owner_catalog_probe.py -v
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - uses: supabase/setup-cli@v2
-        with:
-          version: '2.101.0'
-      - name: Verify pinned local setup
-        run: |
-          set -euo pipefail
-          test "$(supabase --version)" = '2.101.0'
-          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
-          supabase --help > "$RUNNER_TEMP/catalog-cli-help.txt"
-          grep -q -- '--workdir' "$RUNNER_TEMP/catalog-cli-help.txt"
-          supabase start --help > "$RUNNER_TEMP/catalog-start-help.txt"
-          supabase stop --help > "$RUNNER_TEMP/catalog-stop-help.txt"
-          grep -q -- '--no-backup' "$RUNNER_TEMP/catalog-stop-help.txt"
-          python tests/e2e/write_harness_guard.py --preflight-only
-      - name: Install existing local verification prerequisites
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/catalog-psql-private.log" 2>&1
-      - name: Prove real process containment before credentials
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo useradd --system --no-create-home --shell /usr/sbin/nologin mcp-route
-          uid="$(id -u mcp-route)"
-          sudo iptables -N MCP_ROUTE
-          sudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT
-          sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable
-          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j MCP_ROUTE
-          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
-          # Hosted runner workspace ancestors may be private to runner. Copy only
-          # the containment preload, then later the exact standalone build output.
-          sudo install -d -m 755 -o mcp-route /tmp/monjez-tanstack-route
-          sudo install -m 644 tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
-          cmp tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs
-          if sudo -u mcp-route test -r "$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs"; then
-            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=true'
-          else
-            echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=false'
-          fi
-          sudo -u mcp-route env -i PATH=/usr/bin:/bin CI_ISOLATED_SUPABASE=1 \
-            MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json \
-            "$(command -v node)" --import /tmp/monjez-tanstack-route/guard.mjs \
-            --input-type=module -e ''
-          sudo iptables -nvxL MCP_ROUTE > "$RUNNER_TEMP/route-firewall.txt"
-          sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
-          ROUTE_UID="$uid" python - <<'PYFIREWALL'
-          import json, os
-          from pathlib import Path
-          root = Path(os.environ['RUNNER_TEMP'])
-          lines = (root/'route-firewall.txt').read_text().splitlines()
-          rejected = [int(line.split()[0]) for line in lines if 'REJECT' in line]
-          assert len(rejected) == 1 and rejected[0] > 0, 'Native redirect not blocked by UID firewall'
-          receipt = {'uid': int(os.environ['ROUTE_UID']), 'ipv4_reject_packets': rejected[0],
-                     'ipv6_rule_installed': True, 'credential_free_preflight': True,
-                     'policy': 'dedicated UID: IPv4 exact loopback only; IPv6 rejected'}
-          (root/'route-firewall.json').write_text(json.dumps(receipt))
-          print(json.dumps(receipt))
-          PYFIREWALL
-      - name: Start fresh fixture-free disposable Supabase
-        shell: bash
-        run: |
-          set -euo pipefail
-          umask 077
-          stack="$RUNNER_TEMP/monjez-tanstack-route"
-          mkdir -p "$stack"
-          supabase --workdir "$stack" init > "$RUNNER_TEMP/route-init-private.log" 2>&1
-          mkdir -p "$stack/supabase/migrations"
-          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
-          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/route-start-private.log" 2>&1; then
-            echo 'ROUTE_STACK_START_FAILED: private output withheld'
-            exit 1
-          fi
-          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/route-status.json"
-          chmod 600 "$RUNNER_TEMP/route-status.json"
-          # CLI start can print disposable keys; keep no credential-bearing log.
-          python - <<'PYSCRUB'
-          import json, os, re
-          from pathlib import Path
-          root=Path(os.environ['RUNNER_TEMP'])
-          status=json.loads((root/'route-status.json').read_text())
-          p=root/'route-start-private.log'
-          text=p.read_text()
-          for key,value in status.items():
-            if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and value:
-              text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')
-          text=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)
-          text=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_KEY]', text)
-          p.write_text(text)
-          PYSCRUB
-      - name: Read and reconcile catalog without fixtures or lifecycle actions
-        run: |
-          python tests/account-lifecycle/owner_catalog_probe.py \
-            --status-file "$RUNNER_TEMP/route-status.json" \
-            --evidence-dir "$RUNNER_TEMP/route-evidence" \
-            --expected-source "$EXPECTED_SOURCE"
-      - name: Verify no unexpected catalog-process egress
-        if: always()
-        run: |
-          python - <<'PYNET'
-          import json, os, subprocess
-          from pathlib import Path
-          root=Path(os.environ['RUNNER_TEMP'])
-          if (root/'route-firewall.json').exists():
-              baseline=json.loads((root/'route-firewall.json').read_text())
-              lines=subprocess.run(['sudo','iptables','-nvxL','MCP_ROUTE'],capture_output=True,text=True,check=True).stdout.splitlines()
-              rejected=[int(line.split()[0]) for line in lines if 'REJECT' in line]
-              ipv6=subprocess.run(['sudo','ip6tables','-nvxL','OUTPUT'],capture_output=True,text=True,check=True).stdout.splitlines()
-              v6=[int(line.split()[0]) for line in ipv6 if 'owner UID match' in line and 'REJECT' in line]
-              result={'ipv4_preflight_rejected':baseline['ipv4_reject_packets'],
-                      'ipv4_unexpected_reject_packets':rejected[0]-baseline['ipv4_reject_packets'],
-                      'ipv6_rejected_packets':sum(v6),'catalog_psql_uid_contained':True,
-                      'scope':'credential-free Node preflight + psql UID; provider services not a complete egress audit'}
-              out=root/'route-evidence';out.mkdir(exist_ok=True)
-              (out/'network.json').write_text(json.dumps(result))
-              assert result['ipv4_unexpected_reject_packets']==0 and result['ipv6_rejected_packets']==0
-          PYNET
-      - name: Cleanup local processes stack and credential files
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          if id mcp-route >/dev/null 2>&1; then
-            sudo pkill -TERM -u mcp-route || true
-          fi
-          rm -f "$RUNNER_TEMP/route-status.json"
-          if [[ -d "$RUNNER_TEMP/monjez-tanstack-route/supabase" ]]; then
-            supabase --workdir "$RUNNER_TEMP/monjez-tanstack-route" stop --no-backup > "$RUNNER_TEMP/route-stop-private.log" 2>&1
-          fi
-          mkdir -p "$RUNNER_TEMP/route-evidence"
-          python - <<'PYCLEAN'
-          import json, os, subprocess
-          from pathlib import Path
-          root = Path(os.environ['RUNNER_TEMP'])
-          receipt = {'status_file_removed': not (root/'route-status.json').exists(),
-                     'application_processes_removed': (subprocess.run(['id','mcp-route'],capture_output=True).returncode != 0 or subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1),
-                     'stack_containers_removed': 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}
-          (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))
-          assert all(receipt.values()), 'Disposable cleanup incomplete'
-          PYCLEAN
-      - name: Scan final evidence before publication
-        if: always()
-        run: |
-          python - <<'PYSCAN'
-          import json,os,sys
-          from pathlib import Path
-          sys.path.insert(0,'tests/account-lifecycle')
-          from tanstack_route_probe import publish_result
-          out=Path(os.environ['RUNNER_TEMP'])/'route-evidence'
-          out.mkdir(exist_ok=True)
-          result=publish_result(out,{'catalog_complete':False,'integration_accepted':False},[])
-          if not result.get('evidence_no_credentials'):raise SystemExit(2)
-          (out/'route-result.json').unlink()
-          PYSCAN
-      - name: Print safe compact receipts only
-        if: always()
-        run: |
-          python - <<'PYPRINT'
-          import json,os
-          from pathlib import Path
-          out=Path(os.environ['RUNNER_TEMP'])/'route-evidence'
-          for name in ['catalog-result.json','catalog-failure.json','network.json','cleanup.json']:
-              p=out/name
-              if p.exists():
-                  d=json.loads(p.read_text())
-                  if name=='catalog-result.json':
-                      d={k:d[k] for k in ['source_sha','catalog_complete','matches','differences','closure_verified','integration_accepted','evidence_no_credentials']}
-                  print('CATALOG_RECEIPT_BEGIN '+name)
-                  print(json.dumps(d))
-                  print('CATALOG_RECEIPT_END '+name)
-          PYPRINT
-      - name: Upload sanitized catalog evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: owner-retention-catalog-attempt${{ github.run_attempt }}
-          path: ${{ runner.temp }}/route-evidence/
-          retention-days: 7
-          if-no-files-found: warn
+    - name: Validate explicit historical benchmark provenance before checkout
+      run: 'python - <<''PYHISTORY''
+
+        import os,re,json
+
+        source=os.environ[''HISTORICAL_SOURCE'']
+
+        assert re.fullmatch(''[0-9a-f]{40}'',source), ''Full historical commit SHA required''
+
+        print(json.dumps({''scope'':''historical benchmark only; not B50 PR acceptance'',''historical_source'':source,''routing_source'':os.environ[''HISTORICAL_ROUTING_SOURCE'']}))
+
+        PYHISTORY'
+    - name: Checkout exact source
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.historical_source }}
+        persist-credentials: false
+    - name: Verify historical checkout and phase inventory before credentials
+      run: 'python - <<''PYPHASE''
+
+        import os,subprocess,json
+
+        from pathlib import Path
+
+        source=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()
+
+        assert source==os.environ[''HISTORICAL_SOURCE''], ''Historical source mismatch''
+
+        files=sorted(Path(''supabase/migrations'').glob(''*.sql''))
+
+        assert len(files)==43, ''Selected commit does not match historical schema phase''
+
+        subprocess.run([''git'',''diff'',''--quiet'',''HEAD'',''--''],check=True)
+
+        print(json.dumps({''scope'':''historical only'',''source'':source,''migration_count'':len(files)}))
+
+        PYPHASE'
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Focused offline catalog oracle
+      run: python -m unittest discover -s tests/account-lifecycle -p test_owner_catalog_probe.py -v
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - uses: supabase/setup-cli@v2
+      with:
+        version: 2.101.0
+    - name: Verify pinned local setup
+      run: 'set -euo pipefail
+
+        test "$(supabase --version)" = ''2.101.0''
+
+        test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+
+        supabase --help > "$RUNNER_TEMP/catalog-cli-help.txt"
+
+        grep -q -- ''--workdir'' "$RUNNER_TEMP/catalog-cli-help.txt"
+
+        supabase start --help > "$RUNNER_TEMP/catalog-start-help.txt"
+
+        supabase stop --help > "$RUNNER_TEMP/catalog-stop-help.txt"
+
+        grep -q -- ''--no-backup'' "$RUNNER_TEMP/catalog-stop-help.txt"
+
+        python tests/e2e/write_harness_guard.py --preflight-only
+
+        '
+    - name: Install existing local verification prerequisites
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/catalog-psql-private.log" 2>&1
+
+        '
+    - name: Prove real process containment before credentials
+      shell: bash
+      run: "set -euo pipefail\nsudo useradd --system --no-create-home --shell /usr/sbin/nologin mcp-route\nuid=\"\
+        $(id -u mcp-route)\"\nsudo iptables -N MCP_ROUTE\nsudo iptables -A MCP_ROUTE -o lo -d 127.0.0.1/32 -j ACCEPT\n\
+        sudo iptables -A MCP_ROUTE -j REJECT --reject-with icmp-port-unreachable\nsudo iptables -I OUTPUT 1 -m owner\
+        \ --uid-owner \"$uid\" -j MCP_ROUTE\nsudo ip6tables -I OUTPUT 1 -m owner --uid-owner \"$uid\" -j REJECT\n\
+        # Hosted runner workspace ancestors may be private to runner. Copy only\n# the containment preload, then\
+        \ later the exact standalone build output.\nsudo install -d -m 755 -o mcp-route /tmp/monjez-tanstack-route\n\
+        sudo install -m 644 tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs\n\
+        cmp tests/account-lifecycle/tanstack_route_guard.mjs /tmp/monjez-tanstack-route/guard.mjs\nif sudo -u mcp-route\
+        \ test -r \"$GITHUB_WORKSPACE/tests/account-lifecycle/tanstack_route_guard.mjs\"; then\n  echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=true'\n\
+        else\n  echo 'ROUTE_ORIGINAL_WORKSPACE_READABLE=false'\nfi\nsudo -u mcp-route env -i PATH=/usr/bin:/bin\
+        \ CI_ISOLATED_SUPABASE=1 \\\n  MCP_ROUTE_PREFLIGHT=1 MCP_ROUTE_STATE=/tmp/monjez-tanstack-route/preflight.json\
+        \ \\\n  \"$(command -v node)\" --import /tmp/monjez-tanstack-route/guard.mjs \\\n  --input-type=module -e\
+        \ ''\nsudo iptables -nvxL MCP_ROUTE > \"$RUNNER_TEMP/route-firewall.txt\"\nsudo ip6tables -C OUTPUT -m owner\
+        \ --uid-owner \"$uid\" -j REJECT\nROUTE_UID=\"$uid\" python - <<'PYFIREWALL'\nimport json, os\nfrom pathlib\
+        \ import Path\nroot = Path(os.environ['RUNNER_TEMP'])\nlines = (root/'route-firewall.txt').read_text().splitlines()\n\
+        rejected = [int(line.split()[0]) for line in lines if 'REJECT' in line]\nassert len(rejected) == 1 and rejected[0]\
+        \ > 0, 'Native redirect not blocked by UID firewall'\nreceipt = {'uid': int(os.environ['ROUTE_UID']), 'ipv4_reject_packets':\
+        \ rejected[0],\n           'ipv6_rule_installed': True, 'credential_free_preflight': True,\n           'policy':\
+        \ 'dedicated UID: IPv4 exact loopback only; IPv6 rejected'}\n(root/'route-firewall.json').write_text(json.dumps(receipt))\n\
+        print(json.dumps(receipt))\nPYFIREWALL\n"
+    - name: Start fresh fixture-free disposable Supabase
+      shell: bash
+      run: "set -euo pipefail\numask 077\nstack=\"$RUNNER_TEMP/monjez-tanstack-route\"\nmkdir -p \"$stack\"\nsupabase\
+        \ --workdir \"$stack\" init > \"$RUNNER_TEMP/route-init-private.log\" 2>&1\nmkdir -p \"$stack/supabase/migrations\"\
+        \ncp supabase/migrations/*.sql \"$stack/supabase/migrations/\"\nif ! supabase --workdir \"$stack\" start\
+        \ > \"$RUNNER_TEMP/route-start-private.log\" 2>&1; then\n  echo 'ROUTE_STACK_START_FAILED: private output\
+        \ withheld'\n  exit 1\nfi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/route-status.json\"\
+        \nchmod 600 \"$RUNNER_TEMP/route-status.json\"\n# CLI start can print disposable keys; keep no credential-bearing\
+        \ log.\npython - <<'PYSCRUB'\nimport json, os, re\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])\n\
+        status=json.loads((root/'route-status.json').read_text())\np=root/'route-start-private.log'\ntext=p.read_text()\n\
+        for key,value in status.items():\n  if ('KEY' in key or 'PASSWORD' in key) and isinstance(value,str) and\
+        \ value:\n    text=text.replace(value,'[REDACTED_LOCAL_CREDENTIAL]')\ntext=re.sub(r'eyJ[A-Za-z0-9_-]{8,}\\\
+        .[A-Za-z0-9_-]{8,}\\.[A-Za-z0-9_-]{8,}', '[REDACTED_LOCAL_JWT]', text)\ntext=re.sub(r'sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}',\
+        \ '[REDACTED_LOCAL_KEY]', text)\np.write_text(text)\nPYSCRUB\n"
+    - name: Read and reconcile catalog without fixtures or lifecycle actions
+      run: "python tests/account-lifecycle/owner_catalog_probe.py \\\n  --status-file \"$RUNNER_TEMP/route-status.json\"\
+        \ \\\n  --evidence-dir \"$RUNNER_TEMP/route-evidence\" \\\n  --expected-source \"$EXPECTED_SOURCE\"\n"
+    - name: Verify no unexpected catalog-process egress
+      if: always()
+      run: "python - <<'PYNET'\nimport json, os, subprocess\nfrom pathlib import Path\nroot=Path(os.environ['RUNNER_TEMP'])\n\
+        if (root/'route-firewall.json').exists():\n    baseline=json.loads((root/'route-firewall.json').read_text())\n\
+        \    lines=subprocess.run(['sudo','iptables','-nvxL','MCP_ROUTE'],capture_output=True,text=True,check=True).stdout.splitlines()\n\
+        \    rejected=[int(line.split()[0]) for line in lines if 'REJECT' in line]\n    ipv6=subprocess.run(['sudo','ip6tables','-nvxL','OUTPUT'],capture_output=True,text=True,check=True).stdout.splitlines()\n\
+        \    v6=[int(line.split()[0]) for line in ipv6 if 'owner UID match' in line and 'REJECT' in line]\n    result={'ipv4_preflight_rejected':baseline['ipv4_reject_packets'],\n\
+        \            'ipv4_unexpected_reject_packets':rejected[0]-baseline['ipv4_reject_packets'],\n           \
+        \ 'ipv6_rejected_packets':sum(v6),'catalog_psql_uid_contained':True,\n            'scope':'credential-free\
+        \ Node preflight + psql UID; provider services not a complete egress audit'}\n    out=root/'route-evidence';out.mkdir(exist_ok=True)\n\
+        \    (out/'network.json').write_text(json.dumps(result))\n    assert result['ipv4_unexpected_reject_packets']==0\
+        \ and result['ipv6_rejected_packets']==0\nPYNET\n"
+    - name: Cleanup local processes stack and credential files
+      if: always()
+      shell: bash
+      run: "set -euo pipefail\nif id mcp-route >/dev/null 2>&1; then\n  sudo pkill -TERM -u mcp-route || true\n\
+        fi\nrm -f \"$RUNNER_TEMP/route-status.json\"\nif [[ -d \"$RUNNER_TEMP/monjez-tanstack-route/supabase\" ]];\
+        \ then\n  supabase --workdir \"$RUNNER_TEMP/monjez-tanstack-route\" stop --no-backup > \"$RUNNER_TEMP/route-stop-private.log\"\
+        \ 2>&1\nfi\nmkdir -p \"$RUNNER_TEMP/route-evidence\"\npython - <<'PYCLEAN'\nimport json, os, subprocess\n\
+        from pathlib import Path\nroot = Path(os.environ['RUNNER_TEMP'])\nreceipt = {'status_file_removed': not\
+        \ (root/'route-status.json').exists(),\n           'application_processes_removed': (subprocess.run(['id','mcp-route'],capture_output=True).returncode\
+        \ != 0 or subprocess.run(['pgrep','-u','mcp-route'],capture_output=True).returncode == 1),\n           'stack_containers_removed':\
+        \ 'monjez-tanstack-route' not in subprocess.run(['docker','ps','--format','{{.Names}}'],capture_output=True,text=True,check=True).stdout}\n\
+        (root/'route-evidence/cleanup.json').write_text(json.dumps(receipt))\nassert all(receipt.values()), 'Disposable\
+        \ cleanup incomplete'\nPYCLEAN\n"
+    - name: Scan final evidence before publication
+      if: always()
+      run: 'python - <<''PYSCAN''
+
+        import json,os,sys
+
+        from pathlib import Path
+
+        sys.path.insert(0,''tests/account-lifecycle'')
+
+        from tanstack_route_probe import publish_result
+
+        out=Path(os.environ[''RUNNER_TEMP''])/''route-evidence''
+
+        out.mkdir(exist_ok=True)
+
+        result=publish_result(out,{''catalog_complete'':False,''integration_accepted'':False},[])
+
+        if not result.get(''evidence_no_credentials''):raise SystemExit(2)
+
+        (out/''route-result.json'').unlink()
+
+        PYSCAN
+
+        '
+    - name: Print safe compact receipts only
+      if: always()
+      run: "python - <<'PYPRINT'\nimport json,os\nfrom pathlib import Path\nout=Path(os.environ['RUNNER_TEMP'])/'route-evidence'\n\
+        for name in ['catalog-result.json','catalog-failure.json','network.json','cleanup.json']:\n    p=out/name\n\
+        \    if p.exists():\n        d=json.loads(p.read_text())\n        if name=='catalog-result.json':\n    \
+        \        d={k:d[k] for k in ['source_sha','catalog_complete','matches','differences','closure_verified','integration_accepted','evidence_no_credentials']}\n\
+        \        print('CATALOG_RECEIPT_BEGIN '+name)\n        print(json.dumps(d))\n        print('CATALOG_RECEIPT_END\
+        \ '+name)\nPYPRINT\n"
+    - name: Upload sanitized catalog evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: owner-retention-catalog-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/route-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+    name: Historical 43 - catalog (${{ inputs.historical_source }})
+env:
+  HISTORICAL_SOURCE: ${{ inputs.historical_source }}
+  HISTORICAL_ROUTING_SOURCE: ${{ github.sha }}

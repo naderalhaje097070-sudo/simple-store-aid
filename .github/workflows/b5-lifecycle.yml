@@ -6,6 +6,24 @@ name: B5 composed fixed-source lifecycle acceptance
     paths:
     - tests/b5-lifecycle/**
     - .github/workflows/b5-lifecycle.yml
+  pull_request:
+    branches:
+    - main
+    types:
+    - opened
+    - synchronize
+    - reopened
+    paths:
+    - src/**
+    - config/**
+    - scripts/**
+    - tests/**
+    - supabase/migrations/**
+    - package.json
+    - bun.lock
+    - vite.config.ts
+    - tsconfig.json
+    - .github/workflows/**
 permissions:
   contents: read
 jobs:
@@ -19,7 +37,7 @@ jobs:
         - fresh
         - upgrade
     env:
-      EXPECTED_SOURCE: ${{ github.sha }}
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha || github.sha }}
       CONTRACT_MODE: ${{ matrix.mode }}
       MONGEZZ_DEPLOY_TARGET: ci
       MONGEZZ_E2E_WRITE_TEST: '1'
@@ -37,6 +55,7 @@ jobs:
       with:
         fetch-depth: 0
         persist-credentials: false
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
@@ -143,7 +162,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      EXPECTED_SOURCE: ${{ github.sha }}
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha || github.sha }}
       MONGEZZ_DEPLOY_TARGET: ci
       CI_ISOLATED_SUPABASE: '1'
       MONGEZZ_E2E_WRITE_TEST: '1'
@@ -159,7 +178,7 @@ jobs:
     - name: Checkout exact acceptance source
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.sha }}
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
         persist-credentials: false
         fetch-depth: 0
     - name: Setup Python
@@ -333,13 +352,14 @@ jobs:
         mode:
         - fresh
     env:
-      EXPECTED_SOURCE: ${{ github.sha }}
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha || github.sha }}
       CONTRACT_MODE: ${{ matrix.mode }}
     steps:
     - uses: actions/checkout@v4
       with:
         persist-credentials: false
         fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'

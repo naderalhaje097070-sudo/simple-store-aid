@@ -1,0 +1,670 @@
+{
+  "method": "YAML1.2 boolean semantics against immutableaf403 originals. Originalrun command bodies/order/cleanup remain exact; explicit source checkout/fetch/persist and listednewsteps/events/checknames are disclosed.",
+  "workflows": [
+    {
+      "workflow": "account-lifecycle-baseline.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "tests/account-lifecycle/live_probe.py",
+            "tests/account-lifecycle/test_live_probe.py",
+            ".github/workflows/account-lifecycle-baseline.yml"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 41-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "Account Lifecycle Baseline",
+      "after_name": "Historical 41 - Account Lifecycle Baseline",
+      "jobs": [
+        {
+          "id": "lifecycle-baseline",
+          "before_check_name": "lifecycle-baseline",
+          "after_check_name": "Historical 41 - lifecycle-baseline (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "account-lifecycle-correction.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "supabase/migrations/**",
+            "tests/account-lifecycle/correction_probe.py",
+            "tests/account-lifecycle/test_correction_probe.py",
+            "tests/account-lifecycle/independent_probe.py",
+            "tests/account-lifecycle/test_independent_probe.py",
+            "tests/account-lifecycle/live_probe.py",
+            "tests/e2e/write_harness_guard.py",
+            "changes/env-native-01/rollback-compensation.sql",
+            "changes/env-native-01/evidence/clean-baseline/catalog.json",
+            "changes/env-native-01/generate-correction.py",
+            ".github/workflows/account-lifecycle-correction.yml"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "Account Lifecycle Correction",
+      "after_name": "Historical 43 - Account Lifecycle Correction",
+      "jobs": [
+        {
+          "id": "lifecycle-correction",
+          "before_check_name": "lifecycle-correction",
+          "after_check_name": "Historical 43 - lifecycle-correction (${{ inputs.historical_source }}) ${{ matrix.mode }}",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "auth-natural-expiry.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "tests/account-lifecycle/natural_expiry_*",
+            "tests/account-lifecycle/test_natural_expiry_probe.py",
+            "tests/account-lifecycle/test_oauth_consent_fixture.py",
+            "tests/account-lifecycle/tanstack_route_*",
+            "tests/account-lifecycle/mcp_probe.py",
+            "tests/account-lifecycle/live_probe.py",
+            "tests/e2e/write_harness_guard.py",
+            "src/server.ts",
+            "src/router.tsx",
+            "src/routeTree.gen.ts",
+            "src/lib/error-capture.ts",
+            "src/routes/**",
+            "src/lib/mcp/**",
+            "config/supabase-build-config.ts",
+            "vite.config.ts",
+            "tsconfig.json",
+            "package.json",
+            "bun.lock",
+            "supabase/migrations/**",
+            ".github/workflows/auth-natural-expiry.yml",
+            "changes/auth-natural-expiry/**"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "Auth Natural Expiry",
+      "after_name": "Historical 43 - Auth Natural Expiry",
+      "jobs": [
+        {
+          "id": "natural-expiry",
+          "before_check_name": "natural-expiry",
+          "after_check_name": "Historical 43 - natural-expiry (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "b-dep-verify.yml",
+      "before_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            ".github/workflows/b-dep-verify.yml",
+            "package.json",
+            "bun.lock",
+            "src/lib/mcp/request-boundary.ts",
+            "src/server.ts",
+            "tests/b-dependency/**",
+            "tests/unit/mcp-request-boundary.test.ts",
+            "tests/unit/ip-address-security.test.ts",
+            "tests/g01-acceptance/integrated-b-source.json",
+            "tests/g01-acceptance/integrated_identity.py",
+            "tests/g01-acceptance/test_integrated_identity.py"
+          ]
+        }
+      },
+      "after_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            ".github/workflows/b-dep-verify.yml",
+            "package.json",
+            "bun.lock",
+            "src/lib/mcp/request-boundary.ts",
+            "src/server.ts",
+            "tests/b-dependency/**",
+            "tests/unit/mcp-request-boundary.test.ts",
+            "tests/unit/ip-address-security.test.ts",
+            "tests/g01-acceptance/integrated-b-source.json",
+            "tests/g01-acceptance/integrated_identity.py",
+            "tests/g01-acceptance/test_integrated_identity.py"
+          ]
+        },
+        "pull_request": {
+          "branches": [
+            "main"
+          ],
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened"
+          ],
+          "paths": [
+            "src/**",
+            "config/**",
+            "scripts/**",
+            "tests/**",
+            "supabase/migrations/**",
+            "package.json",
+            "bun.lock",
+            "vite.config.ts",
+            "tsconfig.json",
+            ".github/workflows/**"
+          ]
+        }
+      },
+      "before_name": "B dependency and request boundary verification",
+      "after_name": "B dependency and request boundary verification",
+      "jobs": [
+        {
+          "id": "audit",
+          "before_check_name": "audit",
+          "after_check_name": "audit",
+          "before_expected_source": null,
+          "after_expected_source": null,
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        },
+        {
+          "id": "entry",
+          "before_check_name": "entry",
+          "after_check_name": "entry",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ github.event.pull_request.head.sha || github.sha }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        }
+      ]
+    },
+    {
+      "workflow": "b1-composition.yml",
+      "before_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            ".github/workflows/b1-composition.yml",
+            "config/**",
+            "src/**",
+            "tests/**",
+            "vite.config.ts",
+            "package.json",
+            "bun.lock"
+          ]
+        }
+      },
+      "after_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            ".github/workflows/b1-composition.yml",
+            "config/**",
+            "src/**",
+            "tests/**",
+            "vite.config.ts",
+            "package.json",
+            "bun.lock"
+          ]
+        },
+        "pull_request": {
+          "branches": [
+            "main"
+          ],
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened"
+          ],
+          "paths": [
+            "src/**",
+            "config/**",
+            "scripts/**",
+            "tests/**",
+            "supabase/migrations/**",
+            "package.json",
+            "bun.lock",
+            "vite.config.ts",
+            "tsconfig.json",
+            ".github/workflows/**"
+          ]
+        }
+      },
+      "before_name": "B1 composition compatibility",
+      "after_name": "B1 composition compatibility",
+      "jobs": [
+        {
+          "id": "compatibility",
+          "before_check_name": "compatibility",
+          "after_check_name": "compatibility",
+          "before_expected_source": null,
+          "after_expected_source": null,
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Verify actual PR-head routing and historical benchmark boundaries"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "b5-lifecycle.yml",
+      "before_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            "tests/b5-lifecycle/**",
+            ".github/workflows/b5-lifecycle.yml"
+          ]
+        }
+      },
+      "after_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            "tests/b5-lifecycle/**",
+            ".github/workflows/b5-lifecycle.yml"
+          ]
+        },
+        "pull_request": {
+          "branches": [
+            "main"
+          ],
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened"
+          ],
+          "paths": [
+            "src/**",
+            "config/**",
+            "scripts/**",
+            "tests/**",
+            "supabase/migrations/**",
+            "package.json",
+            "bun.lock",
+            "vite.config.ts",
+            "tsconfig.json",
+            ".github/workflows/**"
+          ]
+        }
+      },
+      "before_name": "B5 composed fixed-source lifecycle acceptance",
+      "after_name": "B5 composed fixed-source lifecycle acceptance",
+      "jobs": [
+        {
+          "id": "lifecycle",
+          "before_check_name": "lifecycle",
+          "after_check_name": "lifecycle",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ github.event.pull_request.head.sha || github.sha }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        },
+        {
+          "id": "ssr",
+          "before_check_name": "ssr",
+          "after_check_name": "ssr",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ github.event.pull_request.head.sha || github.sha }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        },
+        {
+          "id": "billing",
+          "before_check_name": "billing",
+          "after_check_name": "billing",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ github.event.pull_request.head.sha || github.sha }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        }
+      ]
+    },
+    {
+      "workflow": "integration-verification.yml",
+      "before_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            "src/**",
+            "tests/**",
+            "scripts/**",
+            "config/**",
+            "package.json",
+            "bun.lock",
+            ".github/workflows/integration-verification.yml"
+          ]
+        }
+      },
+      "after_events": {
+        "push": {
+          "branches": [
+            "integration/g0-g1-reconcile-2026-10-18"
+          ],
+          "paths": [
+            "src/**",
+            "tests/**",
+            "scripts/**",
+            "config/**",
+            "package.json",
+            "bun.lock",
+            ".github/workflows/integration-verification.yml"
+          ]
+        },
+        "pull_request": {
+          "branches": [
+            "main"
+          ],
+          "types": [
+            "opened",
+            "synchronize",
+            "reopened"
+          ],
+          "paths": [
+            "src/**",
+            "config/**",
+            "scripts/**",
+            "tests/**",
+            "supabase/migrations/**",
+            "package.json",
+            "bun.lock",
+            "vite.config.ts",
+            "tsconfig.json",
+            ".github/workflows/**"
+          ]
+        }
+      },
+      "before_name": "Integrated G0 verification",
+      "after_name": "Integrated G0 verification",
+      "jobs": [
+        {
+          "id": "quality",
+          "before_check_name": "quality",
+          "after_check_name": "quality",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ github.event.pull_request.head.sha || github.sha }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        },
+        {
+          "id": "audit",
+          "before_check_name": "audit",
+          "after_check_name": "audit",
+          "before_expected_source": null,
+          "after_expected_source": null,
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": []
+        }
+      ]
+    },
+    {
+      "workflow": "mcp-lifecycle-probe.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "tests/account-lifecycle/mcp_*",
+            "tests/account-lifecycle/test_mcp_probe.py",
+            "tests/account-lifecycle/live_probe.py",
+            "tests/e2e/write_harness_guard.py",
+            "src/lib/mcp/**",
+            "config/supabase-build-config.ts",
+            "vite.config.ts",
+            "src/routes/mcp.ts",
+            "supabase/migrations/**",
+            "package.json",
+            "bun.lock",
+            ".github/workflows/mcp-lifecycle-probe.yml"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "MCP Lifecycle Probe",
+      "after_name": "Historical 43 - MCP Lifecycle Probe",
+      "jobs": [
+        {
+          "id": "mcp-lifecycle",
+          "before_check_name": "mcp-lifecycle",
+          "after_check_name": "Historical 43 - mcp-lifecycle (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "mcp-tanstack-route.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "tests/account-lifecycle/tanstack_route_*",
+            "tests/account-lifecycle/test_tanstack_route_probe.py",
+            "tests/account-lifecycle/mcp_probe.py",
+            "tests/account-lifecycle/test_mcp_probe.py",
+            "tests/account-lifecycle/live_probe.py",
+            "tests/e2e/write_harness_guard.py",
+            "src/server.ts",
+            "src/router.tsx",
+            "src/routeTree.gen.ts",
+            "src/lib/error-capture.ts",
+            "src/routes/**",
+            "src/lib/mcp/**",
+            "config/supabase-build-config.ts",
+            "vite.config.ts",
+            "tsconfig.json",
+            "tests/unit/mcp-issuer*",
+            "package.json",
+            "bun.lock",
+            "supabase/migrations/**",
+            ".github/workflows/mcp-tanstack-route.yml",
+            "changes/mcp-tanstack-route/**",
+            "PROJECT_STATE.md",
+            "TASKS.md",
+            "DECISIONS.md"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "MCP TanStack Route",
+      "after_name": "Historical 43 - MCP TanStack Route",
+      "jobs": [
+        {
+          "id": "tanstack-route",
+          "before_check_name": "tanstack-route",
+          "after_check_name": "Historical 43 - tanstack-route (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "oc-app.yml",
+      "before_events": {
+        "push": {
+          "branches": [
+            "fix/oc-app-01-2026-10-14"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 45-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "OC APP Price Lifecycle",
+      "after_name": "Historical 45 - OC APP Price Lifecycle",
+      "jobs": [
+        {
+          "id": "price",
+          "before_check_name": "price",
+          "after_check_name": "Historical 45 - price (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        },
+        {
+          "id": "quality",
+          "before_check_name": "quality",
+          "after_check_name": "Historical 45 - quality (${{ inputs.historical_source }})",
+          "before_expected_source": null,
+          "after_expected_source": null,
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    },
+    {
+      "workflow": "owner-retention-catalog.yml",
+      "before_events": {
+        "pull_request": {
+          "paths": [
+            "tests/account-lifecycle/owner_catalog*",
+            "tests/account-lifecycle/test_owner_catalog_probe.py",
+            ".github/workflows/owner-retention-catalog.yml",
+            "changes/owner-retention-verify/**"
+          ]
+        }
+      },
+      "after_events": {
+        "workflow_dispatch": {
+          "inputs": {
+            "historical_source": {
+              "description": "Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance",
+              "required": true,
+              "type": "string"
+            }
+          }
+        }
+      },
+      "before_name": "Owner Retention Catalog",
+      "after_name": "Historical 43 - Owner Retention Catalog",
+      "jobs": [
+        {
+          "id": "catalog",
+          "before_check_name": "catalog",
+          "after_check_name": "Historical 43 - catalog (${{ inputs.historical_source }})",
+          "before_expected_source": "${{ github.event.pull_request.head.sha }}",
+          "after_expected_source": "${{ inputs.historical_source }}",
+          "all_original_steps_semantically_identical_except_declared_source_checkout": true,
+          "added_steps": [
+            "Validate explicit historical benchmark provenance before checkout",
+            "Verify historical checkout and phase inventory before credentials"
+          ]
+        }
+      ]
+    }
+  ],
+  "general_six_workflow_bytes_unchanged": [
+    "quality.yml",
+    "mcp-issuer-contract.yml",
+    "sec-ci-gate4-probe.yml",
+    "sec-env-gate4-probe.yml",
+    "ephemeral-financial-rules.yml",
+    "isolated-auth-smoke.yml"
+  ],
+  "natural_adapter": "Originalrun_expiry orchestration copied with fixedB50/original41inventory and private3/Authidentity invariants. All inherited timing/cryptography/no-refresh/challenge/peer methods remain the same functions. APPbinding source finding fixed before publication, with real global-resolution regression."
+}

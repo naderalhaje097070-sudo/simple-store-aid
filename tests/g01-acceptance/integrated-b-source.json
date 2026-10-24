@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "b3d41c05a9a7d9da5095fc31a79d8093a7885be3",
+  "snapshot_tree_before_manifest": "0036c3d2784af4456120636beffb05706559e934",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -11,17 +11,17 @@
     },
     {
       "path": ".github/workflows/account-lifecycle-baseline.yml",
-      "sha": "3f20fca3d2e2359443c1d312fef4ba785fa90f3f",
+      "sha": "26d9ba43e36a063f418f1e5d812a92928dfda0c7",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/account-lifecycle-correction.yml",
-      "sha": "7859834486de7a17f7a178b06bb8024449002869",
+      "sha": "1cd83ba5d3d320ca43e90ddb52599c416bd4440a",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/auth-natural-expiry.yml",
-      "sha": "e4b204767a7ac54eb9b87f1e09e16ce43c730b25",
+      "sha": "c9677fa0b7d76588c1db77657bf4adb91f798a83",
       "mode": "100644"
     },
     {
@@ -31,12 +31,12 @@
     },
     {
       "path": ".github/workflows/b-dep-verify.yml",
-      "sha": "fa5ad83dac63c44318e8e679560f26c8bcd33887",
+      "sha": "b5e56a1099fd8f5917acf8c4545df05b2afc448a",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/b1-composition.yml",
-      "sha": "6fdee102c44f60c7dc0b08e79f1687711ddf6cf1",
+      "sha": "92f829a299776f5388e733ec95ca560fdc1877af",
       "mode": "100644"
     },
     {
@@ -56,7 +56,12 @@
     },
     {
       "path": ".github/workflows/b5-lifecycle.yml",
-      "sha": "e7b8eb72a55375cde4585fa8472cb24c92a2c51a",
+      "sha": "dde885aa827698f5750f4d26fdf79d2622657818",
+      "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/b50-natural-expiry.yml",
+      "sha": "0b7c35e1a14b1f395753d7e2e8829ffb6b138c3c",
       "mode": "100644"
     },
     {
@@ -146,7 +151,7 @@
     },
     {
       "path": ".github/workflows/integration-verification.yml",
-      "sha": "1e760605af94cca17b22aac787bc222f790313d4",
+      "sha": "c383e67fdb4e2fd07e090212c3c06666366a0f79",
       "mode": "100644"
     },
     {
@@ -161,17 +166,17 @@
     },
     {
       "path": ".github/workflows/mcp-lifecycle-probe.yml",
-      "sha": "5a61132c16d6dc8d5f0dc62e67c80a283bdaf24a",
+      "sha": "ab34192a4dad47f83a9fa31ce6670da52abc1186",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/mcp-tanstack-route.yml",
-      "sha": "7c2b27d26672e60df055f02e0b4c3cca69fbf9d3",
+      "sha": "05ca509495fd11571d2b6852b963c092aca2ecff",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/oc-app.yml",
-      "sha": "99d28b6741598346e58c6be21f7764881b14616d",
+      "sha": "cbcbf4bcf171f82832a6661f9cd88f60c2fe9ddc",
       "mode": "100644"
     },
     {
@@ -181,7 +186,7 @@
     },
     {
       "path": ".github/workflows/owner-retention-catalog.yml",
-      "sha": "6a834cf0ac4991d3b9e1c4dfcf869513d21fb72d",
+      "sha": "9eeccae49637f9888c1afc8baa49a6e371194730",
       "mode": "100644"
     },
     {
@@ -1542,6 +1547,21 @@
     {
       "path": "tests/b5-lifecycle/test_contract.py",
       "sha": "f718cc2c498dce709eee2c4e62f31e3ac13a44c6",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b50-natural-expiry/probe.py",
+      "sha": "8ab4300b6a71dff4631c676069f126fe17eb8303",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b50-natural-expiry/test_adapter.py",
+      "sha": "e980d8e1adee89c0c1c7e19fa0294f05eace3a8a",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b7-ci-routing/contract.test.cjs",
+      "sha": "c862edc8b24ab93851460c882352de2da862e86c",
       "mode": "100644"
     },
     {

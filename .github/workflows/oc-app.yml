@@ -1,8 +1,11 @@
-name: OC APP Price Lifecycle
+name: Historical 45 - OC APP Price Lifecycle
 'on':
-  push:
-    branches:
-    - fix/oc-app-01-2026-10-14
+  workflow_dispatch:
+    inputs:
+      historical_source:
+        description: Explicit 40-hex repository commit for historical 45-migration benchmark, not current B50 acceptance
+        required: true
+        type: string
 permissions:
   contents: read
 jobs:
@@ -10,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      EXPECTED_SOURCE: ${{ github.sha }}
+      EXPECTED_SOURCE: ${{ inputs.historical_source }}
       MONGEZZ_DEPLOY_TARGET: ci
       MONGEZZ_E2E_WRITE_TEST: '1'
       CI_ISOLATED_SUPABASE: '1'
@@ -24,11 +27,43 @@ jobs:
       PYTHONDONTWRITEBYTECODE: '1'
       OC_APP_MODE: fixed
     steps:
+    - name: Validate explicit historical benchmark provenance before checkout
+      run: 'python - <<''PYHISTORY''
+
+        import os,re,json
+
+        source=os.environ[''HISTORICAL_SOURCE'']
+
+        assert re.fullmatch(''[0-9a-f]{40}'',source), ''Full historical commit SHA required''
+
+        print(json.dumps({''scope'':''historical benchmark only; not B50 PR acceptance'',''historical_source'':source,''routing_source'':os.environ[''HISTORICAL_ROUTING_SOURCE'']}))
+
+        PYHISTORY'
     - name: Checkout exact source
       uses: actions/checkout@v4
       with:
-        ref: ${{ github.sha }}
+        ref: ${{ inputs.historical_source }}
         persist-credentials: false
+    - name: Verify historical checkout and phase inventory before credentials
+      run: 'python - <<''PYPHASE''
+
+        import os,subprocess,json
+
+        from pathlib import Path
+
+        source=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()
+
+        assert source==os.environ[''HISTORICAL_SOURCE''], ''Historical source mismatch''
+
+        files=sorted(Path(''supabase/migrations'').glob(''*.sql''))
+
+        assert len(files)==45, ''Selected commit does not match historical schema phase''
+
+        subprocess.run([''git'',''diff'',''--quiet'',''HEAD'',''--''],check=True)
+
+        print(json.dumps({''scope'':''historical only'',''source'':source,''migration_count'':len(files)}))
+
+        PYPHASE'
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
@@ -162,13 +197,47 @@ jobs:
         path: ${{ runner.temp }}/route-evidence/
         retention-days: 7
         if-no-files-found: warn
+    name: Historical 45 - price (${{ inputs.historical_source }})
   quality:
     runs-on: ubuntu-latest
     steps:
+    - name: Validate explicit historical benchmark provenance before checkout
+      run: 'python - <<''PYHISTORY''
+
+        import os,re,json
+
+        source=os.environ[''HISTORICAL_SOURCE'']
+
+        assert re.fullmatch(''[0-9a-f]{40}'',source), ''Full historical commit SHA required''
+
+        print(json.dumps({''scope'':''historical benchmark only; not B50 PR acceptance'',''historical_source'':source,''routing_source'':os.environ[''HISTORICAL_ROUTING_SOURCE'']}))
+
+        PYHISTORY'
     - name: Checkout
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
+        ref: ${{ inputs.historical_source }}
+    - name: Verify historical checkout and phase inventory before credentials
+      run: 'python - <<''PYPHASE''
+
+        import os,subprocess,json
+
+        from pathlib import Path
+
+        source=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()
+
+        assert source==os.environ[''HISTORICAL_SOURCE''], ''Historical source mismatch''
+
+        files=sorted(Path(''supabase/migrations'').glob(''*.sql''))
+
+        assert len(files)==45, ''Selected commit does not match historical schema phase''
+
+        subprocess.run([''git'',''diff'',''--quiet'',''HEAD'',''--''],check=True)
+
+        print(json.dumps({''scope'':''historical only'',''source'':source,''migration_count'':len(files)}))
+
+        PYPHASE'
     - name: Setup Bun
       uses: oven-sh/setup-bun@v2
       with:
@@ -228,3 +297,7 @@ jobs:
 
           '
         if-no-files-found: warn
+    name: Historical 45 - quality (${{ inputs.historical_source }})
+env:
+  HISTORICAL_SOURCE: ${{ inputs.historical_source }}
+  HISTORICAL_ROUTING_SOURCE: ${{ github.sha }}

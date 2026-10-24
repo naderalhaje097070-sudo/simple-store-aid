@@ -11,6 +11,24 @@ name: Integrated G0 verification
     - package.json
     - bun.lock
     - .github/workflows/integration-verification.yml
+  pull_request:
+    branches:
+    - main
+    types:
+    - opened
+    - synchronize
+    - reopened
+    paths:
+    - src/**
+    - config/**
+    - scripts/**
+    - tests/**
+    - supabase/migrations/**
+    - package.json
+    - bun.lock
+    - vite.config.ts
+    - tsconfig.json
+    - .github/workflows/**
 permissions:
   contents: read
 jobs:
@@ -21,7 +39,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        ref: ${{ github.sha }}
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
         persist-credentials: false
     - name: Setup Bun
       uses: oven-sh/setup-bun@v2
@@ -49,19 +67,27 @@ jobs:
     - name: Unit tests
       run: bun run test:unit
     - name: Type erasure and actual hook callback wire replay
-      run: |
-        node --test tests/b-dependency/webhook-bridge.test.cjs
+      run: 'node --test tests/b-dependency/webhook-bridge.test.cjs
+
         node --test tests/account-lifecycle/webhook_handler.test.cjs
+
         node tests/g0-integrated-types/runtime.cjs
+
+        '
     - name: Build entry failure and forwarding contracts
       run: python tests/g0-integrated-types/test_build_entry.py
     - name: Focused foundation read and CI regressions
-      run: |
-        node tests/app-financial-read/build.mjs "$RUNNER_TEMP/app-financial-read"
+      run: 'node tests/app-financial-read/build.mjs "$RUNNER_TEMP/app-financial-read"
+
         node tests/app-financial-read/replay.mjs "$RUNNER_TEMP/app-financial-read"
+
         node tests/trial-status/replay.mjs "$RUNNER_TEMP/trial-status"
+
         node tests/day-close-clock/replay.mjs "$RUNNER_TEMP/day-close-clock"
+
         python tests/test_changed_lint.py "$RUNNER_TEMP/changed-lint"
+
+        '
     - name: Offline server environment boundary
       run: bun tests/gate4/sec-env/server-boundary.ts
     - name: Setup Python for browser containment regression
@@ -102,11 +128,15 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: quality-diagnostics
-        path: |
-          /tmp/lint-files.txt
+        path: '/tmp/lint-files.txt
+
           /tmp/lint.log
+
           ${{ runner.temp }}/app-financial-read/browser.json
+
           ${{ runner.temp }}/app-financial-read/replay.json
+
+          '
         if-no-files-found: warn
     - name: Upload source identity receipt
       if: always()
@@ -118,7 +148,7 @@ jobs:
         if-no-files-found: warn
     timeout-minutes: 15
     env:
-      EXPECTED_SOURCE: ${{ github.sha }}
+      EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha || github.sha }}
       PYTHONDONTWRITEBYTECODE: '1'
   audit:
     runs-on: ubuntu-latest
@@ -126,8 +156,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: ${{ github.sha }}
+        ref: ${{ github.event.pull_request.head.sha || github.sha }}
         persist-credentials: false
+        fetch-depth: 0
     - uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.4.0

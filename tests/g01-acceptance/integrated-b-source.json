@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "0036c3d2784af4456120636beffb05706559e934",
+  "snapshot_tree_before_manifest": "5e5d301cd1e1794b4803ea75d807e2c5c1e110b2",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -26,7 +26,7 @@
     },
     {
       "path": ".github/workflows/b-dep-prepare.yml",
-      "sha": "eb229601ac20e0d5149cf79c9c16f51db7e1fd61",
+      "sha": "291fe2ac8263d397ba548245ec094200d8b73d7b",
       "mode": "100644"
     },
     {

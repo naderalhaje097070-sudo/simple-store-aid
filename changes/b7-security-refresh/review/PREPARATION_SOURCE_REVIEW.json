@@ -1,0 +1,37 @@
+{
+  "source_file": "monjez/.github/workflows/b-dep-prepare.yml",
+  "sha256": "320576e33e815209f4d9485282a7fa6b33d0d456201765f78056b35566852df9",
+  "git_blob": "291fe2ac8263d397ba548245ec094200d8b73d7b",
+  "protected_entries": 380,
+  "manifest_delta": [
+    ".github/workflows/b-dep-prepare.yml"
+  ],
+  "all50_and_original_SQL_preserved": true,
+  "metadata_guard_cases": [
+    {
+      "case": "positive",
+      "expected_exit_success": true,
+      "actual_exit": 0,
+      "passed": true
+    },
+    {
+      "case": "release-age-negative",
+      "expected_exit_success": false,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "case": "integrity-negative",
+      "expected_exit_success": false,
+      "actual_exit": 1,
+      "passed": true
+    },
+    {
+      "case": "version-negative",
+      "expected_exit_success": false,
+      "actual_exit": 1,
+      "passed": true
+    }
+  ],
+  "source_verdict": "Eligible for isolated preparation only; no candidate lock/runtime acceptance"
+}

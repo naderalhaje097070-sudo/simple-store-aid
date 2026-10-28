@@ -1,0 +1,124 @@
+{
+  "source": "8dd72a45019217909aee8fb293363490b0f052f0",
+  "native_run": 40667976993,
+  "job": 122747249149,
+  "artifact": 12806603715,
+  "artifact_sha256": "5868c04d6c4d4c7ccb377a698106679a8a6a5d137787226082eee8c6ff28f64d",
+  "reviewer": "/root/b7_security_review",
+  "native_node": "v22.23.3",
+  "patched_scenarios": {
+    "mode": "patched",
+    "node": "v22.23.3",
+    "compressedObservation": {
+      "status": 0,
+      "signal": null,
+      "stderr": ""
+    },
+    "results": [
+      {
+        "name": "compressed trailing bytes preserve process and independent raw consumer",
+        "advisory": "GHSA-27r3-jxmh-p828",
+        "pass": true
+      },
+      {
+        "name": "bounded array rejects before element work",
+        "advisory": "GHSA-mrhx-c7xc-m3w5",
+        "pass": true
+      },
+      {
+        "name": "encoded schemes remain inert",
+        "advisory": "GHSA-w74x-v6f9-j3xg",
+        "pass": true
+      },
+      {
+        "name": "relative normalization retains resolution target",
+        "advisory": "GHSA-xhq7-xmqj-769h",
+        "pass": true
+      },
+      {
+        "name": "ambiguous authority fails closed",
+        "advisory": "GHSA-wjr9-j795-jxcr",
+        "pass": true
+      },
+      {
+        "name": "suffix output cannot inject scheme",
+        "advisory": "GHSA-333x-w4r6-6crp",
+        "pass": true
+      },
+      {
+        "name": "serialized spoofed function cannot close HTML script",
+        "advisory": "GHSA-m5mm-p8h7-m29v",
+        "pass": true
+      },
+      {
+        "name": "valid schemas transforms URI and serializer still work",
+        "pass": true
+      }
+    ],
+    "ok": true
+  },
+  "baseline": {
+    "mode": "vulnerable-baseline",
+    "node": "v22.23.3",
+    "compressedObservation": {
+      "status": 0,
+      "signal": null,
+      "stderr": ""
+    },
+    "results": [
+      {
+        "name": "compressed trailing bytes preserve process and independent raw consumer",
+        "advisory": "GHSA-27r3-jxmh-p828",
+        "pass": true
+      },
+      {
+        "name": "bounded array rejects before element work",
+        "advisory": "GHSA-mrhx-c7xc-m3w5",
+        "pass": false,
+        "error": "Expected values to be strictly equal:\n\n3 !== 0\n"
+      },
+      {
+        "name": "encoded schemes remain inert",
+        "advisory": "GHSA-w74x-v6f9-j3xg",
+        "pass": false,
+        "error": "Expected \"actual\" to be strictly unequal to:\n\n'javascript'"
+      },
+      {
+        "name": "relative normalization retains resolution target",
+        "advisory": "GHSA-xhq7-xmqj-769h",
+        "pass": false,
+        "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'https://example.invalid/b'\n- 'https://example.invalid/one/two/b'\n                           ^\n"
+      },
+      {
+        "name": "ambiguous authority fails closed",
+        "advisory": "GHSA-wjr9-j795-jxcr",
+        "pass": false,
+        "error": "missing parse error for \"http://a@b@evil.example/\""
+      },
+      {
+        "name": "suffix output cannot inject scheme",
+        "advisory": "GHSA-333x-w4r6-6crp",
+        "pass": false,
+        "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'javascript'\n- undefined\n"
+      },
+      {
+        "name": "serialized spoofed function cannot close HTML script",
+        "advisory": "GHSA-m5mm-p8h7-m29v",
+        "pass": false,
+        "error": "The expression evaluated to a falsy value:\n\n  assert.ok(!/<\\/script(?:[\\t\\n\\f\\r />]|$)/i.test(output))\n"
+      },
+      {
+        "name": "valid schemas transforms URI and serializer still work",
+        "pass": true
+      }
+    ],
+    "ok": false
+  },
+  "finding": {
+    "id": "B7-DEP-EVIDENCE-02",
+    "severity": "Medium",
+    "status": "unresolved at8dd",
+    "detail": "Strict seven-finding vulnerable-baseline oracle fails honestly: only6comparative regressions reproduce; body-parser childhealthy/noerror. Preservefailedrun, diagnoseversion/source/runtime and narrowreproductionclaim ifnot reproducible; neverweaken currentpatched bodyboundary/health/rawconsumer assertions."
+  },
+  "whole_head_outcome": "Blocked pending correctedbaselineattribution/formatting and finalsamecandidatePR gates/evidence"
+}

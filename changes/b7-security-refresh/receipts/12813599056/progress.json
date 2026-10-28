@@ -1,0 +1,330 @@
+{
+  "source_sha": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+  "controls": [
+    {
+      "name": "fresh_empty_stack",
+      "passed": true
+    },
+    {
+      "name": "fixedB50_and_original41_source",
+      "passed": true
+    },
+    {
+      "name": "exact_effective50_migrations",
+      "passed": true
+    },
+    {
+      "name": "actual_built_app",
+      "passed": true
+    },
+    {
+      "name": "pinned_live_provider_versions",
+      "passed": true
+    },
+    {
+      "name": "expiry_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "expiry_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "expiry_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "expiry_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "expiry_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "distinct_tenants",
+      "passed": true
+    },
+    {
+      "name": "oauth_client_registered",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_initial",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_before",
+      "passed": true
+    },
+    {
+      "name": "old_provider_token_is_valid",
+      "passed": true
+    },
+    {
+      "name": "initial_active_users_and_session",
+      "passed": true
+    },
+    {
+      "name": "B_before_unexpired",
+      "passed": true
+    },
+    {
+      "name": "B_before_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_B_before",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_B_before",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_B_before",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_B_before",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_B_before",
+      "passed": true
+    },
+    {
+      "name": "B_before_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "enough_validity_for_positives",
+      "passed": true
+    },
+    {
+      "name": "real_time_elapsed_without_clock_shift",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_expired",
+      "passed": true
+    },
+    {
+      "name": "same_signed_token_now_expired",
+      "passed": true
+    },
+    {
+      "name": "B_expired_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "fresh_password_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "crypto_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_unexpired",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_A_fresh",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_A_fresh",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_A_fresh",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "fresh_password_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_existing_consent_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_new",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_new",
+      "passed": true
+    },
+    {
+      "name": "B_new_unexpired",
+      "passed": true
+    },
+    {
+      "name": "B_new_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_B_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_B_new",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_B_new",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_B_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_B_new",
+      "passed": true
+    },
+    {
+      "name": "B_new_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_old_again",
+      "passed": true
+    },
+    {
+      "name": "B_old_again_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "active_identity_session_and_token_continuity",
+      "passed": true
+    },
+    {
+      "name": "ordered_natural_expiry_oracle",
+      "passed": true
+    },
+    {
+      "name": "no_external_fetch_attempts",
+      "passed": true
+    },
+    {
+      "name": "app_no_native_outbound_attempts",
+      "passed": true
+    }
+  ]
+}

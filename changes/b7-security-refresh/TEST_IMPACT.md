@@ -1,5 +1,7 @@
-# Verification
+# Tests and evidence
 
-Retain failed rawbaseline and prior32af successful evidence. Preparation: frozen baseline, metadata/tar integrity/releaseage, official wholelock, package equality, candidate frozen install/full supported audit, source invariance. No preparation source called finalaccepted source.
+Retain the failed audit archives, the initial failed body comparison, the preparation import-shape failure and every prior review. Preparation proves metadata/integrity/release age, deterministic three-file parent patch, whole-lock generation, package equality, frozen consumer acceptance and complete audit. It does not replace final application acceptance.
 
-Final: bounded delayed compressedtrailingbytes plus healthyrequest, constrainedcollection earlyabort and valid Zod peers, allfour URI cases and valid schemas, serializer scriptboundary spoof plus normal data. Reproduce on vulnerable versions where feasible, without external service or code execution. Current compatibility/types/lint/build/wire/identity, actualentry/HTTP, completeaudit, B5fresh/upgrade/billing/defaultSSR and real180expiry/cleanup plus independent review. Record exact SHA and limitations.
+Current-source tests cover the original seven dependency boundaries, exact old-graph comparison, eight qs cases in both serialization modes and legitimate stringification, plus both actual resolver module formats. Full compatibility includes types, lint, build, original transport tests and exact source inventory. Final PR-head lifecycle uses fresh50 and populated original41→50 with real local OAuth, signed billing, default Cloudflare SSR and real180-second same-token expiry/cleanup.
+
+Counts describe named behavior/setup/invariance observations, not distinct vulnerabilities or complete product coverage. All results must retain actual source, event, run and attempt. Historical manual workflows remain distinctly labeled and are not substitutes for current gates.

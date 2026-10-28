@@ -1,0 +1,51 @@
+{
+  "mode": "patched",
+  "node": "v22.23.3",
+  "compressedObservation": {
+    "status": 0,
+    "signal": null,
+    "stderr": ""
+  },
+  "results": [
+    {
+      "name": "compressed trailing bytes preserve process and independent raw consumer",
+      "advisory": "GHSA-27r3-jxmh-p828",
+      "pass": true
+    },
+    {
+      "name": "bounded array rejects before element work",
+      "advisory": "GHSA-mrhx-c7xc-m3w5",
+      "pass": true
+    },
+    {
+      "name": "encoded schemes remain inert",
+      "advisory": "GHSA-w74x-v6f9-j3xg",
+      "pass": true
+    },
+    {
+      "name": "relative normalization retains resolution target",
+      "advisory": "GHSA-xhq7-xmqj-769h",
+      "pass": true
+    },
+    {
+      "name": "ambiguous authority fails closed",
+      "advisory": "GHSA-wjr9-j795-jxcr",
+      "pass": true
+    },
+    {
+      "name": "suffix output cannot inject scheme",
+      "advisory": "GHSA-333x-w4r6-6crp",
+      "pass": true
+    },
+    {
+      "name": "serialized spoofed function cannot close HTML script",
+      "advisory": "GHSA-m5mm-p8h7-m29v",
+      "pass": true
+    },
+    {
+      "name": "valid schemas transforms URI and serializer still work",
+      "pass": true
+    }
+  ],
+  "ok": true
+}

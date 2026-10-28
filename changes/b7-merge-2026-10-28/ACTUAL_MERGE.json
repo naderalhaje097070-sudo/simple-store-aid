@@ -1,0 +1,40 @@
+{
+  "sha": "36f99bf025341ef5dfc66b54b1cfe15ad92ffde5",
+  "node_id": "C_kwDOTGGTG9oAKDM2Zjk5YmYwMjUzNDFlZjVkZmM2NmI1NGIxY2ZlMTVhZDkyZmZkZTU",
+  "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/commits/36f99bf025341ef5dfc66b54b1cfe15ad92ffde5",
+  "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/commit/36f99bf025341ef5dfc66b54b1cfe15ad92ffde5",
+  "author": {
+    "name": "naderalhaje097070-sudo",
+    "email": "naderalhaje097070@gmail.com",
+    "date": "2026-10-28T20:34:55Z"
+  },
+  "committer": {
+    "name": "GitHub",
+    "email": "noreply@github.com",
+    "date": "2026-10-28T20:34:55Z"
+  },
+  "tree": {
+    "sha": "83ccbf2dc504b4f51b1e1b3f84174b42da65862b",
+    "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/trees/83ccbf2dc504b4f51b1e1b3f84174b42da65862b"
+  },
+  "message": "Merge pull request #71: accepted B account safeguards\n\nOwner explicitly approved PR71/package B merge and subsequent coverage settlement. Preserve reviewed source086986fd and original ancestry. Bounded acceptance only; no deployment or C/release acceptance.",
+  "parents": [
+    {
+      "sha": "18700dee8ecdda2e457c0aa18c4f83a81b042019",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/commits/18700dee8ecdda2e457c0aa18c4f83a81b042019",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/commit/18700dee8ecdda2e457c0aa18c4f83a81b042019"
+    },
+    {
+      "sha": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/commits/086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/commit/086986fd5ab36a4718e38e7a86a84705cc6fdc7e"
+    }
+  ],
+  "verification": {
+    "verified": true,
+    "reason": "valid",
+    "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq4lxvCRC1aQ7uu5UhlAAALbMQAC+8Z6LKUn25qDvNONMgT5HO\nc6DN7kSWXfRdyIGTziv/Irw3EfSLOKGlJVewetrID4/NY4hqvhVuTN2muEiUhydE\njlAdewFYSDMyhLQ6xvXbDWBXGfG65cZE59hdazL74lQePQI/8Kc6DNglHXDlt/Sa\nWsDzEHc88CK6I+M/n6PTbQaCAKG8Po5Zbq5MBo5P9TDUlR83TWZwHpi8zrIh6Ewt\n1KvR68ixTfi4rmATT36cN/xarG8flRFewcoCwJaS3MNgHvhpWqyxj0EvlS9k9Bb2\n+vzvSP9iInAyvsSFC5JkzbLC+/XwMP0tfgoXTZVGs1mU4omIecfFqYgb/9VrozKB\n3SQrYFo9FkCMBQ7zBiRKusOg6HvV4Vzu0/CLJQan5fWgg8EurRTZhzp6YCVDV+op\neHb7OlGqvUVdZpdA3Wyb+aG4JY4CbWmY5aYz7jy4FmSi+rDykkv6qs1TWxHoZeUn\no8+eZabt8Vjfh84651ov/0W4zUs7wmagiOC8yuV2GvVDxckVNHbKtkfHgLut9HyS\nDjOp6erhj8qsvzeVVCbLEXQ+XxCgvp88iwzeTUxpgHb0p9GWjZlMWIGNOgnWpww7\nzQeQmlybkLWmVJXBxeGHIJ/kKysVQnF4Rdyn8yHgeJc3i7Exy2vtBs41dDJzXz/m\nZ3yZnxINK6PgTwhzQdec\n=OiEl\n-----END PGP SIGNATURE-----\n",
+    "payload": "tree 83ccbf2dc504b4f51b1e1b3f84174b42da65862b\nparent 18700dee8ecdda2e457c0aa18c4f83a81b042019\nparent 086986fd5ab36a4718e38e7a86a84705cc6fdc7e\nauthor naderalhaje097070-sudo <naderalhaje097070@gmail.com> 1793219695 +0200\ncommitter GitHub <noreply@github.com> 1793219695 +0200\n\nMerge pull request #71: accepted B account safeguards\n\nOwner explicitly approved PR71/package B merge and subsequent coverage settlement. Preserve reviewed source086986fd and original ancestry. Bounded acceptance only; no deployment or C/release acceptance.",
+    "verified_at": "2026-10-28T20:34:55Z"
+  }
+}

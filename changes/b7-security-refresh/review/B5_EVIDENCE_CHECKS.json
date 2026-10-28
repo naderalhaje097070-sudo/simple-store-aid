@@ -1,0 +1,65 @@
+{
+  "12814007026": {
+    "sha256": "413ef1e443e62ff8122a536d999b73b048653f9e6db6fbf4b604b803e23e9e4b",
+    "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+    "unique_true_checks": 441,
+    "cleanup": {
+      "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "status_removed": true,
+      "runtime_removed": true,
+      "processes_removed": true,
+      "stack_removed": true,
+      "credential_scan_pass": true
+    },
+    "stored_sale_payment_stock_expected_and_links_match": true,
+    "closure_only_intended_private_marker_changed": true
+  },
+  "12813508194": {
+    "sha256": "0227b91c98f16fe8ae8232dcf6ac64baf350e5536aa21c38fd1862de9bd3429c",
+    "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+    "unique_true_checks": 446,
+    "cleanup": {
+      "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "status_removed": true,
+      "runtime_removed": true,
+      "processes_removed": true,
+      "stack_removed": true,
+      "credential_scan_pass": true
+    },
+    "stored_sale_payment_stock_expected_and_links_match": true,
+    "closure_only_intended_private_marker_changed": true,
+    "original22_public_and_auth_upgrade_exact": true
+  },
+  "12813348378": {
+    "sha256": "6d39834e7e7a22b2c8334f8c6693211f5124933c236b83222adb768a7489f81c",
+    "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+    "unique_true_checks": 206,
+    "cleanup": {
+      "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "credential_free_canary_rejected": true,
+      "unexpected_ipv4_rejects": 0,
+      "ipv6_rejects": 0,
+      "status_removed": true,
+      "state_removed": true,
+      "stack_removed": true
+    }
+  },
+  "12813933031": {
+    "sha256": "594a1c28b4e7a064d72187370661a4d341b0840ec923a4bc4201caf674a8dd0f",
+    "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+    "unique_true_checks": 42,
+    "cleanup": {
+      "status_removed": true,
+      "worker_env_removed": true,
+      "processes_removed": true,
+      "containers_removed": true,
+      "process_state": "no_processes",
+      "container_state": "absent",
+      "source_sha": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+      "passed": true
+    },
+    "current_graph_modules": 34,
+    "all_graph_module_public_hashes_match_runtime": true,
+    "both_egress_traces_complete_and_zero_unexpected_packets": true
+  }
+}

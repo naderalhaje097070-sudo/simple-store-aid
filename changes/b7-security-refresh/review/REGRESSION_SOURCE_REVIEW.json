@@ -1,0 +1,42 @@
+{
+  "reviewer": "/root/b7_security_review",
+  "files": [
+    {
+      "path": "monjez/.github/workflows/b7-dependency-regressions.yml",
+      "sha256": "369d30fa06bcadb4f4d734c61e7a402f88e8662a9a9c235f07813e41aebd183e"
+    },
+    {
+      "path": "monjez/.github/workflows/b-dep-prepare.yml",
+      "sha256": "4f5078c68014da40774b8c9e75148517fe7b9fcf3a8408755947f0098e64ab4e"
+    },
+    {
+      "path": "monjez/tests/b7-dependency-regressions/check.cjs",
+      "sha256": "cec6d6fd3d8ef18189fd6c74005c520e010bcc003d79bfbc443373a59b5d6c3b"
+    },
+    {
+      "path": "monjez/tests/b7-dependency-regressions/compressed-child.cjs",
+      "sha256": "c451719b67f17849ba786b543242050430e3313c5e8833b8fa6586b4d7ea34b8"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B7-DEP-ORACLE-01",
+      "severity": "Medium",
+      "status": "source-addressed before publication",
+      "detail": "Encoded-scheme URI resolve rejects malformed scheme rather than returning inertoutput; assertions now require exact malformed-scheme error."
+    },
+    {
+      "id": "B7-DEP-ORACLE-02",
+      "severity": "Medium",
+      "status": "source-addressed before publication",
+      "detail": "Bare suffix option interprets authority and preserves malformed input; corrected scenario explicitly selects scheme x/noauthority before proving first-segment colon escape."
+    },
+    {
+      "id": "B7-DEP-EVIDENCE-01",
+      "severity": "Medium",
+      "status": "source-addressed before publication",
+      "detail": "Baseline compressed-child generic failure could count timeout as advisory reproduction; acceptance now requires native exit1 and precise decoder errorcode."
+    }
+  ],
+  "verdict": "Eligible for actual native verification; no remaining introduced blocking source finding in reviewed proposal. No final native/merge acceptance."
+}

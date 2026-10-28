@@ -1,0 +1,58 @@
+{
+  "mode": "vulnerable-baseline",
+  "node": "v22.23.3",
+  "compressedObservation": {
+    "status": 1,
+    "signal": null,
+    "stderr": "node:events:497\n      throw er; // Unhandled 'error' event\n      ^\n\nError: incorrect header check\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at Zlib.zlibOnError [as onerror] (node:zlib:191:17)\nEmitted 'error' event on Gunzip instance at:\n    at Gunzip.onerror (node:internal/streams/readable:1028:14)\n    at Gunzip.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {\n  errno: -3,\n  code: 'Z_DATA_ERROR'\n}\n\nNode.js v22.23.3\n"
+  },
+  "results": [
+    {
+      "name": "compressed trailing bytes preserve process and independent raw consumer",
+      "advisory": "GHSA-27r3-jxmh-p828",
+      "pass": false,
+      "error": "node:events:497\n      throw er; // Unhandled 'error' event\n      ^\n\nError: incorrect header check\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at Zlib.zlibOnError [as onerror] (node:zlib:191:17)\nEmitted 'error' event on Gunzip instance at:\n    at Gunzip.onerror (node:internal/streams/readable:1028:14)\n    at Gunzip.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/s"
+    },
+    {
+      "name": "bounded array rejects before element work",
+      "advisory": "GHSA-mrhx-c7xc-m3w5",
+      "pass": false,
+      "error": "Expected values to be strictly equal:\n\n3 !== 0\n"
+    },
+    {
+      "name": "encoded schemes remain inert",
+      "advisory": "GHSA-w74x-v6f9-j3xg",
+      "pass": false,
+      "error": "Expected \"actual\" to be strictly unequal to:\n\n'javascript'"
+    },
+    {
+      "name": "relative normalization retains resolution target",
+      "advisory": "GHSA-xhq7-xmqj-769h",
+      "pass": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'https://example.invalid/b'\n- 'https://example.invalid/one/two/b'\n                           ^\n"
+    },
+    {
+      "name": "ambiguous authority fails closed",
+      "advisory": "GHSA-wjr9-j795-jxcr",
+      "pass": false,
+      "error": "missing parse error for \"http://a@b@evil.example/\""
+    },
+    {
+      "name": "suffix output cannot inject scheme",
+      "advisory": "GHSA-333x-w4r6-6crp",
+      "pass": false,
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'javascript'\n- undefined\n"
+    },
+    {
+      "name": "serialized spoofed function cannot close HTML script",
+      "advisory": "GHSA-m5mm-p8h7-m29v",
+      "pass": false,
+      "error": "The expression evaluated to a falsy value:\n\n  assert.ok(!/<\\/script(?:[\\t\\n\\f\\r />]|$)/i.test(output))\n"
+    },
+    {
+      "name": "valid schemas transforms URI and serializer still work",
+      "pass": true
+    }
+  ],
+  "ok": true
+}

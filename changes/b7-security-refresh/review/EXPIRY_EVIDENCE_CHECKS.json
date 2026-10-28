@@ -1,0 +1,48 @@
+{
+  "artifact": 12813599056,
+  "run": 40683442334,
+  "sha256": "bc09f6a726fc9c061677eaca946ab2627d0b3a07071c243a538c606529c53978",
+  "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+  "all81_unique_checks_true": true,
+  "ordered35_actual_observations_true": true,
+  "ttl_seconds": 180,
+  "timing": {
+    "iat": 1793188682,
+    "exp": 1793188862,
+    "positive_finished": 1793188684.516498,
+    "max_verifier_leeway": 30,
+    "wait_margin": 5,
+    "real_wait_seconds": 212.48323512077332,
+    "monotonic_wait_seconds": 212.48323563000002,
+    "clock_drift_seconds": 5.0922670880027e-07,
+    "negative_started": 1793188897.0001216
+  },
+  "continuity": {
+    "accounts_active": true,
+    "old_session_exists": true,
+    "no_auto_refresh": true,
+    "same_old_token": true,
+    "new_token_distinct": true
+  },
+  "flow_counts": {
+    "password": 4,
+    "authorization_code": 3,
+    "refresh_token": 0
+  },
+  "all_original22_public_private3_and_auth_fingerprints_exact": true,
+  "crypto_signature_identity_and_time_phase_consistent": true,
+  "cleanup": {
+    "status_file_removed": true,
+    "application_processes_removed": true,
+    "stack_containers_removed": true
+  },
+  "no_unexpected_outbound_packets": true,
+  "private_logs_and_published_evidence_known_credential_checks_pass": true,
+  "limits": [
+    "Cloudflare/production",
+    "nonempty financial or foreign payloads",
+    "concurrency",
+    "refresh policy",
+    "complete L13/lifecycle/isolation acceptance"
+  ]
+}

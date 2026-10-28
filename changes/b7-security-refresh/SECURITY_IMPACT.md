@@ -1,5 +1,7 @@
 # Security impact
 
-Baseline: GHSA-27r3-jxmh-p828 body-parser High; GHSA-mrhx-c7xc-m3w5 Zod High; GHSA-w74x-v6f9-j3xg and GHSA-wjr9-j795-jxcr fast-uri Moderate; GHSA-xhq7-xmqj-769h and GHSA-333x-w4r6-6crp fast-uri Low; GHSA-m5mm-p8h7-m29v serialize-javascript Low. Official GitHub advisories give patches2.4.0/4.6.6/3.1.9/7.1.3 respectively. Preparation captures official registry time/integrity.
+The original seven findings cover compressed-body trailing bytes, constrained-collection validation work, four URI-normalization boundaries and serializer function-source escaping. Their official patch versions are recorded in intake. Later qs comma serialization and returned-object prototype findings are addressed by qs6.16.1 and actual removal of deepmerge from the graph.
 
-No ignored advisory, threshold waiver, release-age exception, test weakening or identity bypass. New audit findings remain blockers. Zod early constrainedcollection rejection and serializer function handling need focused compatibility regressions; no generic memory-DoS elimination claim.
+No advisory ignore, audit threshold, release-age exception, fake fixed version, downgrade or source-identity waiver is introduced. Official metadata, actual tar SHA512, release age of at least86400seconds and the pinned Bun generator are checked. The complete current supported audit must return{} with exit0.
+
+Focused tests remain bounded and local, with normal-data controls. The first body-parser comparison failed honestly because32KiB did not reproduce; the official100KiB shape reproduces a native decoder failure on the exact old2.3.0 source, while patched health/raw-consumer assertions pass. All failed evidence is retained. This is local library evidence, not a live service exposure claim.

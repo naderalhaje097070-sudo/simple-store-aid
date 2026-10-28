@@ -1,0 +1,1319 @@
+{
+  "phase": "conflict",
+  "started_ms": 1793188731122,
+  "collected_ms": 1793188733614,
+  "native_counters_before": {
+    "ipv4": 1,
+    "ipv6": 0
+  },
+  "native_counters_after": {
+    "ipv4": 1,
+    "ipv6": 0
+  },
+  "native_packet_delta": {
+    "ipv4": 0,
+    "ipv6": 0
+  },
+  "syscalls": {
+    "events": [
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732045,
+        "syscall": "connect",
+        "fd": 22,
+        "address": null,
+        "port": null,
+        "return_value": -1,
+        "errno": "ENOENT",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732045,
+        "syscall": "connect",
+        "fd": 22,
+        "address": null,
+        "port": null,
+        "return_value": -1,
+        "errno": "ENOENT",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732411,
+        "syscall": "sendto",
+        "fd": 25,
+        "address": null,
+        "port": null,
+        "return_value": 20,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732411,
+        "syscall": "sendto",
+        "fd": 25,
+        "address": null,
+        "port": null,
+        "return_value": 20,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732728,
+        "syscall": "connect",
+        "fd": 29,
+        "address": "127.0.0.1",
+        "port": 9229,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732731,
+        "syscall": "getsockopt",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732732,
+        "syscall": "sendto",
+        "fd": 21,
+        "address": null,
+        "port": null,
+        "return_value": 129,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732737,
+        "syscall": "connect",
+        "fd": 23,
+        "address": "127.0.0.1",
+        "port": 37637,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732738,
+        "syscall": "getsockopt",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732738,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 255,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732738,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 97,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732742,
+        "syscall": "connect",
+        "fd": 27,
+        "address": "127.0.0.1",
+        "port": 8080,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732753,
+        "syscall": "getsockopt",
+        "fd": 27,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732761,
+        "syscall": "connect",
+        "fd": 26,
+        "address": "127.0.0.1",
+        "port": 37637,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732761,
+        "syscall": "sendto",
+        "fd": 24,
+        "address": null,
+        "port": null,
+        "return_value": 51,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732762,
+        "syscall": "getsockopt",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732762,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 207,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732762,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 97,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732864,
+        "syscall": "connect",
+        "fd": 36,
+        "address": "127.0.0.1",
+        "port": 8080,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188732867,
+        "syscall": "getsockopt",
+        "fd": 36,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732870,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 207,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732870,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 97,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188732870,
+        "syscall": "sendto",
+        "fd": 27,
+        "address": null,
+        "port": null,
+        "return_value": 51,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733282,
+        "syscall": "connect",
+        "fd": 29,
+        "address": "127.0.0.1",
+        "port": 37637,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733283,
+        "syscall": "connect",
+        "fd": 30,
+        "address": "127.0.0.1",
+        "port": 37637,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733283,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 256,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733283,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 561,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733283,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 255,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733284,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 57,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733285,
+        "syscall": "connect",
+        "fd": 31,
+        "address": "127.0.0.1",
+        "port": 41931,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733286,
+        "syscall": "getsockopt",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 256,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 128,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "getsockopt",
+        "fd": 30,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "sendto",
+        "fd": 30,
+        "address": null,
+        "port": null,
+        "return_value": 256,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "sendto",
+        "fd": 30,
+        "address": null,
+        "port": null,
+        "return_value": 100,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "getsockopt",
+        "fd": 31,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733287,
+        "syscall": "sendto",
+        "fd": 31,
+        "address": null,
+        "port": null,
+        "return_value": 340,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733290,
+        "syscall": "connect",
+        "fd": 32,
+        "address": "127.0.0.1",
+        "port": 43039,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9778,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733290,
+        "syscall": "sendto",
+        "fd": 51,
+        "address": null,
+        "port": null,
+        "return_value": 129,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733290,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 207,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733290,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 96,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733291,
+        "syscall": "sendto",
+        "fd": 24,
+        "address": null,
+        "port": null,
+        "return_value": 51,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733291,
+        "syscall": "getsockopt",
+        "fd": 32,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733291,
+        "syscall": "sendto",
+        "fd": 32,
+        "address": null,
+        "port": null,
+        "return_value": 264,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733293,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 255,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733294,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 56,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733294,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 255,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733295,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 98,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9776,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733380,
+        "syscall": "sendto",
+        "fd": 53,
+        "address": null,
+        "port": null,
+        "return_value": 100,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9776,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733381,
+        "syscall": "sendto",
+        "fd": 53,
+        "address": null,
+        "port": null,
+        "return_value": 1312,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733383,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 207,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733383,
+        "syscall": "sendto",
+        "fd": 23,
+        "address": null,
+        "port": null,
+        "return_value": 85,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733384,
+        "syscall": "sendto",
+        "fd": 19,
+        "address": null,
+        "port": null,
+        "return_value": 106,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733385,
+        "syscall": "sendto",
+        "fd": 19,
+        "address": null,
+        "port": null,
+        "return_value": 5,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733393,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 256,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733394,
+        "syscall": "sendto",
+        "fd": 26,
+        "address": null,
+        "port": null,
+        "return_value": 221,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733394,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 257,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733394,
+        "syscall": "sendto",
+        "fd": 29,
+        "address": null,
+        "port": null,
+        "return_value": 1088,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733394,
+        "syscall": "sendto",
+        "fd": 30,
+        "address": null,
+        "port": null,
+        "return_value": 255,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733395,
+        "syscall": "sendto",
+        "fd": 30,
+        "address": null,
+        "port": null,
+        "return_value": 85,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9776,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733411,
+        "syscall": "sendto",
+        "fd": 10,
+        "address": null,
+        "port": null,
+        "return_value": 1,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733411,
+        "syscall": "sendto",
+        "fd": 10,
+        "address": null,
+        "port": null,
+        "return_value": 1,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733430,
+        "syscall": "connect",
+        "fd": 12,
+        "address": "127.0.0.1",
+        "port": 37637,
+        "return_value": -1,
+        "errno": "EINPROGRESS",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "explicit_sockaddr",
+        "loopback": true
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733433,
+        "syscall": "getsockopt",
+        "fd": 12,
+        "address": null,
+        "port": null,
+        "return_value": 0,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed",
+        "sockopt_error": "0"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733433,
+        "syscall": "sendto",
+        "fd": 12,
+        "address": null,
+        "port": null,
+        "return_value": 256,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9771,
+        "comm": "workerd",
+        "timestamp_ms": 1793188733433,
+        "syscall": "sendto",
+        "fd": 12,
+        "address": null,
+        "port": null,
+        "return_value": 115,
+        "errno": null,
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      },
+      {
+        "tid": 9741,
+        "comm": "node",
+        "timestamp_ms": 1793188733483,
+        "syscall": "connect",
+        "fd": 22,
+        "address": null,
+        "port": null,
+        "return_value": -1,
+        "errno": "ENOENT",
+        "external_delivery_evidence": "not_established",
+        "destination_source": "not_attributed"
+      }
+    ],
+    "unparsed_lines": 0,
+    "unfinished_calls": 0,
+    "syscall_count_is_not_packet_or_unique_connection_count": true,
+    "success_return_is_not_external_delivery_proof": true
+  },
+  "node_dns": [
+    {
+      "type": "node_dns_lookup",
+      "pid": 9741,
+      "timestamp_ms": 1793188732413,
+      "hostname": "hashed_hostname",
+      "hostname_sha256": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0",
+      "callers": [
+        {
+          "file": "wrangler/wrangler-dist/cli.js",
+          "file_sha256": "5c3c0d84ec8331395d75f68ddca8388d999ee6f3bb5f788b642e2cdc675a06aa",
+          "line": 211859,
+          "column": 14
+        },
+        {
+          "file": "wrangler/wrangler-dist/cli.js",
+          "file_sha256": "5c3c0d84ec8331395d75f68ddca8388d999ee6f3bb5f788b642e2cdc675a06aa",
+          "line": 211855,
+          "column": 62
+        },
+        {
+          "file": "wrangler/wrangler-dist/cli.js",
+          "file_sha256": "5c3c0d84ec8331395d75f68ddca8388d999ee6f3bb5f788b642e2cdc675a06aa",
+          "line": 211868,
+          "column": 16
+        },
+        {
+          "file": "wrangler/wrangler-dist/cli.js",
+          "file_sha256": "5c3c0d84ec8331395d75f68ddca8388d999ee6f3bb5f788b642e2cdc675a06aa",
+          "line": 211789,
+          "column": 33
+        },
+        {
+          "file": "wrangler/wrangler-dist/cli.js",
+          "file_sha256": "5c3c0d84ec8331395d75f68ddca8388d999ee6f3bb5f788b642e2cdc675a06aa",
+          "line": 211905,
+          "column": 38
+        }
+      ]
+    },
+    {
+      "type": "node_dns_lookup",
+      "pid": 9741,
+      "timestamp_ms": 1793188732454,
+      "hostname": "hashed_hostname",
+      "hostname_sha256": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0",
+      "callers": [
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134101,
+          "column": 14
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134088,
+          "column": 12
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134080,
+          "column": 59
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134568,
+          "column": 53
+        }
+      ]
+    },
+    {
+      "type": "node_dns_lookup",
+      "pid": 9741,
+      "timestamp_ms": 1793188732670,
+      "hostname": "hashed_hostname",
+      "hostname_sha256": "12ca17b49af2289436f303e0166030a21e525d266e209267433801a8fd4071a0",
+      "callers": [
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134101,
+          "column": 14
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134088,
+          "column": 12
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134080,
+          "column": 59
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134568,
+          "column": 53
+        },
+        {
+          "file": "miniflare/dist/src/index.js",
+          "file_sha256": "8160222e4f41e0c114b34aabb6a4ded5aaa13a9d32aa15e76d061ad3e82e8312",
+          "line": 134556,
+          "column": 7
+        }
+      ]
+    }
+  ],
+  "native_dns": [],
+  "private_trace_sha256": {
+    "strace": "c8e7e87881efd1dcc44660a8ad65712afabf0b248fa058595a00a4c285c556da",
+    "node-dns": "3776087c738257ab6900357f1933db5ed22fdaae0e101296c54cd71659a2e37d",
+    "native-dns": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "coverage_limit": "strace descendants; native getaddrinfo when dynamically linked/interposed; Node dns.lookup. Missing hook events do not prove no DNS.",
+  "trace_complete": true,
+  "completeness_limit": "Unparsed/incomplete lines prevent a complete network attribution claim; raw bytes are never included.",
+  "lineage": {
+    "processes": [
+      {
+        "tid": 9731,
+        "tgid": 9731,
+        "parent_pid": 9730,
+        "uid": 999,
+        "first_seen_ms": 1793188731257,
+        "executable": "strace"
+      },
+      {
+        "tid": 9734,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731269,
+        "executable": "node"
+      },
+      {
+        "tid": 9735,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731269,
+        "executable": "node"
+      },
+      {
+        "tid": 9736,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731269,
+        "executable": "node"
+      },
+      {
+        "tid": 9737,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731269,
+        "executable": "node"
+      },
+      {
+        "tid": 9738,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731270,
+        "executable": "node"
+      },
+      {
+        "tid": 9739,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731270,
+        "executable": "node"
+      },
+      {
+        "tid": 9740,
+        "tgid": 9734,
+        "parent_pid": 9731,
+        "uid": 999,
+        "first_seen_ms": 1793188731270,
+        "executable": "node"
+      },
+      {
+        "tid": 9741,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731280,
+        "executable": "node"
+      },
+      {
+        "tid": 9742,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731280,
+        "executable": "node"
+      },
+      {
+        "tid": 9743,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731280,
+        "executable": "node"
+      },
+      {
+        "tid": 9744,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731280,
+        "executable": "node"
+      },
+      {
+        "tid": 9745,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731280,
+        "executable": "node"
+      },
+      {
+        "tid": 9746,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731281,
+        "executable": "node"
+      },
+      {
+        "tid": 9748,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731281,
+        "executable": "node"
+      },
+      {
+        "tid": 9759,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188731696,
+        "executable": "node"
+      },
+      {
+        "tid": 9760,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188732435,
+        "executable": "node"
+      },
+      {
+        "tid": 9761,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188732436,
+        "executable": "node"
+      },
+      {
+        "tid": 9762,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188732436,
+        "executable": "node"
+      },
+      {
+        "tid": 9763,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188732436,
+        "executable": "node"
+      },
+      {
+        "tid": 9764,
+        "tgid": 9764,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732448,
+        "executable": "other_executable"
+      },
+      {
+        "tid": 9765,
+        "tgid": 9764,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732448,
+        "executable": "other_executable"
+      },
+      {
+        "tid": 9766,
+        "tgid": 9764,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732449,
+        "executable": "other_executable"
+      },
+      {
+        "tid": 9767,
+        "tgid": 9764,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732449,
+        "executable": "other_executable"
+      },
+      {
+        "tid": 9768,
+        "tgid": 9764,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732449,
+        "executable": "other_executable"
+      },
+      {
+        "tid": 9771,
+        "tgid": 9771,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732573,
+        "executable": "workerd"
+      },
+      {
+        "tid": 9772,
+        "tgid": 9771,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732574,
+        "executable": "workerd"
+      },
+      {
+        "tid": 9776,
+        "tgid": 9776,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732926,
+        "executable": "workerd"
+      },
+      {
+        "tid": 9777,
+        "tgid": 9776,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732926,
+        "executable": "workerd"
+      },
+      {
+        "tid": 9778,
+        "tgid": 9776,
+        "parent_pid": 9741,
+        "uid": 999,
+        "first_seen_ms": 1793188732927,
+        "executable": "workerd"
+      },
+      {
+        "tid": 9783,
+        "tgid": 9741,
+        "parent_pid": 9734,
+        "uid": 999,
+        "first_seen_ms": 1793188733454,
+        "executable": "node"
+      }
+    ],
+    "read_failed": false,
+    "monitor_stopped": true,
+    "read_failures": [],
+    "terminal_tasks": [
+      {
+        "tid": 9764,
+        "tgid": 9764,
+        "state": "Z"
+      },
+      {
+        "tid": 9776,
+        "tgid": 9776,
+        "state": "Z"
+      }
+    ]
+  },
+  "unmapped_nonloopback_tids": []
+}

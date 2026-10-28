@@ -1,0 +1,184 @@
+{
+  "official_integrity_matches_preserved_registry_metadata": true,
+  "official_sha256": "7d25e2b297ecf73542673e8ce4ca150443c3caf40269406371b94d883e0a7ced",
+  "local_sha256": "65b6a7601477e78935f6f65f4bb1a256511a4d705ccd6520b79937ac30cbcbcf",
+  "official_members": [
+    {
+      "name": "package/LICENSE",
+      "canonical": "package/LICENSE",
+      "size": 1151,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/./dist/cjs/index.js",
+      "canonical": "package/dist/cjs/index.js",
+      "size": 46971,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/cjs/index.js",
+      "canonical": "package/dist/cjs/index.js",
+      "size": 46971,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/es/index.js",
+      "canonical": "package/dist/es/index.js",
+      "size": 46754,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/es/package.json",
+      "canonical": "package/dist/es/package.json",
+      "size": 17,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/README.md",
+      "canonical": "package/README.md",
+      "size": 10398,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/types/index.d.ts",
+      "canonical": "package/types/index.d.ts",
+      "size": 4248,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/package.json",
+      "canonical": "package/package.json",
+      "size": 2337,
+      "mode": 420,
+      "mtime": 499162500,
+      "uid": 0,
+      "gid": 0
+    }
+  ],
+  "local_members": [
+    {
+      "name": "package/LICENSE",
+      "canonical": "package/LICENSE",
+      "size": 1151,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/README.md",
+      "canonical": "package/README.md",
+      "size": 10398,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/cjs/index.js",
+      "canonical": "package/dist/cjs/index.js",
+      "size": 46946,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/es/index.js",
+      "canonical": "package/dist/es/index.js",
+      "size": 46732,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/dist/es/package.json",
+      "canonical": "package/dist/es/package.json",
+      "size": 17,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/package.json",
+      "canonical": "package/package.json",
+      "size": 2310,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    },
+    {
+      "name": "package/types/index.d.ts",
+      "canonical": "package/types/index.d.ts",
+      "size": 4248,
+      "mode": 420,
+      "mtime": 0,
+      "uid": 0,
+      "gid": 0
+    }
+  ],
+  "identical_normalized_duplicate": [
+    "package/dist/cjs/index.js"
+  ],
+  "changed_canonical_paths": [
+    "package/dist/cjs/index.js",
+    "package/dist/es/index.js",
+    "package/package.json"
+  ],
+  "file_sha256": {
+    "package/LICENSE": {
+      "official": "7b8136f76c483d03597500bfa991aae9be68d4629e1121cbf9b93aa727efe305",
+      "local": "7b8136f76c483d03597500bfa991aae9be68d4629e1121cbf9b93aa727efe305"
+    },
+    "package/dist/cjs/index.js": {
+      "official": "98eee3d5a03aac277c01f78be8af18fe19cae7cb0fe79e2b9817af44051a07b9",
+      "local": "c65c30d7238b464339fb37ef344d8b26a9e45978730977d995394142c4c69c15"
+    },
+    "package/dist/es/index.js": {
+      "official": "e3d3dd4cee934cc57e6a335005c2db4111b1333bbaddce39f08a7d505ee9ccea",
+      "local": "b467ea2f083a9ff991176a8499dd74edd11ff800547f3167b877047be4a3c5d4"
+    },
+    "package/dist/es/package.json": {
+      "official": "6dc1b06d6b093e9cccb20bee06a93836eee0420ae26803ca2ce4065d82f070d1",
+      "local": "6dc1b06d6b093e9cccb20bee06a93836eee0420ae26803ca2ce4065d82f070d1"
+    },
+    "package/README.md": {
+      "official": "f8fb13a09788ad5a67b874ea3a6d5c34285c83a11598194f55e0ac1a4b7e0a30",
+      "local": "f8fb13a09788ad5a67b874ea3a6d5c34285c83a11598194f55e0ac1a4b7e0a30"
+    },
+    "package/types/index.d.ts": {
+      "official": "1f80c9199cf76a9ccdabff0de44dd6936a11ec224ea2fba0e1b678c8edeca7ba",
+      "local": "1f80c9199cf76a9ccdabff0de44dd6936a11ec224ea2fba0e1b678c8edeca7ba"
+    },
+    "package/package.json": {
+      "official": "88b82f8dd4fbd227d2f25fe91e7db9dd3662c12d3e2f9eb523fc3fcafc9d8b3c",
+      "local": "8081972c720438aae90d8d4d393dd2d80e427137c07af293d9752accfe6b21a5"
+    }
+  },
+  "name_version_license_and_all_other_package_fields_unchanged": true,
+  "deterministic_two_reproductions_match_vendor": true
+}

@@ -1,0 +1,10 @@
+{
+  "status_removed": true,
+  "worker_env_removed": true,
+  "processes_removed": true,
+  "containers_removed": true,
+  "process_state": "no_processes",
+  "container_state": "absent",
+  "source_sha": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+  "passed": true
+}

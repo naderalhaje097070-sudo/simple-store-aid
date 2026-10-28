@@ -1,0 +1,20 @@
+{
+  "proof": "source-derived counterexample; no SQL/SDK/HTTP execution",
+  "inputs": [
+    {
+      "subscription": "legacy_A",
+      "provider_created_at": "2026-10-20T10:00:00Z",
+      "public_created_at": "2026-10-20T13:00:00Z",
+      "status": "canceled"
+    },
+    {
+      "subscription": "new_B",
+      "provider_created_at": "2026-10-20T12:00:00Z",
+      "public_created_at": "2026-10-20T12:00:00Z",
+      "status": "active"
+    }
+  ],
+  "binding_created_rule_selects": "new_B",
+  "unchanged_billing_query_selects": "legacy_A",
+  "conclusion": "current source admits disagreement in populated legacy/new-row case"
+}

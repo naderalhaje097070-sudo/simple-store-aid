@@ -1,3 +1,61 @@
+> CURRENT — B5 composed acceptance and B6 independent review COMPLETE on integration only;23October2026.
+> Tested source `f34f55072be5ae401e25c6cfaecd7986ff958aac`, tree `ddccd95372cb7d086d75a8c40f3939b61bbdcf42`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where these B corrections are absent.
+> All current native39956471869/39956471865/39956471703/39956471712 SUCCESS: composed fresh441/populated original41→50 upgrade446/signed billing206/actualCloudflareSSR42; frozen94unit/291expectations, full lint0errors/12inheritedwarnings, types/build/wire/generation,376protected/50SQL with29identity negative controls, actualentry3/NodeHTTP11/sanitizer14 and full supported audit{}.
+> Actual OAuth, retained nonempty sale/payment/stock/audit history, named old/new-token REST/RPC/MCP/price refusals, scanner/entitlement controls and zero unintended egress are proved. DefaultCloudflare matching200, desktop/mobile AuthUI, exact named runtime-conflict guard, both native traces/lineage and full cleanup pass. Signed billing is handler/localSQL proof, not HTTP middleware;45advisorWARN/0ERROR remain.
+> Minimal reviewed build correction only: SSR intermediate codeSplitting:false prevents the observed eager CommonJS-helper cycle; package/lock/handlers/generatedroutes/security/business/financial policies and all50SQL remain unchanged. Controlled variants preserve49public file hashes; server bytes+4,566/cold-start and deployment limits unmeasured. Failed attempts and exact-source attribution are retained.
+> Independent B6: Approved for human merge within bounded package-B technical scope; no unresolved introduced Critical/High/Medium finding. Review SHA256 `6bbf070336fbc2e9673bcfa257651a6eae5724be3fb010b5c9190b8fc112ccf8`; receipt `53c19110e180345df62b4e5852f003b02a7d8c81371f39256de9b0e22cf32fff`. Current441/446/42 are named setup/behavior/invariance controls, not distinct vulnerabilities or complete product coverage. OC-EVID-02 Low historical label/count precision remains deferred documentation debt.
+> ONE NEXT: B7 — prepare the existing PR71 against main with exact preserved source/coverage and checks, then the owner's concrete protected merge decision; only after authorized merge verify and settle15B requests. C5requests/product/RC/release remain separate. No merge/deploy/originalPRmutation/closure/provider/production/new spending/history rewrite occurred in B5/B6;20originaldrafts remain.
+> Claim6354262307 completes/releases through final55 handoff after independent docs-only publication preservation. No native rerun is attributed to the later evidence/documentation SHA. See `changes/b5-lifecycle/RESULT.md`, COVERAGE/ARTIFACTS/RUNS/INDEX and final review. This notice supersedes older CURRENT/ONE NEXT below; their complete texts remain exact.
+
+> CURRENT — B-DEP-IDENTITY-01 verified on integration only;23October2026.
+> Exact tested source `2de022a5e50a2e1d1761bfad92344505d146a750`, tree `5ed3276420424cd5ed5536d49b269be27a46ef5b`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where these B corrections are absent.
+> Current native39872844085/39872844063/39872844084 all SUCCESS: frozen compatibility94unit/291expectations, full supported audit{}/exit0, types/full lint/wire/build/generation,369protected/50SQL identity with29negative controls, actual entry3/realNodeHTTP11, offline sanitizer14, current webhook4+22 and foundation/browser regressions.
+> Official whole-lock patches SDK1.32.0/Hono4.13.11/launch-editor2.14.2/Vite8.1.6/DOMPurify3.4.17/ip-address10.7.4; explained Vite build graph delta, no advisory suppression or release-age exception. Handwritten MCP request limits precede existing dispatch; generated routes/auth audience/business/financial contracts remain unchanged.
+> The new exact B inventory preserves frozen A/original41; all50 applied SQL anchor independently to fixed B base59c8a0c. Historical failed audits, socket reset, lazy-Request replay and webhook comparison remain preserved with explicit dispositions.
+> Independent final review accepts this dependency/request-boundary/B-identity technical batch only; no unresolved introduced blocking source findings in scope. Formal whole-head verdict: Blocked pending missing evidence (B5/B6). See review/FINAL_SCOPED_REVIEW.md and FINAL_SCOPED_RECEIPT.json; final docs-only preservation is recorded externally after publication.
+> Whole-head/B5/B6/B7/B/RC acceptance remains blocked pending composed runtime evidence. Prior9266G1 run39871214992 fails exact41_migrations before scenarios against B50; successful cleanup/credential scan is preserved. No new G1green or current authenticated lifecycle is claimed.
+> ONE NEXT: separately claim B5 fixed-source fresh50 and populated-upgrade account/REST/RPC/MCP/server-entry acceptance, reconcile effective50 runtime assertions while preserving original41, then B6 independent review. B7 owner merge/settlement and C remain open under canonical #70/comment6263266625.
+> No merge/deploy/original draft mutation/closure/provider/production/new spending/history rewrite;20 original drafts remain (B15/C5). Claim6348079134 completes/releases through final #55 handoff after publication preservation; no next execution claim is implied.
+> See `changes/b-dep-identity/RESULT.md`, coverage, provenance/index and final independent review. Native evidence belongs to2de022a5; docs-only publication is source-preserved, not a new native test run. This notice supersedes older CURRENT/ONE NEXT blocks below; their full history remains unchanged.
+
+## B4 / APP-02 — final scoped evidence and next gate (22 October 2026)
+
+Final50 source `f3b702440a4ffd17038f3c668a2f446620a97919` supersedes the interim49 verification status below. Run39614265434 passed fresh206, populated baseline53/corrected169 and frozen76+22 compatibility controls. Independent scoped review accepts APP-02 on this integration candidate only; the formal whole-head outcome remains Changes required because dependency High findings and the preserved A manifest barrier are open. The earlier complete-snapshot assumption and failing diagnostics remain withdrawn/failed in the retained history. Docs-only delivery must preserve358 protected identities/50SQL. The next separately claimed step is dependency remediation and source-identity reconciliation before B5/B6; no merge or deployment follows from this decision.
+
+## B4 / APP-02 — application refusal and database retries (21October2026, candidate only)
+
+Do not use engine SQLSTATE40001 for billing-domain ambiguity. Supabase documents that PostgREST14 can retry it internally, even after the HTTP client times out. Our diagnostic observed an absent stream, followed by created receipt request/statefalse, then a storedtrue flag consistent with the previous updated callback running later. The source normalizer was correct. All ten domain refusals use P0001 in a new CLI-generated50 forward function replacement; the route maps that RPC error to503 for explicit replay. Driver-level traces were not captured, so the mechanism is attributed to the official source and the observed ordering witness.48/49 stay immutable and new native stacks start without old pending requests. See POSTGREST_RETRY_ROOT_CAUSE.md for primary sources and exact evidence.
+
+## B4 / APP-02 arrival-order correction —21October2026 (candidate only)
+
+The initial complete-snapshot bootstrap assumption is withdrawn: the old handler deliberately preserves original plan/price and prior periods/cancel flag, which a later updated/canceled snapshot cannot reconstruct. Such callbacks now return retryable503 when their public subscription stream is absent; created establishes original fields, followed by replay in provider order. This preserves the business contract instead of inventing historical state. A created scheduled-change payload retains the old new-row cancel flag defaultfalse; existing flags remain preserved.
+
+Migration48 was already applied in disposable verification and remains byte-identical. The correction uses a second CLI-generated forward migration49, replacing only the newly introduced function. Existing47 migrations, old public functions/grants and live signature helper remain exact. Earlier188-check runs do not cover the newly found cases and are retained as limited historical evidence, followed by final49 verification.
+
+## B4 / APP-02 — transactional subscription callback persistence (2026-10-21, candidate only)
+
+The existing signed handler acknowledges database failures and partial writes. Supported callbacks therefore use one service-only SECURITY INVOKER database transaction for subscription, required live cache/binding, and private durable receipt. Exact event retries are idempotent; ambiguous ordering, legacy clocks, missing identity and SQL errors return retryable failure. Provider occurredAt remains a microsecond string, and timestamps beyond database precision are rejected. No provider API lookup or raw payload logging is introduced.
+
+Existing billing readers use environment-qualified subscriptions ordered by created_at. New rows use the immutable provider entity creation time; existing legacy rows keep their arrival timestamps, with conservative ambiguity rejection in both environments. Only created can replace a non-null live binding; non-current updates remain durable without rebinding. Sandbox never mutates the global tenant live cache. Existing canceled-period, trial, financial and retention contracts are preserved. No backfill, historical migration rewrite, rollout, merge or whole-B acceptance is implied. See changes/b4-app02 for limitations and native proof status.
+
+> CURRENT — B2 / AC-01 corrected on the integration candidate, 2026-10-20.
+> Exact executable source `7a4fb5811c35a053109860c3155074087b930489`; accepted main remains `18700dee8ecdda2e457c0aa18c4f83a81b042019`, where this correction is absent.
+> Final native fresh46:95 checks; populated45-to46 upgrade:48 baseline controls reproduce the old bypass and59 corrected-state checks pass. All original B1 paths and45 SQL remain byte/mode exact.
+> Independent scope is AC-01 only; B3/B4/B5/B6/B7 and the owner merge decision remain open. Early Medium B2-EVID-UPLOAD-01 is corrected; original failure and its review remain preserved.
+> ONE NEXT: B3 / AC-02 — protect client INSERT/UPDATE trial/billing fields while preserving legitimate onboarding/settings and the existing business policy.
+> See `changes/b2-ac01/RESULT.md` and its coverage/native/review packet. No B merge, deployment or PR closure occurred;20 requests remain open.
+> This notice supersedes every older CURRENT / ONE NEXT notice below; historical A/B1 material follows unchanged.
+
+> CURRENT — B1 composition complete, 2026-10-20.
+> Accepted A remains on main `18700dee8ecdda2e457c0aa18c4f83a81b042019`. B is staged for review only.
+> This notice supersedes older ONE NEXT notices below and in imported B documents.
+> Scope: compose PR56–71 plus sibling67 without losing A; preserve all41 original migrations and four exact B additions.
+> B2 AC-01, B3 AC-02 and B4 APP-02 corrections remain pending, followed by B5 lifecycle validation and B6 independent acceptance review.
+> No B merge, deployment, production operation or PR closure is authorized by this composition step.
+> ONE NEXT: B2 / AC-01 — scope the privileged security scan correction and verify regular-user denial with admin/service positive controls.
+> Native frozen composition run39452262035 passed76 unit tests, original wire regression and build; lifecycle acceptance remains pending.
+> See `changes/b1-composition/RESULT.md` and `changes/b1-composition/INTAKE.md`; the full original B71 document is archived beside it as `historical-B71-DECISIONS.md`. Existing A history follows unchanged.
+
 ## FOUNDATION-A — owner-authorized merge and evidence-based closure, 2026-10-20
 
 Owner «اذا كل شي تمام ادمج» authorized the concrete PR72/A8 proposal after final independent approval and all exact-head checks. Fresh head/base/clean checks passed. Use merge_method=merge and expected headad73a947; actual merge0c138a970a03d00084631f1fe51fd3713c424874 preserves the published history. Actual main tree equals the approved tree; protected288/manifest/41SQL and archived coverage/evidence are present. Existing post-merge Quality39448069522 passed.

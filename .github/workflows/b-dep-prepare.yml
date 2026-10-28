@@ -1,0 +1,146 @@
+name: Historical B7 dependency official preparation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: Historical B7 preparation f3f3acb99c1b75f58b1294329fec6648c5d9c58b
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: f3f3acb99c1b75f58b1294329fec6648c5d9c58b
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Exact baseline and current supported full audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b-dep-prepare"
+          mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = f3f3acb99c1b75f58b1294329fec6648c5d9c58b
+          git rev-parse HEAD > "$out/source.txt"
+          bun install --frozen-lockfile 2>&1 | tee "$out/frozen-baseline.log"
+          git diff --exit-code -- package.json bun.lock bunfig.toml
+          cp package.json bun.lock bunfig.toml "$out/"
+          mkdir -p "$out/wrapper"
+          cp -R node_modules/@lovable.dev/mcp-js/. "$out/wrapper/"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+      - name: Supported full audit with explicit diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b-dep-prepare"
+          bun audit --help > "$out/audit-help.txt"
+          set +e
+          bun audit --json > "$out/baseline-audit.json" 2> "$out/baseline-audit.stderr"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$out/baseline-audit.exit"
+          test "$code" -eq 1
+          node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$out/baseline-audit.json"
+      - name: Verify official candidate availability and prepare whole lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b-dep-prepare"
+          gen_dir="$(mktemp -d)"
+          cp package.json bun.lock bunfig.toml "$gen_dir/"
+          for spec in 'body-parser@2.4.0' 'zod@4.6.6' 'fast-uri@3.1.9' 'serialize-javascript@7.1.3'; do
+            name="$(printf '%s' "$spec" | tr '/@' '__')"
+            npm view "$spec" --json > "$out/metadata-$name.json"
+            (cd "$out" && npm pack "$spec" --ignore-scripts --json > "pack-$name.json")
+          done
+          python - "$gen_dir/package.json" "$out" <<'PY'
+          import json,sys,datetime
+          from pathlib import Path
+          p=Path(sys.argv[1]);out=Path(sys.argv[2]);d=json.loads(p.read_text())
+          targets={'body-parser':'2.4.0','zod':'4.6.6','fast-uri':'3.1.9','serialize-javascript':'7.1.3'}
+          for key in ['overrides','resolutions']:
+            for name,version in targets.items():d[key][name]=version
+          d['dependencies']['zod']='4.6.6'
+          for f in out.glob('metadata-*.json'):
+            m=json.loads(f.read_text());time=m.get('time',{}).get(m['version'])
+            assert m['name'] in targets and m['version']==targets[m['name']],'Unexpected candidate metadata'
+            packed=json.loads((out/('pack-'+f.name.removeprefix('metadata-'))).read_text())
+            assert len(packed)==1 and packed[0]['integrity']==m['dist']['integrity'],'Official tar integrity mismatch'
+            assert time,'Missing official release timestamp: '+m['name']
+            age=(datetime.datetime.now(datetime.timezone.utc)-datetime.datetime.fromisoformat(time.replace('Z','+00:00'))).total_seconds()
+            assert age>=86400,'Candidate violates existing release-age guard: '+m['name']
+          p.write_text(json.dumps(d,indent=2)+'\n')
+          (out/'expected-package.json').write_text(p.read_text())
+          PY
+          cd "$gen_dir"
+          npm pack @oven/bun-linux-x64-baseline@1.4.0 --ignore-scripts --json > "$out/bun-tool-pack.json"
+          node --input-type=module - "$out/bun-tool-pack.json" <<'JS'
+          import fs from 'node:fs';
+          const [p] = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (p.integrity !== 'sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==') throw Error('Unapproved generator integrity');
+          JS
+          tar -xzf oven-bun-linux-x64-baseline-1.4.0.tgz
+          tool="$gen_dir/package/bin/bun"
+          test "$("$tool" --version)" = 1.4.0
+          "$tool" --revision | tee "$out/generator-revision.txt"
+          grep -q 34cbb9a40 "$out/generator-revision.txt"
+          timeout 180 "$tool" install --lockfile-only --ignore-scripts 2>&1 | tee "$out/generator.log"
+          cmp package.json "$out/expected-package.json"
+          cp bun.lock "$out/candidate-bun.lock"
+          cp package.json "$out/candidate-package.json"
+          sha256sum bun.lock package.json bunfig.toml > "$out/candidate-sha256.txt"
+          cd "$GITHUB_WORKSPACE"
+          git diff --exit-code
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Candidate frozen consumer compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b-dep-prepare"
+          candidate_dir="$(mktemp -d)"
+          cp "$out/candidate-package.json" "$candidate_dir/package.json"
+          cp "$out/candidate-bun.lock" "$candidate_dir/bun.lock"
+          cp bunfig.toml "$candidate_dir/"
+          cd "$candidate_dir"
+          bun install --frozen-lockfile --ignore-scripts 2>&1 | tee "$out/candidate-frozen.log"
+          cmp package.json "$out/candidate-package.json"
+          cmp bun.lock "$out/candidate-bun.lock"
+          printf '%s\n' "$candidate_dir" > "$out/candidate-dir.txt"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+      - name: Candidate full supported audit without suppression
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b-dep-prepare"
+          cd "$(cat "$out/candidate-dir.txt")"
+          bun audit --help > "$out/candidate-audit-help.txt"
+          set +e
+          bun audit --json > "$out/candidate-audit.json" 2> "$out/candidate-audit.stderr"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$out/candidate-audit.exit"
+          node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$out/candidate-audit.json"
+          test "$code" -eq 0
+      - name: Upload public package sources and preparation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: b-dep-preparation
+          path: ${{ runner.temp }}/b-dep-prepare
+          if-no-files-found: error
+          retention-days: 7

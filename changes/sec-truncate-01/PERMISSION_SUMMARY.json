@@ -1,0 +1,1154 @@
+{
+  "tested_source": "c233f156220b4551e82edccec3eaff9161c20ba3",
+  "roles_checked": 31,
+  "table_role_rows": 1705,
+  "changed_existing_privileges": [
+    {
+      "table": "public.couriers",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.customers",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.day_closes",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.email_send_log",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.email_send_state",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.email_unsubscribe_tokens",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.expenses",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.financial_audit_log",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.order_items",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.orders",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.payments",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.platform_admin_audit_log",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.platform_admins",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.products",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.profiles",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.security_scan_findings",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.security_scan_runs",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.subscriptions",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.suppressed_emails",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.tenants",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    },
+    {
+      "table": "public.user_roles",
+      "role": "authenticated",
+      "privilege": "TRUNCATE",
+      "before": true,
+      "after": false
+    }
+  ],
+  "default_before": {
+    "acl": [
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      }
+    ],
+    "owner": "postgres",
+    "rights": {
+      "anon": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "postgres": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "pgbouncer": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_monitor": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_maintain": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": true,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "service_role": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "authenticated": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "authenticator": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_checkpoint": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "dashboard_user": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_admin": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "pg_read_all_data": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_database_owner": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_all_stats": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_signal_backend": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_write_all_data": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": false,
+        "UPDATE": true,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_etl_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_stat_scan_tables": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_auth_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_all_settings": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_server_files": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_write_server_files": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_create_subscription": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_storage_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_read_only_user": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_realtime_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_functions_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_privileged_role": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_execute_server_program": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_replication_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_use_reserved_connections": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      }
+    },
+    "creator": "postgres",
+    "session_user": "postgres",
+    "rolled_back_object_absent": true
+  },
+  "default_after": {
+    "acl": [
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "grantee": "postgres",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "authenticated",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "DELETE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "INSERT"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "SELECT"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "grantee": "service_role",
+        "grantor": "postgres",
+        "grantable": false,
+        "privilege": "UPDATE"
+      }
+    ],
+    "owner": "postgres",
+    "rights": {
+      "anon": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "postgres": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "pgbouncer": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_monitor": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_maintain": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": true,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "service_role": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "authenticated": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": false,
+        "REFERENCES": true
+      },
+      "authenticator": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_checkpoint": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "dashboard_user": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_admin": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": true,
+        "UPDATE": true,
+        "TRIGGER": true,
+        "MAINTAIN": true,
+        "TRUNCATE": true,
+        "REFERENCES": true
+      },
+      "pg_read_all_data": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_database_owner": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_all_stats": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_signal_backend": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_write_all_data": {
+        "DELETE": true,
+        "INSERT": true,
+        "SELECT": false,
+        "UPDATE": true,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_etl_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_stat_scan_tables": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_auth_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_all_settings": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_read_server_files": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_write_server_files": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_create_subscription": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_storage_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_read_only_user": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": true,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_realtime_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_functions_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_privileged_role": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_execute_server_program": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "supabase_replication_admin": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      },
+      "pg_use_reserved_connections": {
+        "DELETE": false,
+        "INSERT": false,
+        "SELECT": false,
+        "UPDATE": false,
+        "TRIGGER": false,
+        "MAINTAIN": false,
+        "TRUNCATE": false,
+        "REFERENCES": false
+      }
+    },
+    "creator": "postgres",
+    "session_user": "postgres",
+    "rolled_back_object_absent": true
+  },
+  "before_public_hashes": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "e791d137ec44d162540e8616667548e7",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "d751713988987e9331980363e24189ce",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "d751713988987e9331980363e24189ce",
+    "user_roles": "d751713988987e9331980363e24189ce"
+  },
+  "after_public_hashes": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "e791d137ec44d162540e8616667548e7",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "d751713988987e9331980363e24189ce",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "d751713988987e9331980363e24189ce",
+    "user_roles": "d751713988987e9331980363e24189ce"
+  },
+  "before_counts": {
+    "roles": 0,
+    "users": 0,
+    "orders": 0,
+    "tenants": 0,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 0,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "after_counts": {
+    "roles": 0,
+    "users": 0,
+    "orders": 0,
+    "tenants": 0,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 0,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "non_target_data_unchanged": true,
+  "new_table_object_removed": true,
+  "closure_verified": false,
+  "integration_accepted": false
+}

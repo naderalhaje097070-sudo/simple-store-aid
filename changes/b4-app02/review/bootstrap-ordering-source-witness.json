@@ -1,0 +1,61 @@
+{
+  "proof": "deterministic source-derived contract trace; not execution of SQL/SDK/HTTP",
+  "reviewed_source": "7c6ed73886aa3a23c03f78c77762e900174ec368",
+  "migration48_sha256": "95b527271e552f20bfb8a0e07627e0195ed681c46e3f8cbcb7d5daaa4a98a66d",
+  "assumptions": "single valid tenant/owner/stream, empty initial cache, valid mapped items, expired trial, no competing rows",
+  "counterexamples": [
+    {
+      "case": "canceled_null_period_before_created",
+      "ordered": {
+        "status": "canceled",
+        "product_id": "basic",
+        "price_id": "basic-monthly",
+        "period_end": "2026-12-01T00:00:00Z",
+        "cancel_at_period_end": false
+      },
+      "reverse": {
+        "status": "canceled",
+        "product_id": "basic",
+        "price_id": "basic-monthly",
+        "period_end": null,
+        "cancel_at_period_end": false
+      },
+      "helper_relevant_branch_ordered": true,
+      "helper_relevant_branch_reverse": false
+    },
+    {
+      "case": "canceled_full_period_before_scheduled_update_and_created",
+      "ordered": {
+        "status": "canceled",
+        "product_id": "basic",
+        "price_id": "basic-monthly",
+        "period_end": "2026-12-01T00:00:00Z",
+        "cancel_at_period_end": true
+      },
+      "reverse": {
+        "status": "canceled",
+        "product_id": "basic",
+        "price_id": "basic-monthly",
+        "period_end": "2026-12-01T00:00:00Z",
+        "cancel_at_period_end": false
+      }
+    },
+    {
+      "case": "updated_plan_before_created",
+      "ordered": {
+        "status": "active",
+        "product_id": "basic",
+        "price_id": "basic-monthly",
+        "period_end": "2026-12-01T00:00:00Z",
+        "cancel_at_period_end": false
+      },
+      "reverse": {
+        "status": "active",
+        "product_id": "pro",
+        "price_id": "pro-monthly",
+        "period_end": "2026-12-01T00:00:00Z",
+        "cancel_at_period_end": false
+      }
+    }
+  ]
+}

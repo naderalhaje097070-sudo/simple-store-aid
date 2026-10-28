@@ -1,0 +1,6 @@
+{
+  "pattern_scan_matches": [],
+  "packet_files_scanned_before_scan_receipt_and_index": 56,
+  "compressed_members_scanned": 183,
+  "limits": "Pattern scan only; no credentials were used in current boundary/browser tests. Prior G1 natively compared actual private credential bytes before deleting its disposable credentials; receipt retained."
+}

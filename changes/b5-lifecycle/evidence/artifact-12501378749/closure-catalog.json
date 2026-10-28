@@ -1,0 +1,41 @@
+{
+  "entry": {
+    "config": [
+      "search_path=\"\""
+    ],
+    "definer": true,
+    "arguments": "",
+    "anon_execute": false,
+    "service_execute": false,
+    "authenticated_execute": true
+  },
+  "marker_fk": "r",
+  "marker_rls": true,
+  "active_guard_acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+  "marker_client_rights": [
+    {
+      "role": "anon",
+      "delete": false,
+      "insert": false,
+      "select": false,
+      "update": false,
+      "truncate": false
+    },
+    {
+      "role": "authenticated",
+      "delete": false,
+      "insert": false,
+      "select": false,
+      "update": false,
+      "truncate": false
+    },
+    {
+      "role": "service_role",
+      "delete": false,
+      "insert": false,
+      "select": false,
+      "update": false,
+      "truncate": false
+    }
+  ]
+}

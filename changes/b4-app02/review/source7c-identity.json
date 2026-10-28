@@ -1,0 +1,302 @@
+{
+  "source": "7c6ed73886aa3a23c03f78c77762e900174ec368",
+  "tree": "4b4a8c0461f3e94bf4811abac9b0b2e0f95b6380",
+  "base": "dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0",
+  "base_tree": "fde7e619b6066258cf9bb576060292914363ec4e",
+  "complete": true,
+  "base_blob_count": 1503,
+  "source_blob_count": 1521,
+  "base_protected_count": 350,
+  "source_protected_count": 356,
+  "base_sql_count": 47,
+  "source_sql_count": 48,
+  "old_protected_changed": [
+    "src/routes/api/public/payments/webhook.ts"
+  ],
+  "new_protected": [
+    ".github/workflows/b4-webhook-persistence.yml",
+    "src/lib/subscription-webhook.server.ts",
+    "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+    "tests/account-lifecycle/webhook_handler.test.cjs",
+    "tests/account-lifecycle/webhook_invoke.cjs",
+    "tests/account-lifecycle/webhook_persistence_probe.py"
+  ],
+  "old_sql_changed": [],
+  "manifest_unchanged": true,
+  "delta": [
+    {
+      "path": ".github/workflows/b4-webhook-persistence.yml",
+      "base": null,
+      "head": {
+        "path": ".github/workflows/b4-webhook-persistence.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a71921079e1d776776343f8c4ce76749594491c2",
+        "size": 15386,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a71921079e1d776776343f8c4ce76749594491c2"
+      },
+      "protected": true
+    },
+    {
+      "path": "DECISIONS.md",
+      "base": {
+        "path": "DECISIONS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e275e84f1e2f0ccc89f84a1ff04ff5522cb7365a",
+        "size": 45807,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/e275e84f1e2f0ccc89f84a1ff04ff5522cb7365a"
+      },
+      "head": {
+        "path": "DECISIONS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9faafb9c770ba14318de5cce6a4bde462a80f7a4",
+        "size": 47095,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/9faafb9c770ba14318de5cce6a4bde462a80f7a4"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/API_COMPATIBILITY.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/API_COMPATIBILITY.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b9a0b43214fe082ca9b46fa36010f1f39186bc11",
+        "size": 2136,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/b9a0b43214fe082ca9b46fa36010f1f39186bc11"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/BASELINE_OFFLINE.json",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/BASELINE_OFFLINE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8c3ffa295f3bfc4124787952504f6aa78213faf3",
+        "size": 899,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8c3ffa295f3bfc4124787952504f6aa78213faf3"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/DATA_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/DATA_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8bba0d8906d765205e32f442c34b9b70293ab0ef",
+        "size": 2501,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/8bba0d8906d765205e32f442c34b9b70293ab0ef"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/DEPENDENCY_MAP.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/DEPENDENCY_MAP.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "eb770eaaecc59c560e9597e3e55b55cbbc684f75",
+        "size": 658,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/eb770eaaecc59c560e9597e3e55b55cbbc684f75"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/IMPACT_ANALYSIS.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/IMPACT_ANALYSIS.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bd02875f20ac1a0b7d6abae0448e29e10457a72e",
+        "size": 1803,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/bd02875f20ac1a0b7d6abae0448e29e10457a72e"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/INTAKE.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/INTAKE.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c5538bdaa740b58ef00a6c67aadda6351b652785",
+        "size": 1423,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c5538bdaa740b58ef00a6c67aadda6351b652785"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/MIGRATION_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/MIGRATION_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1b800ee63114c47de21a1a443a36859babfd7d43",
+        "size": 2246,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/1b800ee63114c47de21a1a443a36859babfd7d43"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/ROLLBACK_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/ROLLBACK_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3c4d04ead458d085cffffbdf44d36af8dafce409",
+        "size": 457,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3c4d04ead458d085cffffbdf44d36af8dafce409"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/SECURITY_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/SECURITY_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a271011150dd41eb20d22a1f67e770fd4ec3c226",
+        "size": 721,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/a271011150dd41eb20d22a1f67e770fd4ec3c226"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/TEST_IMPACT.md",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/TEST_IMPACT.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3042131bfe399326f4ceee6194a6671ea32984e1",
+        "size": 841,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/3042131bfe399326f4ceee6194a6671ea32984e1"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/WEBHOOK_PERSISTENCE.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/WEBHOOK_PERSISTENCE.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+        "size": 18441,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+      },
+      "protected": false
+    },
+    {
+      "path": "changes/b4-app02/rollback-compensation.sql",
+      "base": null,
+      "head": {
+        "path": "changes/b4-app02/rollback-compensation.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "97eabf7303a0cf89b08897eb9b421d7a275e699d",
+        "size": 211,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/97eabf7303a0cf89b08897eb9b421d7a275e699d"
+      },
+      "protected": false
+    },
+    {
+      "path": "src/lib/subscription-webhook.server.ts",
+      "base": null,
+      "head": {
+        "path": "src/lib/subscription-webhook.server.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4b359634f15e8cffc1e4b96c1ca9c8bd1a7035e6",
+        "size": 5979,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/4b359634f15e8cffc1e4b96c1ca9c8bd1a7035e6"
+      },
+      "protected": true
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "base": {
+        "path": "src/routes/api/public/payments/webhook.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "26f6e0592a5337a929c9a2e0fafdb20872e0e526",
+        "size": 5049,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/26f6e0592a5337a929c9a2e0fafdb20872e0e526"
+      },
+      "head": {
+        "path": "src/routes/api/public/payments/webhook.ts",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "06ab5598a53d1170401ec8b46451f51c9e911c40",
+        "size": 1020,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/06ab5598a53d1170401ec8b46451f51c9e911c40"
+      },
+      "protected": true
+    },
+    {
+      "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+      "base": null,
+      "head": {
+        "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+        "size": 18441,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+      },
+      "protected": true
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_handler.test.cjs",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_handler.test.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c4cf893ddde97dd4ffe74e3f5647574e62c313b8",
+        "size": 5174,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/c4cf893ddde97dd4ffe74e3f5647574e62c313b8"
+      },
+      "protected": true
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_invoke.cjs",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_invoke.cjs",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ccf6fb647a90f39c8f04af6a92ea0d3866d19a1f",
+        "size": 5892,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/ccf6fb647a90f39c8f04af6a92ea0d3866d19a1f"
+      },
+      "protected": true
+    },
+    {
+      "path": "tests/account-lifecycle/webhook_persistence_probe.py",
+      "base": null,
+      "head": {
+        "path": "tests/account-lifecycle/webhook_persistence_probe.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d198b9272381410274f4b9207e65b346cecb53f5",
+        "size": 26691,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/git/blobs/d198b9272381410274f4b9207e65b346cecb53f5"
+      },
+      "protected": true
+    }
+  ]
+}

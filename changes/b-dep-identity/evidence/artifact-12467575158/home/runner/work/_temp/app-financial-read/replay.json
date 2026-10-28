@@ -1,0 +1,179 @@
+{
+  "results": [
+    {
+      "name": "initial loading never claims healthy zero",
+      "passed": true
+    },
+    {
+      "name": "invoices error blocks fabricated profit",
+      "passed": true
+    },
+    {
+      "name": "payments error blocks fabricated profit",
+      "passed": true
+    },
+    {
+      "name": "expenses error blocks fabricated profit",
+      "passed": true
+    },
+    {
+      "name": "debts missing read cannot claim empty success",
+      "passed": true
+    },
+    {
+      "name": "collected missing read cannot claim empty success",
+      "passed": true
+    },
+    {
+      "name": "expenses missing read cannot claim empty success",
+      "passed": true
+    },
+    {
+      "name": "cached debt60 survives failure and dependent writes are rejected",
+      "passed": true
+    },
+    {
+      "name": "partial recovery preserves independently complete debt60",
+      "passed": true
+    },
+    {
+      "name": "complete successful empty reads retain genuine zero/no debt",
+      "passed": true
+    },
+    {
+      "name": "complete known nonempty debt remains60",
+      "passed": true
+    },
+    {
+      "name": "cached empty error is not reassuring no debt",
+      "passed": true
+    },
+    {
+      "name": "placeholder and tenant-unavailable reads are not current balances",
+      "passed": true
+    },
+    {
+      "name": "safe independent writes remain available during read failure",
+      "passed": true
+    },
+    {
+      "name": "customer metadata absence still retains debt60",
+      "passed": true
+    },
+    {
+      "name": "cached refreshing balances are explicitly incomplete",
+      "passed": true
+    },
+    {
+      "name": "invoices does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "invoice_detail does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "debt_customer does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "courier_custody does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "settlements does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "day_close does not render finance when invoice read is absent",
+      "passed": true
+    },
+    {
+      "name": "cached tenant-resolution error invalidates dependent actions",
+      "passed": true
+    },
+    {
+      "name": "money sheet error keeps the warning inside the sheet",
+      "passed": true
+    },
+    {
+      "name": "money sheet cached-error keeps the warning inside the sheet",
+      "passed": true
+    },
+    {
+      "name": "money sheet missing keeps the warning inside the sheet",
+      "passed": true
+    },
+    {
+      "name": "money sheet refreshing keeps the warning inside the sheet",
+      "passed": true
+    },
+    {
+      "name": "invoice payment-read error blocks exports but not independent collection",
+      "passed": true
+    },
+    {
+      "name": "complete invoice permits both export buttons",
+      "passed": true
+    },
+    {
+      "name": "customers keeps directory available without a fabricated balance",
+      "passed": true
+    },
+    {
+      "name": "couriers keeps directory available without a fabricated balance",
+      "passed": true
+    },
+    {
+      "name": "retry uses the existing read queries",
+      "passed": true
+    },
+    {
+      "name": "missing tenant retry resolves tenant before financial reads",
+      "passed": true
+    },
+    {
+      "name": "cached tenant-resolution failure retries tenant first",
+      "passed": true
+    },
+    {
+      "name": "timezone missing cannot authorize daily summary or close",
+      "passed": true
+    },
+    {
+      "name": "timezone error cannot authorize daily summary or close",
+      "passed": true
+    },
+    {
+      "name": "timezone paused cannot authorize daily summary or close",
+      "passed": true
+    },
+    {
+      "name": "timezone placeholder cannot authorize daily summary or close",
+      "passed": true
+    },
+    {
+      "name": "cached timezone failure retains known daily amounts and denies close",
+      "passed": true
+    },
+    {
+      "name": "timezone read failure preserves independent debts and collection",
+      "passed": true
+    },
+    {
+      "name": "successful nullable timezone retains approved default",
+      "passed": true
+    },
+    {
+      "name": "timezone failure retries the settings query",
+      "passed": true
+    },
+    {
+      "name": "pilot unavailable timezone is a read boundary rather than a render error",
+      "passed": true
+    }
+  ],
+  "passed": 43,
+  "total": 43,
+  "scope": "Actual parent and rendered React screens, synthetic reads/mutation transport; no database/provider/browser"
+}

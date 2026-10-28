@@ -1,0 +1,895 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "repository_id": 1281463067,
+  "main": "18700dee8ecdda2e457c0aa18c4f83a81b042019",
+  "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+  "tree": "6bc91e3b942dccfa5beab67b57f0c22c15b78917",
+  "native_run": 39614265434,
+  "jobs": {
+    "jobs": [
+      {
+        "id": 119270963650,
+        "name": "prepare",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39614265434,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run set -euo pipefail",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 5
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          }
+        ]
+      },
+      {
+        "id": 119270964453,
+        "name": "compatibility",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39614265434,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Frozen dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Generated formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Full lint",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Original unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Original wire regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Signed webhook handler controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Generation retains tracked files",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          }
+        ]
+      },
+      {
+        "id": 119271110943,
+        "name": "persistence (upgrade)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39614265434,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Frozen install and signed handler controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Baseline then populated local upgrade",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Actual authorization and invariance",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Runtime image identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33
+          }
+        ]
+      },
+      {
+        "id": 119271111233,
+        "name": "persistence (fresh)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 39614265434,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Frozen install and signed handler controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Baseline then populated local upgrade",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 11
+          },
+          {
+            "name": "Actual authorization and invariance",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Runtime image identity",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "artifacts": [
+      {
+        "id": 12351144140,
+        "name": "b4-webhook-fresh-attempt1",
+        "size_in_bytes": 13142,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12351144140",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12351144140/zip",
+        "expired": false,
+        "created_at": "2026-10-21T14:13:34Z",
+        "expires_at": "2026-10-28T14:13:34Z",
+        "updated_at": "2026-10-21T14:13:34Z",
+        "digest": "sha256:d37f0592131e6b96f6ce5bf9d20ecec2105a8bbf59f12df451c5638f6412a95f",
+        "workflow_run": {
+          "id": 39614265434,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "f3b702440a4ffd17038f3c668a2f446620a97919"
+        }
+      },
+      {
+        "id": 12350993751,
+        "name": "b4-webhook-upgrade-attempt1",
+        "size_in_bytes": 15345,
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350993751",
+        "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350993751/zip",
+        "expired": false,
+        "created_at": "2026-10-21T14:13:50Z",
+        "expires_at": "2026-10-28T14:13:50Z",
+        "updated_at": "2026-10-21T14:13:50Z",
+        "digest": "sha256:9543465e1b88a5743b51159b73d2f7c3cfcb59e6259c9cf2fddaafd2cf2941e1",
+        "workflow_run": {
+          "id": 39614265434,
+          "repository_id": 1281463067,
+          "head_repository_id": 1281463067,
+          "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+          "head_sha": "f3b702440a4ffd17038f3c668a2f446620a97919"
+        }
+      }
+    ]
+  },
+  "generators": {
+    "first": {
+      "artifacts": [
+        {
+          "id": 12349421019,
+          "name": "b4-cli-generated-migration",
+          "size_in_bytes": 4407,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349421019",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349421019/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:24:01Z",
+          "expires_at": "2026-10-28T13:24:00Z",
+          "updated_at": "2026-10-21T13:24:01Z",
+          "digest": "sha256:3df9833b0e94c64f6cf5f18483cac03e706b35c5b83f0b142086c997a1c3bfb0",
+          "workflow_run": {
+            "id": 39607615757,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "80a5741439fda0fa41ad06315c35b138f101a935"
+          }
+        }
+      ]
+    },
+    "chosen48": {
+      "artifacts": [
+        {
+          "id": 12348892153,
+          "name": "b4-cli-generated-migration",
+          "size_in_bytes": 4414,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348892153",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348892153/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:26:52Z",
+          "expires_at": "2026-10-28T13:26:52Z",
+          "updated_at": "2026-10-21T13:26:52Z",
+          "digest": "sha256:2ae200a5298289e4e5951b0fb4a06634e5f94b6a9e8c292fee8526ea8a78269b",
+          "workflow_run": {
+            "id": 39608029062,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "75aa967ff9779cd96cf22f2d7a40a4bbaccc3aba"
+          }
+        }
+      ]
+    },
+    "chosen49": {
+      "artifacts": [
+        {
+          "id": 12349883953,
+          "name": "b4-cli-generated-bootstrap",
+          "size_in_bytes": 4158,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349883953",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349883953/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:46:22Z",
+          "expires_at": "2026-10-28T13:46:21Z",
+          "updated_at": "2026-10-21T13:46:22Z",
+          "digest": "sha256:737a86fc651cfecb5af82a9f8133486d3d66209a504b98d814193185e8167d34",
+          "workflow_run": {
+            "id": 39610882184,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "c5a362116d2455077a604c75f27b89198cbb6c11"
+          }
+        }
+      ]
+    },
+    "chosen50": {
+      "artifacts": [
+        {
+          "id": 12352122067,
+          "name": "b4-cli-generated-errors",
+          "size_in_bytes": 4130,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352122067",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352122067/zip",
+          "expired": false,
+          "created_at": "2026-10-21T14:07:47Z",
+          "expires_at": "2026-10-28T14:07:46Z",
+          "updated_at": "2026-10-21T14:07:47Z",
+          "digest": "sha256:74df1e2fb9b3f617458c0cecad2d8d78c9c158ea904a1aa383f25101342fc60c",
+          "workflow_run": {
+            "id": 39614071707,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "4385e95799980d12890d18579c964b0d14e6f151"
+          }
+        }
+      ]
+    }
+  },
+  "historical": {
+    "first": {
+      "artifacts": [
+        {
+          "id": 12349847487,
+          "name": "b4-webhook-fresh-attempt1",
+          "size_in_bytes": 9182,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349847487",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12349847487/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:37:23Z",
+          "expires_at": "2026-10-28T13:37:23Z",
+          "updated_at": "2026-10-21T13:37:23Z",
+          "digest": "sha256:b4c2a12b7da54775f8879a397ae286ddf85473677c6e4329fe4339080e4c9a48",
+          "workflow_run": {
+            "id": 39608299485,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "371c5ebed5d6d821d15f442925995f24b04e8c5e"
+          }
+        },
+        {
+          "id": 12348748658,
+          "name": "b4-webhook-upgrade-attempt1",
+          "size_in_bytes": 996,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348748658",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348748658/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:32:57Z",
+          "expires_at": "2026-10-28T13:32:56Z",
+          "updated_at": "2026-10-21T13:32:57Z",
+          "digest": "sha256:8a2d7d549ac8a20f5b95d6cc6455dc8e5d06be2cc8b316d29c90f418f9adcd2f",
+          "workflow_run": {
+            "id": 39608299485,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "371c5ebed5d6d821d15f442925995f24b04e8c5e"
+          }
+        }
+      ]
+    },
+    "second": {
+      "artifacts": [
+        {
+          "id": 12350445685,
+          "name": "b4-webhook-upgrade-attempt1",
+          "size_in_bytes": 10423,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350445685",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350445685/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:42:03Z",
+          "expires_at": "2026-10-28T13:42:02Z",
+          "updated_at": "2026-10-21T13:42:03Z",
+          "digest": "sha256:1be97ac19554c576e936f747c80d5f2e7fccf450f1eacc9f50f32443a9367d79",
+          "workflow_run": {
+            "id": 39609182665,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "7c6ed73886aa3a23c03f78c77762e900174ec368"
+          }
+        },
+        {
+          "id": 12348873916,
+          "name": "b4-webhook-fresh-attempt1",
+          "size_in_bytes": 9181,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348873916",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12348873916/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:42:49Z",
+          "expires_at": "2026-10-28T13:42:48Z",
+          "updated_at": "2026-10-21T13:42:49Z",
+          "digest": "sha256:1b89567ec9ff4eb65aabbb49690d48861e0621073be3218f9282dc965d4d7f0d",
+          "workflow_run": {
+            "id": 39609182665,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "7c6ed73886aa3a23c03f78c77762e900174ec368"
+          }
+        }
+      ]
+    },
+    "d86": {
+      "artifacts": [
+        {
+          "id": 12350961295,
+          "name": "b4-webhook-fresh-attempt1",
+          "size_in_bytes": 1530,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350961295",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350961295/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:53:34Z",
+          "expires_at": "2026-10-28T13:53:34Z",
+          "updated_at": "2026-10-21T13:53:34Z",
+          "digest": "sha256:84b625d531a18ecdf84703b5074729a571e4dac5714416cf6568b3b25e920503",
+          "workflow_run": {
+            "id": 39611234351,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "d86a6278bbd2513d34a45cf5390d2c69fb820611"
+          }
+        },
+        {
+          "id": 12350901541,
+          "name": "b4-webhook-upgrade-attempt1",
+          "size_in_bytes": 3007,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350901541",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350901541/zip",
+          "expired": false,
+          "created_at": "2026-10-21T13:54:51Z",
+          "expires_at": "2026-10-28T13:54:50Z",
+          "updated_at": "2026-10-21T13:54:51Z",
+          "digest": "sha256:1c7b456e0b8afe58df015cbb6737268fee12408f702496528c95ca220ee9215b",
+          "workflow_run": {
+            "id": 39611234351,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "d86a6278bbd2513d34a45cf5390d2c69fb820611"
+          }
+        }
+      ]
+    },
+    "f4": {
+      "artifacts": [
+        {
+          "id": 12352285260,
+          "name": "b4-webhook-fresh-attempt1",
+          "size_in_bytes": 1615,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352285260",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352285260/zip",
+          "expired": false,
+          "created_at": "2026-10-21T14:03:14Z",
+          "expires_at": "2026-10-28T14:03:13Z",
+          "updated_at": "2026-10-21T14:03:14Z",
+          "digest": "sha256:1145b4e15981daf4074c643404780e0313337e30ba1bff2172784a8888b72b67",
+          "workflow_run": {
+            "id": 39612546949,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333"
+          }
+        },
+        {
+          "id": 12350798599,
+          "name": "b4-webhook-upgrade-attempt1",
+          "size_in_bytes": 3994,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350798599",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350798599/zip",
+          "expired": false,
+          "created_at": "2026-10-21T14:05:29Z",
+          "expires_at": "2026-10-28T14:05:28Z",
+          "updated_at": "2026-10-21T14:05:29Z",
+          "digest": "sha256:e99679e3f24168e342e9b1a9238663be30f3854fc4ffe24d6e24100f338324ca",
+          "workflow_run": {
+            "id": 39612546949,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333"
+          }
+        }
+      ]
+    }
+  },
+  "open_prs": [
+    {
+      "number": 71,
+      "head": "7f74b704c4b66d3da1605aa509b7c8e1eb104507",
+      "base": "docs/owner-closure-blocker-2026-10-13",
+      "draft": true
+    },
+    {
+      "number": 69,
+      "head": "92ebd529c79ae1df98ec02245d3c22d6bcfc557f",
+      "base": "fix/sec-truncate-01-2026-10-13",
+      "draft": true
+    },
+    {
+      "number": 68,
+      "head": "00923287d804f99faa1b70d28cece17f9f33eac3",
+      "base": "test/owner-retention-catalog-2026-10-12",
+      "draft": true
+    },
+    {
+      "number": 67,
+      "head": "6af3e15028a798752eda98c30924b7b30620a356",
+      "base": "test/owner-retention-catalog-2026-10-12",
+      "draft": true
+    },
+    {
+      "number": 66,
+      "head": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+      "base": "docs/account-deletion-safety-intake-2026-10-12",
+      "draft": true
+    },
+    {
+      "number": 65,
+      "head": "f37885b1ff5dcc9ab113e5cbee4516b485cedadd",
+      "base": "test/auth-natural-expiry-2026-10-12",
+      "draft": true
+    },
+    {
+      "number": 64,
+      "head": "2ae95ed6175e0859b4c0a1d36d1110f99f19c792",
+      "base": "test/mcp-tanstack-route-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 63,
+      "head": "3cb0d82afe31eb2d81538fd7ae631c10fdfa0357",
+      "base": "fix/mcp-local-issuer-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 62,
+      "head": "26d6e271ad1a50a26390d25d3236edb5ab47fff7",
+      "base": "test/mcp-lifecycle-01-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 61,
+      "head": "315751c46678fa18ffc35dae1e8d6e2cb9b30335",
+      "base": "test/env-native-01-review-evidence-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 60,
+      "head": "e4ee6bafc8adec292826769ec37ad1d21e97ae95",
+      "base": "fix/env-native-01-live-account-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 59,
+      "head": "fd95ad2e1966362719965ef282de1e2eb66cb070",
+      "base": "test/env-native-01-clean-baseline-2026-10-11",
+      "draft": true
+    },
+    {
+      "number": 58,
+      "head": "b8fd5e95ab1f6eee07bb6198da3169cd46916962",
+      "base": "test/env-native-01-lifecycle-intake-2026-10-10",
+      "draft": true
+    },
+    {
+      "number": 57,
+      "head": "fd2bed16a051a6d4de44f8b97c1a5ba9a36e50fc",
+      "base": "docs/primary-resume-001-2026-10-10",
+      "draft": true
+    },
+    {
+      "number": 56,
+      "head": "b9aa56bc3bb30948d95961c06fd493dfb866f476",
+      "base": "sec/primary-env-001-reconcile-2026-10-10",
+      "draft": true
+    },
+    {
+      "number": 50,
+      "head": "193412a01938d752a98689d85acd727664e4dc8e",
+      "base": "impl/fin-courier-pr-a-candidate",
+      "draft": true
+    },
+    {
+      "number": 49,
+      "head": "3106b4710fb9214d6f406d5a3fe7bf44fa2823e6",
+      "base": "test/fin-courier-001-gate4-clean",
+      "draft": true
+    },
+    {
+      "number": 39,
+      "head": "d9ba8709e903e290d375208a3469610f155ecb48",
+      "base": "fin/fin-idem-001-gates-0-3",
+      "draft": true
+    },
+    {
+      "number": 35,
+      "head": "090d5564fa368f826316c9dc992a133c4e4872c4",
+      "base": "main",
+      "draft": true
+    },
+    {
+      "number": 27,
+      "head": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+      "base": "main",
+      "draft": true
+    }
+  ],
+  "claim": 6312231207
+}

@@ -1,0 +1,24 @@
+{
+  "source": "117f59289a01c56aeb764be27acfbb45663ec439",
+  "reports": [
+    {
+      "file": "final-native/b3-entitlement-fresh-attempt1/entitlement-after.json",
+      "passed": 240,
+      "sha256": "980433275a350660ecc1a79bbd9a3d8783c6fba3dc1526764d1ca203532c31dc"
+    },
+    {
+      "file": "final-native/b3-entitlement-upgrade-attempt1/entitlement-after.json",
+      "passed": 211,
+      "sha256": "93cb15849ebfca146c285cd50244fc009a0088fa4e620a1255fc9e7669617946"
+    },
+    {
+      "file": "final-native/b3-entitlement-upgrade-attempt1/entitlement-before.json",
+      "passed": 52,
+      "sha256": "2cd1dcf75cd1aba595a5d0d739851de205a5ca5d6e19e5d02100690e11b04492"
+    }
+  ],
+  "cleanup_pass": true,
+  "advisor_warnings": 45,
+  "audit_blocker": "DEP-20261021",
+  "merge_allowed": false
+}

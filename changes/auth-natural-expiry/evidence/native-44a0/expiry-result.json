@@ -1,0 +1,1066 @@
+{
+  "source_sha": "44a0d221e635340b8450334ed9484c3f39f48205",
+  "natural_expiry_accepted": true,
+  "integration_accepted": false,
+  "failure_stage": null,
+  "actual_path": "HTTP -> Nitro node-server -> src/server.ts -> generated TanStack /mcp -> SDK0.20.1 -> local Supabase",
+  "ttl_seconds": 180,
+  "timing": {
+    "iat": 1791796183,
+    "exp": 1791796363,
+    "positive_finished": 1791796185.1632562,
+    "max_verifier_leeway": 30,
+    "wait_margin": 5,
+    "real_wait_seconds": 212.8362774848938,
+    "monotonic_wait_seconds": 212.83627767699997,
+    "clock_drift_seconds": 1.921061709708738e-7,
+    "negative_started": 1791796398.0001183
+  },
+  "continuity": {
+    "accounts_active": true,
+    "old_session_exists": true,
+    "no_auto_refresh": true,
+    "same_old_token": true,
+    "new_token_distinct": true
+  },
+  "crypto_receipts": [
+    {
+      "signature_verified": true,
+      "identity_verified": true,
+      "expired": false,
+      "iat": 1791796183,
+      "exp": 1791796363,
+      "checked_at": 1791796183.704,
+      "time_valid": true
+    },
+    {
+      "signature_verified": true,
+      "identity_verified": true,
+      "expired": true,
+      "iat": 1791796183,
+      "exp": 1791796363,
+      "checked_at": 1791796398.126,
+      "time_valid": false,
+      "error_code": "ERR_JWT_EXPIRED"
+    },
+    {
+      "signature_verified": true,
+      "identity_verified": true,
+      "expired": false,
+      "iat": 1791796398,
+      "exp": 1791796578,
+      "checked_at": 1791796398.892,
+      "time_valid": true
+    },
+    {
+      "signature_verified": true,
+      "identity_verified": true,
+      "expired": false,
+      "iat": 1791796399,
+      "exp": 1791796579,
+      "checked_at": 1791796399.567,
+      "time_valid": true
+    },
+    {
+      "signature_verified": true,
+      "identity_verified": true,
+      "expired": true,
+      "iat": 1791796183,
+      "exp": 1791796363,
+      "checked_at": 1791796399.914,
+      "time_valid": false,
+      "error_code": "ERR_JWT_EXPIRED"
+    }
+  ],
+  "observations": [
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "rest",
+      "token_role": "old_B",
+      "checked_at": 1791796185.0331123,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "rpc",
+      "token_role": "old_B",
+      "checked_at": 1791796185.0682595,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "initialize",
+      "token_role": "old_B",
+      "checked_at": 1791796185.0749505,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "list_products",
+      "token_role": "old_B",
+      "checked_at": 1791796185.0844696,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "list_customers",
+      "token_role": "old_B",
+      "checked_at": 1791796185.1087775,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "list_recent_orders",
+      "token_role": "old_B",
+      "checked_at": 1791796185.1238,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "before",
+      "path": "today_summary",
+      "token_role": "old_B",
+      "checked_at": 1791796185.1402972,
+      "token_exp": 1791796363,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": true,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "rest",
+      "token_role": "old_B",
+      "checked_at": 1791796398.1446848,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "JWT expired",
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "rpc",
+      "token_role": "old_B",
+      "checked_at": 1791796398.1478996,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "JWT expired",
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "initialize",
+      "token_role": "old_B",
+      "checked_at": 1791796398.1495273,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "list_products",
+      "token_role": "old_B",
+      "checked_at": 1791796398.1770945,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "list_customers",
+      "token_role": "old_B",
+      "checked_at": 1791796398.1870716,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "list_recent_orders",
+      "token_role": "old_B",
+      "checked_at": 1791796398.2012568,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "expired",
+      "path": "today_summary",
+      "token_role": "old_B",
+      "checked_at": 1791796398.2129335,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "rest",
+      "token_role": "fresh_A",
+      "checked_at": 1791796398.9846034,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "rpc",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0166128,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "initialize",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0232599,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "list_products",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0344875,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "list_customers",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0629294,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "list_recent_orders",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0873895,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "A",
+      "phase": "fresh",
+      "path": "today_summary",
+      "token_role": "fresh_A",
+      "checked_at": 1791796399.0995061,
+      "token_exp": 1791796578,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "rest",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.6577668,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "rpc",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.675495,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "initialize",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.6786566,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "list_products",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.6843815,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "list_customers",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.6950777,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "list_recent_orders",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.704902,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "new",
+      "path": "today_summary",
+      "token_role": "fresh_B",
+      "checked_at": 1791796399.7134874,
+      "token_exp": 1791796579,
+      "status": 200,
+      "passed": true,
+      "expiration_proven": false,
+      "same_old_token": false,
+      "reason": null,
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "rest",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9252355,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "JWT expired",
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "rpc",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9280717,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "JWT expired",
+      "no_user_or_tool_access": null
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "initialize",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9310942,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "list_products",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9403882,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "list_customers",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9448442,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "list_recent_orders",
+      "token_role": "old_B",
+      "checked_at": 1791796399.9496562,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    },
+    {
+      "actor": "B",
+      "phase": "old_again",
+      "path": "today_summary",
+      "token_role": "old_B",
+      "checked_at": 1791796399.954058,
+      "token_exp": 1791796363,
+      "status": 401,
+      "passed": true,
+      "expiration_proven": true,
+      "same_old_token": true,
+      "reason": "invalid_token+verified_exp",
+      "no_user_or_tool_access": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "fresh_empty_stack",
+      "passed": true
+    },
+    {
+      "name": "exact_43_migrations",
+      "passed": true
+    },
+    {
+      "name": "actual_built_app",
+      "passed": true
+    },
+    {
+      "name": "pinned_live_provider_versions",
+      "passed": true
+    },
+    {
+      "name": "expiry_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "expiry_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "expiry_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "expiry_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "expiry_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "expiry_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "distinct_tenants",
+      "passed": true
+    },
+    {
+      "name": "oauth_client_registered",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_initial",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_initial",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_before",
+      "passed": true
+    },
+    {
+      "name": "old_provider_token_is_valid",
+      "passed": true
+    },
+    {
+      "name": "initial_active_users_and_session",
+      "passed": true
+    },
+    {
+      "name": "B_before_unexpired",
+      "passed": true
+    },
+    {
+      "name": "B_before_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_B_before",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_B_before",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_B_before",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_B_before",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_B_before",
+      "passed": true
+    },
+    {
+      "name": "B_before_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "enough_validity_for_positives",
+      "passed": true
+    },
+    {
+      "name": "real_time_elapsed_without_clock_shift",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_expired",
+      "passed": true
+    },
+    {
+      "name": "same_signed_token_now_expired",
+      "passed": true
+    },
+    {
+      "name": "B_expired_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "fresh_password_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_details_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "crypto_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_unexpired",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_A_fresh",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_A_fresh",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_A_fresh",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_A_fresh",
+      "passed": true
+    },
+    {
+      "name": "A_fresh_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "fresh_password_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorize_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_authorization_id_format_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_existing_consent_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_consent_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_exchange_B_new",
+      "passed": true
+    },
+    {
+      "name": "oauth_bound_claims_B_new",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_new",
+      "passed": true
+    },
+    {
+      "name": "B_new_unexpired",
+      "passed": true
+    },
+    {
+      "name": "B_new_provider_identity",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialize_B_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "mcp_stateless_session_B_new",
+      "passed": true
+    },
+    {
+      "name": "mcp_initialized_B_new",
+      "passed": true,
+      "status": 202
+    },
+    {
+      "name": "mcp_catalog_B_new",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "exact_four_unique_tools_B_new",
+      "passed": true
+    },
+    {
+      "name": "B_new_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "crypto_B_old_again",
+      "passed": true
+    },
+    {
+      "name": "B_old_again_seven_paths",
+      "passed": true
+    },
+    {
+      "name": "active_identity_session_and_token_continuity",
+      "passed": true
+    },
+    {
+      "name": "ordered_natural_expiry_oracle",
+      "passed": true
+    },
+    {
+      "name": "no_external_fetch_attempts",
+      "passed": true
+    },
+    {
+      "name": "app_no_native_outbound_attempts",
+      "passed": true
+    },
+    {
+      "name": "public_22_fingerprints_unchanged",
+      "passed": true
+    },
+    {
+      "name": "financial_7_empty",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ],
+  "flow_counts": {
+    "password": 4,
+    "authorization_code": 3,
+    "refresh_token": 0
+  },
+  "history_before": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "58a78b7dfb4dc6c175fe1c4edfe7d962",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "f8781c2473e5b881c92a23ac0d3171e6",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "af0f091cf90ae638c7cdfb60be98ef30",
+    "user_roles": "1d7e88f148c28929f4d987e9821670c7"
+  },
+  "history_after": {
+    "couriers": "d751713988987e9331980363e24189ce",
+    "customers": "d751713988987e9331980363e24189ce",
+    "day_closes": "d751713988987e9331980363e24189ce",
+    "email_send_log": "d751713988987e9331980363e24189ce",
+    "email_send_state": "58a78b7dfb4dc6c175fe1c4edfe7d962",
+    "email_unsubscribe_tokens": "d751713988987e9331980363e24189ce",
+    "expenses": "d751713988987e9331980363e24189ce",
+    "financial_audit_log": "d751713988987e9331980363e24189ce",
+    "order_items": "d751713988987e9331980363e24189ce",
+    "orders": "d751713988987e9331980363e24189ce",
+    "payments": "d751713988987e9331980363e24189ce",
+    "platform_admin_audit_log": "d751713988987e9331980363e24189ce",
+    "platform_admins": "d751713988987e9331980363e24189ce",
+    "products": "d751713988987e9331980363e24189ce",
+    "profiles": "f8781c2473e5b881c92a23ac0d3171e6",
+    "security_scan_findings": "d751713988987e9331980363e24189ce",
+    "security_scan_runs": "d751713988987e9331980363e24189ce",
+    "subscriptions": "d751713988987e9331980363e24189ce",
+    "suppressed_emails": "d751713988987e9331980363e24189ce",
+    "tenant_counters": "d751713988987e9331980363e24189ce",
+    "tenants": "af0f091cf90ae638c7cdfb60be98ef30",
+    "user_roles": "1d7e88f148c28929f4d987e9821670c7"
+  },
+  "initial_counts": {
+    "roles": 0,
+    "users": 0,
+    "orders": 0,
+    "tenants": 0,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 0,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "final_counts": {
+    "roles": 2,
+    "users": 2,
+    "orders": 0,
+    "tenants": 2,
+    "expenses": 0,
+    "payments": 0,
+    "products": 0,
+    "profiles": 2,
+    "customers": 0,
+    "day_closes": 0,
+    "order_items": 0
+  },
+  "migration_versions": [
+    "20260626142422",
+    "20260626142438",
+    "20260626143241",
+    "20260626143657",
+    "20260626145704",
+    "20260626150447",
+    "20260626151932",
+    "20260626155319",
+    "20260626155333",
+    "20260626155758",
+    "20260626161037",
+    "20260626162911",
+    "20260626181906",
+    "20260626183212",
+    "20260626190302",
+    "20260626191000",
+    "20260626191523",
+    "20260626201427",
+    "20260626213551",
+    "20260626225100",
+    "20260626231740",
+    "20260626233231",
+    "20260627100633",
+    "20260627201534",
+    "20260627203328",
+    "20260627213042",
+    "20260627221524",
+    "20260627224911",
+    "20260628073856",
+    "20260628074047",
+    "20260628075333",
+    "20260628102723",
+    "20260628103809",
+    "20260628105459",
+    "20260701090000",
+    "20260704105413",
+    "20260706120000",
+    "20260708073115",
+    "20260715145141",
+    "20260716064935",
+    "20260717180906",
+    "20261010223557",
+    "20261010225012"
+  ],
+  "runtime": {
+    "pid": 7917,
+    "uid": 999,
+    "guard_ready": true,
+    "redirect_manual": true,
+    "native_redirect_rejected": true,
+    "external_blocked": 0,
+    "downstream": {
+      "jwks": 34,
+      "rest": 12
+    },
+    "runtime_conflict_errors": 0
+  },
+  "firewall_observations": [
+    {
+      "process": "app",
+      "baseline_after_canary_before_bundle": {
+        "ipv4": 2,
+        "ipv6": 0
+      },
+      "end": {
+        "ipv4": 2,
+        "ipv6": 0
+      },
+      "unexpected_reject_packets": {
+        "ipv4": 0,
+        "ipv6": 0
+      }
+    }
+  ],
+  "private_logs_no_known_credentials": true,
+  "not_verified": [
+    "Cloudflare/production",
+    "nonempty financial or foreign payloads",
+    "concurrency",
+    "refresh policy",
+    "complete L13/lifecycle/isolation acceptance"
+  ],
+  "evidence_no_credentials": true
+}
+

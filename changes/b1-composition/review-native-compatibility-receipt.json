@@ -1,0 +1,96 @@
+{
+  "scope": "B1 composition compatibility only; no B merge approval",
+  "candidate": "9979d4e1c9859719c7999f9ed6db0b773d4513be",
+  "run_id": 39452262035,
+  "run_attempt": 1,
+  "status": "completed",
+  "conclusion": "success",
+  "job_id": 118729875373,
+  "steps": [
+    {
+      "name": "Set up job",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/checkout@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run oven-sh/setup-bun@v2",
+      "conclusion": "success"
+    },
+    {
+      "name": "Run actions/setup-node@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Frozen dependencies",
+      "conclusion": "success"
+    },
+    {
+      "name": "Locked serialization exports",
+      "conclusion": "success"
+    },
+    {
+      "name": "Generated formatting",
+      "conclusion": "success"
+    },
+    {
+      "name": "Typecheck",
+      "conclusion": "success"
+    },
+    {
+      "name": "Full lint",
+      "conclusion": "success"
+    },
+    {
+      "name": "Unit tests",
+      "conclusion": "success"
+    },
+    {
+      "name": "Original OC APP wire regression",
+      "conclusion": "success"
+    },
+    {
+      "name": "Build",
+      "conclusion": "success"
+    },
+    {
+      "name": "Generation retains tracked files",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/setup-node@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run oven-sh/setup-bun@v2",
+      "conclusion": "success"
+    },
+    {
+      "name": "Post Run actions/checkout@v4",
+      "conclusion": "success"
+    },
+    {
+      "name": "Complete job",
+      "conclusion": "success"
+    }
+  ],
+  "unit": {
+    "passed": 76,
+    "failed": 0,
+    "files": 7,
+    "expectations": 221
+  },
+  "wire_round_trips": 4,
+  "lint": {
+    "errors": 0,
+    "warnings": 12
+  },
+  "database_or_provider_run": false,
+  "reviewer_native_rerun": false,
+  "source_tree": "8cdd3108f3f5dc8164d893c187879198735d9ee6",
+  "protected_paths": 341,
+  "migrations": 45,
+  "next": "B2 / AC-01"
+}

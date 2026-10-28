@@ -1,0 +1,66 @@
+{
+  "diagnostic": [
+    {
+      "id": 12352285260,
+      "name": "b4-webhook-fresh-attempt1",
+      "size_in_bytes": 1615,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352285260",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352285260/zip",
+      "expired": false,
+      "created_at": "2026-10-21T14:03:14Z",
+      "expires_at": "2026-10-28T14:03:13Z",
+      "updated_at": "2026-10-21T14:03:14Z",
+      "digest": "sha256:1145b4e15981daf4074c643404780e0313337e30ba1bff2172784a8888b72b67",
+      "workflow_run": {
+        "id": 39612546949,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333"
+      }
+    },
+    {
+      "id": 12350798599,
+      "name": "b4-webhook-upgrade-attempt1",
+      "size_in_bytes": 3994,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350798599",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12350798599/zip",
+      "expired": false,
+      "created_at": "2026-10-21T14:05:29Z",
+      "expires_at": "2026-10-28T14:05:28Z",
+      "updated_at": "2026-10-21T14:05:29Z",
+      "digest": "sha256:e99679e3f24168e342e9b1a9238663be30f3854fc4ffe24d6e24100f338324ca",
+      "workflow_run": {
+        "id": 39612546949,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "f4e24001d6a08128da7c63fa0ee3600bfcbeb333"
+      }
+    }
+  ],
+  "generator50": [
+    {
+      "id": 12352122067,
+      "name": "b4-cli-generated-errors",
+      "size_in_bytes": 4130,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352122067",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12352122067/zip",
+      "expired": false,
+      "created_at": "2026-10-21T14:07:47Z",
+      "expires_at": "2026-10-28T14:07:46Z",
+      "updated_at": "2026-10-21T14:07:47Z",
+      "digest": "sha256:74df1e2fb9b3f617458c0cecad2d8d78c9c158ea904a1aa383f25101342fc60c",
+      "workflow_run": {
+        "id": 39614071707,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "4385e95799980d12890d18579c964b0d14e6f151"
+      }
+    }
+  ],
+  "review_scope": "Source and stored native receipts; no reviewer live DB/provider execution",
+  "local_diagnostic_sha256": "1145b4e15981daf4074c643404780e0313337e30ba1bff2172784a8888b72b67",
+  "local_generator50_sha256": "74df1e2fb9b3f617458c0cecad2d8d78c9c158ea904a1aa383f25101342fc60c"
+}

@@ -1,0 +1,45 @@
+{
+  "scope": "Independent offline evidence validation, no app/database/provider execution",
+  "candidate": "d05c263adb371f29b6f234afe4b24fe739b42e3a",
+  "lifecycle": [
+    {
+      "artifact": "12482278760",
+      "mode": "fresh",
+      "source": "d05c263adb371f29b6f234afe4b24fe739b42e3a",
+      "checks": 441,
+      "all_checks_unique_true": true,
+      "zip_sha256": "36b5fc2833fab3b7572e9b57aa70fd7a1bf55369aeb35adad0e6ca14509c977d",
+      "all25_closure_invariants_verified": true,
+      "independent_stored_25_sale_25_payment_stock8_and_audit_links_verified": true,
+      "metrics_stub_calls": 40,
+      "external_unknown": 0,
+      "node": "v22.23.3",
+      "actual_built_markers_and_copy_hashes": true,
+      "populated_original22_Auth_preservation": false,
+      "credential_pattern_scan": true
+    },
+    {
+      "artifact": "12482813055",
+      "mode": "upgrade",
+      "source": "d05c263adb371f29b6f234afe4b24fe739b42e3a",
+      "checks": 446,
+      "all_checks_unique_true": true,
+      "zip_sha256": "892dd3321be39c23b7d1f6a8157e149141688c75c5b46887da8845fd72035c57",
+      "all25_closure_invariants_verified": true,
+      "independent_stored_25_sale_25_payment_stock8_and_audit_links_verified": true,
+      "metrics_stub_calls": 40,
+      "external_unknown": 0,
+      "node": "v22.23.3",
+      "actual_built_markers_and_copy_hashes": true,
+      "populated_original22_Auth_preservation": true,
+      "credential_pattern_scan": true
+    }
+  ],
+  "signed_billing": {
+    "artifact": 12483440024,
+    "checks": 206,
+    "all_unique_true": true,
+    "zip_sha256": "0732776da15936523656c688f40d16ca4b9dd18e919fd2192750dbd5c2c88b21"
+  },
+  "SSR": "failed, no B5/B6 acceptance"
+}

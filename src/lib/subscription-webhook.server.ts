@@ -1,0 +1,182 @@
+import { EventName, type PaddleEnv, type verifyWebhook } from "@/lib/paddle.server";
+
+type VerifiedEvent = Awaited<ReturnType<typeof verifyWebhook>>;
+export type SubscriptionWrite = {
+  p_environment: PaddleEnv;
+  p_event_id: string;
+  p_event_type: string;
+  p_occurred_at: string;
+  p_subscription: {
+    id: string;
+    created_at: string;
+    customer_id: string;
+    tenant_id: string | null;
+    user_id: string | null;
+    product_id: string | null;
+    price_id: string | null;
+    status: string;
+    period_start: string | null;
+    period_end: string | null;
+    cancel_at_period_end: boolean;
+  };
+};
+
+type FailureReason = "verification_failed" | "payload_invalid" | "persistence_failed";
+type Dependencies = {
+  verify: (request: Request, env: PaddleEnv) => Promise<VerifiedEvent>;
+  persist: (
+    write: SubscriptionWrite,
+    signal: AbortSignal,
+  ) => Promise<{ data: unknown; error: unknown }>;
+  report: (reason: FailureReason) => void;
+};
+
+class InvalidPayload extends Error {}
+
+function text(value: unknown, pattern?: RegExp): string {
+  if (
+    typeof value !== "string" ||
+    !value ||
+    value !== value.trim() ||
+    value.length > 256 ||
+    (pattern && !pattern.test(value))
+  ) {
+    throw new InvalidPayload();
+  }
+  return value;
+}
+
+function optionalText(value: unknown, pattern?: RegExp): string | null {
+  return value == null ? null : text(value, pattern);
+}
+
+// Retain the original string: Date serialization would discard sub-millisecond order.
+// PostgreSQL stores microseconds; greater precision is rejected rather than rounded silently.
+function timestamp(value: unknown): string {
+  const result = text(value);
+  if (
+    !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?(?:Z|[+-]\d{2}:\d{2})$/.test(result) ||
+    !Number.isFinite(Date.parse(result))
+  ) {
+    throw new InvalidPayload();
+  }
+  const year = Number(result.slice(0, 4));
+  const month = Number(result.slice(5, 7));
+  const day = Number(result.slice(8, 10));
+  if (
+    year < 1000 ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > new Date(Date.UTC(year, month, 0)).getUTCDate()
+  ) {
+    throw new InvalidPayload();
+  }
+  return result;
+}
+
+export function subscriptionWrite(event: VerifiedEvent, env: PaddleEnv): SubscriptionWrite | null {
+  if (
+    event.eventType !== EventName.SubscriptionCreated &&
+    event.eventType !== EventName.SubscriptionUpdated &&
+    event.eventType !== EventName.SubscriptionCanceled
+  ) {
+    return null;
+  }
+  const data = event.data;
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const tenantId = optionalText(data.customData?.tenantId, uuid);
+  const userId = optionalText(data.customData?.userId, uuid);
+  const productId = optionalText(data.items[0]?.product?.importMeta?.externalId);
+  const priceId = optionalText(data.items[0]?.price?.importMeta?.externalId);
+  if (
+    event.eventType === EventName.SubscriptionCreated &&
+    (!tenantId || !userId || !productId || !priceId)
+  )
+    throw new InvalidPayload();
+  if (
+    !new Set(["active", "trialing", "past_due", "paused", "canceled"]).has(data.status) ||
+    (event.eventType === EventName.SubscriptionCanceled && data.status !== "canceled")
+  )
+    throw new InvalidPayload();
+  return {
+    p_environment: env,
+    p_event_id: text(event.eventId, /^evt_[a-z0-9]{26}$/),
+    p_event_type: event.eventType,
+    p_occurred_at: timestamp(event.occurredAt),
+    p_subscription: {
+      id: text(data.id, /^sub_[a-z0-9]{26}$/),
+      created_at: timestamp(data.createdAt),
+      customer_id: text(data.customerId, /^ctm_[a-z0-9]{26}$/),
+      tenant_id: tenantId,
+      user_id: userId,
+      product_id: productId,
+      price_id: priceId,
+      status: data.status,
+      period_start: data.currentBillingPeriod
+        ? timestamp(data.currentBillingPeriod.startsAt)
+        : null,
+      period_end: data.currentBillingPeriod ? timestamp(data.currentBillingPeriod.endsAt) : null,
+      // The original created handler omitted this column (new-row default false).
+      // Existing rows retain their stored flag inside the transaction.
+      cancel_at_period_end:
+        event.eventType !== EventName.SubscriptionCreated &&
+        data.scheduledChange?.action === "cancel",
+    },
+  };
+}
+
+function committedResult(data: unknown): boolean {
+  if (!data || typeof data !== "object" || !("status" in data)) return false;
+  const states: readonly unknown[] = [
+    "applied",
+    "stale",
+    "unchanged",
+    "legacy_repaired",
+    "non_current",
+    "duplicate",
+  ];
+  return states.includes(data.status);
+}
+
+export function createSubscriptionWebhookHandler(deps: Dependencies) {
+  return async (request: Request): Promise<Response> => {
+    const rawEnv = new URL(request.url).searchParams.get("env") ?? "sandbox";
+    if (rawEnv !== "live" && rawEnv !== "sandbox")
+      return new Response("Invalid webhook environment", { status: 400 });
+    let event: VerifiedEvent;
+    try {
+      event = await deps.verify(request, rawEnv);
+    } catch {
+      deps.report("verification_failed");
+      return new Response("Webhook verification failed", { status: 400 });
+    }
+    let write: SubscriptionWrite | null;
+    try {
+      write = subscriptionWrite(event, rawEnv);
+    } catch {
+      deps.report("payload_invalid");
+      return new Response("Invalid subscription event", { status: 422 });
+    }
+    if (!write) return Response.json({ received: true, ignored: true });
+    const controller = new AbortController();
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const timeout = new Promise<never>((_, reject) => {
+        timer = setTimeout(() => {
+          controller.abort();
+          reject(new Error("billing_persistence_deadline"));
+        }, 3500);
+      });
+      const result = await Promise.race([deps.persist(write, controller.signal), timeout]);
+      if (result.error || !committedResult(result.data))
+        throw new Error("billing_commit_unconfirmed");
+      return Response.json({ received: true });
+    } catch {
+      deps.report("persistence_failed");
+      return new Response("Webhook persistence unavailable", { status: 503 });
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+}

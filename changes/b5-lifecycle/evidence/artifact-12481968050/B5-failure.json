@@ -1,0 +1,8 @@
+{
+  "source": "5c13491178d0b40fa7be30c0900ddb684c14d94a",
+  "mode": "fresh",
+  "failed": true,
+  "reason": "closure control failed: headers_no_remote_jwks_or_discovery",
+  "integration_accepted": false,
+  "evidence_no_credentials": true
+}

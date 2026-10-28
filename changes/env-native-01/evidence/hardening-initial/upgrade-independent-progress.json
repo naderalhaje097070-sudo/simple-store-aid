@@ -1,0 +1,214 @@
+{
+  "source_sha": "7f6a6c991c7de4767c13f38485709e01ac0b1bf8",
+  "checks": [
+    {
+      "name": "independent_exact_final_43_migrations",
+      "passed": true
+    },
+    {
+      "name": "independent_trusted_connection_boundary",
+      "passed": true
+    },
+    {
+      "name": "independent_inherited_dummy_counts",
+      "passed": true
+    },
+    {
+      "name": "independent_initial_financial_zero",
+      "passed": true
+    },
+    {
+      "name": "independent_exact_public_table_surface",
+      "passed": true
+    },
+    {
+      "name": "review_deleted_owner_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_deleted_owner_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "review_deleted_owner_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_deleted_owner_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "review_deleted_owner_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_owner_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_owner_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "review_banned_owner_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_owner_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "review_banned_owner_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_staff_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_staff_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_banned_staff_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "review_banned_staff_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "review_banned_staff_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_active_staff_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_active_staff_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "review_active_staff_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "review_active_staff_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "review_active_staff_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_active_initial_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_active_initial_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_owner_initial_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_owner_initial_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_staff_initial_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_staff_initial_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_initial_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_deleted_initial_summary",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_expected_stored_fixture_links",
+      "passed": true
+    },
+    {
+      "name": "independent_active_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_active_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_active_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_owner_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_owner_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_owner_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_staff_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_staff_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "independent_staff_reassignment",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "independent_foreign_mutations_stored_no_effect",
+      "passed": true
+    }
+  ]
+}

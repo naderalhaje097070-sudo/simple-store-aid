@@ -1,0 +1,3847 @@
+{
+  "source_sha": "b9aa56bc3bb30948d95961c06fd493dfb866f476",
+  "method": "source lexical discovery; historical and dynamic events retained; not effective pg_catalog state",
+  "limitations": [
+    "Not a SQL parser",
+    "No function overload resolution",
+    "Dynamic SQL strings require catalog reconciliation",
+    "No runtime authorization proof"
+  ],
+  "migration_files": [
+    {
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "git_blob": "3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29"
+    },
+    {
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "git_blob": "b7746f47b990dd4b50089d56b751bd4a78e17fc7"
+    },
+    {
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "git_blob": "a585730de455ddc5a78dc9f3e09fd3e93ca02e79"
+    },
+    {
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "git_blob": "7d5426e64c1fd8d9dad78f42d56d061be778a0ed"
+    },
+    {
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "git_blob": "abda83bdb5295dfa6d51d8f5af7d75688631eee0"
+    },
+    {
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "git_blob": "0dc22071a5448abdb0a95a56c97d24adbf2019df"
+    },
+    {
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "git_blob": "88fd9836826e875faa98fde0bc6311c1672b69f1"
+    },
+    {
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "git_blob": "eb128740f70e1adf13146b7f7ab5182fbbefb13b"
+    },
+    {
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "git_blob": "268a59b85f26e7556e539920327102fe520420be"
+    },
+    {
+      "path": "supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "git_blob": "f5f2f721207a778d60eee35ddc14bd0990b76bdf"
+    },
+    {
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "git_blob": "06ea226cbffa018e831e8a3f9dc784813e588bd6"
+    },
+    {
+      "path": "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "git_blob": "1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948"
+    },
+    {
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "git_blob": "664530b175a3e0e2707f374906840ca8fda26dae"
+    },
+    {
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "git_blob": "a15606bb8d4b287cf0def00b402e16c9b89afdb8"
+    },
+    {
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "git_blob": "7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231"
+    },
+    {
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "git_blob": "83b0aeb7693c3228d003d55c20000963f0725200"
+    },
+    {
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "git_blob": "c7e5df32149acd8a3227651f88bdc7d83c6e5c04"
+    },
+    {
+      "path": "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "git_blob": "2164cfdb56c1479e208e2cea4c28aaf425cc4919"
+    },
+    {
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "git_blob": "d0ea200dde8b88134593c59f2d419da234721ffd"
+    },
+    {
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "git_blob": "a98ca8632905061be5501dbfe86dd7b880dd51c4"
+    },
+    {
+      "path": "supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+      "git_blob": "b1431806f4db21019257c9a4e2c80b5c07097e5c"
+    },
+    {
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "git_blob": "85a67ecfbc006125496e9afebef0d629e0db6199"
+    },
+    {
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "git_blob": "df5f868ba59ca95f75d179eceb96e4b81fae342f"
+    },
+    {
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "git_blob": "07048605f67628ed5b54c5bafd0bb3c388509b76"
+    },
+    {
+      "path": "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "git_blob": "2df0d72d4d6626196451b284721b3e08bc83603f"
+    },
+    {
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "git_blob": "55ce1238fecfb08c39a2c7d9bf1849d927c2733e"
+    },
+    {
+      "path": "supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+      "git_blob": "1c69a97c145c8530c44d941f6b418aad9fb8e60a"
+    },
+    {
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "git_blob": "9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef"
+    },
+    {
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "git_blob": "d9c5c0341d063533bd00cded2447e46e96c3a3dd"
+    },
+    {
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "git_blob": "ad099717609b3c27c8fd66be5975d49a489a28f2"
+    },
+    {
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "git_blob": "9b5a7f75e6343fc761267ff9123c490add1ebb05"
+    },
+    {
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "git_blob": "6c35e58bcef2781750fba2d79cc154fcb0293f28"
+    },
+    {
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "git_blob": "0cf75d0764d058057439b540a29883235ade7942"
+    },
+    {
+      "path": "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "git_blob": "2f6bd895abf01ea11fa4147f2793f2598f27e6bb"
+    },
+    {
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "git_blob": "d2892a0adb6e567aa11a9a98795f5bc348a833cd"
+    },
+    {
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "git_blob": "381d968d10f1265a909fc0fdb66f77adbf79af4f"
+    },
+    {
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "git_blob": "37d81c014f40e53626ba09714c843b976fdac7eb"
+    },
+    {
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "git_blob": "dfb505f8f0f7de742b04c9ebe295f7466c800dea"
+    },
+    {
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "git_blob": "0aa11bba4ba0c4d95c42f37aaf957a1d007f7011"
+    },
+    {
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "git_blob": "661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5"
+    },
+    {
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "git_blob": "81d0bfa72c2a59333591ed2236931c4623a740f3"
+    }
+  ],
+  "events": [
+    {
+      "kind": "function_definition",
+      "name": "has_role",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 44,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "current_tenant_id",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 57,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "handle_new_user",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 68,
+      "security_definer": true,
+      "calls": [
+        "profiles"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "touch_updated_at",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 86,
+      "security_definer": false,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_create",
+      "name": "users read own profile",
+      "table": "profiles",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 99,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"users read own profile\" ON public.profiles\nFOR SELECT TO authenticated USING (id = auth.uid())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "users update own profile",
+      "table": "profiles",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 102,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"users update own profile\" ON public.profiles\nFOR UPDATE TO authenticated USING (id = auth.uid()) WITH CHECK (id = auth.uid())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners read their tenant",
+      "table": "tenants",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 108,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners read their tenant\" ON public.tenants\nFOR SELECT TO authenticated\nUSING (owner_user_id = auth.uid() OR id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "users create their own tenant",
+      "table": "tenants",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 112,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"users create their own tenant\" ON public.tenants\nFOR INSERT TO authenticated WITH CHECK (owner_user_id = auth.uid())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners update their tenant",
+      "table": "tenants",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 115,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners update their tenant\" ON public.tenants\nFOR UPDATE TO authenticated\nUSING (owner_user_id = auth.uid()) WITH CHECK (owner_user_id = auth.uid())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete their tenant",
+      "table": "tenants",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 119,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete their tenant\" ON public.tenants\nFOR DELETE TO authenticated USING (owner_user_id = auth.uid())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "members read roles in own tenant",
+      "table": "user_roles",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 123,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"members read roles in own tenant\" ON public.user_roles\nFOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 13,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.tenants TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 14,
+      "statement": "GRANT ALL ON public.tenants TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 26,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.profiles TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 27,
+      "statement": "GRANT ALL ON public.profiles TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 39,
+      "statement": "GRANT SELECT ON public.user_roles TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "line": 40,
+      "statement": "GRANT ALL ON public.user_roles TO service_role;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "touch_updated_at",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 3,
+      "security_definer": false,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 10,
+      "statement": "revoke from PUBLIC/anon, grant only where needed\nREVOKE EXECUTE ON FUNCTION public.has_role(UUID, UUID, public.app_role) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 12,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.current_tenant_id() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 13,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 15,
+      "statement": "GRANT EXECUTE ON FUNCTION public.has_role(UUID, UUID, public.app_role) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "line": 16,
+      "statement": "GRANT EXECUTE ON FUNCTION public.current_tenant_id() TO authenticated;"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read products",
+      "table": "products",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 22,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read products\" ON public.products FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert products",
+      "table": "products",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 23,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert products\" ON public.products FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update products",
+      "table": "products",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 24,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update products\" ON public.products FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete products",
+      "table": "products",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 25,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete products\" ON public.products FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 42,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read customers\" ON public.customers FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 43,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert customers\" ON public.customers FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 44,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update customers\" ON public.customers FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 45,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete customers\" ON public.customers FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 69,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read orders\" ON public.orders FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 70,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert orders\" ON public.orders FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 71,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update orders\" ON public.orders FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 72,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete orders\" ON public.orders FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 92,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read order_items\" ON public.order_items FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 93,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert order_items\" ON public.order_items FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 94,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update order_items\" ON public.order_items FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 95,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete order_items\" ON public.order_items FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 19,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.products TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 20,
+      "statement": "GRANT ALL ON public.products TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 39,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.customers TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 40,
+      "statement": "GRANT ALL ON public.customers TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 66,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.orders TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 67,
+      "statement": "GRANT ALL ON public.orders TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 89,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.order_items TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "line": 90,
+      "statement": "GRANT ALL ON public.order_items TO service_role;"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 16,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read couriers\" ON public.couriers FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 17,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert couriers\" ON public.couriers FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 18,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update couriers\" ON public.couriers FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 19,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete couriers\" ON public.couriers FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 53,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read payments\" ON public.payments FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 54,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert payments\" ON public.payments FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 55,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update payments\" ON public.payments FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 56,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete payments\" ON public.payments FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 73,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read expenses\" ON public.expenses FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 74,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert expenses\" ON public.expenses FOR INSERT TO authenticated WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 75,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update expenses\" ON public.expenses FOR UPDATE TO authenticated USING (tenant_id = public.current_tenant_id()) WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 76,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete expenses\" ON public.expenses FOR DELETE TO authenticated USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 13,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.couriers TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 14,
+      "statement": "GRANT ALL ON public.couriers TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 50,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.payments TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 51,
+      "statement": "GRANT ALL ON public.payments TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 70,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.expenses TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "line": 71,
+      "statement": "GRANT ALL ON public.expenses TO service_role;"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members read day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 22,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members read day_closes\"\n  ON public.day_closes FOR SELECT TO authenticated\n  USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members insert day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 26,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members insert day_closes\"\n  ON public.day_closes FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members update day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 30,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members update day_closes\"\n  ON public.day_closes FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id())\n  WITH CHECK (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "tenant members delete day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 35,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"tenant members delete day_closes\"\n  ON public.day_closes FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 17,
+      "statement": "GRANT SELECT, INSERT, UPDATE, DELETE ON public.day_closes TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "line": 18,
+      "statement": "GRANT ALL ON public.day_closes TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "line": 1,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_role(uuid, uuid, public.app_role) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "line": 2,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.current_tenant_id() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "has_owner_role",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 28,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "has_staff_or_owner_role",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 36,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_drop",
+      "name": "users update own profile",
+      "table": "profiles",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 5,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"users update own profile\" ON public.profiles"
+    },
+    {
+      "kind": "policy_create",
+      "name": "users update own profile",
+      "table": "profiles",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 7,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"users update own profile\" ON public.profiles\n  FOR UPDATE TO authenticated\n  USING (id = auth.uid())\n  WITH CHECK (\n    id = auth.uid()\n    AND (\n      tenant_id IS NOT DISTINCT FROM (\n        SELECT p.tenant_id FROM public.profiles p WHERE p.id = auth.uid()\n      )\n      OR EXISTS (\n        SELECT 1 FROM public.tenants t\n        WHERE t.id = profiles.tenant_id AND t.owner_user_id = auth.uid()\n      )\n    )\n  )"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 50,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert orders\" ON public.orders"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 51,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update orders\" ON public.orders"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 52,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete orders\" ON public.orders"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff insert orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 53,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff insert orders\" ON public.orders FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff update orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 55,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff update orders\" ON public.orders FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete orders",
+      "table": "orders",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 58,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete orders\" ON public.orders FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 62,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert order_items\" ON public.order_items"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 63,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update order_items\" ON public.order_items"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 64,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete order_items\" ON public.order_items"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff insert order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 65,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff insert order_items\" ON public.order_items FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff update order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 67,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff update order_items\" ON public.order_items FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete order_items",
+      "table": "order_items",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 70,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete order_items\" ON public.order_items FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 74,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert customers\" ON public.customers"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 75,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update customers\" ON public.customers"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 76,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete customers\" ON public.customers"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff insert customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 77,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff insert customers\" ON public.customers FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff update customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 79,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff update customers\" ON public.customers FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete customers",
+      "table": "customers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 82,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete customers\" ON public.customers FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 86,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert payments\" ON public.payments"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 87,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update payments\" ON public.payments"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 88,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete payments\" ON public.payments"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff insert payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 89,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff insert payments\" ON public.payments FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "staff update payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 91,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"staff update payments\" ON public.payments FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_staff_or_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete payments",
+      "table": "payments",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 94,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete payments\" ON public.payments FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 100,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert products\" ON public.products"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 101,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update products\" ON public.products"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 102,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete products\" ON public.products"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners insert products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 103,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners insert products\" ON public.products FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners update products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 105,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners update products\" ON public.products FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete products",
+      "table": "products",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 108,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete products\" ON public.products FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 112,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert couriers\" ON public.couriers"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 113,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update couriers\" ON public.couriers"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 114,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete couriers\" ON public.couriers"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners insert couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 115,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners insert couriers\" ON public.couriers FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners update couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 117,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners update couriers\" ON public.couriers FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete couriers",
+      "table": "couriers",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 120,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete couriers\" ON public.couriers FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 124,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert expenses\" ON public.expenses"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 125,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update expenses\" ON public.expenses"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 126,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete expenses\" ON public.expenses"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners insert expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 127,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners insert expenses\" ON public.expenses FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners update expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 129,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners update expenses\" ON public.expenses FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete expenses",
+      "table": "expenses",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 132,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete expenses\" ON public.expenses FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members insert day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 136,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members insert day_closes\" ON public.day_closes"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members update day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 137,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members update day_closes\" ON public.day_closes"
+    },
+    {
+      "kind": "policy_drop",
+      "name": "tenant members delete day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 138,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"tenant members delete day_closes\" ON public.day_closes"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners insert day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 139,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners insert day_closes\" ON public.day_closes FOR INSERT TO authenticated\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners update day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 141,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners update day_closes\" ON public.day_closes FOR UPDATE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))\n  WITH CHECK (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owners delete day_closes",
+      "table": "day_closes",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 144,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owners delete day_closes\" ON public.day_closes FOR DELETE TO authenticated\n  USING (tenant_id = public.current_tenant_id() AND public.has_owner_role(auth.uid(), tenant_id))"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 44,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_owner_role(uuid, uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "line": 45,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_staff_or_owner_role(uuid, uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "_assert_staff",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 37,
+      "security_definer": true,
+      "calls": [
+        "current_tenant_id",
+        "has_staff_or_owner_role"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "create_sale_with_items",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 53,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "order_items",
+        "orders",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "collect_order_debt",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 155,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "settle_courier_orders",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 200,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "return_courier_order",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 275,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 313,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 152,
+      "statement": "GRANT EXECUTE ON FUNCTION public.create_sale_with_items(uuid, delivery_kind, uuid, numeric, payment_method, jsonb) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 196,
+      "statement": "GRANT EXECUTE ON FUNCTION public.collect_order_debt(uuid, numeric, payment_method) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 272,
+      "statement": "GRANT EXECUTE ON FUNCTION public.settle_courier_orders(uuid, jsonb) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 310,
+      "statement": "GRANT EXECUTE ON FUNCTION public.return_courier_order(uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "line": 391,
+      "statement": "GRANT EXECUTE ON FUNCTION public.close_day(text) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 2,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.create_sale_with_items(uuid, delivery_kind, uuid, numeric, payment_method, jsonb) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 3,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.collect_order_debt(uuid, numeric, payment_method) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 4,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.settle_courier_orders(uuid, jsonb) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 5,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.return_courier_order(uuid) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 6,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.close_day(text) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "line": 7,
+      "statement": "REVOKE EXECUTE ON FUNCTION public._assert_staff(uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "handle_new_tenant",
+      "path": "supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "line": 3,
+      "security_definer": true,
+      "calls": [
+        "user_roles"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "line": 13,
+      "statement": "REVOKE ALL ON FUNCTION %I.%I(%s) FROM PUBLIC', r.schema_name, r.function_name, r.args);"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "line": 14,
+      "statement": "REVOKE ALL ON FUNCTION %I.%I(%s) FROM anon',   r.schema_name, r.function_name, r.args);"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "line": 15,
+      "statement": "GRANT EXECUTE ON FUNCTION %I.%I(%s) TO authenticated', r.schema_name, r.function_name, r.args);"
+    },
+    {
+      "kind": "function_definition",
+      "name": "return_courier_order",
+      "path": "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "line": 1,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "is_platform_admin",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 24,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "_assert_platform_admin",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 37,
+      "security_definer": true,
+      "calls": [
+        "is_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_admin_overview",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 53,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_tenants_health",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 127,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_financial_health",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 183,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_financial_health_rows",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 255,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_system_health",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 326,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_day_close_health",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 393,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_courier_custody_health",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 439,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_create",
+      "name": "self_read_platform_admins",
+      "table": "platform_admins",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 15,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"self_read_platform_admins\"\n  ON public.platform_admins\n  FOR SELECT\n  TO authenticated\n  USING (user_id = auth.uid())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 9,
+      "statement": "GRANT SELECT ON public.platform_admins TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 10,
+      "statement": "GRANT ALL ON public.platform_admins TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 33,
+      "statement": "REVOKE ALL ON FUNCTION public.is_platform_admin() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 34,
+      "statement": "GRANT EXECUTE ON FUNCTION public.is_platform_admin() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 49,
+      "statement": "REVOKE ALL ON FUNCTION public._assert_platform_admin() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 50,
+      "statement": "GRANT EXECUTE ON FUNCTION public._assert_platform_admin() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 123,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_admin_overview() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 124,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_admin_overview() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 179,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_tenants_health() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 180,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_tenants_health() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 251,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_financial_health() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 252,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_financial_health() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 322,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_financial_health_rows(text,int) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 323,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_financial_health_rows(text,int) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 389,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_system_health() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 390,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_system_health() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 435,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_day_close_health(int) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 436,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_day_close_health(int) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 474,
+      "statement": "REVOKE ALL ON FUNCTION public.get_platform_courier_custody_health() FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "line": 475,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_courier_custody_health() TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "_assert_owner",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 3,
+      "security_definer": true,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 21,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 18,
+      "statement": "REVOKE EXECUTE ON FUNCTION public._assert_owner(uuid) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 19,
+      "statement": "GRANT EXECUTE ON FUNCTION public._assert_owner(uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 97,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.handle_new_tenant() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "line": 98,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.handle_new_user() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "line": 1,
+      "statement": "Revoke EXECUTE from authenticated on internal-only SECURITY DEFINER helpers\n-- that are never called directly by the client (only invoked from within other\n-- SECURITY DEFINER functions, which run as their owner and don't need the\n-- caller to hold EXECUTE).\nREVOKE EXECUTE ON FUNCTION public._assert_owner(uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "line": 6,
+      "statement": "REVOKE EXECUTE ON FUNCTION public._assert_platform_admin() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "line": 7,
+      "statement": "REVOKE EXECUTE ON FUNCTION public._assert_staff(uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "line": 12,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "line": 13,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "line": 14,
+      "statement": "GRANT SELECT ON public.platform_admin_audit_log TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "line": 15,
+      "statement": "GRANT ALL ON public.platform_admin_audit_log TO service_role;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "_log_platform_admin_action",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 11,
+      "security_definer": true,
+      "calls": [
+        "platform_admin_audit_log"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_admin_overview",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 23,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_tenants_health",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 64,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_financial_health",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 95,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_financial_health_rows",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 133,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_system_health",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 157,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_day_close_health",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 185,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_courier_custody_health",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 207,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_admin_audit_log",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 226,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_create",
+      "name": "platform admins read audit log",
+      "table": "platform_admin_audit_log",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 4,
+      "calls": [
+        "is_platform_admin"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"platform admins read audit log\" ON public.platform_admin_audit_log FOR SELECT TO authenticated USING (public.is_platform_admin())'"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 19,
+      "statement": "REVOKE ALL ON FUNCTION public._log_platform_admin_action(text, jsonb) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 20,
+      "statement": "REVOKE ALL ON FUNCTION public._log_platform_admin_action(text, jsonb) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 21,
+      "statement": "REVOKE ALL ON FUNCTION public._log_platform_admin_action(text, jsonb) FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "line": 241,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_platform_admin_audit_log(integer, integer) TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "create_sale_with_items",
+      "path": "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "line": 1,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "order_items",
+        "orders",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 5,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_role(uuid, uuid, public.app_role) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 6,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_owner_role(uuid, uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 7,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.has_staff_or_owner_role(uuid, uuid) FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 8,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.current_tenant_id() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 9,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.is_platform_admin() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "line": 13,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.get_platform_admin_audit_log(integer, integer) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "line": 5,
+      "statement": "GRANT EXECUTE ON FUNCTION public.current_tenant_id() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "line": 6,
+      "statement": "GRANT EXECUTE ON FUNCTION public.has_role(uuid, uuid, public.app_role) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "line": 7,
+      "statement": "GRANT EXECUTE ON FUNCTION public.has_owner_role(uuid, uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "line": 8,
+      "statement": "GRANT EXECUTE ON FUNCTION public.has_staff_or_owner_role(uuid, uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "line": 9,
+      "statement": "GRANT EXECUTE ON FUNCTION public.is_platform_admin() TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "delete_order_with_restore_stock",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 12,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "update_courier_order_state",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 52,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "return_courier_order"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "return_courier_order",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 109,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 48,
+      "statement": "REVOKE ALL ON FUNCTION public.delete_order_with_restore_stock(uuid) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 49,
+      "statement": "GRANT EXECUTE ON FUNCTION public.delete_order_with_restore_stock(uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 105,
+      "statement": "REVOKE ALL ON FUNCTION public.update_courier_order_state(uuid, text, numeric) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "line": 106,
+      "statement": "GRANT EXECUTE ON FUNCTION public.update_courier_order_state(uuid, text, numeric) TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 29,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "collect_order_debt",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 119,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_drop",
+      "name": "platform_admins_read_audit",
+      "table": "platform_admin_audit_log",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 17,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"platform_admins_read_audit\" ON public.platform_admin_audit_log"
+    },
+    {
+      "kind": "policy_create",
+      "name": "platform_admins_read_audit",
+      "table": "platform_admin_audit_log",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 18,
+      "calls": [
+        "is_platform_admin"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"platform_admins_read_audit\"\n  ON public.platform_admin_audit_log FOR SELECT\n  TO authenticated\n  USING (public.is_platform_admin())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 10,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 11,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 12,
+      "statement": "GRANT SELECT ON public.platform_admin_audit_log TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "line": 13,
+      "statement": "GRANT ALL ON public.platform_admin_audit_log TO service_role;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "current_tenant_timezone",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 23,
+      "security_definer": true,
+      "calls": [
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "tenant_today",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 34,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "next_order_number",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 59,
+      "security_definer": true,
+      "calls": [
+        "tenant_counters"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "_fin_audit_trigger",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 121,
+      "security_definer": true,
+      "calls": [
+        "financial_audit_log"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 157,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id",
+        "current_tenant_timezone",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_tenant_today_estimate",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 240,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "current_tenant_timezone"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_admin_overview",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 282,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "get_platform_day_close_health",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 326,
+      "security_definer": true,
+      "calls": [
+        "_assert_platform_admin",
+        "_log_platform_admin_action"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "create_sale_with_items",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 358,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "next_order_number",
+        "order_items",
+        "orders",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "settle_courier_orders",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 448,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_drop",
+      "name": "owner reads tenant audit log",
+      "table": "financial_audit_log",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 111,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "DROP POLICY IF EXISTS \"owner reads tenant audit log\" ON public.financial_audit_log"
+    },
+    {
+      "kind": "policy_create",
+      "name": "owner reads tenant audit log",
+      "table": "financial_audit_log",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 112,
+      "calls": [
+        "current_tenant_id",
+        "has_owner_role"
+      ],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"owner reads tenant audit log\" ON public.financial_audit_log\n  FOR SELECT TO authenticated\n  USING (\n    tenant_id = public.current_tenant_id()\n    AND public.has_owner_role(auth.uid(), tenant_id)\n  )"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 13,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 14,
+      "statement": "REVOKE ALL ON public.platform_admin_audit_log FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 15,
+      "statement": "GRANT SELECT ON public.platform_admin_audit_log TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 16,
+      "statement": "GRANT ALL    ON public.platform_admin_audit_log TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 30,
+      "statement": "REVOKE ALL ON FUNCTION public.current_tenant_timezone() FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 31,
+      "statement": "REVOKE ALL ON FUNCTION public.current_tenant_timezone() FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 32,
+      "statement": "GRANT EXECUTE ON FUNCTION public.current_tenant_timezone() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 41,
+      "statement": "REVOKE ALL ON FUNCTION public.tenant_today(uuid) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 42,
+      "statement": "REVOKE ALL ON FUNCTION public.tenant_today(uuid) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 43,
+      "statement": "GRANT EXECUTE ON FUNCTION public.tenant_today(uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 52,
+      "statement": "REVOKE ALL ON public.tenant_counters FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 53,
+      "statement": "REVOKE ALL ON public.tenant_counters FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 54,
+      "statement": "REVOKE ALL ON public.tenant_counters FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 55,
+      "statement": "GRANT ALL ON public.tenant_counters TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 70,
+      "statement": "REVOKE ALL ON FUNCTION public.next_order_number(uuid) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 71,
+      "statement": "REVOKE ALL ON FUNCTION public.next_order_number(uuid) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 72,
+      "statement": "REVOKE ALL ON FUNCTION public.next_order_number(uuid) FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 106,
+      "statement": "REVOKE ALL ON public.financial_audit_log FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 107,
+      "statement": "REVOKE ALL ON public.financial_audit_log FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 108,
+      "statement": "GRANT SELECT ON public.financial_audit_log TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 109,
+      "statement": "GRANT ALL    ON public.financial_audit_log TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 277,
+      "statement": "REVOKE ALL ON FUNCTION public.get_tenant_today_estimate() FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 278,
+      "statement": "REVOKE ALL ON FUNCTION public.get_tenant_today_estimate() FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 279,
+      "statement": "GRANT EXECUTE ON FUNCTION public.get_tenant_today_estimate() TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 504,
+      "statement": "REVOKE ALL ON FUNCTION public.settle_courier_orders(uuid, uuid[]) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 505,
+      "statement": "REVOKE ALL ON FUNCTION public.settle_courier_orders(uuid, uuid[]) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 506,
+      "statement": "GRANT EXECUTE ON FUNCTION public.settle_courier_orders(uuid, uuid[]) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 511,
+      "statement": "REVOKE INSERT, UPDATE, DELETE ON public.orders        FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 512,
+      "statement": "REVOKE INSERT, UPDATE, DELETE ON public.order_items   FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 513,
+      "statement": "REVOKE INSERT, UPDATE, DELETE ON public.payments      FROM authenticated;"
+    },
+    {
+      "kind": "function_drop",
+      "name": "settle_courier_orders",
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "line": 447,
+      "statement": "DROP FUNCTION IF EXISTS public.settle_courier_orders(uuid, jsonb);"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "line": 1,
+      "statement": "REVOKE EXECUTE ON FUNCTION public._fin_audit_trigger() FROM PUBLIC, anon, authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "run_security_scan",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 42,
+      "security_definer": true,
+      "calls": [
+        "is_platform_admin",
+        "security_scan_findings",
+        "security_scan_runs"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": true
+    },
+    {
+      "kind": "policy_create",
+      "name": "platform admins read runs",
+      "table": "security_scan_runs",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 16,
+      "calls": [
+        "is_platform_admin"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"platform admins read runs\" ON public.security_scan_runs\n  FOR SELECT TO authenticated USING (public.is_platform_admin())"
+    },
+    {
+      "kind": "policy_create",
+      "name": "platform admins read findings",
+      "table": "security_scan_findings",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 38,
+      "calls": [
+        "is_platform_admin"
+      ],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"platform admins read findings\" ON public.security_scan_findings\n  FOR SELECT TO authenticated USING (public.is_platform_admin())"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 13,
+      "statement": "GRANT SELECT ON public.security_scan_runs TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 14,
+      "statement": "GRANT ALL ON public.security_scan_runs TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 35,
+      "statement": "GRANT SELECT ON public.security_scan_findings TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 36,
+      "statement": "GRANT ALL ON public.security_scan_findings TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 145,
+      "statement": "GRANT SELECT \u0644\u0640 anon \u0644\u0643\u0646 \u0644\u0627 \u064a\u0648\u062c\u062f policy \u0644\u0640 anon \u2014 \u0642\u062f \u064a\u0643\u0648\u0646 \u0645\u0642\u0635\u0648\u062f\u064b\u0627 \u0623\u0648 \u062e\u0637\u0623.',\n            jsonb_build_object('table', r.table_name), v_fp, v_run_id)\n    ON CONFLICT (fingerprint) DO UPDATE\n      SET last_seen_at = now(), resolved_at = NULL, last_run_id = v_run_id;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 170,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.run_security_scan(text) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "line": 171,
+      "statement": "GRANT EXECUTE ON FUNCTION public.run_security_scan(text) TO authenticated, service_role;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "settle_courier_orders",
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "line": 17,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "current_tenant_id",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "line": 75,
+      "statement": "REVOKE ALL ON FUNCTION public.settle_courier_orders(uuid, uuid[]) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "line": 76,
+      "statement": "REVOKE ALL ON FUNCTION public.settle_courier_orders(uuid, uuid[]) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "line": 77,
+      "statement": "GRANT EXECUTE ON FUNCTION public.settle_courier_orders(uuid, uuid[]) TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "delete_product_safe",
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "line": 2,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "line": 31,
+      "statement": "REVOKE ALL ON FUNCTION public.delete_product_safe(uuid) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "line": 32,
+      "statement": "GRANT EXECUTE ON FUNCTION public.delete_product_safe(uuid) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "line": 1,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.delete_product_safe(uuid) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "line": 2,
+      "statement": "GRANT EXECUTE ON FUNCTION public.delete_product_safe(uuid) TO authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "update_updated_at_column",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 2,
+      "security_definer": false,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "tenant_has_active_subscription",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 65,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_create",
+      "name": "Users can view their tenant subscription",
+      "table": "subscriptions",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 39,
+      "calls": [],
+      "auth_uid": true,
+      "statement": "CREATE POLICY \"Users can view their tenant subscription\"\n  ON public.subscriptions FOR SELECT\n  TO authenticated\n  USING (\n    tenant_id IN (SELECT tenant_id FROM public.profiles WHERE id = auth.uid())\n  )"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role manages subscriptions",
+      "table": "subscriptions",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 46,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role manages subscriptions\"\n  ON public.subscriptions FOR ALL\n  USING (auth.role() = 'service_role')\n  WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 34,
+      "statement": "GRANT SELECT ON public.subscriptions TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 35,
+      "statement": "GRANT ALL ON public.subscriptions TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 93,
+      "statement": "GRANT EXECUTE ON FUNCTION public.tenant_has_active_subscription(UUID, TEXT) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "line": 94,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.tenant_has_active_subscription(UUID, TEXT) FROM PUBLIC, anon;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "__test_force_delete_e2e_order",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 26,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 14,
+      "statement": "REVOKE ALL ON public.__test_allowed_tenants FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 15,
+      "statement": "REVOKE ALL ON public.__test_allowed_tenants FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 16,
+      "statement": "REVOKE ALL ON public.__test_allowed_tenants FROM authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 17,
+      "statement": "GRANT  ALL ON public.__test_allowed_tenants TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 21,
+      "statement": "grant ever leaks. Only SECURITY DEFINER functions (running\n-- as the function owner) and service_role can read it.\n\n-- 2) E2E cleanup RPC. Hardened from the first definition: owner-only,\n-- allowlist-gated, E2E-tag required, tenant-scoped, recent rows only.\nCREATE OR REPLACE FUNCTION public.__test_force_delete_e2e_order(\n  p_order_id   uuid,\n  p_product_id uuid,\n  p_tag        text\n) RETURNS jsonb\nLANGUAGE plpgsql\nSECURITY DEFINER\nSET search_path TO 'public'\nAS $function$\nDECLARE\n  v_tenant uuid := public.current_tenant_id();"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 96,
+      "statement": "REVOKE ALL ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 97,
+      "statement": "REVOKE ALL ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "line": 98,
+      "statement": "GRANT  EXECUTE ON FUNCTION public.__test_force_delete_e2e_order(uuid, uuid, text) TO authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 1,
+      "statement": "Revoke unnecessary DELETE grants. The app performs ALL deletions through\n-- SECURITY DEFINER RPCs (delete_order_with_restore_stock, delete_product_safe,\n-- __test_force_delete_e2e_order, etc.). No client code calls .delete() directly.\n-- This closes a pre-existing hardening gap without changing any app logic.\n\nREVOKE DELETE ON public.orders                   FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 7,
+      "statement": "REVOKE DELETE ON public.order_items              FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 8,
+      "statement": "REVOKE DELETE ON public.payments                 FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 9,
+      "statement": "REVOKE DELETE ON public.products                 FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 10,
+      "statement": "REVOKE DELETE ON public.customers                FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 11,
+      "statement": "REVOKE DELETE ON public.couriers                 FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 12,
+      "statement": "REVOKE DELETE ON public.expenses                 FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 13,
+      "statement": "REVOKE DELETE ON public.day_closes               FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 14,
+      "statement": "REVOKE DELETE ON public.tenants                  FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 15,
+      "statement": "REVOKE DELETE ON public.profiles                 FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 16,
+      "statement": "REVOKE DELETE ON public.user_roles               FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 17,
+      "statement": "REVOKE DELETE ON public.platform_admins          FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 18,
+      "statement": "REVOKE DELETE ON public.subscriptions            FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 19,
+      "statement": "REVOKE DELETE ON public.security_scan_findings   FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 20,
+      "statement": "REVOKE DELETE ON public.security_scan_runs       FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 21,
+      "statement": "REVOKE DELETE ON public.financial_audit_log      FROM anon, authenticated;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "line": 22,
+      "statement": "REVOKE DELETE ON public.platform_admin_audit_log FROM anon, authenticated;"
+    },
+    {
+      "kind": "function_definition",
+      "name": "delete_product_safe",
+      "path": "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "line": 1,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner"
+      ],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "line": 16,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id",
+        "current_tenant_timezone",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "collect_order_debt",
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "line": 100,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "close_day",
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "line": 7,
+      "security_definer": true,
+      "calls": [
+        "_assert_owner",
+        "current_tenant_id",
+        "current_tenant_timezone",
+        "day_closes"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "collect_order_debt",
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "line": 89,
+      "security_definer": true,
+      "calls": [
+        "_assert_staff",
+        "payments"
+      ],
+      "auth_uid": true,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 31,
+      "statement": "Revoke them so a future RLS mistake cannot expose data.\nREVOKE ALL ON ALL TABLES    IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 33,
+      "statement": "REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 34,
+      "statement": "REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 37,
+      "statement": "grant anything).\nALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES    FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 39,
+      "statement": "REVOKE ALL ON SEQUENCES FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 40,
+      "statement": "REVOKE ALL ON FUNCTIONS FROM anon;"
+    },
+    {
+      "kind": "function_drop",
+      "name": "__test_force_delete_e2e_order",
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "line": 20,
+      "statement": "DROP FUNCTION IF EXISTS public.__test_force_delete_e2e_order(uuid, uuid, text);"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 4,
+      "statement": "REVOKE ALL ON ALL TABLES    IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 5,
+      "statement": "REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 6,
+      "statement": "REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 8,
+      "statement": "REVOKE ALL ON TABLES    FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 9,
+      "statement": "REVOKE ALL ON SEQUENCES FROM anon;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 10,
+      "statement": "REVOKE ALL ON FUNCTIONS FROM anon;"
+    },
+    {
+      "kind": "function_drop",
+      "name": "__test_force_delete_e2e_order",
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "line": 1,
+      "statement": "DROP FUNCTION IF EXISTS public.__test_force_delete_e2e_order(uuid, uuid, text);"
+    },
+    {
+      "kind": "function_definition",
+      "name": "enqueue_email",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 137,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "read_email_batch",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 149,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "delete_email",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 161,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "function_definition",
+      "name": "move_to_dlq",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 172,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can read send log",
+      "table": "email_send_log",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 45,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can read send log\"\n    ON public.email_send_log FOR SELECT\n    USING (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can insert send log",
+      "table": "email_send_log",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 52,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can insert send log\"\n    ON public.email_send_log FOR INSERT\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can update send log",
+      "table": "email_send_log",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 59,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can update send log\"\n    ON public.email_send_log FOR UPDATE\n    USING (auth.role() = 'service_role')\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can manage send state",
+      "table": "email_send_state",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 126,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can manage send state\"\n    ON public.email_send_state FOR ALL\n    USING (auth.role() = 'service_role')\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can read suppressed emails",
+      "table": "suppressed_emails",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 229,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can read suppressed emails\"\n    ON public.suppressed_emails FOR SELECT\n    USING (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can insert suppressed emails",
+      "table": "suppressed_emails",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 236,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can insert suppressed emails\"\n    ON public.suppressed_emails FOR INSERT\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can read tokens",
+      "table": "email_unsubscribe_tokens",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 259,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can read tokens\"\n    ON public.email_unsubscribe_tokens FOR SELECT\n    USING (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can insert tokens",
+      "table": "email_unsubscribe_tokens",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 266,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can insert tokens\"\n    ON public.email_unsubscribe_tokens FOR INSERT\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Service role can mark tokens as used",
+      "table": "email_unsubscribe_tokens",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 273,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Service role can mark tokens as used\"\n    ON public.email_unsubscribe_tokens FOR UPDATE\n    USING (auth.role() = 'service_role')\n    WITH CHECK (auth.role() = 'service_role')"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 39,
+      "statement": "grant explicitly so edge functions can reach the table via PostgREST.\nGRANT ALL ON public.email_send_log TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 121,
+      "statement": "GRANT ALL ON public.email_send_state TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 201,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.enqueue_email(TEXT, JSONB) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 202,
+      "statement": "GRANT EXECUTE ON FUNCTION public.enqueue_email(TEXT, JSONB) TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 204,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.read_email_batch(TEXT, INT, INT) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 205,
+      "statement": "GRANT EXECUTE ON FUNCTION public.read_email_batch(TEXT, INT, INT) TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 207,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.delete_email(TEXT, BIGINT) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 208,
+      "statement": "GRANT EXECUTE ON FUNCTION public.delete_email(TEXT, BIGINT) TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 210,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.move_to_dlq(TEXT, TEXT, BIGINT, JSONB) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 211,
+      "statement": "GRANT EXECUTE ON FUNCTION public.move_to_dlq(TEXT, TEXT, BIGINT, JSONB) TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 224,
+      "statement": "GRANT ALL ON public.suppressed_emails TO service_role;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "line": 254,
+      "statement": "GRANT ALL ON public.email_unsubscribe_tokens TO service_role;"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Profiles are created only by signup trigger",
+      "table": "profiles",
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "line": 9,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Profiles are created only by signup trigger\"\n  ON public.profiles\n  FOR INSERT\n  TO authenticated, anon\n  WITH CHECK (false)"
+    },
+    {
+      "kind": "policy_create",
+      "name": "Tenant counters are internal only",
+      "table": "tenant_counters",
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "line": 16,
+      "calls": [],
+      "auth_uid": false,
+      "statement": "CREATE POLICY \"Tenant counters are internal only\"\n  ON public.tenant_counters\n  FOR ALL\n  TO authenticated, anon\n  USING (false)\n  WITH CHECK (false)"
+    },
+    {
+      "kind": "function_definition",
+      "name": "read_email_batch",
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "line": 6,
+      "security_definer": true,
+      "calls": [],
+      "auth_uid": false,
+      "lifecycle_state_reference": false
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "line": 20,
+      "statement": "REVOKE EXECUTE ON FUNCTION public.read_email_batch(text, integer, integer) FROM PUBLIC;"
+    },
+    {
+      "kind": "privilege_statement",
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "line": 21,
+      "statement": "GRANT EXECUTE ON FUNCTION public.read_email_batch(text, integer, integer) TO service_role;"
+    },
+    {
+      "kind": "function_drop",
+      "name": "read_email_batch",
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "line": 4,
+      "statement": "DROP FUNCTION IF EXISTS public.read_email_batch(text, integer, integer);"
+    }
+  ],
+  "application_callsites": [
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "line": 33,
+      "text": "export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server("
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "line": 92,
+      "text": "const { data, error } = await supabase.auth.getClaims(token);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 9,
+      "text": "const { data: u } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 12,
+      "text": ".from(\"profiles\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 31,
+      "text": ".from(\"tenants\").select(\"id,name,timezone,business_type\").eq(\"id\", tenantId!).maybeSingle();"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 49,
+      "text": "const { error } = await supabase.from(\"tenants\").update({ name }).eq(\"id\", tenantId);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 61,
+      "text": "const { error } = await supabase.from(\"tenants\").update({ business_type } as any).eq(\"id\", tenantId);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 73,
+      "text": "const { error } = await supabase.from(\"tenants\").update({ timezone } as any).eq(\"id\", tenantId);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 96,
+      "text": "const { data, error } = await supabase.rpc(\"get_tenant_today_estimate\" as any);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 120,
+      "text": "const { data: u } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 123,
+      "text": ".from(\"user_roles\").select(\"role\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 178,
+      "text": ".from(\"products\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 195,
+      "text": "const { error } = await supabase.from(\"products\").insert({"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 208,
+      "text": "const { error } = await supabase.from(\"products\").update({ is_active: input.is_active }).eq(\"id\", input.id);"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 219,
+      "text": "const { error } = await supabase.from(\"products\").update({"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 232,
+      "text": "const { data, error } = await supabase.rpc(\"delete_product_safe\" as any, { p_product_id: productId });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 251,
+      "text": "const { data, error } = await supabase.from(\"customers\").select(\"id,name,phone\").order(\"created_at\", { ascending: false });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 264,
+      "text": ".from(\"customers\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 282,
+      "text": "const { data, error } = await supabase.from(\"couriers\").select(\"id,name,phone\").eq(\"is_active\", true).order(\"created_at\", { ascending: false });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 294,
+      "text": "const { error } = await supabase.from(\"couriers\").insert({ tenant_id: tenantId, name: input.name, phone: input.phone ?? null });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 326,
+      "text": ".from(\"orders\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 370,
+      "text": ".from(\"payments\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 401,
+      "text": "const { data, error } = await supabase.from(\"expenses\").select(\"id,type,amount,method,note,created_at\").order(\"created_at\", { ascending: true });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 417,
+      "text": "const { data: u } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 418,
+      "text": "const { error } = await supabase.from(\"expenses\").insert({"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 445,
+      "text": "const { data, error } = await supabase.rpc(\"create_sale_with_items\" as any, {"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 469,
+      "text": "const { error } = await supabase.rpc(\"delete_order_with_restore_stock\" as any, { p_order_id: orderId });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 485,
+      "text": "const { error } = await supabase.rpc(\"collect_order_debt\" as any, {"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 507,
+      "text": "const { error } = await supabase.rpc(\"settle_courier_orders\" as any, {"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 530,
+      "text": "const { error } = await supabase.rpc(\"update_courier_order_state\" as any, {"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 557,
+      "text": ".from(\"day_closes\")"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 578,
+      "text": "const { error } = await supabase.rpc(\"close_day\" as any, { p_note: input.note ?? null });"
+    },
+    {
+      "path": "src/lib/db.ts",
+      "line": 606,
+      "text": ".from(\"financial_audit_log\")"
+    },
+    {
+      "path": "src/lib/invoice-pdf.ts",
+      "line": 359,
+      "text": "const breakPoints = Array.from(breaks)"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-customers.ts",
+      "line": 23,
+      "text": "let q = supabaseForUser(ctx).from(\"customers\").select(\"id,name,phone\").order(\"name\").limit(limit ?? 50);"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-products.ts",
+      "line": 23,
+      "text": "let q = supabaseForUser(ctx).from(\"products\").select(\"id,name,price,cost,stock,is_active,is_discount\").order(\"name\").limit(limit ?? 50);"
+    },
+    {
+      "path": "src/lib/mcp/tools/list-recent-orders.ts",
+      "line": 24,
+      "text": ".from(\"orders\")"
+    },
+    {
+      "path": "src/lib/mcp/tools/today-summary.ts",
+      "line": 19,
+      "text": "const { data, error } = await supabaseForUser(ctx).rpc(\"get_tenant_today_estimate\");"
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "line": 381,
+      "text": "const rows = Array.from(map.entries()).map(([cid, v]) => ({ customer: p.customers.find((c: Customer) => c.id === cid), v }));"
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "line": 97,
+      "text": "supabase.auth.getUser().then(({ data }) => {"
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "line": 110,
+      "text": ".from(\"subscriptions\")"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "line": 35,
+      "text": "const { data: userRes } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "line": 42,
+      "text": ".from(\"profiles\").select(\"tenant_id\").eq(\"id\", uid).maybeSingle();"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "line": 48,
+      "text": ".from(\"tenants\").select(\"id\").eq(\"owner_user_id\", uid)"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "line": 51,
+      "text": "await supabase.from(\"profiles\").update({ tenant_id: existingTenant.id }).eq(\"id\", uid);"
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "line": 60,
+      "text": ".from(\"tenants\")"
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "line": 654,
+      "text": ".from(\"security_scan_runs\")"
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "line": 659,
+      "text": ".from(\"security_scan_findings\")"
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "line": 8,
+      "text": "const { data, error } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "line": 23,
+      "text": "const { data: userRes } = await supabase.auth.getUser();"
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "line": 30,
+      "text": ".from(\"profiles\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 22,
+      "text": ".from(\"tenants\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 63,
+      "text": "await supabase.from(\"subscriptions\").upsert("
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 81,
+      "text": ".from(\"tenants\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 95,
+      "text": ".from(\"subscriptions\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 107,
+      "text": ".from(\"tenants\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 115,
+      "text": ".from(\"subscriptions\")"
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "line": 121,
+      "text": ".from(\"tenants\")"
+    },
+    {
+      "path": "src/routes/guide.tsx",
+      "line": 268,
+      "text": "{Array.from({ length: 6 }).map((_, i) => ("
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 45,
+      "text": "await supabase.from('email_send_log').insert({"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 52,
+      "text": "const { error } = await supabase.rpc('move_to_dlq', {"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 95,
+      "text": ".from('email_send_state')"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 114,
+      "text": "const { data: messages, error: readError } = await supabase.rpc('read_email_batch', {"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 128,
+      "text": "const messageIds = Array.from("
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 142,
+      "text": ".from('email_send_log')"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 200,
+      "text": ".from('email_send_log')"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 212,
+      "text": "const { error: dupDelError } = await supabase.rpc('delete_email', {"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 243,
+      "text": "await supabase.from('email_send_log').insert({"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 251,
+      "text": "const { error: delError } = await supabase.rpc('delete_email', {"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 276,
+      "text": ".from('email_send_state')"
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "line": 297,
+      "text": "await supabase.from('email_send_log').insert({"
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "line": 3,
+      "text": "import { requireSupabaseAuth } from \"@/integrations/supabase/auth-middleware\";"
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "line": 6,
+      "text": ".middleware([requireSupabaseAuth])"
+    }
+  ]
+}

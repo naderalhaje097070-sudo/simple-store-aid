@@ -1,0 +1,9 @@
+# Nitro runtime response discrimination
+
+Read-only inspection found installed Nitro `3.0.260603-beta`, exactly matching the pinned application version, under `/workspace/scratch/ff955bed6c94/mongezz-work/node_modules/nitro`. No files in that unrelated checkout were edited or executed. The accompanying JSON records sizes, SHA256 and computed Git blob SHA1 for every inspected package source.
+
+`dist/runtime/internal/error/prod.mjs` creates an unhandled error body `{error:true,status:500,unhandled:true}` and serializes it with `JSON.stringify(..., null, 2)`. Independently computing these public constant bytes yields exactly57 bytes and SHA256 `39aaf076d37bdcf0bd0206deeb90af13ae7a26e4c52f2b71145f08bb02591b9c`, equal to d05c's actual matching-readiness receipt. This differs from the application's fixed1,312-byte renderErrorPage response. It supports classification as Nitro's ordinary production unhandled-error formatting; it does not identify the particular TypeError.
+
+The relevant static flow is Cloudflare `createHandler`→`nitroApp.fetch`→h3 app with Nitro production `onError`. The SSR renderer delegates to `fetchViteEnv("ssr", req)`, which invokes the registered service's fetch. `dist/vite.mjs` generates a lazy service that resolves `_mod.default || _mod` and calls `mod.fetch(req)`. A default-export/fetch-shape mismatch is a source-based candidate only if the actual sanitized TypeError message or compiled export evidence points there. No fallback or application patch is justified by this body equivalence alone.
+
+Limits: these are local installed exact-version package sources, with explicit file fingerprints, not an independently reverified npm tarball or the native compiled bundle. No private log/body was inspected or copied; the fixed response was computed from public package source. No live app, database, provider or network operation was run. B5/B6 acceptance remains pending actual SSR diagnosis and successful current scenarios.

@@ -1,0 +1,124 @@
+{
+  "source_sha": "0c9689dd814e5ce8220d15ed5dcad6b0deb75efe",
+  "controls": [
+    {
+      "name": "fresh_empty_stack",
+      "passed": true
+    },
+    {
+      "name": "initial_exact_migration_chain",
+      "passed": true
+    },
+    {
+      "name": "owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "staff_B_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "staff_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "staff_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_own_tenant",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_GET",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_0_foreign_PATCH",
+      "passed": true,
+      "status": 200
+    }
+  ]
+}

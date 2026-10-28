@@ -1,0 +1,104 @@
+{
+  "reviewer": "/root/dep_identity_review",
+  "date": "2026-10-23",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+  "tree": "ddccd95372cb7d086d75a8c40f3939b61bbdcf42",
+  "base": "93faeb4077e01a00ff07ca252018fa7437f93ca4",
+  "outcome": "Approved for human merge within bounded package-B technical scope",
+  "B5_acceptance": true,
+  "B6_independent_review_complete": true,
+  "merge_authorized": false,
+  "main_updated": false,
+  "C_product_RC_deployment_accepted": false,
+  "protected": 376,
+  "migrations": 50,
+  "all_current_jobs_success": true,
+  "native_runs": {
+    "B5": 39956471869,
+    "B1": 39956471865,
+    "Bdep": 39956471703,
+    "G0": 39956471712
+  },
+  "native_counts": {
+    "fresh": 441,
+    "upgrade": 446,
+    "billing": 206,
+    "SSR": 42,
+    "compatibility_tests": 94,
+    "compatibility_expectations": 291,
+    "entry": 3,
+    "identity_negative": 29,
+    "node_HTTP": 11,
+    "sanitizer": 14
+  },
+  "artifacts": [
+    {
+      "id": "12503051908",
+      "sha256": "1b18111936d0cb722d9d83599104ccc238d3ac3de9d5efe86c1006b0bd5d5bcb",
+      "members": 7,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12503171608",
+      "sha256": "ff38c6b3b6513b33fcc88598a1c40820eb3a8b264a0bc78a964b33d042debe96",
+      "members": 8,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12503535366",
+      "sha256": "a781852ff8d6d0da625ab69b63c78c972634088b32bed2328242135722271c7a",
+      "members": 7,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12502652866",
+      "sha256": "38594b364e4f44a383079783b59f76a1d3eab9ff86d367b843b494a74bb8fd4e",
+      "members": 11,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12503131054",
+      "sha256": "4dc955b5c35d16e3de8bb864ecfcb74179064c4ce889dd46f47d622dacad44b0",
+      "members": 4,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12503160503",
+      "sha256": "e01d2f30d6c94cfb7d1bff334baab2a36d9b4a33fbda4b8ba9d4a1fd4a31acfd",
+      "members": 2,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12503181406",
+      "sha256": "275fca73de16b456112e165d658ae00bbfe8f52506c64a70bc3779bfbd966496",
+      "members": 4,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12502727306",
+      "sha256": "ef5d6b147d485c5b5b85e1a85689482b20100439efbc4ee2f8ec35a536ad746c",
+      "members": 1,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    },
+    {
+      "id": "12502976170",
+      "sha256": "b6dd07847606497d8dae5d3817ce837a025a5bdc6ef88476eda1817de7b6ba61",
+      "members": 1,
+      "all_extracted_members_exact": true,
+      "reviewer_credential_pattern_scan": true
+    }
+  ],
+  "total_archive_members": 45,
+  "independent_live_environment_rerun": false,
+  "docs_publication_preservation": "pending",
+  "report_sha256": "6bbf070336fbc2e9673bcfa257651a6eae5724be3fb010b5c9190b8fc112ccf8"
+}

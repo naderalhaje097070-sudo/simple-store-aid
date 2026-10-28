@@ -3,6 +3,7 @@ const cp = require("node:child_process");
 const assert = require("node:assert/strict");
 const ts = require("typescript");
 const parser = require("@babel/parser");
+const { historicalWebhookSource } = require("../b-dependency/webhook-bridge.cjs");
 
 const baseline = "d0a172e7060a5a8a782a923f42986ac7d6287bab";
 const files = [
@@ -167,7 +168,7 @@ for (const file of files) {
   const before = cp.execFileSync("git", ["show", `${baseline}:${file}`], { encoding: "utf8" });
   const after = fs.readFileSync(file, "utf8");
   const a = emit(before, file),
-    b = emit(after, file);
+    b = emit(historicalWebhookSource(file, after), file);
   assert.deepEqual(
     canon(unchangedModule(ast(a), file), file, false),
     canon(unchangedModule(ast(b), file), file, true),

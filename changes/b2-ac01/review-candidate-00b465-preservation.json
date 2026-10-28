@@ -1,0 +1,17 @@
+{
+  "base": "5b66c0e10c4b32419b42e2033bb2026f7e27b889",
+  "stage": "7c87cfb13c6f6f121f7e7909ac17a61b1e405b96",
+  "candidate": "00b465ad397f8e3e715ec13b6835c110ab4e4469",
+  "tree": "cbff7285a0cdaa9635c2030d7db2d9cd1e7324f9",
+  "baseBlobs": 1356,
+  "candidateBlobs": 1372,
+  "changed": 16,
+  "modifiedOriginals": [],
+  "deleted": [],
+  "originalMigrations": 45,
+  "originalMigrationsExact": true,
+  "migrations": 46,
+  "migrationSha": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+  "proposalAndMigrationSame": true,
+  "workflowSameAsReviewedStage": true
+}

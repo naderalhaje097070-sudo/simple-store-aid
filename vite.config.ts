@@ -40,11 +40,18 @@ export default defineConfig(async (configEnv) => {
       server: { entry: "server" },
     },
     vite: {
+      // Bundle the SSR intermediate graph together to avoid exporting CommonJS
+      // helpers from an entry that imports their consumers before initialization.
+      // Nitro still emits server modules; client chunking stays unchanged.
+      environments: {
+        ssr: { build: { rolldownOptions: { output: { codeSplitting: false } } } },
+      },
       // Inject only values that have already passed the explicit deployment-target
       // contract. The __MONGEZZ_BUILD_* constants bind the same non-secret public
       // identity into the server bundle so runtime Worker bindings cannot silently
       // target a different environment than the browser bundle was built for.
       define: {
+        "import.meta.env.MONGEZZ_DEPLOY_TARGET": JSON.stringify(mongezzBuildTarget),
         "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseBuildConfig.url),
         "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
           supabaseBuildConfig.publishableKey,

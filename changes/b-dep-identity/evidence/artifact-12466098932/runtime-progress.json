@@ -1,0 +1,73 @@
+{
+  "source_sha": "9266f848a03e0e6f700c23518eafd0c7ed750d6b",
+  "verification_batch": "G1-ACCEPTANCE-REPAIR-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    },
+    {
+      "name": "exact41_migrations",
+      "passed": false
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "source": "75aa967ff9779cd96cf22f2d7a40a4bbaccc3aba",
+  "run": 39608029073,
+  "job": 119249243488,
+  "package_advisory_entries": 11,
+  "distinct_advisories": 8,
+  "distinct_high": 3,
+  "packages": [
+    "@modelcontextprotocol/sdk",
+    "hono",
+    "launch-editor",
+    "vite"
+  ],
+  "exit": 1,
+  "deduplication": "advisory URL/GHSA, not package-specific advisory numeric ID"
+}

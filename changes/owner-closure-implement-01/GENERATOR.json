@@ -1,0 +1,8 @@
+{
+  "filename": "20261013221918_owner_closure_01.sql",
+  "cli_version": "2.120.0",
+  "command": "supabase --workdir isolated-generator migration new owner_closure_01",
+  "no_database_started": true,
+  "live_test_cli_version": "2.101.0",
+  "migration_sha256": "4994ec131b782995314a3f29e7a57c1e6ddbbb20c7586dc3589922222e88bd59"
+}

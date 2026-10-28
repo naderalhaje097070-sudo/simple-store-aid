@@ -1,0 +1,65 @@
+{
+  "source": "2de022a5e50a2e1d1761bfad92344505d146a750",
+  "nativeNode": "v22.23.3",
+  "entry": "src/server.ts",
+  "checks": [
+    {
+      "path": "/mcp",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/MCP",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/%6dcp",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/mcp/",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/.mcp/invoke-tool/list_products",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/%2emcp/invoke-tool/list_products",
+      "status": 413,
+      "oversized": true
+    },
+    {
+      "path": "/mcp",
+      "malformed": true,
+      "status": 400
+    },
+    {
+      "mode": "declared",
+      "incompleteUpload": true,
+      "status": 413,
+      "socketClosedAfterResponse": true
+    },
+    {
+      "mode": "chunked",
+      "incompleteUpload": true,
+      "status": 413,
+      "socketClosedAfterResponse": true
+    },
+    {
+      "path": "/mcp",
+      "missingBearer": true,
+      "status": 401
+    },
+    {
+      "path": "/mcp",
+      "members": true,
+      "status": 413
+    }
+  ],
+  "liveAuthOrProvider": false
+}

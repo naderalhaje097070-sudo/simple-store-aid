@@ -1,0 +1,799 @@
+{
+  "method": "Actual final GitHub latest-attempt job/step metadata. Native artifacts and independent receipt hold proof details; no docs-only rerun is implied.",
+  "runs": [
+    {
+      "run": 39956471869,
+      "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120423443868,
+          "name": "ssr",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:14Z",
+          "completed_at": "2026-10-23T12:59:54Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout exact acceptance source",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup Python",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup maintained Node",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup existing Bun runtime",
+              "conclusion": "success"
+            },
+            {
+              "name": "Prove reviewed integrated source and original41 migration identities",
+              "conclusion": "success"
+            },
+            {
+              "name": "Frozen existing runtime dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Pinned browser tools",
+              "conclusion": "success"
+            },
+            {
+              "name": "Pinned existing emulator test tool",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify official cf-fetch opt-out on actual installed bundle before credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout exact observed official CLI installer",
+              "conclusion": "success"
+            },
+            {
+              "name": "Same installer Bun as failed run",
+              "conclusion": "success"
+            },
+            {
+              "name": "Frozen official installer dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Diagnose pinned CLI installer with bounded phase evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Move reviewed installer outside protected source before runtime inventory",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install local database and firewall tools",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify pointer-only tracer before credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Validate scope and native containment before credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Fresh independently anchored B50 schema for SSR",
+              "conclusion": "success"
+            },
+            {
+              "name": "Actual Cloudflare SSR target agreement and nonfinancial Auth UI",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove isolated processes containers and credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Quarantine any credential-bearing evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload bounded evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Same installer Bun as failed run",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout exact observed official CLI installer",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup existing Bun runtime",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup maintained Node",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup Python",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout exact acceptance source",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 120423444117,
+          "name": "billing (fresh)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:13Z",
+          "completed_at": "2026-10-23T12:55:51Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Frozen install and signed handler controls",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "conclusion": "success"
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable full chain",
+              "conclusion": "success"
+            },
+            {
+              "name": "Baseline then populated local upgrade",
+              "conclusion": "skipped"
+            },
+            {
+              "name": "Actual authorization and invariance",
+              "conclusion": "success"
+            },
+            {
+              "name": "Runtime image identity",
+              "conclusion": "success"
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "conclusion": "success"
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 120423444133,
+          "name": "lifecycle (fresh)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:14Z",
+          "completed_at": "2026-10-23T12:55:28Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exact source, B50/original41 identity and negative evidence controls",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Discover pinned CLI and validate existing isolation guard",
+              "conclusion": "success"
+            },
+            {
+              "name": "Credential-free dedicated app UID and native redirect preflight",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable original41 or current50 with real local OAuth",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build actual standalone app and retain exact source",
+              "conclusion": "success"
+            },
+            {
+              "name": "Composed populated REST RPC MCP price and account transitions",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove isolated processes credentials and stack; quarantine unsafe evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 120423444284,
+          "name": "lifecycle (upgrade)",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:14Z",
+          "completed_at": "2026-10-23T12:55:37Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exact source, B50/original41 identity and negative evidence controls",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Discover pinned CLI and validate existing isolation guard",
+              "conclusion": "success"
+            },
+            {
+              "name": "Credential-free dedicated app UID and native redirect preflight",
+              "conclusion": "success"
+            },
+            {
+              "name": "Start disposable original41 or current50 with real local OAuth",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build actual standalone app and retain exact source",
+              "conclusion": "success"
+            },
+            {
+              "name": "Composed populated REST RPC MCP price and account transitions",
+              "conclusion": "success"
+            },
+            {
+              "name": "Remove isolated processes credentials and stack; quarantine unsafe evidence",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 39956471865,
+      "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120423443981,
+          "name": "compatibility",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:14Z",
+          "completed_at": "2026-10-23T12:52:23Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Frozen dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Locked serialization exports",
+              "conclusion": "success"
+            },
+            {
+              "name": "Generated formatting",
+              "conclusion": "success"
+            },
+            {
+              "name": "Typecheck",
+              "conclusion": "success"
+            },
+            {
+              "name": "Full lint",
+              "conclusion": "success"
+            },
+            {
+              "name": "Unit tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Original OC APP wire regression",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build",
+              "conclusion": "success"
+            },
+            {
+              "name": "Generation retains tracked files",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 39956471703,
+      "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120423443310,
+          "name": "entry",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:13Z",
+          "completed_at": "2026-10-23T12:52:16Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "conclusion": "success"
+            },
+            {
+              "name": "Actual entry placement and source inventory negative controls",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build actual standalone server with dummy loopback identity",
+              "conclusion": "success"
+            },
+            {
+              "name": "Actual native HTTP request boundary and existing unauthenticated rejection",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build does not mutate source",
+              "conclusion": "success"
+            },
+            {
+              "name": "Pinned browser tooling for sanitizer compatibility",
+              "conclusion": "success"
+            },
+            {
+              "name": "Installed sanitizer original and current offline security contracts",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 120423443619,
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:13Z",
+          "completed_at": "2026-10-23T12:51:25Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Supported full current audit",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run": 39956471712,
+      "source": "f34f55072be5ae401e25c6cfaecd7986ff958aac",
+      "attempt": 1,
+      "jobs": [
+        {
+          "id": 120423443073,
+          "name": "audit",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:13Z",
+          "completed_at": "2026-10-23T12:51:21Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete supported audit with actual exit preserved",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload complete audit output",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        },
+        {
+          "id": 120423443359,
+          "name": "quality",
+          "status": "completed",
+          "conclusion": "success",
+          "started_at": "2026-10-23T12:51:13Z",
+          "completed_at": "2026-10-23T12:53:43Z",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success"
+            },
+            {
+              "name": "Checkout",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup Bun",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install dependencies",
+              "conclusion": "success"
+            },
+            {
+              "name": "Check reviewed generated source formatting",
+              "conclusion": "success"
+            },
+            {
+              "name": "Exact integrated source identity and fail-closed mutations",
+              "conclusion": "success"
+            },
+            {
+              "name": "Typecheck",
+              "conclusion": "success"
+            },
+            {
+              "name": "Full repository lint including CommonJS and ESM",
+              "conclusion": "success"
+            },
+            {
+              "name": "Read-only existing CI policy contract",
+              "conclusion": "success"
+            },
+            {
+              "name": "Unit tests",
+              "conclusion": "success"
+            },
+            {
+              "name": "Type erasure and actual hook callback wire replay",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build entry failure and forwarding contracts",
+              "conclusion": "success"
+            },
+            {
+              "name": "Focused foundation read and CI regressions",
+              "conclusion": "success"
+            },
+            {
+              "name": "Offline server environment boundary",
+              "conclusion": "success"
+            },
+            {
+              "name": "Setup Python for browser containment regression",
+              "conclusion": "success"
+            },
+            {
+              "name": "Install pinned browser test tooling",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify browser redirect, WebSocket and origin containment",
+              "conclusion": "success"
+            },
+            {
+              "name": "Actual financial read UI and export regression",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build from mode-specific env file",
+              "conclusion": "success"
+            },
+            {
+              "name": "Build",
+              "conclusion": "success"
+            },
+            {
+              "name": "Verify generation leaves tracked application files intact",
+              "conclusion": "success"
+            },
+            {
+              "name": "Recheck complete protected source after both builds",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload quality diagnostics",
+              "conclusion": "success"
+            },
+            {
+              "name": "Upload source identity receipt",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup Python for browser containment regression",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Setup Bun",
+              "conclusion": "success"
+            },
+            {
+              "name": "Post Checkout",
+              "conclusion": "success"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

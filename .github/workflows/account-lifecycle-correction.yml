@@ -1,0 +1,156 @@
+name: Historical 43 - Account Lifecycle Correction
+'on':
+  workflow_dispatch:
+    inputs:
+      historical_source:
+        description: Explicit 40-hex repository commit for historical 43-migration benchmark, not current B50 acceptance
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  lifecycle-correction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode:
+        - fresh
+        - upgrade
+    env:
+      EXPECTED_SOURCE: ${{ inputs.historical_source }}
+      MONGEZZ_DEPLOY_TARGET: ci
+      MONGEZZ_E2E_WRITE_TEST: '1'
+      CI_ISOLATED_SUPABASE: '1'
+      VITE_SUPABASE_URL: http://127.0.0.1:54321
+      VITE_SUPABASE_PUBLISHABLE_KEY: lifecycle-preflight-placeholder
+      PGHOST: 127.0.0.1
+      PGPORT: '54322'
+      PGUSER: postgres
+      PGDATABASE: postgres
+      PGPASSWORD: postgres
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+    - name: Validate explicit historical benchmark provenance before checkout
+      run: 'python - <<''PYHISTORY''
+
+        import os,re,json
+
+        source=os.environ[''HISTORICAL_SOURCE'']
+
+        assert re.fullmatch(''[0-9a-f]{40}'',source), ''Full historical commit SHA required''
+
+        print(json.dumps({''scope'':''historical benchmark only; not B50 PR acceptance'',''historical_source'':source,''routing_source'':os.environ[''HISTORICAL_ROUTING_SOURCE'']}))
+
+        PYHISTORY'
+    - name: Checkout exact candidate
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.historical_source }}
+        persist-credentials: false
+    - name: Verify historical checkout and phase inventory before credentials
+      run: 'python - <<''PYPHASE''
+
+        import os,subprocess,json
+
+        from pathlib import Path
+
+        source=subprocess.check_output([''git'',''rev-parse'',''HEAD''],text=True).strip()
+
+        assert source==os.environ[''HISTORICAL_SOURCE''], ''Historical source mismatch''
+
+        files=sorted(Path(''supabase/migrations'').glob(''*.sql''))
+
+        assert len(files)==43, ''Selected commit does not match historical schema phase''
+
+        subprocess.run([''git'',''diff'',''--quiet'',''HEAD'',''--''],check=True)
+
+        print(json.dumps({''scope'':''historical only'',''source'':source,''migration_count'':len(files)}))
+
+        PYPHASE'
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Check new lifecycle harness safety
+      run: 'python -m unittest discover -s tests/account-lifecycle -p test_correction_probe.py -v
+
+        python -m unittest discover -s tests/account-lifecycle -p test_independent_probe.py -v
+
+        '
+    - name: Setup pinned Supabase CLI
+      uses: supabase/setup-cli@v2
+      with:
+        version: 2.101.0
+    - name: Inspect CLI and validate isolated intent
+      shell: bash
+      run: 'set -euo pipefail
+
+        test "$(supabase --version)" = ''2.101.0''
+
+        test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+
+        supabase --help > "$RUNNER_TEMP/lifecycle-cli-help.txt"
+
+        grep -q -- ''--workdir'' "$RUNNER_TEMP/lifecycle-cli-help.txt"
+
+        supabase start --help > "$RUNNER_TEMP/lifecycle-start-help.txt"
+
+        python tests/e2e/write_harness_guard.py --preflight-only
+
+        '
+    - name: Install PostgreSQL client
+      run: 'sudo apt-get update -qq
+
+        sudo apt-get install -y postgresql-client > "$RUNNER_TEMP/lifecycle-psql-install.log" 2>&1
+
+        '
+    - name: Start fresh disposable stack
+      shell: bash
+      run: "set -euo pipefail\numask 077\nstack=\"$RUNNER_TEMP/monjez-lifecycle-correction\"\nmkdir -p \"$stack\"\
+        \nsupabase --workdir \"$stack\" init > \"$RUNNER_TEMP/lifecycle-init.log\" 2>&1\nmkdir -p \"$stack/supabase/migrations\"\
+        \nfor migration in supabase/migrations/*.sql; do\n  if [[ \"${{ matrix.mode }}\" == 'upgrade' && ( \"$(basename\
+        \ \"$migration\")\" == '20261010223557_enforce_live_account_state.sql' || \"$(basename \"$migration\")\"\
+        \ == '20261010225012_avoid_profile_policy_sublink_recursion.sql' ) ]]; then\n    continue\n  fi\n  cp \"\
+        $migration\" \"$stack/supabase/migrations/\"\ndone\nif ! supabase --workdir \"$stack\" start > \"$RUNNER_TEMP/lifecycle-start.log\"\
+        \ 2>&1; then\n  echo 'ENV_NATIVE_01_STACK_START_FAILURE: raw infrastructure output withheld'\n  exit 1\n\
+        fi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/lifecycle-status.json\"\nchmod 600 \"\
+        $RUNNER_TEMP/lifecycle-status.json\"\n"
+    - name: Inspect runtime
+      shell: bash
+      run: 'set -euo pipefail
+
+        mkdir -p "$RUNNER_TEMP/lifecycle-evidence"
+
+        docker ps --format ''{{.Image}}'' > "$RUNNER_TEMP/lifecycle-evidence/runtime-images.txt"
+
+        '
+    - name: Run focused lifecycle correction
+      shell: bash
+      run: "set -euo pipefail\npython tests/account-lifecycle/correction_probe.py \\\n  --status-file \"$RUNNER_TEMP/lifecycle-status.json\"\
+        \ \\\n  --evidence-dir \"$RUNNER_TEMP/lifecycle-evidence\" \\\n  --expected-source \"$EXPECTED_SOURCE\"\
+        \ \\\n  --mode \"${{ matrix.mode }}\" \\\n  --stack-dir \"$RUNNER_TEMP/monjez-lifecycle-correction\"\n"
+    - name: Run independent reviewer lifecycle oracle
+      shell: bash
+      run: "set -euo pipefail\npython tests/account-lifecycle/independent_probe.py \\\n  --status-file \"$RUNNER_TEMP/lifecycle-status.json\"\
+        \ \\\n  --evidence-dir \"$RUNNER_TEMP/lifecycle-evidence/independent\" \\\n  --expected-source \"$EXPECTED_SOURCE\"\
+        \n"
+    - name: Upload sanitized lifecycle evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: account-lifecycle-correction-${{ matrix.mode }}-attempt${{ github.run_attempt }}
+        path: ${{ runner.temp }}/lifecycle-evidence/
+        retention-days: 7
+        if-no-files-found: warn
+    - name: Stop disposable stack and remove keys
+      if: always()
+      shell: bash
+      run: "rm -f \"$RUNNER_TEMP/lifecycle-status.json\"\nif [[ -d \"$RUNNER_TEMP/monjez-lifecycle-correction/supabase\"\
+        \ ]]; then\n  supabase --workdir \"$RUNNER_TEMP/monjez-lifecycle-correction\" stop --no-backup > \"$RUNNER_TEMP/lifecycle-stop.log\"\
+        \ 2>&1\nfi\n"
+    name: Historical 43 - lifecycle-correction (${{ inputs.historical_source }}) ${{ matrix.mode }}
+env:
+  HISTORICAL_SOURCE: ${{ inputs.historical_source }}
+  HISTORICAL_ROUTING_SOURCE: ${{ github.sha }}

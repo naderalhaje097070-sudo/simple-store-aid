@@ -1,0 +1,2 @@
+# Dependency map
+vite.config.ts validates build settings through config/supabase-build-config.ts and bakes public identity. src/server.ts checks runtime identity against the build before the generated TanStack entry is loaded. src/routes/mcp.ts uses src/lib/mcp/index.ts through the locked protocol handler. The definition now resolves issuer through the same build contract. Four existing user-token tools and their RLS/RPC callers remain unchanged. tests/account-lifecycle/mcp_server.mjs invokes that definition and adapter directly, not the TanStack route.

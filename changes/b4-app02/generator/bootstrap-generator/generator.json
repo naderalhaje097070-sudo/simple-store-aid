@@ -1,0 +1,8 @@
+{
+  "filename": "20261021134621_webhook_bootstrap_01.sql",
+  "sha256": "c905a149d7deb0cb9b22080142152a5a06aa2c982b4ee7f907c63a434cff3f75",
+  "cli": "2.101.0",
+  "command": "supabase migration new webhook_bootstrap_01",
+  "source": "c5a362116d2455077a604c75f27b89198cbb6c11",
+  "database_started": false
+}

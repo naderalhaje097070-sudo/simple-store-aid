@@ -1,0 +1,21 @@
+{
+  "proof": "actual local SDK HMAC verification and normalization only; no RPC/DB/provider call; not a frozen native run",
+  "node": "v24.19.0",
+  "outputs": [
+    {
+      "event_type": "subscription.updated",
+      "cancel_at_period_end": true,
+      "product_id": "updated-plan",
+      "occurred_at": "2026-02-01T00:00:00Z"
+    },
+    {
+      "event_type": "subscription.created",
+      "cancel_at_period_end": false,
+      "product_id": "synthetic-plan",
+      "occurred_at": "2026-01-01T00:00:01Z"
+    }
+  ],
+  "paddle_installed_version": "3.8.0",
+  "local_normalizer_matches_fetched_d86": true,
+  "local_normalizer_sha256": "c85b667dba0f422688cfd29f469c7be283d5879d3a792dbb5b1d27163487bcc9"
+}

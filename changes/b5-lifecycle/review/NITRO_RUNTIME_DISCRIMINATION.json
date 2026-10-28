@@ -1,0 +1,64 @@
+{
+  "scope": "read-only installed exact-version package source discrimination; no native app or network execution",
+  "package": "nitro",
+  "version": "3.0.260603-beta",
+  "package_root": "/workspace/scratch/ff955bed6c94/mongezz-work/node_modules/nitro",
+  "source_fingerprints": [
+    {
+      "relative_path": "package.json",
+      "bytes": 6408,
+      "sha256": "d36752fcb65c562b1f64cf4cbd7170c16cea78303099d5573943cbc20a9bca72",
+      "computed_git_blob_sha1": "550e388673fe2e6a598c38d1d713ba0c605f4d12"
+    },
+    {
+      "relative_path": "dist/runtime/internal/error/prod.mjs",
+      "bytes": 1191,
+      "sha256": "b10129b155939f4eba403e76b5aea6f3588cf0e33cf017da5f46eb3a497b9a60",
+      "computed_git_blob_sha1": "09c037e9cc070248d6a5eb99abb29c58af655d47"
+    },
+    {
+      "relative_path": "dist/runtime/internal/vite/ssr-renderer.mjs",
+      "bytes": 179,
+      "sha256": "dd24f5eadf23fc2f11dce006cfad42d0f65d3b93ebfb6583499196055ab0cd5a",
+      "computed_git_blob_sha1": "45e3e63c7d841d59539dadb178b475aaa6215340"
+    },
+    {
+      "relative_path": "dist/runtime/vite.mjs",
+      "bytes": 305,
+      "sha256": "633e135a628a17c15b5a05e1f9c3a712a4cfcf84850ea80175d7c482babd736e",
+      "computed_git_blob_sha1": "300aef42233627c975db3e46ba6f417b09679138"
+    },
+    {
+      "relative_path": "dist/vite.mjs",
+      "bytes": 17829,
+      "sha256": "dad21ad4ee60c481aa326ee32d1be545520917e7c996d3fe496c29201f67abe7",
+      "computed_git_blob_sha1": "53a0192d7c1e8768e02f0df6ea24dd71a8bce2ac"
+    },
+    {
+      "relative_path": "dist/presets/cloudflare/runtime/_module-handler.mjs",
+      "bytes": 2114,
+      "sha256": "3638ed5639bcbbe2711fd03dfe9056173a2fefcdea6db115d440d8f8b5b740f9",
+      "computed_git_blob_sha1": "c9357d6760354d28e47382d73b4fc15240111809"
+    }
+  ],
+  "public_fixed_unhandled_response": {
+    "body": "{\n  \"error\": true,\n  \"status\": 500,\n  \"unhandled\": true\n}",
+    "bytes": 57,
+    "sha256": "39aaf076d37bdcf0bd0206deeb90af13ae7a26e4c52f2b71145f08bb02591b9c",
+    "matches_observed_d05c_readiness_hash": true
+  },
+  "flow": [
+    "Cloudflare createHandler\u2192nitroApp.fetch",
+    "Nitro h3App onError\u2192production error handler",
+    "SSR renderer\u2192fetchViteEnv(ssr,req)",
+    "fetchViteEnv\u2192services[ssr].fetch(toRequest(...))",
+    "prodSetup lazyService\u2192loader().then(mod.default || mod)\u2192mod.fetch(req)"
+  ],
+  "inference_limits": [
+    "Actual compiled native bundle and private TypeError message not inspected by reviewer",
+    "Equal fixed response supports Nitro unhandled-error classification, not precise cause",
+    "Installed package version verified; local file hashes recorded, not independent npm tarball integrity proof",
+    "Lazy-service default-export/fetch shape is only a candidate if actual message points there",
+    "No source edit, runtime handler substitution, module fallback patch or acceptance recommendation"
+  ]
+}

@@ -1,0 +1,323 @@
+{
+  "source": "7a4fb5811c35a053109860c3155074087b930489",
+  "run_id": 39498640904,
+  "run_attempt": 1,
+  "event": "push",
+  "path": ".github/workflows/b2-scanner-auth.yml",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39498640904",
+  "jobs": [
+    {
+      "id": 118890142768,
+      "name": "prepare",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 118890249168,
+      "name": "authorization (upgrade)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 118890249252,
+      "name": "authorization (fresh)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 12299091301,
+      "name": "b2-scanner-fresh-attempt1",
+      "digest": "sha256:fad21d21e0a6f4b6ab330f9d420a58fe1e8670a03232684ad479798efd64a978",
+      "size_in_bytes": 5522,
+      "head_sha": "7a4fb5811c35a053109860c3155074087b930489"
+    },
+    {
+      "id": 12299007157,
+      "name": "b2-scanner-upgrade-attempt1",
+      "digest": "sha256:0a41f99a9adf7376f1dcaa7d3405718b21ae7d2d63bbf6dc54548b196401a55e",
+      "size_in_bytes": 8859,
+      "head_sha": "7a4fb5811c35a053109860c3155074087b930489"
+    }
+  ],
+  "receipts_from_independently_fetched_logs": {
+    "fresh": [
+      {
+        "source": "7a4fb5811c35a053109860c3155074087b930489",
+        "phase": "after",
+        "passed": 95,
+        "failed": 0,
+        "b2_runtime_accepted": true,
+        "independent_review": "pending",
+        "package_B_accepted": false,
+        "schema_versions": [
+          "20260626142422",
+          "20260626142438",
+          "20260626143241",
+          "20260626143657",
+          "20260626145704",
+          "20260626150447",
+          "20260626151932",
+          "20260626155319",
+          "20260626155333",
+          "20260626155758",
+          "20260626161037",
+          "20260626162911",
+          "20260626181906",
+          "20260626183212",
+          "20260626190302",
+          "20260626191000",
+          "20260626191523",
+          "20260626201427",
+          "20260626213551",
+          "20260626225100",
+          "20260626231740",
+          "20260626233231",
+          "20260627100633",
+          "20260627201534",
+          "20260627203328",
+          "20260627213042",
+          "20260627221524",
+          "20260627224911",
+          "20260628073856",
+          "20260628074047",
+          "20260628075333",
+          "20260628102723",
+          "20260628103809",
+          "20260628105459",
+          "20260701090000",
+          "20260704105413",
+          "20260706120000",
+          "20260708073115",
+          "20260715145141",
+          "20260716064935",
+          "20260717180906",
+          "20261010223557",
+          "20261010225012",
+          "20261013120223",
+          "20261013221918",
+          "20261020210549"
+        ],
+        "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"
+      }
+    ],
+    "upgrade": [
+      {
+        "source": "7a4fb5811c35a053109860c3155074087b930489",
+        "phase": "before",
+        "passed": 48,
+        "failed": 0,
+        "b2_runtime_accepted": false,
+        "independent_review": "pending",
+        "package_B_accepted": false,
+        "schema_versions": [
+          "20260626142422",
+          "20260626142438",
+          "20260626143241",
+          "20260626143657",
+          "20260626145704",
+          "20260626150447",
+          "20260626151932",
+          "20260626155319",
+          "20260626155333",
+          "20260626155758",
+          "20260626161037",
+          "20260626162911",
+          "20260626181906",
+          "20260626183212",
+          "20260626190302",
+          "20260626191000",
+          "20260626191523",
+          "20260626201427",
+          "20260626213551",
+          "20260626225100",
+          "20260626231740",
+          "20260626233231",
+          "20260627100633",
+          "20260627201534",
+          "20260627203328",
+          "20260627213042",
+          "20260627221524",
+          "20260627224911",
+          "20260628073856",
+          "20260628074047",
+          "20260628075333",
+          "20260628102723",
+          "20260628103809",
+          "20260628105459",
+          "20260701090000",
+          "20260704105413",
+          "20260706120000",
+          "20260708073115",
+          "20260715145141",
+          "20260716064935",
+          "20260717180906",
+          "20261010223557",
+          "20261010225012",
+          "20261013120223",
+          "20261013221918"
+        ],
+        "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"
+      },
+      {
+        "source": "7a4fb5811c35a053109860c3155074087b930489",
+        "phase": "after",
+        "passed": 59,
+        "failed": 0,
+        "b2_runtime_accepted": true,
+        "independent_review": "pending",
+        "package_B_accepted": false,
+        "schema_versions": [
+          "20260626142422",
+          "20260626142438",
+          "20260626143241",
+          "20260626143657",
+          "20260626145704",
+          "20260626150447",
+          "20260626151932",
+          "20260626155319",
+          "20260626155333",
+          "20260626155758",
+          "20260626161037",
+          "20260626162911",
+          "20260626181906",
+          "20260626183212",
+          "20260626190302",
+          "20260626191000",
+          "20260626191523",
+          "20260626201427",
+          "20260626213551",
+          "20260626225100",
+          "20260626231740",
+          "20260626233231",
+          "20260627100633",
+          "20260627201534",
+          "20260627203328",
+          "20260627213042",
+          "20260627221524",
+          "20260627224911",
+          "20260628073856",
+          "20260628074047",
+          "20260628075333",
+          "20260628102723",
+          "20260628103809",
+          "20260628105459",
+          "20260701090000",
+          "20260704105413",
+          "20260706120000",
+          "20260708073115",
+          "20260715145141",
+          "20260716064935",
+          "20260717180906",
+          "20261010223557",
+          "20261010225012",
+          "20261013120223",
+          "20261013221918",
+          "20261020210549"
+        ],
+        "scope": "synthetic loopback scanner authorization; not B5 lifecycle acceptance"
+      }
+    ]
+  },
+  "source_preservation": {
+    "base": "5b66c0e10c4b32419b42e2033bb2026f7e27b889",
+    "source": "7a4fb5811c35a053109860c3155074087b930489",
+    "tree": "a0aa94a168f1588bad54b58a1edb027c3f164fa9",
+    "base_blobs": 1356,
+    "source_blobs": 1373,
+    "original_changed_or_deleted": [],
+    "additions": [
+      {
+        "path": ".github/workflows/b2-scanner-auth.yml",
+        "blob": "bed011540e3ffe9f036aba58d189084399c96020",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/API_COMPATIBILITY.md",
+        "blob": "e32befcc03c7400224545fcdf4397008a5d97a61",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/DATA_IMPACT.md",
+        "blob": "a094267828b4a10a734063cd7df8da34d5a1d732",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/DEPENDENCY_MAP.md",
+        "blob": "508d9671a952283c4c8fe4c10894ff80369a1c88",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/GENERATOR.json",
+        "blob": "3a9f081e468ab34eff558104a7731cb42cab4004",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/IMPACT_ANALYSIS.md",
+        "blob": "654a9fe1529385386071101fdc4255ad00aac719",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/INTAKE.md",
+        "blob": "05a244d6c0b25c43f27df69276657ad58d90c5a8",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/MIGRATION_IMPACT.md",
+        "blob": "80cc5b4dcff95120664784eaa2d7f1b5f4c94694",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/ROLLBACK_IMPACT.md",
+        "blob": "40b42bc2b1abf4bcc7c82a3f0c185ece2c28eede",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/SCANNER_AUTH.sql",
+        "blob": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/SECURITY_IMPACT.md",
+        "blob": "ebe3bb1ce573d89c95cb296a45967eff99457ddc",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/TEST_IMPACT.md",
+        "blob": "6b6bc109c8c9407d1e7a7a5803ad990258d8f5eb",
+        "mode": "100644"
+      },
+      {
+        "path": "changes/b2-ac01/rollback-compensation.sql",
+        "blob": "d3990376005e738d134b02da657e9e2ec0402037",
+        "mode": "100644"
+      },
+      {
+        "path": "supabase/migrations/20261020210549_scanner_auth_01.sql",
+        "blob": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+        "mode": "100644"
+      },
+      {
+        "path": "tests/account-lifecycle/scanner_auth_probe.py",
+        "blob": "8e7a747c9bbd857ab0a559f6978017a98b81b9eb",
+        "mode": "100644"
+      },
+      {
+        "path": "tests/account-lifecycle/scanner_evidence.py",
+        "blob": "95b13d0f82eec2fd14af29c0bab1ed7acf29e6bf",
+        "mode": "100644"
+      },
+      {
+        "path": "tests/account-lifecycle/test_scanner_auth_probe.py",
+        "blob": "7bc49d93ebbfca83a2b9ae89307e44ea86650b74",
+        "mode": "100644"
+      }
+    ],
+    "original_migrations": 45,
+    "final_migrations": 46,
+    "source_trees_complete": true
+  }
+}

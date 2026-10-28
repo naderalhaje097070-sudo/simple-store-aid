@@ -1,0 +1,356 @@
+{
+  "source_sha": "9775e44ac6749d4f1855fe2fe3f5c5b86b50657a",
+  "verification_batch": "B5-COMPOSED-SSR-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    },
+    {
+      "name": "original41_and_fixedB50_source_identity",
+      "passed": true
+    },
+    {
+      "name": "exact_effective50_migrations",
+      "passed": true
+    },
+    {
+      "name": "initial_empty_finance_auth",
+      "passed": true
+    },
+    {
+      "name": "A_auth_created",
+      "passed": true
+    },
+    {
+      "name": "A_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "A_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "A_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "A_real_login",
+      "passed": true
+    },
+    {
+      "name": "B_auth_created",
+      "passed": true
+    },
+    {
+      "name": "B_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "B_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "B_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "B_real_login",
+      "passed": true
+    },
+    {
+      "name": "0_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "0_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "1_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "1_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "actual_default_Cloudflare_build",
+      "passed": true
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    }
+  },
+  "before": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "1bf48ca80f5631ba00286f27ffa6d7e3"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "8184428e9788c300ae6032a54dbb40e8"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "010de9c573c4cb74d42d3b0780441cb6"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "b67204824c356c37dece537bb453a7ff"
+    }
+  },
+  "build_warnings": {
+    "precache_zero": true
+  },
+  "build_sha256": {
+    ".output/package-lock.json": "04aa29e6ad5c6ce21c2c76c03e58fed8fabb50302c681bcb87d5d2f2952ac079",
+    ".output/package.json": "f8ac46a1418fb2a7fd30470a75cbf5778f782f7c9803432bae7ec61a2d745d9e",
+    ".output/nitro.json": "214f66ef1d120cc64ba495aba59d692e9f5840b6c4291e1ff013c4f9db49abd8",
+    ".output/server/_._lovable.oauth.consent-xFk8FKFL.mjs": "5fc1e1b2887daa78867e0e57ea114d9c966eb1a77622cf7bda0d42d95ffabe95",
+    ".output/server/_._lovable.oauth.consent-DS_MDyUZ.mjs": "2d47701457affa1ae824ac20169ab2b53fd5b8ecf5118002c0a982e024165c4e",
+    ".output/server/index.mjs": "cce16833adbe0568c7b98911639ffc0f84f61dad0408fd1a649f95e49273dcd2",
+    ".output/server/wrangler.json": "f75562f6c379da5489beb5e5b79de61864aec112552d6238666ec38f0b00c6f3",
+    ".output/server/_tanstack-start-manifest_v-B4Y1E8nd.mjs": "b0052ec5b2388540f2c89d59e605cc8c554c3f6924948dd554754ac2451fe9ac",
+    ".output/server/__23tanstack-start-server-fn-resolver-CdN8tT6I.mjs": "e2394f66d492eb219bceeb937ddfbd2da13a8f84a8bbcbbad84d9b3a0d16fd8d",
+    ".output/server/_._lovable.oauth.consent-BPHozSpo.mjs": "77dd3e4c6937fc2d3e8745c5a6c47b4c93ebd9bb7859bf651592eff8743aedaf",
+    ".output/public/favicon.svg": "a851d67cb92db6d6b40652a52ef9492d1736dd66e913135f012a8ee269002ec6",
+    ".output/public/offline.html": "9317fe3feedecbd7917a182f49fae4f4631a23eeb6e7c7dd666304ff6c3f43c9",
+    ".output/public/manifest.webmanifest": "8ef3c70b729cb18dcbc29896e8bad76422eab993984efc70dd70f0bc60bca1b5",
+    ".output/public/llms.txt": "f873184e93b829cb405c9f36bf6f598cf023f2f01c2e389951e4403129c948e0",
+    ".output/public/robots.txt": "9703f23c55c4795b376b9916c2d74478cb3e4f5fe6ed4d3917024811622c3f19",
+    ".output/public/_headers": "8986b1072b0e2a0646b4787388991bb50bc2b87b69a037d8531a62ff4d2c2ff3",
+    ".output/public/og-image.jpg": "8964d7fb385834b3e14deee658cecc4ba7a23cfb8917195dfc6b5e7adc413241",
+    ".output/server/_chunks/ssr-renderer.mjs": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+    ".output/server/_ssr/auth-middleware-CsniiHl4.mjs": "a567c3c38a0baf49e7466550a2e1e9ba367b4906de8152feee6a296428a97942",
+    ".output/server/_ssr/paddle.server-DUFMhm_W.mjs": "7a6ed5144d461d5b8b9f1e196073f7526936e2525a1b1803dd9899de8a9f79e3",
+    ".output/server/_ssr/payments.functions-Br-i2bGO.mjs": "849001003f9c7fa1e5fc2e6d527853ee981403513959954396f0e08404acf7fa",
+    ".output/server/_ssr/route-Dwk34S1l.mjs": "7fe72806d6ecad377216bc9cee74df3c0dd8b7dcdc63eeebb8bf1c4dbce5b92d",
+    ".output/server/_ssr/useTheme-11HVCO0w.mjs": "ee4e685cd91bace681a30ec6cba699023ae3e2602641e6e3432fa435d38eaecd",
+    ".output/server/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs": "ee1957ac485b923838aecb47c3427e91eb7275698cefcda4a6c9018e6cdb1c9e",
+    ".output/server/_ssr/db-DagkUE-6.mjs": "a00fcc2c87c65b860ad1bc373ccf493bb490a3cca3bfc20824bd6a500cbab79f",
+    ".output/server/_ssr/createMiddleware-B_4t7rW1.mjs": "908bb92d71f132f655419a1cf1a932fe0572f138d5d376b4cfdc12b1c310622b",
+    ".output/server/_ssr/auth-BxuGa1sP.mjs": "532540174dab28eced521a4c48fdb4587c508abd6fcd386fb33d0913dc145275",
+    ".output/server/_ssr/ssr.mjs": "e951a4d0b4d5a82ba250e0dcf3b73b0e538ef13b38b9d61495f314baccdcf01f",
+    ".output/server/_ssr/router-CTO1SULt.mjs": "cdf43e9bbf39a866d5861357bd683cf2af49b016ba11d87510308d8da9812d8a",
+    ".output/server/_ssr/pwa-register-B1ZRVBaA.mjs": "5b4d715badc882af15b2ba344a559deb66e75362fff9adc5834f849a19fe3ada",
+    ".output/server/_ssr/workbox-window.prod.es5-CkHxznpn.mjs": "8846b49ccda706239754bd66b5a0ce6425433ce2148d0eb3b7d264e836fc2893",
+    ".output/server/_ssr/server-Qx2XOWkW.mjs": "5024d4ce80c0b293d20b07e386331ed18c303f29b10675a62d70a88a909d9e8f",
+    ".output/server/_ssr/routes-CXUJB8pU.mjs": "ae0f0f24de68f891ab008d063c1fd517db7503b93472679e37dfbc124f912854",
+    ".output/server/_ssr/app-B2rLOjKk.mjs": "88ea1050cb5be55ff7f8adf17641d69e07aa95f62c1836cac9b3b724717ab8d1",
+    ".output/server/_ssr/onboarding-D7BxgfTG.mjs": "5771bef147789083e3ea4b8b441b57ace139cfb17b6b1bba6caf85e1473d92d7",
+    ".output/server/_ssr/client-CmoNCQC_.mjs": "923455263b7f03dfbe3200a037e92670075e8f4ebbbc7cc3ff884f3561fee28c",
+    ".output/server/_ssr/guide-C-mUhtrG.mjs": "7e7d0bc226dd26a0ba92e58cf841b0da32c530821cc1c27da06437a4ccb1828d",
+    ".output/server/_ssr/createServerFn-ChNsXfvL.mjs": "2474f28c79e15934a376d0c9a9911edd71de78660cb56019e7741ecbd5e94dd1",
+    ".output/server/_ssr/platform-admin-DgDdThRs.mjs": "0712c29c12b8d14dfcb4476af456183edee8ab1f0f9f5b17f05eb66ec9990d14",
+    ".output/server/_ssr/start-C9R1hwKv.mjs": "4bd7d12790048bde980eeb261196d737e03fc1317d700aa7e92b815ca7093bd0",
+    ".output/server/_ssr/billing-Di01W9JM.mjs": "446ea591313ad97949548ad2d55ecc38d54bc6ed72dc2d2eec15cb24d02098b8",
+    ".output/server/_ssr/auth-CLWWB-ks.mjs": "ad7e3ce84b2d3e24edf1e378a66f507b569b45b3b76bdd1db08683d70e86e6df",
+    ".output/server/_ssr/virtual_pwa-register-BG3HAM5h.mjs": "39ffd08829c6e6e38515ea1a10e2780fd8023fb03c51f1398fcd48b9f016c93a",
+    ".output/server/_ssr/app-CM8H2GxL.mjs": "ec672a2868441d1f924505bf4c16157d434dfcfdc21a44e1c6996ba529bd6f06",
+    ".output/server/_libs/supabase__auth-js+tslib.mjs": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+    ".output/server/_libs/pngjs.mjs": "45f8e828c2381dfe278f7cf361448943c1aa43755daa3aafa3f29a6d474f8a90",
+    ".output/server/_libs/hookable.mjs": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+    ".output/server/_libs/supabase__supabase-js.mjs": "e3817cc1307671eb40c3004c9d2687e217789e108ce0e4d3d3658ee1845133d8",
+    ".output/server/_libs/zod.mjs": "6688464949cfa4f2c24d499ad92db7778a87aef350e936aa63ebe4090fdc244a",
+    ".output/server/_libs/react+tanstack__react-query.mjs": "2818a1aabbac88360e25cbedc1819674bcbc09327644eb3cca07cfa14c477aad",
+    ".output/server/_libs/babel__runtime.mjs": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+    ".output/server/_libs/supabase__postgrest-js.mjs": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+    ".output/server/_libs/fast-png+iobuffer+pako.mjs": "79024f43fbceacbd9007fa580d5d6f62779149b182eedd9258bf67c1f59da6db",
+    ".output/server/_libs/supabase__realtime-js+unenv.mjs": "289265e75972c3865e53992ba0dffdf59d7d7e2b90c1761d39bd60cf9ca57314",
+    ".output/server/_libs/h3-v2+srvx.mjs": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+    ".output/server/_libs/supabase__phoenix.mjs": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+    ".output/server/_libs/tanstack__query-core.mjs": "59a1875f17896b0f383ce94bd776fecdbe4c72776ffce18f5b3cdfae995f16dc",
+    ".output/server/_libs/qrcode.mjs": "44e28c7e2798050cae7154c9cea4e494f6a42d444e3b7ea11645295d76802f83",
+    ".output/server/_libs/lucide-react.mjs": "5a908e7cdbba68b77fd083790df335e32d1240feecaff77d4219afef6cd40c32",
+    ".output/server/_libs/html2canvas.mjs": "c31217992193feeb8ce39a9291af022640e43e4de7ce6968f4c398307388f9b9",
+    ".output/server/_libs/canvg+[...].mjs": "83365cd2c93bd7fdfa8c8027722172f04c5378182ebd535b33bd910b9b55571f",
+    ".output/server/_libs/jspdf.mjs": "8bbab72ee79c71cb70edcdaec9c3de066a08d60391cb76a3f82f53b7209a7a2d",
+    ".output/server/_libs/paddle__paddle-node-sdk.mjs": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+    ".output/server/_libs/dijkstrajs.mjs": "732cf6c2ec900b9194fb70a14c8daf652647309cdaab2e402c099678ccc3163d",
+    ".output/server/_libs/lovable.dev__email-js.mjs": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+    ".output/server/_libs/lovable.dev__cloud-auth-js.mjs": "8a6d7abb8361ca553addc521048b26afdf975fd47cba1ec8006c0f2327c81fa9",
+    ".output/server/_libs/h3+rou3+srvx.mjs": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+    ".output/server/_libs/supabase__functions-js.mjs": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+    ".output/server/_libs/tanstack__history.mjs": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+    ".output/server/_libs/dompurify.mjs": "bf2cd49d9b56af210f280a10a31f6be4efd383ca0420058ce9ef7d757fb5c7fb",
+    ".output/server/_libs/fflate.mjs": "c4f37ef6d5ed52b51fa13e7d8d6215754f079583358fe8c93d4f3ac08924b671",
+    ".output/server/_libs/@supabase/storage-js+[...].mjs": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+    ".output/server/_libs/@tanstack/react-router+[...].mjs": "205007b90bd8b58c8517798a17207d7b98c0eae1f289f7bf9b120ea1bc3d28e7",
+    ".output/server/_libs/@tanstack/router-core+[...].mjs": "d1f86d05ce63888a430c3710bd53190b3a54c9adcd7400f064bc9dbbb109d013",
+    ".output/server/_libs/@lovable.dev/mcp-js+[...].mjs": "014cbe8feb480c2c87a1759516533affa3df46d0cfe287ecb6f688e97201a69c",
+    ".output/public/icons/icon-512.png": "2214f9ef7c5883701ad6be692e226f37925a34403bf3bdebd50b30fbadb261f9",
+    ".output/public/icons/apple-touch-icon.png": "97ac6dc44304302cdcf96b9d5826c8bad4dd52713cb422f5a4e624147ac00867",
+    ".output/public/icons/icon-192.png": "d80e5de3c116c8385bf59ef0934f52cc3b589059fbde9d409ca058e1d52dc4ae",
+    ".output/public/icons/icon-maskable-512.png": "9528540e3192397e1b0b04c8ad4d88b5a5566b5de1c2611e3cc5c290fac27a6c",
+    ".output/public/assets/index.es-BVI-yroT.js": "a93ef8c21bb0e8f67a0967587dfce8091dbb303c7e55d322f217137cfc1786d8",
+    ".output/public/assets/react-DPqvtlQV.js": "e186a800bc342ab818fbadb03d664c6f5dbe8b2325443401bc022aca2084b6e3",
+    ".output/public/assets/not-found-DIgawKw1.js": "ac8e8967ff892a5b649d743b4cb012a73eb22845ecac5325129d4ec5c99c83fc",
+    ".output/public/assets/createLucideIcon-DGPfniA1.js": "f58337cca5f36c1b2c8fff2ff09f7dd4ad635c5487bc0b1264bdf47a0e99e62e",
+    ".output/public/assets/arrow-left-DKuGIhZq.js": "829d75fd174f055f12c4f722bf2f7be58695e8d1b6895d6b84de2e53e81c8049",
+    ".output/public/assets/useNavigate-CZzmch58.js": "2297f12756a227a5ac65619bdbd3899cb401872f791f802889a0d2c6bd6ef9ac",
+    ".output/public/assets/virtual_pwa-register-CM2BOEVr.js": "00773a5e3f3f4c4c2d51657937ede524ce269c14286d82e7dedaefcb56295e8a",
+    ".output/public/assets/app-JDfpUFru.js": "cd017a191c28c0588ae1c5b28cf025279cbf5bfc69d49654bc923c302449abb3",
+    ".output/public/assets/pwa-register-DkX6BrsM.js": "15380c59672edd754e592f18417e6a1dc89638f4698475ccee6cf7008768c165",
+    ".output/public/assets/useRouter-CI6lzJu4.js": "da01772613ca7bc8f91521e98c705fa6796dd4dd191b43205789bc38973e57e4",
+    ".output/public/assets/matchContext-D5yzrWWZ.js": "141dab6927426145f1e4497af757c6415a2e330a4b8a1b63431ca8b3e512340f",
+    ".output/public/assets/billing-nCpfEp_L.js": "4397f3b752efeda0b200e1846c46c503ffeeacdaed2afc852b14e8623c7cc6d2",
+    ".output/public/assets/app-wXvLxusC.js": "da4887fbd3fd28a27b3c32b952e03e4e914598cbbf9a3a0206686e5df9b96a40",
+    ".output/public/assets/purify.es-wSQYG3tN.js": "106cfe6025d8ca4bf6fafc8e32e2f1c9b4fa6aafbc5aca7093e397108cdabe50",
+    ".output/public/assets/db-BJvXHLGB.js": "68f7e34f03d05033e218a7a074f48a3685b8429b48d002ea31466929cbc9ec28",
+    ".output/public/assets/onboarding-DjKUbSj0.js": "2fc08d92b1d4fb8ab87a8620ff52980965e4119410b29a38f164ae3fc37e14c0",
+    ".output/public/assets/x-DEq0QWkK.js": "7addc0f12f7894304d1739e4a1267505f82d5230caf02e93f9e3f3f95dda2b17",
+    ".output/public/assets/client-C9NWj6_l.js": "24daa07258cccb80b7698766dec6cec1957a6771f37acd910122c3080efa8991",
+    ".output/public/assets/preload-helper-Czpn1I53.js": "aba87f2a53e45ecdc9113fc30387d16e449d1676428cf5f82dd624c1df97d152",
+    ".output/public/assets/styles-CJRPN73i.css": "b0f001d8677a1f22b97e0f2e653c683de4241250d65066b9892c31e94fff0010",
+    ".output/public/assets/route-BtibiMke.js": "08fa1676e35b6cdbafeaf92482b58f2e8c42babbbe4fc19cdfa55ac09b2f2144",
+    ".output/public/assets/index-DrPodg-J.js": "dbcf8e9910b6ed164595465eb003d8e17b25613d3031c91752aabcaaebee96aa",
+    ".output/public/assets/rolldown-runtime-QTnfLwEv.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+    ".output/public/assets/routes-BM6FmgoX.js": "d249c1a3fd5f70054000d375dc8eba4fa88ceaf9731b87a560cd531002b44870",
+    ".output/public/assets/_._lovable.oauth.consent-CwmFybd_.js": "94e47a688285b47db7e692bb4f741c3ba26555451a0642afb001f4433abcb58a",
+    ".output/public/assets/typeof-B5XbjTb1.js": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+    ".output/public/assets/auth-Be8bucN1.js": "5e622175f9ef5f3e18ff5fde2df86db60a344df5a2bd9db75fa4396cfbfaf548",
+    ".output/public/assets/workbox-window.prod.es5-Bd17z0YL.js": "17bcc17d60dc78f927834b880c39649b03af46fd1f5cdbb8c42c5ae2b515dce9",
+    ".output/public/assets/sparkles-D0dhJp08.js": "994f9a23615cb032cfeecaa28824d0cd67cb7340b0c4e50a26531d8e32e16a57",
+    ".output/public/assets/link-DiJks9SA.js": "67e8839195c32f07ad839805a7ef2bfb94737714d00d75727521d078bf31b605",
+    ".output/public/assets/html2canvas-CIX34xnf.js": "4312f913cae1aca7edec2dee684ce2cbcb2dbaaa30cbb93ab48a00bd710efcb0",
+    ".output/public/assets/lazyRouteComponent-CUrt3gPz.js": "67592668f178f96898213990dc79ebb02e144cd68977f2487b329e3c6f15a783",
+    ".output/public/assets/useSelector-B2E0INEz.js": "1011b0cc84877f862801d6d23bd5dd41a5a9372d6664db3b1476fd3b5547c4d2",
+    ".output/public/assets/platform-admin-DH7e3710.js": "4f39a1b2439ffeea6a72b2935adff20eeadebc270a7aa4b18252ae78a501d580",
+    ".output/public/assets/guide-DjRGDxzS.js": "432b00464244bbfc724e962252683e18fe4e4e8c1f962727f070a36a4fa76008",
+    ".output/public/assets/jsx-runtime-By8HlURe.js": "91463f10a0a3d312febb9fd269f8b68e78b6947b427d43f5d32a64422bc533c8",
+    ".output/public/assets/invariant-CgFvOqN2.js": "9581f7b30cfddeea2063d0f9ee9c4712ebd265221d0caa1b8b78828399b5e883",
+    ".output/public/assets/_._lovable.oauth.consent-CCu-6CNP.js": "1530d933f00840836461aac666cbe523a8cacc72df1d753c38670e6b93fc8a15"
+  },
+  "failure_type": "RuntimeError",
+  "failed_phase": "after_actual_default_Cloudflare_build",
+  "reason": "emulator readiness failed"
+}

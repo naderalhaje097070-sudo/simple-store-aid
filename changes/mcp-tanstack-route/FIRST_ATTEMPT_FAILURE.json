@@ -1,0 +1,19 @@
+{
+  "source_sha": "b6713a2f9fb21205e63e08d96dbf861dc4c52c07",
+  "run": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/38169531260",
+  "job_id": 114559026317,
+  "failed_step": "Prove real process containment before credentials",
+  "error_code": "ERR_MODULE_NOT_FOUND",
+  "path_boundary": "dedicated UID could not resolve guard in hosted workspace",
+  "credentials_read": false,
+  "stack_started": false,
+  "application_built": false,
+  "full_local_route_accepted": false,
+  "integration_accepted": false,
+  "cleanup": {
+    "status_file_removed": true,
+    "application_processes_removed": true,
+    "stack_containers_removed": true
+  },
+  "correction": "Copy exact containment preload and standalone native build into accessible temporary path; hash/cmp checks; no application behavior change"
+}

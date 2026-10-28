@@ -5,6 +5,8 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
+import integrated_identity as identity
 
 from integrated_identity import IdentityError, MANIFEST, REPOSITORY, protected, verify
 
@@ -18,10 +20,12 @@ class IntegratedIdentity(unittest.TestCase):
                            "config/env.ts": "export const target = 'ci';\n",
                            ".gitignore": "node_modules/\n__pycache__/\n"}.items():
             self.write(name, body)
-        for i in range(41):
+        for i in range(50):
             self.write(f"supabase/migrations/{i:03}.sql", "select 1;\n")
         self.commit()
         base = self.run_git("rev-parse", "HEAD").decode().strip()
+        self.base_patch = patch.object(identity, "B_BASE_SHA", base)
+        self.base_patch.start()
         blobs = []
         for p in self.root.rglob("*"):
             if p.is_file() and ".git" not in p.parts:
@@ -29,14 +33,24 @@ class IntegratedIdentity(unittest.TestCase):
                 if protected(name):
                     data = p.read_bytes()
                     sha = hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
-                    blobs.append({"path": name, "sha": sha})
-        self.manifest = {"schema_version": 1, "repository": REPOSITORY, "base_source": base,
-                         "protected_blobs": blobs,
-                         "original54_migrations": {x["path"]: x["sha"] for x in blobs if x["path"].endswith(".sql")}}
+                    blobs.append({"path": name, "sha": sha, "mode": "100644"})
+        migrations = {x["path"]: x["sha"] for x in blobs if x["path"].endswith(".sql")}
+        original = dict(list(sorted(migrations.items()))[:41])
+        archive = json.dumps({"schema_version": 1, "original54_migrations": original}) + "\n"
+        self.write(identity.A_MANIFEST, archive)
+        archive_bytes = archive.encode()
+        digest = hashlib.sha1(b"blob " + str(len(archive_bytes)).encode() + b"\0" + archive_bytes).hexdigest()
+        self.archive_patch = patch.object(identity, "A_MANIFEST_SHA", digest)
+        self.archive_patch.start()
+        self.manifest = {"schema_version": 2, "repository": REPOSITORY, "base_source": base,
+                         "protected_blobs": blobs, "original54_migrations": original,
+                         "integrated_migrations": migrations}
         self.save_manifest()
         self.commit()
 
     def tearDown(self):
+        self.archive_patch.stop()
+        self.base_patch.stop()
         shutil.rmtree(self.root)
 
     def run_git(self, *args):
@@ -58,7 +72,7 @@ class IntegratedIdentity(unittest.TestCase):
     def test_actual_fixture(self):
         result = verify(self.root)
         self.assertTrue(result["all_integrated_blobs_match"])
-        self.assertEqual(result["migration_count"], 41)
+        self.assertEqual(result["migration_count"], 50)
         self.assertFalse(result["legacy383_unchanged_claim"])
 
     def test_source_byte_mutation(self):
@@ -92,7 +106,7 @@ class IntegratedIdentity(unittest.TestCase):
             verify(self.root)
 
     def test_added_migration(self):
-        self.write("supabase/migrations/041.sql", "select 2;\n")
+        self.write("supabase/migrations/050.sql", "select 2;\n")
         with self.assertRaises(IdentityError):
             verify(self.root)
 
@@ -150,6 +164,97 @@ class IntegratedIdentity(unittest.TestCase):
         self.write("PROJECT_STATE.md", "checkpoint\n")
         self.assertTrue(verify(self.root)["all_integrated_blobs_match"])
 
+    def test_worktree_executable_bit_only_mutation(self):
+        (self.root / "src/server.ts").chmod(0o755)
+        with self.assertRaisesRegex(IdentityError, "worktree source mode"):
+            verify(self.root)
+
+    def test_tracked_executable_bit_only_mutation(self):
+        self.run_git("update-index", "--chmod=+x", "src/server.ts")
+        with self.assertRaisesRegex(IdentityError, "tracked source mode/blob"):
+            verify(self.root)
+
+    def test_unsupported_manifest_mode(self):
+        self.manifest["protected_blobs"][0]["mode"] = "120000"
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Invalid source mode"):
+            verify(self.root)
+
+    def test_frozen_A_manifest_cannot_be_replaced(self):
+        self.write(identity.A_MANIFEST, "{}\n")
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Frozen A manifest identity"):
+            verify(self.root)
+
+    def test_original41_map_cannot_be_redeclared_by_B(self):
+        self.manifest["original54_migrations"].pop("supabase/migrations/000.sql")
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Original41 migration map"):
+            verify(self.root)
+
+    def test_integrated50_map_cannot_omit_an_added_B_migration(self):
+        self.manifest["integrated_migrations"].pop("supabase/migrations/049.sql")
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Integrated50 migration identity"):
+            verify(self.root)
+
+    def test_added_B_migration_bytes_are_protected(self):
+        self.write("supabase/migrations/049.sql", "select 999;\n")
+        with self.assertRaisesRegex(IdentityError, "Unreviewed source mutation"):
+            verify(self.root)
+
+    def test_B_base_cannot_be_replaced_with_an_arbitrary_ancestor(self):
+        self.manifest["base_source"] = self.run_git("rev-parse", "HEAD").decode().strip()
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "reviewed B base"):
+            verify(self.root)
+
+    def test_source_entry_requires_explicit_mode(self):
+        self.manifest["protected_blobs"][0].pop("mode")
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Invalid source mode"):
+            verify(self.root)
+
+    def test_staged_A_manifest_must_match_frozen_worktree(self):
+        original = (self.root / identity.A_MANIFEST).read_text()
+        self.write(identity.A_MANIFEST, "{}\n")
+        self.run_git("add", identity.A_MANIFEST)
+        self.write(identity.A_MANIFEST, original)
+        with self.assertRaisesRegex(IdentityError, "manifest index/mode"):
+            verify(self.root)
+
+    def test_active_manifest_executable_mode_is_rejected(self):
+        (self.root / MANIFEST).chmod(0o755)
+        with self.assertRaisesRegex(IdentityError, "manifest index/mode"):
+            verify(self.root)
+
+    def test_B_SQL_cannot_change_even_if_new_snapshot_is_redeclared(self):
+        path = "supabase/migrations/049.sql"
+        self.write(path, "select 999;\n")
+        raw = (self.root / path).read_bytes()
+        digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        self.manifest["integrated_migrations"][path] = digest
+        next(x for x in self.manifest["protected_blobs"] if x["path"] == path)["sha"] = digest
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Applied B50 migration"):
+            verify(self.root)
+
+    def test_B_SQL_mode_cannot_change_even_if_new_snapshot_is_redeclared(self):
+        path = "supabase/migrations/049.sql"
+        (self.root / path).chmod(0o755)
+        next(x for x in self.manifest["protected_blobs"] if x["path"] == path)["mode"] = "100755"
+        self.save_manifest()
+        self.commit()
+        with self.assertRaisesRegex(IdentityError, "Applied B50 migration"):
+            verify(self.root)
+
 
 if __name__ == "__main__":
     unittest.main()
+

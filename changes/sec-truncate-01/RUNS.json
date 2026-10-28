@@ -1,0 +1,61 @@
+{
+  "task": "SEC-TRUNCATE-01",
+  "base_sha": "9d30064d0d42667bf4b1de6469c319e625b9f33d",
+  "tested_sha": "c233f156220b4551e82edccec3eaff9161c20ba3",
+  "branch": "fix/sec-truncate-01-2026-10-13",
+  "integration_accepted": false,
+  "closure_verified": false,
+  "runs": [
+    {
+      "id": 38394158093,
+      "sha": "d6f75dcab29a88f3722d5e9c291e1f0881d07235",
+      "status": "failure",
+      "scope": "generator shell failed before database; no contract result accepted"
+    },
+    {
+      "id": 38394370225,
+      "sha": "4cf2ce4cfe6b0508e0219bac189447fffda50a2c",
+      "status": "success",
+      "scope": "CLI migration generation only; no database"
+    },
+    {
+      "id": 38394692253,
+      "sha": "c233f156220b4551e82edccec3eaff9161c20ba3",
+      "status": "success",
+      "jobs": {
+        "fresh": 115286889156,
+        "upgrade": 115286889201,
+        "quality": 115286889333
+      },
+      "scope": "fresh44 + upgrade43-to44 + dedicated copy of existing13 Quality steps"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 11810928623,
+      "kind": "generator",
+      "sha256": "c80725ee9eab55bcc1db87aeec13d801bae6b06e93720a09d2457e1519d8a27a"
+    },
+    {
+      "id": 11811830668,
+      "kind": "fresh",
+      "sha256": "e41c684c5470ba1fba2aecc787b2960b78be9118d8e88c9d1da717c115ad1a37"
+    },
+    {
+      "id": 11812050024,
+      "kind": "upgrade",
+      "sha256": "73ffbf475cfabe54be92f057ebc19d963de8cc71ab6bbcecb9bb945a26dae49f"
+    }
+  ],
+  "migration": {
+    "path": "supabase/migrations/20261013120223_sec_truncate_01.sql",
+    "sha256": "e2f2fa5d102a0667ec6035040a96307d08fb3b32f5201117d1f750d4ab520429"
+  },
+  "review": {
+    "reviewer": "/root/sec_truncate_review",
+    "live_replay": false,
+    "offline_tests": 16,
+    "blocking_findings": 0
+  },
+  "docs_head_ci": "skip; runnable source equivalence must be verified; not a merge gate waiver"
+}

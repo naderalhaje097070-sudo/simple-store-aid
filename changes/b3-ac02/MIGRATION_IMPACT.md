@@ -1,0 +1,5 @@
+# B3 / AC-02 migration impact
+
+One additive forward privilege migration. Native CLI migration new tenant_entitlement_01 generates filename. Fresh applies47, upgrade first46 then correction. Preserve function/trigger/policy/default/constraint definitions and all other relation ACLs. Expected change solely tenants relacl/attacl for authenticated INSERT/UPDATE.
+
+Grant/revoke changes catalog metadata within one short transaction. No table scan, index build, row rewrite, constraint validation or tenant-dependent backfill; transactional metadata locks can briefly block concurrent relation DDL/access, so deployment still uses the owner-controlled window. Existing and future tenants share one privilege boundary. There is no application audit-row change; migration history records the forward change. Rollout order: preserve backup/restore/release gates, apply reviewed forward migration before admitting the now-restricted client writes, then smoke legitimate onboarding/settings and trusted webhook persistence. Actual production migration is not performed here.

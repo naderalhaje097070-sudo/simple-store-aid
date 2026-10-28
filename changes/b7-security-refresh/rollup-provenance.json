@@ -1,0 +1,49 @@
+{
+  "package": "@rollup/plugin-node-resolve",
+  "version": "16.0.3",
+  "official_archive_sha256": "7d25e2b297ecf73542673e8ce4ca150443c3caf40269406371b94d883e0a7ced",
+  "changed_paths": [
+    "package/dist/cjs/index.js",
+    "package/dist/es/index.js",
+    "package/package.json"
+  ],
+  "normalized_duplicate_members": [
+    {
+      "member": "package/dist/cjs/index.js",
+      "canonical": "package/dist/cjs/index.js",
+      "sha256": "98eee3d5a03aac277c01f78be8af18fe19cae7cb0fe79e2b9817af44051a07b9"
+    }
+  ],
+  "files": {
+    "package/LICENSE": {
+      "official_sha256": "7b8136f76c483d03597500bfa991aae9be68d4629e1121cbf9b93aa727efe305",
+      "patched_sha256": "7b8136f76c483d03597500bfa991aae9be68d4629e1121cbf9b93aa727efe305"
+    },
+    "package/dist/cjs/index.js": {
+      "official_sha256": "98eee3d5a03aac277c01f78be8af18fe19cae7cb0fe79e2b9817af44051a07b9",
+      "patched_sha256": "c65c30d7238b464339fb37ef344d8b26a9e45978730977d995394142c4c69c15"
+    },
+    "package/dist/es/index.js": {
+      "official_sha256": "e3d3dd4cee934cc57e6a335005c2db4111b1333bbaddce39f08a7d505ee9ccea",
+      "patched_sha256": "b467ea2f083a9ff991176a8499dd74edd11ff800547f3167b877047be4a3c5d4"
+    },
+    "package/dist/es/package.json": {
+      "official_sha256": "6dc1b06d6b093e9cccb20bee06a93836eee0420ae26803ca2ce4065d82f070d1",
+      "patched_sha256": "6dc1b06d6b093e9cccb20bee06a93836eee0420ae26803ca2ce4065d82f070d1"
+    },
+    "package/README.md": {
+      "official_sha256": "f8fb13a09788ad5a67b874ea3a6d5c34285c83a11598194f55e0ac1a4b7e0a30",
+      "patched_sha256": "f8fb13a09788ad5a67b874ea3a6d5c34285c83a11598194f55e0ac1a4b7e0a30"
+    },
+    "package/types/index.d.ts": {
+      "official_sha256": "1f80c9199cf76a9ccdabff0de44dd6936a11ec224ea2fba0e1b678c8edeca7ba",
+      "patched_sha256": "1f80c9199cf76a9ccdabff0de44dd6936a11ec224ea2fba0e1b678c8edeca7ba"
+    },
+    "package/package.json": {
+      "official_sha256": "88b82f8dd4fbd227d2f25fe91e7db9dd3662c12d3e2f9eb523fc3fcafc9d8b3c",
+      "patched_sha256": "8081972c720438aae90d8d4d393dd2d80e427137c07af293d9752accfe6b21a5"
+    }
+  },
+  "scope": "Transparent local patch: static DEFAULTS clone only; unused deepmerge dependency/import removed. No upstream fixed-release claim.",
+  "local_archive_sha256": "65b6a7601477e78935f6f65f4bb1a256511a4d705ccd6520b79937ac30cbcbcf"
+}

@@ -1,0 +1,21 @@
+test_creator_identity_switch_fails (test_truncate_probe.PermissionOracle.test_creator_identity_switch_fails) ... ok
+test_destructive_statement_rejected (test_truncate_probe.PermissionOracle.test_destructive_statement_rejected) ... ok
+test_empty_matrix_fails (test_truncate_probe.PermissionOracle.test_empty_matrix_fails) ... ok
+test_explicit_source_scope (test_truncate_probe.PermissionOracle.test_explicit_source_scope) ... ok
+test_global_default_acl_change_fails (test_truncate_probe.PermissionOracle.test_global_default_acl_change_fails) ... ok
+test_global_default_change_rejected (test_truncate_probe.PermissionOracle.test_global_default_change_rejected) ... ok
+test_inherited_client_permission_fails (test_truncate_probe.PermissionOracle.test_inherited_client_permission_fails) ... ok
+test_missing_target_table_pair_fails (test_truncate_probe.PermissionOracle.test_missing_target_table_pair_fails) ... ok
+test_nontruncate_permission_change_fails (test_truncate_probe.PermissionOracle.test_nontruncate_permission_change_fails) ... ok
+test_only_target_privilege_delta (test_truncate_probe.PermissionOracle.test_only_target_privilege_delta) ... ok
+test_owner_permission_change_fails (test_truncate_probe.PermissionOracle.test_owner_permission_change_fails) ... ok
+test_provider_default_acl_change_fails (test_truncate_probe.PermissionOracle.test_provider_default_acl_change_fails) ... ok
+test_public_grant_remaining_fails (test_truncate_probe.PermissionOracle.test_public_grant_remaining_fails) ... ok
+test_raw_acl_only_clients_lose_truncate (test_truncate_probe.PermissionOracle.test_raw_acl_only_clients_lose_truncate) ... ok
+test_revoke_all_rejected (test_truncate_probe.PermissionOracle.test_revoke_all_rejected) ... ok
+test_service_permission_change_fails (test_truncate_probe.PermissionOracle.test_service_permission_change_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.010s
+
+OK

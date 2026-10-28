@@ -1,0 +1,65 @@
+{
+  "scope": "Independent primary-source cross-check, not native compiled-graph diagnosis",
+  "native": {
+    "artifact": 12500824258,
+    "sha256": "8086335eeeacbd97049f85c59a0b440a8b56c9a6c1e3ce573956aa572f30fe97",
+    "bytes": 18526,
+    "members": 8,
+    "bounded_type_error": "TypeError: __commonJSMin is not a function",
+    "diagnostic_exact_public_error_constant": true,
+    "all_extracted_bytes_match": true,
+    "credential_pattern_scan_pass": true,
+    "source_sha": "6e496e56e720f3cc1f9473c461c973097f3d2eb2",
+    "run": 39953803816,
+    "cleanup": {
+      "status_removed": true,
+      "worker_env_removed": true,
+      "processes_removed": true,
+      "containers_removed": true,
+      "process_state": "no_processes",
+      "container_state": "absent",
+      "source_sha": "6e496e56e720f3cc1f9473c461c973097f3d2eb2",
+      "passed": true
+    }
+  },
+  "locked_graph": {
+    "nitro": {
+      "version": "3.0.260603-beta",
+      "rolldown_range": "^1.0.3"
+    },
+    "root_rolldown": "1.1.0",
+    "vite": {
+      "version": "8.1.6",
+      "rolldown_range": "~1.1.5"
+    },
+    "vite_nested_rolldown": "1.1.5"
+  },
+  "upstream": {
+    "pr": "https://github.com/rolldown/rolldown/pull/10101",
+    "issue": "https://github.com/rolldown/rolldown/issues/9993",
+    "merge_sha": "2d9f81cdd633824d3d701d3c11fea94c1a356d31",
+    "merged_at": "2026-07-05T16:44:11Z",
+    "fix": "runtime placement reachability follows entry facade edges",
+    "regression_window": "PR states introduced in1.1.1",
+    "explicit_remaining_limit": "separate preexisting entry1-first require_node3 cross-chunk evaluation-order failure remains"
+  },
+  "official_source_checks": {
+    "v115_optimizer_blob": "7cf66f458f196d9b486a0837d95114c62e4b444c",
+    "v115_contains_PR10101_entry_facade_BFS": true,
+    "v110_optimizer_blob": "0cbcaa97db2242e2f6a49923d45b1fd63f4987bc",
+    "v110_lacks_later_entry_facade_BFS": true,
+    "output_options_v115_blob": "37058f970f45611eda18d007eaf0107406579bb1",
+    "strictExecutionOrder_documented": true
+  },
+  "alternatives_and_limits": [
+    "Matching error message does not prove exact issue9993 graph",
+    "Vite nested1.1.5 already includes the cited fix; do not justify a bump solely with PR10101",
+    "Root1.1.0 lacking later lines does not by itself prove causation, especially given stated1.1.1 regression window",
+    "Verify actual Vite/Nitro compiler resolution and final helper definition/import/call cycle",
+    "Manual helper-only chunk naming does not guarantee no merge: v1.1.5 try_merge_runtime_chunk can remerge a single-module runtime",
+    "strictExecutionOrder:true is a documented execution-order option with bundle-size tradeoff; unproven for actual graph",
+    "Any official patch candidate needs exact tagged fix/release/range verification, official generation and narrow graph delta",
+    "Do not restore an older vulnerable Vite merely because upstream reproduction used a downgrade"
+  ],
+  "reviewer_actions": "Read-only source and artifact validation only; no build/app/database/network test or implementation/GitHub write"
+}

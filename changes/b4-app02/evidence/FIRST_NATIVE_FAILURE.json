@@ -1,0 +1,18 @@
+{
+  "run": 39608299485,
+  "source": "371c5ebed5d6d821d15f442925995f24b04e8c5e",
+  "upgrade_job": 119250299350,
+  "observed": "signed route invocation failed during baseline; no baseline/native upgrade acceptance",
+  "diagnosis": "checkout default depth1 lacks ancestor dc0ced4 baseline git object required by actual-route loader",
+  "correction": "checkout fetch-depth0 and git cat-file baseline preflight before credentials; exact-head frozen compatibility added",
+  "sql_changed": false,
+  "first_fresh_result": "pending",
+  "cleanup_upgrade": {
+    "credential_free_canary_rejected": true,
+    "unexpected_ipv4_rejects": 0,
+    "ipv6_rejects": 0,
+    "status_removed": true,
+    "state_removed": true,
+    "stack_removed": true
+  }
+}

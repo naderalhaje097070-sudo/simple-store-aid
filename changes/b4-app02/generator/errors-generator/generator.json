@@ -1,0 +1,8 @@
+{
+  "filename": "20261021140746_webhook_errors_01.sql",
+  "sha256": "a5cff8d91149a61424f1d6cd62bf60cc42a334623085eec7e706ac3b0f38f955",
+  "cli": "2.101.0",
+  "command": "supabase migration new webhook_errors_01",
+  "source": "4385e95799980d12890d18579c964b0d14e6f151",
+  "database_started": false
+}

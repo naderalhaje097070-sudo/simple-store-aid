@@ -1,0 +1,36 @@
+{
+  "cron": [
+    {
+      "name": "mongezz-weekly-security-scan",
+      "active": true,
+      "command": " SELECT public.run_security_scan('cron'); ",
+      "schedule": "0 1 * * 0",
+      "username": "postgres"
+    }
+  ],
+  "execute": {
+    "anon": false,
+    "service_role": true,
+    "authenticated": true
+  },
+  "scanner": {
+    "acl": [
+      "postgres=X/postgres",
+      "authenticated=X/postgres",
+      "service_role=X/postgres"
+    ],
+    "oid": "18331",
+    "args": "p_triggered_by text DEFAULT 'manual'::text",
+    "body": "\nDECLARE\n  v_run_id uuid;\n  v_new int := 0;\n  v_total int := 0;\n  r record;\n  v_fp text;\n  v_caller_role text := current_setting('role', true);\nBEGIN\n  PERFORM monjez_private.assert_active_actor();\n  -- Allow only: service_role, supabase_admin (cron), or platform admins\n  IF current_user NOT IN ('service_role','supabase_admin','postgres')\n     AND NOT public.is_platform_admin() THEN\n    RAISE EXCEPTION 'forbidden';\n  END IF;\n\n  INSERT INTO public.security_scan_runs(started_at, status, triggered_by)\n  VALUES (now(), 'running', p_triggered_by)\n  RETURNING id INTO v_run_id;\n\n  -- Check 1: public tables without RLS\n  FOR r IN\n    SELECT c.relname AS table_name\n    FROM pg_class c\n    JOIN pg_namespace n ON n.oid = c.relnamespace\n    WHERE n.nspname = 'public' AND c.relkind = 'r' AND NOT c.relrowsecurity\n  LOOP\n    v_fp := 'rls_disabled:' || r.table_name;\n    INSERT INTO public.security_scan_findings(scanner, level, name, title, detail, metadata, fingerprint, last_run_id)\n    VALUES ('internal_rls_check','error','rls_disabled','RLS \u063a\u064a\u0631 \u0645\u0641\u0639\u0651\u0644',\n            '\u0627\u0644\u062c\u062f\u0648\u0644 public.' || r.table_name || ' \u0628\u062f\u0648\u0646 Row Level Security',\n            jsonb_build_object('table', r.table_name), v_fp, v_run_id)\n    ON CONFLICT (fingerprint) DO UPDATE\n      SET last_seen_at = now(), resolved_at = NULL, last_run_id = v_run_id;\n    v_total := v_total + 1;\n  END LOOP;\n\n  -- Check 2: public tables with RLS enabled but zero policies\n  FOR r IN\n    SELECT c.relname AS table_name\n    FROM pg_class c\n    JOIN pg_namespace n ON n.oid = c.relnamespace\n    WHERE n.nspname = 'public' AND c.relkind = 'r' AND c.relrowsecurity\n      AND NOT EXISTS (SELECT 1 FROM pg_policy pol WHERE pol.polrelid = c.oid)\n  LOOP\n    v_fp := 'rls_no_policy:' || r.table_name;\n    INSERT INTO public.security_scan_findings(scanner, level, name, title, detail, metadata, fingerprint, last_run_id)\n    VALUES ('internal_rls_check','warn','rls_no_policy','RLS \u0645\u0641\u0639\u0651\u0644 \u0628\u062f\u0648\u0646 \u0633\u064a\u0627\u0633\u0627\u062a',\n            'public.' || r.table_name || ' \u0628\u062f\u0648\u0646 \u0623\u064a policy \u2014 \u0643\u0644 \u0627\u0644\u0648\u0635\u0648\u0644 \u0645\u062d\u062c\u0648\u0628.',\n            jsonb_build_object('table', r.table_name), v_fp, v_run_id)\n    ON CONFLICT (fingerprint) DO UPDATE\n      SET last_seen_at = now(), resolved_at = NULL, last_run_id = v_run_id;\n    v_total := v_total + 1;\n  END LOOP;\n\n  -- Check 3: SECURITY DEFINER functions executable by anon or PUBLIC\n  FOR r IN\n    SELECT p.proname,\n           CASE WHEN a.grantee = 0 THEN 'PUBLIC' ELSE rol.rolname END AS grantee_name\n    FROM pg_proc p\n    JOIN pg_namespace n ON n.oid = p.pronamespace\n    CROSS JOIN LATERAL aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a\n    LEFT JOIN pg_roles rol ON rol.oid = a.grantee\n    WHERE n.nspname = 'public'\n      AND p.prosecdef = true\n      AND a.privilege_type = 'EXECUTE'\n      AND (a.grantee = 0 OR rol.rolname = 'anon')\n      AND p.proname NOT IN ('has_role','is_platform_admin')\n  LOOP\n    v_fp := 'sec_definer_public_exec:' || r.proname || ':' || r.grantee_name;\n    INSERT INTO public.security_scan_findings(scanner, level, name, title, detail, metadata, fingerprint, last_run_id)\n    VALUES ('internal_rls_check','error','sec_definer_public_exec',\n            '\u062f\u0627\u0644\u0629 SECURITY DEFINER \u0645\u0643\u0634\u0648\u0641\u0629',\n            'public.' || r.proname || ' \u0642\u0627\u0628\u0644\u0629 \u0644\u0644\u062a\u0646\u0641\u064a\u0630 \u0645\u0646 ' || r.grantee_name,\n            jsonb_build_object('function', r.proname, 'grantee', r.grantee_name),\n            v_fp, v_run_id)\n    ON CONFLICT (fingerprint) DO UPDATE\n      SET last_seen_at = now(), resolved_at = NULL, last_run_id = v_run_id;\n    v_total := v_total + 1;\n  END LOOP;\n\n  -- Check 4: public tables granted SELECT to anon without an anon policy (data leak risk)\n  FOR r IN\n    SELECT c.relname AS table_name\n    FROM pg_class c\n    JOIN pg_namespace n ON n.oid = c.relnamespace\n    WHERE n.nspname = 'public' AND c.relkind = 'r'\n      AND has_table_privilege('anon', c.oid, 'SELECT')\n      AND NOT EXISTS (\n        SELECT 1 FROM pg_policy pol\n        WHERE pol.polrelid = c.oid\n          AND ('anon' = ANY (SELECT rolname FROM pg_roles WHERE oid = ANY (coalesce(pol.polroles, '{0}'::oid[])))\n               OR 0 = ANY (coalesce(pol.polroles, '{0}'::oid[])))\n      )\n  LOOP\n    v_fp := 'anon_select_no_policy:' || r.table_name;\n    INSERT INTO public.security_scan_findings(scanner, level, name, title, detail, metadata, fingerprint, last_run_id)\n    VALUES ('internal_rls_check','warn','anon_select_no_policy',\n            '\u0635\u0644\u0627\u062d\u064a\u0629 SELECT \u0644\u0640 anon \u0628\u062f\u0648\u0646 policy \u0645\u0637\u0627\u0628\u0642\u0629',\n            'public.' || r.table_name || ' \u0645\u0639\u0637\u0649 \u0644\u0647\u0627 GRANT SELECT \u0644\u0640 anon \u0644\u0643\u0646 \u0644\u0627 \u064a\u0648\u062c\u062f policy \u0644\u0640 anon \u2014 \u0642\u062f \u064a\u0643\u0648\u0646 \u0645\u0642\u0635\u0648\u062f\u064b\u0627 \u0623\u0648 \u062e\u0637\u0623.',\n            jsonb_build_object('table', r.table_name), v_fp, v_run_id)\n    ON CONFLICT (fingerprint) DO UPDATE\n      SET last_seen_at = now(), resolved_at = NULL, last_run_id = v_run_id;\n    v_total := v_total + 1;\n  END LOOP;\n\n  -- Mark resolved any open finding not seen in this run\n  UPDATE public.security_scan_findings\n  SET resolved_at = now()\n  WHERE resolved_at IS NULL\n    AND (last_run_id IS DISTINCT FROM v_run_id);\n\n  SELECT count(*) INTO v_new\n  FROM public.security_scan_findings\n  WHERE last_run_id = v_run_id AND first_seen_at = last_seen_at;\n\n  UPDATE public.security_scan_runs\n  SET finished_at = now(), status = 'success', new_count = v_new, total_count = v_total\n  WHERE id = v_run_id;\n\n  RETURN jsonb_build_object('run_id', v_run_id, 'new_count', v_new, 'total_count', v_total);\nEND;\n",
+    "owner": "postgres",
+    "definer": true,
+    "returns": "jsonb",
+    "settings": [
+      "search_path=public"
+    ]
+  },
+  "policies": "250693a257528fc819a34227cccad9bb",
+  "relations": "fe9dad186676fb2d8ce6e47f11e618b4",
+  "public_execute": false,
+  "other_functions": "58f3e42522598a22b5b843e927592f75"
+}

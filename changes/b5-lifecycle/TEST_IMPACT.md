@@ -1,0 +1,5 @@
+# Test Impact
+
+Prior source2de baseline94unit/fullquality/audit and actualHTTP/sanitizer/identity passed. Current f34f55072be5ae401e25c6cfaecd7986ff958aac fast gates also pass frozen install, types/full lint (0errors/12inheritedwarnings),94unit/291expectations, original MCP wire/build/generated invariance,376protected/50SQL identity with29negative controls,3entry/11nativeHTTP/14sanitizer controls and full supported audit{}.
+
+Actual B5 fresh/populated upgrade/account REST/RPC/MCP/price, signed callback/localSQL and default Cloudflare matching/AuthUI/conflict/egress/cleanup are separately source-bound. No final acceptance before completed receipts and independent review. Current actual Cloudflare output must also pass the corrected Acorn direct-eager-helper-cycle oracle. Export-star/eager-vs-deferred synthetic diagnostic regressions are explicitly structural, not app/database runtime proof. Preserve the prior41-only G1 failure, initial5c installer/metrics failures,9775 lint/readiness and d05c/6e/867 native TypeErrors, and both initial/corrected build experiments.

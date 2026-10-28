@@ -1,0 +1,14 @@
+{
+  "reviewer": "/root/dep_identity_review",
+  "run": 39871214992,
+  "job": 120145831792,
+  "source": "9266f848a03e0e6f700c23518eafd0c7ed750d6b",
+  "observed_identity": {"protected": 364, "migration_count": 50, "passed": true},
+  "native_runtime": {"exit": 2, "failure_type": "RuntimeError", "reason": "exact41_migrations"},
+  "cleanup": {"status_removed": true, "worker_env_removed": true, "processes_removed": true, "containers_removed": true, "passed": true},
+  "credential_scan": "G01_EVIDENCE_CREDENTIAL_SCAN_PASS",
+  "adjudication": "Historical A runtime harness rejects intentional B50 migration inventory before scenario acceptance. This is not a green G1 run and does not independently demonstrate a new app authorization defect.",
+  "required_followup": "B5 must reconcile the actual effective50 migration runtime contracts, preserving original41, and execute fresh50/populated upgrade lifecycle/REST/RPC/MCP source-bound evidence.",
+  "current_batch": "Can only receive scoped dependency/request-boundary/identity technical acceptance when current native evidence passes. Whole-head/B5/B6 acceptance remains blocked pending missing runtime evidence.",
+  "review_limits": "Actual original job log inspected; no live runtime, database or historical suite replay by reviewer. No assertions weakened or implementation edited."
+}

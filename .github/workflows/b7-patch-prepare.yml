@@ -1,0 +1,182 @@
+name: Historical B7 official parent patch preparation
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+jobs:
+  prepare:
+    name: Historical B7 parent preparation dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Preserve exact source and current frozen baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
+          git rev-parse HEAD > "$out/source.txt"
+          bun install --frozen-lockfile --ignore-scripts 2>&1 | tee "$out/frozen-baseline.log"
+          cp package.json bun.lock bunfig.toml "$out/"
+          git diff --exit-code
+      - name: Official sources, release age and tar integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          for spec in 'qs@6.16.1' '@rollup/plugin-node-resolve@16.0.3' 'body-parser@2.3.0'; do
+            name="$(printf '%s' "$spec" | tr '/@' '__')"
+            npm view "$spec" --json > "$out/metadata-$name.json"
+            (cd "$out" && npm pack "$spec" --ignore-scripts --json > "pack-$name.json")
+          done
+          python - "$out" <<'PY'
+          import base64,datetime,hashlib,json,sys
+          from pathlib import Path
+          out=Path(sys.argv[1]);targets={'qs':'6.16.1','@rollup/plugin-node-resolve':'16.0.3','body-parser':'2.3.0'}
+          assert len(list(out.glob('metadata-*.json')))==len(targets)
+          for file in out.glob('metadata-*.json'):
+            metadata=json.loads(file.read_text());name=metadata['name'];version=metadata['version']
+            assert targets[name]==version
+            packed=json.loads((out/('pack-'+file.name.removeprefix('metadata-'))).read_text())
+            assert len(packed)==1 and packed[0]['integrity']==metadata['dist']['integrity']
+            integrity='sha512-'+base64.b64encode(hashlib.sha512((out/packed[0]['filename']).read_bytes()).digest()).decode()
+            assert integrity==metadata['dist']['integrity']
+            released=datetime.datetime.fromisoformat(metadata['time'][version].replace('Z','+00:00'))
+            assert (datetime.datetime.now(datetime.timezone.utc)-released).total_seconds()>=86400
+          PY
+      - name: Reproduce narrowly scoped static Rollup defaults clone patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          python scripts/prepare-b7-rollup.py "$out/rollup-plugin-node-resolve-16.0.3.tgz" "$out/vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz" "$out"
+          python scripts/prepare-b7-rollup.py "$out/rollup-plugin-node-resolve-16.0.3.tgz" "$out/reproduced.tgz" "$out/reproduced"
+          cmp "$out/reproduced.tgz" "$out/vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz"
+      - name: Official whole-lock preparation without install scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          gen_dir="$(mktemp -d)"
+          cp package.json bun.lock bunfig.toml "$gen_dir/"
+          cp -R "$out/vendor" "$gen_dir/"
+          python - "$gen_dir/package.json" "$out" <<'PY'
+          import json,sys
+          from pathlib import Path
+          package=Path(sys.argv[1]);out=Path(sys.argv[2]);data=json.loads(package.read_text())
+          for key in ['overrides','resolutions']:
+            data[key]['qs']='6.16.1'
+            data[key]['@rollup/plugin-node-resolve']='file:vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz'
+          package.write_text(json.dumps(data,indent=2)+'\n')
+          (out/'expected-package.json').write_bytes(package.read_bytes())
+          PY
+          cd "$gen_dir"
+          npm pack @oven/bun-linux-x64-baseline@1.4.0 --ignore-scripts --json > "$out/bun-tool-pack.json"
+          node --input-type=module - "$out/bun-tool-pack.json" <<'JS'
+          import fs from 'node:fs';
+          const [p] = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          if (p.integrity !== 'sha512-bX4PG7rWFkBL9laVJP8ESdQxkngLUyUiDEgYKohY+WtGQ2n8GSlA/2S5o394eEnacjQ/WC8+gebali7KoNvEpw==') throw Error('Unapproved generator integrity');
+          JS
+          tar -xzf oven-bun-linux-x64-baseline-1.4.0.tgz
+          tool="$gen_dir/package/bin/bun"
+          test "$("$tool" --version)" = 1.4.0
+          "$tool" --revision | tee "$out/generator-revision.txt"
+          grep -q 34cbb9a40 "$out/generator-revision.txt"
+          timeout 180 "$tool" install --lockfile-only --ignore-scripts 2>&1 | tee "$out/generator.log"
+          cmp package.json "$out/expected-package.json"
+          cp package.json "$out/candidate-package.json"
+          cp bun.lock "$out/candidate-bun.lock"
+          printf '%s\n' "$gen_dir" > "$out/candidate-dir.txt"
+      - name: Existing Bun consumer accepts complete candidate frozen lock
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          cd "$(cat "$out/candidate-dir.txt")"
+          bun install --frozen-lockfile --ignore-scripts 2>&1 | tee "$out/candidate-frozen.log"
+          cmp package.json "$out/candidate-package.json"
+          cmp bun.lock "$out/candidate-bun.lock"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.14'
+      - name: Full supported candidate audit without advisory suppression
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          cd "$(cat "$out/candidate-dir.txt")"
+          set +e
+          bun audit --json > "$out/candidate-audit.json" 2> "$out/candidate-audit.stderr"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$out/candidate-audit.exit"
+          test "$code" -eq 0
+          node -e 'if(JSON.stringify(JSON.parse(require("fs").readFileSync(process.argv[1],"utf8")))!=="{}")throw Error("Audit not empty")' "$out/candidate-audit.json"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Preserve actual installed parser provenance and bounded comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/b7-patch-prepare"
+          baseline_dir="$(mktemp -d)"
+          for file in package.json bun.lock bunfig.toml; do
+            git show "32af64252c1b5a3d305826c1b731d654c9231fd9:$file" > "$baseline_dir/$file"
+          done
+          (cd "$baseline_dir" && bun install --frozen-lockfile --ignore-scripts)
+          DEPENDENCY_TEST_ROOT="$baseline_dir" OUT="$out/parser" node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { createRequire } from 'node:module';
+          import crypto from 'node:crypto';
+          const root=createRequire(path.join(process.env.DEPENDENCY_TEST_ROOT,'package.json'));
+          const sdk=createRequire(root.resolve('@modelcontextprotocol/sdk/package.json'));
+          const express=createRequire(sdk.resolve('express/package.json'));
+          const body=createRequire(express.resolve('body-parser/package.json'));
+          const out=process.env.OUT;fs.mkdirSync(out,{recursive:true});
+          for(const [label,file] of [['body-package',express.resolve('body-parser/package.json')],['body-read',body.resolve('body-parser/lib/read.js')],['raw-body',body.resolve('raw-body')]]) {
+            const bytes=fs.readFileSync(file);fs.writeFileSync(path.join(out,label+'.txt'),bytes);
+            fs.appendFileSync(path.join(out,'sha256.txt'),label+' '+crypto.createHash('sha256').update(bytes).digest('hex')+'\n');
+          }
+          JS
+          set +e
+          DEPENDENCY_TEST_ROOT="$baseline_dir" node tests/b7-dependency-regressions/check.cjs --baseline > "$out/parser/baseline.json" 2> "$out/parser/baseline.stderr"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$out/parser/baseline.exit"
+          test "$code" -eq 0
+      - name: Preserve formatted test copies without modifying source
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs/promises';import path from 'node:path';import * as prettier from 'prettier';
+          for(const file of ['tests/b7-dependency-regressions/check.cjs','tests/b7-dependency-regressions/compressed-child.cjs']) {
+            const dest=path.join(process.env.RUNNER_TEMP,'b7-patch-prepare/formatted',file);
+            await fs.mkdir(path.dirname(dest),{recursive:true});
+            await fs.writeFile(dest,await prettier.format(await fs.readFile(file,'utf8'),{...await prettier.resolveConfig(file),filepath:file}));
+          }
+          JS
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b7-parent-patch-preparation
+          path: ${{ runner.temp }}/b7-patch-prepare
+          if-no-files-found: error
+          retention-days: 7

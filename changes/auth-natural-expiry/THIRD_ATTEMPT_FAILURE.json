@@ -1,0 +1,23 @@
+{
+  "source_sha": "70c85aa8a7247e6f45d8f49732e2faeabb2b2a6a",
+  "run": 38220744362,
+  "job": 114716121666,
+  "stage": "credential_evidence_quarantined",
+  "live_test_attempted": true,
+  "accepted": false,
+  "observed_controls_count": 61,
+  "retained": {
+    "natural_expiry_accepted": false,
+    "integration_accepted": false,
+    "evidence_no_credentials": false,
+    "failure_stage": "credential_evidence_quarantined"
+  },
+  "cleanup": {
+    "status_file_removed": true,
+    "application_processes_removed": true,
+    "stack_containers_removed": true
+  },
+  "reason": "collector treated every key containing 'token' as credential, including nonsecret token_type='bearer'; installed SDK source excerpts contain this scheme label and thus triggered fail-closed quarantine",
+  "limits": "No live success claim inferred from61count; detailed receipts quarantined and not uploaded. Preserve source/job/result link; rerun fixed scanner on new source.",
+  "correction": "Allowlist actual access_token/refresh_token/id_token fields, retain JWT/key-pattern scanning and all known actor/PKCE/password/stack credentials; regression proves bearer public scheme allowed while actual token strings detected"
+}

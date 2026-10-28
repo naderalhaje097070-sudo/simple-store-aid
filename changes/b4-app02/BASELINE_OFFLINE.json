@@ -1,0 +1,42 @@
+{
+  "source": "dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0",
+  "proof": "actual original route with supplied DB errors; not a native DB/signature execution",
+  "cases": [
+    {
+      "scenario": "subscriptions",
+      "observed_status": 200,
+      "observed_body": {
+        "received": true
+      },
+      "write_attempts": [
+        "subscriptions",
+        "tenants"
+      ],
+      "expected_non_2xx": false
+    },
+    {
+      "scenario": "tenants",
+      "observed_status": 200,
+      "observed_body": {
+        "received": true
+      },
+      "write_attempts": [
+        "subscriptions",
+        "tenants"
+      ],
+      "expected_non_2xx": false
+    },
+    {
+      "scenario": "none",
+      "observed_status": 200,
+      "observed_body": {
+        "received": true
+      },
+      "write_attempts": [
+        "subscriptions",
+        "tenants"
+      ],
+      "expected_non_2xx": false
+    }
+  ]
+}

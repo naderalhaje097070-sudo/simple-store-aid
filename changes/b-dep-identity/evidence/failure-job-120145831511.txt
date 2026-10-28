@@ -1,0 +1,2426 @@
+﻿2026-10-22T23:21:21.6288881Z Current runner version: '2.338.0'
+2026-10-22T23:21:21.6309117Z ##[group]Runner Image Provisioner
+2026-10-22T23:21:21.6309805Z Hosted Compute Agent
+2026-10-22T23:21:21.6310179Z Version: 20261012.601
+2026-10-22T23:21:21.6310958Z Commit: f3dc54e1fb89da6852db922499a0233137369e1d
+2026-10-22T23:21:21.6311420Z Build Date: 2026-10-12T17:48:21Z
+2026-10-22T23:21:21.6311848Z Worker ID: {6ce32f6f-4dee-471e-975b-aca86dd0b189}
+2026-10-22T23:21:21.6312353Z Region: centralus
+2026-10-22T23:21:21.6312709Z Cloud: Azure
+2026-10-22T23:21:21.6313046Z ##[endgroup]
+2026-10-22T23:21:21.6313977Z ##[group]Operating System
+2026-10-22T23:21:21.6314357Z Ubuntu
+2026-10-22T23:21:21.6314723Z 24.04.5
+2026-10-22T23:21:21.6315126Z LTS
+2026-10-22T23:21:21.6315461Z ##[endgroup]
+2026-10-22T23:21:21.6315891Z ##[group]Runner Image
+2026-10-22T23:21:21.6316278Z Image: ubuntu-24.04
+2026-10-22T23:21:21.6316695Z Version: 20261012.334.1
+2026-10-22T23:21:21.6317522Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-22T23:21:21.6318460Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+2026-10-22T23:21:21.6319044Z ##[endgroup]
+2026-10-22T23:21:21.6319797Z ##[group]GITHUB_TOKEN Permissions
+2026-10-22T23:21:21.6321239Z Contents: read
+2026-10-22T23:21:21.6321665Z Metadata: read
+2026-10-22T23:21:21.6322030Z ##[endgroup]
+2026-10-22T23:21:21.6323438Z Secret source: Actions
+2026-10-22T23:21:21.6324186Z Cache mode: write
+2026-10-22T23:21:21.6324682Z Prepare workflow directory
+2026-10-22T23:21:21.8691402Z Prepare all required actions
+2026-10-22T23:21:21.8724098Z Getting action download info
+2026-10-22T23:21:22.1277207Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-22T23:21:22.6665805Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-22T23:21:23.1296205Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-22T23:21:23.9969230Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-22T23:21:24.3784343Z Complete job name: quality
+2026-10-22T23:21:24.4478127Z ##[group]Run actions/checkout@v4
+2026-10-22T23:21:24.4478834Z with:
+2026-10-22T23:21:24.4479251Z   fetch-depth: 0
+2026-10-22T23:21:24.4479778Z   ref: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:24.4480708Z   persist-credentials: false
+2026-10-22T23:21:24.4481359Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-22T23:21:24.4486252Z   token: ***
+2026-10-22T23:21:24.4486702Z   ssh-strict: true
+2026-10-22T23:21:24.4487158Z   ssh-user: git
+2026-10-22T23:21:24.4487602Z   clean: true
+2026-10-22T23:21:24.4488102Z   sparse-checkout-cone-mode: true
+2026-10-22T23:21:24.4488663Z   fetch-tags: false
+2026-10-22T23:21:24.4489137Z   show-progress: true
+2026-10-22T23:21:24.4489624Z   lfs: false
+2026-10-22T23:21:24.4490059Z   submodules: false
+2026-10-22T23:21:24.4490714Z   set-safe-directory: true
+2026-10-22T23:21:24.4491350Z   allow-unsafe-pr-checkout: false
+2026-10-22T23:21:24.4492033Z env:
+2026-10-22T23:21:24.4492622Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:24.4493360Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:24.4493883Z ##[endgroup]
+2026-10-22T23:21:24.5396974Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-22T23:21:24.5399663Z ##[group]Getting Git version info
+2026-10-22T23:21:24.5400995Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-22T23:21:24.5402846Z [command]/usr/bin/git version
+2026-10-22T23:21:24.5517951Z git version 2.55.0
+2026-10-22T23:21:24.5572944Z ##[endgroup]
+2026-10-22T23:21:24.5581321Z Temporarily overriding HOME='/home/runner/work/_temp/a28e801a-44da-4189-aff6-e8771669f39b' before making global git config changes
+2026-10-22T23:21:24.5584081Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-22T23:21:24.5586403Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-22T23:21:24.5683070Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-22T23:21:24.5685894Z ##[group]Initializing the repository
+2026-10-22T23:21:24.5687852Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-22T23:21:24.5831621Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-22T23:21:24.5855770Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-22T23:21:24.5857934Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-22T23:21:24.5877624Z hint: call:
+2026-10-22T23:21:24.5878517Z hint:
+2026-10-22T23:21:24.5879567Z hint: 	git config --global init.defaultBranch <name>
+2026-10-22T23:21:24.5882046Z hint:
+2026-10-22T23:21:24.5883174Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-22T23:21:24.5887136Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-22T23:21:24.5889022Z hint:
+2026-10-22T23:21:24.5889827Z hint: 	git branch -m <name>
+2026-10-22T23:21:24.5891062Z hint:
+2026-10-22T23:21:24.5894302Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-22T23:21:24.5907291Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-22T23:21:24.5911520Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-22T23:21:24.5914727Z ##[endgroup]
+2026-10-22T23:21:24.5916106Z ##[group]Disabling automatic garbage collection
+2026-10-22T23:21:24.5936089Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-22T23:21:24.5981932Z ##[endgroup]
+2026-10-22T23:21:24.5983143Z ##[group]Setting up auth
+2026-10-22T23:21:24.5984579Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-22T23:21:24.6053314Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-22T23:21:24.6384402Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-22T23:21:24.6414354Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-22T23:21:24.6665187Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-22T23:21:24.6683419Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-22T23:21:24.7001967Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-22T23:21:24.7051792Z ##[endgroup]
+2026-10-22T23:21:24.7053581Z ##[group]Fetching the repository
+2026-10-22T23:21:24.7072104Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-22T23:21:25.9627656Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-22T23:21:25.9631119Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-22T23:21:25.9631993Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-22T23:21:25.9632706Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-22T23:21:25.9633495Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-22T23:21:25.9634220Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-22T23:21:25.9634928Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-22T23:21:25.9636037Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-22T23:21:25.9636881Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-22T23:21:25.9637699Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-22T23:21:25.9638563Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-22T23:21:25.9639445Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-22T23:21:25.9640504Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-22T23:21:25.9641362Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-22T23:21:25.9642337Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-22T23:21:25.9643108Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-22T23:21:25.9643829Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-22T23:21:25.9644521Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-22T23:21:25.9645244Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-22T23:21:25.9645983Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-22T23:21:25.9646637Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-22T23:21:25.9647350Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-22T23:21:25.9648128Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-22T23:21:25.9649074Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-22T23:21:25.9649777Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-22T23:21:25.9650543Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-22T23:21:25.9651211Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-22T23:21:25.9651949Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-22T23:21:25.9652690Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-22T23:21:25.9653800Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-22T23:21:25.9654544Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-22T23:21:25.9655136Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-22T23:21:25.9655746Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-22T23:21:25.9656371Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-22T23:21:25.9656992Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-22T23:21:25.9657662Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-22T23:21:25.9658246Z  * [new branch]      main                    -> origin/main
+2026-10-22T23:21:25.9658798Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-22T23:21:25.9659434Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-22T23:21:25.9660689Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-22T23:21:25.9661287Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-22T23:21:25.9662000Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-22T23:21:25.9662663Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-22T23:21:25.9663227Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-22T23:21:25.9663795Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-22T23:21:25.9664512Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-22T23:21:25.9665309Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-22T23:21:25.9666149Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-22T23:21:25.9666936Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-22T23:21:25.9667561Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-22T23:21:25.9668187Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-22T23:21:25.9668816Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-22T23:21:25.9669542Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-22T23:21:25.9670539Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-22T23:21:25.9671441Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-22T23:21:25.9672330Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-22T23:21:25.9673213Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-22T23:21:25.9673900Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-22T23:21:25.9674621Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-22T23:21:25.9675397Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-22T23:21:25.9676077Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-22T23:21:25.9676736Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-22T23:21:25.9677540Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-22T23:21:25.9678373Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-22T23:21:25.9679117Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-22T23:21:25.9680064Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-22T23:21:25.9681031Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-22T23:21:25.9681679Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-22T23:21:25.9682371Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-22T23:21:25.9683099Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-22T23:21:25.9684818Z [command]/usr/bin/git rev-parse --verify --quiet 9266f848a03e0e6f700c23518eafd0c7ed750d6b^{object}
+2026-10-22T23:21:25.9685683Z 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:25.9686812Z ##[endgroup]
+2026-10-22T23:21:25.9687335Z ##[group]Determining the checkout info
+2026-10-22T23:21:25.9688025Z ##[endgroup]
+2026-10-22T23:21:25.9688437Z [command]/usr/bin/git sparse-checkout disable
+2026-10-22T23:21:25.9737555Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-22T23:21:25.9771990Z ##[group]Checking out the ref
+2026-10-22T23:21:25.9775092Z [command]/usr/bin/git checkout --progress --force 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:26.0739258Z Note: switching to '9266f848a03e0e6f700c23518eafd0c7ed750d6b'.
+2026-10-22T23:21:26.0739888Z 
+2026-10-22T23:21:26.0740708Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-22T23:21:26.0741291Z changes and commit them, and you can discard any commits you make in this
+2026-10-22T23:21:26.0742108Z state without impacting any branches by switching back to a branch.
+2026-10-22T23:21:26.0742530Z 
+2026-10-22T23:21:26.0743082Z If you want to create a new branch to retain commits you create, you may
+2026-10-22T23:21:26.0743649Z do so (now or later) by using -c with the switch command. Example:
+2026-10-22T23:21:26.0744238Z 
+2026-10-22T23:21:26.0744475Z   git switch -c <new-branch-name>
+2026-10-22T23:21:26.0744974Z 
+2026-10-22T23:21:26.0745202Z Or undo this operation with:
+2026-10-22T23:21:26.0750593Z 
+2026-10-22T23:21:26.0750835Z   git switch -
+2026-10-22T23:21:26.0751035Z 
+2026-10-22T23:21:26.0760860Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-22T23:21:26.0761066Z 
+2026-10-22T23:21:26.0761250Z HEAD is now at 9266f84 fix(security): patch B dependencies and enforce bounded MCP requests
+2026-10-22T23:21:26.0762056Z ##[endgroup]
+2026-10-22T23:21:26.0801530Z [command]/usr/bin/git log -1 --format=%H
+2026-10-22T23:21:26.0826363Z 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:26.0833886Z ##[group]Removing auth
+2026-10-22T23:21:26.0842896Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-22T23:21:26.0865036Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-22T23:21:26.1050205Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-22T23:21:26.1086832Z http.https://github.com/.extraheader
+2026-10-22T23:21:26.1088786Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-22T23:21:26.1112634Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-22T23:21:26.1306721Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-22T23:21:26.1331435Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-22T23:21:26.1522703Z ##[endgroup]
+2026-10-22T23:21:26.1705457Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-22T23:21:26.1705636Z with:
+2026-10-22T23:21:26.1705759Z   bun-version: 1.2.14
+2026-10-22T23:21:26.1705892Z   no-cache: false
+2026-10-22T23:21:26.1707183Z   token: ***
+2026-10-22T23:21:26.1707302Z env:
+2026-10-22T23:21:26.1707464Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:26.1707675Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:26.1707820Z ##[endgroup]
+2026-10-22T23:21:26.4296159Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-10-22T23:21:27.3970666Z Received 34827867 of 34827867 (100.0%), 41.9 MBs/sec
+2026-10-22T23:21:27.3981573Z Cache Size: ~33 MB (34827867 B)
+2026-10-22T23:21:27.4191729Z [command]/usr/bin/tar -xf /home/runner/work/_temp/00860f22-2c08-4e85-bd28-f6ea753e1617/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-22T23:21:27.5682873Z Cache restored successfully
+2026-10-22T23:21:27.5706323Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-22T23:21:27.5758446Z 1.2.14+6a363a38d
+2026-10-22T23:21:27.5765157Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-22T23:21:27.6288058Z ##[group]Run bun install --frozen-lockfile
+2026-10-22T23:21:27.6288366Z [36;1mbun install --frozen-lockfile[0m
+2026-10-22T23:21:27.6816472Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:27.6816669Z env:
+2026-10-22T23:21:27.6816853Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:27.6817071Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:27.6817225Z ##[endgroup]
+2026-10-22T23:21:27.7573994Z bun install v1.2.14 (6a363a38)
+2026-10-22T23:21:35.2501672Z 
+2026-10-22T23:21:35.2502398Z + @eslint/js@9.39.4
+2026-10-22T23:21:35.2502878Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-22T23:21:35.2503275Z + @types/node@22.19.17
+2026-10-22T23:21:35.2503642Z + @types/qrcode@1.5.6
+2026-10-22T23:21:35.2503992Z + @types/react@19.2.14
+2026-10-22T23:21:35.2505096Z + @types/react-dom@19.2.3
+2026-10-22T23:21:35.2521017Z + @vitejs/plugin-react@5.2.0
+2026-10-22T23:21:35.2521442Z + eslint@9.39.4
+2026-10-22T23:21:35.2523269Z + eslint-config-prettier@10.1.8
+2026-10-22T23:21:35.2523736Z + eslint-plugin-prettier@5.5.5
+2026-10-22T23:21:35.2524097Z + eslint-plugin-react-hooks@5.2.0
+2026-10-22T23:21:35.2524466Z + eslint-plugin-react-refresh@0.4.26
+2026-10-22T23:21:35.2524830Z + globals@15.15.0
+2026-10-22T23:21:35.2525135Z + nitro@3.0.260603-beta
+2026-10-22T23:21:35.2525451Z + prettier@3.8.3
+2026-10-22T23:21:35.2525748Z + seroval@1.6.7
+2026-10-22T23:21:35.2526050Z + typescript@5.9.3
+2026-10-22T23:21:35.2526363Z + typescript-eslint@8.59.0
+2026-10-22T23:21:35.2526699Z + vite@8.1.6
+2026-10-22T23:21:35.2527029Z + vite-plugin-pwa@1.3.0
+2026-10-22T23:21:35.2527371Z + workbox-window@7.4.1
+2026-10-22T23:21:35.2527688Z + @hookform/resolvers@5.2.2
+2026-10-22T23:21:35.2528029Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-22T23:21:35.2528396Z + @lovable.dev/email-js@0.1.0
+2026-10-22T23:21:35.2528803Z + @lovable.dev/mcp-js@0.20.1
+2026-10-22T23:21:35.2529139Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-22T23:21:35.2529488Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-22T23:21:35.2529842Z + @radix-ui/react-accordion@1.2.12
+2026-10-22T23:21:35.2530202Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-22T23:21:35.2531102Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-22T23:21:35.2531459Z + @radix-ui/react-avatar@1.1.11
+2026-10-22T23:21:35.2531799Z + @radix-ui/react-checkbox@1.3.3
+2026-10-22T23:21:35.2532143Z + @radix-ui/react-collapsible@1.1.12
+2026-10-22T23:21:35.2532493Z + @radix-ui/react-context-menu@2.2.16
+2026-10-22T23:21:35.2532834Z + @radix-ui/react-dialog@1.1.15
+2026-10-22T23:21:35.2533174Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-22T23:21:35.2533529Z + @radix-ui/react-hover-card@1.1.15
+2026-10-22T23:21:35.2533868Z + @radix-ui/react-label@2.1.8
+2026-10-22T23:21:35.2534199Z + @radix-ui/react-menubar@1.1.16
+2026-10-22T23:21:35.2534543Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-22T23:21:35.2534906Z + @radix-ui/react-popover@1.1.15
+2026-10-22T23:21:35.2535240Z + @radix-ui/react-progress@1.1.8
+2026-10-22T23:21:35.2535581Z + @radix-ui/react-radio-group@1.3.8
+2026-10-22T23:21:35.2535934Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-22T23:21:35.2536286Z + @radix-ui/react-select@2.2.6
+2026-10-22T23:21:35.2536618Z + @radix-ui/react-separator@1.1.8
+2026-10-22T23:21:35.2536962Z + @radix-ui/react-slider@1.3.6
+2026-10-22T23:21:35.2537294Z + @radix-ui/react-slot@1.2.4
+2026-10-22T23:21:35.2537623Z + @radix-ui/react-switch@1.2.6
+2026-10-22T23:21:35.2537955Z + @radix-ui/react-tabs@1.1.13
+2026-10-22T23:21:35.2538295Z + @radix-ui/react-toggle@1.1.10
+2026-10-22T23:21:35.2538638Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-22T23:21:35.2538996Z + @radix-ui/react-tooltip@1.2.8
+2026-10-22T23:21:35.2539338Z + @supabase/supabase-js@2.110.5
+2026-10-22T23:21:35.2539672Z + @tailwindcss/vite@4.2.4
+2026-10-22T23:21:35.2540000Z + @tanstack/react-query@5.100.1
+2026-10-22T23:21:35.2540837Z + @tanstack/react-router@1.170.41
+2026-10-22T23:21:35.2541187Z + @tanstack/react-start@1.168.60
+2026-10-22T23:21:35.2541534Z + @tanstack/router-plugin@1.168.42
+2026-10-22T23:21:35.2541889Z + class-variance-authority@0.7.1
+2026-10-22T23:21:35.2542465Z + clsx@2.1.1
+2026-10-22T23:21:35.2542763Z + cmdk@1.1.1
+2026-10-22T23:21:35.2543057Z + date-fns@4.1.0
+2026-10-22T23:21:35.2543366Z + embla-carousel-react@8.6.0
+2026-10-22T23:21:35.2543698Z + html2canvas@1.4.1
+2026-10-22T23:21:35.2544004Z + input-otp@1.4.2
+2026-10-22T23:21:35.2544301Z + jspdf@4.2.1
+2026-10-22T23:21:35.2544632Z + lucide-react@0.575.0
+2026-10-22T23:21:35.2544950Z + qrcode@1.5.4
+2026-10-22T23:21:35.2545237Z + react@19.2.5
+2026-10-22T23:21:35.2545537Z + react-day-picker@9.14.0
+2026-10-22T23:21:35.2545857Z + react-dom@19.2.5
+2026-10-22T23:21:35.2546167Z + react-hook-form@7.73.1
+2026-10-22T23:21:35.2546497Z + react-resizable-panels@4.10.0
+2026-10-22T23:21:35.2546824Z + recharts@2.15.4
+2026-10-22T23:21:35.2547117Z + sonner@2.0.7
+2026-10-22T23:21:35.2547420Z + tailwind-merge@3.5.0
+2026-10-22T23:21:35.2547728Z + tailwindcss@4.2.4
+2026-10-22T23:21:35.2548031Z + tw-animate-css@1.4.0
+2026-10-22T23:21:35.2548331Z + vaul@1.1.2
+2026-10-22T23:21:35.2548634Z + vite-tsconfig-paths@6.1.1
+2026-10-22T23:21:35.2548963Z + zod@4.4.3
+2026-10-22T23:21:35.2549178Z 
+2026-10-22T23:21:35.2549378Z 826 packages installed [7.50s]
+2026-10-22T23:21:35.3141192Z ##[group]Run node scripts/format-generated.mjs --check
+2026-10-22T23:21:35.3141500Z [36;1mnode scripts/format-generated.mjs --check[0m
+2026-10-22T23:21:35.3218484Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:35.3218647Z env:
+2026-10-22T23:21:35.3218814Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:35.3219027Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:35.3219182Z ##[endgroup]
+2026-10-22T23:21:36.4723990Z GENERATED_FORMAT_CHECK_PASS: 9
+2026-10-22T23:21:36.4987978Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-10-22T23:21:36.4988269Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-10-22T23:21:36.4988525Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-10-22T23:21:36.5043365Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:36.5043546Z env:
+2026-10-22T23:21:36.5043719Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:36.5043929Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:36.5044078Z ##[endgroup]
+2026-10-22T23:21:36.6129892Z {"source_sha": "9266f848a03e0e6f700c23518eafd0c7ed750d6b", "kind": "identity", "scope": "reviewed_integrated_B_source", "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1", "head_sha": "9266f848a03e0e6f700c23518eafd0c7ed750d6b", "protected_blob_count": 364, "all_integrated_blobs_match": true, "migration_count": 50, "original54_migrations_unchanged": true, "legacy383_unchanged_claim": false}
+2026-10-22T23:21:40.9064897Z .............................
+2026-10-22T23:21:40.9065706Z ----------------------------------------------------------------------
+2026-10-22T23:21:40.9066268Z Ran 29 tests in 4.028s
+2026-10-22T23:21:40.9066537Z 
+2026-10-22T23:21:40.9066780Z OK
+2026-10-22T23:21:40.9211546Z ##[group]Run bun run typecheck
+2026-10-22T23:21:40.9211875Z [36;1mbun run typecheck[0m
+2026-10-22T23:21:40.9275918Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:40.9276163Z env:
+2026-10-22T23:21:40.9276376Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:40.9276593Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:40.9276748Z ##[endgroup]
+2026-10-22T23:21:40.9376781Z $ tsc --noEmit
+2026-10-22T23:21:49.0856480Z ##[group]Run set -euo pipefail
+2026-10-22T23:21:49.0856778Z [36;1mset -euo pipefail[0m
+2026-10-22T23:21:49.0857038Z [36;1mbun run lint 2>&1 | tee /tmp/lint.log[0m
+2026-10-22T23:21:49.0918702Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-22T23:21:49.0918915Z env:
+2026-10-22T23:21:49.0919093Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:49.0919304Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:49.0919624Z ##[endgroup]
+2026-10-22T23:21:49.1061437Z $ eslint .
+2026-10-22T23:21:55.7130740Z 
+2026-10-22T23:21:55.7211261Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/DateRangeFilter.tsx
+2026-10-22T23:21:55.7251315Z   19:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7252467Z   53:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7253492Z   58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7254052Z 
+2026-10-22T23:21:55.7254269Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/badge.tsx
+2026-10-22T23:21:55.7255036Z   32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7255610Z 
+2026-10-22T23:21:55.7255820Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/button.tsx
+2026-10-22T23:21:55.7256583Z   49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7257136Z 
+2026-10-22T23:21:55.7257336Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/form.tsx
+2026-10-22T23:21:55.7258097Z   163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7258651Z 
+2026-10-22T23:21:55.7258890Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/navigation-menu.tsx
+2026-10-22T23:21:55.7259683Z   111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7260235Z 
+2026-10-22T23:21:55.7260572Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/sidebar.tsx
+2026-10-22T23:21:55.7261331Z   743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7261876Z 
+2026-10-22T23:21:55.7262082Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/toggle.tsx
+2026-10-22T23:21:55.7262848Z   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7263399Z 
+2026-10-22T23:21:55.7263663Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/inventory/AddProductSheet.tsx
+2026-10-22T23:21:55.7264311Z    1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+2026-10-22T23:21:55.7265480Z   46:6  warning  React Hook useEffect has a missing dependency: 'initial'. Either include it or remove the dependency array. If 'setPrice' needs the current value of 'initial', you can also switch to useReducer instead of useState and read 'initial' in the reducer  react-hooks/exhaustive-deps
+2026-10-22T23:21:55.7266976Z 
+2026-10-22T23:21:55.7267190Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/shared/Money.tsx
+2026-10-22T23:21:55.7267958Z   4:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-22T23:21:55.7268504Z 
+2026-10-22T23:21:55.7268888Z ✖ 12 problems (0 errors, 12 warnings)
+2026-10-22T23:21:55.7269253Z   0 errors and 1 warning potentially fixable with the `--fix` option.
+2026-10-22T23:21:55.7269681Z 
+2026-10-22T23:21:55.8905640Z ##[group]Run bun tests/gate4/sec-ci/probe.ts
+2026-10-22T23:21:55.8906012Z [36;1mbun tests/gate4/sec-ci/probe.ts[0m
+2026-10-22T23:21:55.8974025Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:55.8974203Z env:
+2026-10-22T23:21:55.8974375Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:55.8974593Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:55.8974749Z ##[endgroup]
+2026-10-22T23:21:55.9283648Z SEC_CI_G4_TARGET_GREEN: setup-cli@v2 pinned to 2.101.0; reporting is least-privilege
+2026-10-22T23:21:55.9318228Z ##[group]Run bun run test:unit
+2026-10-22T23:21:55.9318525Z [36;1mbun run test:unit[0m
+2026-10-22T23:21:55.9389837Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:21:55.9390109Z env:
+2026-10-22T23:21:55.9390550Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:21:55.9390898Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:21:55.9391146Z ##[endgroup]
+2026-10-22T23:21:55.9517767Z $ bun test tests/unit
+2026-10-22T23:21:55.9570801Z bun test v1.2.14 (6a363a38)
+2026-10-22T23:21:55.9680680Z 
+2026-10-22T23:21:55.9702017Z ##[group]tests/unit/supabase-public-key.test.ts:
+2026-10-22T23:21:55.9749393Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format secret
+2026-10-22T23:21:55.9771026Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT [1.00ms]
+2026-10-22T23:21:55.9781014Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-10-22T23:21:55.9781973Z (pass) public Supabase configuration rejects privileged credentials > accepts legacy anon and publishable fixtures
+2026-10-22T23:21:55.9782630Z 
+2026-10-22T23:21:55.9783262Z ##[endgroup]
+2026-10-22T23:21:55.9783558Z 
+2026-10-22T23:21:55.9783964Z ##[group]tests/unit/mcp-issuer.test.ts:
+2026-10-22T23:21:56.0896640Z (pass) actual MCP definition uses the approved local issuer [112.00ms]
+2026-10-22T23:21:56.3229822Z (pass) actual locked handler rejects signature, issuer, audience, expiry and client-claim failures [233.00ms]
+2026-10-22T23:21:56.3962398Z (pass) actual MCP import fails closed without explicit environment configuration [73.00ms]
+2026-10-22T23:21:56.3963382Z (pass) issuer resolution validates local and ci endpoints before canonicalizing [1.00ms]
+2026-10-22T23:21:56.3974544Z (pass) remote environments retain direct Supabase project endpoints
+2026-10-22T23:21:56.3975190Z (pass) issuer cannot bypass the existing endpoint, alias or public key contract
+2026-10-22T23:21:56.3975718Z 
+2026-10-22T23:21:56.3976326Z ##[endgroup]
+2026-10-22T23:21:56.3976565Z 
+2026-10-22T23:21:56.3976953Z ##[group]tests/unit/account-state.test.ts:
+2026-10-22T23:21:56.4314919Z (pass) authoritative assertion succeeds with a nullable tenant and one RPC [5.00ms]
+2026-10-22T23:21:56.4341256Z (pass) only the exact database lifecycle error is an account denial [1.00ms]
+2026-10-22T23:21:56.4345147Z (pass) transport rejection cannot permit the operation [1.00ms]
+2026-10-22T23:21:59.4350233Z (pass) deadline denies even when the transport never settles and aborts it [3001.00ms]
+2026-10-22T23:21:59.4351063Z 
+2026-10-22T23:21:59.4351806Z ##[endgroup]
+2026-10-22T23:21:59.4352166Z 
+2026-10-22T23:21:59.4352588Z ##[group]tests/unit/supabase-build-config.test.ts:
+2026-10-22T23:21:59.4365103Z (pass) Supabase build configuration > accepts explicit isolated CI configuration
+2026-10-22T23:21:59.4365779Z (pass) Supabase build configuration > accepts matching browser and server aliases
+2026-10-22T23:21:59.4366518Z (pass) Supabase build configuration > rejects divergent browser and server aliases
+2026-10-22T23:21:59.4367217Z (pass) Supabase build configuration > uses server aliases when VITE aliases are absent
+2026-10-22T23:21:59.4367975Z (pass) Supabase build configuration > hydrates missing server aliases only from validated resolved values
+2026-10-22T23:21:59.4368775Z (pass) Supabase build configuration > server alias hydration cannot overwrite divergent explicit aliases
+2026-10-22T23:21:59.4386464Z (pass) Supabase build configuration > runtime identity must match the baked build identity
+2026-10-22T23:21:59.4388089Z (pass) Supabase build configuration > fails closed when deployment target is missing or unsupported
+2026-10-22T23:21:59.4388994Z (pass) Supabase build configuration > fails closed when explicit Supabase values are missing or blank [1.00ms]
+2026-10-22T23:21:59.4389755Z (pass) Supabase build configuration > blank VITE aliases do not override usable server aliases
+2026-10-22T23:21:59.4391038Z (pass) Supabase build configuration > deployment targets require their approved endpoint class
+2026-10-22T23:21:59.4399351Z (pass) Supabase build configuration > rejects URL routing components instead of canonicalizing them away
+2026-10-22T23:21:59.4415322Z (pass) Supabase build configuration > non-production targets reject the production host or project
+2026-10-22T23:21:59.4418612Z (pass) Supabase build configuration > terminal DNS dots cannot bypass production isolation
+2026-10-22T23:21:59.4419654Z (pass) Supabase build configuration > production requires the exact approved endpoint and explicit key
+2026-10-22T23:21:59.4420575Z (pass) Supabase build configuration > remote Supabase URL and project ID must match
+2026-10-22T23:21:59.4421020Z 
+2026-10-22T23:21:59.4421567Z ##[endgroup]
+2026-10-22T23:21:59.4421802Z 
+2026-10-22T23:21:59.4422193Z ##[group]tests/unit/mcp-request-boundary.test.ts:
+2026-10-22T23:21:59.4748828Z (pass) valid MCP bytes, headers and live abort signal reach the existing handler unchanged [3.00ms]
+2026-10-22T23:21:59.4749483Z (pass) non-MCP requests and MCP non-POST requests retain object and unread body identity
+2026-10-22T23:21:59.4779779Z (pass) router-normalized aliases and companion tool routes cannot bypass limits [3.00ms]
+2026-10-22T23:21:59.4787195Z (pass) exact byte limit passes; one extra byte is rejected without relying on Content-Length [1.00ms]
+2026-10-22T23:21:59.4804978Z (pass) UTF-8 bytes, not UTF-16 character count, enforce the body budget [2.00ms]
+2026-10-22T23:21:59.4809155Z (pass) chunked bodies with absent or forged-small length cannot exceed the actual byte budget
+2026-10-22T23:21:59.4810656Z (pass) declared oversize and invalid lengths fail before reading the body
+2026-10-22T23:21:59.4813260Z (pass) early length refusals cancel an unread body without awaiting hostile cancellation [1.00ms]
+2026-10-22T23:21:59.4831033Z (pass) combined array/object member budget accepts the boundary and rejects one extra [1.00ms]
+2026-10-22T23:21:59.4838252Z (pass) deep bounded inputs cannot reach recursive downstream schema validation
+2026-10-22T23:21:59.4843019Z (pass) malformed JSON and invalid UTF-8 get fixed errors without echoing input [1.00ms]
+2026-10-22T23:21:59.4843689Z (pass) abort settles an outstanding read even when client cancellation never settles
+2026-10-22T23:21:59.4844215Z (pass) already-aborted inputs and stream failures never pass to the protocol handler [1.00ms]
+2026-10-22T23:22:04.4852727Z (pass) stalled reads have a finite deadline [5001.00ms]
+2026-10-22T23:22:04.4853322Z 
+2026-10-22T23:22:04.4853959Z ##[endgroup]
+2026-10-22T23:22:04.4854086Z 
+2026-10-22T23:22:04.4854362Z ##[group]tests/unit/dependency-security.test.ts:
+2026-10-22T23:22:04.4905444Z (pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [1.00ms]
+2026-10-22T23:22:04.4906758Z (pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy
+2026-10-22T23:22:04.4908813Z (pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy
+2026-10-22T23:22:04.4911170Z (pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy [1.00ms]
+2026-10-22T23:22:04.4913036Z (pass) TanStack server-function XSS dependency boundary > vite has no vulnerable locked copy
+2026-10-22T23:22:04.4915087Z (pass) TanStack server-function XSS dependency boundary > launch-editor has no vulnerable locked copy
+2026-10-22T23:22:04.4931101Z (pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy
+2026-10-22T23:22:04.4936957Z (pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy
+2026-10-22T23:22:04.4937776Z (pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy [1.00ms]
+2026-10-22T23:22:04.4938567Z (pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy
+2026-10-22T23:22:04.4939724Z (pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy
+2026-10-22T23:22:04.4940643Z (pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy
+2026-10-22T23:22:04.4941359Z (pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy
+2026-10-22T23:22:04.4942083Z (pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy
+2026-10-22T23:22:04.4942812Z (pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy
+2026-10-22T23:22:04.4943614Z (pass) TanStack server-function XSS dependency boundary > @hono/node-server has no vulnerable locked copy [1.00ms]
+2026-10-22T23:22:04.4944406Z (pass) TanStack server-function XSS dependency boundary > @babel/core has no vulnerable locked copy
+2026-10-22T23:22:04.4945141Z (pass) TanStack server-function XSS dependency boundary > dompurify has no vulnerable locked copy
+2026-10-22T23:22:04.4945827Z (pass) TanStack server-function XSS dependency boundary > qs has no vulnerable locked copy
+2026-10-22T23:22:04.4946510Z (pass) TanStack server-function XSS dependency boundary > hono has no vulnerable locked copy
+2026-10-22T23:22:04.4947269Z (pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy [1.00ms]
+2026-10-22T23:22:04.4948403Z (pass) esbuild exception has no vulnerable or mismatched locked copy
+2026-10-22T23:22:04.4948768Z 
+2026-10-22T23:22:04.4949286Z ##[endgroup]
+2026-10-22T23:22:04.4949511Z 
+2026-10-22T23:22:04.4949938Z ##[group]tests/unit/mcp-dependency-compatibility.test.ts:
+2026-10-22T23:22:04.6207007Z (pass) Lovable MCP adapter initializes with the overridden SDK [13.00ms]
+2026-10-22T23:22:04.6291036Z (pass) Lovable MCP adapter lists and invokes a Zod tool [8.00ms]
+2026-10-22T23:22:04.6319540Z (pass) invalid arguments do not invoke the synthetic tool [3.00ms]
+2026-10-22T23:22:04.6321472Z [mcp-js] auth.no_bearer_token {
+2026-10-22T23:22:04.6321739Z   outcome: "401",
+2026-10-22T23:22:04.6321985Z }
+2026-10-22T23:22:04.6323613Z (pass) protected fixture rejects a missing bearer without external requests [1.00ms]
+2026-10-22T23:22:04.6324065Z 
+2026-10-22T23:22:04.6324759Z ##[endgroup]
+2026-10-22T23:22:04.6325108Z 
+2026-10-22T23:22:04.6327988Z ##[group]tests/unit/invoice-selectors.test.ts:
+2026-10-22T23:22:04.6348848Z (pass) invoice finance selectors > direct fully paid has zero remaining debt
+2026-10-22T23:22:04.6353089Z (pass) invoice finance selectors > direct partially paid debt equals remaining
+2026-10-22T23:22:04.6353781Z (pass) invoice finance selectors > direct full debt equals total
+2026-10-22T23:22:04.6354444Z (pass) invoice finance selectors > returned direct order has no customer debt or courier custody
+2026-10-22T23:22:04.6355154Z (pass) invoice finance selectors > courier pending is pending value, not customer debt
+2026-10-22T23:22:04.6355815Z (pass) invoice finance selectors > courier delivered_none creates full customer debt
+2026-10-22T23:22:04.6356518Z (pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part
+2026-10-22T23:22:04.6357203Z (pass) invoice finance selectors > courier delivered_full creates no customer debt
+2026-10-22T23:22:04.6357868Z (pass) invoice finance selectors > courier returned has no customer debt or courier custody
+2026-10-22T23:22:04.6358528Z (pass) invoice finance selectors > courier custody full equals collected money
+2026-10-22T23:22:04.6359630Z (pass) invoice finance selectors > courier custody partial equals collected money
+2026-10-22T23:22:04.6360234Z (pass) invoice finance selectors > zero remaining stays zero [1.00ms]
+2026-10-22T23:22:04.6360911Z (pass) invoice finance selectors > item cost is cost times quantity
+2026-10-22T23:22:04.6361461Z (pass) invoice finance selectors > gross margin is total minus item costs
+2026-10-22T23:22:04.6362006Z (pass) invoice finance selectors > direct debt can be collected
+2026-10-22T23:22:04.6362546Z (pass) invoice finance selectors > returned order cannot be collected
+2026-10-22T23:22:04.6363292Z (pass) invoice finance selectors > courier pending cannot be collected
+2026-10-22T23:22:04.6363853Z (pass) invoice finance selectors > courier delivered_none can be collected
+2026-10-22T23:22:04.6364498Z (pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement
+2026-10-22T23:22:04.6365454Z (pass) invoice finance selectors > courier delivered_full cannot be collected
+2026-10-22T23:22:04.6366194Z (pass) invoice finance selectors > item margin uses price minus cost times quantity
+2026-10-22T23:22:04.6372410Z (pass) invoice finance selectors > gross margin and item margin remain separate concepts [2.00ms]
+2026-10-22T23:22:04.6380853Z 
+2026-10-22T23:22:04.6381435Z ##[endgroup]
+2026-10-22T23:22:04.6381653Z 
+2026-10-22T23:22:04.6381895Z  92 pass
+2026-10-22T23:22:04.6384467Z  0 fail
+2026-10-22T23:22:04.6385167Z  279 expect() calls
+2026-10-22T23:22:04.6385687Z Ran 92 tests across 8 files. [8.68s]
+2026-10-22T23:22:04.6514867Z ##[group]Run node tests/g0-integrated-types/runtime.cjs
+2026-10-22T23:22:04.6515149Z [36;1mnode tests/g0-integrated-types/runtime.cjs[0m
+2026-10-22T23:22:04.6569685Z shell: /usr/bin/bash -e {0}
+2026-10-22T23:22:04.6569841Z env:
+2026-10-22T23:22:04.6570008Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:22:04.6570216Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:22:04.6570527Z ##[endgroup]
+2026-10-22T23:22:05.9970577Z node:assert:150
+2026-10-22T23:22:05.9971217Z   throw new AssertionError(obj);
+2026-10-22T23:22:05.9971653Z   ^
+2026-10-22T23:22:05.9971889Z 
+2026-10-22T23:22:05.9972214Z AssertionError [ERR_ASSERTION]: src/routes/api/public/payments/webhook.ts
+2026-10-22T23:22:05.9972729Z + actual - expected
+2026-10-22T23:22:05.9973058Z ... Skipped lines
+2026-10-22T23:22:05.9973304Z 
+2026-10-22T23:22:05.9973505Z   {
+2026-10-22T23:22:05.9973799Z     errors: [],
+2026-10-22T23:22:05.9974115Z     program: {
+2026-10-22T23:22:05.9974422Z       body: [
+2026-10-22T23:22:05.9974773Z         {
+2026-10-22T23:22:05.9975071Z ...
+2026-10-22T23:22:05.9975359Z             },
+2026-10-22T23:22:05.9975670Z -         ],
+2026-10-22T23:22:05.9975994Z -         type: 'ImportDeclaration'
+2026-10-22T23:22:05.9976360Z -       },
+2026-10-22T23:22:05.9976649Z -       {
+2026-10-22T23:22:05.9976963Z -         attributes: [],
+2026-10-22T23:22:05.9977303Z -         source: {
+2026-10-22T23:22:05.9977637Z -           type: 'StringLiteral',
+2026-10-22T23:22:05.9978049Z -           value: '@/lib/subscription-webhook.server'
+2026-10-22T23:22:05.9978454Z -         },
+2026-10-22T23:22:05.9978765Z -         specifiers: [
+2026-10-22T23:22:05.9979091Z             {
+2026-10-22T23:22:05.9979404Z               imported: {
+2026-10-22T23:22:05.9979749Z +               name: 'EventName',
+2026-10-22T23:22:05.9980150Z -               name: 'createSubscriptionWebhookHandler',
+2026-10-22T23:22:05.9980761Z                 type: 'Identifier'
+2026-10-22T23:22:05.9981113Z               },
+2026-10-22T23:22:05.9981433Z               local: {
+2026-10-22T23:22:05.9981763Z +               name: 'EventName',
+2026-10-22T23:22:05.9982155Z -               name: 'createSubscriptionWebhookHandler',
+2026-10-22T23:22:05.9982566Z                 range: undefined,
+2026-10-22T23:22:05.9982921Z                 type: 'Identifier'
+2026-10-22T23:22:05.9983266Z               },
+2026-10-22T23:22:05.9983596Z               type: 'ImportSpecifier'
+2026-10-22T23:22:05.9983956Z             }
+2026-10-22T23:22:05.9984599Z ...
+2026-10-22T23:22:05.9984893Z               id: {
+2026-10-22T23:22:05.9985216Z +               name: '_supabase',
+2026-10-22T23:22:05.9985575Z -               name: 'supabase',
+2026-10-22T23:22:05.9985933Z                 type: 'Identifier'
+2026-10-22T23:22:05.9986274Z               },
+2026-10-22T23:22:05.9986587Z               init: {
+2026-10-22T23:22:05.9986917Z                 type: 'NullLiteral'
+2026-10-22T23:22:05.9987269Z               },
+2026-10-22T23:22:05.9987574Z ...
+2026-10-22T23:22:05.9987886Z                         left: {
+2026-10-22T23:22:05.9988245Z +                         name: '_supabase',
+2026-10-22T23:22:05.9988628Z -                         name: 'supabase',
+2026-10-22T23:22:05.9989013Z                           type: 'Identifier'
+2026-10-22T23:22:05.9989383Z                         },
+2026-10-22T23:22:05.9989732Z                         operator: '=',
+2026-10-22T23:22:05.9990098Z                         right: {
+2026-10-22T23:22:05.9990550Z                           arguments: [
+2026-10-22T23:22:05.9991010Z ...
+2026-10-22T23:22:05.9991304Z                             },
+2026-10-22T23:22:05.9991636Z -                           {
+2026-10-22T23:22:05.9991983Z -                             properties: [
+2026-10-22T23:22:05.9992347Z -                               {
+2026-10-22T23:22:05.9992731Z -                                 computed: false,
+2026-10-22T23:22:05.9993139Z -                                 key: {
+2026-10-22T23:22:05.9993565Z -                                   name: 'auth',
+2026-10-22T23:22:05.9994265Z -                                   type: 'Identifier'
+2026-10-22T23:22:05.9994799Z -                                 },
+2026-10-22T23:22:05.9995231Z -                                 method: false,
+2026-10-22T23:22:05.9995650Z -                                 shorthand: false,
+2026-10-22T23:22:05.9996091Z -                                 type: 'ObjectProperty',
+2026-10-22T23:22:05.9996512Z -                                 value: {
+2026-10-22T23:22:05.9996920Z -                                   properties: [
+2026-10-22T23:22:05.9997330Z -                                     {
+2026-10-22T23:22:05.9997741Z -                                       computed: false,
+2026-10-22T23:22:05.9998153Z -                                       key: {
+2026-10-22T23:22:05.9998581Z -                                         name: 'persistSession',
+2026-10-22T23:22:05.9999037Z -                                         type: 'Identifier'
+2026-10-22T23:22:05.9999458Z -                                       },
+2026-10-22T23:22:05.9999871Z -                                       method: false,
+2026-10-22T23:22:06.0000403Z -                                       shorthand: false,
+2026-10-22T23:22:06.0000848Z -                                       type: 'ObjectProperty',
+2026-10-22T23:22:06.0001278Z -                                       value: {
+2026-10-22T23:22:06.0001710Z -                                         type: 'BooleanLiteral',
+2026-10-22T23:22:06.0002183Z -                                         value: false
+2026-10-22T23:22:06.0002609Z -                                       }
+2026-10-22T23:22:06.0003010Z -                                     },
+2026-10-22T23:22:06.0003408Z -                                     {
+2026-10-22T23:22:06.0003830Z -                                       computed: false,
+2026-10-22T23:22:06.0004246Z -                                       key: {
+2026-10-22T23:22:06.0004645Z -                                         name: 'autoRefreshToken',
+2026-10-22T23:22:06.0005122Z -                                         type: 'Identifier'
+2026-10-22T23:22:06.0005512Z -                                       },
+2026-10-22T23:22:06.0005957Z -                                       method: false,
+2026-10-22T23:22:06.0006649Z -                                       shorthand: false,
+2026-10-22T23:22:06.0013163Z -                                       type: 'ObjectProperty',
+2026-10-22T23:22:06.0013617Z -                                       value: {
+2026-10-22T23:22:06.0014307Z -                                         type: 'BooleanLiteral',
+2026-10-22T23:22:06.0014688Z -                                         value: false
+2026-10-22T23:22:06.0015034Z -                                       }
+2026-10-22T23:22:06.0015370Z -                                     }
+2026-10-22T23:22:06.0020829Z -                                   ],
+2026-10-22T23:22:06.0021265Z -                                   type: 'ObjectExpression'
+2026-10-22T23:22:06.0021695Z -                                 }
+2026-10-22T23:22:06.0022046Z -                               }
+2026-10-22T23:22:06.0022392Z -                             ],
+2026-10-22T23:22:06.0022757Z -                             type: 'ObjectExpression'
+2026-10-22T23:22:06.0023136Z -                           }
+2026-10-22T23:22:06.0023472Z                           ],
+2026-10-22T23:22:06.0023807Z                           callee: {
+2026-10-22T23:22:06.0024166Z                             name: 'createClient',
+2026-10-22T23:22:06.0024547Z                             type: 'Identifier'
+2026-10-22T23:22:06.0024915Z                           },
+2026-10-22T23:22:06.0025238Z ...
+2026-10-22T23:22:06.0025533Z                   argument: {
+2026-10-22T23:22:06.0025967Z +                   name: '_supabase',
+2026-10-22T23:22:06.0026328Z -                   name: 'supabase',
+2026-10-22T23:22:06.0026684Z                     type: 'Identifier'
+2026-10-22T23:22:06.0027033Z                   },
+2026-10-22T23:22:06.0027360Z                   operator: '!',
+2026-10-22T23:22:06.0027921Z                   prefix: true,
+2026-10-22T23:22:06.0028278Z                   type: 'UnaryExpression'
+2026-10-22T23:22:06.0028635Z ...
+2026-10-22T23:22:06.0028931Z                 argument: {
+2026-10-22T23:22:06.0029272Z +                 name: '_supabase',
+2026-10-22T23:22:06.0029629Z -                 name: 'supabase',
+2026-10-22T23:22:06.0030023Z                   type: 'Identifier'
+2026-10-22T23:22:06.0030474Z                 },
+2026-10-22T23:22:06.0030799Z                 type: 'ReturnStatement'
+2026-10-22T23:22:06.0031157Z               }
+2026-10-22T23:22:06.0031455Z             ],
+2026-10-22T23:22:06.0031750Z ...
+2026-10-22T23:22:06.0032076Z         {
+2026-10-22T23:22:06.0032380Z +         async: true,
+2026-10-22T23:22:06.0032693Z +         body: {
+2026-10-22T23:22:06.0032994Z +           body: [
+2026-10-22T23:22:06.0033291Z +             {
+2026-10-22T23:22:06.0033596Z +               declarations: [
+2026-10-22T23:22:06.0033931Z -         declarations: [
+2026-10-22T23:22:06.0034246Z -           {
+2026-10-22T23:22:06.0034548Z -             id: {
+2026-10-22T23:22:06.0034862Z -               name: 'handleWebhook',
+2026-10-22T23:22:06.0035222Z -               type: 'Identifier'
+2026-10-22T23:22:06.0035552Z -             },
+2026-10-22T23:22:06.0035850Z -             init: {
+2026-10-22T23:22:06.0036279Z -               arguments: [
+2026-10-22T23:22:06.0043538Z                   {
+2026-10-22T23:22:06.0060978Z +                   id: {
+2026-10-22T23:22:06.0063977Z +                     properties: [
+2026-10-22T23:22:06.0080781Z +                       {
+2026-10-22T23:22:06.0086842Z +                         computed: false,
+2026-10-22T23:22:06.0087649Z +                         key: {
+2026-10-22T23:22:06.0109321Z +                           name: 'data',
+2026-10-22T23:22:06.0116496Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0116929Z +                         },
+2026-10-22T23:22:06.0117312Z +                         method: false,
+2026-10-22T23:22:06.0117738Z +                         shorthand: true,
+2026-10-22T23:22:06.0118179Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0118598Z +                         value: {
+2026-10-22T23:22:06.0118976Z +                           name: 'data',
+2026-10-22T23:22:06.0119372Z +                           range: undefined,
+2026-10-22T23:22:06.0119787Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0120185Z +                         }
+2026-10-22T23:22:06.0120723Z -                   properties: [
+2026-10-22T23:22:06.0121416Z -                     {
+2026-10-22T23:22:06.0121777Z -                       computed: false,
+2026-10-22T23:22:06.0122166Z -                       key: {
+2026-10-22T23:22:06.0122713Z -                         name: 'verify',
+2026-10-22T23:22:06.0123193Z -                         type: 'Identifier'
+2026-10-22T23:22:06.0123593Z                         },
+2026-10-22T23:22:06.0123809Z +                       {
+2026-10-22T23:22:06.0124025Z +                         computed: false,
+2026-10-22T23:22:06.0124315Z +                         key: {
+2026-10-22T23:22:06.0124582Z +                           name: 'error',
+2026-10-22T23:22:06.0124890Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0125178Z +                         },
+2026-10-22T23:22:06.0125435Z +                         method: false,
+2026-10-22T23:22:06.0125720Z +                         shorthand: true,
+2026-10-22T23:22:06.0126015Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0126329Z +                         value: {
+2026-10-22T23:22:06.0126601Z +                           name: 'error',
+2026-10-22T23:22:06.0126879Z +                           range: undefined,
+2026-10-22T23:22:06.0127184Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0127462Z +                         }
+2026-10-22T23:22:06.0127680Z -                       method: false,
+2026-10-22T23:22:06.0127928Z -                       shorthand: false,
+2026-10-22T23:22:06.0128424Z -                       type: 'ObjectProperty',
+2026-10-22T23:22:06.0128706Z -                       value: {
+2026-10-22T23:22:06.0128976Z -                         name: 'verifyWebhook',
+2026-10-22T23:22:06.0129276Z -                         type: 'Identifier'
+2026-10-22T23:22:06.0129565Z                         }
+2026-10-22T23:22:06.0129788Z +                     ],
+2026-10-22T23:22:06.0130222Z +                     type: 'ObjectPattern'
+2026-10-22T23:22:06.0140905Z +                   },
+2026-10-22T23:22:06.0141153Z +                   init: {
+2026-10-22T23:22:06.0141373Z +                     argument: {
+2026-10-22T23:22:06.0141643Z +                       arguments: [],
+2026-10-22T23:22:06.0141908Z +                       callee: {
+2026-10-22T23:22:06.0142163Z +                         computed: false,
+2026-10-22T23:22:06.0142433Z +                         object: {
+2026-10-22T23:22:06.0142657Z -                     },
+2026-10-22T23:22:06.0142858Z -                     {
+2026-10-22T23:22:06.0143063Z -                       computed: false,
+2026-10-22T23:22:06.0143335Z -                       key: {
+2026-10-22T23:22:06.0143556Z -                         name: 'persist',
+2026-10-22T23:22:06.0143801Z -                         type: 'Identifier'
+2026-10-22T23:22:06.0144038Z -                       },
+2026-10-22T23:22:06.0144254Z -                       method: false,
+2026-10-22T23:22:06.0144488Z -                       shorthand: false,
+2026-10-22T23:22:06.0144746Z -                       type: 'ObjectProperty',
+2026-10-22T23:22:06.0145004Z -                       value: {
+2026-10-22T23:22:06.0145227Z -                         async: true,
+2026-10-22T23:22:06.0145458Z -                         body: {
+2026-10-22T23:22:06.0145680Z                             arguments: [
+2026-10-22T23:22:06.0145925Z                               {
+2026-10-22T23:22:06.0146176Z +                               type: 'StringLiteral',
+2026-10-22T23:22:06.0146473Z +                               value: 'id'
+2026-10-22T23:22:06.0146732Z +                             },
+2026-10-22T23:22:06.0146974Z +                             {
+2026-10-22T23:22:06.0147215Z +                               name: 'tenantId',
+2026-10-22T23:22:06.0147516Z -                               name: 'signal',
+2026-10-22T23:22:06.0147817Z                                 type: 'Identifier'
+2026-10-22T23:22:06.0148087Z                               }
+2026-10-22T23:22:06.0148314Z                             ],
+2026-10-22T23:22:06.0148535Z                             callee: {
+2026-10-22T23:22:06.0149017Z                               computed: false,
+2026-10-22T23:22:06.0149252Z ...
+2026-10-22T23:22:06.0149454Z                                     type: 'StringLiteral',
+2026-10-22T23:22:06.0149751Z +                                   value: 'id, owner_user_id'
+2026-10-22T23:22:06.0150055Z -                                   value: 'apply_subscription_webhook'
+2026-10-22T23:22:06.0150455Z                                   },
+2026-10-22T23:22:06.0150681Z -                                 {
+2026-10-22T23:22:06.0150929Z -                                   name: 'write',
+2026-10-22T23:22:06.0151199Z -                                   type: 'Identifier'
+2026-10-22T23:22:06.0151435Z -                                 }
+2026-10-22T23:22:06.0151658Z                                 ],
+2026-10-22T23:22:06.0151898Z                                 callee: {
+2026-10-22T23:22:06.0152158Z                                   computed: false,
+2026-10-22T23:22:06.0152431Z                                   object: {
+2026-10-22T23:22:06.0152705Z +                                   arguments: [
+2026-10-22T23:22:06.0152989Z +                                     {
+2026-10-22T23:22:06.0153276Z +                                       type: 'StringLiteral',
+2026-10-22T23:22:06.0153590Z +                                       value: 'tenants'
+2026-10-22T23:22:06.0153867Z +                                     }
+2026-10-22T23:22:06.0154105Z +                                   ],
+2026-10-22T23:22:06.0154528Z -                                   arguments: [],
+2026-10-22T23:22:06.0154789Z                                     callee: {
+2026-10-22T23:22:06.0155048Z +                                     computed: false,
+2026-10-22T23:22:06.0155306Z +                                     object: {
+2026-10-22T23:22:06.0155571Z +                                       name: 'supabase',
+2026-10-22T23:22:06.0155842Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0156098Z +                                     },
+2026-10-22T23:22:06.0156374Z +                                     property: {
+2026-10-22T23:22:06.0156659Z +                                       name: 'from',
+2026-10-22T23:22:06.0156934Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0157188Z +                                     },
+2026-10-22T23:22:06.0157468Z +                                     type: 'MemberExpression'
+2026-10-22T23:22:06.0157776Z -                                     name: 'getSupabase',
+2026-10-22T23:22:06.0158083Z -                                     type: 'Identifier'
+2026-10-22T23:22:06.0158353Z                                     },
+2026-10-22T23:22:06.0158614Z                                     type: 'CallExpression'
+2026-10-22T23:22:06.0158880Z                                   },
+2026-10-22T23:22:06.0159115Z                                   property: {
+2026-10-22T23:22:06.0159369Z +                                   name: 'select',
+2026-10-22T23:22:06.0159630Z -                                   name: 'rpc',
+2026-10-22T23:22:06.0159901Z                                     type: 'Identifier'
+2026-10-22T23:22:06.0160151Z                                   },
+2026-10-22T23:22:06.0160973Z                                   type: 'MemberExpression'
+2026-10-22T23:22:06.0161221Z                                 },
+2026-10-22T23:22:06.0161454Z                                 type: 'CallExpression'
+2026-10-22T23:22:06.0161694Z                               },
+2026-10-22T23:22:06.0161906Z                               property: {
+2026-10-22T23:22:06.0162147Z +                               name: 'eq',
+2026-10-22T23:22:06.0162395Z -                               name: 'abortSignal',
+2026-10-22T23:22:06.0162653Z                                 type: 'Identifier'
+2026-10-22T23:22:06.0162889Z                               },
+2026-10-22T23:22:06.0163115Z                               type: 'MemberExpression'
+2026-10-22T23:22:06.0163360Z                             },
+2026-10-22T23:22:06.0163575Z                             type: 'CallExpression'
+2026-10-22T23:22:06.0163958Z                           },
+2026-10-22T23:22:06.0164167Z +                         property: {
+2026-10-22T23:22:06.0164402Z +                           name: 'maybeSingle',
+2026-10-22T23:22:06.0164649Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0164877Z +                         },
+2026-10-22T23:22:06.0165095Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0165334Z +                       },
+2026-10-22T23:22:06.0165551Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0165782Z +                     },
+2026-10-22T23:22:06.0165985Z +                     type: 'AwaitExpression'
+2026-10-22T23:22:06.0166213Z +                   },
+2026-10-22T23:22:06.0166422Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0166656Z +                 }
+2026-10-22T23:22:06.0166829Z +               ],
+2026-10-22T23:22:06.0167006Z +               kind: 'const',
+2026-10-22T23:22:06.0167234Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0167463Z +             },
+2026-10-22T23:22:06.0167633Z +             {
+2026-10-22T23:22:06.0167811Z +               alternate: null,
+2026-10-22T23:22:06.0168024Z +               consequent: {
+2026-10-22T23:22:06.0168231Z +                 body: [
+2026-10-22T23:22:06.0168420Z +                   {
+2026-10-22T23:22:06.0168615Z +                     expression: {
+2026-10-22T23:22:06.0168836Z +                       arguments: [
+2026-10-22T23:22:06.0169193Z +                         {
+2026-10-22T23:22:06.0169410Z +                           type: 'StringLiteral',
+2026-10-22T23:22:06.0169696Z +                           value: 'Invalid Paddle tenant/user mapping'
+2026-10-22T23:22:06.0169966Z +                         },
+2026-10-22T23:22:06.0170173Z +                         {
+2026-10-22T23:22:06.0170555Z +                           properties: [
+2026-10-22T23:22:06.0170780Z +                             {
+2026-10-22T23:22:06.0170997Z +                               computed: false,
+2026-10-22T23:22:06.0171246Z +                               key: {
+2026-10-22T23:22:06.0171648Z +                                 name: 'tenantId',
+2026-10-22T23:22:06.0171903Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0172145Z +                               },
+2026-10-22T23:22:06.0172370Z +                               method: false,
+2026-10-22T23:22:06.0172611Z +                               shorthand: true,
+2026-10-22T23:22:06.0172871Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0173116Z +                               value: {
+2026-10-22T23:22:06.0173350Z +                                 name: 'tenantId',
+2026-10-22T23:22:06.0173607Z +                                 range: undefined,
+2026-10-22T23:22:06.0173858Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0174095Z +                               }
+2026-10-22T23:22:06.0174305Z +                             },
+2026-10-22T23:22:06.0174516Z +                             {
+2026-10-22T23:22:06.0174731Z +                               computed: false,
+2026-10-22T23:22:06.0174968Z +                               key: {
+2026-10-22T23:22:06.0175195Z +                                 name: 'userId',
+2026-10-22T23:22:06.0175451Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0175689Z +                               },
+2026-10-22T23:22:06.0175911Z +                               method: false,
+2026-10-22T23:22:06.0176156Z +                               shorthand: true,
+2026-10-22T23:22:06.0176419Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0176665Z +                               value: {
+2026-10-22T23:22:06.0176896Z +                                 name: 'userId',
+2026-10-22T23:22:06.0177139Z +                                 range: undefined,
+2026-10-22T23:22:06.0177392Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0177629Z +                               }
+2026-10-22T23:22:06.0177973Z +                             },
+2026-10-22T23:22:06.0178181Z +                             {
+2026-10-22T23:22:06.0178398Z +                               computed: false,
+2026-10-22T23:22:06.0178631Z +                               key: {
+2026-10-22T23:22:06.0178865Z +                                 name: 'foundOwner',
+2026-10-22T23:22:06.0179118Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0179358Z +                               },
+2026-10-22T23:22:06.0179582Z +                               method: false,
+2026-10-22T23:22:06.0179828Z +                               shorthand: false,
+2026-10-22T23:22:06.0180085Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0180420Z +                               value: {
+2026-10-22T23:22:06.0180639Z +                                 left: {
+2026-10-22T23:22:06.0180899Z +                                   computed: false,
+2026-10-22T23:22:06.0181149Z +                                   object: {
+2026-10-22T23:22:06.0181405Z +                                     name: 'data',
+2026-10-22T23:22:06.0181671Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0181924Z +                                   },
+2026-10-22T23:22:06.0182161Z +                                   optional: true,
+2026-10-22T23:22:06.0182418Z +                                   property: {
+2026-10-22T23:22:06.0182693Z +                                     name: 'owner_user_id',
+2026-10-22T23:22:06.0183160Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0183408Z +                                   },
+2026-10-22T23:22:06.0183684Z +                                   type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0183963Z +                                 },
+2026-10-22T23:22:06.0184197Z +                                 operator: '??',
+2026-10-22T23:22:06.0184447Z +                                 right: {
+2026-10-22T23:22:06.0184701Z +                                   type: 'NullLiteral'
+2026-10-22T23:22:06.0184959Z +                                 },
+2026-10-22T23:22:06.0185210Z +                                 type: 'LogicalExpression'
+2026-10-22T23:22:06.0185473Z +                               }
+2026-10-22T23:22:06.0185686Z +                             },
+2026-10-22T23:22:06.0185900Z +                             {
+2026-10-22T23:22:06.0186122Z +                               computed: false,
+2026-10-22T23:22:06.0186367Z +                               key: {
+2026-10-22T23:22:06.0186606Z +                                 name: 'error',
+2026-10-22T23:22:06.0186866Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0187111Z +                               },
+2026-10-22T23:22:06.0187341Z +                               method: false,
+2026-10-22T23:22:06.0187593Z +                               shorthand: false,
+2026-10-22T23:22:06.0187864Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0188119Z +                               value: {
+2026-10-22T23:22:06.0188356Z +                                 left: {
+2026-10-22T23:22:06.0188601Z +                                   computed: false,
+2026-10-22T23:22:06.0188857Z +                                   object: {
+2026-10-22T23:22:06.0189107Z +                                     name: 'error',
+2026-10-22T23:22:06.0189374Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0189628Z +                                   },
+2026-10-22T23:22:06.0189878Z +                                   optional: true,
+2026-10-22T23:22:06.0190140Z +                                   property: {
+2026-10-22T23:22:06.0211150Z +                                     name: 'message',
+2026-10-22T23:22:06.0211447Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0211708Z +                                   },
+2026-10-22T23:22:06.0211973Z +                                   type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0212250Z +                                 },
+2026-10-22T23:22:06.0212684Z +                                 operator: '??',
+2026-10-22T23:22:06.0212939Z +                                 right: {
+2026-10-22T23:22:06.0213196Z +                                   type: 'NullLiteral'
+2026-10-22T23:22:06.0213450Z +                                 },
+2026-10-22T23:22:06.0213700Z +                                 type: 'LogicalExpression'
+2026-10-22T23:22:06.0213962Z +                               }
+2026-10-22T23:22:06.0214190Z +                             }
+2026-10-22T23:22:06.0214416Z +                           ],
+2026-10-22T23:22:06.0214667Z +                           type: 'ObjectExpression'
+2026-10-22T23:22:06.0214932Z +                         }
+2026-10-22T23:22:06.0215145Z +                       ],
+2026-10-22T23:22:06.0215361Z +                       callee: {
+2026-10-22T23:22:06.0215598Z +                         computed: false,
+2026-10-22T23:22:06.0215839Z +                         object: {
+2026-10-22T23:22:06.0216083Z +                           name: 'console',
+2026-10-22T23:22:06.0216340Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0216592Z +                         },
+2026-10-22T23:22:06.0216807Z +                         property: {
+2026-10-22T23:22:06.0217044Z +                           name: 'error',
+2026-10-22T23:22:06.0217290Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0217530Z +                         },
+2026-10-22T23:22:06.0217759Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0218139Z +                       },
+2026-10-22T23:22:06.0218357Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0218594Z +                     },
+2026-10-22T23:22:06.0218812Z +                     type: 'ExpressionStatement'
+2026-10-22T23:22:06.0219058Z +                   },
+2026-10-22T23:22:06.0219249Z +                   {
+2026-10-22T23:22:06.0219452Z +                     argument: {
+2026-10-22T23:22:06.0219702Z +                       type: 'BooleanLiteral',
+2026-10-22T23:22:06.0219976Z +                       value: false
+2026-10-22T23:22:06.0220215Z +                     },
+2026-10-22T23:22:06.0220548Z +                     type: 'ReturnStatement'
+2026-10-22T23:22:06.0220805Z +                   }
+2026-10-22T23:22:06.0220988Z +                 ],
+2026-10-22T23:22:06.0221183Z +                 directives: [],
+2026-10-22T23:22:06.0221413Z +                 type: 'BlockStatement'
+2026-10-22T23:22:06.0221642Z +               },
+2026-10-22T23:22:06.0221827Z +               test: {
+2026-10-22T23:22:06.0222019Z +                 left: {
+2026-10-22T23:22:06.0222222Z +                   left: {
+2026-10-22T23:22:06.0222431Z +                     name: 'error',
+2026-10-22T23:22:06.0222663Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0222888Z +                   },
+2026-10-22T23:22:06.0223084Z +                   operator: '||',
+2026-10-22T23:22:06.0223309Z +                   right: {
+2026-10-22T23:22:06.0223521Z +                     argument: {
+2026-10-22T23:22:06.0223752Z +                       name: 'data',
+2026-10-22T23:22:06.0223989Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0224218Z +                     },
+2026-10-22T23:22:06.0224423Z +                     operator: '!',
+2026-10-22T23:22:06.0224655Z +                     prefix: true,
+2026-10-22T23:22:06.0224912Z +                     type: 'UnaryExpression'
+2026-10-22T23:22:06.0225168Z +                   },
+2026-10-22T23:22:06.0225389Z +                   type: 'LogicalExpression'
+2026-10-22T23:22:06.0225653Z +                 },
+2026-10-22T23:22:06.0225871Z +                 operator: '||',
+2026-10-22T23:22:06.0226118Z +                 right: {
+2026-10-22T23:22:06.0226325Z +                   left: {
+2026-10-22T23:22:06.0226539Z +                     computed: false,
+2026-10-22T23:22:06.0226773Z +                     object: {
+2026-10-22T23:22:06.0226993Z +                       name: 'data',
+2026-10-22T23:22:06.0227228Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0227586Z +                     },
+2026-10-22T23:22:06.0227786Z +                     property: {
+2026-10-22T23:22:06.0228026Z +                       name: 'owner_user_id',
+2026-10-22T23:22:06.0228275Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0228509Z +                     },
+2026-10-22T23:22:06.0228728Z +                     type: 'MemberExpression'
+2026-10-22T23:22:06.0228968Z +                   },
+2026-10-22T23:22:06.0229174Z +                   operator: '!==',
+2026-10-22T23:22:06.0229408Z +                   right: {
+2026-10-22T23:22:06.0229624Z +                     name: 'userId',
+2026-10-22T23:22:06.0229850Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0230070Z +                   },
+2026-10-22T23:22:06.0230270Z +                   type: 'BinaryExpression'
+2026-10-22T23:22:06.0231248Z +                 },
+2026-10-22T23:22:06.0231454Z +                 type: 'LogicalExpression'
+2026-10-22T23:22:06.0231693Z +               },
+2026-10-22T23:22:06.0231899Z +               type: 'IfStatement'
+2026-10-22T23:22:06.0232138Z +             },
+2026-10-22T23:22:06.0232316Z +             {
+2026-10-22T23:22:06.0232500Z +               argument: {
+2026-10-22T23:22:06.0232732Z +                 type: 'BooleanLiteral',
+2026-10-22T23:22:06.0232982Z +                 value: true
+2026-10-22T23:22:06.0233187Z +               },
+2026-10-22T23:22:06.0233383Z +               type: 'ReturnStatement'
+2026-10-22T23:22:06.0233629Z +             }
+2026-10-22T23:22:06.0233807Z +           ],
+2026-10-22T23:22:06.0234127Z +           directives: [],
+2026-10-22T23:22:06.0234350Z +           type: 'BlockStatement'
+2026-10-22T23:22:06.0234578Z +         },
+2026-10-22T23:22:06.0234760Z +         generator: false,
+2026-10-22T23:22:06.0234963Z +         id: {
+2026-10-22T23:22:06.0235165Z +           name: 'verifyTenantOwnership',
+2026-10-22T23:22:06.0235426Z +           type: 'Identifier'
+2026-10-22T23:22:06.0235636Z +         },
+2026-10-22T23:22:06.0235811Z +         params: [
+2026-10-22T23:22:06.0235999Z +           {
+2026-10-22T23:22:06.0236184Z +             name: 'supabase',
+2026-10-22T23:22:06.0236410Z +             type: 'Identifier'
+2026-10-22T23:22:06.0236623Z +           },
+2026-10-22T23:22:06.0236794Z +           {
+2026-10-22T23:22:06.0236973Z +             name: 'tenantId',
+2026-10-22T23:22:06.0237199Z +             type: 'Identifier'
+2026-10-22T23:22:06.0237420Z +           },
+2026-10-22T23:22:06.0237598Z +           {
+2026-10-22T23:22:06.0237787Z +             name: 'userId',
+2026-10-22T23:22:06.0238019Z +             type: 'Identifier'
+2026-10-22T23:22:06.0238263Z +           }
+2026-10-22T23:22:06.0238445Z +         ],
+2026-10-22T23:22:06.0238654Z +         type: 'FunctionDeclaration'
+2026-10-22T23:22:06.0238897Z +       },
+2026-10-22T23:22:06.0239079Z +       {
+2026-10-22T23:22:06.0239256Z +         async: true,
+2026-10-22T23:22:06.0239453Z +         body: {
+2026-10-22T23:22:06.0239642Z +           body: [
+2026-10-22T23:22:06.0239836Z +             {
+2026-10-22T23:22:06.0240043Z +               declarations: [
+2026-10-22T23:22:06.0240278Z +                 {
+2026-10-22T23:22:06.0240668Z +                   id: {
+2026-10-22T23:22:06.0240869Z +                     properties: [
+2026-10-22T23:22:06.0241085Z +                       {
+2026-10-22T23:22:06.0241288Z +                         computed: false,
+2026-10-22T23:22:06.0241514Z +                         key: {
+2026-10-22T23:22:06.0241726Z +                           name: 'id',
+2026-10-22T23:22:06.0241972Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0242200Z +                         },
+2026-10-22T23:22:06.0242400Z +                         method: false,
+2026-10-22T23:22:06.0242632Z +                         shorthand: true,
+2026-10-22T23:22:06.0242878Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0243126Z +                         value: {
+2026-10-22T23:22:06.0243341Z +                           name: 'id',
+2026-10-22T23:22:06.0243570Z +                           range: undefined,
+2026-10-22T23:22:06.0244000Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0244232Z +                         }
+2026-10-22T23:22:06.0244428Z +                       },
+2026-10-22T23:22:06.0244720Z +                       {
+2026-10-22T23:22:06.0245006Z +                         computed: false,
+2026-10-22T23:22:06.0271191Z +                         key: {
+2026-10-22T23:22:06.0271463Z +                           name: 'customerId',
+2026-10-22T23:22:06.0271745Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0271982Z +                         },
+2026-10-22T23:22:06.0272196Z +                         method: false,
+2026-10-22T23:22:06.0272444Z +                         shorthand: true,
+2026-10-22T23:22:06.0272701Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0272961Z +                         value: {
+2026-10-22T23:22:06.0273231Z +                           name: 'customerId',
+2026-10-22T23:22:06.0273515Z +                           range: undefined,
+2026-10-22T23:22:06.0273804Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0274080Z +                         }
+2026-10-22T23:22:06.0274304Z +                       },
+2026-10-22T23:22:06.0274535Z +                       {
+2026-10-22T23:22:06.0274776Z +                         computed: false,
+2026-10-22T23:22:06.0275040Z +                         key: {
+2026-10-22T23:22:06.0275282Z +                           name: 'items',
+2026-10-22T23:22:06.0275758Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0276007Z +                         },
+2026-10-22T23:22:06.0276226Z +                         method: false,
+2026-10-22T23:22:06.0276495Z +                         shorthand: true,
+2026-10-22T23:22:06.0276771Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0277036Z +                         value: {
+2026-10-22T23:22:06.0277289Z +                           name: 'items',
+2026-10-22T23:22:06.0277545Z +                           range: undefined,
+2026-10-22T23:22:06.0277810Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0278054Z +                         }
+2026-10-22T23:22:06.0278262Z +                       },
+2026-10-22T23:22:06.0278472Z +                       {
+2026-10-22T23:22:06.0278691Z +                         computed: false,
+2026-10-22T23:22:06.0278926Z +                         key: {
+2026-10-22T23:22:06.0279148Z +                           name: 'status',
+2026-10-22T23:22:06.0279414Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0279683Z +                         },
+2026-10-22T23:22:06.0279918Z +                         method: false,
+2026-10-22T23:22:06.0280197Z +                         shorthand: true,
+2026-10-22T23:22:06.0280582Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0280862Z +                         value: {
+2026-10-22T23:22:06.0281114Z +                           name: 'status',
+2026-10-22T23:22:06.0281388Z +                           range: undefined,
+2026-10-22T23:22:06.0281682Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0300789Z +                         }
+2026-10-22T23:22:06.0301017Z +                       },
+2026-10-22T23:22:06.0301215Z +                       {
+2026-10-22T23:22:06.0301424Z +                         computed: false,
+2026-10-22T23:22:06.0301662Z +                         key: {
+2026-10-22T23:22:06.0301913Z +                           name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0302199Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0302438Z +                         },
+2026-10-22T23:22:06.0302650Z +                         method: false,
+2026-10-22T23:22:06.0302893Z +                         shorthand: true,
+2026-10-22T23:22:06.0303140Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0303382Z +                         value: {
+2026-10-22T23:22:06.0303625Z +                           name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0303957Z +                           range: undefined,
+2026-10-22T23:22:06.0304425Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0304657Z +                         }
+2026-10-22T23:22:06.0304851Z +                       },
+2026-10-22T23:22:06.0305043Z +                       {
+2026-10-22T23:22:06.0305242Z +                         computed: false,
+2026-10-22T23:22:06.0305470Z +                         key: {
+2026-10-22T23:22:06.0305690Z +                           name: 'customData',
+2026-10-22T23:22:06.0305942Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0306173Z +                         },
+2026-10-22T23:22:06.0306378Z +                         method: false,
+2026-10-22T23:22:06.0306653Z +                         shorthand: true,
+2026-10-22T23:22:06.0306900Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0307145Z +                         value: {
+2026-10-22T23:22:06.0307368Z +                           name: 'customData',
+2026-10-22T23:22:06.0307611Z +                           range: undefined,
+2026-10-22T23:22:06.0307856Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0308087Z +                         }
+2026-10-22T23:22:06.0308282Z +                       }
+2026-10-22T23:22:06.0308473Z +                     ],
+2026-10-22T23:22:06.0308708Z +                     type: 'ObjectPattern'
+2026-10-22T23:22:06.0308946Z +                   },
+2026-10-22T23:22:06.0309138Z +                   init: {
+2026-10-22T23:22:06.0309349Z +                     name: 'data',
+2026-10-22T23:22:06.0309736Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0309990Z +                   },
+2026-10-22T23:22:06.0310225Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0312739Z +                 }
+2026-10-22T23:22:06.0312949Z +               ],
+2026-10-22T23:22:06.0313154Z +               kind: 'const',
+2026-10-22T23:22:06.0313409Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0313672Z +             },
+2026-10-22T23:22:06.0313860Z +             {
+2026-10-22T23:22:06.0314074Z +               declarations: [
+2026-10-22T23:22:06.0314314Z +                 {
+2026-10-22T23:22:06.0314514Z +                   id: {
+2026-10-22T23:22:06.0314726Z +                     name: 'userId',
+2026-10-22T23:22:06.0314963Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0315187Z +                   },
+2026-10-22T23:22:06.0315380Z +                   init: {
+2026-10-22T23:22:06.0315590Z +                     computed: false,
+2026-10-22T23:22:06.0315825Z +                     object: {
+2026-10-22T23:22:06.0316044Z +                       name: 'customData',
+2026-10-22T23:22:06.0316291Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0316517Z +                     },
+2026-10-22T23:22:06.0316725Z +                     optional: true,
+2026-10-22T23:22:06.0316956Z +                     property: {
+2026-10-22T23:22:06.0317182Z +                       name: 'userId',
+2026-10-22T23:22:06.0317420Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0317653Z +                     },
+2026-10-22T23:22:06.0317885Z +                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0318164Z +                   },
+2026-10-22T23:22:06.0318398Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0318664Z +                 }
+2026-10-22T23:22:06.0318857Z +               ],
+2026-10-22T23:22:06.0319063Z +               kind: 'const',
+2026-10-22T23:22:06.0319309Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0319564Z +             },
+2026-10-22T23:22:06.0319800Z +             {
+2026-10-22T23:22:06.0320009Z +               declarations: [
+2026-10-22T23:22:06.0320234Z +                 {
+2026-10-22T23:22:06.0320556Z +                   id: {
+2026-10-22T23:22:06.0320763Z +                     name: 'tenantId',
+2026-10-22T23:22:06.0320999Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0321228Z +                   },
+2026-10-22T23:22:06.0321419Z +                   init: {
+2026-10-22T23:22:06.0321815Z +                     computed: false,
+2026-10-22T23:22:06.0322044Z +                     object: {
+2026-10-22T23:22:06.0322261Z +                       name: 'customData',
+2026-10-22T23:22:06.0322524Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0322755Z +                     },
+2026-10-22T23:22:06.0322960Z +                     optional: true,
+2026-10-22T23:22:06.0323193Z +                     property: {
+2026-10-22T23:22:06.0323420Z +                       name: 'tenantId',
+2026-10-22T23:22:06.0323669Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0323890Z +                     },
+2026-10-22T23:22:06.0324115Z +                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0324360Z +                   },
+2026-10-22T23:22:06.0324567Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0324806Z +                 }
+2026-10-22T23:22:06.0324983Z +               ],
+2026-10-22T23:22:06.0325166Z +               kind: 'const',
+2026-10-22T23:22:06.0325395Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0325626Z +             },
+2026-10-22T23:22:06.0325794Z +             {
+2026-10-22T23:22:06.0325974Z +               alternate: null,
+2026-10-22T23:22:06.0326188Z +               consequent: {
+2026-10-22T23:22:06.0326397Z +                 body: [
+2026-10-22T23:22:06.0326586Z +                   {
+2026-10-22T23:22:06.0326780Z +                     expression: {
+2026-10-22T23:22:06.0327002Z +                       arguments: [
+2026-10-22T23:22:06.0327352Z +                         {
+2026-10-22T23:22:06.0327565Z +                           type: 'StringLiteral',
+2026-10-22T23:22:06.0327858Z +                           value: 'Missing userId/tenantId in customData'
+2026-10-22T23:22:06.0328147Z +                         },
+2026-10-22T23:22:06.0328349Z +                         {
+2026-10-22T23:22:06.0328562Z +                           properties: [
+2026-10-22T23:22:06.0328797Z +                             {
+2026-10-22T23:22:06.0329017Z +                               computed: false,
+2026-10-22T23:22:06.0329262Z +                               key: {
+2026-10-22T23:22:06.0329507Z +                                 name: 'userId',
+2026-10-22T23:22:06.0329773Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0350825Z +                               },
+2026-10-22T23:22:06.0351081Z +                               method: false,
+2026-10-22T23:22:06.0351345Z +                               shorthand: true,
+2026-10-22T23:22:06.0351594Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0351770Z +                               value: {
+2026-10-22T23:22:06.0351934Z +                                 name: 'userId',
+2026-10-22T23:22:06.0352111Z +                                 range: undefined,
+2026-10-22T23:22:06.0352287Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0352452Z +                               }
+2026-10-22T23:22:06.0352596Z +                             },
+2026-10-22T23:22:06.0352745Z +                             {
+2026-10-22T23:22:06.0352897Z +                               computed: false,
+2026-10-22T23:22:06.0353059Z +                               key: {
+2026-10-22T23:22:06.0353219Z +                                 name: 'tenantId',
+2026-10-22T23:22:06.0353393Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0353553Z +                               },
+2026-10-22T23:22:06.0353704Z +                               method: false,
+2026-10-22T23:22:06.0353874Z +                               shorthand: true,
+2026-10-22T23:22:06.0354053Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0354218Z +                               value: {
+2026-10-22T23:22:06.0354378Z +                                 name: 'tenantId',
+2026-10-22T23:22:06.0354546Z +                                 range: undefined,
+2026-10-22T23:22:06.0354721Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0354881Z +                               }
+2026-10-22T23:22:06.0355218Z +                             }
+2026-10-22T23:22:06.0355356Z +                           ],
+2026-10-22T23:22:06.0355507Z +                           type: 'ObjectExpression'
+2026-10-22T23:22:06.0355674Z +                         }
+2026-10-22T23:22:06.0355808Z +                       ],
+2026-10-22T23:22:06.0355941Z +                       callee: {
+2026-10-22T23:22:06.0356091Z +                         computed: false,
+2026-10-22T23:22:06.0356252Z +                         object: {
+2026-10-22T23:22:06.0356410Z +                           name: 'console',
+2026-10-22T23:22:06.0356571Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0356726Z +                         },
+2026-10-22T23:22:06.0356872Z +                         property: {
+2026-10-22T23:22:06.0357027Z +                           name: 'error',
+2026-10-22T23:22:06.0357182Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0357337Z +                         },
+2026-10-22T23:22:06.0357495Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0357656Z +                       },
+2026-10-22T23:22:06.0357796Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0357951Z +                     },
+2026-10-22T23:22:06.0358099Z +                     type: 'ExpressionStatement'
+2026-10-22T23:22:06.0358262Z +                   },
+2026-10-22T23:22:06.0358387Z +                   {
+2026-10-22T23:22:06.0358518Z +                     argument: null,
+2026-10-22T23:22:06.0358791Z +                     type: 'ReturnStatement'
+2026-10-22T23:22:06.0358949Z +                   }
+2026-10-22T23:22:06.0359072Z +                 ],
+2026-10-22T23:22:06.0359200Z +                 directives: [],
+2026-10-22T23:22:06.0359353Z +                 type: 'BlockStatement'
+2026-10-22T23:22:06.0359506Z +               },
+2026-10-22T23:22:06.0359627Z +               test: {
+2026-10-22T23:22:06.0359755Z +                 left: {
+2026-10-22T23:22:06.0359888Z +                   argument: {
+2026-10-22T23:22:06.0360039Z +                     name: 'userId',
+2026-10-22T23:22:06.0360189Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0361049Z +                   },
+2026-10-22T23:22:06.0361208Z +                   operator: '!',
+2026-10-22T23:22:06.0361359Z +                   prefix: true,
+2026-10-22T23:22:06.0361516Z +                   type: 'UnaryExpression'
+2026-10-22T23:22:06.0361671Z +                 },
+2026-10-22T23:22:06.0361799Z +                 operator: '||',
+2026-10-22T23:22:06.0361948Z +                 right: {
+2026-10-22T23:22:06.0362092Z +                   argument: {
+2026-10-22T23:22:06.0362235Z +                     name: 'tenantId',
+2026-10-22T23:22:06.0362389Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0362538Z +                   },
+2026-10-22T23:22:06.0362671Z +                   operator: '!',
+2026-10-22T23:22:06.0362818Z +                   prefix: true,
+2026-10-22T23:22:06.0362969Z +                   type: 'UnaryExpression'
+2026-10-22T23:22:06.0363126Z +                 },
+2026-10-22T23:22:06.0363261Z +                 type: 'LogicalExpression'
+2026-10-22T23:22:06.0363413Z +               },
+2026-10-22T23:22:06.0363539Z +               type: 'IfStatement'
+2026-10-22T23:22:06.0363683Z +             },
+2026-10-22T23:22:06.0363799Z +             {
+2026-10-22T23:22:06.0363926Z +               declarations: [
+2026-10-22T23:22:06.0364063Z +                 {
+2026-10-22T23:22:06.0364184Z +                   id: {
+2026-10-22T23:22:06.0364319Z +                     name: 'item',
+2026-10-22T23:22:06.0364478Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0364625Z +                   },
+2026-10-22T23:22:06.0364752Z +                   init: {
+2026-10-22T23:22:06.0364892Z +                     computed: true,
+2026-10-22T23:22:06.0365042Z +                     object: {
+2026-10-22T23:22:06.0365191Z +                       name: 'items',
+2026-10-22T23:22:06.0365347Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0365500Z +                     },
+2026-10-22T23:22:06.0365752Z +                     optional: true,
+2026-10-22T23:22:06.0365907Z +                     property: {
+2026-10-22T23:22:06.0366066Z +                       type: 'NumericLiteral',
+2026-10-22T23:22:06.0366230Z +                       value: 0
+2026-10-22T23:22:06.0366369Z +                     },
+2026-10-22T23:22:06.0366527Z +                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0366693Z +                   },
+2026-10-22T23:22:06.0366838Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0366993Z +                 }
+2026-10-22T23:22:06.0367114Z +               ],
+2026-10-22T23:22:06.0367237Z +               kind: 'const',
+2026-10-22T23:22:06.0367387Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0367537Z +             },
+2026-10-22T23:22:06.0367654Z +             {
+2026-10-22T23:22:06.0367777Z +               declarations: [
+2026-10-22T23:22:06.0367911Z +                 {
+2026-10-22T23:22:06.0368030Z +                   id: {
+2026-10-22T23:22:06.0368170Z +                     name: 'priceId',
+2026-10-22T23:22:06.0368327Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0368474Z +                   },
+2026-10-22T23:22:06.0368599Z +                   init: {
+2026-10-22T23:22:06.0368738Z +                     computed: false,
+2026-10-22T23:22:06.0368889Z +                     object: {
+2026-10-22T23:22:06.0369032Z +                       computed: false,
+2026-10-22T23:22:06.0369183Z +                       object: {
+2026-10-22T23:22:06.0369440Z +                         computed: false,
+2026-10-22T23:22:06.0369596Z +                         object: {
+2026-10-22T23:22:06.0369751Z +                           name: 'item',
+2026-10-22T23:22:06.0369909Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0370065Z +                         },
+2026-10-22T23:22:06.0370207Z +                         optional: true,
+2026-10-22T23:22:06.0370616Z +                         property: {
+2026-10-22T23:22:06.0370856Z +                           name: 'price',
+2026-10-22T23:22:06.0371133Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0371372Z +                         },
+2026-10-22T23:22:06.0371629Z +                         type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0371906Z +                       },
+2026-10-22T23:22:06.0372121Z +                       optional: true,
+2026-10-22T23:22:06.0372369Z +                       property: {
+2026-10-22T23:22:06.0372614Z +                         name: 'importMeta',
+2026-10-22T23:22:06.0372857Z +                         type: 'Identifier'
+2026-10-22T23:22:06.0373012Z +                       },
+2026-10-22T23:22:06.0373168Z +                       type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0373341Z +                     },
+2026-10-22T23:22:06.0373478Z +                     optional: true,
+2026-10-22T23:22:06.0373629Z +                     property: {
+2026-10-22T23:22:06.0373780Z +                       name: 'externalId',
+2026-10-22T23:22:06.0373944Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0374097Z +                     },
+2026-10-22T23:22:06.0374247Z +                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0374413Z +                   },
+2026-10-22T23:22:06.0374552Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0374710Z +                 }
+2026-10-22T23:22:06.0374830Z +               ],
+2026-10-22T23:22:06.0374956Z +               kind: 'const',
+2026-10-22T23:22:06.0375112Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0375266Z +             },
+2026-10-22T23:22:06.0375380Z +             {
+2026-10-22T23:22:06.0375502Z +               declarations: [
+2026-10-22T23:22:06.0375638Z +                 {
+2026-10-22T23:22:06.0375758Z +                   id: {
+2026-10-22T23:22:06.0375896Z +                     name: 'productId',
+2026-10-22T23:22:06.0376050Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0376193Z +                   },
+2026-10-22T23:22:06.0376452Z +                   init: {
+2026-10-22T23:22:06.0376680Z +                     computed: false,
+2026-10-22T23:22:06.0376900Z +                     object: {
+2026-10-22T23:22:06.0377118Z +                       computed: false,
+2026-10-22T23:22:06.0377353Z +                       object: {
+2026-10-22T23:22:06.0377572Z +                         computed: false,
+2026-10-22T23:22:06.0377796Z +                         object: {
+2026-10-22T23:22:06.0378019Z +                           name: 'item',
+2026-10-22T23:22:06.0378254Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0378485Z +                         },
+2026-10-22T23:22:06.0378685Z +                         optional: true,
+2026-10-22T23:22:06.0378903Z +                         property: {
+2026-10-22T23:22:06.0379136Z +                           name: 'product',
+2026-10-22T23:22:06.0379378Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0379619Z +                         },
+2026-10-22T23:22:06.0379856Z +                         type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0380122Z +                       },
+2026-10-22T23:22:06.0380530Z +                       optional: true,
+2026-10-22T23:22:06.0380768Z +                       property: {
+2026-10-22T23:22:06.0380999Z +                         name: 'importMeta',
+2026-10-22T23:22:06.0381245Z +                         type: 'Identifier'
+2026-10-22T23:22:06.0381476Z +                       },
+2026-10-22T23:22:06.0381713Z +                       type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0382095Z +                     },
+2026-10-22T23:22:06.0382297Z +                     optional: true,
+2026-10-22T23:22:06.0382523Z +                     property: {
+2026-10-22T23:22:06.0382752Z +                       name: 'externalId',
+2026-10-22T23:22:06.0382993Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0383218Z +                     },
+2026-10-22T23:22:06.0383444Z +                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0383705Z +                   },
+2026-10-22T23:22:06.0383911Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0384147Z +                 }
+2026-10-22T23:22:06.0384327Z +               ],
+2026-10-22T23:22:06.0384512Z +               kind: 'const',
+2026-10-22T23:22:06.0384742Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0384973Z +             },
+2026-10-22T23:22:06.0385144Z +             {
+2026-10-22T23:22:06.0385332Z +               alternate: null,
+2026-10-22T23:22:06.0385560Z +               consequent: {
+2026-10-22T23:22:06.0385769Z +                 body: [
+2026-10-22T23:22:06.0385961Z +                   {
+2026-10-22T23:22:06.0386160Z +                     expression: {
+2026-10-22T23:22:06.0386392Z +                       arguments: [
+2026-10-22T23:22:06.0386614Z +                         {
+2026-10-22T23:22:06.0386835Z +                           type: 'StringLiteral',
+2026-10-22T23:22:06.0387179Z +                           value: 'Skipping subscription: missing importMeta.externalId'
+2026-10-22T23:22:06.0387509Z +                         },
+2026-10-22T23:22:06.0387718Z +                         {
+2026-10-22T23:22:06.0387926Z +                           properties: [
+2026-10-22T23:22:06.0388153Z +                             {
+2026-10-22T23:22:06.0388373Z +                               computed: false,
+2026-10-22T23:22:06.0388630Z +                               key: {
+2026-10-22T23:22:06.0388882Z +                                 name: 'rawPriceId',
+2026-10-22T23:22:06.0389160Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0389413Z +                               },
+2026-10-22T23:22:06.0389649Z +                               method: false,
+2026-10-22T23:22:06.0389905Z +                               shorthand: false,
+2026-10-22T23:22:06.0390184Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0390544Z +                               value: {
+2026-10-22T23:22:06.0390793Z +                                 computed: false,
+2026-10-22T23:22:06.0391168Z +                                 object: {
+2026-10-22T23:22:06.0391421Z +                                   computed: false,
+2026-10-22T23:22:06.0391677Z +                                   object: {
+2026-10-22T23:22:06.0391932Z +                                     name: 'item',
+2026-10-22T23:22:06.0392205Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0392459Z +                                   },
+2026-10-22T23:22:06.0392709Z +                                   optional: true,
+2026-10-22T23:22:06.0392974Z +                                   property: {
+2026-10-22T23:22:06.0393234Z +                                     name: 'price',
+2026-10-22T23:22:06.0393502Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0393752Z +                                   },
+2026-10-22T23:22:06.0394023Z +                                   type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0394303Z +                                 },
+2026-10-22T23:22:06.0394545Z +                                 optional: true,
+2026-10-22T23:22:06.0394803Z +                                 property: {
+2026-10-22T23:22:06.0395057Z +                                   name: 'id',
+2026-10-22T23:22:06.0395316Z +                                   type: 'Identifier'
+2026-10-22T23:22:06.0395566Z +                                 },
+2026-10-22T23:22:06.0395829Z +                                 type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0396111Z +                               }
+2026-10-22T23:22:06.0396451Z +                             },
+2026-10-22T23:22:06.0396666Z +                             {
+2026-10-22T23:22:06.0396892Z +                               computed: false,
+2026-10-22T23:22:06.0397144Z +                               key: {
+2026-10-22T23:22:06.0397398Z +                                 name: 'rawProductId',
+2026-10-22T23:22:06.0397667Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0397920Z +                               },
+2026-10-22T23:22:06.0398154Z +                               method: false,
+2026-10-22T23:22:06.0398411Z +                               shorthand: false,
+2026-10-22T23:22:06.0398678Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0398939Z +                               value: {
+2026-10-22T23:22:06.0399183Z +                                 computed: false,
+2026-10-22T23:22:06.0399437Z +                                 object: {
+2026-10-22T23:22:06.0399696Z +                                   computed: false,
+2026-10-22T23:22:06.0399956Z +                                   object: {
+2026-10-22T23:22:06.0400209Z +                                     name: 'item',
+2026-10-22T23:22:06.0400603Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0400856Z +                                   },
+2026-10-22T23:22:06.0401103Z +                                   optional: true,
+2026-10-22T23:22:06.0401363Z +                                   property: {
+2026-10-22T23:22:06.0401631Z +                                     name: 'product',
+2026-10-22T23:22:06.0401903Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0402154Z +                                   },
+2026-10-22T23:22:06.0402421Z +                                   type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0402699Z +                                 },
+2026-10-22T23:22:06.0402938Z +                                 optional: true,
+2026-10-22T23:22:06.0403245Z +                                 property: {
+2026-10-22T23:22:06.0403497Z +                                   name: 'id',
+2026-10-22T23:22:06.0403765Z +                                   type: 'Identifier'
+2026-10-22T23:22:06.0404014Z +                                 },
+2026-10-22T23:22:06.0404276Z +                                 type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0404552Z +                               }
+2026-10-22T23:22:06.0404768Z +                             }
+2026-10-22T23:22:06.0405099Z +                           ],
+2026-10-22T23:22:06.0405332Z +                           type: 'ObjectExpression'
+2026-10-22T23:22:06.0405579Z +                         }
+2026-10-22T23:22:06.0405783Z +                       ],
+2026-10-22T23:22:06.0405992Z +                       callee: {
+2026-10-22T23:22:06.0406218Z +                         computed: false,
+2026-10-22T23:22:06.0406451Z +                         object: {
+2026-10-22T23:22:06.0406684Z +                           name: 'console',
+2026-10-22T23:22:06.0406874Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0407030Z +                         },
+2026-10-22T23:22:06.0407173Z +                         property: {
+2026-10-22T23:22:06.0407325Z +                           name: 'warn',
+2026-10-22T23:22:06.0407499Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0407654Z +                         },
+2026-10-22T23:22:06.0407802Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0407969Z +                       },
+2026-10-22T23:22:06.0408115Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0408269Z +                     },
+2026-10-22T23:22:06.0408414Z +                     type: 'ExpressionStatement'
+2026-10-22T23:22:06.0408574Z +                   },
+2026-10-22T23:22:06.0408702Z +                   {
+2026-10-22T23:22:06.0408832Z +                     argument: null,
+2026-10-22T23:22:06.0408991Z +                     type: 'ReturnStatement'
+2026-10-22T23:22:06.0409144Z +                   }
+2026-10-22T23:22:06.0409372Z +                 ],
+2026-10-22T23:22:06.0409504Z +                 directives: [],
+2026-10-22T23:22:06.0409656Z +                 type: 'BlockStatement'
+2026-10-22T23:22:06.0409804Z +               },
+2026-10-22T23:22:06.0409927Z +               test: {
+2026-10-22T23:22:06.0410059Z +                 left: {
+2026-10-22T23:22:06.0410191Z +                   argument: {
+2026-10-22T23:22:06.0410484Z +                     name: 'priceId',
+2026-10-22T23:22:06.0410676Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0410827Z +                   },
+2026-10-22T23:22:06.0410958Z +                   operator: '!',
+2026-10-22T23:22:06.0411107Z +                   prefix: true,
+2026-10-22T23:22:06.0411261Z +                   type: 'UnaryExpression'
+2026-10-22T23:22:06.0411413Z +                 },
+2026-10-22T23:22:06.0411546Z +                 operator: '||',
+2026-10-22T23:22:06.0411690Z +                 right: {
+2026-10-22T23:22:06.0411826Z +                   argument: {
+2026-10-22T23:22:06.0411975Z +                     name: 'productId',
+2026-10-22T23:22:06.0412135Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0412282Z +                   },
+2026-10-22T23:22:06.0412414Z +                   operator: '!',
+2026-10-22T23:22:06.0412562Z +                   prefix: true,
+2026-10-22T23:22:06.0412722Z +                   type: 'UnaryExpression'
+2026-10-22T23:22:06.0412873Z +                 },
+2026-10-22T23:22:06.0413008Z +                 type: 'LogicalExpression'
+2026-10-22T23:22:06.0413165Z +               },
+2026-10-22T23:22:06.0413291Z +               type: 'IfStatement'
+2026-10-22T23:22:06.0413437Z +             },
+2026-10-22T23:22:06.0413555Z +             {
+2026-10-22T23:22:06.0413678Z +               declarations: [
+2026-10-22T23:22:06.0413813Z +                 {
+2026-10-22T23:22:06.0413939Z +                   id: {
+2026-10-22T23:22:06.0414080Z +                     name: 'supabase',
+2026-10-22T23:22:06.0414238Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0414393Z +                   },
+2026-10-22T23:22:06.0414524Z +                   init: {
+2026-10-22T23:22:06.0414663Z +                     arguments: [],
+2026-10-22T23:22:06.0414809Z +                     callee: {
+2026-10-22T23:22:06.0414958Z +                       name: 'getSupabase',
+2026-10-22T23:22:06.0415119Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0415273Z +                     },
+2026-10-22T23:22:06.0415414Z +                     type: 'CallExpression'
+2026-10-22T23:22:06.0415670Z +                   },
+2026-10-22T23:22:06.0415812Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0415970Z +                 }
+2026-10-22T23:22:06.0416089Z +               ],
+2026-10-22T23:22:06.0416214Z +               kind: 'const',
+2026-10-22T23:22:06.0416367Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0416525Z +             },
+2026-10-22T23:22:06.0416640Z +             {
+2026-10-22T23:22:06.0416763Z +               alternate: null,
+2026-10-22T23:22:06.0416919Z +               consequent: {
+2026-10-22T23:22:06.0417066Z +                 argument: null,
+2026-10-22T23:22:06.0417222Z +                 type: 'ReturnStatement'
+2026-10-22T23:22:06.0417373Z +               },
+2026-10-22T23:22:06.0417494Z +               test: {
+2026-10-22T23:22:06.0417625Z +                 argument: {
+2026-10-22T23:22:06.0417769Z +                   argument: {
+2026-10-22T23:22:06.0417910Z +                     arguments: [
+2026-10-22T23:22:06.0418059Z +                       {
+2026-10-22T23:22:06.0418196Z +                         name: 'supabase',
+2026-10-22T23:22:06.0418361Z +                         type: 'Identifier'
+2026-10-22T23:22:06.0418514Z +                       },
+2026-10-22T23:22:06.0418646Z +                       {
+2026-10-22T23:22:06.0418782Z +                         name: 'tenantId',
+2026-10-22T23:22:06.0418946Z +                         type: 'Identifier'
+2026-10-22T23:22:06.0419100Z +                       },
+2026-10-22T23:22:06.0419334Z +                       {
+2026-10-22T23:22:06.0419471Z +                         name: 'userId',
+2026-10-22T23:22:06.0419628Z +                         type: 'Identifier'
+2026-10-22T23:22:06.0419786Z +                       }
+2026-10-22T23:22:06.0419915Z +                     ],
+2026-10-22T23:22:06.0420049Z +                     callee: {
+2026-10-22T23:22:06.0420209Z +                       name: 'verifyTenantOwnership',
+2026-10-22T23:22:06.0420594Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0420748Z +                     },
+2026-10-22T23:22:06.0420889Z +                     type: 'CallExpression'
+2026-10-22T23:22:06.0421043Z +                   },
+2026-10-22T23:22:06.0421183Z +                   type: 'AwaitExpression'
+2026-10-22T23:22:06.0421335Z +                 },
+2026-10-22T23:22:06.0421466Z +                 operator: '!',
+2026-10-22T23:22:06.0421613Z +                 prefix: true,
+2026-10-22T23:22:06.0421766Z +                 type: 'UnaryExpression'
+2026-10-22T23:22:06.0421921Z +               },
+2026-10-22T23:22:06.0422051Z +               type: 'IfStatement'
+2026-10-22T23:22:06.0422194Z +             },
+2026-10-22T23:22:06.0422310Z +             {
+2026-10-22T23:22:06.0422435Z +               expression: {
+2026-10-22T23:22:06.0422577Z +                 argument: {
+2026-10-22T23:22:06.0422717Z +                   arguments: [
+2026-10-22T23:22:06.0422858Z +                     {
+2026-10-22T23:22:06.0422997Z +                       properties: [
+2026-10-22T23:22:06.0423149Z +                         {
+2026-10-22T23:22:06.0423291Z +                           computed: false,
+2026-10-22T23:22:06.0423448Z +                           key: {
+2026-10-22T23:22:06.0423606Z +                             name: 'tenant_id',
+2026-10-22T23:22:06.0423776Z -                         generator: false,
+2026-10-22T23:22:06.0423943Z -                         id: null,
+2026-10-22T23:22:06.0424093Z -                         params: [
+2026-10-22T23:22:06.0424239Z -                           {
+2026-10-22T23:22:06.0424393Z -                             name: 'write',
+2026-10-22T23:22:06.0424556Z                               type: 'Identifier'
+2026-10-22T23:22:06.0424718Z                             },
+2026-10-22T23:22:06.0424862Z +                           method: false,
+2026-10-22T23:22:06.0425028Z +                           shorthand: false,
+2026-10-22T23:22:06.0425200Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0425368Z +                           value: {
+2026-10-22T23:22:06.0425629Z +                             name: 'tenantId',
+2026-10-22T23:22:06.0425787Z -                           {
+2026-10-22T23:22:06.0425934Z -                             name: 'signal',
+2026-10-22T23:22:06.0426099Z                               type: 'Identifier'
+2026-10-22T23:22:06.0426255Z                             }
+2026-10-22T23:22:06.0426396Z +                         },
+2026-10-22T23:22:06.0426531Z +                         {
+2026-10-22T23:22:06.0426673Z +                           computed: false,
+2026-10-22T23:22:06.0426835Z +                           key: {
+2026-10-22T23:22:06.0426990Z +                             name: 'user_id',
+2026-10-22T23:22:06.0427153Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0427310Z +                           },
+2026-10-22T23:22:06.0427454Z +                           method: false,
+2026-10-22T23:22:06.0427613Z +                           shorthand: false,
+2026-10-22T23:22:06.0427791Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0427964Z +                           value: {
+2026-10-22T23:22:06.0428115Z +                             name: 'userId',
+2026-10-22T23:22:06.0428277Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0428438Z +                           }
+2026-10-22T23:22:06.0428575Z +                         },
+2026-10-22T23:22:06.0428711Z +                         {
+2026-10-22T23:22:06.0428855Z +                           computed: false,
+2026-10-22T23:22:06.0429108Z +                           key: {
+2026-10-22T23:22:06.0429279Z +                             name: 'paddle_subscription_id',
+2026-10-22T23:22:06.0429466Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0429624Z +                           },
+2026-10-22T23:22:06.0429771Z +                           method: false,
+2026-10-22T23:22:06.0429931Z +                           shorthand: false,
+2026-10-22T23:22:06.0430100Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0430272Z +                           value: {
+2026-10-22T23:22:06.0430655Z +                             name: 'id',
+2026-10-22T23:22:06.0430814Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0430971Z +                           }
+2026-10-22T23:22:06.0431106Z +                         },
+2026-10-22T23:22:06.0431240Z +                         {
+2026-10-22T23:22:06.0431384Z +                           computed: false,
+2026-10-22T23:22:06.0431538Z +                           key: {
+2026-10-22T23:22:06.0431706Z +                             name: 'paddle_customer_id',
+2026-10-22T23:22:06.0431885Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0432054Z +                           },
+2026-10-22T23:22:06.0432199Z +                           method: false,
+2026-10-22T23:22:06.0432359Z +                           shorthand: false,
+2026-10-22T23:22:06.0432530Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0432700Z +                           value: {
+2026-10-22T23:22:06.0432858Z +                             name: 'customerId',
+2026-10-22T23:22:06.0433024Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0433180Z +                           }
+2026-10-22T23:22:06.0433319Z +                         },
+2026-10-22T23:22:06.0433453Z +                         {
+2026-10-22T23:22:06.0433594Z +                           computed: false,
+2026-10-22T23:22:06.0433748Z +                           key: {
+2026-10-22T23:22:06.0433910Z +                             name: 'product_id',
+2026-10-22T23:22:06.0434077Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0434234Z +                           },
+2026-10-22T23:22:06.0434379Z +                           method: false,
+2026-10-22T23:22:06.0434542Z +                           shorthand: false,
+2026-10-22T23:22:06.0434711Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0434877Z +                           value: {
+2026-10-22T23:22:06.0435032Z +                             name: 'productId',
+2026-10-22T23:22:06.0435471Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0435733Z +                           }
+2026-10-22T23:22:06.0436172Z +                         },
+2026-10-22T23:22:06.0436400Z +                         {
+2026-10-22T23:22:06.0436616Z +                           computed: false,
+2026-10-22T23:22:06.0436925Z +                           key: {
+2026-10-22T23:22:06.0437187Z +                             name: 'price_id',
+2026-10-22T23:22:06.0437458Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0437700Z +                           },
+2026-10-22T23:22:06.0437920Z +                           method: false,
+2026-10-22T23:22:06.0438355Z +                           shorthand: false,
+2026-10-22T23:22:06.0438591Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0438877Z +                           value: {
+2026-10-22T23:22:06.0455328Z +                             name: 'priceId',
+2026-10-22T23:22:06.0455631Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0455860Z +                           }
+2026-10-22T23:22:06.0456027Z +                         },
+2026-10-22T23:22:06.0456165Z +                         {
+2026-10-22T23:22:06.0456313Z +                           computed: false,
+2026-10-22T23:22:06.0456471Z +                           key: {
+2026-10-22T23:22:06.0456623Z +                             name: 'status',
+2026-10-22T23:22:06.0456788Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0457093Z +                           },
+2026-10-22T23:22:06.0457237Z +                           method: false,
+2026-10-22T23:22:06.0457395Z +                           shorthand: true,
+2026-10-22T23:22:06.0457567Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0457738Z +                           value: {
+2026-10-22T23:22:06.0457889Z +                             name: 'status',
+2026-10-22T23:22:06.0458054Z +                             range: undefined,
+2026-10-22T23:22:06.0458223Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0458384Z +                           }
+2026-10-22T23:22:06.0458524Z +                         },
+2026-10-22T23:22:06.0458660Z +                         {
+2026-10-22T23:22:06.0458802Z +                           computed: false,
+2026-10-22T23:22:06.0458958Z +                           key: {
+2026-10-22T23:22:06.0459122Z +                             name: 'current_period_start',
+2026-10-22T23:22:06.0459309Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0459466Z +                           },
+2026-10-22T23:22:06.0459609Z +                           method: false,
+2026-10-22T23:22:06.0459769Z +                           shorthand: false,
+2026-10-22T23:22:06.0459938Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0460104Z +                           value: {
+2026-10-22T23:22:06.0460258Z +                             computed: false,
+2026-10-22T23:22:06.0460630Z +                             object: {
+2026-10-22T23:22:06.0460804Z +                               name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0460988Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0461153Z +                             },
+2026-10-22T23:22:06.0461305Z +                             optional: true,
+2026-10-22T23:22:06.0461465Z +                             property: {
+2026-10-22T23:22:06.0461628Z +                               name: 'startsAt',
+2026-10-22T23:22:06.0461802Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0461965Z +                             },
+2026-10-22T23:22:06.0462131Z +                             type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0462306Z +                           }
+2026-10-22T23:22:06.0462442Z +                         },
+2026-10-22T23:22:06.0462580Z +                         {
+2026-10-22T23:22:06.0462721Z +                           computed: false,
+2026-10-22T23:22:06.0462876Z +                           key: {
+2026-10-22T23:22:06.0463143Z +                             name: 'current_period_end',
+2026-10-22T23:22:06.0463319Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0463477Z +                           },
+2026-10-22T23:22:06.0463620Z +                           method: false,
+2026-10-22T23:22:06.0463777Z +                           shorthand: false,
+2026-10-22T23:22:06.0463945Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0464112Z +                           value: {
+2026-10-22T23:22:06.0464269Z +                             computed: false,
+2026-10-22T23:22:06.0464428Z +                             object: {
+2026-10-22T23:22:06.0464600Z +                               name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0464784Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0464945Z +                             },
+2026-10-22T23:22:06.0465092Z +                             optional: true,
+2026-10-22T23:22:06.0465256Z +                             property: {
+2026-10-22T23:22:06.0465419Z +                               name: 'endsAt',
+2026-10-22T23:22:06.0465587Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0465745Z +                             },
+2026-10-22T23:22:06.0465909Z +                             type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0466087Z +                           }
+2026-10-22T23:22:06.0466222Z +                         },
+2026-10-22T23:22:06.0466357Z +                         {
+2026-10-22T23:22:06.0466632Z +                           computed: false,
+2026-10-22T23:22:06.0466793Z +                           key: {
+2026-10-22T23:22:06.0466946Z +                             name: 'environment',
+2026-10-22T23:22:06.0467113Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0467270Z +                           },
+2026-10-22T23:22:06.0467416Z +                           method: false,
+2026-10-22T23:22:06.0467574Z +                           shorthand: false,
+2026-10-22T23:22:06.0467748Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0467913Z +                           value: {
+2026-10-22T23:22:06.0468062Z +                             name: 'env',
+2026-10-22T23:22:06.0468222Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0468379Z +                           }
+2026-10-22T23:22:06.0468514Z +                         },
+2026-10-22T23:22:06.0468647Z +                         {
+2026-10-22T23:22:06.0468796Z +                           computed: false,
+2026-10-22T23:22:06.0468950Z +                           key: {
+2026-10-22T23:22:06.0469102Z +                             name: 'updated_at',
+2026-10-22T23:22:06.0469270Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0469426Z +                           },
+2026-10-22T23:22:06.0469568Z +                           method: false,
+2026-10-22T23:22:06.0469725Z +                           shorthand: false,
+2026-10-22T23:22:06.0469893Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0470064Z +                           value: {
+2026-10-22T23:22:06.0470214Z +                             arguments: [],
+2026-10-22T23:22:06.0470597Z +                             callee: {
+2026-10-22T23:22:06.0470763Z +                               computed: false,
+2026-10-22T23:22:06.0470926Z +                               object: {
+2026-10-22T23:22:06.0471083Z +                                 arguments: [],
+2026-10-22T23:22:06.0471248Z +                                 callee: {
+2026-10-22T23:22:06.0471410Z +                                   name: 'Date',
+2026-10-22T23:22:06.0471587Z +                                   type: 'Identifier'
+2026-10-22T23:22:06.0471751Z +                                 },
+2026-10-22T23:22:06.0471912Z +                                 type: 'NewExpression'
+2026-10-22T23:22:06.0472076Z +                               },
+2026-10-22T23:22:06.0472227Z +                               property: {
+2026-10-22T23:22:06.0472501Z +                                 name: 'toISOString',
+2026-10-22T23:22:06.0472676Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0472838Z +                               },
+2026-10-22T23:22:06.0473003Z +                               type: 'MemberExpression'
+2026-10-22T23:22:06.0473172Z +                             },
+2026-10-22T23:22:06.0473328Z +                             type: 'CallExpression'
+2026-10-22T23:22:06.0473489Z +                           }
+2026-10-22T23:22:06.0473631Z +                         }
+2026-10-22T23:22:06.0473767Z +                       ],
+2026-10-22T23:22:06.0473911Z +                       type: 'ObjectExpression'
+2026-10-22T23:22:06.0474070Z +                     },
+2026-10-22T23:22:06.0474198Z +                     {
+2026-10-22T23:22:06.0474335Z +                       properties: [
+2026-10-22T23:22:06.0474483Z +                         {
+2026-10-22T23:22:06.0474624Z +                           computed: false,
+2026-10-22T23:22:06.0474784Z +                           key: {
+2026-10-22T23:22:06.0474947Z +                             name: 'onConflict',
+2026-10-22T23:22:06.0475117Z +                             type: 'Identifier'
+2026-10-22T23:22:06.0475276Z +                           },
+2026-10-22T23:22:06.0475420Z +                           method: false,
+2026-10-22T23:22:06.0475587Z +                           shorthand: false,
+2026-10-22T23:22:06.0475757Z +                           type: 'ObjectProperty',
+2026-10-22T23:22:06.0475924Z +                           value: {
+2026-10-22T23:22:06.0476190Z +                             type: 'StringLiteral',
+2026-10-22T23:22:06.0476379Z +                             value: 'paddle_subscription_id'
+2026-10-22T23:22:06.0476554Z +                           }
+2026-10-22T23:22:06.0476689Z +                         }
+2026-10-22T23:22:06.0476828Z +                       ],
+2026-10-22T23:22:06.0476973Z +                       type: 'ObjectExpression'
+2026-10-22T23:22:06.0477131Z +                     }
+2026-10-22T23:22:06.0477262Z +                   ],
+2026-10-22T23:22:06.0477394Z +                   callee: {
+2026-10-22T23:22:06.0477537Z +                     computed: false,
+2026-10-22T23:22:06.0477693Z +                     object: {
+2026-10-22T23:22:06.0477838Z +                       arguments: [
+2026-10-22T23:22:06.0477988Z +                         {
+2026-10-22T23:22:06.0478136Z +                           type: 'StringLiteral',
+2026-10-22T23:22:06.0478309Z +                           value: 'subscriptions'
+2026-10-22T23:22:06.0478472Z +                         }
+2026-10-22T23:22:06.0478608Z +                       ],
+2026-10-22T23:22:06.0478745Z +                       callee: {
+2026-10-22T23:22:06.0478895Z +                         computed: false,
+2026-10-22T23:22:06.0479051Z +                         object: {
+2026-10-22T23:22:06.0479205Z +                           name: 'supabase',
+2026-10-22T23:22:06.0479372Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0479528Z +                         },
+2026-10-22T23:22:06.0479675Z +                         property: {
+2026-10-22T23:22:06.0479828Z +                           name: 'from',
+2026-10-22T23:22:06.0479989Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0480145Z +                         },
+2026-10-22T23:22:06.0480400Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0480562Z -                         ],
+2026-10-22T23:22:06.0480726Z -                         type: 'ArrowFunctionExpression'
+2026-10-22T23:22:06.0480901Z                         },
+2026-10-22T23:22:06.0481045Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0481201Z                       },
+2026-10-22T23:22:06.0481339Z +                     property: {
+2026-10-22T23:22:06.0481487Z +                       name: 'upsert',
+2026-10-22T23:22:06.0481643Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0481793Z +                     },
+2026-10-22T23:22:06.0481936Z +                     type: 'MemberExpression'
+2026-10-22T23:22:06.0482197Z +                   },
+2026-10-22T23:22:06.0482332Z +                   type: 'CallExpression'
+2026-10-22T23:22:06.0482481Z +                 },
+2026-10-22T23:22:06.0482614Z +                 type: 'AwaitExpression'
+2026-10-22T23:22:06.0482767Z +               },
+2026-10-22T23:22:06.0482899Z +               type: 'ExpressionStatement'
+2026-10-22T23:22:06.0483054Z +             },
+2026-10-22T23:22:06.0483169Z +             {
+2026-10-22T23:22:06.0483299Z +               expression: {
+2026-10-22T23:22:06.0483445Z +                 argument: {
+2026-10-22T23:22:06.0483590Z +                   arguments: [
+2026-10-22T23:22:06.0483729Z                       {
+2026-10-22T23:22:06.0483870Z +                       type: 'StringLiteral',
+2026-10-22T23:22:06.0484037Z +                       value: 'id'
+2026-10-22T23:22:06.0484181Z +                     },
+2026-10-22T23:22:06.0484310Z +                     {
+2026-10-22T23:22:06.0484443Z +                       name: 'tenantId',
+2026-10-22T23:22:06.0484607Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0484756Z +                     }
+2026-10-22T23:22:06.0484879Z +                   ],
+2026-10-22T23:22:06.0485005Z +                   callee: {
+2026-10-22T23:22:06.0485150Z +                     computed: false,
+2026-10-22T23:22:06.0485301Z +                     object: {
+2026-10-22T23:22:06.0485447Z +                       arguments: [
+2026-10-22T23:22:06.0485593Z +                         {
+2026-10-22T23:22:06.0485830Z +                           properties: [
+2026-10-22T23:22:06.0485986Z +                             {
+2026-10-22T23:22:06.0486135Z +                               computed: false,
+2026-10-22T23:22:06.0486295Z +                               key: {
+2026-10-22T23:22:06.0486462Z +                                 name: 'subscription_status',
+2026-10-22T23:22:06.0486650Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0486816Z +                               },
+2026-10-22T23:22:06.0486971Z +                               method: false,
+2026-10-22T23:22:06.0487135Z +                               shorthand: false,
+2026-10-22T23:22:06.0487314Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0487480Z +                               value: {
+2026-10-22T23:22:06.0487638Z +                                 name: 'status',
+2026-10-22T23:22:06.0487808Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0487970Z +                               }
+2026-10-22T23:22:06.0488118Z +                             },
+2026-10-22T23:22:06.0488257Z +                             {
+2026-10-22T23:22:06.0488406Z +                               computed: false,
+2026-10-22T23:22:06.0488569Z +                               key: {
+2026-10-22T23:22:06.0488737Z +                                 name: 'subscription_plan',
+2026-10-22T23:22:06.0488921Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0489082Z +                               },
+2026-10-22T23:22:06.0489238Z +                               method: false,
+2026-10-22T23:22:06.0489406Z +                               shorthand: false,
+2026-10-22T23:22:06.0489581Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0489749Z +                               value: {
+2026-10-22T23:22:06.0489913Z +                                 name: 'productId',
+2026-10-22T23:22:06.0490084Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0490244Z +                               }
+2026-10-22T23:22:06.0490477Z +                             },
+2026-10-22T23:22:06.0490615Z +                             {
+2026-10-22T23:22:06.0490766Z +                               computed: false,
+2026-10-22T23:22:06.0490925Z +                               key: {
+2026-10-22T23:22:06.0491093Z +                                 name: 'paddle_customer_id',
+2026-10-22T23:22:06.0491276Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0491440Z +                               },
+2026-10-22T23:22:06.0491690Z +                               method: false,
+2026-10-22T23:22:06.0491855Z +                               shorthand: false,
+2026-10-22T23:22:06.0492031Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0492201Z +                               value: {
+2026-10-22T23:22:06.0492365Z +                                 name: 'customerId',
+2026-10-22T23:22:06.0492538Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0492700Z +                               }
+2026-10-22T23:22:06.0492849Z +                             },
+2026-10-22T23:22:06.0492989Z +                             {
+2026-10-22T23:22:06.0493136Z +                               computed: false,
+2026-10-22T23:22:06.0493295Z +                               key: {
+2026-10-22T23:22:06.0493468Z +                                 name: 'paddle_subscription_id',
+2026-10-22T23:22:06.0493655Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0493814Z +                               },
+2026-10-22T23:22:06.0493970Z +                               method: false,
+2026-10-22T23:22:06.0494138Z +                               shorthand: false,
+2026-10-22T23:22:06.0494311Z +                               type: 'ObjectProperty',
+2026-10-22T23:22:06.0494477Z +                               value: {
+2026-10-22T23:22:06.0494632Z +                                 name: 'id',
+2026-10-22T23:22:06.0494800Z +                                 type: 'Identifier'
+2026-10-22T23:22:06.0495049Z +                               }
+2026-10-22T23:22:06.0495191Z +                             }
+2026-10-22T23:22:06.0495329Z +                           ],
+2026-10-22T23:22:06.0495484Z +                           type: 'ObjectExpression'
+2026-10-22T23:22:06.0495643Z +                         }
+2026-10-22T23:22:06.0495777Z +                       ],
+2026-10-22T23:22:06.0495910Z +                       callee: {
+2026-10-22T23:22:06.0496059Z +                         computed: false,
+2026-10-22T23:22:06.0496223Z +                         object: {
+2026-10-22T23:22:06.0496373Z -                       computed: false,
+2026-10-22T23:22:06.0496530Z -                       key: {
+2026-10-22T23:22:06.0496592Z -                         name: 'report',
+2026-10-22T23:22:06.0496653Z -                         type: 'Identifier'
+2026-10-22T23:22:06.0496707Z -                       },
+2026-10-22T23:22:06.0496765Z -                       method: false,
+2026-10-22T23:22:06.0496821Z -                       shorthand: false,
+2026-10-22T23:22:06.0496893Z -                       type: 'ObjectProperty',
+2026-10-22T23:22:06.0496950Z -                       value: {
+2026-10-22T23:22:06.0497006Z -                         async: false,
+2026-10-22T23:22:06.0497062Z -                         body: {
+2026-10-22T23:22:06.0497116Z                             arguments: [
+2026-10-22T23:22:06.0497173Z                               {
+2026-10-22T23:22:06.0497245Z                                 type: 'StringLiteral',
+2026-10-22T23:22:06.0497310Z +                               value: 'tenants'
+2026-10-22T23:22:06.0497389Z -                               value: 'Payment webhook rejected'
+2026-10-22T23:22:06.0497443Z                               },
+2026-10-22T23:22:06.0497494Z +                           ],
+2026-10-22T23:22:06.0497551Z +                           callee: {
+2026-10-22T23:22:06.0497615Z +                             computed: false,
+2026-10-22T23:22:06.0497670Z +                             object: {
+2026-10-22T23:22:06.0497737Z +                               name: 'supabase',
+2026-10-22T23:22:06.0497801Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0497855Z +                             },
+2026-10-22T23:22:06.0497916Z +                             property: {
+2026-10-22T23:22:06.0497973Z +                               name: 'from',
+2026-10-22T23:22:06.0498037Z +                               type: 'Identifier'
+2026-10-22T23:22:06.0498091Z +                             },
+2026-10-22T23:22:06.0498233Z +                             type: 'MemberExpression'
+2026-10-22T23:22:06.0498287Z +                           },
+2026-10-22T23:22:06.0498352Z +                           type: 'CallExpression'
+2026-10-22T23:22:06.0498404Z +                         },
+2026-10-22T23:22:06.0498464Z +                         property: {
+2026-10-22T23:22:06.0498522Z +                           name: 'update',
+2026-10-22T23:22:06.0498586Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0498638Z +                         },
+2026-10-22T23:22:06.0498705Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0498759Z +                       },
+2026-10-22T23:22:06.0498823Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0498872Z +                     },
+2026-10-22T23:22:06.0498930Z +                     property: {
+2026-10-22T23:22:06.0498987Z +                       name: 'eq',
+2026-10-22T23:22:06.0499045Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0499100Z +                     },
+2026-10-22T23:22:06.0499162Z +                     type: 'MemberExpression'
+2026-10-22T23:22:06.0499213Z +                   },
+2026-10-22T23:22:06.0499274Z +                   type: 'CallExpression'
+2026-10-22T23:22:06.0499322Z +                 },
+2026-10-22T23:22:06.0499383Z +                 type: 'AwaitExpression'
+2026-10-22T23:22:06.0499433Z +               },
+2026-10-22T23:22:06.0499496Z +               type: 'ExpressionStatement'
+2026-10-22T23:22:06.0499547Z +             }
+2026-10-22T23:22:06.0499653Z +           ],
+2026-10-22T23:22:06.0499712Z +           directives: [],
+2026-10-22T23:22:06.0499777Z +           type: 'BlockStatement'
+2026-10-22T23:22:06.0499825Z +         },
+2026-10-22T23:22:06.0499883Z +         generator: false,
+2026-10-22T23:22:06.0499934Z +         id: {
+2026-10-22T23:22:06.0500001Z +           name: 'handleSubscriptionCreated',
+2026-10-22T23:22:06.0500059Z +           type: 'Identifier'
+2026-10-22T23:22:06.0500109Z +         },
+2026-10-22T23:22:06.0500164Z +         params: [
+2026-10-22T23:22:06.0500215Z +           {
+2026-10-22T23:22:06.0500267Z +             name: 'data',
+2026-10-22T23:22:06.0500405Z +             type: 'Identifier'
+2026-10-22T23:22:06.0500455Z +           },
+2026-10-22T23:22:06.0500502Z +           {
+2026-10-22T23:22:06.0500557Z +             name: 'env',
+2026-10-22T23:22:06.0500614Z +             type: 'Identifier'
+2026-10-22T23:22:06.0500660Z +           }
+2026-10-22T23:22:06.0500711Z +         ],
+2026-10-22T23:22:06.0500772Z +         type: 'FunctionDeclaration'
+2026-10-22T23:22:06.0500826Z +       },
+2026-10-22T23:22:06.0500876Z +       {
+2026-10-22T23:22:06.0500927Z +         async: true,
+2026-10-22T23:22:06.0500979Z +         body: {
+2026-10-22T23:22:06.0501029Z +           body: [
+2026-10-22T23:22:06.0501076Z +             {
+2026-10-22T23:22:06.0501136Z +               declarations: [
+2026-10-22T23:22:06.0501183Z +                 {
+2026-10-22T23:22:06.0501235Z +                   id: {
+2026-10-22T23:22:06.0501293Z +                     properties: [
+2026-10-22T23:22:06.0501346Z +                       {
+2026-10-22T23:22:06.0501406Z +                         computed: false,
+2026-10-22T23:22:06.0501459Z +                         key: {
+2026-10-22T23:22:06.0501513Z +                           name: 'id',
+2026-10-22T23:22:06.0501575Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0501625Z +                         },
+2026-10-22T23:22:06.0501683Z +                         method: false,
+2026-10-22T23:22:06.0501744Z +                         shorthand: true,
+2026-10-22T23:22:06.0501807Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0501863Z +                         value: {
+2026-10-22T23:22:06.0501921Z +                           name: 'id',
+2026-10-22T23:22:06.0501980Z +                           range: undefined,
+2026-10-22T23:22:06.0502040Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0502093Z +                         }
+2026-10-22T23:22:06.0502142Z +                       },
+2026-10-22T23:22:06.0502321Z +                       {
+2026-10-22T23:22:06.0502378Z +                         computed: false,
+2026-10-22T23:22:06.0502431Z +                         key: {
+2026-10-22T23:22:06.0502489Z +                           name: 'status',
+2026-10-22T23:22:06.0502547Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0502600Z +                         },
+2026-10-22T23:22:06.0502657Z +                         method: false,
+2026-10-22T23:22:06.0502716Z +                         shorthand: true,
+2026-10-22T23:22:06.0502782Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0502835Z +                         value: {
+2026-10-22T23:22:06.0502894Z +                           name: 'status',
+2026-10-22T23:22:06.0502956Z +                           range: undefined,
+2026-10-22T23:22:06.0503018Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0503070Z +                         }
+2026-10-22T23:22:06.0503121Z +                       },
+2026-10-22T23:22:06.0503176Z +                       {
+2026-10-22T23:22:06.0503234Z +                         computed: false,
+2026-10-22T23:22:06.0503287Z +                         key: {
+2026-10-22T23:22:06.0503360Z +                           name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0503420Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0503471Z +                         },
+2026-10-22T23:22:06.0503529Z +                         method: false,
+2026-10-22T23:22:06.0503674Z +                         shorthand: true,
+2026-10-22T23:22:06.0503739Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0503794Z +                         value: {
+2026-10-22T23:22:06.0503867Z +                           name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0503926Z +                           range: undefined,
+2026-10-22T23:22:06.0503986Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0504037Z +                         }
+2026-10-22T23:22:06.0504086Z +                       },
+2026-10-22T23:22:06.0504141Z +                       {
+2026-10-22T23:22:06.0504197Z +                         computed: false,
+2026-10-22T23:22:06.0504251Z +                         key: {
+2026-10-22T23:22:06.0504319Z +                           name: 'scheduledChange',
+2026-10-22T23:22:06.0504378Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0504431Z +                         },
+2026-10-22T23:22:06.0504489Z +                         method: false,
+2026-10-22T23:22:06.0504551Z +                         shorthand: true,
+2026-10-22T23:22:06.0504616Z +                         type: 'ObjectProperty',
+2026-10-22T23:22:06.0504671Z +                         value: {
+2026-10-22T23:22:06.0504737Z +                           name: 'scheduledChange',
+2026-10-22T23:22:06.0504799Z +                           range: undefined,
+2026-10-22T23:22:06.0504859Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0504912Z +                         }
+2026-10-22T23:22:06.0504966Z +                       }
+2026-10-22T23:22:06.0505015Z +                     ],
+2026-10-22T23:22:06.0505076Z +                     type: 'ObjectPattern'
+2026-10-22T23:22:06.0505127Z +                   },
+2026-10-22T23:22:06.0505177Z +                   init: {
+2026-10-22T23:22:06.0505234Z +                     name: 'data',
+2026-10-22T23:22:06.0505290Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0505340Z +                   },
+2026-10-22T23:22:06.0505404Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0505454Z +                 }
+2026-10-22T23:22:06.0505503Z +               ],
+2026-10-22T23:22:06.0505559Z +               kind: 'const',
+2026-10-22T23:22:06.0505619Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0505668Z +             },
+2026-10-22T23:22:06.0505718Z +             {
+2026-10-22T23:22:06.0505772Z +               declarations: [
+2026-10-22T23:22:06.0505821Z +                 {
+2026-10-22T23:22:06.0505870Z +                   id: {
+2026-10-22T23:22:06.0505988Z +                     name: 'supabase',
+2026-10-22T23:22:06.0506046Z +                     type: 'Identifier'
+2026-10-22T23:22:06.0506094Z +                   },
+2026-10-22T23:22:06.0506147Z +                   init: {
+2026-10-22T23:22:06.0506206Z +                     arguments: [],
+2026-10-22T23:22:06.0506257Z +                     callee: {
+2026-10-22T23:22:06.0506320Z +                       name: 'getSupabase',
+2026-10-22T23:22:06.0506380Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0506435Z +                     },
+2026-10-22T23:22:06.0506498Z +                     type: 'CallExpression'
+2026-10-22T23:22:06.0506545Z +                   },
+2026-10-22T23:22:06.0506609Z +                   type: 'VariableDeclarator'
+2026-10-22T23:22:06.0506659Z +                 }
+2026-10-22T23:22:06.0506705Z +               ],
+2026-10-22T23:22:06.0506760Z +               kind: 'const',
+2026-10-22T23:22:06.0506822Z +               type: 'VariableDeclaration'
+2026-10-22T23:22:06.0506873Z +             },
+2026-10-22T23:22:06.0506922Z +             {
+2026-10-22T23:22:06.0506976Z +               expression: {
+2026-10-22T23:22:06.0507033Z +                 argument: {
+2026-10-22T23:22:06.0507091Z +                   arguments: [
+2026-10-22T23:22:06.0507140Z +                     {
+2026-10-22T23:22:06.0507202Z +                       type: 'StringLiteral',
+2026-10-22T23:22:06.0507265Z +                       value: 'environment'
+2026-10-22T23:22:06.0507314Z +                     },
+2026-10-22T23:22:06.0507424Z +                     {
+2026-10-22T23:22:06.0507479Z +                       name: 'env',
+2026-10-22T23:22:06.0507538Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0507590Z +                     }
+2026-10-22T23:22:06.0507637Z +                   ],
+2026-10-22T23:22:06.0507692Z +                   callee: {
+2026-10-22T23:22:06.0507754Z +                     computed: false,
+2026-10-22T23:22:06.0507806Z +                     object: {
+2026-10-22T23:22:06.0507863Z +                       arguments: [
+2026-10-22T23:22:06.0507915Z +                         {
+2026-10-22T23:22:06.0507982Z +                           type: 'StringLiteral',
+2026-10-22T23:22:06.0508059Z +                           value: 'paddle_subscription_id'
+2026-10-22T23:22:06.0508110Z +                         },
+2026-10-22T23:22:06.0508163Z +                         {
+2026-10-22T23:22:06.0508220Z +                           name: 'id',
+2026-10-22T23:22:06.0508279Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0508335Z +                         }
+2026-10-22T23:22:06.0508387Z +                       ],
+2026-10-22T23:22:06.0508440Z +                       callee: {
+2026-10-22T23:22:06.0508499Z +                         computed: false,
+2026-10-22T23:22:06.0508552Z +                         object: {
+2026-10-22T23:22:06.0508609Z +                           arguments: [
+2026-10-22T23:22:06.0508662Z                               {
+2026-10-22T23:22:06.0508721Z                                 properties: [
+2026-10-22T23:22:06.0508777Z                                   {
+2026-10-22T23:22:06.0508845Z                                     computed: false,
+2026-10-22T23:22:06.0508901Z                                     key: {
+2026-10-22T23:22:06.0508967Z +                                     name: 'status',
+2026-10-22T23:22:06.0509036Z -                                     name: 'reason',
+2026-10-22T23:22:06.0509103Z                                       type: 'Identifier'
+2026-10-22T23:22:06.0509161Z                                     },
+2026-10-22T23:22:06.0509223Z                                     method: false,
+2026-10-22T23:22:06.0509288Z                                     shorthand: true,
+2026-10-22T23:22:06.0509362Z                                     type: 'ObjectProperty',
+2026-10-22T23:22:06.0509419Z                                     value: {
+2026-10-22T23:22:06.0509484Z +                                     name: 'status',
+2026-10-22T23:22:06.0509547Z -                                     name: 'reason',
+2026-10-22T23:22:06.0509674Z                                       range: undefined,
+2026-10-22T23:22:06.0509742Z                                       type: 'Identifier'
+2026-10-22T23:22:06.0509798Z                                     }
+2026-10-22T23:22:06.0509849Z                                   },
+2026-10-22T23:22:06.0509904Z +                                 {
+2026-10-22T23:22:06.0509968Z +                                   computed: false,
+2026-10-22T23:22:06.0510027Z +                                   key: {
+2026-10-22T23:22:06.0510107Z +                                     name: 'current_period_start',
+2026-10-22T23:22:06.0510172Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0510228Z +                                   },
+2026-10-22T23:22:06.0510369Z +                                   method: false,
+2026-10-22T23:22:06.0510432Z +                                   shorthand: false,
+2026-10-22T23:22:06.0510504Z +                                   type: 'ObjectProperty',
+2026-10-22T23:22:06.0510566Z +                                   value: {
+2026-10-22T23:22:06.0510630Z +                                     computed: false,
+2026-10-22T23:22:06.0510691Z +                                     object: {
+2026-10-22T23:22:06.0510770Z +                                       name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0510839Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0510896Z +                                     },
+2026-10-22T23:22:06.0511045Z +                                     optional: true,
+2026-10-22T23:22:06.0511111Z +                                     property: {
+2026-10-22T23:22:06.0511178Z +                                       name: 'startsAt',
+2026-10-22T23:22:06.0511245Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0511300Z +                                     },
+2026-10-22T23:22:06.0511382Z +                                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0511440Z +                                   }
+2026-10-22T23:22:06.0511494Z +                                 },
+2026-10-22T23:22:06.0511549Z +                                 {
+2026-10-22T23:22:06.0511613Z +                                   computed: false,
+2026-10-22T23:22:06.0511671Z +                                   key: {
+2026-10-22T23:22:06.0511745Z +                                     name: 'current_period_end',
+2026-10-22T23:22:06.0511813Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0511871Z +                                   },
+2026-10-22T23:22:06.0511931Z +                                   method: false,
+2026-10-22T23:22:06.0511997Z +                                   shorthand: false,
+2026-10-22T23:22:06.0512070Z +                                   type: 'ObjectProperty',
+2026-10-22T23:22:06.0512127Z +                                   value: {
+2026-10-22T23:22:06.0512194Z +                                     computed: false,
+2026-10-22T23:22:06.0512257Z +                                     object: {
+2026-10-22T23:22:06.0512333Z +                                       name: 'currentBillingPeriod',
+2026-10-22T23:22:06.0512401Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0512455Z +                                     },
+2026-10-22T23:22:06.0512517Z +                                     optional: true,
+2026-10-22T23:22:06.0512579Z +                                     property: {
+2026-10-22T23:22:06.0512645Z +                                       name: 'endsAt',
+2026-10-22T23:22:06.0512712Z +                                       type: 'Identifier'
+2026-10-22T23:22:06.0512766Z +                                     },
+2026-10-22T23:22:06.0512844Z +                                     type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0512899Z +                                   }
+2026-10-22T23:22:06.0512953Z +                                 },
+2026-10-22T23:22:06.0513004Z +                                 {
+2026-10-22T23:22:06.0513155Z +                                   computed: false,
+2026-10-22T23:22:06.0513212Z +                                   key: {
+2026-10-22T23:22:06.0513287Z +                                     name: 'cancel_at_period_end',
+2026-10-22T23:22:06.0513354Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0513406Z +                                   },
+2026-10-22T23:22:06.0513469Z +                                   method: false,
+2026-10-22T23:22:06.0513539Z +                                   shorthand: false,
+2026-10-22T23:22:06.0513608Z +                                   type: 'ObjectProperty',
+2026-10-22T23:22:06.0513669Z +                                   value: {
+2026-10-22T23:22:06.0513728Z +                                     left: {
+2026-10-22T23:22:06.0513793Z +                                       computed: false,
+2026-10-22T23:22:06.0513856Z +                                       object: {
+2026-10-22T23:22:06.0513933Z +                                         name: 'scheduledChange',
+2026-10-22T23:22:06.0514006Z +                                         type: 'Identifier'
+2026-10-22T23:22:06.0514064Z +                                       },
+2026-10-22T23:22:06.0514131Z +                                       optional: true,
+2026-10-22T23:22:06.0514193Z +                                       property: {
+2026-10-22T23:22:06.0514260Z +                                         name: 'action',
+2026-10-22T23:22:06.0514327Z +                                         type: 'Identifier'
+2026-10-22T23:22:06.0514477Z +                                       },
+2026-10-22T23:22:06.0514561Z +                                       type: 'OptionalMemberExpression'
+2026-10-22T23:22:06.0514614Z +                                     },
+2026-10-22T23:22:06.0514683Z +                                     operator: '===',
+2026-10-22T23:22:06.0514744Z +                                     right: {
+2026-10-22T23:22:06.0514816Z +                                       type: 'StringLiteral',
+2026-10-22T23:22:06.0514884Z +                                       value: 'cancel'
+2026-10-22T23:22:06.0514940Z +                                     },
+2026-10-22T23:22:06.0515012Z +                                     type: 'BinaryExpression'
+2026-10-22T23:22:06.0515069Z +                                   }
+2026-10-22T23:22:06.0515121Z +                                 },
+2026-10-22T23:22:06.0515176Z +                                 {
+2026-10-22T23:22:06.0515244Z +                                   computed: false,
+2026-10-22T23:22:06.0515301Z +                                   key: {
+2026-10-22T23:22:06.0515371Z +                                     name: 'updated_at',
+2026-10-22T23:22:06.0515438Z +                                     type: 'Identifier'
+2026-10-22T23:22:06.0515491Z +                                   },
+2026-10-22T23:22:06.0515555Z +                                   method: false,
+2026-10-22T23:22:06.0515620Z +                                   shorthand: false,
+2026-10-22T23:22:06.0515693Z +                                   type: 'ObjectProperty',
+2026-10-22T23:22:06.0515751Z +                                   value: {
+2026-10-22T23:22:06.0515813Z +                                     arguments: [],
+2026-10-22T23:22:06.0515875Z +                                     callee: {
+2026-10-22T23:22:06.0515941Z +                                       computed: false,
+2026-10-22T23:22:06.0516000Z +                                       object: {
+2026-10-22T23:22:06.0516067Z +                                         arguments: [],
+2026-10-22T23:22:06.0516130Z +                                         callee: {
+2026-10-22T23:22:06.0516193Z +                                           name: 'Date',
+2026-10-22T23:22:06.0516265Z +                                           type: 'Identifier'
+2026-10-22T23:22:06.0516322Z +                                         },
+2026-10-22T23:22:06.0516395Z +                                         type: 'NewExpression'
+2026-10-22T23:22:06.0516510Z +                                       },
+2026-10-22T23:22:06.0516574Z +                                       property: {
+2026-10-22T23:22:06.0516641Z +                                         name: 'toISOString',
+2026-10-22T23:22:06.0516714Z +                                         type: 'Identifier'
+2026-10-22T23:22:06.0516771Z +                                       },
+2026-10-22T23:22:06.0516846Z +                                       type: 'MemberExpression'
+2026-10-22T23:22:06.0516900Z +                                     },
+2026-10-22T23:22:06.0516970Z +                                     type: 'CallExpression'
+2026-10-22T23:22:06.0517026Z +                                   }
+2026-10-22T23:22:06.0517082Z +                                 }
+2026-10-22T23:22:06.0517135Z                                 ],
+2026-10-22T23:22:06.0517204Z                                 type: 'ObjectExpression'
+2026-10-22T23:22:06.0517259Z                               }
+2026-10-22T23:22:06.0517310Z                             ],
+2026-10-22T23:22:06.0517368Z                             callee: {
+2026-10-22T23:22:06.0517428Z                               computed: false,
+2026-10-22T23:22:06.0517484Z                               object: {
+2026-10-22T23:22:06.0517545Z +                               arguments: [
+2026-10-22T23:22:06.0517597Z +                                 {
+2026-10-22T23:22:06.0517669Z +                                   type: 'StringLiteral',
+2026-10-22T23:22:06.0517741Z +                                   value: 'subscriptions'
+2026-10-22T23:22:06.0517848Z +                                 }
+2026-10-22T23:22:06.0517904Z +                               ],
+2026-10-22T23:22:06.0517962Z +                               callee: {
+2026-10-22T23:22:06.0518024Z +                                 computed: false,
+2026-10-22T23:22:06.0518082Z +                                 object: {
+2026-10-22T23:22:06.0518147Z +                                   name: 'supabase',
+2026-10-22T23:22:06.0518215Z +                                   type: 'Identifier'
+2026-10-22T23:22:06.0518271Z +                                 },
+2026-10-22T23:22:06.0518330Z +                                 property: {
+2026-10-22T23:22:06.0518393Z +                                   name: 'from',
+2026-10-22T23:22:06.0518460Z +                                   type: 'Identifier'
+2026-10-22T23:22:06.0518512Z +                                 },
+2026-10-22T23:22:06.0518582Z +                                 type: 'MemberExpression'
+2026-10-22T23:22:06.0518642Z +                               },
+2026-10-22T23:22:06.0518706Z +                               type: 'CallExpression'
+2026-10-22T23:22:06.0518760Z +                             },
+2026-10-22T23:22:06.0518817Z +                             property: {
+2026-10-22T23:22:06.0518881Z +                               name: 'update',
+2026-10-22T23:22:06.0518945Z -                               name: 'console',
+2026-10-22T23:22:06.0519005Z                                 type: 'Identifier'
+2026-10-22T23:22:06.0519060Z                               },
+2026-10-22T23:22:06.0519130Z +                             type: 'MemberExpression'
+2026-10-22T23:22:06.0519181Z +                           },
+2026-10-22T23:22:06.0519247Z +                           type: 'CallExpression'
+2026-10-22T23:22:06.0519301Z +                         },
+2026-10-22T23:22:06.0519357Z +                         property: {
+2026-10-22T23:22:06.0519415Z +                           name: 'eq',
+2026-10-22T23:22:06.0519476Z +                           type: 'Identifier'
+2026-10-22T23:22:06.0519531Z +                         },
+2026-10-22T23:22:06.0519598Z +                         type: 'MemberExpression'
+2026-10-22T23:22:06.0519648Z +                       },
+2026-10-22T23:22:06.0519712Z +                       type: 'CallExpression'
+2026-10-22T23:22:06.0519764Z +                     },
+2026-10-22T23:22:06.0519819Z +                     property: {
+2026-10-22T23:22:06.0519874Z +                       name: 'eq',
+2026-10-22T23:22:06.0519934Z +                       type: 'Identifier'
+2026-10-22T23:22:06.0520044Z +                     },
+2026-10-22T23:22:06.0520109Z +                     type: 'MemberExpression'
+2026-10-22T23:22:06.0520157Z +                   },
+2026-10-22T23:22:06.0520218Z +                   type: 'CallExpression'
+2026-10-22T23:22:06.0520268Z +                 },
+2026-10-22T23:22:06.0520408Z +                 type: 'AwaitExpression'
+2026-10-22T23:22:06.0520459Z +               },
+2026-10-22T23:22:06.0520523Z +               type: 'ExpressionStatement'
+2026-10-22T23:22:06.0520573Z +             },
+2026-10-22T23:22:06.0520624Z +             {
+2026-10-22T23:22:06.0520678Z +               expression: {
+2026-10-22T23:22:06.0520734Z +                 argument: {
+2026-10-22T23:22:06.0520791Z +                   arguments: [
+2026-10-22T23:22:06.0520840Z +                     {
+2026-10-22T23:22:06.0520904Z +                       type: 'StringLiteral',
+2026-10-22T23:22:06.0520980Z +                       value: 'paddle_subscription_id'
+2026-10-22T23:22:06.0521031Z +                     },
+2026-10-22T23:22:06.0521117Z +        
+2026-10-22T23:22:06.0531643Z ##[error]Process completed with exit code 1.
+2026-10-22T23:22:06.0631892Z ##[group]Run actions/upload-artifact@v4
+2026-10-22T23:22:06.0631978Z with:
+2026-10-22T23:22:06.0632044Z   name: quality-diagnostics
+2026-10-22T23:22:06.0632318Z   path: /tmp/lint-files.txt
+/tmp/lint.log
+/home/runner/work/_temp/app-financial-read/browser.json
+/home/runner/work/_temp/app-financial-read/replay.json
+
+2026-10-22T23:22:06.0632380Z   if-no-files-found: warn
+2026-10-22T23:22:06.0632435Z   compression-level: 6
+2026-10-22T23:22:06.0632490Z   overwrite: false
+2026-10-22T23:22:06.0632553Z   include-hidden-files: false
+2026-10-22T23:22:06.0632602Z env:
+2026-10-22T23:22:06.0632699Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:22:06.0632766Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:22:06.0632818Z ##[endgroup]
+2026-10-22T23:22:06.1866859Z (node:2703) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-22T23:22:06.1867301Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-22T23:22:06.1958547Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-22T23:22:06.2070970Z The least common ancestor is /. This will be the root directory of the artifact
+2026-10-22T23:22:06.2090757Z With the provided path, there will be 1 file uploaded
+2026-10-22T23:22:06.2110773Z Artifact name is valid!
+2026-10-22T23:22:06.2160080Z Root directory input is valid!
+2026-10-22T23:22:06.4901843Z Beginning upload of artifact content to blob storage
+2026-10-22T23:22:06.5022425Z (node:2703) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-22T23:22:06.6370745Z Uploaded bytes 741
+2026-10-22T23:22:06.6760513Z Finished uploading artifact content to blob storage!
+2026-10-22T23:22:06.6761399Z SHA256 digest of uploaded artifact zip is 6eb690620ad9648609644139194fad20c450a1dc930c8d9ecc5a373688ffb8f2
+2026-10-22T23:22:06.6761965Z Finalizing artifact upload
+2026-10-22T23:22:07.1231079Z Artifact quality-diagnostics.zip successfully finalized. Artifact ID 12467020374
+2026-10-22T23:22:07.1231953Z Artifact quality-diagnostics has been successfully uploaded! Final size is 741 bytes. Artifact ID is 12467020374
+2026-10-22T23:22:07.1232906Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39871214794/artifacts/12467020374
+2026-10-22T23:22:07.1558957Z ##[group]Run actions/upload-artifact@v4
+2026-10-22T23:22:07.1559137Z with:
+2026-10-22T23:22:07.1559275Z   name: integration-source-identity
+2026-10-22T23:22:07.1559474Z   path: /home/runner/work/_temp/g01-evidence/identity.json
+2026-10-22T23:22:07.1559667Z   retention-days: 7
+2026-10-22T23:22:07.1559805Z   if-no-files-found: warn
+2026-10-22T23:22:07.1560082Z   compression-level: 6
+2026-10-22T23:22:07.1560221Z   overwrite: false
+2026-10-22T23:22:07.1560853Z   include-hidden-files: false
+2026-10-22T23:22:07.1561068Z env:
+2026-10-22T23:22:07.1561232Z   EXPECTED_SOURCE: 9266f848a03e0e6f700c23518eafd0c7ed750d6b
+2026-10-22T23:22:07.1561433Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-22T23:22:07.1561582Z ##[endgroup]
+2026-10-22T23:22:07.2834460Z (node:2715) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-22T23:22:07.2842899Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-22T23:22:07.2920206Z With the provided path, there will be 1 file uploaded
+2026-10-22T23:22:07.2960926Z Artifact name is valid!
+2026-10-22T23:22:07.2961465Z Root directory input is valid!
+2026-10-22T23:22:07.5447596Z Beginning upload of artifact content to blob storage
+2026-10-22T23:22:07.5568232Z (node:2715) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-22T23:22:07.6790027Z Uploaded bytes 375
+2026-10-22T23:22:07.7167141Z Finished uploading artifact content to blob storage!
+2026-10-22T23:22:07.7168039Z SHA256 digest of uploaded artifact zip is 2dc519cb53e84ec9ba884783a61c94018761e5d493f70cb00e9f4b2c7c33ffb5
+2026-10-22T23:22:07.7169778Z Finalizing artifact upload
+2026-10-22T23:22:08.2099951Z Artifact integration-source-identity.zip successfully finalized. Artifact ID 12466252587
+2026-10-22T23:22:08.2101041Z Artifact integration-source-identity has been successfully uploaded! Final size is 375 bytes. Artifact ID is 12466252587
+2026-10-22T23:22:08.2102593Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/39871214794/artifacts/12466252587
+2026-10-22T23:22:08.2258641Z Post job cleanup.
+2026-10-22T23:22:08.2895997Z [command]/usr/bin/git version
+2026-10-22T23:22:08.2955418Z git version 2.55.0
+2026-10-22T23:22:08.3034619Z Temporarily overriding HOME='/home/runner/work/_temp/471e3460-625d-4448-ab27-440be2c49fa5' before making global git config changes
+2026-10-22T23:22:08.3050982Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-22T23:22:08.3064501Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-22T23:22:08.3065996Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-22T23:22:08.3141470Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-22T23:22:08.3455791Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-22T23:22:08.3522153Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-22T23:22:08.3805895Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-22T23:22:08.3831308Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-22T23:22:08.4149741Z Cleaning up orphan processes
+2026-10-22T23:22:08.4386407Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

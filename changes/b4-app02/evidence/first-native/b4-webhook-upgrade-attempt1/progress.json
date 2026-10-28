@@ -1,0 +1,209 @@
+{
+  "source_sha": "371c5ebed5d6d821d15f442925995f24b04e8c5e",
+  "controls": [
+    {
+      "name": "source_exact48_migrations",
+      "passed": true
+    },
+    {
+      "name": "native_exact_chain_before",
+      "passed": true
+    },
+    {
+      "name": "financial_empty_at_start",
+      "passed": true
+    },
+    {
+      "name": "app02_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_b_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_order_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_order_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_banned_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_banned_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_closed_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_closed_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_b_login",
+      "passed": true,
+      "status": 200
+    }
+  ]
+}

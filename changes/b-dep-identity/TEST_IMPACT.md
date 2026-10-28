@@ -1,0 +1,7 @@
+# Actual verification and limits
+
+Exact current source2de022a5: B1compat39872844085 SUCCESS (94unit/291expectations, frozen/types/full lint/originalwire/build/generation); integratedG039872844063 bothjobsSUCCESS (audit{}/exit0, actualidentity369/50 before/after two builds,29fixturecontrols,4webhookbridge+22signedhandler,43read/10ChromiumUI/67transport regressions); Bdep39872844084 bothjobsSUCCESS (audit{}/exit0, actualentry3,identity29,standaloneNode22HTTP11,DOMPurify3.4.17Chromium14,sourceidentitybefore/after). No test assertion was weakened after actual runtime failures. ExistingSDKwire compatibility tests are part of94units; full authenticated composedMCP matrix remainsB5.
+
+Independent reviewer separately reran29identityfixture controls and reproduced srvx private-slot replay incompatibility from exact official public sources on Node24; this is supporting root-cause evidence, not a second Node22app run. Original16fixture draft and interim source failures remain historical. Early audit1.2.14 unsupported-output failure,9266 new audit findings/socketreset and a979 replay400 remain failed.
+
+OldG1 on9266 failed exact41_migrations before scenario acceptance againstB50; cleanup and credentialscan pass. Effective50 fresh/populated lifecycle/REST/RPC/MCP assertions, liveAuth/provider/deployedWorker/HTTP2/Windows/financialDB/concurrency/restore/Pilot and executedrollback remain outside this scoped acceptance. Current fullhead remains blocked forB5/B6 evidence. RUNS.json, evidence/ and final independentreview preserve source attribution and limits.

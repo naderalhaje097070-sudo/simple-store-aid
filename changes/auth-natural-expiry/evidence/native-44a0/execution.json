@@ -1,0 +1,57 @@
+{
+  "task": "S2.4 / L13 natural provider token expiry",
+  "source_sha": "44a0d221e635340b8450334ed9484c3f39f48205",
+  "base_pr": 63,
+  "base_sha": "3cb0d82afe31eb2d81538fd7ae631c10fdfa0357",
+  "pr": 64,
+  "branch": "test/auth-natural-expiry-2026-10-12",
+  "natural_run": 38227740249,
+  "natural_job": 114739300263,
+  "quality_run": 38227740311,
+  "quality_job": 114739300571,
+  "quality_tree_equivalence": {
+    "head": "44a0d221e635340b8450334ed9484c3f39f48205",
+    "head_tree": "eeaa24e5edc21d947f664d8e8f4db2d623c82f1b",
+    "merge_ref": "0ce34c6aec12997d32c964629205d2d00a4dcb00",
+    "merge_tree": "eeaa24e5edc21d947f664d8e8f4db2d623c82f1b",
+    "equal": true
+  },
+  "artifact_id": 11737476449,
+  "artifact_zip_sha256": "761adc8b428a3e45141db66be3910c2cbacdad4638dfe0a978e3b875d1ddfee6",
+  "live_controls": 79,
+  "requests": 35,
+  "ttl_seconds": 180,
+  "clock_tolerances": {
+    "Auth": 0,
+    "PostgREST": 30,
+    "SDK": 30
+  },
+  "wait_target": "exp + 35 seconds",
+  "focused_units": {
+    "expiry": 12,
+    "shared_oauth_consent": 4,
+    "existing_mcp": 6,
+    "issuer_crypto": 6
+  },
+  "integration_accepted": false,
+  "review": "Separate agent source/offline/original-receipt review requested; final closure in PR64/#55. No independent live replay.",
+  "automatic_regression_reason": "Shared PKCE fixture now handles provider existing-consent autoapproval; existing consumers' configured regressions were automatic.",
+  "automatic_regressions": [
+    {
+      "run": 38227740269,
+      "name": "MCP Lifecycle Probe",
+      "success": true
+    },
+    {
+      "run": 38227740448,
+      "name": "MCP TanStack Route",
+      "success": true
+    }
+  ],
+  "limits": [
+    "Cloudflare/production",
+    "nonempty financial/foreign payloads",
+    "concurrency/refresh policy",
+    "complete L13/lifecycle/isolation acceptance"
+  ]
+}

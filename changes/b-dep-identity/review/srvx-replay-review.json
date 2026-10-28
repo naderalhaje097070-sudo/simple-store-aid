@@ -1,0 +1,37 @@
+{
+  "source_repository": "h3js/srvx",
+  "source_tag": "v0.11.16",
+  "files": [
+    {
+      "path": "src/adapters/_node/request.ts",
+      "sha": "45e27afc5958c54dc04db0870726760bc6341235"
+    },
+    {
+      "path": "src/adapters/_node/url.ts",
+      "sha": "3b5bc6b5ad79b94f9ba75e92aa2ba63c9c3a5ab0"
+    },
+    {
+      "path": "src/adapters/_node/headers.ts",
+      "sha": "138c58422b30b90d533eb7dc7f417707d8ed24bc"
+    },
+    {
+      "path": "src/_inherit.ts",
+      "sha": "f838b5c6d4d159d56bdd1a4db5fce29acf08e688"
+    },
+    {
+      "path": "src/_url.ts",
+      "sha": "e8137b57f0041b8eb4c1203a3e492f4e5cd603b9"
+    }
+  ],
+  "runtime": "Node24.19.0",
+  "fixture": "isolated native HTTP server; real NodeRequest wrapper and streamed body; no application/provider/DB",
+  "native_request_input": {
+    "ok": false,
+    "error": "Cannot read private member #state from an object whose class did not declare it"
+  },
+  "explicit_url_input": {
+    "ok": true,
+    "body": "{\"method\":\"tools/list\"}"
+  },
+  "node22_app_replay": "pending"
+}

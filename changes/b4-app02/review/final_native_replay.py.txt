@@ -1,0 +1,135 @@
+"""Stored-evidence replay only. No DB, provider, network or source mutation."""
+import hashlib, json, re, zipfile
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[2]
+REVIEW=ROOT/'b4/review'
+HEAD='f3b702440a4ffd17038f3c668a2f446620a97919'
+api=json.loads((REVIEW/'final-native-api.json').read_text())
+assert api['run']['id']==39614265434 and api['run']['head_sha']==HEAD
+assert api['run']['conclusion']=='success' and api['run']['run_attempt']==1
+assert len(api['jobs'])==4 and all(j['conclusion']=='success' for j in api['jobs'])
+expected_versions=[p.name.split('_')[0] for p in sorted((ROOT/'b4/source/supabase/migrations').glob('*.sql'))]
+assert len(expected_versions)==50
+body=(ROOT/'b4/source/changes/b4-app02/WEBHOOK_ERRORS.sql').read_text().split('$function$')[1]
+assert "ERRCODE='40001'" not in body
+assert body.count("ERRCODE='P0001'")==14
+pattern=re.compile(rb'eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}|sb_(?:secret|publishable)_[A-Za-z0-9_-]{8,}')
+required={
+ 'updated_before_created_empty_cache_retries':503,
+ 'created_original_fields_commit':200,
+ 'updated_replay_after_created_commits':200,
+ 'updated_B_missing_stream_before_created_retries':503,
+ 'updated_existing_B_before_created_notification_durable':200,
+ 'late_created_B_binds_latest_stored_state':200,
+ 'legacy_display_order_conflict_retries':503,
+ 'sandbox_legacy_display_order_conflict_retries':503,
+ 'missing_public_row_does_not_reassign_tenant_customer':503,
+ 'missing_public_row_does_not_reassign_environment':503,
+ 'canceled_before_created_empty_stream_retries':503,
+ 'canceled_full_period_still_requires_creation':503,
+ 'canceled_missing_period_replay_preserves_history':200,
+ 'wrong_secret_rejected_before_database':400,
+ 'invalid_environment_rejected_before_database':400,
+}
+required_flags=[
+ 'created_cancel_default_false','rejected_missing_update_has_no_late_receipt',
+ 'updated_preserves_created_plan_price','reversed_canceled_arrival_preserves_original_contract',
+ 'binding_projects_latest_B_without_rollback','current_B_survives_late_A',
+ 'new_RPC_actual_body_matches_forward_correction','application_errors_never_use_serialization_SQLSTATE',
+ 'new_RPC_explicit_service_only','new_private_tables_RLS_no_client_or_destructive_service_grants',
+ 'actual_employee_B_disabled','active_employee_A_remains_visible',
+ 'B2_scanner_ordinary_denial_preserved','B3_client_billing_write_denied',
+ 'financial_tables_remain_empty','tracked_source_unchanged',
+]
+out={'source':HEAD,'run':api['run'],'reviewer_live_db':False,'provider_calls':False,'artifacts':[]}
+for mode,count in [('fresh',206),('upgrade',169)]:
+ name='b4-webhook-'+mode+'-attempt1'
+ artifact=next(a for a in api['artifacts'] if a['name']==name)
+ assert artifact['workflow_run']['head_sha']==HEAD
+ p=ROOT/'b4/evidence/final-native'/(name+'.zip')
+ digest=hashlib.sha256(p.read_bytes()).hexdigest()
+ assert artifact['digest']=='sha256:'+digest
+ with zipfile.ZipFile(p) as z:
+  names=z.namelist()
+  assert len(names)==len(set(names))
+  assert all(not n.startswith('/') and '..' not in Path(n).parts for n in names)
+  hashes={}
+  for n in names:
+   raw=z.read(n);assert not pattern.search(raw),n
+   hashes[n]=hashlib.sha256(raw).hexdigest()
+   assert raw==(p.with_suffix('')/n).read_bytes(),n
+  result=json.loads(z.read('webhook-after.json'))
+  checks=result['checks'];nameset={c['name'] for c in checks}
+  assert len(checks)==len(nameset)==count==result['passed'] and result['failed']==0
+  assert all(c['passed'] is True for c in checks)
+  c={x['name']:x for x in checks}
+  for n,status in required.items():assert c[n]['status']==status,n
+  for n in required_flags:assert c[n]['passed'] is True,n
+  for table in ['public_subscriptions','public_tenants','monjez_private_billing_tenant_bindings','monjez_private_billing_webhook_receipts']:
+   for kind in ['error','zero']:
+    prefix=table+'_'+kind
+    assert c[prefix+'_retryable_atomic']['status']==503
+    assert c[prefix+'_retryable_atomic_data_unchanged']['passed']
+    assert c[prefix+'_same_event_recovery']['status']==200
+    assert c[prefix+'_one_receipt']['passed']
+  for actor in ['anonymous','a','b','staff_a','staff_b','banned','closed']:
+   assert c[actor+'_service_RPC_denied']['status'] in [401,403]
+   assert c[actor+'_denial_all_data_invariant']['passed']
+  assert result['source']==HEAD and result['schema_versions']==expected_versions
+  assert result['phase']=='after' and result['package_B_accepted'] is False and result['merge_approved'] is False
+  assert len(result['fingerprints'])==25
+  cat=json.loads(z.read('billing-security-catalog.json'))
+  assert cat['body']==body and cat['definer'] is False
+  assert cat['execute']=={'anon':False,'authenticated':False,'service_role':True} and cat['public_execute'] is False
+  assert set(cat['settings'])=={'search_path=pg_catalog, pg_temp','lock_timeout=2s','TimeZone=UTC'}
+  assert len(cat['private'])==2 and all(x['rls'] and not any(x[k] for k in ['anon','auth','service_delete','service_truncate']) for x in cat['private'])
+  clean=json.loads(z.read('cleanup.json'))
+  assert clean['source']==HEAD and clean['credential_free_canary_rejected'] is True
+  assert clean['unexpected_ipv4_rejects']==0 and clean['ipv6_rejects']==0
+  assert all(clean[k] is True for k in ['status_removed','state_removed','stack_removed'])
+  progress=json.loads(z.read('progress.json'))
+  assert progress['source_sha']==HEAD
+  assert progress['controls']==checks
+  text=z.read('advisors.txt').decode()
+  parsed=None
+  for i,char in enumerate(text):
+   if char=='[':
+    try:
+     candidate,_=json.JSONDecoder().raw_decode(text[i:])
+     if isinstance(candidate,list) and candidate and all(isinstance(x,dict) and 'level' in x and 'name' in x for x in candidate):
+      parsed=candidate;break
+    except json.JSONDecodeError:pass
+  # Actual CLI output has a root array after a log prefix and a version-notice suffix.
+  assert parsed is not None, 'missing or unexpected advisor array; never assume clean'
+  lints=parsed
+  levels={}
+  for lint in lints:levels[lint.get('level','unknown')]=levels.get(lint.get('level','unknown'),0)+1
+  advisor_names={}
+  for lint in lints:advisor_names[lint['name']]=advisor_names.get(lint['name'],0)+1
+  item={'name':name,'artifact_id':artifact['id'],'zip_sha256':digest,'files':hashes,
+        'passed':count,'named_required_statuses':{n:c[n]['status'] for n in required},
+        'actual_created_flag_observation':c['created_cancel_default_false'],
+        'fingerprint_inventory':list(result['fingerprints']),'body_sha256':hashlib.sha256(body.encode()).hexdigest(),
+        'cleanup':clean,'advisor_levels':levels,'advisor_names':advisor_names,'runtime_images':z.read('runtime-images.txt').decode().splitlines()}
+  if mode=='upgrade':
+   before=json.loads(z.read('webhook-before.json'));assert before['source']==HEAD and before['baseline_source']=='dc0ced4fcf20947ccaa603a3e4b5cc16f5b8f0a0'
+   assert before['schema_versions']==expected_versions[:-3]
+   bc=before['checks'];assert len(bc)==len({x['name'] for x in bc})==before['passed']==53 and all(x['passed'] is True for x in bc)
+   bm={x['name']:x for x in bc}
+   for n in ['BASELINE_SUBSCRIPTION_ERROR_FALSE_200','BASELINE_TENANT_ERROR_FALSE_200','BASELINE_UPDATED_MISSING_ROW_FALSE_200','BASELINE_CREATED_SCHEDULED_CANCEL_DEFAULT']:
+    assert bm[n]['status']==200
+   assert bm['baseline_created_cancel_flag_false']['passed']
+   preservation=json.loads(z.read('populated-preservation.json'))
+   assert preservation['source']==HEAD
+   assert preservation['before_fingerprints']==preservation['after_fingerprints']==before['fingerprints']
+   assert preservation['before_catalog']==preservation['after_catalog']
+   item['baseline_passed']=53
+   item['preservation']={'fingerprint_inventory_count':len(preservation['before_fingerprints']),
+                        'catalog_components':list(preservation['before_catalog']),
+                        'fingerprints_equal':True,'catalog_equal':True}
+  out['artifacts'].append(item)
+out['limitations']=['stored native evidence replay; no independently live DB test','credential-pattern scan only; actual-value guard was performed natively before secret cleanup','counts include fixture setup and invariance controls, not distinct vulnerabilities','no deployed HTTP/browser or real provider integration','no production legacy reconciliation or populated financial-history test']
+(REVIEW/'final-native-verification.json').write_text(json.dumps(out,indent=2)+'\n')
+print(json.dumps({'source':HEAD,'artifact_results':[{'name':a['name'],'passed':a['passed'],'baseline':a.get('baseline_passed'),'advisor_levels':a['advisor_levels'],'preservation':a.get('preservation')} for a in out['artifacts']]},indent=2))
+

@@ -1,0 +1,495 @@
+[
+  {
+    "name": "empty_initial_stack",
+    "passed": true
+  },
+  {
+    "name": "exact45_applied",
+    "passed": true
+  },
+  {
+    "name": "price_A_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_A_tenant_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_A_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_A_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_A_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_tenant_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_B_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_B_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_B_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_created",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_profile_seeded",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "price_staff_staff_seeded",
+    "passed": true,
+    "status": 201
+  },
+  {
+    "name": "price_staff_exactly_one_role",
+    "passed": true
+  },
+  {
+    "name": "price_staff_login",
+    "passed": true,
+    "status": 200
+  },
+  {
+    "name": "local_oauth_client",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_A",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_B",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_details_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_no_tenant",
+    "passed": true
+  },
+  {
+    "name": "one_compiled_price_function",
+    "passed": true,
+    "count": 1
+  },
+  {
+    "name": "active_A",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 0,
+    "gateway_after": 1,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "active_A_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "active_B",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 1,
+    "gateway_after": 2,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "active_B_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "active_no_tenant_staff",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 2,
+    "gateway_after": 3,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "active_no_tenant_staff_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "live_environment_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 3,
+    "gateway_after": 4,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "live_environment_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "escaped_price_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 4,
+    "gateway_after": 5,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "escaped_price_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_price_unchanged",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Price not found",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 5,
+    "gateway_after": 6,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "missing_price_unchanged_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "missing_token",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: No authorization header provided",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0
+  },
+  {
+    "name": "missing_token_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "invalid_token",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "error": "Unauthorized: Invalid token",
+      "content_type": "application/json",
+      "raw_contains_dummy": false,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 6,
+    "expected_gateway_delta": 0
+  },
+  {
+    "name": "invalid_token_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "self_owner_closed",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorize_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_authorization_id_format_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_existing_consent_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_consent_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_exchange_B_new",
+    "passed": true
+  },
+  {
+    "name": "oauth_bound_claims_B_new",
+    "passed": true
+  },
+  {
+    "name": "genuine_new_token_differs",
+    "passed": true
+  },
+  {
+    "name": "provider_positive_old",
+    "passed": true
+  },
+  {
+    "name": "closed_B_old",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 6,
+    "gateway_after": 7,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "closed_B_old_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "provider_positive_new",
+    "passed": true
+  },
+  {
+    "name": "closed_B_new",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 7,
+    "gateway_after": 8,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "closed_B_new_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "old_token_exact",
+    "passed": true
+  },
+  {
+    "name": "A_unaffected_after",
+    "passed": true,
+    "response": {
+      "status": 200,
+      "result": "pri_oc_app_dummy",
+      "content_type": "application/json",
+      "raw_contains_dummy": true,
+      "serialized": "true",
+      "unknown": false,
+      "diagnostic_keys": [
+        "result",
+        "error",
+        "context"
+      ]
+    },
+    "gateway_before": 8,
+    "gateway_after": 9,
+    "expected_gateway_delta": 1
+  },
+  {
+    "name": "A_unaffected_after_gateway_delta",
+    "passed": true
+  },
+  {
+    "name": "public_and_auth_unchanged",
+    "passed": true
+  },
+  {
+    "name": "one_closure_only",
+    "passed": true
+  },
+  {
+    "name": "no_financial_fixture_writes",
+    "passed": true
+  },
+  {
+    "name": "app_no_native_outbound_attempts",
+    "passed": true
+  },
+  {
+    "name": "no_unstubbed_external_fetch",
+    "passed": true
+  },
+  {
+    "name": "tracked_source_unchanged",
+    "passed": true
+  }
+]

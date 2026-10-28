@@ -1,0 +1,243 @@
+{
+  "source": "d05c263adb371f29b6f234afe4b24fe739b42e3a",
+  "before": {
+    "relations": {
+      "orders": {
+        "count": 1,
+        "digest": "4bae199ab1feb69391f5c2c9592721f5"
+      },
+      "tenants": {
+        "count": 3,
+        "digest": "2276cc11639fa1c4b78fe4e997baa095"
+      },
+      "couriers": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "expenses": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "payments": {
+        "count": 1,
+        "digest": "77bbe7bb9eab0f705c4eafb4f0a1573a"
+      },
+      "products": {
+        "count": 1,
+        "digest": "9f335730819d63b838c44c11d7c1bba5"
+      },
+      "profiles": {
+        "count": 4,
+        "digest": "fe6ba59b381c9e1b8ea6e3be1f8017ed"
+      },
+      "customers": {
+        "count": 2,
+        "digest": "6e3ccdab1a220ffe9e7b8eae563b15b3"
+      },
+      "day_closes": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "user_roles": {
+        "count": 4,
+        "digest": "a6cc86c7f68dd345978367d1c31e7e26"
+      },
+      "order_items": {
+        "count": 1,
+        "digest": "d59bca2c797b1ff1a9329a99597a0fc7"
+      },
+      "subscriptions": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "email_send_log": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "platform_admins": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "tenant_counters": {
+        "count": 1,
+        "digest": "f29fb812cb2e2c00d14701e017b74d72"
+      },
+      "email_send_state": {
+        "count": 1,
+        "digest": "9e6d318c0144d213fc9dd94cc3aa9d83"
+      },
+      "suppressed_emails": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "security_scan_runs": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "financial_audit_log": {
+        "count": 1,
+        "digest": "31758b11e915911cfa3f5d9ce0ceadc2"
+      },
+      "security_scan_findings": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "email_unsubscribe_tokens": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "platform_admin_audit_log": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      }
+    },
+    "auth_identity_state": [
+      {
+        "id": "257b21de-5399-4f3a-abb4-4dc85b729ec5",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "d97e9be0-da65-4643-b583-085feadb6d90",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "e82fad9e-3b2d-4e4b-ad1d-ed3af4164899",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "e9a741fe-f384-40fc-9b46-dda322a5c552",
+        "deleted_at": null,
+        "banned_until": null
+      }
+    ]
+  },
+  "after": {
+    "relations": {
+      "orders": {
+        "count": 1,
+        "digest": "4bae199ab1feb69391f5c2c9592721f5"
+      },
+      "tenants": {
+        "count": 3,
+        "digest": "2276cc11639fa1c4b78fe4e997baa095"
+      },
+      "couriers": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "expenses": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "payments": {
+        "count": 1,
+        "digest": "77bbe7bb9eab0f705c4eafb4f0a1573a"
+      },
+      "products": {
+        "count": 1,
+        "digest": "9f335730819d63b838c44c11d7c1bba5"
+      },
+      "profiles": {
+        "count": 4,
+        "digest": "fe6ba59b381c9e1b8ea6e3be1f8017ed"
+      },
+      "customers": {
+        "count": 2,
+        "digest": "6e3ccdab1a220ffe9e7b8eae563b15b3"
+      },
+      "day_closes": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "user_roles": {
+        "count": 4,
+        "digest": "a6cc86c7f68dd345978367d1c31e7e26"
+      },
+      "order_items": {
+        "count": 1,
+        "digest": "d59bca2c797b1ff1a9329a99597a0fc7"
+      },
+      "subscriptions": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "email_send_log": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "platform_admins": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "tenant_counters": {
+        "count": 1,
+        "digest": "f29fb812cb2e2c00d14701e017b74d72"
+      },
+      "email_send_state": {
+        "count": 1,
+        "digest": "9e6d318c0144d213fc9dd94cc3aa9d83"
+      },
+      "suppressed_emails": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "security_scan_runs": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "financial_audit_log": {
+        "count": 1,
+        "digest": "31758b11e915911cfa3f5d9ce0ceadc2"
+      },
+      "security_scan_findings": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "email_unsubscribe_tokens": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "platform_admin_audit_log": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "private.owner_account_closures": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "private.billing_tenant_bindings": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      },
+      "private.billing_webhook_receipts": {
+        "count": 0,
+        "digest": "d41d8cd98f00b204e9800998ecf8427e"
+      }
+    },
+    "auth_identity_state": [
+      {
+        "id": "257b21de-5399-4f3a-abb4-4dc85b729ec5",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "d97e9be0-da65-4643-b583-085feadb6d90",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "e82fad9e-3b2d-4e4b-ad1d-ed3af4164899",
+        "deleted_at": null,
+        "banned_until": null
+      },
+      {
+        "id": "e9a741fe-f384-40fc-9b46-dda322a5c552",
+        "deleted_at": null,
+        "banned_until": null
+      }
+    ]
+  }
+}

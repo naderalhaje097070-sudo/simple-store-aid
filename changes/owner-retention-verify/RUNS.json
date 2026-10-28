@@ -1,0 +1,40 @@
+{
+  "repo": "naderalhaje097070-sudo/simple-store-aid",
+  "base_sha": "f37885b1ff5dcc9ab113e5cbee4516b485cedadd",
+  "tested_sha": "9a5a58f6a8556f009880437c0cf95ac91c38c770",
+  "claim": 6133382681,
+  "progress": 6133571113,
+  "pr": 66,
+  "branch": "test/owner-retention-catalog-2026-10-12",
+  "catalog": {
+    "run": 38314670848,
+    "job": 115028337892,
+    "conclusion": "success"
+  },
+  "quality": {
+    "run": 38314670777,
+    "job": 115028337953,
+    "conclusion": "success",
+    "merge_ref": "559d45e884e9b39f4df759478a45f5633ec8622d",
+    "tree": "7037e18456f10abcd73d8e919622086558eb6d68",
+    "tree_equal": true,
+    "unit_tests": 66,
+    "assertions": 159,
+    "wrapper_scenarios": 8,
+    "browser_scenarios": 67
+  },
+  "artifact": {
+    "id": 11775803747,
+    "zip_sha256": "da00685345c6ad613c016d702a150cb043168de39d17b1b8bbfd9a36f0793bb0",
+    "verified": true
+  },
+  "review": {
+    "agent": "/root/owner_retention_catalog_review",
+    "offline_oracle_tests": 13,
+    "offline_recorded_comparison_rows": 239,
+    "live_replay": false,
+    "verdict": "accepted for catalog evidence and planning handoff only"
+  },
+  "closure_verified": false,
+  "integration_accepted": false
+}

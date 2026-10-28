@@ -1,0 +1,106 @@
+{
+  "candidate": "9979d4e1c9859719c7999f9ed6db0b773d4513be",
+  "tree": "8cdd3108f3f5dc8164d893c187879198735d9ee6",
+  "parents": [
+    "18700dee8ecdda2e457c0aa18c4f83a81b042019",
+    "7f74b704c4b66d3da1605aa509b7c8e1eb104507",
+    "6af3e15028a798752eda98c30924b7b30620a356"
+  ],
+  "blobCount": 1340,
+  "deltaPaths": 278,
+  "deleted": [],
+  "protectedBefore": 288,
+  "protectedAfter": 341,
+  "protectedOldChanges": [
+    {
+      "path": "config/supabase-build-config.ts",
+      "before": "c38bb7ab9e0341efdaac39530a898de4320ae02e",
+      "after": "fa6e8114a0a82cf846ab807cee3ce22884369e3a",
+      "modePreserved": true
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "before": "d7b2f3969267652863fc3754d00e1ee892582527",
+      "after": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+      "modePreserved": true
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "before": "b407f1c3dd188db4e1e5c5d3c405eb23a3fad66b",
+      "after": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+      "modePreserved": true
+    },
+    {
+      "path": "vite.config.ts",
+      "before": "c87bea82550dc7a798b01ee99c934a1713f777c9",
+      "after": "49a13546eaec2ec05a9842576fc0ce200049f3a6",
+      "modePreserved": true
+    }
+  ],
+  "original41SQLPreserved": true,
+  "sqlTotal": 45,
+  "imported4SQLExactB": true,
+  "graphLockExact": true,
+  "originalAManifestPreserved": true,
+  "sibling4Exact": [
+    {
+      "path": "AGENTS.md",
+      "exact": true
+    },
+    {
+      "path": "changes/security-review-method/INTAKE.md",
+      "exact": true
+    },
+    {
+      "path": "docs/governance/REVIEW_PROTOCOL.md",
+      "exact": true
+    },
+    {
+      "path": "docs/governance/SECURITY_REVIEW_METHOD.md",
+      "exact": true
+    }
+  ],
+  "archives": [
+    {
+      "path": "PROJECT_STATE.md",
+      "archive": "changes/b1-composition/historical-B71-PROJECT_STATE.md",
+      "exact": true
+    },
+    {
+      "path": "TASKS.md",
+      "archive": "changes/b1-composition/historical-B71-TASKS.md",
+      "exact": true
+    },
+    {
+      "path": "DECISIONS.md",
+      "archive": "changes/b1-composition/historical-B71-DECISIONS.md",
+      "exact": true
+    }
+  ],
+  "importedProtectedExceptions": [
+    {
+      "path": "tests/account-lifecycle/mcp_server.mjs",
+      "formattingOnlyExpected": true,
+      "B": "2805f0bac8f456c45b75d5f92473121a61a1f52d",
+      "candidate": "cf7a9fafa6d900c3a4a4dab1069475ea099f8848"
+    },
+    {
+      "path": "tests/account-lifecycle/natural_expiry_crypto.mjs",
+      "formattingOnlyExpected": true,
+      "B": "f9a7eabcd3f364a1231b15b3f50c0d9a2a56fd04",
+      "candidate": "a4314b632cd35da17f89b7cdd4a788628289c595"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_client.mjs",
+      "formattingOnlyExpected": true,
+      "B": "ddf8aff411758a69f23c9a527717d6c404626d08",
+      "candidate": "ee38cc227e87b2c3aa00ead5f52efedd7be3973c"
+    },
+    {
+      "path": "tests/account-lifecycle/oc_app_guard.mjs",
+      "formattingOnlyExpected": true,
+      "B": "6f2fff8b588ce363f6a1d8d45ca823f436320011",
+      "candidate": "fdc2a16f979c62983224bfe249ab07b594620c89"
+    }
+  ]
+}

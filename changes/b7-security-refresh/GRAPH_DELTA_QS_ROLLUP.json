@@ -1,0 +1,77 @@
+{
+  "changed": {
+    "qs": {
+      "before": [
+        "qs@6.16.0",
+        "",
+        {
+          "dependencies": {
+            "es-define-property": "^1.0.1",
+            "side-channel": "^1.1.1"
+          }
+        },
+        "sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA=="
+      ],
+      "after": [
+        "qs@6.16.1",
+        "",
+        {
+          "dependencies": {
+            "es-define-property": "^1.0.1",
+            "side-channel": "^1.1.1"
+          }
+        },
+        "sha512-5Px6J7rfHBAGUhNQ3es4YzcOdBBw0SDcVtThJml4RdnKw4tKs2epA0kPZ+K8X+WiHktT93RHVcQ/3ym5aTCgtg=="
+      ]
+    },
+    "@rollup/plugin-node-resolve": {
+      "before": [
+        "@rollup/plugin-node-resolve@16.0.3",
+        "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/@rollup/plugin-node-resolve/-/plugin-node-resolve-16.0.3.tgz",
+        {
+          "dependencies": {
+            "@rollup/pluginutils": "^5.0.1",
+            "@types/resolve": "1.20.2",
+            "deepmerge": "^4.2.2",
+            "is-module": "^1.0.0",
+            "resolve": "^1.22.1"
+          },
+          "peerDependencies": {
+            "rollup": "^2.78.0||^3.0.0||^4.0.0"
+          },
+          "optionalPeers": [
+            "rollup"
+          ]
+        },
+        "sha512-lUYM3UBGuM93CnMPG1YocWu7X802BrNF3jW2zny5gQyLQgRFJhV1Sq0Zi74+dh/6NBx1DxFC4b4GXg9wUCG5Qg=="
+      ],
+      "after": [
+        "@rollup/plugin-node-resolve@vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz",
+        {
+          "dependencies": {
+            "@rollup/pluginutils": "^5.0.1",
+            "@types/resolve": "1.20.2",
+            "is-module": "^1.0.0",
+            "resolve": "^1.22.1"
+          },
+          "peerDependencies": {
+            "rollup": "^2.78.0||^3.0.0||^4.0.0"
+          },
+          "optionalPeers": [
+            "rollup"
+          ]
+        },
+        "sha512-aEoQGZAIeBY3UQFlustlx4b8++nNForJNBpMPdiOxkKovNf8W0U7Am+94biYAt5HLtA0cM+FNJHiYBuVbmMwxA=="
+      ]
+    }
+  },
+  "added": {},
+  "removed": {
+    "deepmerge": [
+      "deepmerge@4.3.1",
+      "https://europe-west1-npm.pkg.dev/lovable-core-prod/sandbox-npm-cache/deepmerge/-/deepmerge-4.3.1.tgz",
+      {},
+      "sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A=="
+    ]
+  }
+}

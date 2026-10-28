@@ -1,0 +1,231 @@
+{
+  "source_sha": "d05c263adb371f29b6f234afe4b24fe739b42e3a",
+  "verification_batch": "B5-COMPOSED-SSR-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    },
+    {
+      "name": "original41_and_fixedB50_source_identity",
+      "passed": true
+    },
+    {
+      "name": "exact_effective50_migrations",
+      "passed": true
+    },
+    {
+      "name": "initial_empty_finance_auth",
+      "passed": true
+    },
+    {
+      "name": "A_auth_created",
+      "passed": true
+    },
+    {
+      "name": "A_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "A_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "A_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "A_real_login",
+      "passed": true
+    },
+    {
+      "name": "B_auth_created",
+      "passed": true
+    },
+    {
+      "name": "B_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "B_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "B_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "B_real_login",
+      "passed": true
+    },
+    {
+      "name": "0_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "0_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "1_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "1_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "actual_default_Cloudflare_build",
+      "passed": true
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    }
+  },
+  "before": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "aab5f35718597a54bac0f30b6b018e87"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "464d425ef511ab955c059d3c630bd7ff"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "7256928019fc5f18e81ed01cca2a6f0e"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "a006ba97be457d0505c2acd0fab5ab8a"
+    }
+  }
+}

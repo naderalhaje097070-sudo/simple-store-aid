@@ -1,0 +1,113 @@
+{
+  "expected_independent": {
+    "price": 12.5,
+    "cost": 4.25,
+    "initial_stock": 10,
+    "quantity": 2,
+    "total": 25,
+    "paid": 25,
+    "remaining": 0,
+    "stock": 8,
+    "line_cost": 8.5,
+    "margin": 16.5,
+    "payment_count": 1,
+    "order_count": 1,
+    "item_count": 1
+  },
+  "stored": {
+    "audit": [
+      {
+        "id": "34a5de6f-1102-419b-b512-50aa15ca5fb5",
+        "after": {
+          "id": "05205d6f-e3c0-4f5f-91dd-06a03183630d",
+          "kind": "sale",
+          "note": null,
+          "amount": 25.0,
+          "method": "cash",
+          "order_id": "0745aa3d-97f1-4b1f-8917-c513287a0379",
+          "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+          "courier_id": null,
+          "created_at": "2026-10-23T12:34:59.187114+00:00",
+          "created_by": "24b7c7f4-23dd-473b-83fc-a67c2038c354",
+          "customer_id": null
+        },
+        "action": "INSERT",
+        "before": null,
+        "user_id": "24b7c7f4-23dd-473b-83fc-a67c2038c354",
+        "entity_id": "05205d6f-e3c0-4f5f-91dd-06a03183630d",
+        "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+        "created_at": "2026-10-23T12:34:59.187114+00:00",
+        "entity_type": "payments"
+      }
+    ],
+    "items": [
+      {
+        "id": "30bb3d27-aa52-4050-a9bd-cc6b394334fc",
+        "qty": 2.0,
+        "name": "owner-closure synthetic product",
+        "order_id": "0745aa3d-97f1-4b1f-8917-c513287a0379",
+        "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+        "unit_cost": 4.25,
+        "created_at": "2026-10-23T12:34:59.187114+00:00",
+        "product_id": "86126638-b272-4dad-820a-ef44fec4464d",
+        "unit_price": 12.5
+      }
+    ],
+    "order": {
+      "id": "0745aa3d-97f1-4b1f-8917-c513287a0379",
+      "paid": 25.0,
+      "notes": null,
+      "total": 25.0,
+      "number": 1,
+      "status": "paid",
+      "delivery": "direct",
+      "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+      "courier_id": null,
+      "created_at": "2026-10-23T12:34:59.187114+00:00",
+      "created_by": "24b7c7f4-23dd-473b-83fc-a67c2038c354",
+      "updated_at": "2026-10-23T12:34:59.187114+00:00",
+      "customer_id": null,
+      "courier_state": null,
+      "tenant_number": 1,
+      "collected_by_courier": 0.0
+    },
+    "counter": {
+      "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+      "last_order_number": 1
+    },
+    "product": {
+      "id": "86126638-b272-4dad-820a-ef44fec4464d",
+      "sku": null,
+      "cost": 4.25,
+      "name": "owner-closure synthetic product",
+      "price": 12.5,
+      "stock": 8,
+      "category": null,
+      "is_active": true,
+      "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+      "created_at": "2026-10-23T12:34:59.179208+00:00",
+      "updated_at": "2026-10-23T12:34:59.187114+00:00",
+      "is_discount": false
+    },
+    "payments": [
+      {
+        "id": "05205d6f-e3c0-4f5f-91dd-06a03183630d",
+        "kind": "sale",
+        "note": null,
+        "amount": 25.0,
+        "method": "cash",
+        "order_id": "0745aa3d-97f1-4b1f-8917-c513287a0379",
+        "tenant_id": "17fa5d77-4571-491c-b497-a7d7e348aaf7",
+        "courier_id": null,
+        "created_at": "2026-10-23T12:34:59.187114+00:00",
+        "created_by": "24b7c7f4-23dd-473b-83fc-a67c2038c354",
+        "customer_id": null
+      }
+    ]
+  },
+  "creation_surfaces": [
+    "existing owner REST/RLS product insert",
+    "create_sale_with_items",
+    "existing payment audit trigger"
+  ]
+}

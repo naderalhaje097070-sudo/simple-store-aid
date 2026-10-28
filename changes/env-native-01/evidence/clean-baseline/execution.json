@@ -1,0 +1,251 @@
+{
+  "source_sha": "15d30f3794aaab8c04b1dc17ddbfc4d99c4099bd",
+  "quality": {
+    "id": 38091180062,
+    "number": 345,
+    "attempt": 1,
+    "conclusion": "success",
+    "job": {
+      "id": 114327764329,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38091180062,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Lint changed source files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Offline server environment boundary",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Install pinned browser test tooling",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Verify browser redirect, WebSocket and origin containment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Build from mode-specific env file",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Upload quality diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Post Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26
+        },
+        {
+          "name": "Post Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29
+        }
+      ]
+    },
+    "unit_tests": 60,
+    "server_wrapper_scenarios": 8,
+    "browser_scenarios": 67
+  },
+  "lifecycle": {
+    "id": 38091180122,
+    "number": 1,
+    "attempt": 1,
+    "conclusion": "success",
+    "classification": "ENV_NATIVE_01_CLEAN_BASELINE_EXPECTED_RED",
+    "job": {
+      "id": 114327764704,
+      "name": "lifecycle-baseline",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 38091180122,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Checkout exact candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Check new lifecycle harness safety",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Setup pinned Supabase CLI",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Inspect CLI and validate isolated intent",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Install PostgreSQL client",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Start fresh disposable stack",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Run focused clean lifecycle baseline",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Upload sanitized lifecycle evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Stop disposable stack and remove keys",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Setup pinned Supabase CLI",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Post Setup Python",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        },
+        {
+          "name": "Post Checkout exact candidate",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23
+        }
+      ]
+    },
+    "controls": 57,
+    "target_denial_failures": 10,
+    "integration_accepted": false
+  },
+  "artifact": {
+    "id": 11684465926,
+    "zip_sha256": "c7002a5a34332feb82d897954bdeec68df3b68f8a1a12b0e1e3531d8e4317304",
+    "catalog_sha256": "ae003518e72ad84b6c7730def82c67a4c466b4ded6b0aba2830d9ec8f4d024b6",
+    "live_result_sha256": "da63a8a8ee8bf8659a6f0a49970b4960e7f620153cd4a23b6f2ee9a64c84b90a"
+  },
+  "review": {
+    "independent": false,
+    "severity": "High candidate",
+    "financial_isolation_accepted": false
+  }
+}

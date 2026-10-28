@@ -1,0 +1,40 @@
+{
+  "reviewer": "/root/foundation_a_independent_review",
+  "date": "2026-10-22",
+  "source": "f3b702440a4ffd17038f3c668a2f446620a97919",
+  "tree": "6bc91e3b942dccfa5beab67b57f0c22c15b78917",
+  "formal_verdict": "Changes required",
+  "scoped_APP02": "accepted on integration candidate only",
+  "B4_scoped_review_complete": true,
+  "whole_B_accepted": false,
+  "merge_approved": false,
+  "open_barriers": [
+    "DEP-20261021 High",
+    "preserved A source manifest rejects B superset"
+  ],
+  "native_run": 39614265434,
+  "fresh": 206,
+  "upgrade_baseline": 53,
+  "upgrade_corrected": 169,
+  "compatibility_original": 76,
+  "compatibility_signed_handler": 22,
+  "advisors_each": {
+    "WARN": 45,
+    "ERROR": 0
+  },
+  "reviewer_live_db": false,
+  "production_or_provider_action": false,
+  "publication_preservation": "pending docs-only exact-head review",
+  "files": {
+    "FINAL_B4_REVIEW.md": "4fd405bcd876882d94162dbfc73cd71562477276b753d8e8f73c11a8e3f0ecb8",
+    "final_native_replay.py.txt": "c482b75c6af5c9b78f1d12fe9d252d7403d4e2699e50ebf64954c010f4ae30bd",
+    "final-native-api.json": "7107593f2b36a1c8452ca519f25eb86569991d0225d0c38abc3bc3153e0b307d",
+    "final-native-verification.json": "65b4c30a6954bbca6dbd815e0ae278abfdb6f27ba10bccbe47c5336cdf602e39",
+    "final-review-reproduction.zip": "f4ca6f16a3e5858971b7d94c5859b6e81894f64eb43382369c08d020bf841a2c",
+    "source50-identity.json": "1c62bd14aa054821d0bd6b3271461e33fb08890fbcfeb4f7d09de63508dad392",
+    "source50-complete-tree.json": "dc91e08b52e629abd6878b2bcb204f44d55d1029ddb3f72cd6b008a7479a9c80",
+    "source50-local-match.json": "3fb435ceb76d9cc8f5148c68946c52af052761bd1532a9c8f1e5862bc1a62401",
+    "final-authority-api.json": "b4d9de912f24b520ca1769a9ea61891531c20da84773b234d075fb77d43b6902",
+    "final-compatibility-api-excerpts.txt": "16caf5affdab66340aa8bd42a05d13237a1587b7ddbaed4406ac26d45c52a72b"
+  }
+}

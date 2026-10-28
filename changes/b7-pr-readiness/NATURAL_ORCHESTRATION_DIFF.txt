@@ -1,0 +1,45 @@
+--- unchanged phase43 run_expiry
++++ current B50 adapter run_expiry
+@@ -1,9 +1,11 @@
+     def run_expiry(self):
+         accepted, before, failure, a, b, old, initial = False, None, None, None, None, None, self.counts()
++        extra_before = None
+         self.control('fresh_empty_stack', all(v == 0 for v in initial.values()))
+         versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
+-        files = sorted(Path('supabase/migrations').glob('*.sql'))
+-        self.control('exact_43_migrations', len(files) == 43 and versions == [p.name.split('_')[0] for p in files])
++        inv = inventory()
++        self.control('fixedB50_and_original41_source', inv['identity']['migration_count'] == 50)
++        self.control('exact_effective50_migrations', applied(inv['full_versions'], versions))
+         build = json.loads((self.evidence_dir / 'build.json').read_text())
+         self.control('actual_built_app', build['source_sha'] == self.source and build['exit_code'] == 0
+                      and all(build['compiled_contract_markers'].values()) and build['tracked_source_unchanged']
+@@ -28,6 +30,7 @@
+             crypto = self.verify(old, 'B_before')
+             self.control('old_provider_token_is_valid', crypto.get('time_valid') is True)
+             before = self.snapshot()
++            extra_before = self.extra_snapshot()
+             active, exists = self.active_state(a, b, crypto['session_id'])
+             self.control('initial_active_users_and_session', active and exists)
+             self.positive(old, 'B', 'before', crypto)
+@@ -77,7 +80,9 @@
+         finally:
+             self.stop()
+             after, final = self.snapshot(), self.counts()
+-            invariants = {'public_22_fingerprints_unchanged': before is not None and before == after,
++            extra_after = self.extra_snapshot()
++            invariants = {'private3_and_auth_identity_links_unchanged': extra_before is not None and extra_before == extra_after,
++                          'public_22_fingerprints_unchanged': before is not None and before == after,
+                           'financial_7_empty': all(final[t] == 0 for t in FINANCE_TABLES),
+                           'tracked_source_unchanged': subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0}
+             self.controls.extend({'name': k, 'passed': v} for k, v in invariants.items())
+@@ -90,7 +95,8 @@
+             no_log_leak = not any(contains_credentials(p.read_text(errors='replace'), secrets) for p in logs)
+             result = {'source_sha': self.source, 'natural_expiry_accepted': accepted and no_log_leak,
+                 'integration_accepted': False, 'failure_stage': failure,
+-                'actual_path': 'HTTP -> Nitro node-server -> src/server.ts -> generated TanStack /mcp -> SDK0.20.1 -> local Supabase',
++                'actual_path': 'HTTP -> Nitro node-server -> src/server.ts -> generated TanStack /mcp -> mcp-js0.20.1 wrapper -> local Supabase',
++                'schema_scope': 'fixedB50_original41_anchor', 'private_auth_before': extra_before, 'private_auth_after': extra_after,
+                 'ttl_seconds': TTL, 'timing': self.timing, 'continuity': self.continuity,
+                 'crypto_receipts': self.crypto_receipts, 'observations': self.observations, 'checks': self.controls,
+                 'flow_counts': self.flow_counts, 'history_before': before, 'history_after': after,

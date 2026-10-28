@@ -1,0 +1,7 @@
+# Verification boundaries
+
+The final harness exports populated-preservation.json with immediate before/after public/private fingerprints and old catalog hashes, excluding actor credentials/state. The independent reviewer can recompute the equality from that final artifact. Earlier historical attempts lacked the after-migration pair and support only a source-reviewed runtime assertion; their claims are not promoted.
+
+The Node helper calls the actual route callback through a narrow TanStack route-factory adapter, transpiling repository TypeScript. Paddle signature verification, Supabase client, loopback HTTP and database functions/triggers are real. This is not a deployed HTTP server/browser/provider delivery test. Lost-response recovery deliberately discards an acknowledged response. The bounded deadline unit uses an unresolved dependency; no native commit-after-timeout guarantee is claimed. The failed50-predecessor diagnostics observed late state consistent with PostgREST14 retries; the precise retry mechanism is explained by upstream sources, not a captured driver/CPU trace.
+
+No full financial/populated-business/B5, paywall, production legacy reconciliation, release or whole-B acceptance is inferred. Non-current receipts do not assert cache/UI agreement. Legacy clock ambiguity may require trusted reconciliation. General dependency High findings and the preserved A manifest remain separate merge blockers.

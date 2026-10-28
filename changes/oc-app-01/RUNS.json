@@ -1,0 +1,80 @@
+{
+  "runs": [
+    {
+      "name": "wire-failure",
+      "source_sha": "1632243b016b9a96e157024a2593175e759151f2",
+      "run_id": 38480746843,
+      "attempt": 1,
+      "job_id": 115582436706,
+      "conclusion": "failure",
+      "outcome": "HARNESS_FAILURE",
+      "artifact_id": 11857263391,
+      "zip_sha256": "f4e1837c2cd4459b63502180b30297d7a0f1947c0f5ea07f269df01051509d43",
+      "evidence_dir": "evidence/wire-failure-1632243b",
+      "members_sha256": {
+        "cleanup.json": "357c97055997aea300b010a67cb65e506923a9fd8dd60de78a95dbcaa922748c",
+        "price-progress.json": "27460070d4861aa5cef9289a613945057c1ee566ea0095ca799e8118e056db4a",
+        "build.json": "8ce921470512482cba5057af1ae54394d7d2daee76e971c96dbb8e69326ac489",
+        "price-failure.json": "b2cdcf994c55cda88876b7111b6ef4404e4a204c4e72bec1662af73cdcb45f4e"
+      }
+    },
+    {
+      "name": "error-wire-failure",
+      "source_sha": "fa01157e764f3c04081adea39de9c28ff2646741",
+      "run_id": 38481329261,
+      "attempt": 1,
+      "job_id": 115584377226,
+      "conclusion": "failure",
+      "outcome": "HARNESS_FAILURE",
+      "artifact_id": 11857485741,
+      "zip_sha256": "2cc9d9de82284a3f30829b1e3a4d5e222d909bd03d7ba0ff9c57acb8b5f5dae7",
+      "evidence_dir": "evidence/error-wire-failure-fa01157e",
+      "members_sha256": {
+        "cleanup.json": "357c97055997aea300b010a67cb65e506923a9fd8dd60de78a95dbcaa922748c",
+        "price-progress.json": "61c755dd4d909833dfad335d8683476b7a1559b01f4450550f36674efe826f99",
+        "build.json": "d256c87ff394426c48948b315300e546703cc51c08e4d3b47bcaaa6db3e38a79",
+        "price-failure.json": "6186639e2f8324af67faea87e3bda19b084551b8bec17a6fab3b6ee6b2125164"
+      }
+    },
+    {
+      "name": "baseline",
+      "source_sha": "6807c1985ad12ac1cffc34ca47d65f235283dc14",
+      "run_id": 38481928957,
+      "attempt": 1,
+      "job_id": 115586302827,
+      "conclusion": "success",
+      "outcome": "EXPECTED_RED_CLOSED_PRICE_ALLOWED",
+      "artifact_id": 11857871563,
+      "zip_sha256": "1258694133338f4629742bcfbd05d4c78729df61ba80219a67c3592484cdc41e",
+      "evidence_dir": "evidence/baseline-6807c198",
+      "members_sha256": {
+        "cleanup.json": "357c97055997aea300b010a67cb65e506923a9fd8dd60de78a95dbcaa922748c",
+        "price-progress.json": "a6d84ee3cafe5b4d50f661edf9418a577bafa1decf1891d0c2eb519b55f7bea2",
+        "price-result.json": "da3896d38e5858964fb6405c283a1855636b7c078cdba4256792ed37b33adaa0",
+        "build.json": "a48c4d3006ecc2946034456ede2a55498582ac842446b3b3f6216f1496d5055f"
+      }
+    },
+    {
+      "name": "fixed",
+      "source_sha": "708e43f3e11bbb0882b4930e0b18b7b598c0b36a",
+      "run_id": 38482491689,
+      "attempt": 1,
+      "job_id": 115588153469,
+      "conclusion": "success",
+      "outcome": "PRICE_LIFECYCLE_TESTED_CANDIDATE",
+      "artifact_id": 11858796652,
+      "zip_sha256": "36182aa3d11799d4012dfed9532309ebf868b69e90aa90b44dc3e03c8cef382f",
+      "evidence_dir": "evidence/fixed-708e43f3",
+      "members_sha256": {
+        "cleanup.json": "357c97055997aea300b010a67cb65e506923a9fd8dd60de78a95dbcaa922748c",
+        "price-progress.json": "08ed1377a05e515bbe873e4e4a7b6219a75a6188577e6adc410de8398c7d10bf",
+        "price-result.json": "d4833eb3e3d76053657c72330b9b0b994530e06cd85ae8c9bd6893b0cbd4602a",
+        "build.json": "fc9eda42fcc436d23d8e13f158b4f24c3bf0b9febc4456ac5aaaf4347d623613"
+      }
+    }
+  ],
+  "quality_run_id": 38482491689,
+  "quality_job_id": 115588152969,
+  "quality_source_sha": "708e43f3e11bbb0882b4930e0b18b7b598c0b36a",
+  "integration_accepted": false
+}

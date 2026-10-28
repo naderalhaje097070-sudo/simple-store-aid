@@ -1,0 +1,208 @@
+{
+  "source": "8f266bb4c0d12391b34073d43503bfded074d450",
+  "run_id": 39567593668,
+  "checks": [
+    {
+      "name": "upgrade:remote_zip_digest",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:catalog-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:entitlement-before.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:progress.json",
+      "passed": true
+    },
+    {
+      "name": "upgrade:zip_member_matches:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "upgrade:remote_log_matches:before",
+      "passed": true
+    },
+    {
+      "name": "upgrade:all_checks_true:before",
+      "passed": true
+    },
+    {
+      "name": "upgrade:remote_log_matches:after",
+      "passed": true
+    },
+    {
+      "name": "upgrade:all_checks_true:after",
+      "passed": true
+    },
+    {
+      "name": "upgrade:effective_five_insert_update_denied",
+      "passed": true
+    },
+    {
+      "name": "upgrade:effective_seven_other_insert_update_select",
+      "passed": true
+    },
+    {
+      "name": "upgrade:helper_false_then_denied_attack_false_then_service_true",
+      "passed": true
+    },
+    {
+      "name": "upgrade:onboarding_defaults_and_linkage",
+      "passed": true
+    },
+    {
+      "name": "upgrade:cleanup",
+      "passed": true
+    },
+    {
+      "name": "upgrade:old_five_effective_writable",
+      "passed": true
+    },
+    {
+      "name": "upgrade:baseline_persisted_five_updates",
+      "passed": true
+    },
+    {
+      "name": "upgrade:baseline_persisted_client_insert",
+      "passed": true
+    },
+    {
+      "name": "upgrade:baseline_false_to_true",
+      "passed": true
+    },
+    {
+      "name": "upgrade:only_expected_catalog_keys_changed",
+      "passed": true
+    },
+    {
+      "name": "upgrade:other_memberships_functions_policies_defaults_constraints_exact",
+      "passed": true
+    },
+    {
+      "name": "upgrade:non_authenticated_acl_and_effective_preserved",
+      "passed": true
+    },
+    {
+      "name": "fresh:remote_zip_digest",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:advisors.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:catalog-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:cleanup.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:entitlement-after.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:migrations.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:progress.json",
+      "passed": true
+    },
+    {
+      "name": "fresh:zip_member_matches:runtime-images.txt",
+      "passed": true
+    },
+    {
+      "name": "fresh:remote_log_matches:after",
+      "passed": true
+    },
+    {
+      "name": "fresh:all_checks_true:after",
+      "passed": true
+    },
+    {
+      "name": "fresh:effective_five_insert_update_denied",
+      "passed": true
+    },
+    {
+      "name": "fresh:effective_seven_other_insert_update_select",
+      "passed": true
+    },
+    {
+      "name": "fresh:helper_false_then_denied_attack_false_then_service_true",
+      "passed": true
+    },
+    {
+      "name": "fresh:onboarding_defaults_and_linkage",
+      "passed": true
+    },
+    {
+      "name": "fresh:cleanup",
+      "passed": true
+    },
+    {
+      "name": "fresh:advisors_warnings_retained",
+      "passed": true
+    },
+    {
+      "name": "upgrade:advisors_warnings_retained",
+      "passed": true
+    }
+  ],
+  "passed": 43,
+  "failed": 0,
+  "runtime_and_advisors": [
+    {
+      "mode": "fresh",
+      "checks": 226,
+      "advisor_levels": {
+        "WARN": 45
+      },
+      "advisor_names": {
+        "auth_rls_initplan": 43,
+        "multiple_permissive_policies": 2
+      },
+      "log_prefix_and_cli_update_suffix_retained": true
+    },
+    {
+      "mode": "upgrade",
+      "checks": 197,
+      "advisor_levels": {
+        "WARN": 45
+      },
+      "advisor_names": {
+        "auth_rls_initplan": 43,
+        "multiple_permissive_policies": 2
+      },
+      "log_prefix_and_cli_update_suffix_retained": true
+    }
+  ],
+  "scope": "Historical8f266 replay only; disabled staff/inactive INSERT completion requires final117f native evidence",
+  "reviewer_live_db_actions": false
+}

@@ -1944,7 +1944,7 @@
   ],
   "intentional_changes": {
     "src/lib/db.ts": "364929f02889aa9efa68b06d342049e048bde158",
-    "src/routes/_authenticated/app.tsx": "4f367b3d7f969788ca84aeb64c00c62bb0e0d2e8",
+    "src/routes/_authenticated/app.tsx": "0e97d48cf66e0f612dba916027879a4e4e3f72a1",
     "src/features/inventory/AddProductSheet.tsx": "9ba4b39b4f30abaff2bf9f5f19ffbbaf0154d22f",
     "src/domain/finance/invoice-selectors.ts": "2034d5e5462726b2a02723e50c44eebeda12c2bf"
   },
@@ -1952,11 +1952,11 @@
     ".github/workflows/c2-quantity.yml": "89be631f4cd72397d3b80b0b44a5eb436dfee09f",
     "changes/c2-fractional-quantity/QUANTITY.sql": "8e150e1458cf81060f84a119bc12793627f5900a",
     "src/domain/finance/quantity.ts": "854c1d37506989b2a0139932cf5d594b02f34301",
-    "src/features/shared/QuantityInput.tsx": "0612c3b0c5f4a2c374a057d471e3e3fcd8776879",
+    "src/features/shared/QuantityInput.tsx": "d7a7e1b5faf9d88476d4c20f1268e90f888a1752",
     "supabase/migrations/20261028213608_fractional_quantity_01.sql": "8e150e1458cf81060f84a119bc12793627f5900a",
-    "tests/c2-quantity/browser.py": "b5ec6b94b7e6522b3b5b1033faeada18415f28cd",
+    "tests/c2-quantity/browser.py": "7eda13a2aaa749ed9f48d946f9e14eca35e874c9",
     "tests/c2-quantity/build.mjs": "725c7a337765ed0699145128ca172b1c90c358b3",
-    "tests/c2-quantity/fixture.tsx": "c0d004973b11f81b7c125caa656d49a34ec757de",
+    "tests/c2-quantity/fixture.tsx": "892a1f17863210de2b4f1c1c0dce0a3dc4cd9372",
     "tests/c2-quantity/inventory.py": "e89d2204cb5af8d3c10fa98173098b53071c44d8",
     "tests/c2-quantity/probe.py": "5082f80b38dc23f597ad2bb52df6278d145e1ab0",
     "tests/c2-quantity/quantity.test.mjs": "be6ec572599eee0a74d31dd34896127b151ead26"

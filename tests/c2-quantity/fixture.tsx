@@ -5,6 +5,8 @@ import { AddProductSheet } from "@/features/inventory/AddProductSheet";
 
 function Fixture() {
   const [quantity, setQuantity] = useState(1);
+  const [invalid, setInvalid] = useState(false);
+  const [saveCount, setSaveCount] = useState(0);
   const [saved, setSaved] = useState("");
   if (location.hash === "#product") {
     return (
@@ -18,6 +20,7 @@ function Fixture() {
     <>
       <QuantityInput
         value={quantity}
+        onInvalidChange={setInvalid}
         onCommit={(value) => {
           if (value > 2) return false;
           setQuantity(value);
@@ -26,6 +29,18 @@ function Fixture() {
       />
       <output id="quantity">{quantity}</output>
       <button>خارج الحقل</button>
+      <button
+        onClick={() => {
+          if (!invalid) {
+            setSaved(String(quantity));
+            setSaveCount((n) => n + 1);
+          }
+        }}
+      >
+        إتمام
+      </button>
+      <output id="saveCount">{saveCount}</output>
+      <output id="saved">{saved}</output>
     </>
   );
 }

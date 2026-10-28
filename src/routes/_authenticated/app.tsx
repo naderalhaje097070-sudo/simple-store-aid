@@ -1510,6 +1510,12 @@ function ExpensesScreen(p: AppScreenContext) {
 type CartItem = { productId: string; qty: number };
 function SaleScreen(p: AppScreenContext) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [invalidQuantityIds, setInvalidQuantityIds] = useState<string[]>([]);
+  const markQuantityInvalid = (id: string, invalid: boolean) =>
+    setInvalidQuantityIds((ids) =>
+      invalid ? (ids.includes(id) ? ids : [...ids, id]) : ids.filter((value) => value !== id),
+    );
+  const quantitiesValid = !cart.some((item) => invalidQuantityIds.includes(item.productId));
   const [q, setQ] = useState("");
   const [searchFocused, setSearchFocused] = useState(false);
   const [paySheet, setPaySheet] = useState(false);
@@ -1548,6 +1554,7 @@ function SaleScreen(p: AppScreenContext) {
       setTimeout(() => setOverStockMsg(null), 1800);
       return false;
     }
+    markQuantityInvalid(pid, false);
     if (qty <= 0) setCart((c) => c.filter((x) => x.productId !== pid));
     else setCart((c) => c.map((x) => (x.productId === pid ? { ...x, qty } : x)));
     return true;
@@ -1667,7 +1674,11 @@ function SaleScreen(p: AppScreenContext) {
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <QuantityInput value={ci.qty} onCommit={(qty) => setQty(ci.productId, qty)} />
+                    <QuantityInput
+                      value={ci.qty}
+                      onCommit={(qty) => setQty(ci.productId, qty)}
+                      onInvalidChange={(invalid) => markQuantityInvalid(ci.productId, invalid)}
+                    />
                     <button
                       onClick={() => setQty(ci.productId, stepQuantity(ci.qty, 1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"
@@ -1689,7 +1700,14 @@ function SaleScreen(p: AppScreenContext) {
               <Money v={subtotal} className="text-lg" />
             </div>
             <button
-              onClick={() => setPaySheet(true)}
+              aria-disabled={!quantitiesValid}
+              onClick={() => {
+                if (!quantitiesValid) {
+                  setOverStockMsg(QUANTITY_ERROR);
+                  return;
+                }
+                setPaySheet(true);
+              }}
               className="rounded-2xl bg-primary text-primary-foreground px-6 py-3 font-bold"
             >
               إتمام البيع
@@ -2130,6 +2148,12 @@ function SaleSuccessScreen(p: AppScreenContext) {
 /* --------------- SALE QUICK (cash, full-paid, no customer) --------------- */
 function SaleQuickScreen(p: AppScreenContext) {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [invalidQuantityIds, setInvalidQuantityIds] = useState<string[]>([]);
+  const markQuantityInvalid = (id: string, invalid: boolean) =>
+    setInvalidQuantityIds((ids) =>
+      invalid ? (ids.includes(id) ? ids : [...ids, id]) : ids.filter((value) => value !== id),
+    );
+  const quantitiesValid = !cart.some((item) => invalidQuantityIds.includes(item.productId));
   const [q, setQ] = useState("");
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
   const [bumpMsg, setBumpMsg] = useState<string | null>(null);
@@ -2211,6 +2235,7 @@ function SaleQuickScreen(p: AppScreenContext) {
       flashOver("المطلوب أكبر من المتوفر");
       return false;
     }
+    markQuantityInvalid(pid, false);
     if (qty <= 0) setCart((c) => c.filter((x) => x.productId !== pid));
     else setCart((c) => c.map((x) => (x.productId === pid ? { ...x, qty } : x)));
     return true;
@@ -2242,6 +2267,10 @@ function SaleQuickScreen(p: AppScreenContext) {
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
 
   const save = async () => {
+    if (!quantitiesValid) {
+      flashOver(QUANTITY_ERROR);
+      return;
+    }
     if (saving) return;
     if (cart.length === 0 || subtotal <= 0) return;
     setSaving(true);
@@ -2397,7 +2426,11 @@ function SaleQuickScreen(p: AppScreenContext) {
                     >
                       <Minus className="w-3 h-3" />
                     </button>
-                    <QuantityInput value={ci.qty} onCommit={(qty) => setQty(ci.productId, qty)} />
+                    <QuantityInput
+                      value={ci.qty}
+                      onCommit={(qty) => setQty(ci.productId, qty)}
+                      onInvalidChange={(invalid) => markQuantityInvalid(ci.productId, invalid)}
+                    />
                     <button
                       onClick={() => setQty(ci.productId, stepQuantity(ci.qty, 1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"

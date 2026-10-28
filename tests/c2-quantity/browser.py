@@ -29,7 +29,9 @@ with sync_playwright() as p:
         page.goto(origin)
         quantity = page.get_by_role('textbox', name='الكمية', exact=True)
         quantity.fill('0.25')
-        page.get_by_role('button', name='خارج الحقل').click()
+        page.get_by_role('button', name='إتمام', exact=True).click()
+        assert page.locator('#saved').inner_text() == '0.25'
+        assert page.locator('#saveCount').inner_text() == '1'
         assert page.locator('#quantity').inner_text() == '0.25'
         for bad in ['0.001', '3']:
             quantity.fill(bad)
@@ -38,6 +40,8 @@ with sync_playwright() as p:
             assert page.locator('#quantity').inner_text() == '0.25'
             assert quantity.get_attribute('aria-invalid') == 'true'
             assert page.get_by_role('alert').inner_text() == 'كمية غير صالحة'
+            page.get_by_role('button', name='إتمام', exact=True).click()
+            assert page.locator('#saveCount').inner_text() == '1'
         page.goto(origin + '/index.html#product')
         fields = page.locator('input:not([type=checkbox])')
         fields.nth(0).fill('منتج تجريبي')
@@ -52,7 +56,7 @@ with sync_playwright() as p:
         assert json.loads(page.locator('#saved').inner_text())['stock'] == 1.25
         assert page.get_by_text('أدخل كمية صالحة حتى منزلتين عشريتين', exact=True).is_visible()
         assert external == []
-        observations.append({'viewport': label, 'quarter_commit': True, 'invalid_and_excess_stock_rejected': True, 'product_fractional_stock_preserved': True, 'excess_precision_not_saved': True, 'external_requests': 0})
+        observations.append({'viewport': label, 'quarter_commit': True, 'invalid_and_excess_stock_rejected': True, 'product_fractional_stock_preserved': True, 'excess_precision_not_saved': True, 'invalid_draft_cannot_complete_previous_quantity': True, 'external_requests': 0})
         page.screenshot(path=str(out / (label + '.png')), full_page=True)
         page.close()
     browser.close()

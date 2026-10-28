@@ -4,21 +4,28 @@ import { parseQuantityText, QUANTITY_ERROR } from "@/domain/finance/quantity";
 export function QuantityInput({
   value,
   onCommit,
+  onInvalidChange,
 }: {
   value: number;
   onCommit: (quantity: number) => boolean;
+  onInvalidChange: (invalid: boolean) => void;
 }) {
   const [draft, setDraft] = useState(String(value));
   const [error, setError] = useState(false);
-  useEffect(() => setDraft(String(value)), [value]);
+  useEffect(() => {
+    setDraft(String(value));
+    setError(false);
+  }, [value]);
   const commit = () => {
     const quantity = parseQuantityText(draft);
     if (quantity === null || !onCommit(quantity)) {
       setDraft(String(value));
       setError(true);
+      onInvalidChange(true);
       return;
     }
     setError(false);
+    onInvalidChange(false);
   };
   return (
     <div className="flex flex-col items-center">
@@ -31,6 +38,7 @@ export function QuantityInput({
         onChange={(event) => {
           setDraft(event.target.value);
           setError(false);
+          onInvalidChange(true);
         }}
         onBlur={commit}
         onKeyDown={(event) => {

@@ -1,0 +1,683 @@
+{
+  "evidence_level": "direct source-order analysis only; no SQL execution/catalog/ACL proof",
+  "main_migrations": 50,
+  "candidate_migrations": 2,
+  "inputs": [
+    {
+      "path": "main/supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "git_blob": "3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29"
+    },
+    {
+      "path": "main/supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "git_blob": "b7746f47b990dd4b50089d56b751bd4a78e17fc7"
+    },
+    {
+      "path": "main/supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "git_blob": "a585730de455ddc5a78dc9f3e09fd3e93ca02e79"
+    },
+    {
+      "path": "main/supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "git_blob": "7d5426e64c1fd8d9dad78f42d56d061be778a0ed"
+    },
+    {
+      "path": "main/supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "git_blob": "abda83bdb5295dfa6d51d8f5af7d75688631eee0"
+    },
+    {
+      "path": "main/supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "git_blob": "0dc22071a5448abdb0a95a56c97d24adbf2019df"
+    },
+    {
+      "path": "main/supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "git_blob": "88fd9836826e875faa98fde0bc6311c1672b69f1"
+    },
+    {
+      "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "git_blob": "eb128740f70e1adf13146b7f7ab5182fbbefb13b"
+    },
+    {
+      "path": "main/supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "git_blob": "268a59b85f26e7556e539920327102fe520420be"
+    },
+    {
+      "path": "main/supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "git_blob": "f5f2f721207a778d60eee35ddc14bd0990b76bdf"
+    },
+    {
+      "path": "main/supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "git_blob": "06ea226cbffa018e831e8a3f9dc784813e588bd6"
+    },
+    {
+      "path": "main/supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "git_blob": "1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948"
+    },
+    {
+      "path": "main/supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "git_blob": "664530b175a3e0e2707f374906840ca8fda26dae"
+    },
+    {
+      "path": "main/supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "git_blob": "a15606bb8d4b287cf0def00b402e16c9b89afdb8"
+    },
+    {
+      "path": "main/supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "git_blob": "7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231"
+    },
+    {
+      "path": "main/supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "git_blob": "83b0aeb7693c3228d003d55c20000963f0725200"
+    },
+    {
+      "path": "main/supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "git_blob": "c7e5df32149acd8a3227651f88bdc7d83c6e5c04"
+    },
+    {
+      "path": "main/supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "git_blob": "2164cfdb56c1479e208e2cea4c28aaf425cc4919"
+    },
+    {
+      "path": "main/supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "git_blob": "d0ea200dde8b88134593c59f2d419da234721ffd"
+    },
+    {
+      "path": "main/supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "git_blob": "a98ca8632905061be5501dbfe86dd7b880dd51c4"
+    },
+    {
+      "path": "main/supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+      "git_blob": "b1431806f4db21019257c9a4e2c80b5c07097e5c"
+    },
+    {
+      "path": "main/supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "git_blob": "85a67ecfbc006125496e9afebef0d629e0db6199"
+    },
+    {
+      "path": "main/supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "git_blob": "df5f868ba59ca95f75d179eceb96e4b81fae342f"
+    },
+    {
+      "path": "main/supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "git_blob": "07048605f67628ed5b54c5bafd0bb3c388509b76"
+    },
+    {
+      "path": "main/supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "git_blob": "2df0d72d4d6626196451b284721b3e08bc83603f"
+    },
+    {
+      "path": "main/supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "git_blob": "55ce1238fecfb08c39a2c7d9bf1849d927c2733e"
+    },
+    {
+      "path": "main/supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+      "git_blob": "1c69a97c145c8530c44d941f6b418aad9fb8e60a"
+    },
+    {
+      "path": "main/supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "git_blob": "9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef"
+    },
+    {
+      "path": "main/supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "git_blob": "d9c5c0341d063533bd00cded2447e46e96c3a3dd"
+    },
+    {
+      "path": "main/supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "git_blob": "ad099717609b3c27c8fd66be5975d49a489a28f2"
+    },
+    {
+      "path": "main/supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "git_blob": "9b5a7f75e6343fc761267ff9123c490add1ebb05"
+    },
+    {
+      "path": "main/supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "git_blob": "6c35e58bcef2781750fba2d79cc154fcb0293f28"
+    },
+    {
+      "path": "main/supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "git_blob": "0cf75d0764d058057439b540a29883235ade7942"
+    },
+    {
+      "path": "main/supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "git_blob": "2f6bd895abf01ea11fa4147f2793f2598f27e6bb"
+    },
+    {
+      "path": "main/supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "git_blob": "d2892a0adb6e567aa11a9a98795f5bc348a833cd"
+    },
+    {
+      "path": "main/supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "git_blob": "381d968d10f1265a909fc0fdb66f77adbf79af4f"
+    },
+    {
+      "path": "main/supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "git_blob": "37d81c014f40e53626ba09714c843b976fdac7eb"
+    },
+    {
+      "path": "main/supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "git_blob": "dfb505f8f0f7de742b04c9ebe295f7466c800dea"
+    },
+    {
+      "path": "main/supabase/migrations/20260715145141_email_infra.sql",
+      "git_blob": "0aa11bba4ba0c4d95c42f37aaf957a1d007f7011"
+    },
+    {
+      "path": "main/supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "git_blob": "661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5"
+    },
+    {
+      "path": "main/supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "git_blob": "81d0bfa72c2a59333591ed2236931c4623a740f3"
+    },
+    {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "git_blob": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe"
+    },
+    {
+      "path": "main/supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+      "git_blob": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f"
+    },
+    {
+      "path": "main/supabase/migrations/20261013120223_sec_truncate_01.sql",
+      "git_blob": "ccab1b2f5bb2922d75210b538656f948fa7003d8"
+    },
+    {
+      "path": "main/supabase/migrations/20261013221918_owner_closure_01.sql",
+      "git_blob": "4fbd720b034198ae4b550de4517576f804edf948"
+    },
+    {
+      "path": "main/supabase/migrations/20261020210549_scanner_auth_01.sql",
+      "git_blob": "f2f6598eb9349ae1674254ff1120479aebdcd84f"
+    },
+    {
+      "path": "main/supabase/migrations/20261021080927_tenant_entitlement_01.sql",
+      "git_blob": "d43f6635bd9b6d7e9ec1798840e8b8b70f076200"
+    },
+    {
+      "path": "main/supabase/migrations/20261021132651_webhook_persistence_01.sql",
+      "git_blob": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea"
+    },
+    {
+      "path": "main/supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+      "git_blob": "1bb458f7f7e31313fdd17246df811ef54b0915b8"
+    },
+    {
+      "path": "main/supabase/migrations/20261021140746_webhook_errors_01.sql",
+      "git_blob": "9f981d01a333703a1cab4d1c95010f165ce58ea5"
+    },
+    {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "git_blob": "1e6654acdad1591229df91b77981de264612d738"
+    },
+    {
+      "path": "pr50/supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+      "git_blob": "c6a97b4af3b43fc7d6ed2e5b67890aeed77f79d7"
+    }
+  ],
+  "baseline": {
+    "current_tenant_id": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 415,
+      "body_sha256": "367acd00c4c09019453ef8a88a9b7d940219e69babc718c724488604ae0212e0",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "_assert_staff": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 174,
+      "body_sha256": "4c8a85e79d478de0eb4eec3bdc820e3303cdbfa5a6b6a9d839f4008b531eb9e3",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 323,
+      "body_sha256": "69f39fd58fa76054cbec3eae7760a2bda2763bacc9aa8ca3be95f0fa15b13888",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "update_courier_order_state": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 1209,
+      "body_sha256": "485b881d5943933fa85d3d119bc417f377b7ef23a38b137e8be14b610e15cc95",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    }
+  },
+  "fresh_52_lexical_order": {
+    "current_tenant_id": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 415,
+      "body_sha256": "367acd00c4c09019453ef8a88a9b7d940219e69babc718c724488604ae0212e0",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "_assert_staff": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 174,
+      "body_sha256": "4c8a85e79d478de0eb4eec3bdc820e3303cdbfa5a6b6a9d839f4008b531eb9e3",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 323,
+      "body_sha256": "69f39fd58fa76054cbec3eae7760a2bda2763bacc9aa8ca3be95f0fa15b13888",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "update_courier_order_state": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 1209,
+      "body_sha256": "485b881d5943933fa85d3d119bc417f377b7ef23a38b137e8be14b610e15cc95",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "_create_sale_with_items_core": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 20,
+      "body_sha256": "ed536d328cfabb5f6da16bcae21beced4e43ec73291ad12f89b8cc2832127c30",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items_v2": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 167,
+      "body_sha256": "8b8c0c7d2c109cc5f775948cd0e59e3a6c3199cd4ca25225243a1953af6dc42d",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": true
+    },
+    "update_courier_outcome_v2": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 214,
+      "body_sha256": "426d9a27b8af8327df9e9b756fb844ca6aa6b08f9b69e77c56cfb2ba04968327",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items_idempotent": {
+      "path": "pr50/supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+      "line": 31,
+      "body_sha256": "9c8224c378c4e9789807a8738afa4ea97e658fedd9b3abf3cdf2c1e7b5ad4ee7",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    }
+  },
+  "hypothetical_upgrade_50_then_2": {
+    "current_tenant_id": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 415,
+      "body_sha256": "367acd00c4c09019453ef8a88a9b7d940219e69babc718c724488604ae0212e0",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "_assert_staff": {
+      "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "line": 174,
+      "body_sha256": "4c8a85e79d478de0eb4eec3bdc820e3303cdbfa5a6b6a9d839f4008b531eb9e3",
+      "calls_active_actor_directly": true,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 191,
+      "body_sha256": "a06bd9ffa39e2fd16138d1aa935a736f52af19869132d6ba2b018a6864218b61",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": true
+    },
+    "update_courier_order_state": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 300,
+      "body_sha256": "68612aced510dc90d2f429c7d1b4ce0a9f183cead82b87e11fd4ab0bc587bd21",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": true,
+      "delegates_core": false
+    },
+    "_create_sale_with_items_core": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 20,
+      "body_sha256": "ed536d328cfabb5f6da16bcae21beced4e43ec73291ad12f89b8cc2832127c30",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items_v2": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 167,
+      "body_sha256": "8b8c0c7d2c109cc5f775948cd0e59e3a6c3199cd4ca25225243a1953af6dc42d",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": false,
+      "delegates_v2_transition": false,
+      "delegates_core": true
+    },
+    "update_courier_outcome_v2": {
+      "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "line": 214,
+      "body_sha256": "426d9a27b8af8327df9e9b756fb844ca6aa6b08f9b69e77c56cfb2ba04968327",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    },
+    "create_sale_with_items_idempotent": {
+      "path": "pr50/supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+      "line": 31,
+      "body_sha256": "9c8224c378c4e9789807a8738afa4ea97e658fedd9b3abf3cdf2c1e7b5ad4ee7",
+      "calls_active_actor_directly": false,
+      "calls_assert_staff": true,
+      "delegates_v2_transition": false,
+      "delegates_core": false
+    }
+  },
+  "order_dependent_legacy_definitions": [
+    "create_sale_with_items",
+    "update_courier_order_state"
+  ],
+  "tracked_replacements": {
+    "baseline": [
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+        "line": 57
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 37
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 53
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+        "line": 1
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL",
+        "path": "main/supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+        "line": 52
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+        "line": 358
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 174
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 323
+      },
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 415
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL::numeric",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 1209
+      }
+    ],
+    "fresh": [
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+        "line": 57
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 37
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 53
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+        "line": 1
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL",
+        "path": "main/supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+        "line": 52
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+        "line": 358
+      },
+      {
+        "name": "_create_sale_with_items_core",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state, p_infer_courier_state boolean",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 20
+      },
+      {
+        "name": "create_sale_with_items_v2",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 167
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 191
+      },
+      {
+        "name": "update_courier_outcome_v2",
+        "arguments": "p_order_id uuid, p_state public.courier_state, p_collected numeric, p_customer_id uuid",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 214
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 300
+      },
+      {
+        "name": "create_sale_with_items_idempotent",
+        "arguments": "p_idempotency_key uuid, p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state",
+        "path": "pr50/supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+        "line": 31
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 174
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 323
+      },
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 415
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL::numeric",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 1209
+      }
+    ],
+    "upgrade": [
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+        "line": 57
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 37
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+        "line": 53
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+        "line": 1
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL",
+        "path": "main/supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+        "line": 52
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+        "line": 358
+      },
+      {
+        "name": "_assert_staff",
+        "arguments": "_tid uuid",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 174
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery delivery_kind, p_courier_id uuid, p_paid numeric, p_method payment_method, p_items jsonb",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 323
+      },
+      {
+        "name": "current_tenant_id",
+        "arguments": "",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 415
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL::numeric",
+        "path": "main/supabase/migrations/20261010223557_enforce_live_account_state.sql",
+        "line": 1209
+      },
+      {
+        "name": "_create_sale_with_items_core",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state, p_infer_courier_state boolean",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 20
+      },
+      {
+        "name": "create_sale_with_items_v2",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 167
+      },
+      {
+        "name": "create_sale_with_items",
+        "arguments": "p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 191
+      },
+      {
+        "name": "update_courier_outcome_v2",
+        "arguments": "p_order_id uuid, p_state public.courier_state, p_collected numeric, p_customer_id uuid",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 214
+      },
+      {
+        "name": "update_courier_order_state",
+        "arguments": "p_order_id uuid, p_state text, p_collected numeric DEFAULT NULL",
+        "path": "pr50/supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+        "line": 300
+      },
+      {
+        "name": "create_sale_with_items_idempotent",
+        "arguments": "p_idempotency_key uuid, p_customer_id uuid, p_delivery public.delivery_kind, p_courier_id uuid, p_paid numeric, p_method public.payment_method, p_items jsonb, p_courier_state public.courier_state",
+        "path": "pr50/supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+        "line": 31
+      }
+    ]
+  },
+  "assertions": {
+    "legacy_transition_differs_by_order": true,
+    "legacy_sale_differs_by_order": true,
+    "live_assert_staff_retained_in_both_source_orders": true,
+    "idempotent_entry_calls_assert_staff": true,
+    "integer_stock_numeric_item_quantity": true,
+    "legacy_sale_revocation_present_in_candidate50": true,
+    "exact_json_replay_comparison_present": true
+  },
+  "composition_safe": false,
+  "runtime_acceptance": false,
+  "limitations": [
+    "Hypothetical upgrade appends backdated August files after accepted50; this is not a Supabase upgrade execution",
+    "Relevant direct CREATE statements are inspected; dynamic SQL, DROP/ALTER/ACL semantics and PLpgSQL execution are not interpreted",
+    "No claim that CREATE OR REPLACE regrants revoked permissions",
+    "Whole-unit vs fractional business policy remains unresolved",
+    "Catalog/ACL/RLS and populated persisted financial behavior require later isolated native gates"
+  ]
+}

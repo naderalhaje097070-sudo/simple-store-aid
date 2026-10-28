@@ -1,0 +1,605 @@
+[
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": ".github/workflows/fin-courier-gate4-probe.yml",
+    "sha": "74c13ef81d665a48f5f81477fb5bb0bcf16b0cc9",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/API_COMPATIBILITY.md",
+    "sha": "fbd842fcd2a8bff55a889e5c1d8492a88b2341bf",
+    "mode": "100644",
+    "current_sha": "fbd842fcd2a8bff55a889e5c1d8492a88b2341bf",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/BACKWARD_COMPATIBILITY.md",
+    "sha": "dfc7c8297355876d8b844c8fe31c0123104bf733",
+    "mode": "100644",
+    "current_sha": "dfc7c8297355876d8b844c8fe31c0123104bf733",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/CHANGE_INTAKE.md",
+    "sha": "b505606ab0e0f643c2784d871a4b0b07d91376ee",
+    "mode": "100644",
+    "current_sha": "b505606ab0e0f643c2784d871a4b0b07d91376ee",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/COURIER_STATE_CONTRACT.md",
+    "sha": "7050b10c8d6b7d3b2a8fdf9db4b30e15e1ab4085",
+    "mode": "100644",
+    "current_sha": "7050b10c8d6b7d3b2a8fdf9db4b30e15e1ab4085",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/CURRENT_BEHAVIOR.md",
+    "sha": "f1274b22c9af475dd8607495db9528e3ba04efec",
+    "mode": "100644",
+    "current_sha": "f1274b22c9af475dd8607495db9528e3ba04efec",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/CUSTOMER_REQUIREMENT_MATRIX.md",
+    "sha": "0d61dead565e56793032cf04e23de57196e8348b",
+    "mode": "100644",
+    "current_sha": "0d61dead565e56793032cf04e23de57196e8348b",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/DATA_IMPACT.md",
+    "sha": "310891cc8e6866eb3db93a24003256f5cf39c7a9",
+    "mode": "100644",
+    "current_sha": "310891cc8e6866eb3db93a24003256f5cf39c7a9",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/DEPENDENCY_MAP.md",
+    "sha": "cb3b8922a6bfe3842773bfe509eb2034259bb88d",
+    "mode": "100644",
+    "current_sha": "cb3b8922a6bfe3842773bfe509eb2034259bb88d",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/EXPECTED_BEHAVIOR.md",
+    "sha": "088b61b69f40e10d5c6e218c525989a7c78575b7",
+    "mode": "100644",
+    "current_sha": "088b61b69f40e10d5c6e218c525989a7c78575b7",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/GATE4_EVIDENCE.md",
+    "sha": "fe061dab7bc2e22c18109c4bf2b8f312315fa6b6",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/GATE4_INDEPENDENT_REVIEW.md",
+    "sha": "3d670af488b674d3093df6a914738d1a75f27a59",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/IMPACT_ANALYSIS.md",
+    "sha": "a79a582563381f41140abfed891a8f5b92e7f360",
+    "mode": "100644",
+    "current_sha": "a79a582563381f41140abfed891a8f5b92e7f360",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/MIGRATION_IMPACT.md",
+    "sha": "5538c4ef2ae1292abbf6696c03030e8a1cf24866",
+    "mode": "100644",
+    "current_sha": "5538c4ef2ae1292abbf6696c03030e8a1cf24866",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/PR_DECOMPOSITION.md",
+    "sha": "1bb3ba33cee2347a8238c00b7ca8fdacdfb4607e",
+    "mode": "100644",
+    "current_sha": "1bb3ba33cee2347a8238c00b7ca8fdacdfb4607e",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/README.md",
+    "sha": "6774965d5ce7068f5d695b3cf9bcbe8a44d3f49f",
+    "mode": "100644",
+    "current_sha": "6774965d5ce7068f5d695b3cf9bcbe8a44d3f49f",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/ROLLBACK_IMPACT.md",
+    "sha": "801939cc2db615e2a7b2e969cc7a93ff816fc606",
+    "mode": "100644",
+    "current_sha": "801939cc2db615e2a7b2e969cc7a93ff816fc606",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/ROLLBACK_PLAN.md",
+    "sha": "dbde31f9738826631bab6d160356b4ace2e64046",
+    "mode": "100644",
+    "current_sha": "dbde31f9738826631bab6d160356b4ace2e64046",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/SECURITY_IMPACT.md",
+    "sha": "f3875922bf482d3f8db98c723a28072b3bdfd663",
+    "mode": "100644",
+    "current_sha": "f3875922bf482d3f8db98c723a28072b3bdfd663",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/TEST_IMPACT.md",
+    "sha": "90ece59bb3577ce1b5543ecb57c3813d20f5a31f",
+    "mode": "100644",
+    "current_sha": "90ece59bb3577ce1b5543ecb57c3813d20f5a31f",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "changes/fin-courier-001/TEST_PLAN.md",
+    "sha": "558a0db5c50328b6021acb66d0d5576310d0c03a",
+    "mode": "100644",
+    "current_sha": "558a0db5c50328b6021acb66d0d5576310d0c03a",
+    "disposition": "already exact on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "src/lib/db.ts",
+    "sha": "44c6c3ce7983139686dcff847c197cc5aaf2c357",
+    "mode": "100644",
+    "current_sha": "16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f",
+    "disposition": "changed vs accepted main; reconcile, never overwrite"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+    "sha": "1e6654acdad1591229df91b77981de264612d738",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+    "sha": "c6a97b4af3b43fc7d6ed2e5b67890aeed77f79d7",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/e2e/fin-courier-gate4-ui-status.py",
+    "sha": "ec508c3c4a3a233810a4c94a4a7e6eeb5ea6fc79",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/e2e/fin-courier-gate4-ui-success.py",
+    "sha": "63ad1dff85ea5582c5402e3a93efda281086b82b",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/e2e/fin-courier-gate4-ui.py",
+    "sha": "79a15c99a5f7e67ab289899fda2932a2bce87ae7",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-atomicity.sql",
+    "sha": "1a39f87ece5ce5c13f6ab447ca3011ef10ca1dde",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-compatibility.sql",
+    "sha": "a9e6f1d7e33da1ad39161018a002c8a563c08b61",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-concurrency.sh",
+    "sha": "661651331a01762763a85ed650faa01ad969232c",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-constraints.sql",
+    "sha": "afa80231e1283069437f0de26ae6ebf8b192668e",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-create-aggregates.sql",
+    "sha": "8a78f746f720e14911b47ecc26eb8bef37d18688",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-pr-a.sql",
+    "sha": "ce05d2823c85a32a9db415cb9f323d96027b985f",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-preflight.sql",
+    "sha": "40904253df26c8dfbcc363b7bd40448cd08b8bc1",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-readmodel-snapshot.sql",
+    "sha": "e0eab9fbbc35195b73f86b4a4df981c8ace129d8",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-reporting.sql",
+    "sha": "58cde2f4857127640be5c616609b41c0d5d48486",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-retry-baseline.sql",
+    "sha": "c22d6498e80bb6afb99dd60e713ee898c60bd4c5",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-return-baseline.sql",
+    "sha": "b2baee46e6195f26e6c1964d6985e7028f236609",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-rollback-contract.sql",
+    "sha": "461320b0c59b4ade0c8bb8280245e35c7110e411",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-runner-incident.md",
+    "sha": "00239f38cb0b0b49974ce27425c357b5547011cb",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-courier-gate4-transitions.sql",
+    "sha": "a1f4a7c0a32c2a9e209e337edb61340075113060",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-idem-concurrency.sh",
+    "sha": "72252877c8b32e25daeb4b228733dc3f6b82b45b",
+    "mode": "100755",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/fin-idem.sql",
+    "sha": "0b9f8efd580402869d82ffa1291b04b258481ec9",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/run-fin-courier-gate4-all.sh",
+    "sha": "c035f82a51617c39b531184c4c4c22485f05fdc5",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/run-fin-courier-gate4-corrective-rollback.sh",
+    "sha": "295f8b90c077f3e18f35272a8f4d1b7bcb78e621",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr50",
+    "ref": "193412a01938d752a98689d85acd727664e4dc8e",
+    "path": "tests/financial-rules/run-fin-courier-gate4.sh",
+    "sha": "505edafe7fb90deda13999d44a74c2bb2cc79311",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/API_COMPATIBILITY.md",
+    "sha": "d79d75b531e1fd72ac160040fa1e650fce0538e9",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/CHANGE_DESIGN.md",
+    "sha": "2949f617af8af6522962a0131c01c913cee558c1",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/CHANGE_INTAKE.md",
+    "sha": "cc2f43ef7652cd347fb711145c1f85471687c650",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/CURRENT_BEHAVIOR.md",
+    "sha": "6a089644e15c51dc980118b232fc6046a27adafa",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/DATA_IMPACT.md",
+    "sha": "63b0ff754c4041453c67082d1f18f74bcdfd14c7",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/DEPENDENCY_MAP.md",
+    "sha": "368c7d45d2879cfadad2a0c63119d555e0bddc60",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/EXPECTED_BEHAVIOR.md",
+    "sha": "2986aa2d477ab1f8bea7fba369763d6f554c4d3a",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/IMPACT_ANALYSIS.md",
+    "sha": "ca2f45b8c2aa0a33e41813062d35779018cf2cb3",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/MIGRATION_IMPACT.md",
+    "sha": "42ade029715ed86f7cb008806433145158cc5744",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/PR_DECOMPOSITION.md",
+    "sha": "43dafcdc7962824fff2e7c6fa464ef7cacad6407",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/README.md",
+    "sha": "e97e983709169be627cfd75a39caf9cfd83be032",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/ROLLBACK_IMPACT.md",
+    "sha": "e30431c5e2ad44ddeec3aeceb2272f015c178605",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/SECURITY_IMPACT.md",
+    "sha": "743f7089ce0df02937219ba87cb98d33872bd36b",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr35",
+    "ref": "090d5564fa368f826316c9dc992a133c4e4872c4",
+    "path": "changes/fin-idem-001/TEST_IMPACT.md",
+    "sha": "4b9d3d23b5a930e8dfb61df470bcce1fd24e6d48",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr39",
+    "ref": "d9ba8709e903e290d375208a3469610f155ecb48",
+    "path": ".github/workflows/fin-idem-gate4-readiness.yml",
+    "sha": "28549b15e4e6fdbb30d05b515e8b0fe30e2c97b9",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr39",
+    "ref": "d9ba8709e903e290d375208a3469610f155ecb48",
+    "path": "changes/fin-idem-001/GATE4_EVIDENCE.md",
+    "sha": "9b94587f4b71145ded1129fdc02ac01cc1019e08",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr39",
+    "ref": "d9ba8709e903e290d375208a3469610f155ecb48",
+    "path": "tests/gate4/fin-idem/baseline_duplicate.sql",
+    "sha": "63627149ce6d49c7171fbc82cefd8d5b2a2e0372",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr39",
+    "ref": "d9ba8709e903e290d375208a3469610f155ecb48",
+    "path": "tests/gate4/fin-idem/run-baseline.sh",
+    "sha": "45a4f7dd2a169d80915ca5280cc61a9a1f73955d",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr39",
+    "ref": "d9ba8709e903e290d375208a3469610f155ecb48",
+    "path": "tests/gate4/fin-idem/target-readiness.ts",
+    "sha": "2c5dbbfcde151a5f188d9d4bc1a42cb05ebc545c",
+    "mode": "100644",
+    "current_sha": null,
+    "disposition": "not present on accepted main"
+  },
+  {
+    "source": "pr27",
+    "ref": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+    "path": "TASKS.md",
+    "sha": "984af82d35cef0934a71c9ee6a6d4eef3f05ea60",
+    "mode": "100644",
+    "current_sha": "e642549a0d7a43e06896c55be2de461b726228dd",
+    "disposition": "changed vs accepted main; reconcile, never overwrite"
+  },
+  {
+    "source": "pr27",
+    "ref": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+    "path": "PROJECT_STATE.md",
+    "sha": "868756ee05e3024cefe27eb625d8e6cacfef7c3b",
+    "mode": "100644",
+    "current_sha": "4566373d1d0c70d7cc459c942d99e26ae2900406",
+    "disposition": "changed vs accepted main; reconcile, never overwrite"
+  }
+]

@@ -1,0 +1,73 @@
+{
+  "evidence": "Actual selected TypeScript callbacks and candidate rpcMessage compiled by Node built-in stripTypeScriptTypes and executed in isolated VM",
+  "candidate_blob": "44c6c3ce7983139686dcff847c197cc5aaf2c357",
+  "main_blob": "16e9e58240d4749ed9c86f8e8cbe8ac42c50ed9f",
+  "actual_transport_or_database_calls": 0,
+  "transport": "synthetic recording contract and valid-shape dummy UUIDs; modeled effects are NOT stored SQL evidence",
+  "rpc_message_note": "Candidate actual error formatter preserved, including exact generic Arabic error; main control uses it only with successful transport",
+  "cases": [
+    {
+      "label": "short retry retains unresolved identity",
+      "observation": "CONTROL_PASS",
+      "same_key": true,
+      "modeled_effects": 1,
+      "elapsed_ms": 1000,
+      "reload": false
+    },
+    {
+      "label": "retry after 30-minute window changes unresolved identity",
+      "observation": "DEFECT_REPRODUCED",
+      "same_key": false,
+      "modeled_effects": 2,
+      "elapsed_ms": 1800001,
+      "reload": false
+    },
+    {
+      "label": "reload inside window retains unresolved identity",
+      "observation": "CONTROL_PASS",
+      "same_key": true,
+      "modeled_effects": 1,
+      "elapsed_ms": 1000,
+      "reload": true
+    },
+    {
+      "label": "reload after window changes unresolved identity",
+      "observation": "DEFECT_REPRODUCED",
+      "same_key": false,
+      "modeled_effects": 2,
+      "elapsed_ms": 1800001,
+      "reload": true
+    },
+    {
+      "label": "second unresolved submission replaces single pending slot",
+      "observation": "DEFECT_REPRODUCED",
+      "first_retry_same_key": false,
+      "modeled_effects": 3
+    },
+    {
+      "label": "null success result clears unresolved key before validating result",
+      "observation": "DEFECT_REPRODUCED",
+      "next_call_same_key": false,
+      "no_database_effect_claimed": true
+    },
+    {
+      "label": "new identical sale after definitive success receives new identity",
+      "observation": "CONTROL_PASS",
+      "distinct_keys": true
+    },
+    {
+      "label": "unavailable storage refuses before outbound write",
+      "observation": "CONTROL_PASS",
+      "outbound_calls": 0
+    },
+    {
+      "label": "accepted main caller still uses legacy sale RPC",
+      "observation": "CONTROL_PASS",
+      "rpc": "create_sale_with_items",
+      "passes_outcome": false,
+      "passes_idempotency_key": false
+    }
+  ],
+  "all_expectations_passed": true,
+  "release_acceptance": false
+}

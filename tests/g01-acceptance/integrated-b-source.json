@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "9a7a3ac98ed0678c4a5b046e1ff31e4e745158a1",
+  "snapshot_tree_before_manifest": "7b1ea5f134388d5c8f3d3e4dc95182092ddfe335",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -68,6 +68,11 @@
       "path": ".github/workflows/b7-dependency-regressions.yml",
       "sha": "71157c7f412df8718c4e948395a91795d34f5318",
       "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/b7-patch-prepare.yml",
+      "mode": "100644",
+      "sha": "dc069ed371cab7e523934984a2682453a5196eff"
     },
     {
       "path": ".github/workflows/ephemeral-financial-rules.yml",
@@ -383,6 +388,11 @@
       "path": "scripts/lint-changed.sh",
       "sha": "0db9881f05739cf7e737e4cb5aa1aaae8166afb2",
       "mode": "100644"
+    },
+    {
+      "path": "scripts/prepare-b7-rollup.py",
+      "mode": "100644",
+      "sha": "dd8b15c846395ff74d76c0dddaf703150f08092c"
     },
     {
       "path": "src/components/DateRangeFilter.tsx",
@@ -1571,13 +1581,13 @@
     },
     {
       "path": "tests/b7-dependency-regressions/check.cjs",
-      "sha": "35c4836271626e1e062fa1d05ffd77adc95ec9d1",
-      "mode": "100644"
+      "mode": "100644",
+      "sha": "a5cccc32d38b0f54cb92d457094e7e2c981733a9"
     },
     {
       "path": "tests/b7-dependency-regressions/compressed-child.cjs",
-      "sha": "86d282db2b06e1accd7d05db4bd1befaf2ea5174",
-      "mode": "100644"
+      "mode": "100644",
+      "sha": "cd9ad7158af8a566cfe64243347e49a6dc5c1db5"
     },
     {
       "path": "tests/day-close-clock/replay.mjs",

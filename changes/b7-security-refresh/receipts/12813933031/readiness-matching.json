@@ -1,0 +1,17 @@
+{
+  "phase": "matching",
+  "http_status_counts": {
+    "200": 1
+  },
+  "transport_error_counts": {
+    "URLError": 4
+  },
+  "attempts": 5,
+  "last_response": {
+    "status": 200,
+    "length": 6214,
+    "sha256": "c0ea354dd818dc4bee09b487a1555f82380d789fa32f129e6f0955e90b5a94f1"
+  },
+  "log_drained_before_classification": false,
+  "log_categories": []
+}

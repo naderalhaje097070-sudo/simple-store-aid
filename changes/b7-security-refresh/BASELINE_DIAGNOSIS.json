@@ -1,0 +1,20 @@
+{
+  "source": "dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0",
+  "run": 40682757037,
+  "artifact": 12813302504,
+  "artifact_sha256": "3bf110ab248b67a4a39c6bb568ae2daf402d67d3c329dc8a74b3d67f2a73a261",
+  "node": "v22.23.3",
+  "baseline_original_package_lock_source": "32af64252c1b5a3d305826c1b731d654c9231fd9",
+  "body_parser": "2.3.0",
+  "actual_read_equals_official_tar": true,
+  "baseline_seven_contracts_fail": true,
+  "valid_peer_passes": true,
+  "body_observation": {
+    "status": 1,
+    "signal": null,
+    "stderr": "node:events:497\n      throw er; // Unhandled 'error' event\n      ^\n\nError: incorrect header check\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at Zlib.zlibOnError [as onerror] (node:zlib:191:17)\nEmitted 'error' event on Gunzip instance at:\n    at Gunzip.onerror (node:internal/streams/readable:1028:14)\n    at Gunzip.emit (node:events:519:28)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:89:21) {\n  errno: -3,\n  code: 'Z_DATA_ERROR'\n}\n\nNode.js v22.23.3\n"
+  },
+  "earlier_failed_comparison": 40667976993,
+  "cause": "32KiB trailing gzip case did not reproduce; official100KiB input does on maintained Node22. Assertions and child/no-uncaught-hook preserved; prior failure retained.",
+  "limits": "Local bounded dependency contract reproduction; not a claim of live application exploitability."
+}

@@ -1,0 +1,3 @@
+# B7 verification handoff
+
+The current tested source086986fd5ab36a4718e38e7a86a84705cc6fdc7e supersedes the initial CI-amendment candidate32af for current checks. All twelve PR gates and five integration-push gates succeed on086, including B50 real expiry, full B5 and complete current dependency audit. See changes/b7-security-refresh/RESULT.md, RUNS.json and independent final review. The original CI source design/failures remain preserved here; historical workflows remain manual/distinct and unchanged acceptance oracles are not weakened. Main18700dee is unchanged; protected owner merge/settlement decisions remain pending.

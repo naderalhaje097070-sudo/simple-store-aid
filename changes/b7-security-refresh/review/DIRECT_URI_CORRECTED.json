@@ -1,0 +1,29 @@
+{
+  "node": "v24.22.1",
+  "scope": "Direct official fast-uri3.1.9 tar runtime, revised source oracles only; not native22/SDK lock execution",
+  "results": [
+    {
+      "case": "encoded scheme %6Aavascript:alert(1)",
+      "pass": true
+    },
+    {
+      "case": "encoded scheme %u006Aavascript:alert(1)",
+      "pass": true
+    },
+    {
+      "case": "explicit no-authority suffix javascript:alert(1)",
+      "output": "javascript%3Aalert(1)",
+      "pass": true
+    },
+    {
+      "case": "explicit no-authority suffix data:text/plain,a",
+      "output": "data%3Atext/plain,a",
+      "pass": true
+    },
+    {
+      "case": "explicit no-authority suffix vbscript:msgbox(1)",
+      "output": "vbscript%3Amsgbox(1)",
+      "pass": true
+    }
+  ]
+}

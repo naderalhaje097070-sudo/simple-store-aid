@@ -1,0 +1,21 @@
+{
+  "source": "dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0",
+  "run": 40682757037,
+  "artifact": 12813302504,
+  "archive_sha256": "3bf110ab248b67a4a39c6bb568ae2daf402d67d3c329dc8a74b3d67f2a73a261",
+  "generator": "Bun1.4.0+34cbb9a40, approved tar integrity",
+  "consumer": "Bun1.2.14 frozen --ignore-scripts",
+  "audit_runtime": "Bun1.3.14",
+  "audit": {},
+  "audit_exit": 0,
+  "graph_changes": [
+    "qs6.16.0\u21926.16.1",
+    "Rollup node-resolve16.0.3\u2192disclosed local tar",
+    "deepmerge removed"
+  ],
+  "local_parent_tar_sha256": "65b6a7601477e78935f6f65f4bb1a256511a4d705ccd6520b79937ac30cbcbcf",
+  "local_reproduction_byte_identical": true,
+  "candidate_package_exact": true,
+  "unrelated_graph_changes": false,
+  "no_live_application_acceptance_from_preparation": true
+}

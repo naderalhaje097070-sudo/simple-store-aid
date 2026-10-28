@@ -1,3 +1,5 @@
 # Dependency map
 
-Baseline parent ranges: Express→body-parser^2.2.1; AJV→fast-uri^3.0.1; RollupTerser→serialize-javascript^7.0.3; rootZod^4.4.3/SDK^3.25||^4.0/TanStack^4.5.4. All targets satisfy these ranges. SDKMCP/request parsing, application schemas, schemaURIs and build minifier are affected. Audit inventory alone does not establish deployed exploit reachability. No external runtime service introduced.
+SDK/Express uses body-parser and qs. Root/SDK/TanStack uses Zod. SDK/AJV and build tooling use fast-uri. Workbox/RollupTerser uses serialize-javascript. The sole resolved deepmerge consumer is Rollup node-resolve16.0.3; its only call clones static DEFAULTS before deepFreeze. Resolver options already use unchanged shallow spread.
+
+Patched versions satisfy the observed existing parent ranges. The local parent override is an explicit repository file tar rather than a false upstream release or replacement publisher. See both GRAPH_DELTA receipts and ROLLUP_LOCAL_PATCH.md. Inventory or library-level behavior does not prove application exploit reachability.

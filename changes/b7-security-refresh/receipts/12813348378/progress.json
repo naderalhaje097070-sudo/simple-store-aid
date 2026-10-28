@@ -1,0 +1,939 @@
+{
+  "source_sha": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+  "controls": [
+    {
+      "name": "source_exact50_migrations",
+      "passed": true
+    },
+    {
+      "name": "native_exact_chain_after",
+      "passed": true
+    },
+    {
+      "name": "financial_empty_at_start",
+      "passed": true
+    },
+    {
+      "name": "app02_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_b_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_legacy_order_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_legacy_order_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_legacy_order_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_banned_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_banned_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_banned_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_closed_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_closed_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_closed_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_a_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_a_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_a_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "app02_staff_b_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "app02_staff_b_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "app02_staff_b_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_matching_snapshot_repairs_partial_cache",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_preserves_server_floor_and_subscription_timestamp",
+      "passed": true
+    },
+    {
+      "name": "legacy_exact_later_noop",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_noop_preserves_updated_at_and_floor",
+      "passed": true
+    },
+    {
+      "name": "legacy_ambiguous_different_state_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "legacy_ambiguous_different_state_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "legacy_event_past_floor_applies",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_older_after_known_watermark_stale",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_stale_does_not_rollback",
+      "passed": true
+    },
+    {
+      "name": "legacy_binding_creation_learned",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "legacy_display_order_conflict_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "legacy_display_order_conflict_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "sandbox_legacy_display_order_conflict_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "sandbox_legacy_display_order_conflict_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_subscriptions_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_subscriptions_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_subscriptions_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_subscriptions_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_subscriptions_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_tenants_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_tenants_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "public_tenants_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "public_tenants_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "public_tenants_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_tenant_bindings_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_error_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_retryable_atomic",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_retryable_atomic_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_same_event_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "monjez_private_billing_webhook_receipts_zero_one_receipt",
+      "passed": true
+    },
+    {
+      "name": "updated_before_created_empty_cache_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "updated_before_created_empty_cache_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "creation_recovery_stream_absent",
+      "passed": true,
+      "previous_flag": null
+    },
+    {
+      "name": "created_original_fields_commit",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "rejected_missing_update_has_no_late_receipt",
+      "passed": true
+    },
+    {
+      "name": "created_cancel_default_false",
+      "passed": true,
+      "observed_flag": false,
+      "receipt_outcome": "applied",
+      "request_flag": false,
+      "resolved_flag": false,
+      "event_type": "subscription.created"
+    },
+    {
+      "name": "updated_replay_after_created_commits",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "updated_preserves_created_plan_price",
+      "passed": true
+    },
+    {
+      "name": "created_required_state_visible",
+      "passed": true
+    },
+    {
+      "name": "duplicate_exact_delivery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "duplicate_exact_delivery_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "equal_time_different_event_type_same_written_state",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "equal_time_cross_type_no_timestamp_write",
+      "passed": true
+    },
+    {
+      "name": "duplicate_alternate_notification_id",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "duplicate_alternate_notification_id_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "event_id_reuse_conflict",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "event_id_reuse_conflict_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "concurrent_eight_duplicate_acks",
+      "passed": true
+    },
+    {
+      "name": "concurrent_duplicate_stored_invariance",
+      "passed": true
+    },
+    {
+      "name": "lost_response_replay",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "lost_response_replay_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "lost_response_one_commit",
+      "passed": true
+    },
+    {
+      "name": "microsecond_older_event_is_stale",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "microsecond_watermark_no_millisecond_rounding",
+      "passed": true
+    },
+    {
+      "name": "equal_time_same_state_different_event",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "equal_time_unchanged_outcome",
+      "passed": true
+    },
+    {
+      "name": "equal_time_conflicting_state_retry",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "equal_time_conflicting_state_retry_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unsupported_timestamp_precision",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "unsupported_timestamp_precision_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "canceled_preserves_existing_period_and_flag",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "canceled_business_fields_unchanged",
+      "passed": true
+    },
+    {
+      "name": "updated_B_missing_stream_before_created_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "updated_B_missing_stream_before_created_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "updated_existing_B_before_created_notification_durable",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "non_current_stream_does_not_rebind",
+      "passed": true
+    },
+    {
+      "name": "late_created_B_binds_latest_stored_state",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "binding_projects_latest_B_without_rollback",
+      "passed": true
+    },
+    {
+      "name": "late_canceled_A_cannot_rebind",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "current_B_survives_late_A",
+      "passed": true
+    },
+    {
+      "name": "older_created_subscription_arriving_late",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "new_row_provider_creation_preserves_existing_UI_order",
+      "passed": true
+    },
+    {
+      "name": "missing_public_row_does_not_reassign_tenant_customer",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "missing_public_row_does_not_reassign_tenant_customer_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "missing_public_row_does_not_reassign_environment",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "missing_public_row_does_not_reassign_environment_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "equal_subscription_creation_subscription.created_no_arbitrary_tiebreak",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "equal_subscription_creation_subscription.created_no_arbitrary_tiebreak_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "equal_subscription_creation_subscription.updated_no_arbitrary_tiebreak",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "equal_subscription_creation_subscription.updated_no_arbitrary_tiebreak_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "equal_subscription_creation_subscription.canceled_no_arbitrary_tiebreak",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "equal_subscription_creation_subscription.canceled_no_arbitrary_tiebreak_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "immutable_customer_reassignment",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "immutable_customer_reassignment_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "immutable_creation_timestamp",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "immutable_creation_timestamp_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "cross_tenant_metadata_reassignment",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "cross_tenant_metadata_reassignment_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unknown_owner_is_not_success",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "unknown_owner_is_not_success_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unknown_tenant_is_not_success",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "unknown_tenant_is_not_success_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "missing_metadata_is_not_success",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "missing_metadata_is_not_success_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "missing_item_is_not_success",
+      "passed": true,
+      "status": 422
+    },
+    {
+      "name": "missing_item_is_not_success_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "canceled_before_created_empty_stream_retries",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "canceled_before_created_empty_stream_retries_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "canceled_full_period_still_requires_creation",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "canceled_full_period_still_requires_creation_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "canceled_stream_creation_recovery",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "canceled_stream_prior_scheduled_change",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "canceled_missing_period_replay_preserves_history",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "reversed_canceled_arrival_preserves_original_contract",
+      "passed": true
+    },
+    {
+      "name": "sandbox_own_subscription_commits",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "sandbox_never_changes_live_cache",
+      "passed": true
+    },
+    {
+      "name": "same_provider_ID_cross_environment_rejected",
+      "passed": true,
+      "status": 503
+    },
+    {
+      "name": "same_provider_ID_cross_environment_rejected_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "wrong_secret_rejected_before_database",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "wrong_secret_rejected_before_database_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "invalid_environment_rejected_before_database",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid_environment_rejected_before_database_data_unchanged",
+      "passed": true
+    },
+    {
+      "name": "concurrent_ordered_events_acknowledged",
+      "passed": true
+    },
+    {
+      "name": "concurrent_ordered_events_converge",
+      "passed": true
+    },
+    {
+      "name": "banned_actual_transition",
+      "passed": true
+    },
+    {
+      "name": "banned_trusted_billing_still_durable",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "closed_actual_transition",
+      "passed": true
+    },
+    {
+      "name": "closed_trusted_billing_still_durable",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "actual_employee_B_disabled",
+      "passed": true
+    },
+    {
+      "name": "active_employee_A_remains_visible",
+      "passed": true
+    },
+    {
+      "name": "anonymous_service_RPC_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "a_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "a_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "b_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "b_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "staff_a_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "staff_a_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "staff_b_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "staff_b_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "banned_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "closed_service_RPC_denied",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "closed_denial_all_data_invariant",
+      "passed": true
+    },
+    {
+      "name": "B2_scanner_ordinary_denial_preserved",
+      "passed": true
+    },
+    {
+      "name": "B3_client_billing_write_denied",
+      "passed": true
+    },
+    {
+      "name": "new_RPC_actual_body_matches_forward_correction",
+      "passed": true
+    },
+    {
+      "name": "application_errors_never_use_serialization_SQLSTATE",
+      "passed": true
+    },
+    {
+      "name": "new_RPC_security_invoker_and_pinned_path",
+      "passed": true
+    },
+    {
+      "name": "new_RPC_explicit_service_only",
+      "passed": true
+    },
+    {
+      "name": "new_private_tables_RLS_no_client_or_destructive_service_grants",
+      "passed": true
+    },
+    {
+      "name": "anon_billing_tenant_bindings_actual_private_denial",
+      "passed": true
+    },
+    {
+      "name": "anon_billing_webhook_receipts_actual_private_denial",
+      "passed": true
+    },
+    {
+      "name": "authenticated_billing_tenant_bindings_actual_private_denial",
+      "passed": true
+    },
+    {
+      "name": "authenticated_billing_webhook_receipts_actual_private_denial",
+      "passed": true
+    },
+    {
+      "name": "financial_tables_remain_empty",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    }
+  ]
+}

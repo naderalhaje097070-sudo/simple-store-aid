@@ -1,0 +1,131 @@
+{
+  "scope": "Local proposed CI routing/B50 real-expiry source review; no publication/native acceptance implied.",
+  "reviewer": "independent /root/b7_gate_review",
+  "base": "af403c0f26c899f0e2829e09adcd34467e7bef38",
+  "source_files": [
+    {
+      "path": ".github/workflows/account-lifecycle-baseline.yml",
+      "bytes": 5063,
+      "sha256": "2fd76b7ae9e94b3b29bf49b43f76710353ab9fecce7ad71add2d3f18b9924059",
+      "git_blob": "26d9ba43e36a063f418f1e5d812a92928dfda0c7"
+    },
+    {
+      "path": ".github/workflows/account-lifecycle-correction.yml",
+      "bytes": 6462,
+      "sha256": "d43c53db8424022fb1fae1e3290ee5c1a0c370a3b0a2f3a6d10dbcb1c7028d10",
+      "git_blob": "1cd83ba5d3d320ca43e90ddb52599c416bd4440a"
+    },
+    {
+      "path": ".github/workflows/auth-natural-expiry.yml",
+      "bytes": 11113,
+      "sha256": "23821073602df034a1009b5bcd7bf7b713d7ea199c9cc4ee76dae38f2b961ebc",
+      "git_blob": "c9677fa0b7d76588c1db77657bf4adb91f798a83"
+    },
+    {
+      "path": ".github/workflows/mcp-lifecycle-probe.yml",
+      "bytes": 6505,
+      "sha256": "4b1c2429bce7e4315f523d191151375928ebcee8560de22b7baf0482effae51f",
+      "git_blob": "ab34192a4dad47f83a9fa31ce6670da52abc1186"
+    },
+    {
+      "path": ".github/workflows/mcp-tanstack-route.yml",
+      "bytes": 10657,
+      "sha256": "3d89b596040375a70f5d8ad72b8c5e8261ea6eb92f4a6f4ab4b80ac608d53628",
+      "git_blob": "05ca509495fd11571d2b6852b963c092aca2ecff"
+    },
+    {
+      "path": ".github/workflows/owner-retention-catalog.yml",
+      "bytes": 12162,
+      "sha256": "8043d02eb2f78e50573d076f532665f4b31e220e00b4548d8b6fe80d1f8da1a2",
+      "git_blob": "9eeccae49637f9888c1afc8baa49a6e371194730"
+    },
+    {
+      "path": ".github/workflows/oc-app.yml",
+      "bytes": 15313,
+      "sha256": "6bb3d4e3cb3c1b3cd2f4b91ed92f9ecbe184c1174dd5c78171e37ac5443764fe",
+      "git_blob": "cbcbf4bcf171f82832a6661f9cd88f60c2fe9ddc"
+    },
+    {
+      "path": ".github/workflows/b5-lifecycle.yml",
+      "bytes": 27401,
+      "sha256": "e6aa09a80d7379f1b7fd2d6f08f296fba981986983aefe87d96cb17ea887a668",
+      "git_blob": "dde885aa827698f5750f4d26fdf79d2622657818"
+    },
+    {
+      "path": ".github/workflows/b1-composition.yml",
+      "bytes": 2196,
+      "sha256": "b3a10ea3b08e11da78453d540987039a51bea642d04b313c548ffcdabf0bf604",
+      "git_blob": "92f829a299776f5388e733ec95ca560fdc1877af"
+    },
+    {
+      "path": ".github/workflows/integration-verification.yml",
+      "bytes": 5845,
+      "sha256": "f3b0ee30e70776229bab869da589180fa37b6c7bd7ac7ae50d22a2b05c42f673",
+      "git_blob": "c383e67fdb4e2fd07e090212c3c06666366a0f79"
+    },
+    {
+      "path": ".github/workflows/b-dep-verify.yml",
+      "bytes": 4229,
+      "sha256": "2c9321e7e37d06a4e65a93274e93ebec3516ecd98c5b368d331fb2e7698a47cf",
+      "git_blob": "b5e56a1099fd8f5917acf8c4545df05b2afc448a"
+    },
+    {
+      "path": ".github/workflows/b50-natural-expiry.yml",
+      "bytes": 10192,
+      "sha256": "7aea5b3fbd1cf0a5b99b3afe73bd0bd7910ba761bddfd682c19e20f00467d3f0",
+      "git_blob": "0b7c35e1a14b1f395753d7e2e8829ffb6b138c3c"
+    },
+    {
+      "path": "tests/b50-natural-expiry/probe.py",
+      "bytes": 11215,
+      "sha256": "6a52177d2cb22129d3f33e373f650cf94a6a43f1bc9a27789109babed88e7524",
+      "git_blob": "8ab4300b6a71dff4631c676069f126fe17eb8303"
+    },
+    {
+      "path": "tests/b50-natural-expiry/test_adapter.py",
+      "bytes": 2120,
+      "sha256": "efb42883ba4aed9fe2600fa1c52f65f5710ac65dcc591d04acbf004d363cb311",
+      "git_blob": "e980d8e1adee89c0c1c7e19fa0294f05eace3a8a"
+    },
+    {
+      "path": "tests/b7-ci-routing/contract.test.cjs",
+      "bytes": 8375,
+      "sha256": "67c0114f779cd7cfecc66433c1a1f955582cd9a9bd1122e640af916ac7b160e3",
+      "git_blob": "c862edc8b24ab93851460c882352de2da862e86c"
+    }
+  ],
+  "findings": [
+    {
+      "id": "B7-SOURCE-01",
+      "severity": "Medium",
+      "description": "APP omitted from new adapter globals would fail before expiry",
+      "status": "source-addressed by explicit original APP import and3 real global/inheritance regression cases"
+    },
+    {
+      "id": "B7-SOURCE-02",
+      "severity": "Medium",
+      "description": "Manual historical runs retained current job-check names despite checking out another source",
+      "status": "source-addressed by Historical phase/selected-SHA job names and mutation regression"
+    }
+  ],
+  "independent_pure_checks": {
+    "original_expiry_oracle_tests": 12,
+    "adapter_global_inheritance_tests": 3,
+    "actual_workflow_routing_mutation_tests": 11,
+    "all_pass": true,
+    "runtime_limit": "Old read-only dependency tooling, not frozen-current install/build; no DB/Auth/app/provider/production execution."
+  },
+  "other_source_checks": {
+    "original_account_lifecycle_python_blobs_exact_to_f34": 30,
+    "historical_job_steps_exact_except_two_provenance_preflights_and_checkout": true,
+    "general_workflows_semantic_policy_preserved": true,
+    "local_quality_extra_EOF_not_to_publish_as_unrelated_change": true
+  },
+  "pending": [
+    "Actual new PR-head native gates and full real180s expiry/cryptographic/current50/private/Auth receipts",
+    "Complete protected source/SQL/app/lock preservation after publication",
+    "Updated semantic-delta ledger reflecting new historical job names",
+    "Final required-check settings remain unknown after403; no bypass implied"
+  ],
+  "source_disposition": "No additional introduced blocking source finding after the two corrections; eligible for native verification, not final merge approval."
+}

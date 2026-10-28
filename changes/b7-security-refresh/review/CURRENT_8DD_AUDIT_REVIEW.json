@@ -1,0 +1,61 @@
+{
+  "reviewer": "/root/b7_security_review",
+  "source": "8dd72a45019217909aee8fb293363490b0f052f0",
+  "run": 40667977042,
+  "job": 122747250219,
+  "artifact": 12807420424,
+  "archive_sha256": "fbfd74ff036cdd3be253f663329e4e61c476c1970c2ab0f06b871aaafd9c05a4",
+  "audit_exit_observed": 1,
+  "current_advisory_count": 2,
+  "raw": {
+    "deepmerge": [
+      {
+        "id": 1243505,
+        "url": "https://github.com/advisories/GHSA-gcqx-w48m-w2h4",
+        "title": "deepmerge mergeObject() allows prototype poisoning of returned objects",
+        "severity": "low",
+        "vulnerable_versions": ">=4.2.0 <=4.3.1",
+        "cwe": [
+          "CWE-1321"
+        ],
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        }
+      }
+    ],
+    "qs": [
+      {
+        "id": 1243452,
+        "url": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw",
+        "title": "qs : qs.stringify with arrayFormat 'comma' throws an uncaught TypeError on array elements carrying a non-callable own toString (DoS)",
+        "severity": "moderate",
+        "vulnerable_versions": ">=6.7.0 <=6.16.0",
+        "cwe": [
+          "CWE-248",
+          "CWE-704"
+        ],
+        "cvss": {
+          "score": 5.3,
+          "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      }
+    ]
+  },
+  "official_source_dispositions": {
+    "qs": {
+      "advisory": "https://github.com/advisories/GHSA-6pq8-jhm2-2vcw",
+      "patched_version": "6.16.1",
+      "required_next": "Officialmetadata/tarintegrity/releaseage/wholelock plus both defaultcomma and encodeValuesOnly hostile-own-toString boundedregressions and valid peers."
+    },
+    "deepmerge": {
+      "advisory": "https://github.com/advisories/GHSA-gcqx-w48m-w2h4",
+      "patched_version_reported": null,
+      "maintainer_issue": "https://github.com/TehShrike/deepmerge/issues/273",
+      "current_edge": "@rollup/plugin-node-resolve16.0.3\u2192deepmerge^4.2.2; lock4.3.1",
+      "risk_scope": "returnedobject prototypepoisoning; not globalObject.prototype modification. Applicationreachabilityunproved; parentusedinbuildtooling.",
+      "required_next": "Verifyregistryavailability/maintainerrelease or independentlyreviewedscopedalternative. No fakeversion/downgrade/blanketadvisorysuppression."
+    }
+  },
+  "whole_head_outcome": "Changes required: fullcurrentauditfails. Preparationpreviousaudit{} remains true atits source/time butcannotreplace28Octcurrentaudit."
+}

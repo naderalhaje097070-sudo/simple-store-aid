@@ -1,0 +1,44 @@
+{
+  "source": "086986fd5ab36a4718e38e7a86a84705cc6fdc7e",
+  "f34_tree_not_truncated": true,
+  "src_vite_SQL_deltas_vs_f34": [],
+  "prior_CI_review_all15_source_hashes_exact": true,
+  "general_workflows_exact_to_f34": {
+    ".github/workflows/ephemeral-financial-rules.yml": true,
+    ".github/workflows/isolated-auth-smoke.yml": true,
+    ".github/workflows/mcp-issuer-contract.yml": true,
+    ".github/workflows/quality.yml": true,
+    ".github/workflows/sec-ci-gate4-probe.yml": true,
+    ".github/workflows/sec-env-gate4-probe.yml": true
+  },
+  "unchanged_B5_test_sources_except_new_B50_adapter": [
+    "tests/b50-natural-expiry/test_adapter.py",
+    "tests/b50-natural-expiry/probe.py"
+  ],
+  "prior_vs_current_B5_control_oracles": [
+    {
+      "prior_f34_artifact": 12503051908,
+      "current086_artifact": 12814007026,
+      "named_control_order_count_and_expected_results_identical": true,
+      "count": 441
+    },
+    {
+      "prior_f34_artifact": 12503171608,
+      "current086_artifact": 12813508194,
+      "named_control_order_count_and_expected_results_identical": true,
+      "count": 446
+    },
+    {
+      "prior_f34_artifact": 12503535366,
+      "current086_artifact": 12813348378,
+      "named_control_order_count_and_expected_results_identical": true,
+      "count": 206
+    },
+    {
+      "prior_f34_artifact": 12502652866,
+      "current086_artifact": 12813933031,
+      "named_control_order_count_and_expected_results_identical": true,
+      "count": 42
+    }
+  ]
+}

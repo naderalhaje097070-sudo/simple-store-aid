@@ -53,7 +53,7 @@ jobs:
           import fs from 'node:fs/promises';
           import path from 'node:path';
           import * as prettier from 'prettier';
-          for (const file of ['tests/b7-dependency-regressions/check.cjs', 'tests/b7-dependency-regressions/compressed-child.cjs']) {
+          for (const file of ['tests/b7-dependency-regressions/check.cjs', 'tests/b7-dependency-regressions/compressed-child.cjs', 'tests/b7-dependency-regressions/rollup-parent.cjs', 'tests/b7-dependency-regressions/qs.cjs']) {
             const output = path.join(process.env.RUNNER_TEMP, 'b7-advisory/formatted', file);
             await fs.mkdir(path.dirname(output), { recursive: true });
             const options = await prettier.resolveConfig(file);
@@ -65,6 +65,12 @@ jobs:
         run: |
           set -euo pipefail
           node tests/b7-dependency-regressions/check.cjs | tee "$RUNNER_TEMP/b7-advisory/patched.json"
+      - name: Corrected query serialization and both actual resolver module formats
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tests/b7-dependency-regressions/qs.cjs | tee "$RUNNER_TEMP/b7-advisory/qs-patched.json"
+          node tests/b7-dependency-regressions/rollup-parent.cjs | tee "$RUNNER_TEMP/b7-advisory/rollup-parent.json"
       - name: Same bounded regressions reproduce seven findings on exact vulnerable graph
         shell: bash
         run: |
@@ -77,6 +83,7 @@ jobs:
           sha256sum "$baseline_dir/package.json" "$baseline_dir/bun.lock" > "$RUNNER_TEMP/b7-advisory/baseline-sha256.txt"
           (cd "$baseline_dir" && bun install --frozen-lockfile --ignore-scripts)
           DEPENDENCY_TEST_ROOT="$baseline_dir" node tests/b7-dependency-regressions/check.cjs --baseline | tee "$RUNNER_TEMP/b7-advisory/baseline.json"
+          DEPENDENCY_TEST_ROOT="$baseline_dir" node tests/b7-dependency-regressions/qs.cjs --baseline | tee "$RUNNER_TEMP/b7-advisory/qs-baseline.json"
           cmp "$baseline_dir/package.json" <(git show "$baseline:package.json")
           cmp "$baseline_dir/bun.lock" <(git show "$baseline:bun.lock")
       - name: Exact source remains unchanged

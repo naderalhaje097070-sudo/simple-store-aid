@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "e56f2828ef5ddf357607c0725eb0c749f6c38ae1",
+  "snapshot_tree_before_manifest": "cc13a785269a17b003d42a1beba201d87f490e3a",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -66,13 +66,13 @@
     },
     {
       "path": ".github/workflows/b7-dependency-regressions.yml",
-      "sha": "71157c7f412df8718c4e948395a91795d34f5318",
+      "sha": "71d791a0f5967bd79f593912b2ac727e54fab23e",
       "mode": "100644"
     },
     {
       "path": ".github/workflows/b7-patch-prepare.yml",
-      "mode": "100644",
-      "sha": "dc069ed371cab7e523934984a2682453a5196eff"
+      "sha": "f58fb108bcf85e7b7af1ad2243a9c3ce3e028d55",
+      "mode": "100644"
     },
     {
       "path": ".github/workflows/ephemeral-financial-rules.yml",
@@ -246,7 +246,7 @@
     },
     {
       "path": "bun.lock",
-      "sha": "2fc70157ee6e8fcbfa5ce9bb63f065360d39b180",
+      "sha": "cb326ac9108c4f5ea4ff4e5a5b09484c58b978ec",
       "mode": "100644"
     },
     {
@@ -311,7 +311,7 @@
     },
     {
       "path": "package.json",
-      "sha": "d5e295c8cdfbd25096b0f0e3232f27af180b62bb",
+      "sha": "c948b6a5d4af6f3fe2656ca0b7e6fc524e1d9536",
       "mode": "100644"
     },
     {
@@ -1590,6 +1590,16 @@
       "sha": "cd9ad7158af8a566cfe64243347e49a6dc5c1db5"
     },
     {
+      "path": "tests/b7-dependency-regressions/qs.cjs",
+      "sha": "a8267fdf7261398b02127e28b0c4f2f0c9688486",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b7-dependency-regressions/rollup-parent.cjs",
+      "sha": "f02c754366ecbba4550d2892ab5e28822c32e819",
+      "mode": "100644"
+    },
+    {
       "path": "tests/day-close-clock/replay.mjs",
       "sha": "69cdfdd9ac4468bc39a7c37edd9dac01ad68279a",
       "mode": "100644"
@@ -1922,6 +1932,11 @@
     {
       "path": "tsconfig.json",
       "sha": "533d40171d4cbc61370abbffca39ba9256ad5927",
+      "mode": "100644"
+    },
+    {
+      "path": "vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz",
+      "sha": "e171e500d963816e057aa382a74b14d1d46c0363",
       "mode": "100644"
     },
     {

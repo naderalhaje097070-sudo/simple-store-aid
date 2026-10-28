@@ -1,12 +1,12 @@
-name: B7 official parent patch preparation
+name: Historical B7 official parent patch preparation
 on:
-  push:
-    branches: [integration/g0-g1-reconcile-2026-10-18]
-    paths: [.github/workflows/b7-patch-prepare.yml, scripts/prepare-b7-rollup.py]
+  workflow_dispatch:
+
 permissions:
   contents: read
 jobs:
   prepare:
+    name: Historical B7 parent preparation dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -14,6 +14,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -26,6 +27,7 @@ jobs:
           set -euo pipefail
           out="$RUNNER_TEMP/b7-patch-prepare"
           mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = dddc3f0bc117e5a9ff07254e15e63c33c64ae6f0
           git rev-parse HEAD > "$out/source.txt"
           bun install --frozen-lockfile --ignore-scripts 2>&1 | tee "$out/frozen-baseline.log"
           cp package.json bun.lock bunfig.toml "$out/"

@@ -1,0 +1,5 @@
+# Migration
+
+CLI2.101.0 generated20261028213608_fractional_quantity_01.sql; tarball official SHA256285877ef9de845d76487772e0d36019a095ee28b527b9abbd6739eeba4d3dbf9 verified against release metadata. Initial archive extraction/shim and missing workdir attempts failed; after diagnosis, co-located binaries and an actual initialized scratch workdir were used. Telemetry auto-review rejection is retained; official disabled state and opt-out variables removed that risk before successful generation. No filename was invented.
+
+One later migration on current50, transaction+5s lock timeout, historical finite/precision preflight, exact casts, CHECKs, raw sale validation and PostgREST schema reload notification. All earlier files unchanged. Original August49/50 remain inert; C3must reconcile their eventual chronological adapter behavior separately. Fresh51 and populated50→51 tests are required; source/ACL/catalog and historic row preservation must be observed, not assumed.

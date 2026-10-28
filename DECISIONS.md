@@ -1,3 +1,9 @@
+## C2 — fractional quantity implemented; native validation pending, 2026-10-28
+
+Owner explicitly requires fractional units (weight/metres), resolving C1 policy choice. Claim55/6481133997. Base5601d634, main220fc206 unchanged. Existing integration carries a bounded two-decimal candidate: exact numeric stock/item constraints without coercive typemod rounding, raw legacy-sale validation before writes, existing inventory form and both sale carts with shared quantity editor/helpers. CLI generated20261028213608_fractional_quantity_01.sql; prior50SQL/authorization/grants and unrelated source preserved. No old49/50 code imported, no C3/C4 change.
+
+Local18 quantity cases and syntax/locked formatting pass. Current native fresh51/populated50→51/Auth/atomic return/delete/concurrency and desktop/mobile component workflows are newly wired; actual outcomes must be recorded on this source before technical acceptance. Frozen A/B manifests unchanged; explicit C2 inventory permits only3known source changes and additive files, not a historical gate waiver. No independent review/C5full finance/RC/Pilot/release acceptance. No merge/deploy/production/new cost/closure. ONE NEXT: collect current native C2 evidence and fix any demonstrated issue, then C3forward financial composition; do not ask the resolved quantity choice again. Earlier notices below remain history.
+
 ## C1 — financial reconciliation and diagnostic baseline prepared, 2026-10-28
 
 Owner continuation «استمر حسب الخطة», sole claim55/6480449800. Accepted main220fc206 remains unchanged; existing integration receives documentation/evidence only. Original27/35/39/49/50 stay open with unchanged heads/bases. C1 inventory/caller/order reconciliation and Gate0–3 packet complete; executable financial composition and C2–C7 acceptance are NOT complete.

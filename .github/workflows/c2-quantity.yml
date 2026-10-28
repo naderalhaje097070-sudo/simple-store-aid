@@ -1,0 +1,239 @@
+name: C2 fractional quantity stored contract
+on:
+  push:
+    branches: ["integration/g0-g1-reconcile-2026-10-18"]
+    paths:
+      [
+        "tests/c2-quantity/**",
+        "changes/c2-fractional-quantity/QUANTITY.sql",
+        "supabase/migrations/*_fractional_quantity_01.sql",
+        ".github/workflows/c2-quantity.yml",
+      ]
+permissions:
+  contents: read
+env:
+  SUPABASE_TELEMETRY_DISABLED: "1"
+  DO_NOT_TRACK: "1"
+  SUPABASE_HOME: /tmp/monjez-c2-disabled-cli
+jobs:
+  quantity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [fresh, upgrade]
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      CONTRACT_MODE: ${{ matrix.mode }}
+    steps:
+      - name: Disable telemetry before CLI setup
+        run: |
+          mkdir -p "$SUPABASE_HOME"
+          echo '{"enabled":false,"consent":"denied","schema_version":1,"device_id":"00000000-0000-4000-8000-000000000001","session_id":"00000000-0000-4000-8000-000000000002","session_last_active":"2026-10-28T00:00:00Z"}' > "$SUPABASE_HOME/telemetry.json"
+          chmod 600 "$SUPABASE_HOME/telemetry.json"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: supabase/setup-cli@v2
+        with:
+          version: "2.101.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - name: Decimal quantity unit contracts before credentials
+        run: node tests/c2-quantity/quantity.test.mjs
+      - name: Verify preserved source and immutable SQL before credentials
+        run: python tests/c2-quantity/inventory.py
+      - name: Discover pinned CLI operations
+        run: |
+          set -euo pipefail
+          supabase telemetry status > "$RUNNER_TEMP/telemetry-status.txt"
+          grep -q "Telemetry is disabled" "$RUNNER_TEMP/telemetry-status.txt"
+          test "$(supabase --version)" = '2.101.0'
+          supabase start --help > "$RUNNER_TEMP/start-help.txt"
+          supabase stop --help > "$RUNNER_TEMP/stop-help.txt"
+          supabase migration up --help > "$RUNNER_TEMP/up-help.txt"
+          supabase db advisors --help > "$RUNNER_TEMP/advisors-help.txt"
+          supabase migration list --help > "$RUNNER_TEMP/list-help.txt"
+          grep -q -- '--local' "$RUNNER_TEMP/up-help.txt"
+          grep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1
+      - name: Restrict probe UID before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo useradd --system --no-create-home --shell /usr/sbin/nologin c2qty
+          uid="$(id -u c2qty)"
+          sudo iptables -N C2Q
+          sudo iptables -A C2Q -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322 -j ACCEPT
+          sudo iptables -A C2Q -j REJECT --reject-with icmp-port-unreachable
+          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j C2Q
+          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+          sudo -u c2qty "$(command -v python)" - <<'PY'
+          import socket
+          try:
+              with socket.create_connection(('1.1.1.1',443),timeout=3): pass
+          except OSError:
+              print('C2Q_CREDENTIAL_FREE_EGRESS_REJECTED')
+          else:
+              raise SystemExit('C2Q_FIREWALL_FAILED')
+          PY
+          sudo install -d -m 711 -o c2qty -g c2qty /tmp/monjez-c2qty
+          sudo cp -a "$GITHUB_WORKSPACE/." /tmp/monjez-c2qty/repo
+          sudo install -d -m 700 -o c2qty -g c2qty /tmp/monjez-c2qty/evidence
+          sudo chown -R c2qty:c2qty /tmp/monjez-c2qty
+          sudo iptables -nvxL C2Q > "$RUNNER_TEMP/firewall-before.txt"
+      - name: Start disposable full chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-c2qty-stack"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/init-private.log" 2>&1
+          mkdir -p "$stack/supabase/migrations"
+          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          if [[ "$CONTRACT_MODE" == upgrade ]]; then
+            rm "$stack"/supabase/migrations/*_fractional_quantity_01.sql
+          fi
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then
+            echo 'C2Q_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/status-private.json"
+          sudo install -m 600 -o c2qty -g c2qty "$RUNNER_TEMP/status-private.json" /tmp/monjez-c2qty/status.json
+      - name: Baseline then populated local upgrade
+        if: matrix.mode == 'upgrade'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c2qty/repo
+          sudo -u c2qty env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 \
+            EXPECTED_SOURCE="$EXPECTED_SOURCE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c2qty-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c2-quantity/probe.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file /tmp/monjez-c2qty/status.json --evidence-dir /tmp/monjez-c2qty/evidence \
+              --private-state /tmp/monjez-c2qty/private-state.json --phase before
+          cp supabase/migrations/*_fractional_quantity_01.sql "$RUNNER_TEMP/monjez-c2qty-stack/supabase/migrations/"
+          supabase --workdir "$RUNNER_TEMP/monjez-c2qty-stack" migration up --local > "$RUNNER_TEMP/upgrade-private.log" 2>&1
+      - name: Actual authorization and invariance
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c2qty/repo
+          sudo -u c2qty env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 \
+            EXPECTED_SOURCE="$EXPECTED_SOURCE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c2qty-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c2-quantity/probe.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file /tmp/monjez-c2qty/status.json --evidence-dir /tmp/monjez-c2qty/evidence \
+              --private-state /tmp/monjez-c2qty/private-state.json --phase after
+      - name: Local migration history and advisor availability
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --workdir "$RUNNER_TEMP/monjez-c2qty-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
+          if grep -q -- '--local' "$RUNNER_TEMP/advisors-help.txt"; then
+            supabase --workdir "$RUNNER_TEMP/monjez-c2qty-stack" db advisors --local > "$RUNNER_TEMP/advisors-private.txt" 2>&1
+          else
+            echo 'C2Q_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'
+          fi
+      - name: Cleanup and safe final receipts
+        id: publication
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/c2qty-evidence"
+          mkdir -p "$out"
+          if [[ -d /tmp/monjez-c2qty/evidence ]]; then
+            sudo cp -a /tmp/monjez-c2qty/evidence/. "$out/"
+            sudo chown -R "$(id -un):$(id -gn)" "$out"
+          fi
+          rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log"
+          if [[ -d "$RUNNER_TEMP/monjez-c2qty-stack/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-c2qty-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1
+          fi
+          python - <<'PY'
+          import json,os,subprocess,sys
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP']);out=root/'c2qty-evidence'
+          def rejects(path):
+              return sum(int(x.split()[0]) for x in path.splitlines() if 'REJECT' in x)
+          before=rejects((root/'firewall-before.txt').read_text())
+          after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','C2Q'],text=True))
+          uid=subprocess.check_output(['id','-u','c2qty'],text=True).strip()
+          v6=sum(int(x.split()[0]) for x in subprocess.check_output(['sudo','ip6tables','-nvxL','OUTPUT'],text=True).splitlines()
+                 if 'REJECT' in x and ('owner UID match '+uid) in x)
+          cleanup={'source':os.environ['EXPECTED_SOURCE'],'credential_free_canary_rejected':before>0,
+                   'unexpected_ipv4_rejects':after-before,'ipv6_rejects':v6,
+                   'status_removed':not Path('/tmp/monjez-c2qty/status.json').exists(),
+                   'state_removed':not Path('/tmp/monjez-c2qty/private-state.json').exists(),
+                   'stack_removed':'monjez-c2qty-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+          sys.path.insert(0,'tests/account-lifecycle')
+          from scanner_evidence import verify_publication, PublicationBlocked
+          forbidden=[]
+          for filename in ['status.json','private-state.json']:
+              p=Path('/tmp/monjez-c2qty')/filename
+              if p.exists():
+                  raw=subprocess.check_output(['sudo','cat',str(p)],text=True)
+                  data=json.loads(raw)
+                  if filename=='status.json':
+                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
+                  else:
+                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
+                                    if k in ('token','refresh','password','email')]
+          try:
+              verify_publication(out,root/'c2qty-private-quarantine',forbidden)
+          except PublicationBlocked:
+              print('C2Q_PUBLICATION_BLOCKED '+(out/'publication-blocked.json').read_text())
+              raise
+          finally:
+              subprocess.run(['sudo','rm','-f','/tmp/monjez-c2qty/status.json','/tmp/monjez-c2qty/private-state.json'],check=True)
+          cleanup['status_removed']=not Path('/tmp/monjez-c2qty/status.json').exists()
+          cleanup['state_removed']=not Path('/tmp/monjez-c2qty/private-state.json').exists()
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+          print('C2Q_CLEANUP '+json.dumps(cleanup))
+          assert before>0 and after==before and v6==0 and cleanup['status_removed'] and cleanup['state_removed'] and cleanup['stack_removed']
+          PY
+          echo 'safe=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.publication.outputs.safe == 'true'
+        with:
+          name: c2-fractional-${{ matrix.mode }}-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/c2qty-evidence/
+          retention-days: 7
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - run: bun install --frozen-lockfile
+      - run: node tests/c2-quantity/quantity.test.mjs
+      - run: node tests/c2-quantity/build.mjs "$RUNNER_TEMP/c2-frontend"
+      - run: python -m pip install -r tests/gate4/sec-env/requirements.txt
+      - run: python -m playwright install chromium --only-shell --with-deps
+      - run: python tests/c2-quantity/browser.py "$RUNNER_TEMP/c2-frontend"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: c2-component-browser
+          path: ${{ runner.temp }}/c2-frontend/*-result.json

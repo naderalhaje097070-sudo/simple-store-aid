@@ -1,3 +1,4 @@
+import { isQuantity, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -17,8 +18,16 @@ type RpcResults = {
     expenses: number;
     realized_profit: number;
   };
-  delete_product_safe: { deleted?: boolean; archived?: boolean; used_in?: number };
-  create_sale_with_items: { success: boolean; order_id: string; number: number };
+  delete_product_safe: {
+    deleted?: boolean;
+    archived?: boolean;
+    used_in?: number;
+  };
+  create_sale_with_items: {
+    success: boolean;
+    order_id: string;
+    number: number;
+  };
 };
 type NullableRpcArguments = {
   create_sale_with_items: "p_customer_id" | "p_courier_id";
@@ -40,7 +49,9 @@ type ApplicationRpcs = {
   };
 };
 type ApplicationDatabase = Omit<Database, "public"> & {
-  public: Omit<Database["public"], "Functions"> & { Functions: ApplicationRpcs };
+  public: Omit<Database["public"], "Functions"> & {
+    Functions: ApplicationRpcs;
+  };
 };
 const rpcClient = supabase as SupabaseClient<ApplicationDatabase>;
 
@@ -268,6 +279,7 @@ export function useAddProduct(tenantId: string | null | undefined) {
       is_discount: boolean;
     }) => {
       if (!tenantId) throw new Error("no tenant");
+      if (!isQuantity(input.stock, true)) throw new Error(QUANTITY_ERROR);
       const { error } = await supabase.from("products").insert({
         tenant_id: tenantId,
         name: input.name,
@@ -307,6 +319,7 @@ export function useUpdateProduct(tenantId: string | null | undefined) {
       stock: number;
       is_discount: boolean;
     }) => {
+      if (!isQuantity(input.stock, true)) throw new Error(QUANTITY_ERROR);
       const { error } = await supabase
         .from("products")
         .update({
@@ -591,7 +604,13 @@ export function useAddExpense(tenantId: string | null | undefined) {
 /* ---------- sales / debt / settlement / undo ---------- */
 
 export type CreateSaleInput = {
-  items: { productId: string; name: string; qty: number; price: number; cost: number }[];
+  items: {
+    productId: string;
+    name: string;
+    qty: number;
+    price: number;
+    cost: number;
+  }[];
   total: number;
   paid: number;
   customerId?: string;
@@ -605,6 +624,8 @@ export function useCreateSale(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: CreateSaleInput): Promise<{ orderId: string; number: string }> => {
       if (!tenantId) throw new Error("no tenant");
+      if (!input.items.length || input.items.some((item) => !isQuantity(item.qty)))
+        throw new Error(QUANTITY_ERROR);
       const { data, error } = await rpcClient.rpc("create_sale_with_items", {
         p_customer_id: input.customerId ?? null,
         p_delivery: input.delivery,

@@ -1,3 +1,5 @@
+import { isQuantity, stepQuantity, sumQuantities, QUANTITY_ERROR } from "@/domain/finance/quantity";
+import { QuantityInput } from "@/features/shared/QuantityInput";
 import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
 import {
   useMemo,
@@ -1522,25 +1524,30 @@ function SaleScreen(p: AppScreenContext) {
     setCart((c) => {
       const ex = c.find((x) => x.productId === pr.id);
       if (ex) {
-        if (ex.qty + 1 > pr.stock) {
+        if (stepQuantity(ex.qty, 1) > pr.stock) {
           setOverStockMsg("المطلوب أكبر من المتوفر");
           setTimeout(() => setOverStockMsg(null), 1800);
           return c;
         }
         return c.map((x) => (x.productId === pr.id ? { ...x, qty: x.qty + 1 } : x));
       }
-      return [...c, { productId: pr.id, qty: 1 }];
+      return [...c, { productId: pr.id, qty: Math.min(1, pr.stock) }];
     });
   };
-  const setQty = (pid: string, qty: number) => {
+  const setQty = (pid: string, qty: number): boolean => {
+    if (!isQuantity(qty, true)) {
+      setOverStockMsg(QUANTITY_ERROR);
+      return false;
+    }
     const pr = p.products.find((x: Product) => x.id === pid)!;
     if (qty > pr.stock) {
       setOverStockMsg("المطلوب أكبر من المتوفر");
       setTimeout(() => setOverStockMsg(null), 1800);
-      return;
+      return false;
     }
     if (qty <= 0) setCart((c) => c.filter((x) => x.productId !== pid));
     else setCart((c) => c.map((x) => (x.productId === pid ? { ...x, qty } : x)));
+    return true;
   };
 
   const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
@@ -1652,14 +1659,14 @@ function SaleScreen(p: AppScreenContext) {
                   <div className="flex-1 text-sm">{pr.name}</div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setQty(ci.productId, ci.qty - 1)}
+                      onClick={() => setQty(ci.productId, stepQuantity(ci.qty, -1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="w-7 text-center text-sm font-bold num">{ci.qty}</span>
+                    <QuantityInput value={ci.qty} onCommit={(qty) => setQty(ci.productId, qty)} />
                     <button
-                      onClick={() => setQty(ci.productId, ci.qty + 1)}
+                      onClick={() => setQty(ci.productId, stepQuantity(ci.qty, 1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -2152,7 +2159,7 @@ function SaleQuickScreen(p: AppScreenContext) {
     (s, c) => s + (p.products.find((pr: Product) => pr.id === c.productId)?.price ?? 0) * c.qty,
     0,
   );
-  const totalQty = cart.reduce((s, c) => s + c.qty, 0);
+  const totalQty = sumQuantities(cart.map((item) => item.qty));
 
   const flashOver = (m: string) => {
     setOverStockMsg(m);
@@ -2168,7 +2175,7 @@ function SaleQuickScreen(p: AppScreenContext) {
     setCart((c) => {
       const ex = c.find((x) => x.productId === pr.id);
       const cur = ex?.qty ?? 0;
-      const next = Math.min(cur + n, pr.stock);
+      const next = Math.min(stepQuantity(cur, n), pr.stock);
       if (next === cur) {
         flashOver("المطلوب أكبر من المتوفر");
         return c;
@@ -2186,14 +2193,19 @@ function SaleQuickScreen(p: AppScreenContext) {
     flashBump("أُضيف ×5");
   };
 
-  const setQty = (pid: string, qty: number) => {
+  const setQty = (pid: string, qty: number): boolean => {
+    if (!isQuantity(qty, true)) {
+      setOverStockMsg(QUANTITY_ERROR);
+      return false;
+    }
     const pr = p.products.find((x: Product) => x.id === pid)!;
     if (qty > pr.stock) {
       flashOver("المطلوب أكبر من المتوفر");
-      return;
+      return false;
     }
     if (qty <= 0) setCart((c) => c.filter((x) => x.productId !== pid));
     else setCart((c) => c.map((x) => (x.productId === pid ? { ...x, qty } : x)));
+    return true;
   };
 
   const bumpLast = () => {
@@ -2371,15 +2383,15 @@ function SaleQuickScreen(p: AppScreenContext) {
                   <div className="flex-1 text-sm truncate min-w-0">{pr.name}</div>
                   <div className="flex items-center gap-1 shrink-0">
                     <button
-                      onClick={() => setQty(ci.productId, ci.qty - 1)}
+                      onClick={() => setQty(ci.productId, stepQuantity(ci.qty, -1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"
                       aria-label="نقص"
                     >
                       <Minus className="w-3 h-3" />
                     </button>
-                    <span className="w-6 text-center text-xs font-bold num">{ci.qty}</span>
+                    <QuantityInput value={ci.qty} onCommit={(qty) => setQty(ci.productId, qty)} />
                     <button
-                      onClick={() => setQty(ci.productId, ci.qty + 1)}
+                      onClick={() => setQty(ci.productId, stepQuantity(ci.qty, 1))}
                       className="w-7 h-7 rounded-full bg-muted flex items-center justify-center"
                       aria-label="زيادة"
                     >
@@ -2416,7 +2428,7 @@ function SaleQuickScreen(p: AppScreenContext) {
                   <span className="text-sm">إصدار الفاتورة</span>
                   <span className="flex items-center gap-2 text-[12px] opacity-95">
                     <span className="num">{totalQty}</span>
-                    <span className="opacity-60">قطعة ·</span>
+                    <span className="opacity-60">وحدة ·</span>
                     <span className="num font-extrabold text-base">{fmt(subtotal)}</span>
                     <span className="text-[10px] opacity-80">د.ل</span>
                   </span>

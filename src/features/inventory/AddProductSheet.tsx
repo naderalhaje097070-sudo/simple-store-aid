@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from "react";
+import { isQuantity, parseQuantityText, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import { Sheet } from "@/features/shared/Sheet";
 
 export function AddProductSheet({
@@ -19,7 +20,13 @@ export function AddProductSheet({
   }) => void | Promise<void>;
   existingNames?: string[];
   mode?: "add" | "edit";
-  initial?: { name: string; price: number; cost: number; stock: number; is_discount: boolean };
+  initial?: {
+    name: string;
+    price: number;
+    cost: number;
+    stock: number;
+    is_discount: boolean;
+  };
 }) {
   const nameRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState(initial?.name ?? "");
@@ -54,9 +61,15 @@ export function AddProductSheet({
   const trimmedName = name.trim();
   const priceN = Number(price);
   const costN = Number(cost);
-  const stockN = Number(stock);
+  const parsedStock = parseQuantityText(stock);
+  const stockN = parsedStock ?? 0;
 
-  const errors: { name?: string; price?: string; stock?: string; cost?: string } = {};
+  const errors: {
+    name?: string;
+    price?: string;
+    stock?: string;
+    cost?: string;
+  } = {};
   if (!trimmedName) errors.name = "اسم المنتج مطلوب";
   else if (trimmedName.length < 2) errors.name = "الاسم قصير جداً (حرفان على الأقل)";
   else if (trimmedName.length > 60) errors.name = "الاسم طويل (60 حرفاً كحد أقصى)";
@@ -65,7 +78,7 @@ export function AddProductSheet({
   else if (!isFinite(priceN) || priceN <= 0) errors.price = "أدخل سعراً أكبر من صفر";
 
   if (stock === "") errors.stock = "أدخل كمية المخزون (يمكن أن تكون 0)";
-  else if (!isFinite(stockN) || stockN < 0) errors.stock = "الكمية غير صحيحة";
+  else if (parsedStock === null || !isQuantity(stockN, true)) errors.stock = QUANTITY_ERROR;
   else if (stockN > 100000) errors.stock = "الكمية كبيرة جداً";
 
   if (cost !== "" && (!isFinite(costN) || costN < 0)) errors.cost = "تكلفة غير صحيحة";
@@ -165,9 +178,9 @@ export function AddProductSheet({
           </label>
           <input
             value={stock}
-            onChange={(e) => setStock(e.target.value.replace(/\D/g, ""))}
+            onChange={(e) => setStock(e.target.value)}
             onBlur={() => setTouched((t) => ({ ...t, stock: true }))}
-            inputMode="numeric"
+            inputMode="decimal"
             className={`${inputCls("stock")} num text-right`}
             placeholder="0"
           />

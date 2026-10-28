@@ -1,7 +1,9 @@
 const assert = require("node:assert/strict");
 const path = require("node:path");
 const { createRequire } = require("node:module");
-const load = createRequire(path.join(process.env.DEPENDENCY_TEST_ROOT || process.cwd(), "package.json"));
+const load = createRequire(
+  path.join(process.env.DEPENDENCY_TEST_ROOT || process.cwd(), "package.json"),
+);
 const sdk = createRequire(load.resolve("@modelcontextprotocol/sdk/package.json"));
 const express = createRequire(sdk.resolve("express/package.json"));
 const qs = express("qs");
@@ -26,4 +28,13 @@ for (const input of inputs) {
 assert.equal(qs.stringify({ a: ["x", "y"] }, { arrayFormat: "comma" }), "a=x%2Cy");
 assert.equal(qs.stringify({ a: [{ toString: () => "z" }] }, { arrayFormat: "comma" }), "a=z");
 assert.equal(Object.prototype.polluted, undefined);
-console.log(JSON.stringify({ mode: baseline ? "exact-vulnerable-baseline" : "patched", ok: true, hostileCases: observed, normalComma: true, callableToString: true, inputsUnchanged: true }));
+console.log(
+  JSON.stringify({
+    mode: baseline ? "exact-vulnerable-baseline" : "patched",
+    ok: true,
+    hostileCases: observed,
+    normalComma: true,
+    callableToString: true,
+    inputsUnchanged: true,
+  }),
+);

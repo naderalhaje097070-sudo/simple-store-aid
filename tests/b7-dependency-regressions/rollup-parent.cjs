@@ -28,12 +28,20 @@ async function main() {
     fs.mkdirSync(packageDirectory, { recursive: true });
     fs.writeFileSync(
       path.join(packageDirectory, "package.json"),
-      JSON.stringify({ name: "b7-fixture", version: "1.0.0", type: "module", exports: "./index.js" }),
+      JSON.stringify({
+        name: "b7-fixture",
+        version: "1.0.0",
+        type: "module",
+        exports: "./index.js",
+      }),
     );
     fs.writeFileSync(path.join(packageDirectory, "index.js"), "export const value = 37;\n");
     const entry = path.join(directory, "entry.mjs");
     fs.writeFileSync(entry, 'import { value } from "b7-fixture"; export { value };\n');
-    for (const [kind, api] of [["CommonJS", cjs], ["ESM", esm]]) {
+    for (const [kind, api] of [
+      ["CommonJS", cjs],
+      ["ESM", esm],
+    ]) {
       assert.deepEqual(api.DEFAULTS, expected);
       assert.equal(Object.isFrozen(api.DEFAULTS), true);
       for (const value of Object.values(api.DEFAULTS)) {
@@ -43,7 +51,11 @@ async function main() {
       assert.equal(copy.name, "node-resolve");
       assert.deepEqual(api.DEFAULTS, expected);
       const warnings = [];
-      const bundle = await rollup({ input: entry, plugins: [api.nodeResolve()], onwarn: (warning) => warnings.push(warning.code) });
+      const bundle = await rollup({
+        input: entry,
+        plugins: [api.nodeResolve()],
+        onwarn: (warning) => warnings.push(warning.code),
+      });
       try {
         const result = await bundle.generate({ format: "es" });
         assert.deepEqual(warnings, []);
@@ -54,7 +66,13 @@ async function main() {
       } finally {
         await bundle.close();
       }
-      receipt.push({ kind, defaults: true, nestedFrozen: true, instanceIsolation: true, actualPackageResolution: true });
+      receipt.push({
+        kind,
+        defaults: true,
+        nestedFrozen: true,
+        instanceIsolation: true,
+        actualPackageResolution: true,
+      });
     }
     assert.notEqual(cjs.DEFAULTS, esm.DEFAULTS);
     assert.notEqual(cjs.DEFAULTS.extensions, esm.DEFAULTS.extensions);

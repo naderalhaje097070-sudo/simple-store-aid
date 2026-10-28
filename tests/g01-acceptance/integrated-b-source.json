@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "cc13a785269a17b003d42a1beba201d87f490e3a",
+  "snapshot_tree_before_manifest": "5a356e3dad820be3b240b83c81c6e7867c89ec2a",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -1591,12 +1591,12 @@
     },
     {
       "path": "tests/b7-dependency-regressions/qs.cjs",
-      "sha": "a8267fdf7261398b02127e28b0c4f2f0c9688486",
+      "sha": "4e8879f17fd8fc7b5510d0a569fe3d9ed8d86e35",
       "mode": "100644"
     },
     {
       "path": "tests/b7-dependency-regressions/rollup-parent.cjs",
-      "sha": "f02c754366ecbba4550d2892ab5e28822c32e819",
+      "sha": "3f631158f58813651a7eb20c9f3a5b5adddac307",
       "mode": "100644"
     },
     {

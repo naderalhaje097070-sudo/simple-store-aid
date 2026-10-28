@@ -22,4 +22,4 @@ for path, expected in manifest['new_files'].items():
     assert blob(path) == expected, path
 assert len(list((ROOT / 'supabase/migrations').glob('*.sql'))) == 51
 assert (ROOT / manifest['migration']).read_bytes() == (ROOT / 'changes/c2-fractional-quantity/QUANTITY.sql').read_bytes()
-print('C2_SOURCE_388_PRESERVED_EXCEPT_THREE_EXPLICIT_CHANGES_AND_ONE_NEW_MIGRATION')
+print('C2_SOURCE_388_PRESERVED_EXCEPT_FOUR_EXPLICIT_CHANGES_AND_ONE_NEW_MIGRATION')

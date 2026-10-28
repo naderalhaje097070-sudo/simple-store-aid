@@ -1944,8 +1944,9 @@
   ],
   "intentional_changes": {
     "src/lib/db.ts": "364929f02889aa9efa68b06d342049e048bde158",
-    "src/routes/_authenticated/app.tsx": "26a8f0438e766236cf316f9b06259227cf5f843b",
-    "src/features/inventory/AddProductSheet.tsx": "9ba4b39b4f30abaff2bf9f5f19ffbbaf0154d22f"
+    "src/routes/_authenticated/app.tsx": "4f367b3d7f969788ca84aeb64c00c62bb0e0d2e8",
+    "src/features/inventory/AddProductSheet.tsx": "9ba4b39b4f30abaff2bf9f5f19ffbbaf0154d22f",
+    "src/domain/finance/invoice-selectors.ts": "2034d5e5462726b2a02723e50c44eebeda12c2bf"
   },
   "new_files": {
     ".github/workflows/c2-quantity.yml": "89be631f4cd72397d3b80b0b44a5eb436dfee09f",
@@ -1956,9 +1957,9 @@
     "tests/c2-quantity/browser.py": "b5ec6b94b7e6522b3b5b1033faeada18415f28cd",
     "tests/c2-quantity/build.mjs": "725c7a337765ed0699145128ca172b1c90c358b3",
     "tests/c2-quantity/fixture.tsx": "c0d004973b11f81b7c125caa656d49a34ec757de",
-    "tests/c2-quantity/inventory.py": "4bf66a5c28ea72d3b1e9457e6107994782cc3c1d",
-    "tests/c2-quantity/probe.py": "cc6aefe0d0aaf8d94b1be28b443ffc111db94731",
-    "tests/c2-quantity/quantity.test.mjs": "152d46ca224dde54b326e9bd785e079bdd8c7bf1"
+    "tests/c2-quantity/inventory.py": "e89d2204cb5af8d3c10fa98173098b53071c44d8",
+    "tests/c2-quantity/probe.py": "5082f80b38dc23f597ad2bb52df6278d145e1ab0",
+    "tests/c2-quantity/quantity.test.mjs": "be6ec572599eee0a74d31dd34896127b151ead26"
   },
   "migration": "supabase/migrations/20261028213608_fractional_quantity_01.sql"
 }

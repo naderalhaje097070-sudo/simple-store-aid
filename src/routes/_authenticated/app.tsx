@@ -1,3 +1,4 @@
+import { getSaleLineTotal, getSaleTotal } from "@/domain/finance/invoice-selectors";
 import { isQuantity, stepQuantity, sumQuantities, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import { QuantityInput } from "@/features/shared/QuantityInput";
 import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
@@ -1514,9 +1515,11 @@ function SaleScreen(p: AppScreenContext) {
   const [paySheet, setPaySheet] = useState(false);
   const [overStockMsg, setOverStockMsg] = useState<string | null>(null);
 
-  const subtotal = cart.reduce(
-    (s, c) => s + (p.products.find((pr: Product) => pr.id === c.productId)?.price ?? 0) * c.qty,
-    0,
+  const subtotal = getSaleTotal(
+    cart.map((item) => ({
+      price: p.products.find((product: Product) => product.id === item.productId)?.price ?? 0,
+      qty: item.qty,
+    })),
   );
 
   const add = (pr: Product) => {
@@ -1672,7 +1675,10 @@ function SaleScreen(p: AppScreenContext) {
                       <Plus className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                  <Money v={pr.price * ci.qty} className="text-sm w-16 text-left" />
+                  <Money
+                    v={getSaleLineTotal({ price: pr.price, qty: ci.qty })}
+                    className="text-sm w-16 text-left"
+                  />
                 </div>
               );
             })}
@@ -2155,9 +2161,11 @@ function SaleQuickScreen(p: AppScreenContext) {
     return out;
   }, [p.invoices, p.products]);
 
-  const subtotal = cart.reduce(
-    (s, c) => s + (p.products.find((pr: Product) => pr.id === c.productId)?.price ?? 0) * c.qty,
-    0,
+  const subtotal = getSaleTotal(
+    cart.map((item) => ({
+      price: p.products.find((product: Product) => product.id === item.productId)?.price ?? 0,
+      qty: item.qty,
+    })),
   );
   const totalQty = sumQuantities(cart.map((item) => item.qty));
 
@@ -2398,7 +2406,10 @@ function SaleQuickScreen(p: AppScreenContext) {
                       <Plus className="w-3 h-3" />
                     </button>
                   </div>
-                  <Money v={pr.price * ci.qty} className="text-xs w-14 text-left shrink-0 num" />
+                  <Money
+                    v={getSaleLineTotal({ price: pr.price, qty: ci.qty })}
+                    className="text-xs w-14 text-left shrink-0 num"
+                  />
                 </div>
               );
             })}

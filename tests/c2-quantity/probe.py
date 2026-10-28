@@ -18,7 +18,7 @@ class QuantityProbe(Probe):
         names = self.query("select jsonb_agg(schemaname||'.'||tablename order by schemaname,tablename) from pg_tables where schemaname in ('public','monjez_private');")
         if not names or any(not __import__('re').fullmatch(r'(public|monjez_private)\.[a-z_]+', n) for n in names):
             raise HarnessFailure('relation inventory')
-        terms = ["'" + n + "',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by to_jsonb(t)::text),''))) from " + n + " t)" for n in names]
+        terms = ["'" + n + "',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by to_jsonb(t)::text),'')) from " + n + " t)" for n in names]
         return self.query('select jsonb_build_object(' + ','.join(terms) + ');')
 
     def seed_product(self, actor, stock=10):
@@ -43,6 +43,8 @@ class QuantityProbe(Probe):
 
     def before(self, private):
         actors = self.actors()
+        private.write_text(json.dumps({'actors': actors}))
+        private.chmod(0o600)
         pid = self.seed_product(actors['a'])
         code, body = self.sale(actors['a'], pid, .25)
         self.control('old_fractional_sale_reaches_actual_RPC', code == 200 and body.get('success') is True)
@@ -112,6 +114,12 @@ class QuantityProbe(Probe):
         self.control('concurrent_fractional_sale_one_winner', sorted(x[0] for x in results) == [200, 400])
         self.control('concurrent_fractional_stock_exact', self.stock(concurrent) == .25)
         self.control('concurrent_one_persisted_line', self.query(f"select jsonb_build_object('n',count(*),'qty',sum(qty)) from public.order_items where product_id='{concurrent}';") == {'n': 1, 'qty': .75})
+        priced = self.seed_product(a, 1)
+        self.sql(f"update public.products set price=12.50,cost=4.25 where id='{priced}';")
+        code, half = self.sale(a, priced, .25, paid=3.13)
+        self.control('existing_half_cent_policy_accepts_full_payment_without_customer', code == 200 and half.get('success') is True)
+        values = self.query(f"select jsonb_build_object('total',total,'paid',paid,'status',status,'customer',customer_id) from public.orders where id='{half['order_id']}';")
+        self.control('stored_half_cent_total_paid_and_stock', values == {'total': 3.13, 'paid': 3.13, 'status': 'paid', 'customer': None} and self.stock(priced) == .75)
         code, _ = self.request('PUT', '/auth/v1/admin/users/' + a['uid'], {'ban_duration': '24h'}, admin=True)
         self.control('dummy_owner_banned', code == 200)
         before = self.snapshot()

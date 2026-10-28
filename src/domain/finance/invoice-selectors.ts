@@ -1,3 +1,24 @@
+import { isQuantity } from "./quantity";
+
+// Creation must match the existing SQL numeric(12,2) accumulator: each positive
+// line rounds to cents before summation. Stored invoice totals remain authoritative.
+export function getSaleLineTotal(item: { price: number; qty: number }): number {
+  if (!isQuantity(item.price, true) || !isQuantity(item.qty))
+    throw new RangeError("invalid_sale_amount");
+  const cents = BigInt(Math.round(item.price * 100));
+  const quantityUnits = BigInt(Math.round(item.qty * 100));
+  const total = (cents * quantityUnits + 50n) / 100n;
+  return Number(total) / 100;
+}
+
+export function getSaleTotal(items: { price: number; qty: number }[]): number {
+  const cents = items.reduce(
+    (sum, item) => sum + BigInt(Math.round(getSaleLineTotal(item) * 100)),
+    0n,
+  );
+  return Number(cents) / 100;
+}
+
 export type FinanceInvoiceItem = {
   qty: number;
   price: number;

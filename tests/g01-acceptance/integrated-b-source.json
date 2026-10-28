@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "7b1ea5f134388d5c8f3d3e4dc95182092ddfe335",
+  "snapshot_tree_before_manifest": "e56f2828ef5ddf357607c0725eb0c749f6c38ae1",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -392,7 +392,7 @@
     {
       "path": "scripts/prepare-b7-rollup.py",
       "mode": "100644",
-      "sha": "dd8b15c846395ff74d76c0dddaf703150f08092c"
+      "sha": "622f64cf492b26a43153a54e594ef616626c4f3a"
     },
     {
       "path": "src/components/DateRangeFilter.tsx",

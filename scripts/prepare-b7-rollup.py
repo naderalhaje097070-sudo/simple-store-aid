@@ -15,25 +15,33 @@ import tarfile
 source, output, evidence = map(Path, sys.argv[1:])
 evidence.mkdir(parents=True, exist_ok=True)
 files = {}
+duplicate_members = []
 with tarfile.open(source, "r:gz") as archive:
     for entry in archive.getmembers():
         name = PurePosixPath(entry.name)
         assert not name.is_absolute() and ".." not in name.parts
         assert entry.isfile() or entry.isdir(), "Unexpected archive link/device"
         if entry.isfile():
-            files[entry.name] = archive.extractfile(entry).read()
+            canonical = str(name)
+            content = archive.extractfile(entry).read()
+            if canonical in files:
+                assert files[canonical] == content, "Conflicting duplicate tar member"
+                duplicate_members.append({"member": entry.name, "canonical": canonical, "sha256": hashlib.sha256(content).hexdigest()})
+            files[canonical] = content
 original = dict(files)
 package = json.loads(files["package/package.json"])
 assert package["name"] == "@rollup/plugin-node-resolve"
 assert package["version"] == "16.0.3"
 assert package["dependencies"].pop("deepmerge") == "^4.2.2"
-files["package/package.json"] = (json.dumps(package, indent=2) + "\n").encode()
+package_text, removed_dependency = re.subn(r'^    "deepmerge": "\^4\.2\.2",\n', "", files["package/package.json"].decode(), flags=re.M)
+assert removed_dependency == 1 and json.loads(package_text) == package
+files["package/package.json"] = package_text.encode()
 for name in ["package/dist/cjs/index.js", "package/dist/es/index.js"]:
     text = files[name].decode()
     if "/cjs/" in name:
         text, imports = re.subn(r"^(?:var|const) deepMerge = require\(['\"]deepmerge['\"]\);\n", "", text, flags=re.M)
         text, interop = re.subn(r"^(?:var|const) deepMerge__default = (?:/\*#__PURE__\*/)?\s*_interopDefault(?:Legacy)?\(deepMerge\);\n", "", text, flags=re.M)
-        assert imports == interop == 1, "Unrecognized official CommonJS import shape"
+        assert imports == 1 and interop == 0, "Unrecognized official CommonJS import shape"
     else:
         text, imports = re.subn(r"^import deepMerge from ['\"]deepmerge['\"];\n", "", text, flags=re.M)
         assert imports == 1, "Unrecognized official ESM import shape"
@@ -50,6 +58,7 @@ receipt = {
     "package": "@rollup/plugin-node-resolve", "version": "16.0.3",
     "official_archive_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
     "changed_paths": changed,
+    "normalized_duplicate_members": duplicate_members,
     "files": {name: {"official_sha256": hashlib.sha256(original[name]).hexdigest(), "patched_sha256": hashlib.sha256(content).hexdigest()} for name, content in files.items()},
     "scope": "Transparent local patch: static DEFAULTS clone only; unused deepmerge dependency/import removed. No upstream fixed-release claim.",
 }

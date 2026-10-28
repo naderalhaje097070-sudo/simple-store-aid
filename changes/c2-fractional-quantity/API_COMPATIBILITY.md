@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # API
 
 No RPC signature/result or generated TypeScript scalar shape changes: stock/qty remain JSON numbers and generated number types. Existing integer values remain accepted. New behavior: fractional stock persists exactly at the already supported two-decimal item precision; unsupported precision rejects instead of silent numeric/int coercion. Raw quantity guards precede any financial write. Old customer/courier rules remain unchanged until the separately planned C3/interface composition.

@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # Rollback
 
 Do not cast fractional stock back to integer or silently round historic/current quantities. A later code rollback must remain compatible with numeric stock; forward compensation may remove faulty behavior only after assessing preserved fractional data, never drop data or recreate non-idempotent/auth bypasses. Applied old files stay immutable and original branches remain.

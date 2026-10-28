@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # Migration
 
 CLI2.101.0 generated20261028213608_fractional_quantity_01.sql; tarball official SHA256285877ef9de845d76487772e0d36019a095ee28b527b9abbd6739eeba4d3dbf9 verified against release metadata. Initial archive extraction/shim and missing workdir attempts failed; after diagnosis, co-located binaries and an actual initialized scratch workdir were used. Telemetry auto-review rejection is retained; official disabled state and opt-out variables removed that risk before successful generation. No filename was invented.

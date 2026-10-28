@@ -1,0 +1,341 @@
+{
+  "total_count": 2,
+  "jobs": [
+    {
+      "id": 123129252474,
+      "run_id": 40777141124,
+      "workflow_name": "Integrated G0 verification",
+      "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+      "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/40777141124",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTGGTG88AAAAcqxNKeg",
+      "head_sha": "3726567d06d2ca21c5fb0d724571bf126c74be7c",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/123129252474",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40777141124/job/123129252474",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-28T22:04:50Z",
+      "started_at": "2026-10-28T22:04:53Z",
+      "completed_at": "2026-10-28T22:05:13Z",
+      "name": "quality",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-28T22:04:54Z",
+          "completed_at": "2026-10-28T22:04:56Z"
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-28T22:04:56Z",
+          "completed_at": "2026-10-28T22:04:59Z"
+        },
+        {
+          "name": "Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-28T22:04:59Z",
+          "completed_at": "2026-10-28T22:05:01Z"
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-28T22:05:01Z",
+          "completed_at": "2026-10-28T22:05:08Z"
+        },
+        {
+          "name": "Check reviewed generated source formatting",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-28T22:05:08Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Exact integrated source identity and fail-closed mutations",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 6,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Full repository lint including CommonJS and ESM",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Read-only existing CI policy contract",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Type erasure and actual hook callback wire replay",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Build entry failure and forwarding contracts",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Focused foundation read and CI regressions",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Offline server environment boundary",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 14,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 15,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Install pinned browser test tooling",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Verify browser redirect, WebSocket and origin containment",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 17,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Actual financial read UI and export regression",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 18,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Build from mode-specific env file",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 19,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 20,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Verify generation leaves tracked application files intact",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 21,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Recheck complete protected source after both builds",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 22,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Upload quality diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Upload source identity receipt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Post Setup Bun",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 47,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:09Z"
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 48,
+          "started_at": "2026-10-28T22:05:09Z",
+          "completed_at": "2026-10-28T22:05:10Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49,
+          "started_at": "2026-10-28T22:05:10Z",
+          "completed_at": "2026-10-28T22:05:10Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/123129252474",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000983,
+      "runner_name": "GitHub Actions 1000000983",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 123129252794,
+      "run_id": 40777141124,
+      "workflow_name": "Integrated G0 verification",
+      "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+      "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/40777141124",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTGGTG88AAAAcqxNLug",
+      "head_sha": "3726567d06d2ca21c5fb0d724571bf126c74be7c",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/123129252794",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40777141124/job/123129252794",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-10-28T22:04:50Z",
+      "started_at": "2026-10-28T22:04:52Z",
+      "completed_at": "2026-10-28T22:05:01Z",
+      "name": "audit",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-28T22:04:53Z",
+          "completed_at": "2026-10-28T22:04:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-28T22:04:54Z",
+          "completed_at": "2026-10-28T22:04:56Z"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-28T22:04:56Z",
+          "completed_at": "2026-10-28T22:04:58Z"
+        },
+        {
+          "name": "Complete supported audit with actual exit preserved",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-28T22:04:58Z",
+          "completed_at": "2026-10-28T22:04:58Z"
+        },
+        {
+          "name": "Upload complete audit output",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-28T22:04:58Z",
+          "completed_at": "2026-10-28T22:04:59Z"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-28T22:04:59Z",
+          "completed_at": "2026-10-28T22:04:59Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-28T22:04:59Z",
+          "completed_at": "2026-10-28T22:04:59Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-28T22:04:59Z",
+          "completed_at": "2026-10-28T22:04:59Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/123129252794",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000984,
+      "runner_name": "GitHub Actions 1000000984",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

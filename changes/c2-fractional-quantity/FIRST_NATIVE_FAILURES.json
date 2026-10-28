@@ -1,0 +1,58 @@
+[
+  {
+    "job": 123122896248,
+    "source": "a547fcc238f9c2f1df81e748d0c6b5c5f590d483",
+    "run": 40775290985,
+    "outcome": "failed",
+    "trace": [
+      "2026-10-28T21:53:37.6220579Z Traceback (most recent call last):",
+      "2026-10-28T21:53:37.6221622Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 139, in <module>",
+      "2026-10-28T21:53:37.6222393Z     main()",
+      "2026-10-28T21:53:37.6223481Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 133, in main",
+      "2026-10-28T21:53:37.6224993Z     result = getattr(probe, args.phase)(args.private_state)",
+      "2026-10-28T21:53:37.6227030Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "2026-10-28T21:53:37.6228019Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 51, in before",
+      "2026-10-28T21:53:37.6229131Z     state = {'actors': actors, 'snapshot': self.snapshot()}",
+      "2026-10-28T21:53:37.6229855Z                                            ^^^^^^^^^^^^^^^",
+      "2026-10-28T21:53:37.6230901Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 22, in snapshot",
+      "2026-10-28T21:53:37.6231870Z     return self.query('select jsonb_build_object(' + ','.join(terms) + ');')",
+      "2026-10-28T21:53:37.6232886Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "2026-10-28T21:53:37.6233834Z   File \"/tmp/monjez-c2qty/repo/tests/account-lifecycle/live_probe.py\", line 93, in query",
+      "2026-10-28T21:53:37.6235153Z     return json.loads(self.sql(sql))",
+      "2026-10-28T21:53:37.6236150Z                       ^^^^^^^^^^^^^",
+      "2026-10-28T21:53:37.6237346Z   File \"/tmp/monjez-c2qty/repo/tests/account-lifecycle/live_probe.py\", line 88, in sql",
+      "2026-10-28T21:53:37.6266685Z ##[error]    raise HarnessFailure('isolated SQL execution failed')",
+      "2026-10-28T21:53:37.6277212Z live_probe.HarnessFailure: isolated SQL execution failed",
+      "2026-10-28T21:53:37.6367807Z ##[error]Process completed with exit code 1."
+    ],
+    "diagnosis": "snapshot SELECT closed its subquery before FROM; one excess ')' removed. No assertion or stored-data scope relaxed."
+  },
+  {
+    "job": 123122896722,
+    "source": "a547fcc238f9c2f1df81e748d0c6b5c5f590d483",
+    "run": 40775290985,
+    "outcome": "failed",
+    "trace": [
+      "2026-10-28T21:54:04.1245176Z Traceback (most recent call last):",
+      "2026-10-28T21:54:04.1246210Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 139, in <module>",
+      "2026-10-28T21:54:04.1246889Z     main()",
+      "2026-10-28T21:54:04.1247462Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 133, in main",
+      "2026-10-28T21:54:04.1248145Z     result = getattr(probe, args.phase)(args.private_state)",
+      "2026-10-28T21:54:04.1248739Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "2026-10-28T21:54:04.1249355Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 81, in after",
+      "2026-10-28T21:54:04.1249930Z     before = self.snapshot()",
+      "2026-10-28T21:54:04.1250331Z              ^^^^^^^^^^^^^^^",
+      "2026-10-28T21:54:04.1250958Z   File \"/tmp/monjez-c2qty/repo/tests/c2-quantity/probe.py\", line 22, in snapshot",
+      "2026-10-28T21:54:04.1251691Z     return self.query('select jsonb_build_object(' + ','.join(terms) + ');')",
+      "2026-10-28T21:54:04.1252884Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+      "2026-10-28T21:54:04.1255961Z   File \"/tmp/monjez-c2qty/repo/tests/account-lifecycle/live_probe.py\", line 93, in query",
+      "2026-10-28T21:54:04.1256819Z     return json.loads(self.sql(sql))",
+      "2026-10-28T21:54:04.1257323Z                       ^^^^^^^^^^^^^",
+      "2026-10-28T21:54:04.1258087Z   File \"/tmp/monjez-c2qty/repo/tests/account-lifecycle/live_probe.py\", line 88, in sql",
+      "2026-10-28T21:54:04.1288801Z ##[error]    raise HarnessFailure('isolated SQL execution failed')",
+      "2026-10-28T21:54:04.1298544Z live_probe.HarnessFailure: isolated SQL execution failed",
+      "2026-10-28T21:54:04.1429431Z ##[error]Process completed with exit code 1."
+    ],
+    "diagnosis": "snapshot SELECT closed its subquery before FROM; one excess ')' removed. No assertion or stored-data scope relaxed."
+  }
+]

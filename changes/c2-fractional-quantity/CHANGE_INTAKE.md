@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # C2 fractional quantity intake
 
 Owner explicitly selected fractional selling (weight/length/partial units), resolving reserved C1 decision. Standing implementation plan and this decision authorize the bounded C2 change. Claim55/6481133997. Existing branch integration/g0-g1-reconcile-2026-10-18; base5601d634, accepted main220fc206 unchanged.

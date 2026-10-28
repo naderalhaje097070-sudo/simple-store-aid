@@ -1,0 +1,295 @@
+{
+  "source": "3726567d06d2ca21c5fb0d724571bf126c74be7c",
+  "checks": [
+    {
+      "name": "C2_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C2_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C2_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C2_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C2_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "51_migrations_applied",
+      "passed": true
+    },
+    {
+      "name": "uncoerced_decimal_quantity_columns",
+      "passed": true
+    },
+    {
+      "name": "authenticated_fractional_stock_update",
+      "passed": true
+    },
+    {
+      "name": "stock_reset_exact",
+      "passed": true
+    },
+    {
+      "name": "quarter_sale_0",
+      "passed": true
+    },
+    {
+      "name": "quarter_stock_0",
+      "passed": true
+    },
+    {
+      "name": "quarter_sale_1",
+      "passed": true
+    },
+    {
+      "name": "quarter_stock_1",
+      "passed": true
+    },
+    {
+      "name": "quarter_sale_2",
+      "passed": true
+    },
+    {
+      "name": "quarter_stock_2",
+      "passed": true
+    },
+    {
+      "name": "quarter_sale_3",
+      "passed": true
+    },
+    {
+      "name": "quarter_stock_3",
+      "passed": true
+    },
+    {
+      "name": "stored_four_quarters_equal_one_unit_and_100_cash",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_0.001",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_0.001",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_0.999",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_0.999",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_1.001",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_1.001",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_0",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_0",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_-1",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_-1",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_NaN",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_NaN",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_Infinity",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_Infinity",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_None",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_None",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_quantity_99",
+      "passed": true
+    },
+    {
+      "name": "rejection_atomic_99",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_stock_0.001",
+      "passed": true
+    },
+    {
+      "name": "stock_rejection_atomic_0.001",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_stock_-0.25",
+      "passed": true
+    },
+    {
+      "name": "stock_rejection_atomic_-0.25",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_stock_NaN",
+      "passed": true
+    },
+    {
+      "name": "stock_rejection_atomic_NaN",
+      "passed": true
+    },
+    {
+      "name": "reject_invalid_stock_Infinity",
+      "passed": true
+    },
+    {
+      "name": "stock_rejection_atomic_Infinity",
+      "passed": true
+    },
+    {
+      "name": "foreign_product_denied",
+      "passed": true
+    },
+    {
+      "name": "foreign_denial_atomic",
+      "passed": true
+    },
+    {
+      "name": "C2_staff_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_staff_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_staff_A_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C2_staff_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C2_staff_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "active_staff_fractional_sale",
+      "passed": true
+    },
+    {
+      "name": "fractional_courier_created",
+      "passed": true
+    },
+    {
+      "name": "return_restores_exact_quarter",
+      "passed": true
+    },
+    {
+      "name": "unpaid_fractional_direct_sale",
+      "passed": true
+    },
+    {
+      "name": "delete_restores_exact_quarter",
+      "passed": true
+    },
+    {
+      "name": "concurrent_fractional_sale_one_winner",
+      "passed": true
+    },
+    {
+      "name": "concurrent_fractional_stock_exact",
+      "passed": true
+    },
+    {
+      "name": "concurrent_one_persisted_line",
+      "passed": true
+    },
+    {
+      "name": "existing_half_cent_policy_accepts_full_payment_without_customer",
+      "passed": true
+    },
+    {
+      "name": "stored_half_cent_total_paid_and_stock",
+      "passed": true
+    },
+    {
+      "name": "dummy_owner_banned",
+      "passed": true
+    },
+    {
+      "name": "old_banned_token_rejected",
+      "passed": true
+    },
+    {
+      "name": "banned_denial_atomic",
+      "passed": true
+    }
+  ],
+  "bounded_C2_pass": true,
+  "full_C_acceptance": false
+}

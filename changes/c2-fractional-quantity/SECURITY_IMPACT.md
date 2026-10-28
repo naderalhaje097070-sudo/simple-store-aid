@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # Security
 
 Preserve original active-actor/staff/tenant checks, function owner/ACL through CREATE OR REPLACE, every old migration and all unrelated source. No new SECURITY DEFINER entrypoint or schema visibility. Constraints also protect direct product writes; client validation is supplementary.

@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # Dependencies
 
 AddProductSheet→parseQuantityText/isQuantity→current product hooks→products RLS/CHECK. Both existing SaleScreen/QuickSale carts→QuantityInput and common quantity step/sum→useCreateSale→legacy SQL RPC→product row lock/order item/stock update/payment.

@@ -1,3 +1,5 @@
+> FINAL C2 amendment: tested source3726567;4existing source changes (including centralized current-SQL creation-cent rounding) plus explicit new quantity files. Local18quantity+5cent controls; native69fresh,13baseline+60upgrade,desktop/mobile allpass, full compatibility pass. G0frozen-B identity remains failed; no independent/full-C/merge acceptance. See RESULT.md and VERIFICATION.json; earlier preparation text below is retained context.
+
 # Validation plan/current attribution
 
 Local:18 quantity parser/step/sum cases, Python syntax compile, exact locked Prettier3.8.3/tool integrity and focused formatting. Hosted C2 workflow runs actual fresh51 and populated50→51; the upgrade first reproduces old quarter line/integer-stock mismatch and freezes a complete relation snapshot. It then proves exact new quarter stock/100cash arithmetic, invalid raw qty/stock atomic rejection, owner/staff/foreign/banned transport, return/delete restoration and two concurrent0.75requests against1stock.

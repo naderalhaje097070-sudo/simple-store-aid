@@ -1,0 +1,230 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "tested_source": "3726567d06d2ca21c5fb0d724571bf126c74be7c",
+  "tested_tree": "f102a8ae1c09e604057caa5364efbedd4c1681f0",
+  "owner_policy": "Fractional units explicitly required: weight/metres/partial units",
+  "precision": "existing two-decimal order-item contract; reject unsupported precision, never silently round quantities",
+  "main_unchanged": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+  "migration": "20261028213608_fractional_quantity_01.sql",
+  "original50_SQL_exact": true,
+  "native": {
+    "run": 40777141082,
+    "attempt": 1,
+    "conclusion": "success",
+    "fresh": {
+      "job": 123129253392,
+      "checks": 69,
+      "passed": true,
+      "artifact": 12855687004
+    },
+    "upgrade": {
+      "job": 123129253456,
+      "before_expected_red_checks": 13,
+      "after_checks": 60,
+      "passed": true,
+      "artifact": 12855302992
+    },
+    "frontend": {
+      "job": 123129253180,
+      "desktop_mobile": 2,
+      "passed": true,
+      "artifact": 12855072295,
+      "scope": "Real QuantityInput/AddProductSheet components with synthetic save callbacks; not full integrated sale browser"
+    }
+  },
+  "compatibility": {
+    "run": 40777140992,
+    "job": 123129252261,
+    "conclusion": "success",
+    "steps": [
+      {
+        "name": "Set up job",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/checkout@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run oven-sh/setup-bun@v2",
+        "conclusion": "success"
+      },
+      {
+        "name": "Run actions/setup-node@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Frozen dependencies",
+        "conclusion": "success"
+      },
+      {
+        "name": "Verify actual PR-head routing and historical benchmark boundaries",
+        "conclusion": "success"
+      },
+      {
+        "name": "Locked serialization exports",
+        "conclusion": "success"
+      },
+      {
+        "name": "Generated formatting",
+        "conclusion": "success"
+      },
+      {
+        "name": "Typecheck",
+        "conclusion": "success"
+      },
+      {
+        "name": "Full lint",
+        "conclusion": "success"
+      },
+      {
+        "name": "Unit tests",
+        "conclusion": "success"
+      },
+      {
+        "name": "Original OC APP wire regression",
+        "conclusion": "success"
+      },
+      {
+        "name": "Build",
+        "conclusion": "success"
+      },
+      {
+        "name": "Generation retains tracked files",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/setup-node@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run oven-sh/setup-bun@v2",
+        "conclusion": "success"
+      },
+      {
+        "name": "Post Run actions/checkout@v4",
+        "conclusion": "success"
+      },
+      {
+        "name": "Complete job",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "audit": {
+    "run": 40777141124,
+    "job": 123129252794,
+    "conclusion": "success"
+  },
+  "G0": {
+    "run": 40777141124,
+    "job": 123129252474,
+    "conclusion": "failure",
+    "reason": "integrated_identity.IdentityError: Protected source path set changed",
+    "disposition": "Frozen B gate not weakened or relabeled. Explicit C integration source-identity adapter and current full C acceptance remain required."
+  },
+  "local": {
+    "quantity_cases": 18,
+    "SQL_cent_policy_cases": 5,
+    "actual_selected_create_callback_controls": 5,
+    "callback_note": "Synthetic transport, source callback/blob preserved; not SQL proof.",
+    "format": "Official locked Prettier3.8.3 integrity verified, repository config used",
+    "syntax": true
+  },
+  "source_preservation": {
+    "baseline": 388,
+    "exact_baseline": 384,
+    "intentional_existing_changes": [
+      "src/lib/db.ts",
+      "src/routes/_authenticated/app.tsx",
+      "src/features/inventory/AddProductSheet.tsx",
+      "src/domain/finance/invoice-selectors.ts"
+    ],
+    "new_pinned_files": 11,
+    "new_source_manifest_separately_head_pinned": true,
+    "both_A_B_manifests_unchanged": true,
+    "new_active_migration": 1,
+    "old_SQL_not_edited": true,
+    "no_package_lock_changes": true
+  },
+  "raw_zip_artifacts_verified_and_preserved": [
+    {
+      "id": 12855687004,
+      "name": "c2-fractional-fresh-attempt1",
+      "sha256": "1c06969d99df9f5f050fbd871b9d3b1c9f05cafcac3530082cb97efdef967ad7",
+      "size": 2004,
+      "git_blob": "3517c7803e373057478bb90f9ed4b8d16a0bb6e4",
+      "path": "evidence/12855687004.zip",
+      "source": "3726567d06d2ca21c5fb0d724571bf126c74be7c"
+    },
+    {
+      "id": 12855302992,
+      "name": "c2-fractional-upgrade-attempt1",
+      "sha256": "9f5a7a640eb46159ababca1f10b547b4963d39de833b95ba9082731825fa322e",
+      "size": 2372,
+      "git_blob": "10f0f95f8c43ba1079e414b34516ed86b75f0335",
+      "path": "evidence/12855302992.zip",
+      "source": "3726567d06d2ca21c5fb0d724571bf126c74be7c"
+    },
+    {
+      "id": 12855072295,
+      "name": "c2-component-browser",
+      "sha256": "e992c89c08adc0d3419a771f4322867adb3b96c2ee3f1eff3534537da71fc2ca",
+      "size": 376,
+      "git_blob": "5557bef18e205bbfa1b388044fedf739b3316bc9",
+      "path": "evidence/12855072295.zip",
+      "source": "3726567d06d2ca21c5fb0d724571bf126c74be7c"
+    },
+    {
+      "id": 12854791659,
+      "name": "c2-fractional-upgrade-attempt1",
+      "sha256": "ed5b97a4d42d42dc7637d1395504986d25459d5fd13271f2213e13ced4aa2537",
+      "size": 678,
+      "git_blob": "c417054d5eb96045cd0828912d4d172763095a2d",
+      "path": "evidence/12854791659.zip",
+      "source": "a547fcc238f9c2f1df81e748d0c6b5c5f590d483"
+    },
+    {
+      "id": 12853844023,
+      "name": "c2-fractional-fresh-attempt1",
+      "sha256": "6f8d0faedfda4a2fd37ada0b7127054b33f8ca9b43bac94992f3f99691b49eaf",
+      "size": 747,
+      "git_blob": "fff9cf3e3d00cc1fcf3a2920e0a48d32193544aa",
+      "path": "evidence/12853844023.zip",
+      "source": "a547fcc238f9c2f1df81e748d0c6b5c5f590d483"
+    }
+  ],
+  "runtime_results": [
+    "four quarter sales persist qty1,total100,paid100,payments100 and exact stock9 from10",
+    "raw excess precision/zero/negative/nonfinite/insufficient stock rejected atomically",
+    "direct fractional stock update and invalid direct writes enforced by database constraints",
+    "real owner/staff succeed; foreign product and banned old token denied without mutation",
+    "return/delete restore exact quarter; two concurrent0.75 against stock1 give one winner and0.25stock",
+    "price12.50×qty0.25 commits total3.13 paid3.13 without customer/debt",
+    "populated upgrade preserves all public/private relation fingerprints; earlier observed historical mismatch preserved, not silently repaired",
+    "UID canary blocked before credentials, zero unexpected IPv4/IPv6 egress, status/state/stack fully removed",
+    "component invalid/pending draft cannot complete using previous stored quantity"
+  ],
+  "no_new_independent_review": true,
+  "full_C_acceptance": false,
+  "integration_accepted": false,
+  "no_merge_or_deploy_or_PR_closure": true,
+  "remaining_open": [
+    27,
+    35,
+    39,
+    49,
+    50
+  ],
+  "no_production_access_or_new_cost": true,
+  "limitations": [
+    "C3/C4 and full financial C5/T1–T15/canonical RPC/deployed client/concurrency/idempotency/restore/RC/Pilot/release acceptance remain open",
+    "Fresh independent financial/security review is not performed; no merge proposal",
+    "Unsupported historical-data preflight refusal is source-checked, not a separately executed hostile-history rollback fixture",
+    "Full actual sale screens/native HTTP client flow not newly browser-driven; real shared components, TypeScript/wire/build and actual server RPC are separate proofs",
+    "Production historic stock reconciliation is unknown and not auto-backfilled",
+    "G0 frozen-B source identity failure remains a real integration blocker"
+  ],
+  "one_next": "C3: compose original49/50 with A+B+C2 and forward-correct canonical sale/courier adapters, preserving raw quantity guards, numeric schema, live actor/tenant/staff checks and idempotent privileges. No history rewrite."
+}

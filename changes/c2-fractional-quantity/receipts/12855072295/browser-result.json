@@ -1,0 +1,24 @@
+{
+  "observations": [
+    {
+      "viewport": "desktop",
+      "quarter_commit": true,
+      "invalid_and_excess_stock_rejected": true,
+      "product_fractional_stock_preserved": true,
+      "excess_precision_not_saved": true,
+      "invalid_draft_cannot_complete_previous_quantity": true,
+      "external_requests": 0
+    },
+    {
+      "viewport": "mobile",
+      "quarter_commit": true,
+      "invalid_and_excess_stock_rejected": true,
+      "product_fractional_stock_preserved": true,
+      "excess_precision_not_saved": true,
+      "invalid_draft_cannot_complete_previous_quantity": true,
+      "external_requests": 0
+    }
+  ],
+  "component_fixture_only": true,
+  "database_calls": 0
+}

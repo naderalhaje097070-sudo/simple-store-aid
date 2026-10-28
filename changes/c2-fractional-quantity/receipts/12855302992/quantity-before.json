@@ -1,0 +1,65 @@
+{
+  "expected_red": "C2_INTEGER_STOCK_FRACTION_MISMATCH",
+  "checks": [
+    {
+      "name": "C2_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C2_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C2_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C2_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C2_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C2_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "old_fractional_sale_reaches_actual_RPC",
+      "passed": true
+    },
+    {
+      "name": "old_integer_stock_rounding_reproduced",
+      "passed": true
+    },
+    {
+      "name": "old_order_item_retains_quarter",
+      "passed": true
+    }
+  ]
+}

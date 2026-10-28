@@ -1,15 +1,14 @@
-name: B dependency official preparation
+name: Historical B7 dependency official preparation
 
 on:
-  push:
-    branches: [integration/g0-g1-reconcile-2026-10-18]
-    paths: [.github/workflows/b-dep-prepare.yml]
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
   prepare:
+    name: Historical B7 preparation f3f3acb99c1b75f58b1294329fec6648c5d9c58b
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -17,6 +16,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          ref: f3f3acb99c1b75f58b1294329fec6648c5d9c58b
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -29,6 +29,7 @@ jobs:
           set -euo pipefail
           out="$RUNNER_TEMP/b-dep-prepare"
           mkdir -p "$out"
+          test "$(git rev-parse HEAD)" = f3f3acb99c1b75f58b1294329fec6648c5d9c58b
           git rev-parse HEAD > "$out/source.txt"
           bun install --frozen-lockfile 2>&1 | tee "$out/frozen-baseline.log"
           git diff --exit-code -- package.json bun.lock bunfig.toml

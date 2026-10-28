@@ -1,0 +1,90 @@
+name: B7 dependency advisory regressions
+on:
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths:
+      - package.json
+      - bun.lock
+      - .github/workflows/b7-dependency-regressions.yml
+      - tests/b7-dependency-regressions/**
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - package.json
+      - bun.lock
+      - .github/workflows/b7-dependency-regressions.yml
+      - tests/b7-dependency-regressions/**
+permissions:
+  contents: read
+jobs:
+  regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - name: Exact candidate frozen install and independent source identity
+        shell: bash
+        env:
+          EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE"
+          mkdir -p "$RUNNER_TEMP/b7-advisory"
+          git rev-parse HEAD > "$RUNNER_TEMP/b7-advisory/source.txt"
+          bun install --frozen-lockfile --ignore-scripts
+          python tests/g01-acceptance/capture.py identity
+          cp "$RUNNER_TEMP/g01-evidence/identity.json" "$RUNNER_TEMP/b7-advisory/identity.json"
+      - name: Preserve formatter output for review without mutating source
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import fs from 'node:fs/promises';
+          import path from 'node:path';
+          import * as prettier from 'prettier';
+          for (const file of ['tests/b7-dependency-regressions/check.cjs', 'tests/b7-dependency-regressions/compressed-child.cjs']) {
+            const output = path.join(process.env.RUNNER_TEMP, 'b7-advisory/formatted', file);
+            await fs.mkdir(path.dirname(output), { recursive: true });
+            const options = await prettier.resolveConfig(file);
+            await fs.writeFile(output, await prettier.format(await fs.readFile(file, 'utf8'), { ...options, filepath: file }));
+          }
+          JS
+      - name: Seven advisory boundaries on the current patched graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          node tests/b7-dependency-regressions/check.cjs | tee "$RUNNER_TEMP/b7-advisory/patched.json"
+      - name: Same bounded regressions reproduce seven findings on exact vulnerable graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          baseline=32af64252c1b5a3d305826c1b731d654c9231fd9
+          baseline_dir="$(mktemp -d)"
+          for file in package.json bun.lock bunfig.toml; do
+            git show "$baseline:$file" > "$baseline_dir/$file"
+          done
+          sha256sum "$baseline_dir/package.json" "$baseline_dir/bun.lock" > "$RUNNER_TEMP/b7-advisory/baseline-sha256.txt"
+          (cd "$baseline_dir" && bun install --frozen-lockfile --ignore-scripts)
+          DEPENDENCY_TEST_ROOT="$baseline_dir" node tests/b7-dependency-regressions/check.cjs --baseline | tee "$RUNNER_TEMP/b7-advisory/baseline.json"
+          cmp "$baseline_dir/package.json" <(git show "$baseline:package.json")
+          cmp "$baseline_dir/bun.lock" <(git show "$baseline:bun.lock")
+      - name: Exact source remains unchanged
+        run: git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: b7-advisory-regressions
+          path: ${{ runner.temp }}/b7-advisory
+          if-no-files-found: error
+          retention-days: 7

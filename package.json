@@ -75,7 +75,7 @@
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^6.0.2",
-    "zod": "^4.4.3"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
@@ -105,7 +105,7 @@
     "proxy-addr": "2.0.8",
     "shell-quote": "1.11.0",
     "browserslist": "4.29.3",
-    "fast-uri": "3.1.8",
+    "fast-uri": "3.1.9",
     "ip-address": "10.7.4",
     "js-yaml": "4.3.2",
     "nanoid": "3.3.19",
@@ -119,14 +119,17 @@
     "@babel/core": "7.29.7",
     "@hono/node-server": "1.19.15",
     "esbuild": "0.28.1",
-    "launch-editor": "2.14.2"
+    "launch-editor": "2.14.2",
+    "body-parser": "2.4.0",
+    "zod": "4.6.6",
+    "serialize-javascript": "7.1.3"
   },
   "resolutions": {
     "@modelcontextprotocol/sdk": "1.32.0",
     "proxy-addr": "2.0.8",
     "shell-quote": "1.11.0",
     "browserslist": "4.29.3",
-    "fast-uri": "3.1.8",
+    "fast-uri": "3.1.9",
     "ip-address": "10.7.4",
     "js-yaml": "4.3.2",
     "nanoid": "3.3.19",
@@ -140,6 +143,9 @@
     "@babel/core": "7.29.7",
     "@hono/node-server": "1.19.15",
     "esbuild": "0.28.1",
-    "launch-editor": "2.14.2"
+    "launch-editor": "2.14.2",
+    "body-parser": "2.4.0",
+    "zod": "4.6.6",
+    "serialize-javascript": "7.1.3"
   }
 }

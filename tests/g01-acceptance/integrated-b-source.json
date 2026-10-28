@@ -2,7 +2,7 @@
   "schema_version": 2,
   "repository": "naderalhaje097070-sudo/simple-store-aid",
   "base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1",
-  "snapshot_tree_before_manifest": "5e5d301cd1e1794b4803ea75d807e2c5c1e110b2",
+  "snapshot_tree_before_manifest": "9a7a3ac98ed0678c4a5b046e1ff31e4e745158a1",
   "protected_blobs": [
     {
       "path": ".env.example",
@@ -26,7 +26,7 @@
     },
     {
       "path": ".github/workflows/b-dep-prepare.yml",
-      "sha": "291fe2ac8263d397ba548245ec094200d8b73d7b",
+      "sha": "b7ad0ddba43d018d35ae0eea3017b6690966a60c",
       "mode": "100644"
     },
     {
@@ -62,6 +62,11 @@
     {
       "path": ".github/workflows/b50-natural-expiry.yml",
       "sha": "0b7c35e1a14b1f395753d7e2e8829ffb6b138c3c",
+      "mode": "100644"
+    },
+    {
+      "path": ".github/workflows/b7-dependency-regressions.yml",
+      "sha": "71157c7f412df8718c4e948395a91795d34f5318",
       "mode": "100644"
     },
     {
@@ -236,7 +241,7 @@
     },
     {
       "path": "bun.lock",
-      "sha": "b8b21bd7d143461e2285f7dddc7dfce3ab290c02",
+      "sha": "2fc70157ee6e8fcbfa5ce9bb63f065360d39b180",
       "mode": "100644"
     },
     {
@@ -301,7 +306,7 @@
     },
     {
       "path": "package.json",
-      "sha": "da1754962e0f0c8d1c950bc7f4b73d6fb286e776",
+      "sha": "d5e295c8cdfbd25096b0f0e3232f27af180b62bb",
       "mode": "100644"
     },
     {
@@ -1562,6 +1567,16 @@
     {
       "path": "tests/b7-ci-routing/contract.test.cjs",
       "sha": "c862edc8b24ab93851460c882352de2da862e86c",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b7-dependency-regressions/check.cjs",
+      "sha": "35c4836271626e1e062fa1d05ffd77adc95ec9d1",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/b7-dependency-regressions/compressed-child.cjs",
+      "sha": "86d282db2b06e1accd7d05db4bd1befaf2ea5174",
       "mode": "100644"
     },
     {

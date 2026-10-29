@@ -99,6 +99,8 @@ class CompositionProbe(QuantityProbe):
         a, b = actors['a'], actors['b']
         self.control('forward_migration_preserves_all_populated_relations', self.snapshot() == state['snapshot'])
         self.control('54_migrations_applied', self.query('select count(*) from supabase_migrations.schema_migrations;') == 54)
+        types = self.query("select jsonb_object_agg(c.table_name||'.'||c.column_name,format_type(a.atttypid,a.atttypmod)) from information_schema.columns c join pg_namespace n on n.nspname=c.table_schema join pg_class t on t.relnamespace=n.oid and t.relname=c.table_name join pg_attribute a on a.attrelid=t.oid and a.attname=c.column_name where c.table_schema='public' and (c.table_name,c.column_name) in (('products','stock'),('order_items','qty'));")
+        self.control('C2_uncoerced_numeric_schema_retained', types == {'products.stock': 'numeric', 'order_items.qty': 'numeric'})
         expected = dict(functions(ROOT / MIGRATION))
         catalog = {}
         for name, signature in SIGNATURES.items():
@@ -117,6 +119,7 @@ class CompositionProbe(QuantityProbe):
         payload = self.payload(pid, .25, key=key)
         code, result = self.sale(a, pid, .25, key=key)
         self.control('owner_idempotent_fractional_sale', code == 200 and result.get('success') is True and self.stock(pid) == 9.75)
+        self.control('stored_quarter_total_cash_and_payment', self.query(f"select jsonb_build_object('total',total,'paid',paid,'payment',(select sum(amount) from public.payments where order_id=o.id)) from public.orders o where id='{result['order_id']}';") == {'total': 25, 'paid': 25, 'payment': 25})
         before = self.snapshot()
         code, replay = self.sale(a, pid, .25, key=key)
         self.control('same_key_replay_returns_original_without_writes', code == 200 and replay == result and self.snapshot() == before)
@@ -178,6 +181,11 @@ class CompositionProbe(QuantityProbe):
         self.denied_atomic('banned_old_token_cannot_replay_committed_sale', a, 'create_sale_with_items_idempotent', payload, permission=True)
         for rpc, p in (('update_courier_order_state', legacy), ('update_courier_outcome_v2', transition)):
             self.denied_atomic('banned_old_token_' + rpc, a, rpc, p, permission=True)
+        staff1 = actors['staff1']
+        code, _ = self.request('PUT', '/auth/v1/admin/users/' + staff1['uid'], {'ban_duration': '24h'}, admin=True)
+        self.control('previously_authorized_staff_banned', code == 200)
+        self.denied_atomic('banned_staff_old_token_sale', staff1, 'create_sale_with_items_idempotent', self.payload(pid, .25), permission=True)
+        self.denied_atomic('banned_staff_old_token_outcome', staff1, 'update_courier_outcome_v2', transition, permission=True)
         code, body = self.sale(actors['staff2'], pid, .25)
         self.control('unaffected_active_staff_after_owner_ban', code == 200 and body.get('success') is True)
         return {'source': self.source, 'mode': os.environ['CONTRACT_MODE'], 'catalog': catalog, 'checks': self.controls, 'bounded_C3_pass': True, 'full_C_acceptance': False}

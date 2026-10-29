@@ -15,6 +15,13 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    if Path('tests/c-source/manifest.json').exists():
+        import sys
+        sys.path.insert(0, str(Path('tests/c-source').resolve()))
+        from c_identity import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     if Path('tests/g01-acceptance/integrated-source.json').exists():
         from integrated_identity import verify
         receipt.update(verify(Path.cwd()))

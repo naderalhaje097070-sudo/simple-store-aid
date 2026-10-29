@@ -52,7 +52,9 @@ jobs:
     - name: Exact integrated source identity and fail-closed mutations
       run: 'python tests/g01-acceptance/capture.py identity
 
-        python tests/g01-acceptance/test_integrated_identity.py'
+        python tests/g01-acceptance/test_integrated_identity.py
+
+        python tests/c-source/test_identity.py'
     - name: Typecheck
       run: bun run typecheck
     - name: Full repository lint including CommonJS and ESM

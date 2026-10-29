@@ -1,0 +1,9 @@
+{
+  "action": "bun audit --json",
+  "state": "blocked_by_automatic_approval_review",
+  "reason": "May upload dependency manifest/lock-derived package graph, including potentially private package metadata, to npm; explicit disclosure authorization required.",
+  "retry_or_indirect_CI": false,
+  "full_audit_pass": false,
+  "owner_question": "Permit sending project package names and versions to npm for the full security audit?",
+  "branch_advanced": false
+}

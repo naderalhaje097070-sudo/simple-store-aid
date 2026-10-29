@@ -1,0 +1,37 @@
+name: SEC dependency and C source contracts
+on:
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths: [package.json, bun.lock, tests/c-source/**, tests/sec-dep-20261029/**, .github/workflows/sec-dep-20261029.yml]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.2.14'
+      - run: bun install --frozen-lockfile --ignore-scripts
+      - run: |
+          python tests/g01-acceptance/capture.py identity
+          python tests/g01-acceptance/test_integrated_identity.py
+          python tests/c-source/test_identity.py
+      - run: bun test tests/unit/dependency-security.test.ts
+      - run: node --test tests/g0-node-server/contracts.test.cjs
+      - run: node tests/sec-dep-20261029/regressions.cjs
+      - run: git diff --exit-code

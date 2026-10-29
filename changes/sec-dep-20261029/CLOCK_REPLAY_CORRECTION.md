@@ -1,0 +1,5 @@
+# C2-aware day-close harness dependency binding
+
+Source b5a035026d8aa9c62266522f574e12609e5216fe: SEC40967601232/B1compat40967601162 supported audit job123775947616 passed. G0quality40967601265 now passed historical AST9files/currentcallback10+7/bridge3, memo2, read-state and trial13controls, then failed at unchanged day-close harness: CommonJS transpilation of current invoice-selectors imports ./quantity, but newFunction had no require binding. Exact TypeScript source unaffected; this setup failure is retained.
+
+Compile the actual quantity.ts module first and bind only ./quantity to its real exports with assert.equal; any unexpected import fails. Keep all four clock cases unchanged. Add actual helper controls12.50×0.25=3.13 and excessprecision rejection. Focused local clock4cases and2dependency controls pass with actual current modules/lockedTypeScript; no provider/database. Explicit seventh permitted existing source-test change in Cmanifest; no application/SQL/money formula edits. Native results separate; no skipped tests.

@@ -1646,7 +1646,7 @@
     },
     {
       "path": "tests/c-source/c_identity.py",
-      "sha": "1fd33401091f68c943111634ccdbe77464dbfc45",
+      "sha": "035f97246d5a559eb7bd74adf9881b7ec7c95b26",
       "mode": "100644"
     },
     {
@@ -1721,7 +1721,7 @@
     },
     {
       "path": "tests/day-close-clock/replay.mjs",
-      "sha": "69cdfdd9ac4468bc39a7c37edd9dac01ad68279a",
+      "sha": "b45ffbdf5f8b35d79cf1f9e087b17bef6c85f86d",
       "mode": "100644"
     },
     {
@@ -2105,11 +2105,16 @@
       "before": "3b5bfb35d5a84baed5b182351fc4980a99bf63c6",
       "after": "c8440e4c9c2e70cd41a4dc201ca8694cbc366346",
       "mode": "100644"
+    },
+    "tests/day-close-clock/replay.mjs": {
+      "before": "69cdfdd9ac4468bc39a7c37edd9dac01ad68279a",
+      "after": "b45ffbdf5f8b35d79cf1f9e087b17bef6c85f86d",
+      "mode": "100644"
     }
   },
   "additions": {
     ".github/workflows/sec-dep-20261029.yml": "04721c7db7299f80948ea0533b141a5ca22ff783",
-    "tests/c-source/c_identity.py": "1fd33401091f68c943111634ccdbe77464dbfc45",
+    "tests/c-source/c_identity.py": "035f97246d5a559eb7bd74adf9881b7ec7c95b26",
     "tests/c-source/test_identity.py": "874c5035242479439e1b2b0a6662f9e68926e186",
     "tests/sec-dep-20261029/regressions.cjs": "cea9daba4091c8da0d4bc38f6d985522a55458d9",
     "tests/sec-dep-20261029/serde-child.cjs": "1068f9e3c74f07eb7cd003c0dd69a498e6bd92a0",

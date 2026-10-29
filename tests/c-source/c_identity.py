@@ -16,7 +16,7 @@ FROZEN = {'tests/g01-acceptance/integrated-source.json': 'b79640f400a32924f114e1
           'tests/g01-acceptance/integrated-b-source.json': 'f1e2a8cdce0aa02549716321af2a11cf433ab177'}
 ALLOWED_CHANGES = {'package.json', 'bun.lock', 'tests/unit/dependency-security.test.ts',
                    'tests/g01-acceptance/capture.py', '.github/workflows/integration-verification.yml',
-                   'tests/g0-integrated-types/runtime.cjs'}
+                   'tests/g0-integrated-types/runtime.cjs', 'tests/day-close-clock/replay.mjs'}
 ALLOWED_ADDITIONS = {'tests/c-source/c_identity.py', 'tests/c-source/test_identity.py',
                      'tests/sec-dep-20261029/regressions.cjs', 'tests/sec-dep-20261029/serde-child.cjs',
                      '.github/workflows/sec-dep-20261029.yml',

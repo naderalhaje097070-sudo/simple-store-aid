@@ -76,10 +76,21 @@ function hooks() {
   };
 }
 const fm = { exports: {} };
+const qm = { exports: {} };
+compile(readFileSync("src/domain/finance/quantity.ts", "utf8"), {
+  module: qm,
+  exports: qm.exports,
+});
 compile(readFileSync("src/domain/finance/invoice-selectors.ts", "utf8"), {
   module: fm,
   exports: fm.exports,
+  require(name) {
+    assert.equal(name, "./quantity", "Unexpected finance dependency in clock replay");
+    return qm.exports;
+  },
 });
+assert.equal(fm.exports.getSaleTotal([{ price: 12.5, qty: 0.25 }]), 3.13);
+assert.throws(() => fm.exports.getSaleTotal([{ price: 12.5, qty: 0.001 }]), /invalid_sale_amount/);
 const dbSource = readFileSync("src/lib/db.ts", "utf8");
 const dbAst = ts.createSourceFile("db.ts", dbSource, ts.ScriptTarget.Latest, true);
 const todayNode = dbAst.statements.find(

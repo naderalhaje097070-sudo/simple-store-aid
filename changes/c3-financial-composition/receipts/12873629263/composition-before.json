@@ -1,0 +1,123 @@
+{
+  "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+  "expected_red": "C3_ORDER_DEPENDENCE_AND_RAW_CORE_ROUNDING",
+  "mode": "fresh",
+  "checks": [
+    {
+      "name": "C3_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff1_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff1_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff2_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff2_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "53_pre_correction_migrations",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_legacy_order_difference_reproduced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_courier_order_difference_reproduced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_raw_fraction_is_silently_coerced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_stored_one_instead_of_point999",
+      "passed": true
+    }
+  ]
+}

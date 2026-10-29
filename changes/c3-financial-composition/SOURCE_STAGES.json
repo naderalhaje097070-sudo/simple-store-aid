@@ -1,0 +1,120 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "repository_id": 1281463067,
+  "main_unchanged": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "claim": 6488106080,
+  "first": {
+    "sha": "2573a02a8517a826306bf5655af68da1fe3430ce",
+    "run": 40819724946,
+    "result": "success",
+    "after_checks": 70
+  },
+  "intermediate": {
+    "sha": "fcf71ae948c065c8a92c7d84028c92adc833b3c6",
+    "run": 40820061179,
+    "result": "success",
+    "after_checks": 77
+  },
+  "advisor_capture_failure": {
+    "sha": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+    "run": 40820179230,
+    "result": "failure",
+    "after_checks": 77,
+    "cause": "report redirection Permission denied before advisor execution; safe sink permissions retained",
+    "preserved": true
+  },
+  "current": {
+    "sha": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "tree": "1f8fcc59312f848802cc5fd55599587a831ecf30",
+    "run": 40820588171,
+    "result": "success",
+    "fresh_before": 25,
+    "upgrade_seed51": 21,
+    "upgrade_before53": 6,
+    "after_each": 77,
+    "advisor_WARN": 45,
+    "advisor_ERROR": 0,
+    "compatibility_run": 40820588150,
+    "compatibility": "success",
+    "g0": 40820588138,
+    "g0_quality": "failure: frozen B Protected source path set changed",
+    "g0_audit": "failure: six advisory records, 3High/3Moderate"
+  },
+  "unchanged_all54_SQL_across_stages": true,
+  "raw_archived": [
+    {
+      "id": 12874306028,
+      "path": "changes/c3-financial-composition/evidence/12874306028.zip",
+      "sha": "e95f4819130e055f56a7b6979681f681bcf20503",
+      "sha256": "b91db088ae6225ffa0b6e05bd45f30f6ea0d82b615c7d5efc28dd99a48baadb7",
+      "bytes": 3271,
+      "source": "2573a02a8517a826306bf5655af68da1fe3430ce",
+      "run": 40819724946
+    },
+    {
+      "id": 12873569852,
+      "path": "changes/c3-financial-composition/evidence/12873569852.zip",
+      "sha": "59ea48749d04281502ab28752e5c3b0e4ee41d3e",
+      "sha256": "b335334ec7cc6d41df133926adbd4ac1ff0c09220aaa04fdafde4bae341ab2f5",
+      "bytes": 3586,
+      "source": "2573a02a8517a826306bf5655af68da1fe3430ce",
+      "run": 40819724946
+    },
+    {
+      "id": 12874350548,
+      "path": "changes/c3-financial-composition/evidence/12874350548.zip",
+      "sha": "f5d8dc085b09d229a8519961d1dcd9a69c03826d",
+      "sha256": "0151e81f87c2f2865abb5bb471f0f859d916be5dcc55da36f795f68daa21b08c",
+      "bytes": 949,
+      "source": "2573a02a8517a826306bf5655af68da1fe3430ce",
+      "run": 40819725031
+    },
+    {
+      "id": 12874286973,
+      "path": "changes/c3-financial-composition/evidence/12874286973.zip",
+      "sha": "a985f0a9b9a996359e46c5f336b81bc042af031b",
+      "sha256": "f23fa4013a83f5f1a4259d49bc2ed170d055b1508ef1810318f5ce38cd8ce054",
+      "bytes": 949,
+      "source": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+      "run": 40820179204
+    },
+    {
+      "id": 12874556754,
+      "path": "changes/c3-financial-composition/evidence/12874556754.zip",
+      "sha": "26aedd9187eba653cfc51d5f56b99b45c7c3fc14",
+      "sha256": "42d72dd99d37689f242c107d34ca7901ff7df67843f9714fc86acc863ca19f00",
+      "bytes": 3432,
+      "source": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+      "run": 40820179230
+    },
+    {
+      "id": 12874765829,
+      "path": "changes/c3-financial-composition/evidence/12874765829.zip",
+      "sha": "c5e9a6fc25b13932b4edae6ea7490114205a8564",
+      "sha256": "e72de4387ba344abedd785ff5b90dbbb8178c1fa58dd47b1663bace23c904fa6",
+      "bytes": 3751,
+      "source": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+      "run": 40820179230
+    },
+    {
+      "id": 12874382876,
+      "path": "changes/c3-financial-composition/evidence/12874382876.zip",
+      "sha": "9ea8fc4cf5d5e615809cdae20aa63e8d5eeba376",
+      "sha256": "6c2c0f370f521642c15769b151912172c640671931bcd46b904d7a940f2827b4",
+      "bytes": 5931,
+      "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+      "run": 40820588171
+    },
+    {
+      "id": 12873629263,
+      "path": "changes/c3-financial-composition/evidence/12873629263.zip",
+      "sha": "eef2be13859409a05d3a2d92e2e3be7d7b28c558",
+      "sha256": "bb817f073be13b9811cb321a271c6cca65cf81c59587da7198571aaf65e64f3b",
+      "bytes": 5616,
+      "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+      "run": 40820588171
+    }
+  ],
+  "full_acceptance": false
+}

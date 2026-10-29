@@ -1,0 +1,106 @@
+{
+  "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+  "phase": "seed51",
+  "checks": [
+    {
+      "name": "C3_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff1_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff1_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff2_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff2_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "accepted51_quarter_sale_persisted",
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+  "command": "supabase db advisors --local --fail-on error",
+  "actual_exit": 0,
+  "reported_levels": {
+    "WARN": 45
+  },
+  "names": {
+    "auth_rls_initplan": 43,
+    "multiple_permissive_policies": 2
+  },
+  "fresh_upgrade_equal": true,
+  "full_reports_in_raw_zips": [
+    12874382876,
+    12873629263
+  ],
+  "warnings_resolved": false
+}

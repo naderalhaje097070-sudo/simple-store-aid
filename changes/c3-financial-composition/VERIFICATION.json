@@ -1,0 +1,22 @@
+{
+  "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+  "tree": "1f8fcc59312f848802cc5fd55599587a831ecf30",
+  "complete": true,
+  "tree_entries": 2527,
+  "all_prior_paths_and_blobs_exact": true,
+  "protected_baseline": 405,
+  "prior_SQL": 51,
+  "all_SQL": 54,
+  "original49_50_SQL_exact": true,
+  "all54SQL_identical_across4stages": true,
+  "manifests_unchanged": [
+    "A",
+    "B",
+    "C2"
+  ],
+  "raw_artifact_count": 8,
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "main": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+  "independent_review": false,
+  "integration_accepted": false
+}

@@ -1,0 +1,264 @@
+﻿2026-10-29T04:52:40.3713064Z Current runner version: '2.338.0'
+2026-10-29T04:52:40.3750064Z ##[group]Runner Image Provisioner
+2026-10-29T04:52:40.3751409Z Hosted Compute Agent
+2026-10-29T04:52:40.3752345Z Version: 20261021.618
+2026-10-29T04:52:40.3753544Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T04:52:40.3754703Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T04:52:40.3755767Z Worker ID: {d292a804-4c3c-449b-8839-3dcd9578ede7}
+2026-10-29T04:52:40.3757285Z Region: westus
+2026-10-29T04:52:40.3758230Z Cloud: Azure
+2026-10-29T04:52:40.3759252Z ##[endgroup]
+2026-10-29T04:52:40.3761434Z ##[group]Operating System
+2026-10-29T04:52:40.3762394Z Ubuntu
+2026-10-29T04:52:40.3763467Z 24.04.5
+2026-10-29T04:52:40.3764274Z LTS
+2026-10-29T04:52:40.3765175Z ##[endgroup]
+2026-10-29T04:52:40.3766138Z ##[group]Runner Image
+2026-10-29T04:52:40.3767415Z Image: ubuntu-24.04
+2026-10-29T04:52:40.3768473Z Version: 20261025.353.1
+2026-10-29T04:52:40.3770479Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261025.353/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-29T04:52:40.3773398Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261025.353
+2026-10-29T04:52:40.3775073Z ##[endgroup]
+2026-10-29T04:52:40.3777851Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T04:52:40.3780765Z Contents: read
+2026-10-29T04:52:40.3781908Z Metadata: read
+2026-10-29T04:52:40.3782775Z ##[endgroup]
+2026-10-29T04:52:40.3786584Z Secret source: Actions
+2026-10-29T04:52:40.3788048Z Cache mode: write
+2026-10-29T04:52:40.3789308Z Prepare workflow directory
+2026-10-29T04:52:40.4422008Z Prepare all required actions
+2026-10-29T04:52:40.4492103Z Getting action download info
+2026-10-29T04:52:40.8278195Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-29T04:52:40.9375406Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-29T04:52:41.2581467Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-29T04:52:41.4811174Z Complete job name: audit
+2026-10-29T04:52:41.5658658Z ##[group]Run actions/checkout@v4
+2026-10-29T04:52:41.5659853Z with:
+2026-10-29T04:52:41.5660352Z   ref: 6aea5c47a0d9b6a7db42c086940d69bd0b8ef263
+2026-10-29T04:52:41.5660977Z   persist-credentials: false
+2026-10-29T04:52:41.5661480Z   fetch-depth: 0
+2026-10-29T04:52:41.5662001Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T04:52:41.5665829Z   token: ***
+2026-10-29T04:52:41.5666559Z   ssh-strict: true
+2026-10-29T04:52:41.5667014Z   ssh-user: git
+2026-10-29T04:52:41.5667454Z   clean: true
+2026-10-29T04:52:41.5667904Z   sparse-checkout-cone-mode: true
+2026-10-29T04:52:41.5668438Z   fetch-tags: false
+2026-10-29T04:52:41.5668884Z   show-progress: true
+2026-10-29T04:52:41.5669366Z   lfs: false
+2026-10-29T04:52:41.5670045Z   submodules: false
+2026-10-29T04:52:41.5670664Z   set-safe-directory: true
+2026-10-29T04:52:41.5671183Z   allow-unsafe-pr-checkout: false
+2026-10-29T04:52:41.5672133Z ##[endgroup]
+2026-10-29T04:52:41.8423161Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T04:52:41.8426671Z ##[group]Getting Git version info
+2026-10-29T04:52:41.8428224Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T04:52:41.8447645Z [command]/usr/bin/git version
+2026-10-29T04:52:41.8609805Z git version 2.56.0
+2026-10-29T04:52:41.8641440Z ##[endgroup]
+2026-10-29T04:52:41.8690301Z Temporarily overriding HOME='/home/runner/work/_temp/6e9aaca3-79e8-4ef6-83df-2257fc04fbdc' before making global git config changes
+2026-10-29T04:52:41.8693508Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T04:52:41.8709510Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T04:52:41.8797305Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T04:52:41.8801692Z ##[group]Initializing the repository
+2026-10-29T04:52:41.8813489Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T04:52:41.8932964Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T04:52:41.8935332Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T04:52:41.8937608Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T04:52:41.8939237Z hint: call:
+2026-10-29T04:52:41.8940217Z hint:
+2026-10-29T04:52:41.8941363Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T04:52:41.8942824Z hint:
+2026-10-29T04:52:41.8944331Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T04:52:41.8946823Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T04:52:41.8948791Z hint:
+2026-10-29T04:52:41.8949977Z hint: 	git branch -m <name>
+2026-10-29T04:52:41.8951135Z hint:
+2026-10-29T04:52:41.8952502Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T04:52:41.8954867Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-29T04:52:41.8988381Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T04:52:41.9058008Z ##[endgroup]
+2026-10-29T04:52:41.9059699Z ##[group]Disabling automatic garbage collection
+2026-10-29T04:52:41.9061294Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T04:52:41.9125698Z ##[endgroup]
+2026-10-29T04:52:41.9138636Z ##[group]Setting up auth
+2026-10-29T04:52:41.9140552Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T04:52:41.9205649Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T04:52:41.9718579Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T04:52:41.9771664Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T04:52:42.0057964Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T04:52:42.0107533Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T04:52:42.0389969Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T04:52:42.0461716Z ##[endgroup]
+2026-10-29T04:52:42.0463034Z ##[group]Fetching the repository
+2026-10-29T04:52:42.0480092Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-29T04:52:43.8224963Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T04:52:43.8232336Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-29T04:52:43.8233743Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-29T04:52:43.8235182Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-29T04:52:43.8236778Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-29T04:52:43.8238061Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-29T04:52:43.8239486Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-29T04:52:43.8241007Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-29T04:52:43.8242541Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-29T04:52:43.8244761Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-29T04:52:43.8246623Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-29T04:52:43.8248420Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-29T04:52:43.8249812Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-29T04:52:43.8251376Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-29T04:52:43.8252877Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-29T04:52:43.8254352Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-29T04:52:43.8255794Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-29T04:52:43.8257458Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-29T04:52:43.8258852Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-29T04:52:43.8260355Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-29T04:52:43.8261909Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-29T04:52:43.8263458Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-29T04:52:43.8265132Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-29T04:52:43.8266844Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-29T04:52:43.8268532Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-29T04:52:43.8269662Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-29T04:52:43.8270922Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-29T04:52:43.8272412Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-29T04:52:43.8273967Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-29T04:52:43.8275656Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-29T04:52:43.8277101Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-29T04:52:43.8278144Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-29T04:52:43.8279400Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-29T04:52:43.8280625Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-29T04:52:43.8281764Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-29T04:52:43.8282888Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T04:52:43.8284007Z  * [new branch]      main                    -> origin/main
+2026-10-29T04:52:43.8284991Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-29T04:52:43.8286373Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-29T04:52:43.8287563Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-29T04:52:43.8288698Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-29T04:52:43.8289801Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-29T04:52:43.8291182Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-29T04:52:43.8292207Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-29T04:52:43.8293235Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-29T04:52:43.8294507Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-29T04:52:43.8295964Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-29T04:52:43.8297790Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-29T04:52:43.8299283Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-29T04:52:43.8300396Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-29T04:52:43.8301647Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-29T04:52:43.8302790Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-29T04:52:43.8304034Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-29T04:52:43.8305461Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-29T04:52:43.8307335Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-29T04:52:43.8308940Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-29T04:52:43.8310283Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-29T04:52:43.8311732Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-29T04:52:43.8313044Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-29T04:52:43.8314404Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-29T04:52:43.8315743Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-29T04:52:43.8317245Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-29T04:52:43.8318776Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-29T04:52:43.8320305Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-29T04:52:43.8321775Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-29T04:52:43.8323423Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-29T04:52:43.8324905Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-29T04:52:43.8326398Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-29T04:52:43.8327664Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-29T04:52:43.8328899Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-29T04:52:43.8331965Z [command]/usr/bin/git rev-parse --verify --quiet 6aea5c47a0d9b6a7db42c086940d69bd0b8ef263^{object}
+2026-10-29T04:52:43.8333165Z 6aea5c47a0d9b6a7db42c086940d69bd0b8ef263
+2026-10-29T04:52:43.8335384Z ##[endgroup]
+2026-10-29T04:52:43.8336436Z ##[group]Determining the checkout info
+2026-10-29T04:52:43.8337409Z ##[endgroup]
+2026-10-29T04:52:43.8338008Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T04:52:43.8408017Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T04:52:43.8452397Z ##[group]Checking out the ref
+2026-10-29T04:52:43.8456463Z [command]/usr/bin/git checkout --progress --force 6aea5c47a0d9b6a7db42c086940d69bd0b8ef263
+2026-10-29T04:52:44.0505438Z Note: switching to '6aea5c47a0d9b6a7db42c086940d69bd0b8ef263'.
+2026-10-29T04:52:44.0506350Z 
+2026-10-29T04:52:44.0506865Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-29T04:52:44.0507866Z changes and commit them, and you can discard any commits you make in this
+2026-10-29T04:52:44.0508990Z state without impacting any branches by switching back to a branch.
+2026-10-29T04:52:44.0509623Z 
+2026-10-29T04:52:44.0510062Z If you want to create a new branch to retain commits you create, you may
+2026-10-29T04:52:44.0510958Z do so (now or later) by using -c with the switch command. Example:
+2026-10-29T04:52:44.0511519Z 
+2026-10-29T04:52:44.0511858Z   git switch -c <new-branch-name>
+2026-10-29T04:52:44.0512328Z 
+2026-10-29T04:52:44.0512665Z Or undo this operation with:
+2026-10-29T04:52:44.0513083Z 
+2026-10-29T04:52:44.0513393Z   git switch -
+2026-10-29T04:52:44.0513742Z 
+2026-10-29T04:52:44.0514245Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-29T04:52:44.0514914Z 
+2026-10-29T04:52:44.0515515Z HEAD is now at 6aea5c4 test(finance): preserve local advisor findings and fail on database errors
+2026-10-29T04:52:44.0533370Z ##[endgroup]
+2026-10-29T04:52:44.0590758Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T04:52:44.0631597Z 6aea5c47a0d9b6a7db42c086940d69bd0b8ef263
+2026-10-29T04:52:44.0641053Z ##[group]Removing auth
+2026-10-29T04:52:44.0647787Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T04:52:44.0696876Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T04:52:44.0975612Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T04:52:44.1016074Z http.https://github.com/.extraheader
+2026-10-29T04:52:44.1057725Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T04:52:44.1148135Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T04:52:44.1497337Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T04:52:44.1604574Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T04:52:44.1975067Z ##[endgroup]
+2026-10-29T04:52:44.2335413Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-29T04:52:44.2335701Z with:
+2026-10-29T04:52:44.2335913Z   bun-version: 1.4.0
+2026-10-29T04:52:44.2336153Z   no-cache: false
+2026-10-29T04:52:44.2338753Z   token: ***
+2026-10-29T04:52:44.2338977Z ##[endgroup]
+2026-10-29T04:52:44.7634528Z Cache hit for: bun-tw6RmwqZSA0Bnj0yIUzvSupv0Nk=
+2026-10-29T04:52:46.0577602Z Received 16777216 of 35658632 (47.0%), 16.0 MBs/sec
+2026-10-29T04:52:46.1675214Z Received 35658632 of 35658632 (100.0%), 30.6 MBs/sec
+2026-10-29T04:52:46.1686996Z Cache Size: ~34 MB (35658632 B)
+2026-10-29T04:52:46.1746019Z [command]/usr/bin/tar -xf /home/runner/work/_temp/d1ef4fd6-8c37-4c08-bcfe-d858d70aa0b5/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-29T04:52:46.3468869Z Cache restored successfully
+2026-10-29T04:52:46.3492304Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-29T04:52:46.3580044Z 1.4.0+34cbb9a40
+2026-10-29T04:52:46.3622783Z Using a cached version of Bun: 1.4.0+34cbb9a40
+2026-10-29T04:52:46.3861462Z ##[group]Run set -euo pipefail
+2026-10-29T04:52:46.3861829Z [36;1mset -euo pipefail[0m
+2026-10-29T04:52:46.3862411Z [36;1mbun audit --json 2>&1 | tee /tmp/integration-audit.log[0m
+2026-10-29T04:52:46.3892984Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-29T04:52:46.3893362Z ##[endgroup]
+2026-10-29T04:52:46.4733902Z {"@hono/node-server":[{"id":1243661,"url":"https://github.com/advisories/GHSA-rmxm-3fg6-px4f","title":"@hono/node-server: `serveStatic` decodes the request path a second time, leading to bypass of middleware on static paths","severity":"moderate","vulnerable_versions":">=1.19.10 <2.1.3","cwe":["CWE-174"],"cvss":{"score":5.3,"vectorString":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"}}],"seroval":[{"id":1243609,"url":"https://github.com/advisories/GHSA-f86p-h4j2-7qgj","title":"Seroval: Code injection through a typed array's own constructor property","severity":"moderate","vulnerable_versions":">=1.6.0 <1.6.11","cwe":["CWE-79","CWE-94"],"cvss":{"score":0,"vectorString":null}},{"id":1243611,"url":"https://github.com/advisories/GHSA-9wx9-5pv9-3349","title":"Seroval: Script injection through RegExp sources in serialized output","severity":"moderate","vulnerable_versions":">=1.5.5 <1.6.10","cwe":["CWE-79","CWE-116"],"cvss":{"score":4.7,"vectorString":"CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:C/C:L/I:L/A:N"}},{"id":1243612,"url":"https://github.com/advisories/GHSA-97r2-qh9m-474h","title":"Seroval: fromJSON deserializer trusts node-supplied array length and sequence doneAt (unauthenticated event-loop DoS)","severity":"high","vulnerable_versions":"<=1.6.7","cwe":["CWE-835","CWE-1284"],"cvss":{"score":7.5,"vectorString":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"}},{"id":1243613,"url":"https://github.com/advisories/GHSA-wp97-x4hv-qvhp","title":"Seroval `fromJSON`/`fromCrossJSON` denial of service via unvalidated array node length","severity":"high","vulnerable_versions":">=1.4.1 <=1.6.7","cwe":["CWE-770"],"cvss":{"score":7.5,"vectorString":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"}},{"id":1243614,"url":"https://github.com/advisories/GHSA-7rv5-mrxv-xcr9","title":"Seroval: Deserialization invokes attacker-chosen callables: AsyncIteratorFactoryInstance calls source.on(listener) without type check","severity":"high","vulnerable_versions":"<=1.6.7","cwe":["CWE-502"],"cvss":{"score":7.3,"vectorString":"CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L"}}]}
+2026-10-29T04:52:46.4774739Z ##[error]Process completed with exit code 1.
+2026-10-29T04:52:46.4862058Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T04:52:46.4862994Z with:
+2026-10-29T04:52:46.4863302Z   name: integration-full-audit
+2026-10-29T04:52:46.4863682Z   path: /tmp/integration-audit.log
+2026-10-29T04:52:46.4864041Z   retention-days: 7
+2026-10-29T04:52:46.4864363Z   if-no-files-found: warn
+2026-10-29T04:52:46.4864714Z   compression-level: 6
+2026-10-29T04:52:46.4865027Z   overwrite: false
+2026-10-29T04:52:46.4865345Z   include-hidden-files: false
+2026-10-29T04:52:46.4865698Z ##[endgroup]
+2026-10-29T04:52:46.6665858Z (node:2160) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T04:52:46.6667558Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T04:52:46.6746986Z With the provided path, there will be 1 file uploaded
+2026-10-29T04:52:46.6766786Z Artifact name is valid!
+2026-10-29T04:52:46.6773532Z Root directory input is valid!
+2026-10-29T04:52:47.1006724Z Beginning upload of artifact content to blob storage
+2026-10-29T04:52:47.1200294Z (node:2160) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T04:52:47.4000049Z Uploaded bytes 949
+2026-10-29T04:52:47.4787596Z Finished uploading artifact content to blob storage!
+2026-10-29T04:52:47.4789087Z SHA256 digest of uploaded artifact zip is f23fa4013a83f5f1a4259d49bc2ed170d055b1508ef1810318f5ce38cd8ce054
+2026-10-29T04:52:47.4790315Z Finalizing artifact upload
+2026-10-29T04:52:47.9720075Z Artifact integration-full-audit.zip successfully finalized. Artifact ID 12874286973
+2026-10-29T04:52:47.9722168Z Artifact integration-full-audit has been successfully uploaded! Final size is 949 bytes. Artifact ID is 12874286973
+2026-10-29T04:52:47.9727944Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40820179204/artifacts/12874286973
+2026-10-29T04:52:47.9949700Z Post job cleanup.
+2026-10-29T04:52:48.0948396Z [command]/usr/bin/git version
+2026-10-29T04:52:48.1017017Z git version 2.56.0
+2026-10-29T04:52:48.1066368Z Temporarily overriding HOME='/home/runner/work/_temp/39fca507-f8ca-4ab1-b81c-2c8e706b1882' before making global git config changes
+2026-10-29T04:52:48.1083244Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T04:52:48.1084613Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T04:52:48.1138993Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T04:52:48.1204194Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T04:52:48.1957633Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T04:52:48.2081561Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T04:52:48.2756884Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T04:52:48.2837549Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T04:52:48.3445569Z Cleaning up orphan processes
+2026-10-29T04:52:48.3833477Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

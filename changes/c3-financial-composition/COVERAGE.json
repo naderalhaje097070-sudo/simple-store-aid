@@ -1,0 +1,74 @@
+{
+  "C3-CAT": {
+    "actor": "catalog",
+    "boundary": "six exact function bodies/owner/config/ACL + decimal schema/ledgerRLS",
+    "expectation": "both54 source orders identical",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-IDEM": {
+    "actor": "owner/two staff",
+    "boundary": "idempotent sale via real RPC",
+    "expectation": "one sale per key, replay no writes, conflict/abort atomic",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-QTY": {
+    "actor": "owner",
+    "boundary": "canonical core quantity",
+    "expectation": "raw .999 refused; quarter stock and3.13 cent policy preserved",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-STATE": {
+    "actor": "owner/two staff",
+    "boundary": "both courier RPCs",
+    "expectation": "monotonic custody + atomic customer, Delivered not receipt",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-DENY": {
+    "actor": "anon/foreign/banned owner+banned staff old JWT",
+    "boundary": "RPC/table/bypass",
+    "expectation": "explicit denial with populated relations invariant",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-UPGRADE": {
+    "actor": "migration runner",
+    "boundary": "51nonempty\u219253\u219254 plus fresh53\u219254",
+    "expectation": "exact previous row fingerprints; expected-red before correction",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-ISOLATION": {
+    "actor": "probeUID",
+    "boundary": "network/evidence/cleanup",
+    "expectation": "canary rejected before credentials, zero unexpected egress, safe artifact sink, no stack/state",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "runtime-tested",
+    "result": "pass",
+    "run": 40820588171
+  },
+  "C3-OPEN": {
+    "actor": "not assessed",
+    "boundary": "fullC5/restore/UI/client/MCP/independentC6",
+    "expectation": "remain open, no inferred acceptance",
+    "source": "9aaadb5ee392f693fabd1dc5a92a171dd73268c7",
+    "evidence_level": "not assessed",
+    "result": "not run",
+    "run": null
+  }
+}

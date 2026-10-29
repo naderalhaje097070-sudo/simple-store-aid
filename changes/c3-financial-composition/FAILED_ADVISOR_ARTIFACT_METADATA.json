@@ -1,0 +1,45 @@
+{
+  "total_count": 2,
+  "artifacts": [
+    {
+      "id": 12874765829,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg3NDc2NTgyOQ==",
+      "name": "c3-composition-upgrade-attempt1",
+      "size_in_bytes": 3751,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12874765829",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12874765829/zip",
+      "expired": false,
+      "digest": "sha256:e72de4387ba344abedd785ff5b90dbbb8178c1fa58dd47b1663bace23c904fa6",
+      "created_at": "2026-10-29T04:56:07Z",
+      "updated_at": "2026-10-29T04:56:07Z",
+      "expires_at": "2026-11-05T04:56:07Z",
+      "workflow_run": {
+        "id": 40820179230,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263"
+      }
+    },
+    {
+      "id": 12874556754,
+      "node_id": "MDg6QXJ0aWZhY3QxMjg3NDU1Njc1NA==",
+      "name": "c3-composition-fresh-attempt1",
+      "size_in_bytes": 3432,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12874556754",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/12874556754/zip",
+      "expired": false,
+      "digest": "sha256:42d72dd99d37689f242c107d34ca7901ff7df67843f9714fc86acc863ca19f00",
+      "created_at": "2026-10-29T04:56:14Z",
+      "updated_at": "2026-10-29T04:56:14Z",
+      "expires_at": "2026-11-05T04:56:13Z",
+      "workflow_run": {
+        "id": 40820179230,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263"
+      }
+    }
+  ]
+}

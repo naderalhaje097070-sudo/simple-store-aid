@@ -1,0 +1,31 @@
+{
+  "source": "2573a02a8517a826306bf5655af68da1fe3430ce",
+  "expected_red": "C3_ORDER_DEPENDENCE_AND_RAW_CORE_ROUNDING",
+  "mode": "upgrade",
+  "checks": [
+    {
+      "name": "August_import_preserves_all51_nonempty_relations",
+      "passed": true
+    },
+    {
+      "name": "53_pre_correction_migrations",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_legacy_order_difference_reproduced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_courier_order_difference_reproduced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_raw_fraction_is_silently_coerced",
+      "passed": true
+    },
+    {
+      "name": "pre_correction_stored_one_instead_of_point999",
+      "passed": true
+    }
+  ]
+}

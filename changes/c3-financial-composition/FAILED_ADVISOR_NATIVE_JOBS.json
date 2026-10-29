@@ -1,0 +1,413 @@
+{
+  "total_count": 2,
+  "jobs": [
+    {
+      "id": 123270561467,
+      "run_id": 40820179230,
+      "workflow_name": "C3 financial composition stored contract",
+      "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+      "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/40820179230",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTGGTG88AAAAcs39-uw",
+      "head_sha": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/123270561467",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40820179230/job/123270561467",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-29T04:52:36Z",
+      "started_at": "2026-10-29T04:52:39Z",
+      "completed_at": "2026-10-29T04:56:11Z",
+      "name": "composition (upgrade)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T04:52:41Z",
+          "completed_at": "2026-10-29T04:52:43Z"
+        },
+        {
+          "name": "Disable telemetry before CLI setup",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T04:52:43Z",
+          "completed_at": "2026-10-29T04:52:43Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T04:52:43Z",
+          "completed_at": "2026-10-29T04:52:46Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T04:52:46Z",
+          "completed_at": "2026-10-29T04:52:47Z"
+        },
+        {
+          "name": "Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T04:52:47Z",
+          "completed_at": "2026-10-29T04:52:51Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-29T04:52:51Z",
+          "completed_at": "2026-10-29T04:52:51Z"
+        },
+        {
+          "name": "Decimal quantity unit contracts before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-29T04:52:51Z",
+          "completed_at": "2026-10-29T04:52:52Z"
+        },
+        {
+          "name": "Verify preserved source and immutable SQL before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-29T04:52:52Z",
+          "completed_at": "2026-10-29T04:52:52Z"
+        },
+        {
+          "name": "Discover pinned CLI operations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T04:52:52Z",
+          "completed_at": "2026-10-29T04:53:04Z"
+        },
+        {
+          "name": "Restrict probe UID before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T04:53:04Z",
+          "completed_at": "2026-10-29T04:53:04Z"
+        },
+        {
+          "name": "Start disposable full chain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T04:53:04Z",
+          "completed_at": "2026-10-29T04:55:35Z"
+        },
+        {
+          "name": "Seed accepted51 then import original August migrations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-29T04:55:35Z",
+          "completed_at": "2026-10-29T04:55:38Z"
+        },
+        {
+          "name": "Reproduce pre-correction53 then apply forward54",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-29T04:55:38Z",
+          "completed_at": "2026-10-29T04:55:39Z"
+        },
+        {
+          "name": "Actual authorization and invariance",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-29T04:55:39Z",
+          "completed_at": "2026-10-29T04:55:44Z"
+        },
+        {
+          "name": "Local migration history and advisor availability",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 15,
+          "started_at": "2026-10-29T04:55:44Z",
+          "completed_at": "2026-10-29T04:55:44Z"
+        },
+        {
+          "name": "Cleanup and safe final receipts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-29T04:55:44Z",
+          "completed_at": "2026-10-29T04:56:06Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-29T04:56:06Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 31,
+          "started_at": "2026-10-29T04:56:08Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        },
+        {
+          "name": "Post Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32,
+          "started_at": "2026-10-29T04:56:08Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 33,
+          "started_at": "2026-10-29T04:56:08Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 34,
+          "started_at": "2026-10-29T04:56:08Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 35,
+          "started_at": "2026-10-29T04:56:08Z",
+          "completed_at": "2026-10-29T04:56:08Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/123270561467",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000001000,
+      "runner_name": "GitHub Actions 1000001000",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 123270561721,
+      "run_id": 40820179230,
+      "workflow_name": "C3 financial composition stored contract",
+      "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+      "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/40820179230",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOTGGTG88AAAAcs39_uQ",
+      "head_sha": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/123270561721",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40820179230/job/123270561721",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-10-29T04:52:36Z",
+      "started_at": "2026-10-29T04:52:40Z",
+      "completed_at": "2026-10-29T04:56:17Z",
+      "name": "composition (fresh)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T04:52:42Z",
+          "completed_at": "2026-10-29T04:52:44Z"
+        },
+        {
+          "name": "Disable telemetry before CLI setup",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T04:52:44Z",
+          "completed_at": "2026-10-29T04:52:44Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T04:52:44Z",
+          "completed_at": "2026-10-29T04:52:47Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T04:52:47Z",
+          "completed_at": "2026-10-29T04:52:47Z"
+        },
+        {
+          "name": "Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T04:52:47Z",
+          "completed_at": "2026-10-29T04:52:52Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-29T04:52:52Z",
+          "completed_at": "2026-10-29T04:52:53Z"
+        },
+        {
+          "name": "Decimal quantity unit contracts before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-29T04:52:53Z",
+          "completed_at": "2026-10-29T04:52:53Z"
+        },
+        {
+          "name": "Verify preserved source and immutable SQL before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-29T04:52:53Z",
+          "completed_at": "2026-10-29T04:52:53Z"
+        },
+        {
+          "name": "Discover pinned CLI operations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T04:52:53Z",
+          "completed_at": "2026-10-29T04:53:06Z"
+        },
+        {
+          "name": "Restrict probe UID before credentials",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T04:53:06Z",
+          "completed_at": "2026-10-29T04:53:07Z"
+        },
+        {
+          "name": "Start disposable full chain",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T04:53:07Z",
+          "completed_at": "2026-10-29T04:55:42Z"
+        },
+        {
+          "name": "Seed accepted51 then import original August migrations",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12,
+          "started_at": "2026-10-29T04:55:42Z",
+          "completed_at": "2026-10-29T04:55:42Z"
+        },
+        {
+          "name": "Reproduce pre-correction53 then apply forward54",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-29T04:55:42Z",
+          "completed_at": "2026-10-29T04:55:45Z"
+        },
+        {
+          "name": "Actual authorization and invariance",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-29T04:55:45Z",
+          "completed_at": "2026-10-29T04:55:50Z"
+        },
+        {
+          "name": "Local migration history and advisor availability",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 15,
+          "started_at": "2026-10-29T04:55:50Z",
+          "completed_at": "2026-10-29T04:55:50Z"
+        },
+        {
+          "name": "Cleanup and safe final receipts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-29T04:55:50Z",
+          "completed_at": "2026-10-29T04:56:13Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-29T04:56:13Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 31,
+          "started_at": "2026-10-29T04:56:14Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        },
+        {
+          "name": "Post Run supabase/setup-cli@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32,
+          "started_at": "2026-10-29T04:56:14Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 33,
+          "started_at": "2026-10-29T04:56:14Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 34,
+          "started_at": "2026-10-29T04:56:14Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 35,
+          "started_at": "2026-10-29T04:56:14Z",
+          "completed_at": "2026-10-29T04:56:14Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/123270561721",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000001003,
+      "runner_name": "GitHub Actions 1000001003",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "source": "6aea5c47a0d9b6a7db42c086940d69bd0b8ef263",
+  "mode": "fresh",
+  "catalog": {
+    "_create_sale_with_items_core": {
+      "anon": false,
+      "auth": false,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "27f06be667514a9e4f0fac3277f51606",
+      "settings": [
+        "search_path=public"
+      ]
+    },
+    "create_sale_with_items_v2": {
+      "anon": false,
+      "auth": false,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "64304e995b1f5d13f896adcf72cb2d3d",
+      "settings": [
+        "search_path=public"
+      ]
+    },
+    "create_sale_with_items": {
+      "anon": false,
+      "auth": false,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "9cf0a34cce9d805705540221d7e174a7",
+      "settings": [
+        "search_path=public"
+      ]
+    },
+    "create_sale_with_items_idempotent": {
+      "anon": false,
+      "auth": true,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "9b20a52476448c697b87a2f2f7f065a3",
+      "settings": [
+        "search_path=public"
+      ]
+    },
+    "update_courier_outcome_v2": {
+      "anon": false,
+      "auth": true,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "23d44164f9a2aabcc1d4510b96e83b6f",
+      "settings": [
+        "search_path=public"
+      ]
+    },
+    "update_courier_order_state": {
+      "anon": false,
+      "auth": true,
+      "owner": "postgres",
+      "definer": true,
+      "body_md5": "844b894a1c4f3af4053ca93b38056f24",
+      "settings": [
+        "search_path=public"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "name": "forward_migration_preserves_all_populated_relations",
+      "passed": true
+    },
+    {
+      "name": "54_migrations_applied",
+      "passed": true
+    },
+    {
+      "name": "C2_uncoerced_numeric_schema_retained",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl__create_sale_with_items_core",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl_create_sale_with_items_v2",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl_create_sale_with_items",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl_create_sale_with_items_idempotent",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl_update_courier_outcome_v2",
+      "passed": true
+    },
+    {
+      "name": "catalog_body_and_acl_update_courier_order_state",
+      "passed": true
+    },
+    {
+      "name": "idempotency_table_RLS_deny_by_default",
+      "passed": true
+    },
+    {
+      "name": "direct_idempotency_table_denied_a",
+      "passed": true
+    },
+    {
+      "name": "direct_idempotency_table_denied_staff1",
+      "passed": true
+    },
+    {
+      "name": "direct_idempotency_table_denied_staff2",
+      "passed": true
+    },
+    {
+      "name": "owner_idempotent_fractional_sale",
+      "passed": true
+    },
+    {
+      "name": "stored_quarter_total_cash_and_payment",
+      "passed": true
+    },
+    {
+      "name": "same_key_replay_returns_original_without_writes",
+      "passed": true
+    },
+    {
+      "name": "same_key_different_request_conflict",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "same_key_different_request_conflict_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "authorized_staff1_fractional_sale",
+      "passed": true
+    },
+    {
+      "name": "authorized_staff2_fractional_sale",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_0.001",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_0.001_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_0.999",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_0.999_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_1.001",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_1.001_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_0",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_0_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_-0.25",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_-0.25_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_NaN",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_NaN_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_Infinity",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_Infinity_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "raw_quantity_None",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "raw_quantity_None_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "invalid_reservation_rolls_back",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid_reservation_rolls_back_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "failed_owner_key_can_succeed_after_rollback",
+      "passed": true
+    },
+    {
+      "name": "no_authenticated_bypass_create_sale_with_items",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "no_authenticated_bypass_create_sale_with_items_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "no_authenticated_bypass_create_sale_with_items_v2",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "no_authenticated_bypass_create_sale_with_items_v2_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "no_authenticated_bypass__create_sale_with_items_core",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "no_authenticated_bypass__create_sale_with_items_core_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "anonymous_idempotency_denied",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous_idempotency_denied_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "foreign_product_rejected",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "foreign_product_rejected_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "customerless_pending_created",
+      "passed": true
+    },
+    {
+      "name": "debt_transition_requires_customer",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "debt_transition_requires_customer_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_atomic_customer_attachment",
+      "passed": true
+    },
+    {
+      "name": "delivered_partial_is_custody_not_receipt",
+      "passed": true
+    },
+    {
+      "name": "legacy_adapter_rejects_backward_custody_move",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "legacy_adapter_rejects_backward_custody_move_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "same_state_retry_is_noop",
+      "passed": true
+    },
+    {
+      "name": "foreign_order_transition_denied",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "foreign_order_transition_denied_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "legacy_adapter_safe_full_transition",
+      "passed": true
+    },
+    {
+      "name": "delivered_full_still_not_settled",
+      "passed": true
+    },
+    {
+      "name": "same_key_concurrent_single_result",
+      "passed": true
+    },
+    {
+      "name": "same_key_single_persisted_sale",
+      "passed": true
+    },
+    {
+      "name": "unchanged_cent_policy_full_paid_without_customer",
+      "passed": true
+    },
+    {
+      "name": "synthetic_owner_banned",
+      "passed": true
+    },
+    {
+      "name": "banned_old_token_cannot_replay_committed_sale",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_old_token_cannot_replay_committed_sale_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_old_token_update_courier_order_state",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_old_token_update_courier_order_state_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_old_token_update_courier_outcome_v2",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_old_token_update_courier_outcome_v2_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "previously_authorized_staff_banned",
+      "passed": true
+    },
+    {
+      "name": "banned_staff_old_token_sale",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_staff_old_token_sale_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "banned_staff_old_token_outcome",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_staff_old_token_outcome_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unaffected_active_staff_after_owner_ban",
+      "passed": true
+    }
+  ],
+  "bounded_C3_pass": true,
+  "full_C_acceptance": false
+}

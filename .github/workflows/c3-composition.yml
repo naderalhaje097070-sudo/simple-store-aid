@@ -157,7 +157,7 @@ jobs:
           set -euo pipefail
           supabase --workdir "$RUNNER_TEMP/monjez-c3cmp-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
           if grep -q -- '--local' "$RUNNER_TEMP/advisors-help.txt"; then
-            supabase --workdir "$RUNNER_TEMP/monjez-c3cmp-stack" db advisors --local > "$RUNNER_TEMP/advisors-private.txt" 2>&1
+            supabase --workdir "$RUNNER_TEMP/monjez-c3cmp-stack" db advisors --local --fail-on error > /tmp/monjez-c3cmp/evidence/advisors.txt 2>&1
           else
             echo 'C3F_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'
           fi

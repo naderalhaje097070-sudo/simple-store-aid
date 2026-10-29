@@ -1,0 +1,7 @@
+# SEC-DEP recovery checkpoint — audit authorization pending
+
+Base5b6da796, main220fc206 unchanged. Official seroval1.6.11 and node-server2.1.3 candidate; Bun1.4.0 generated lock Gitblob6d017ff0e72d9dbde3d4e3c88ce6b3adc2c0c320 was retained in GitHub. Only2/1099locked package entries changed. Official SHA512/release age and SDK1.32 accepted range verified in this task. Pre-cleanup local package/lock/source checks: typecheck/build pass; final lint0errors/12warnings;22dependencyfloor tests,8HTTP/SDK controls, old29B/new18C identity synthetic tests and old/patched bounded package regressions passed. These remain bounded local evidence, not hosted whole-head acceptance.
+
+Automatic approval review rejected bun audit --json because sending lock-derived package names/versions to npm may disclose private package metadata. No retry or indirect CI audit after rejection. Publishing to integration would auto-run it, so the candidate remains an unreferenced review commit until explicit owner consent to that metadata transmission. No branch/PR/main/production/merge/deploy/newcost changes.
+
+Workspace maintenance pruned temporary implementation files before final publication. Exact generated lock survived in GitHub; other candidate code is being reconstructed from the task transcript and repository baseline. This checkpoint preserves recovered core dependency files promptly, not completed C source identity/whole-C acceptance. Final continuation checkpoint supersedes it. Full current audit and hosted checks remain blocked/pending, never labeled passed.

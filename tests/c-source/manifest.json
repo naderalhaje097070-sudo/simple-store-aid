@@ -1651,12 +1651,12 @@
     },
     {
       "path": "tests/c-source/quantity-bridge.cjs",
-      "sha": "e436a4dad844da6d1908897f1e8dd872b1a0b8dc",
+      "sha": "4dc238ec5463755c74d55a4654393dd62cd6aecc",
       "mode": "100644"
     },
     {
       "path": "tests/c-source/quantity-bridge.test.cjs",
-      "sha": "5ab9849b3e5539683794a467771f690fd6fa5998",
+      "sha": "528dc8b48c628132bf5a90037ca0bd640020fa85",
       "mode": "100644"
     },
     {
@@ -1836,7 +1836,7 @@
     },
     {
       "path": "tests/g0-integrated-types/runtime.cjs",
-      "sha": "df9c88db66b4a7b910af39ac2fac7aaa0ad9608d",
+      "sha": "c8440e4c9c2e70cd41a4dc201ca8694cbc366346",
       "mode": "100644"
     },
     {
@@ -2103,7 +2103,7 @@
     },
     "tests/g0-integrated-types/runtime.cjs": {
       "before": "3b5bfb35d5a84baed5b182351fc4980a99bf63c6",
-      "after": "df9c88db66b4a7b910af39ac2fac7aaa0ad9608d",
+      "after": "c8440e4c9c2e70cd41a4dc201ca8694cbc366346",
       "mode": "100644"
     }
   },
@@ -2113,7 +2113,7 @@
     "tests/c-source/test_identity.py": "874c5035242479439e1b2b0a6662f9e68926e186",
     "tests/sec-dep-20261029/regressions.cjs": "cea9daba4091c8da0d4bc38f6d985522a55458d9",
     "tests/sec-dep-20261029/serde-child.cjs": "1068f9e3c74f07eb7cd003c0dd69a498e6bd92a0",
-    "tests/c-source/quantity-bridge.cjs": "e436a4dad844da6d1908897f1e8dd872b1a0b8dc",
-    "tests/c-source/quantity-bridge.test.cjs": "5ab9849b3e5539683794a467771f690fd6fa5998"
+    "tests/c-source/quantity-bridge.cjs": "4dc238ec5463755c74d55a4654393dd62cd6aecc",
+    "tests/c-source/quantity-bridge.test.cjs": "528dc8b48c628132bf5a90037ca0bd640020fa85"
   }
 }

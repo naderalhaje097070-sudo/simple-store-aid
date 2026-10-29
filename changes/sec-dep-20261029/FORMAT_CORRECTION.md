@@ -1,0 +1,3 @@
+# Native formatter correction
+
+Source ccf0d4c53561b9bc47458d90d18334331d9eccdc SECcontracts passed, but G0quality40967377810 and B1compatibility40967377749 failed lint with31Prettier errors/13warnings. The local formatter invocation had missed repository .prettierrc printWidth100, using default80. Restored exact existing config and reformatted only three touched CJS files; no config override/disabled rule or application change. Manifest hashes updated. Local bridge3 and runtime10+7controls reran successfully under the same explicit snapshot harness. Native results recorded separately; failed run retained.

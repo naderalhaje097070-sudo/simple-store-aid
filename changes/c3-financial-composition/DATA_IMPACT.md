@@ -1,0 +1,4 @@
+# C3 data
+Production volume/invalid history unknown and uninspected. No row backfill or automatic reconciliation. Preserve fingerprints of every prior public/private relation on51→53; added ledger permitted. Preserve all relations53→54. Old rounded historical entries remain as-is.
+
+Original August customer outcome constraint stays NOT VALID: enforced on new writes, no historical validation/backfill. Customerless pending/full/returned allowed; debt outcomes require customer; NULL courier outcome fails closed as approved49 design. Original financial_idempotency tenant/operation/key PK, request/result/completion checks/index retained. RLS enabled with no app grants/policies; service_role administrative grant remains original. Current numeric stock/item quantity constraints and existing cent/money columns unchanged. No retention/delete job or public cleanup endpoint.

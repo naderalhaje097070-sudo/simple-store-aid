@@ -1,0 +1,6 @@
+# C3 authorization and evidence boundaries
+Six final composed functions explicitly call accepted private assert_active_actor; wrapper checks before committed replay, outcome before order lookup. _assert_staff enforces current tenant plus owner/staff role; no user_metadata authorization. Existing51 live functions/RLS remain byte-exact. SECURITY DEFINER/public search_path inherited, relations/functions qualified. Core/v2/legacy sale revoked from PUBLIC/anon/authenticated. Only idempotent sale and safe outcome RPCs granted to authenticated. Direct ledger grants denied.
+
+Native coverage: active owner/two staff positives; other-tenant product/order rejection; anonymous and direct bypass denial; banned owner old JWT cannot replay committed key or call either courier update; active staff after ban positive. Check catalog ACL/RLS plus actual transport. No complete closed/unlinked/deleted/assignment/MCP/provider lifecycle claim.
+
+Dedicated probe UID only loopback54321/54322, v4/v6 reject counters, precredential rejection canary, private state/stack cleanup and fail-closed artifact sanitizer reused. CLI task-local disabled telemetry plus both optout envs retained from C2; do not repeat rejected analytics action. No production secrets/data. Implementer source checks are not independent review; C6 remains open.

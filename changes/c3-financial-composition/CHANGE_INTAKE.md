@@ -1,0 +1,10 @@
+# C3 FIN-02 — intake/design, 29 October 2026
+NAADF-CMF high-risk compatibility/security correction. Root sole implementer, claim55/6488106080. Owner «تابع» under canonical C3/AGENTS admits routine isolated implementation of this exact approved contract. Base26fe19bc; accepted main220fc206 and original five C heads unchanged. No competing claim observed. Quantity choice resolved: two decimals; no further owner policy decision is needed for this batch.
+
+Goal: deterministic final financial functions/ACL in chronological fresh54 and populated51→originalAugust2→forward54. Preserve all51 existing SQL and405 baseline source/tool/test/config blobs, frozen A/B/C2 manifests. Add exact original49/50 SQL; one CLI-generated later correction restores thin canonical adapters and direct live actor guards, replaces old core quantity coercion with C2 raw validation. No duplicate core or money/customer/courier policy change.
+
+Baseline: C1 source-order diagnostic and C2 stored evidence remain source-bound. New local source_order --baseline reproduces order-dependent adapters/old raw typemod; final source regression/syntax pass. Actual native before-phase must reproduce .999→1 then final must refuse atomically. Hosted evidence pending initially. One local arbitrary YAML step-count assertion17 failed because workflow has16 steps; YAML parsed correctly. Inspect semantic stages instead; no product assertion weakened.
+
+In: additive SQL/test/source inventory/scoped isolated workflow/evidence. Out: C4 client pending identity and typed UI bridge, fullC5 financial/restore/browser, independentC6, ownerC7, new policies/dependencies, main merge/deploy/production/secrets/new costs/newPR/closure/history rewrite. Original50 revokes legacy/v2 sale; current UI will need C4 before product acceptance. This staged SQL source alone must not ship.
+
+Acceptance: actual exact catalog/owner/settings/ACL and numeric schema; nonempty row invariance; owner/two staff/foreign/anonymous/banned-old-token, bypass denial, key replay/conflict/concurrent/abort and safe courier adapters. Full integration_accepted=false. See impact documents and RESULT for precise outcomes.

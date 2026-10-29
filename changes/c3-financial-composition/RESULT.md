@@ -1,0 +1,2 @@
+# C3 initial candidate
+Implemented on existing integration only. Local source-order baseline/final and syntax pass; YAML parses and stages reviewed. Native hosted tests pending, no local Docker/psql/Bun/full checkout available. Record exact source/results and all failures before technical completion. Overall integration_accepted=false. C4 client bridge, frozenG0 identity, fullC5/C6/ownerC7 remain open. No main/merge/deploy/production/closure.

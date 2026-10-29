@@ -3,7 +3,10 @@ const cp = require("node:child_process");
 const assert = require("node:assert/strict");
 const ts = require("typescript");
 const parser = require("@babel/parser");
-const { historicalWebhookSource } = require("../b-dependency/webhook-bridge.cjs");
+const {
+  historicalWebhookSource,
+} = require("../b-dependency/webhook-bridge.cjs");
+const { historicalQuantitySource } = require("../c-source/quantity-bridge.cjs");
 
 const baseline = "d0a172e7060a5a8a782a923f42986ac7d6287bab";
 const files = [
@@ -42,15 +45,29 @@ function emit(source, file) {
 function ast(source) {
   return parser.parse(source, { sourceType: "module" });
 }
-const counters = { clientAlias: 0, nullGuard: 0, messageAlias: 0, messageRename: 0 };
+const counters = {
+  clientAlias: 0,
+  nullGuard: 0,
+  messageAlias: 0,
+  messageRename: 0,
+};
 function canon(value, file, revised) {
   if (Array.isArray(value))
-    return value.map((x) => canon(x, file, revised)).filter((x) => x !== undefined);
+    return value
+      .map((x) => canon(x, file, revised))
+      .filter((x) => x !== undefined);
   if (!value || typeof value !== "object") return value;
   if (revised && file === "src/lib/db.ts") {
-    if (value.type === "VariableDeclaration" && value.declarations.length === 1) {
+    if (
+      value.type === "VariableDeclaration" &&
+      value.declarations.length === 1
+    ) {
       const d = value.declarations[0];
-      if (d.id.name === "rpcClient" && d.init.type === "Identifier" && d.init.name === "supabase") {
+      if (
+        d.id.name === "rpcClient" &&
+        d.init.type === "Identifier" &&
+        d.init.name === "supabase"
+      ) {
         counters.clientAlias++;
         return undefined;
       }
@@ -81,7 +98,10 @@ function canon(value, file, revised) {
       return { type: "Identifier", name: "supabase" };
   }
   if (revised && file === "src/routes/lovable/email/queue/process.ts") {
-    if (value.type === "VariableDeclaration" && value.declarations.length === 1) {
+    if (
+      value.type === "VariableDeclaration" &&
+      value.declarations.length === 1
+    ) {
       const d = value.declarations[0];
       if (
         d.id.name === "messages" &&
@@ -117,15 +137,21 @@ const changedDeclarations = {
     "DayCloseScreen",
     "MoneyDetailsSheet",
   ]),
-  "src/features/invoices/InvoiceDetailScreen.tsx": new Set(["InvoiceDetailScreen"]),
+  "src/features/invoices/InvoiceDetailScreen.tsx": new Set([
+    "InvoiceDetailScreen",
+  ]),
   "src/routes/_authenticated/billing.tsx": new Set(["BillingPage"]),
 };
 function unchangedModule(tree, file) {
   const changed = changedDeclarations[file];
   if (!changed) return tree;
   tree.program.body = tree.program.body.filter((node) => {
-    const declaration = node.type === "ExportNamedDeclaration" ? node.declaration : node;
-    if (declaration?.type === "FunctionDeclaration" && changed.has(declaration.id.name))
+    const declaration =
+      node.type === "ExportNamedDeclaration" ? node.declaration : node;
+    if (
+      declaration?.type === "FunctionDeclaration" &&
+      changed.has(declaration.id.name)
+    )
       return false;
     return !(
       node.type === "ImportDeclaration" &&
@@ -165,10 +191,15 @@ function memoBody(source, functionName, variable) {
 }
 const sources = new Map();
 for (const file of files) {
-  const before = cp.execFileSync("git", ["show", `${baseline}:${file}`], { encoding: "utf8" });
+  const before = cp.execFileSync("git", ["show", `${baseline}:${file}`], {
+    encoding: "utf8",
+  });
   const after = fs.readFileSync(file, "utf8");
   const a = emit(before, file),
-    b = emit(historicalWebhookSource(file, after), file);
+    b = emit(
+      historicalQuantitySource(file, historicalWebhookSource(file, after)),
+      file,
+    );
   assert.deepEqual(
     canon(unchangedModule(ast(a), file), file, false),
     canon(unchangedModule(ast(b), file), file, true),
@@ -187,26 +218,49 @@ for (const file of files) {
       const originalFormula = memoBody(currentBase, name, variable);
       let currentFormula = memoBody(after, name, variable);
       if (name === "DayCloseScreen") {
-        assert.equal((currentFormula.match(/const todayKey = p\.todayKey;/g) || []).length, 1);
+        assert.equal(
+          (currentFormula.match(/const todayKey = p\.todayKey;/g) || []).length,
+          1,
+        );
         currentFormula = currentFormula.replace(
           "const todayKey = p.todayKey;",
           "const todayKey = tenantTodayKey(tenantTz);",
         );
       }
       assert.deepEqual(
-        canon(ast(emit(`function formula() ${originalFormula}`, file)), file, false),
-        canon(ast(emit(`function formula() ${currentFormula}`, file)), file, false),
+        canon(
+          ast(emit(`function formula() ${originalFormula}`, file)),
+          file,
+          false,
+        ),
+        canon(
+          ast(emit(`function formula() ${currentFormula}`, file)),
+          file,
+          false,
+        ),
         `${name} arithmetic changed`,
       );
     }
   }
-  sources.set(file, { before: a, after: b });
+  sources.set(file, { before: a, after: emit(after, file) });
 }
-assert.deepEqual(counters, { clientAlias: 1, nullGuard: 2, messageAlias: 1, messageRename: 1 });
+assert.deepEqual(counters, {
+  clientAlias: 1,
+  nullGuard: 2,
+  messageAlias: 1,
+  messageRename: 1,
+});
 
 // Execute the original query/mutation callbacks with a recording client. No
 // network or database exists in this contract replay; calls and values are real
 // application callbacks, while storage/authorization acceptance remains separate.
+const quantitySource = emit(
+  fs.readFileSync("src/domain/finance/quantity.ts", "utf8"),
+  "quantity.ts",
+).replace(/^export /gm, "");
+const quantity = new Function(
+  quantitySource + "\nreturn { isQuantity, QUANTITY_ERROR }; ",
+)();
 function callbacks(source, response) {
   const calls = [];
   const client = {
@@ -215,13 +269,18 @@ function callbacks(source, response) {
       return response;
     },
   };
-  const code = source.replace(/^import[^;]+;\n/gm, "").replace(/^export /gm, "");
+  const code = source
+    .replace(/^import[^;]+;\n/gm, "")
+    .replace(/^export /gm, "");
   const run = new Function(
     "supabase",
     "useQuery",
     "useMutation",
     "useQueryClient",
-    code + "\nreturn { useTenantTodayEstimate, useCreateSale, useDeleteProduct }; ",
+    "isQuantity",
+    "QUANTITY_ERROR",
+    code +
+      "\nreturn { useTenantTodayEstimate, useCreateSale, useDeleteProduct }; ",
   );
   return {
     api: run(
@@ -229,6 +288,8 @@ function callbacks(source, response) {
       (x) => x,
       (x) => x,
       () => ({ invalidateQueries() {} }),
+      quantity.isQuantity,
+      quantity.QUANTITY_ERROR,
     ),
     calls,
   };
@@ -243,10 +304,20 @@ async function scenario(kind, data, error) {
     try {
       let value;
       if (kind === "today")
-        value = await instance.api.useTenantTodayEstimate("tenant-fixture").queryFn();
+        value = await instance.api
+          .useTenantTodayEstimate("tenant-fixture")
+          .queryFn();
       if (kind === "sale")
         value = await instance.api.useCreateSale("tenant-fixture").mutationFn({
-          items: [{ productId: "product-fixture", name: "dummy", qty: 2, price: 50, cost: 20 }],
+          items: [
+            {
+              productId: "product-fixture",
+              name: "dummy",
+              qty: 2,
+              price: 50,
+              cost: 20,
+            },
+          ],
           total: 100,
           paid: 40,
           customerId: "customer-fixture",
@@ -254,7 +325,9 @@ async function scenario(kind, data, error) {
           method: "cash",
         });
       if (kind === "product")
-        value = await instance.api.useDeleteProduct("tenant-fixture").mutationFn("product-fixture");
+        value = await instance.api
+          .useDeleteProduct("tenant-fixture")
+          .mutationFn("product-fixture");
       outcomes.push({ value, calls: instance.calls });
     } catch (failure) {
       outcomes.push({
@@ -291,7 +364,11 @@ async function scenario(kind, data, error) {
   });
   await scenario("today", null);
   await scenario("today", null, { message: "fixture_error" });
-  const sale = await scenario("sale", { success: true, order_id: "order-fixture", number: 11 });
+  const sale = await scenario("sale", {
+    success: true,
+    order_id: "order-fixture",
+    number: 11,
+  });
   assert.deepEqual(sale.value, { orderId: "order-fixture", number: "11" });
   assert.deepEqual(sale.calls, [
     {
@@ -312,9 +389,59 @@ async function scenario(kind, data, error) {
   await scenario("product", { archived: true, used_in: 2 });
   await scenario("product", null);
   await scenario("product", null, { message: "forbidden_role" });
+  const fractionalInput = {
+    items: [
+      {
+        productId: "product-fixture",
+        name: "dummy",
+        qty: 0.25,
+        price: 12.5,
+        cost: 2,
+      },
+    ],
+    total: 3.13,
+    paid: 3.13,
+    delivery: "direct",
+    method: "cash",
+  };
+  const currentSource = sources.get("src/lib/db.ts").after;
+  const fractional = callbacks(currentSource, {
+    data: { order_id: "quarter", number: 12 },
+    error: null,
+  });
+  assert.deepEqual(
+    await fractional.api
+      .useCreateSale("tenant-fixture")
+      .mutationFn(fractionalInput),
+    { orderId: "quarter", number: "12" },
+  );
+  assert.equal(fractional.calls[0].args.p_items[0].qty, 0.25);
+  assert.equal(fractional.calls[0].args.p_paid, 3.13);
+  for (const qty of [0, -0.25, 0.001, NaN, Infinity]) {
+    const invalid = callbacks(currentSource, { data: null, error: null });
+    await assert.rejects(
+      invalid.api.useCreateSale("tenant-fixture").mutationFn({
+        ...fractionalInput,
+        items: [{ ...fractionalInput.items[0], qty }],
+      }),
+      { message: quantity.QUANTITY_ERROR },
+    );
+    assert.deepEqual(invalid.calls, []);
+  }
+  const empty = callbacks(currentSource, { data: null, error: null });
+  await assert.rejects(
+    empty.api
+      .useCreateSale("tenant-fixture")
+      .mutationFn({ ...fractionalInput, items: [] }),
+    { message: quantity.QUANTITY_ERROR },
+  );
+  assert.deepEqual(empty.calls, []);
   // A financial wire mutation must remain observable to the same AST comparator.
   const original = sources.get("src/lib/db.ts").before;
-  const changed = original.replace("p_paid: input.paid", "p_paid: input.paid + 1");
+  const changed = original.replace(
+    "p_paid: input.paid",
+    "p_paid: input.paid + 1",
+  );
   assert.notEqual(changed, original);
   assert.notDeepEqual(
     canon(ast(original), "src/lib/db.ts", false),
@@ -324,11 +451,16 @@ async function scenario(kind, data, error) {
     JSON.stringify({
       files: files.length,
       functionalDeclarationContracts: Object.fromEntries(
-        Object.entries(changedDeclarations).map(([file, names]) => [file, [...names]]),
+        Object.entries(changedDeclarations).map(([file, names]) => [
+          file,
+          [...names],
+        ]),
       ),
       unchangedFinancialMemoBodies: 2,
       intentionalAliasesAndGuards: counters,
       callbackScenarios: 10,
+      currentFractionalCallbackControls: 7,
+      currentC2ModulesPinned: 2,
       negativeWireMutation: true,
       databaseOrProviderCalls: 0,
     }),

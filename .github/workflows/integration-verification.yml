@@ -73,6 +73,8 @@ jobs:
 
         node --test tests/account-lifecycle/webhook_handler.test.cjs
 
+        node --test tests/c-source/quantity-bridge.test.cjs
+
         node tests/g0-integrated-types/runtime.cjs
 
         '

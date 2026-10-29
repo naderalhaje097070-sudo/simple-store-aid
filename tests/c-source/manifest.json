@@ -171,7 +171,7 @@
     },
     {
       "path": ".github/workflows/integration-verification.yml",
-      "sha": "0066da5bda6fa2cc6b9bb933698b202fb9ec9e11",
+      "sha": "3d3c9ab4c347b84d20762d0afe762e32b064e2e0",
       "mode": "100644"
     },
     {
@@ -750,11 +750,6 @@
       "mode": "100644"
     },
     {
-      "path": "src/features/shared/financial-read-state.ts",
-      "sha": "ece80c5ee61835c9933bbf169f4c0248dac3f93a",
-      "mode": "100644"
-    },
-    {
       "path": "src/features/shared/FinancialReadBoundary.tsx",
       "sha": "380c76602ab39604fb739dfb73b4974466d4afa1",
       "mode": "100644"
@@ -782,6 +777,11 @@
     {
       "path": "src/features/shared/Toast.tsx",
       "sha": "e3ec1548c4b1efeaa814f5b236466b4e37e7b1ef",
+      "mode": "100644"
+    },
+    {
+      "path": "src/features/shared/financial-read-state.ts",
+      "sha": "ece80c5ee61835c9933bbf169f4c0248dac3f93a",
       "mode": "100644"
     },
     {
@@ -930,8 +930,33 @@
       "mode": "100644"
     },
     {
+      "path": "src/routeTree.gen.ts",
+      "sha": "773224349572a5a572dc387329b846c973b24bab",
+      "mode": "100644"
+    },
+    {
       "path": "src/router.tsx",
       "sha": "3423d598036579e62f42faec438f868b4bb0bb17",
+      "mode": "100644"
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "sha": "d59dbb0cb68b13f8085c8f702fb9672156b1c974",
+      "mode": "100644"
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "sha": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e",
+      "mode": "100644"
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "sha": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3",
+      "mode": "100644"
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "sha": "ac78a6d33a40bbf0111db81c81a82202c1ffa708",
       "mode": "100644"
     },
     {
@@ -962,26 +987,6 @@
     {
       "path": "src/routes/_authenticated/route.tsx",
       "sha": "0eb206f28305c00fa0f9722cdfb7185e88673f1c",
-      "mode": "100644"
-    },
-    {
-      "path": "src/routes/[.]lovable.oauth.consent.tsx",
-      "sha": "d59dbb0cb68b13f8085c8f702fb9672156b1c974",
-      "mode": "100644"
-    },
-    {
-      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
-      "sha": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e",
-      "mode": "100644"
-    },
-    {
-      "path": "src/routes/[.mcp]/list-tools.ts",
-      "sha": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3",
-      "mode": "100644"
-    },
-    {
-      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
-      "sha": "ac78a6d33a40bbf0111db81c81a82202c1ffa708",
       "mode": "100644"
     },
     {
@@ -1017,11 +1022,6 @@
     {
       "path": "src/routes/sitemap[.]xml.ts",
       "sha": "5e45e999063d0feacd7db4e41751de38caa0e10c",
-      "mode": "100644"
-    },
-    {
-      "path": "src/routeTree.gen.ts",
-      "sha": "773224349572a5a572dc387329b846c973b24bab",
       "mode": "100644"
     },
     {
@@ -1390,13 +1390,13 @@
       "mode": "100644"
     },
     {
-      "path": "tests/account-lifecycle/owner_catalog_probe.py",
-      "sha": "cd0602daf8f9ef5d486ab2665d29c78596e27bac",
+      "path": "tests/account-lifecycle/owner_catalog.sql",
+      "sha": "e2af6dc8c364888b985056b550a9f21630b76810",
       "mode": "100644"
     },
     {
-      "path": "tests/account-lifecycle/owner_catalog.sql",
-      "sha": "e2af6dc8c364888b985056b550a9f21630b76810",
+      "path": "tests/account-lifecycle/owner_catalog_probe.py",
+      "sha": "cd0602daf8f9ef5d486ab2665d29c78596e27bac",
       "mode": "100644"
     },
     {
@@ -1646,7 +1646,17 @@
     },
     {
       "path": "tests/c-source/c_identity.py",
-      "sha": "71bac8639dc9061c96b99cc1eda9f0955b5f2ce6",
+      "sha": "1fd33401091f68c943111634ccdbe77464dbfc45",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/c-source/quantity-bridge.cjs",
+      "sha": "e436a4dad844da6d1908897f1e8dd872b1a0b8dc",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/c-source/quantity-bridge.test.cjs",
+      "sha": "5ab9849b3e5539683794a467771f690fd6fa5998",
       "mode": "100644"
     },
     {
@@ -1700,13 +1710,13 @@
       "mode": "100644"
     },
     {
-      "path": "tests/c3-composition/source_order.py",
-      "sha": "8e7bce763cfd5352eb28379a563ac86d5439364a",
+      "path": "tests/c3-composition/source.json",
+      "sha": "65e669c3164d7ff26b5d48703d4a3274487b38f0",
       "mode": "100644"
     },
     {
-      "path": "tests/c3-composition/source.json",
-      "sha": "65e669c3164d7ff26b5d48703d4a3274487b38f0",
+      "path": "tests/c3-composition/source_order.py",
+      "sha": "8e7bce763cfd5352eb28379a563ac86d5439364a",
       "mode": "100644"
     },
     {
@@ -1826,7 +1836,7 @@
     },
     {
       "path": "tests/g0-integrated-types/runtime.cjs",
-      "sha": "3b5bfb35d5a84baed5b182351fc4980a99bf63c6",
+      "sha": "df9c88db66b4a7b910af39ac2fac7aaa0ad9608d",
       "mode": "100644"
     },
     {
@@ -2073,7 +2083,7 @@
     },
     ".github/workflows/integration-verification.yml": {
       "before": "c383e67fdb4e2fd07e090212c3c06666366a0f79",
-      "after": "0066da5bda6fa2cc6b9bb933698b202fb9ec9e11",
+      "after": "3d3c9ab4c347b84d20762d0afe762e32b064e2e0",
       "mode": "100644"
     },
     "package.json": {
@@ -2090,13 +2100,20 @@
       "before": "dfccc2c1fc4c3b261d8cfe7a604198632c85aca9",
       "after": "42085aaaefb457321a0613e3a90b7d66b50a56d0",
       "mode": "100644"
+    },
+    "tests/g0-integrated-types/runtime.cjs": {
+      "before": "3b5bfb35d5a84baed5b182351fc4980a99bf63c6",
+      "after": "df9c88db66b4a7b910af39ac2fac7aaa0ad9608d",
+      "mode": "100644"
     }
   },
   "additions": {
     ".github/workflows/sec-dep-20261029.yml": "04721c7db7299f80948ea0533b141a5ca22ff783",
-    "tests/c-source/c_identity.py": "71bac8639dc9061c96b99cc1eda9f0955b5f2ce6",
+    "tests/c-source/c_identity.py": "1fd33401091f68c943111634ccdbe77464dbfc45",
     "tests/c-source/test_identity.py": "874c5035242479439e1b2b0a6662f9e68926e186",
     "tests/sec-dep-20261029/regressions.cjs": "cea9daba4091c8da0d4bc38f6d985522a55458d9",
-    "tests/sec-dep-20261029/serde-child.cjs": "1068f9e3c74f07eb7cd003c0dd69a498e6bd92a0"
+    "tests/sec-dep-20261029/serde-child.cjs": "1068f9e3c74f07eb7cd003c0dd69a498e6bd92a0",
+    "tests/c-source/quantity-bridge.cjs": "e436a4dad844da6d1908897f1e8dd872b1a0b8dc",
+    "tests/c-source/quantity-bridge.test.cjs": "5ab9849b3e5539683794a467771f690fd6fa5998"
   }
 }

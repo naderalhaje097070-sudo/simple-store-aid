@@ -1,0 +1,30 @@
+{
+  "source": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+  "tree": "7f1d37b57f31e93cfc96a9bdb38786bae1a3245d",
+  "complete": true,
+  "protected_count": 414,
+  "declared_changes": [
+    "tests/g01-acceptance/capture.py",
+    ".github/workflows/integration-verification.yml",
+    "package.json",
+    "bun.lock",
+    "tests/unit/dependency-security.test.ts",
+    "tests/g0-integrated-types/runtime.cjs",
+    "tests/day-close-clock/replay.mjs"
+  ],
+  "declared_additions": [
+    ".github/workflows/sec-dep-20261029.yml",
+    "tests/c-source/c_identity.py",
+    "tests/c-source/test_identity.py",
+    "tests/sec-dep-20261029/regressions.cjs",
+    "tests/sec-dep-20261029/serde-child.cjs",
+    "tests/c-source/quantity-bridge.cjs",
+    "tests/c-source/quantity-bridge.test.cjs"
+  ],
+  "mismatches": [],
+  "all_application_src_exact": true,
+  "all54SQLexact": true,
+  "frozen_A_B_and_original_verifier_tests_exact": true,
+  "integration_accepted": false,
+  "independent_review": false
+}

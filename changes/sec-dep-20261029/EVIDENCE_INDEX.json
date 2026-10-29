@@ -1,0 +1,894 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "tested_source": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+  "source_receipt": {
+    "source": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+    "tree": "7f1d37b57f31e93cfc96a9bdb38786bae1a3245d",
+    "complete": true,
+    "protected_count": 414,
+    "declared_changes": [
+      "tests/g01-acceptance/capture.py",
+      ".github/workflows/integration-verification.yml",
+      "package.json",
+      "bun.lock",
+      "tests/unit/dependency-security.test.ts",
+      "tests/g0-integrated-types/runtime.cjs",
+      "tests/day-close-clock/replay.mjs"
+    ],
+    "declared_additions": [
+      ".github/workflows/sec-dep-20261029.yml",
+      "tests/c-source/c_identity.py",
+      "tests/c-source/test_identity.py",
+      "tests/sec-dep-20261029/regressions.cjs",
+      "tests/sec-dep-20261029/serde-child.cjs",
+      "tests/c-source/quantity-bridge.cjs",
+      "tests/c-source/quantity-bridge.test.cjs"
+    ],
+    "mismatches": [],
+    "all_application_src_exact": true,
+    "all54SQLexact": true,
+    "frozen_A_B_and_original_verifier_tests_exact": true,
+    "integration_accepted": false,
+    "independent_review": false
+  },
+  "audit_authorization": {
+    "status": "resolved by explicit owner authorization",
+    "user_reply": "نعم",
+    "question": "هل تأذن بإرسال أسماء حزم المشروع وإصداراتها إلى npm لإكمال التدقيق الأمني؟",
+    "scope": "Dependency package names and versions, including possible private package metadata, transmitted to npm for bun audit and equivalent automatic CI full audit",
+    "consent_receipt": "https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/55#issuecomment-6509972254",
+    "original_block": "AUTO_REVIEW_BLOCK.json",
+    "merge_or_deploy_authorized": false,
+    "production_or_new_cost_authorized": false
+  },
+  "artifacts": [
+    {
+      "artifact_id": 12937883906,
+      "run_id": 40966773248,
+      "name": "b-dep-native-entry",
+      "digest": "sha256:f68f6d7d8b9901dacb7d000a99a09d92b5d650d8e5e73982a760eae9f11802fb",
+      "blob": "d5ed5ceebe693b036f0cf1ee4a5bd29c342f8c79",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937883906.zip"
+    },
+    {
+      "artifact_id": 12937323960,
+      "run_id": 40966773248,
+      "name": "b-dep-audit",
+      "digest": "sha256:a1e88e2781676b63ae1fc315b9d596f85392f4e6e1ae9779e6efb3ed89d6a701",
+      "blob": "8085585791ab5db2e20ae7926b444783e7f44b9e",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937323960.zip"
+    },
+    {
+      "artifact_id": 12937603564,
+      "run_id": 40966773360,
+      "name": "g01-environment-attempt1",
+      "digest": "sha256:a376f75e481d9dd432848074296db1182a17db87ad25ca93733b00ca617b0fc9",
+      "blob": "eb5a46a7d60896d605e2ae100e35c0e7b6ed376c",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937603564.zip"
+    },
+    {
+      "artifact_id": 12937168842,
+      "run_id": 40966773360,
+      "name": "g01-runtime-attempt1",
+      "digest": "sha256:89e58fb9c6be50bcea943be9161e8d5fa1ca2e8e41e2e1c617bd75a694eb23d2",
+      "blob": "c8481d7a4d7b2a8885a352c59b1f5be9c7039b9d",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937168842.zip"
+    },
+    {
+      "artifact_id": 12938836381,
+      "run_id": 40966773290,
+      "name": "b7-advisory-regressions",
+      "digest": "sha256:52de1febe9292acbe13a2676510a52b308c9577c0aef6c31376d735568e10906",
+      "blob": "82c038befa2485ac8ca1550604fef2673908eb12",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12938836381.zip"
+    },
+    {
+      "artifact_id": 12938316598,
+      "run_id": 40966773397,
+      "name": "quality-diagnostics",
+      "digest": "sha256:8ea4866652013b6200ae14880b8b59e2ca5d3d3eb6175226dc555da513d04fa9",
+      "blob": "abe94244bfba2ec67122d607ddd8d264a0b2237c",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12938316598.zip"
+    },
+    {
+      "artifact_id": 12937434395,
+      "run_id": 40966773397,
+      "name": "integration-full-audit",
+      "digest": "sha256:fb1b8aabc5bc6cd2aa2683ef8a7b4fd3fb47576d365d6a6d8a0efc7cd9a8fd5d",
+      "blob": "c665e2656af7246bb5d5ffa5aff051fc23d9884b",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937434395.zip"
+    },
+    {
+      "artifact_id": 12937298102,
+      "run_id": 40966773397,
+      "name": "integration-source-identity",
+      "digest": "sha256:9e3077e114de1f47f39e7a82524b755f65571e55e3a7f20bf3f39044b1cd03ad",
+      "blob": "c21e89d67597041d6e98bed322a3fe97f02f3f45",
+      "path": "changes/sec-dep-20261029/native/db4a0515-12937298102.zip"
+    },
+    {
+      "artifact_id": 12938837674,
+      "run_id": 40967601265,
+      "name": "quality-diagnostics",
+      "digest": "sha256:f9d5795ed1ea1baa82983d62f53a4fff53fb8caac3742316869242b8a9d9e95f",
+      "blob": "93fd746b554f01e640fd7a74fdd8e5d12879d25b",
+      "path": "changes/sec-dep-20261029/native/run-40967601265-artifact-12938837674.zip"
+    },
+    {
+      "artifact_id": 12938598355,
+      "run_id": 40967601265,
+      "name": "integration-full-audit",
+      "digest": "sha256:6a9b9180d50ffdd3615ebaf12da863b8b989854cb3b1c8e02c8743fcdd6f2229",
+      "blob": "f8e1aefa466097bcf3d38562679a0803b4e467cb",
+      "path": "changes/sec-dep-20261029/native/run-40967601265-artifact-12938598355.zip"
+    },
+    {
+      "artifact_id": 12938137619,
+      "run_id": 40967601265,
+      "name": "integration-source-identity",
+      "digest": "sha256:1df7194e4ec3af0e850ad9473b4a532b719538a99e805cd5ff9720ee994adf19",
+      "blob": "0a9acf95cf7a555a3c630c52e8e5477c2f183e40",
+      "path": "changes/sec-dep-20261029/native/run-40967601265-artifact-12938137619.zip"
+    },
+    {
+      "artifact_id": 12939270223,
+      "run_id": 40967377810,
+      "name": "integration-source-identity",
+      "digest": "sha256:a67e89c140906a663ddfea456027d83e9fd5a87c51eb2546df42590bc3c84358",
+      "blob": "48c62c5573106e12bddd5b982395f42c337ae215",
+      "path": "changes/sec-dep-20261029/native/run-40967377810-artifact-12939270223.zip"
+    },
+    {
+      "artifact_id": 12938802871,
+      "run_id": 40967377810,
+      "name": "quality-diagnostics",
+      "digest": "sha256:3732b4339ab3015db07dc8d7dd4a457aa8c4dbe894ff857bf7477c2700e9ea88",
+      "blob": "3a8f55e02fc0b2f5d2c295458cfcfc1aa05c4136",
+      "path": "changes/sec-dep-20261029/native/run-40967377810-artifact-12938802871.zip"
+    },
+    {
+      "artifact_id": 12938312812,
+      "run_id": 40967377810,
+      "name": "integration-full-audit",
+      "digest": "sha256:6ef26fbd4846851f36a78a4c7054400cca632f2066fbad7aada59d72bb7ca607",
+      "blob": "894b2d2bd3d785383d9872b370e8bc06f537c93e",
+      "path": "changes/sec-dep-20261029/native/run-40967377810-artifact-12938312812.zip"
+    },
+    {
+      "artifact_id": 12939530109,
+      "run_id": 40967812727,
+      "name": "integration-source-identity",
+      "digest": "sha256:0735cb25d544df6aa112170d31623cd5ad118f241434c4f21378b14fd03c81f4",
+      "blob": "80d8dba50e8931d507d27c2217768dc885ffcc8b",
+      "path": "changes/sec-dep-20261029/native/final-12939530109.zip"
+    },
+    {
+      "artifact_id": 12938966606,
+      "run_id": 40967812727,
+      "name": "quality-diagnostics",
+      "digest": "sha256:49ae040274ed8624031a2d33a58d84ef6cbd72318f4a09b3d0e3137887703541",
+      "blob": "e139fde73a302c3a707dcdc21adf60b1b87f8e8d",
+      "path": "changes/sec-dep-20261029/native/final-12938966606.zip"
+    },
+    {
+      "artifact_id": 12937558645,
+      "run_id": 40967812727,
+      "name": "integration-full-audit",
+      "digest": "sha256:9deadf9007ef070ad531047f91db4307d33a62bfacfa7de5f68ec065dae8ba83",
+      "blob": "c131591ca31c8937b16a4f4d322d405c3893932f",
+      "path": "changes/sec-dep-20261029/native/final-12937558645.zip"
+    }
+  ],
+  "job_logs": [
+    {
+      "job_id": 123773155255,
+      "path": "changes/sec-dep-20261029/native/job-123773155255.log",
+      "blob": "3428329040d322c9f96221d8d6db3df2d6daa020"
+    },
+    {
+      "job_id": 123773155092,
+      "path": "changes/sec-dep-20261029/native/job-123773155092.log",
+      "blob": "befba64fe2547149c2514afa61aca4fde937a1b4"
+    },
+    {
+      "job_id": 123773155131,
+      "path": "changes/sec-dep-20261029/native/job-123773155131.log",
+      "blob": "b030d323af8effcfe789479ed92da986bd3800c3"
+    },
+    {
+      "job_id": 123773154458,
+      "path": "changes/sec-dep-20261029/native/job-123773154458.log",
+      "blob": "64dc36d2b5683a6185e4b027d7c6466c14be7ed3"
+    },
+    {
+      "job_id": 123773154932,
+      "path": "changes/sec-dep-20261029/native/job-123773154932.log",
+      "blob": "80a15a77334e1759939ddb82d4e8f25d27db1823"
+    },
+    {
+      "job_id": 123773154602,
+      "path": "changes/sec-dep-20261029/native/job-123773154602.log",
+      "blob": "65b474f57c3e455d215bdc4f2dbadee6b1d6ffcd"
+    },
+    {
+      "job_id": 123773154946,
+      "path": "changes/sec-dep-20261029/native/job-123773154946.log",
+      "blob": "3f1b02d0563e5d9ebd6244836e20ef29b8a38172"
+    },
+    {
+      "job_id": 123775189787,
+      "path": "changes/sec-dep-20261029/native/job-123775189787.log",
+      "blob": "ae8ecbbab707e53845441cc723130102c44c2509"
+    },
+    {
+      "job_id": 123775188142,
+      "path": "changes/sec-dep-20261029/native/job-123775188142.log",
+      "blob": "18237c7b1ea492654cc33e100f9ebed1b1c515bc"
+    },
+    {
+      "job_id": 123775947325,
+      "path": "changes/sec-dep-20261029/native/job-123775947325.log",
+      "blob": "ceef00ee498e5a2a43601be51e3d6a985f66a2b4"
+    },
+    {
+      "job_id": 123776662918,
+      "path": "changes/sec-dep-20261029/native/job-123776662918.log",
+      "blob": "569e7d4c93c2fd97b25e6972a05a24d4acfc8912"
+    },
+    {
+      "job_id": 123776662802,
+      "path": "changes/sec-dep-20261029/native/job-123776662802.log",
+      "blob": "a299c7fdb19f277f58a24b61098a7c58278ed32f"
+    },
+    {
+      "job_id": 123776662979,
+      "path": "changes/sec-dep-20261029/native/job-123776662979.log",
+      "blob": "7654dace6ae716842ee2f8203c52b86afe53d177"
+    },
+    {
+      "job_id": 123776663901,
+      "path": "changes/sec-dep-20261029/native/job-123776663901.log",
+      "blob": "e1389f9fbe604403567d82c996e535831ec54250"
+    }
+  ],
+  "historical_runs": [
+    40966773248,
+    40966773270,
+    40966773290,
+    40966773360,
+    40966773397,
+    40966773368,
+    40967378201,
+    40967377749,
+    40967377810,
+    40967601232,
+    40967601162,
+    40967601265
+  ],
+  "final_runs": [
+    {
+      "id": 40967812725,
+      "name": "SEC dependency and C source contracts",
+      "head_sha": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1
+    },
+    {
+      "id": 40967812714,
+      "name": "B1 composition compatibility",
+      "head_sha": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1
+    },
+    {
+      "id": 40967812727,
+      "name": "Integrated G0 verification",
+      "head_sha": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1
+    }
+  ],
+  "independent_review": false,
+  "integration_accepted": false,
+  "final_jobs": [
+    {
+      "run_id": 40967812725,
+      "id": 123776662918,
+      "name": "contracts",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T22:41:53Z",
+          "completed_at": "2026-10-29T22:41:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T22:41:54Z",
+          "completed_at": "2026-10-29T22:41:56Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T22:41:56Z",
+          "completed_at": "2026-10-29T22:41:57Z"
+        },
+        {
+          "name": "Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T22:41:57Z",
+          "completed_at": "2026-10-29T22:41:57Z"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T22:41:57Z",
+          "completed_at": "2026-10-29T22:41:58Z"
+        },
+        {
+          "name": "Run bun install --frozen-lockfile --ignore-scripts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-29T22:41:58Z",
+          "completed_at": "2026-10-29T22:42:04Z"
+        },
+        {
+          "name": "Run python tests/g01-acceptance/capture.py identity",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-29T22:42:04Z",
+          "completed_at": "2026-10-29T22:42:07Z"
+        },
+        {
+          "name": "Run bun test tests/unit/dependency-security.test.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-29T22:42:07Z",
+          "completed_at": "2026-10-29T22:42:07Z"
+        },
+        {
+          "name": "Run node --test tests/g0-node-server/contracts.test.cjs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T22:42:07Z",
+          "completed_at": "2026-10-29T22:42:08Z"
+        },
+        {
+          "name": "Run node tests/sec-dep-20261029/regressions.cjs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T22:42:08Z",
+          "completed_at": "2026-10-29T22:42:08Z"
+        },
+        {
+          "name": "Run git diff --exit-code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T22:42:08Z",
+          "completed_at": "2026-10-29T22:42:08Z"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-29T22:42:08Z",
+          "completed_at": "2026-10-29T22:42:08Z"
+        },
+        {
+          "name": "Post Run actions/setup-python@v5",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-29T22:42:08Z",
+          "completed_at": "2026-10-29T22:42:09Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-29T22:42:09Z",
+          "completed_at": "2026-10-29T22:42:09Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-29T22:42:09Z",
+          "completed_at": "2026-10-29T22:42:09Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-29T22:42:09Z",
+          "completed_at": "2026-10-29T22:42:09Z"
+        }
+      ]
+    },
+    {
+      "run_id": 40967812714,
+      "id": 123776662802,
+      "name": "compatibility",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T22:41:53Z",
+          "completed_at": "2026-10-29T22:41:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T22:41:54Z",
+          "completed_at": "2026-10-29T22:41:57Z"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T22:41:57Z",
+          "completed_at": "2026-10-29T22:41:58Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T22:41:58Z",
+          "completed_at": "2026-10-29T22:41:59Z"
+        },
+        {
+          "name": "Frozen dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T22:41:59Z",
+          "completed_at": "2026-10-29T22:42:05Z"
+        },
+        {
+          "name": "Verify actual PR-head routing and historical benchmark boundaries",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-29T22:42:05Z",
+          "completed_at": "2026-10-29T22:42:06Z"
+        },
+        {
+          "name": "Locked serialization exports",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-29T22:42:06Z",
+          "completed_at": "2026-10-29T22:42:06Z"
+        },
+        {
+          "name": "Generated formatting",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-29T22:42:06Z",
+          "completed_at": "2026-10-29T22:42:06Z"
+        },
+        {
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T22:42:06Z",
+          "completed_at": "2026-10-29T22:42:14Z"
+        },
+        {
+          "name": "Full lint",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T22:42:14Z",
+          "completed_at": "2026-10-29T22:42:21Z"
+        },
+        {
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T22:42:21Z",
+          "completed_at": "2026-10-29T22:42:30Z"
+        },
+        {
+          "name": "Original OC APP wire regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-29T22:42:30Z",
+          "completed_at": "2026-10-29T22:42:30Z"
+        },
+        {
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-29T22:42:30Z",
+          "completed_at": "2026-10-29T22:42:39Z"
+        },
+        {
+          "name": "Generation retains tracked files",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-29T22:42:39Z",
+          "completed_at": "2026-10-29T22:42:40Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 26,
+          "started_at": "2026-10-29T22:42:40Z",
+          "completed_at": "2026-10-29T22:42:40Z"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 27,
+          "started_at": "2026-10-29T22:42:40Z",
+          "completed_at": "2026-10-29T22:42:40Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 28,
+          "started_at": "2026-10-29T22:42:40Z",
+          "completed_at": "2026-10-29T22:42:40Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 29,
+          "started_at": "2026-10-29T22:42:40Z",
+          "completed_at": "2026-10-29T22:42:40Z"
+        }
+      ]
+    },
+    {
+      "run_id": 40967812727,
+      "id": 123776662979,
+      "name": "audit",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T22:41:53Z",
+          "completed_at": "2026-10-29T22:41:54Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T22:41:54Z",
+          "completed_at": "2026-10-29T22:41:57Z"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T22:41:57Z",
+          "completed_at": "2026-10-29T22:41:59Z"
+        },
+        {
+          "name": "Complete supported audit with actual exit preserved",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T22:41:59Z",
+          "completed_at": "2026-10-29T22:41:59Z"
+        },
+        {
+          "name": "Upload complete audit output",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T22:41:59Z",
+          "completed_at": "2026-10-29T22:42:00Z"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@v2",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T22:42:00Z",
+          "completed_at": "2026-10-29T22:42:00Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T22:42:00Z",
+          "completed_at": "2026-10-29T22:42:01Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T22:42:01Z",
+          "completed_at": "2026-10-29T22:42:01Z"
+        }
+      ]
+    },
+    {
+      "run_id": 40967812727,
+      "id": 123776663901,
+      "name": "quality",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-10-29T22:41:54Z",
+          "completed_at": "2026-10-29T22:41:55Z"
+        },
+        {
+          "name": "Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-10-29T22:41:55Z",
+          "completed_at": "2026-10-29T22:41:58Z"
+        },
+        {
+          "name": "Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-10-29T22:41:58Z",
+          "completed_at": "2026-10-29T22:42:00Z"
+        },
+        {
+          "name": "Install dependencies",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-10-29T22:42:00Z",
+          "completed_at": "2026-10-29T22:42:09Z"
+        },
+        {
+          "name": "Check reviewed generated source formatting",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-10-29T22:42:09Z",
+          "completed_at": "2026-10-29T22:42:11Z"
+        },
+        {
+          "name": "Exact integrated source identity and fail-closed mutations",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-10-29T22:42:11Z",
+          "completed_at": "2026-10-29T22:42:14Z"
+        },
+        {
+          "name": "Typecheck",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-10-29T22:42:14Z",
+          "completed_at": "2026-10-29T22:42:25Z"
+        },
+        {
+          "name": "Full repository lint including CommonJS and ESM",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-10-29T22:42:25Z",
+          "completed_at": "2026-10-29T22:42:35Z"
+        },
+        {
+          "name": "Read-only existing CI policy contract",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9,
+          "started_at": "2026-10-29T22:42:35Z",
+          "completed_at": "2026-10-29T22:42:35Z"
+        },
+        {
+          "name": "Unit tests",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10,
+          "started_at": "2026-10-29T22:42:35Z",
+          "completed_at": "2026-10-29T22:42:44Z"
+        },
+        {
+          "name": "Type erasure and actual hook callback wire replay",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11,
+          "started_at": "2026-10-29T22:42:44Z",
+          "completed_at": "2026-10-29T22:42:50Z"
+        },
+        {
+          "name": "Build entry failure and forwarding contracts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12,
+          "started_at": "2026-10-29T22:42:50Z",
+          "completed_at": "2026-10-29T22:42:51Z"
+        },
+        {
+          "name": "Focused foundation read and CI regressions",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-10-29T22:42:51Z",
+          "completed_at": "2026-10-29T22:42:54Z"
+        },
+        {
+          "name": "Offline server environment boundary",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-10-29T22:42:54Z",
+          "completed_at": "2026-10-29T22:42:54Z"
+        },
+        {
+          "name": "Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-10-29T22:42:54Z",
+          "completed_at": "2026-10-29T22:42:55Z"
+        },
+        {
+          "name": "Install pinned browser test tooling",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-10-29T22:42:55Z",
+          "completed_at": "2026-10-29T22:43:14Z"
+        },
+        {
+          "name": "Verify browser redirect, WebSocket and origin containment",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-10-29T22:43:14Z",
+          "completed_at": "2026-10-29T22:43:38Z"
+        },
+        {
+          "name": "Actual financial read UI and export regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18,
+          "started_at": "2026-10-29T22:43:38Z",
+          "completed_at": "2026-10-29T22:43:40Z"
+        },
+        {
+          "name": "Build from mode-specific env file",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19,
+          "started_at": "2026-10-29T22:43:40Z",
+          "completed_at": "2026-10-29T22:43:54Z"
+        },
+        {
+          "name": "Build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20,
+          "started_at": "2026-10-29T22:43:54Z",
+          "completed_at": "2026-10-29T22:44:09Z"
+        },
+        {
+          "name": "Verify generation leaves tracked application files intact",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21,
+          "started_at": "2026-10-29T22:44:09Z",
+          "completed_at": "2026-10-29T22:44:09Z"
+        },
+        {
+          "name": "Recheck complete protected source after both builds",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 22,
+          "started_at": "2026-10-29T22:44:09Z",
+          "completed_at": "2026-10-29T22:44:09Z"
+        },
+        {
+          "name": "Upload quality diagnostics",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 23,
+          "started_at": "2026-10-29T22:44:09Z",
+          "completed_at": "2026-10-29T22:44:10Z"
+        },
+        {
+          "name": "Upload source identity receipt",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 24,
+          "started_at": "2026-10-29T22:44:10Z",
+          "completed_at": "2026-10-29T22:44:12Z"
+        },
+        {
+          "name": "Post Setup Python for browser containment regression",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 46,
+          "started_at": "2026-10-29T22:44:12Z",
+          "completed_at": "2026-10-29T22:44:12Z"
+        },
+        {
+          "name": "Post Setup Bun",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 47,
+          "started_at": "2026-10-29T22:44:12Z",
+          "completed_at": "2026-10-29T22:44:12Z"
+        },
+        {
+          "name": "Post Checkout",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 48,
+          "started_at": "2026-10-29T22:44:12Z",
+          "completed_at": "2026-10-29T22:44:12Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 49,
+          "started_at": "2026-10-29T22:44:12Z",
+          "completed_at": "2026-10-29T22:44:12Z"
+        }
+      ]
+    }
+  ]
+}

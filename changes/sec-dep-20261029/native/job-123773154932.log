@@ -1,0 +1,1826 @@
+﻿2026-10-29T22:33:34.4240878Z Current runner version: '2.338.0'
+2026-10-29T22:33:34.4279357Z ##[group]Runner Image Provisioner
+2026-10-29T22:33:34.4280912Z Hosted Compute Agent
+2026-10-29T22:33:34.4281995Z Version: 20261021.618
+2026-10-29T22:33:34.4283423Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T22:33:34.4284859Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T22:33:34.4286111Z Worker ID: {e8fea31a-d153-41f7-8ff8-2d5302f5aadf}
+2026-10-29T22:33:34.4287586Z Region: eastus
+2026-10-29T22:33:34.4288636Z Cloud: Azure
+2026-10-29T22:33:34.4289710Z ##[endgroup]
+2026-10-29T22:33:34.4292284Z ##[group]Operating System
+2026-10-29T22:33:34.4293780Z Ubuntu
+2026-10-29T22:33:34.4294824Z 26.04.1
+2026-10-29T22:33:34.4295753Z LTS
+2026-10-29T22:33:34.4296858Z ##[endgroup]
+2026-10-29T22:33:34.4297893Z ##[group]Runner Image
+2026-10-29T22:33:34.4299058Z Image: ubuntu-26.04
+2026-10-29T22:33:34.4300200Z Version: 20261025.179.1
+2026-10-29T22:33:34.4302509Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-29T22:33:34.4305723Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-29T22:33:34.4307649Z ##[endgroup]
+2026-10-29T22:33:34.4309791Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T22:33:34.4312676Z Contents: read
+2026-10-29T22:33:34.4314175Z Metadata: read
+2026-10-29T22:33:34.4315394Z ##[endgroup]
+2026-10-29T22:33:34.4318633Z Secret source: Actions
+2026-10-29T22:33:34.4320404Z Cache mode: write
+2026-10-29T22:33:34.4321644Z Prepare workflow directory
+2026-10-29T22:33:34.5144778Z Prepare all required actions
+2026-10-29T22:33:34.5223168Z Getting action download info
+2026-10-29T22:33:34.6982654Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-29T22:33:34.8299993Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-29T22:33:34.9791003Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-29T22:33:35.0431126Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-29T22:33:35.2446225Z Complete job name: quality
+2026-10-29T22:33:35.3394874Z ##[group]Run actions/checkout@v4
+2026-10-29T22:33:35.3395810Z with:
+2026-10-29T22:33:35.3396242Z   fetch-depth: 0
+2026-10-29T22:33:35.3396759Z   ref: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:35.3397380Z   persist-credentials: false
+2026-10-29T22:33:35.3397981Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:33:35.3401940Z   token: ***
+2026-10-29T22:33:35.3402384Z   ssh-strict: true
+2026-10-29T22:33:35.3402826Z   ssh-user: git
+2026-10-29T22:33:35.3403472Z   clean: true
+2026-10-29T22:33:35.3403927Z   sparse-checkout-cone-mode: true
+2026-10-29T22:33:35.3404465Z   fetch-tags: false
+2026-10-29T22:33:35.3404914Z   show-progress: true
+2026-10-29T22:33:35.3405369Z   lfs: false
+2026-10-29T22:33:35.3405787Z   submodules: false
+2026-10-29T22:33:35.3406248Z   set-safe-directory: true
+2026-10-29T22:33:35.3406800Z   allow-unsafe-pr-checkout: false
+2026-10-29T22:33:35.3484571Z env:
+2026-10-29T22:33:35.3485858Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:35.3487151Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:35.3488057Z ##[endgroup]
+2026-10-29T22:33:35.6221900Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:33:35.6225892Z ##[group]Getting Git version info
+2026-10-29T22:33:35.6227833Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:33:35.6230263Z [command]/usr/bin/git version
+2026-10-29T22:33:35.6294404Z git version 2.56.0
+2026-10-29T22:33:35.6343212Z ##[endgroup]
+2026-10-29T22:33:35.6373094Z Temporarily overriding HOME='/home/runner/work/_temp/cfec8487-a704-4eb0-9126-77bc93265898' before making global git config changes
+2026-10-29T22:33:35.6375771Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:33:35.6378061Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:33:35.6474687Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:33:35.6477334Z ##[group]Initializing the repository
+2026-10-29T22:33:35.6478911Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:33:35.6660124Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T22:33:35.6662271Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T22:33:35.6665128Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T22:33:35.6667067Z hint: call:
+2026-10-29T22:33:35.6668177Z hint:
+2026-10-29T22:33:35.6669762Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T22:33:35.6671493Z hint:
+2026-10-29T22:33:35.6672747Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T22:33:35.6693673Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T22:33:35.6695405Z hint:
+2026-10-29T22:33:35.6704795Z hint: 	git branch -m <name>
+2026-10-29T22:33:35.6706156Z hint:
+2026-10-29T22:33:35.6734386Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T22:33:35.6739856Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-29T22:33:35.6748571Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:33:35.6769085Z ##[endgroup]
+2026-10-29T22:33:35.6770725Z ##[group]Disabling automatic garbage collection
+2026-10-29T22:33:35.6782268Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T22:33:35.6844030Z ##[endgroup]
+2026-10-29T22:33:35.6845574Z ##[group]Setting up auth
+2026-10-29T22:33:35.6847109Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:33:35.6898123Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:33:35.7646313Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:33:35.7667401Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:33:35.8024710Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:33:35.8064353Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:33:35.8362675Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T22:33:35.8406966Z ##[endgroup]
+2026-10-29T22:33:35.8408899Z ##[group]Fetching the repository
+2026-10-29T22:33:35.8419405Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-29T22:33:37.3169083Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:33:37.3174238Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-29T22:33:37.3177878Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-29T22:33:37.3181426Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-29T22:33:37.3185431Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-29T22:33:37.3189212Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-29T22:33:37.3193637Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-29T22:33:37.3198370Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-29T22:33:37.3203205Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-29T22:33:37.3207495Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-29T22:33:37.3213305Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-29T22:33:37.3219245Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-29T22:33:37.3225123Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-29T22:33:37.3231254Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-29T22:33:37.3237097Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-29T22:33:37.3242637Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-29T22:33:37.3248590Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-29T22:33:37.3254373Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-29T22:33:37.3259748Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-29T22:33:37.3264941Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-29T22:33:37.3269564Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-29T22:33:37.3274871Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-29T22:33:37.3280749Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-29T22:33:37.3287000Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-29T22:33:37.3291475Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-29T22:33:37.3295669Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-29T22:33:37.3299877Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-29T22:33:37.3305048Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-29T22:33:37.3310845Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-29T22:33:37.3316953Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-29T22:33:37.3321644Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-29T22:33:37.3326048Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-29T22:33:37.3330540Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-29T22:33:37.3335453Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-29T22:33:37.3339917Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-29T22:33:37.3344733Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:33:37.3348998Z  * [new branch]      main                    -> origin/main
+2026-10-29T22:33:37.3352704Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-29T22:33:37.3357523Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-29T22:33:37.3362289Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-29T22:33:37.3366878Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-29T22:33:37.3371285Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-29T22:33:37.3376080Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-29T22:33:37.3380146Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-29T22:33:37.3384411Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-29T22:33:37.3389394Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-29T22:33:37.3395333Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-29T22:33:37.3401232Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-29T22:33:37.3406453Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-29T22:33:37.3410500Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-29T22:33:37.3414874Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-29T22:33:37.3418612Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-29T22:33:37.3423231Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-29T22:33:37.3428651Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-29T22:33:37.3434921Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-29T22:33:37.3445346Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-29T22:33:37.3450679Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-29T22:33:37.3455346Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-29T22:33:37.3460243Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-29T22:33:37.3465723Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-29T22:33:37.3470439Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-29T22:33:37.3474928Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-29T22:33:37.3480029Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-29T22:33:37.3485629Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-29T22:33:37.3491156Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-29T22:33:37.3496989Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-29T22:33:37.3501699Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-29T22:33:37.3506230Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-29T22:33:37.3510539Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-29T22:33:37.3515007Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-29T22:33:37.3523454Z [command]/usr/bin/git rev-parse --verify --quiet db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1^{object}
+2026-10-29T22:33:37.3527516Z db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:37.3533403Z ##[endgroup]
+2026-10-29T22:33:37.3536191Z ##[group]Determining the checkout info
+2026-10-29T22:33:37.3539411Z ##[endgroup]
+2026-10-29T22:33:37.3541445Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T22:33:37.3547812Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T22:33:37.3555521Z ##[group]Checking out the ref
+2026-10-29T22:33:37.3559052Z [command]/usr/bin/git checkout --progress --force db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:37.5518121Z Note: switching to 'db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1'.
+2026-10-29T22:33:37.5519464Z 
+2026-10-29T22:33:37.5520808Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-29T22:33:37.5522352Z changes and commit them, and you can discard any commits you make in this
+2026-10-29T22:33:37.5524577Z state without impacting any branches by switching back to a branch.
+2026-10-29T22:33:37.5525640Z 
+2026-10-29T22:33:37.5526748Z If you want to create a new branch to retain commits you create, you may
+2026-10-29T22:33:37.5528192Z do so (now or later) by using -c with the switch command. Example:
+2026-10-29T22:33:37.5529558Z 
+2026-10-29T22:33:37.5530114Z   git switch -c <new-branch-name>
+2026-10-29T22:33:37.5531253Z 
+2026-10-29T22:33:37.5531857Z Or undo this operation with:
+2026-10-29T22:33:37.5533125Z 
+2026-10-29T22:33:37.5535188Z   git switch -
+2026-10-29T22:33:37.5535752Z 
+2026-10-29T22:33:37.5536842Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-29T22:33:37.5540180Z 
+2026-10-29T22:33:37.5540874Z HEAD is now at db4a051 test(security): preserve C identity and bounded regressions pending audit consent
+2026-10-29T22:33:37.5542751Z ##[endgroup]
+2026-10-29T22:33:37.5544337Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T22:33:37.5562810Z db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:37.5575415Z ##[group]Removing auth
+2026-10-29T22:33:37.5580387Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:33:37.5615932Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:33:37.5914944Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:33:37.5944507Z http.https://github.com/.extraheader
+2026-10-29T22:33:37.5951848Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T22:33:37.5988379Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:33:37.6282345Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:33:37.6320447Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:33:37.6615343Z ##[endgroup]
+2026-10-29T22:33:37.6886057Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-29T22:33:37.6886440Z with:
+2026-10-29T22:33:37.6886703Z   bun-version: 1.2.14
+2026-10-29T22:33:37.6886975Z   no-cache: false
+2026-10-29T22:33:37.6889444Z   token: ***
+2026-10-29T22:33:37.6889698Z env:
+2026-10-29T22:33:37.6890020Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:37.6890440Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:37.6890745Z ##[endgroup]
+2026-10-29T22:33:38.0343896Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-10-29T22:33:39.1357202Z Received 30633563 of 34827867 (88.0%), 29.2 MBs/sec
+2026-10-29T22:33:39.2153939Z Received 34827867 of 34827867 (100.0%), 30.7 MBs/sec
+2026-10-29T22:33:39.2155217Z Cache Size: ~33 MB (34827867 B)
+2026-10-29T22:33:39.2198865Z [command]/usr/bin/tar -xf /home/runner/work/_temp/0bc2989d-ab38-4007-be2b-03d5135e03a4/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-29T22:33:39.4377947Z Cache restored successfully
+2026-10-29T22:33:39.4404057Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-29T22:33:39.4497133Z 1.2.14+6a363a38d
+2026-10-29T22:33:39.4507201Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-29T22:33:39.4780202Z ##[group]Run bun install --frozen-lockfile
+2026-10-29T22:33:39.4780871Z [36;1mbun install --frozen-lockfile[0m
+2026-10-29T22:33:39.4821156Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:33:39.4821445Z env:
+2026-10-29T22:33:39.4821746Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:39.4822148Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:39.4822423Z ##[endgroup]
+2026-10-29T22:33:39.4958715Z bun install v1.2.14 (6a363a38)
+2026-10-29T22:33:44.9752094Z 
+2026-10-29T22:33:44.9759102Z + @eslint/js@9.39.4
+2026-10-29T22:33:44.9760029Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-29T22:33:44.9760815Z + @types/node@22.19.17
+2026-10-29T22:33:44.9764614Z + @types/qrcode@1.5.6
+2026-10-29T22:33:44.9765257Z + @types/react@19.2.14
+2026-10-29T22:33:44.9765854Z + @types/react-dom@19.2.3
+2026-10-29T22:33:44.9766468Z + @vitejs/plugin-react@5.2.0
+2026-10-29T22:33:44.9767080Z + eslint@9.39.4
+2026-10-29T22:33:44.9767658Z + eslint-config-prettier@10.1.8
+2026-10-29T22:33:44.9768524Z + eslint-plugin-prettier@5.5.5
+2026-10-29T22:33:44.9775130Z + eslint-plugin-react-hooks@5.2.0
+2026-10-29T22:33:44.9775992Z + eslint-plugin-react-refresh@0.4.26
+2026-10-29T22:33:44.9776696Z + globals@15.15.0
+2026-10-29T22:33:44.9793765Z + nitro@3.0.260603-beta
+2026-10-29T22:33:44.9814256Z + prettier@3.8.3
+2026-10-29T22:33:44.9833890Z + seroval@1.6.11
+2026-10-29T22:33:44.9834571Z + typescript@5.9.3
+2026-10-29T22:33:44.9836242Z + typescript-eslint@8.59.0
+2026-10-29T22:33:44.9853631Z + vite@8.1.6
+2026-10-29T22:33:44.9857710Z + vite-plugin-pwa@1.3.0
+2026-10-29T22:33:44.9858507Z + workbox-window@7.4.1
+2026-10-29T22:33:44.9859109Z + @hookform/resolvers@5.2.2
+2026-10-29T22:33:44.9859763Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-29T22:33:44.9860426Z + @lovable.dev/email-js@0.1.0
+2026-10-29T22:33:44.9861056Z + @lovable.dev/mcp-js@0.20.1
+2026-10-29T22:33:44.9861680Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-29T22:33:44.9862333Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-29T22:33:44.9863250Z + @radix-ui/react-accordion@1.2.12
+2026-10-29T22:33:44.9864020Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-29T22:33:44.9864709Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-29T22:33:44.9865372Z + @radix-ui/react-avatar@1.1.11
+2026-10-29T22:33:44.9866017Z + @radix-ui/react-checkbox@1.3.3
+2026-10-29T22:33:44.9866663Z + @radix-ui/react-collapsible@1.1.12
+2026-10-29T22:33:44.9867339Z + @radix-ui/react-context-menu@2.2.16
+2026-10-29T22:33:44.9868018Z + @radix-ui/react-dialog@1.1.15
+2026-10-29T22:33:44.9868799Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-29T22:33:44.9869485Z + @radix-ui/react-hover-card@1.1.15
+2026-10-29T22:33:44.9870142Z + @radix-ui/react-label@2.1.8
+2026-10-29T22:33:44.9870780Z + @radix-ui/react-menubar@1.1.16
+2026-10-29T22:33:44.9871431Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-29T22:33:44.9872122Z + @radix-ui/react-popover@1.1.15
+2026-10-29T22:33:44.9872754Z + @radix-ui/react-progress@1.1.8
+2026-10-29T22:33:44.9873773Z + @radix-ui/react-radio-group@1.3.8
+2026-10-29T22:33:44.9874469Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-29T22:33:44.9875113Z + @radix-ui/react-select@2.2.6
+2026-10-29T22:33:44.9875742Z + @radix-ui/react-separator@1.1.8
+2026-10-29T22:33:44.9876384Z + @radix-ui/react-slider@1.3.6
+2026-10-29T22:33:44.9876997Z + @radix-ui/react-slot@1.2.4
+2026-10-29T22:33:44.9877602Z + @radix-ui/react-switch@1.2.6
+2026-10-29T22:33:44.9878216Z + @radix-ui/react-tabs@1.1.13
+2026-10-29T22:33:44.9878833Z + @radix-ui/react-toggle@1.1.10
+2026-10-29T22:33:44.9879475Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-29T22:33:44.9880144Z + @radix-ui/react-tooltip@1.2.8
+2026-10-29T22:33:44.9880771Z + @supabase/supabase-js@2.110.5
+2026-10-29T22:33:44.9881384Z + @tailwindcss/vite@4.2.4
+2026-10-29T22:33:44.9882538Z + @tanstack/react-query@5.100.1
+2026-10-29T22:33:44.9883449Z + @tanstack/react-router@1.170.41
+2026-10-29T22:33:44.9884108Z + @tanstack/react-start@1.168.60
+2026-10-29T22:33:44.9884755Z + @tanstack/router-plugin@1.168.42
+2026-10-29T22:33:44.9885419Z + class-variance-authority@0.7.1
+2026-10-29T22:33:44.9886341Z + clsx@2.1.1
+2026-10-29T22:33:44.9886901Z + cmdk@1.1.1
+2026-10-29T22:33:44.9887418Z + date-fns@4.1.0
+2026-10-29T22:33:44.9888015Z + embla-carousel-react@8.6.0
+2026-10-29T22:33:44.9888624Z + html2canvas@1.4.1
+2026-10-29T22:33:44.9889189Z + input-otp@1.4.2
+2026-10-29T22:33:44.9889856Z + jspdf@4.2.1
+2026-10-29T22:33:44.9890436Z + lucide-react@0.575.0
+2026-10-29T22:33:44.9890993Z + qrcode@1.5.4
+2026-10-29T22:33:44.9891502Z + react@19.2.5
+2026-10-29T22:33:44.9892028Z + react-day-picker@9.14.0
+2026-10-29T22:33:44.9892616Z + react-dom@19.2.5
+2026-10-29T22:33:44.9893388Z + react-hook-form@7.73.1
+2026-10-29T22:33:44.9893990Z + react-resizable-panels@4.10.0
+2026-10-29T22:33:44.9894605Z + recharts@2.15.4
+2026-10-29T22:33:44.9895112Z + sonner@2.0.7
+2026-10-29T22:33:44.9895625Z + tailwind-merge@3.5.0
+2026-10-29T22:33:44.9896169Z + tailwindcss@4.2.4
+2026-10-29T22:33:44.9896702Z + tw-animate-css@1.4.0
+2026-10-29T22:33:44.9897226Z + vaul@1.1.2
+2026-10-29T22:33:44.9897745Z + vite-tsconfig-paths@6.1.1
+2026-10-29T22:33:44.9898313Z + zod@4.6.6
+2026-10-29T22:33:44.9898671Z 
+2026-10-29T22:33:44.9898998Z 825 packages installed [5.48s]
+2026-10-29T22:33:45.0111296Z ##[group]Run node scripts/format-generated.mjs --check
+2026-10-29T22:33:45.0112175Z [36;1mnode scripts/format-generated.mjs --check[0m
+2026-10-29T22:33:45.0175281Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:33:45.0175735Z env:
+2026-10-29T22:33:45.0176211Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:45.0176835Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:45.0177263Z ##[endgroup]
+2026-10-29T22:33:45.4786907Z GENERATED_FORMAT_CHECK_PASS: 9
+2026-10-29T22:33:45.5109904Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-10-29T22:33:45.5110751Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-10-29T22:33:45.5111548Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-10-29T22:33:45.5112288Z [36;1mpython tests/c-source/test_identity.py[0m
+2026-10-29T22:33:45.5152725Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:33:45.5153615Z env:
+2026-10-29T22:33:45.5154096Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:45.5154748Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:45.5155194Z ##[endgroup]
+2026-10-29T22:33:45.7261376Z {"source_sha": "db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1", "kind": "identity", "scope": "C3_plus_SEC_DEP_source_identity_only", "base_source": "5b6da796008de10dd429bb53cafdab365b108686", "head_sha": "db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1", "protected_blob_count": 412, "all_integrated_blobs_match": true, "migration_count": 54, "frozen_A_B_unchanged": true, "declared_changes": [".github/workflows/integration-verification.yml", "bun.lock", "package.json", "tests/g01-acceptance/capture.py", "tests/unit/dependency-security.test.ts"], "declared_additions": [".github/workflows/sec-dep-20261029.yml", "tests/c-source/c_identity.py", "tests/c-source/test_identity.py", "tests/sec-dep-20261029/regressions.cjs", "tests/sec-dep-20261029/serde-child.cjs"], "financial_acceptance": false, "integration_accepted": false}
+2026-10-29T22:33:47.4373955Z .............................
+2026-10-29T22:33:47.4393861Z ----------------------------------------------------------------------
+2026-10-29T22:33:47.4395108Z Ran 29 tests in 1.559s
+2026-10-29T22:33:47.4413231Z 
+2026-10-29T22:33:47.4433472Z OK
+2026-10-29T22:33:50.0165580Z ..................
+2026-10-29T22:33:50.0170397Z ----------------------------------------------------------------------
+2026-10-29T22:33:50.0171183Z Ran 18 tests in 2.454s
+2026-10-29T22:33:50.0171603Z 
+2026-10-29T22:33:50.0171886Z OK
+2026-10-29T22:33:50.0346082Z ##[group]Run bun run typecheck
+2026-10-29T22:33:50.0346610Z [36;1mbun run typecheck[0m
+2026-10-29T22:33:50.0376062Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:33:50.0376331Z env:
+2026-10-29T22:33:50.0376607Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:33:50.0376972Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:33:50.0377241Z ##[endgroup]
+2026-10-29T22:33:50.0504006Z $ tsc --noEmit
+2026-10-29T22:34:01.3757320Z ##[group]Run set -euo pipefail
+2026-10-29T22:34:01.3757926Z [36;1mset -euo pipefail[0m
+2026-10-29T22:34:01.3758426Z [36;1mbun run lint 2>&1 | tee /tmp/lint.log[0m
+2026-10-29T22:34:01.3799153Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-29T22:34:01.3799753Z env:
+2026-10-29T22:34:01.3800212Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:01.3800843Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:01.3801274Z ##[endgroup]
+2026-10-29T22:34:01.4023869Z $ eslint .
+2026-10-29T22:34:10.0338682Z 
+2026-10-29T22:34:10.0347489Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/DateRangeFilter.tsx
+2026-10-29T22:34:10.0382633Z   19:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0403111Z   53:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0424455Z   58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0433418Z 
+2026-10-29T22:34:10.0436440Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/badge.tsx
+2026-10-29T22:34:10.0438188Z   32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0445328Z 
+2026-10-29T22:34:10.0446050Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/button.tsx
+2026-10-29T22:34:10.0447622Z   49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0473152Z 
+2026-10-29T22:34:10.0493625Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/form.tsx
+2026-10-29T22:34:10.0495450Z   163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0513231Z 
+2026-10-29T22:34:10.0533695Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/navigation-menu.tsx
+2026-10-29T22:34:10.0537931Z   111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0539433Z 
+2026-10-29T22:34:10.0539946Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/sidebar.tsx
+2026-10-29T22:34:10.0541500Z   743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0543451Z 
+2026-10-29T22:34:10.0543972Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/toggle.tsx
+2026-10-29T22:34:10.0545618Z   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0546876Z 
+2026-10-29T22:34:10.0547477Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/inventory/AddProductSheet.tsx
+2026-10-29T22:34:10.0548721Z    1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+2026-10-29T22:34:10.0551371Z   53:6  warning  React Hook useEffect has a missing dependency: 'initial'. Either include it or remove the dependency array. If 'setPrice' needs the current value of 'initial', you can also switch to useReducer instead of useState and read 'initial' in the reducer  react-hooks/exhaustive-deps
+2026-10-29T22:34:10.0553916Z 
+2026-10-29T22:34:10.0554479Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/shared/Money.tsx
+2026-10-29T22:34:10.0556163Z   4:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:34:10.0557379Z 
+2026-10-29T22:34:10.0557958Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c2-quantity/fixture.tsx
+2026-10-29T22:34:10.0559478Z   6:10  warning  Fast refresh only works when a file has exports. Move your component(s) to a separate file  react-refresh/only-export-components
+2026-10-29T22:34:10.0560582Z 
+2026-10-29T22:34:10.0561185Z ✖ 13 problems (0 errors, 13 warnings)
+2026-10-29T22:34:10.0562039Z   0 errors and 1 warning potentially fixable with the `--fix` option.
+2026-10-29T22:34:10.0562727Z 
+2026-10-29T22:34:10.1466457Z ##[group]Run bun tests/gate4/sec-ci/probe.ts
+2026-10-29T22:34:10.1466855Z [36;1mbun tests/gate4/sec-ci/probe.ts[0m
+2026-10-29T22:34:10.1497039Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:34:10.1497308Z env:
+2026-10-29T22:34:10.1497588Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:10.1497952Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:10.1498203Z ##[endgroup]
+2026-10-29T22:34:10.1944493Z SEC_CI_G4_TARGET_GREEN: setup-cli@v2 pinned to 2.101.0; reporting is least-privilege
+2026-10-29T22:34:10.1989090Z ##[group]Run bun run test:unit
+2026-10-29T22:34:10.1989418Z [36;1mbun run test:unit[0m
+2026-10-29T22:34:10.2018970Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:34:10.2019230Z env:
+2026-10-29T22:34:10.2019515Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:10.2019908Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:10.2020171Z ##[endgroup]
+2026-10-29T22:34:10.2123999Z $ bun test tests/unit
+2026-10-29T22:34:10.2155591Z bun test v1.2.14 (6a363a38)
+2026-10-29T22:34:10.2353439Z 
+2026-10-29T22:34:10.2354526Z ##[group]tests/unit/account-state.test.ts:
+2026-10-29T22:34:10.3194169Z (pass) authoritative assertion succeeds with a nullable tenant and one RPC [10.00ms]
+2026-10-29T22:34:10.3213829Z (pass) only the exact database lifecycle error is an account denial [3.00ms]
+2026-10-29T22:34:10.3228889Z (pass) transport rejection cannot permit the operation [1.00ms]
+2026-10-29T22:34:13.3244368Z (pass) deadline denies even when the transport never settles and aborts it [3002.00ms]
+2026-10-29T22:34:13.3245429Z 
+2026-10-29T22:34:13.3246329Z ##[endgroup]
+2026-10-29T22:34:13.3246825Z 
+2026-10-29T22:34:13.3247555Z ##[group]tests/unit/invoice-selectors.test.ts:
+2026-10-29T22:34:13.3273448Z (pass) invoice finance selectors > direct fully paid has zero remaining debt
+2026-10-29T22:34:13.3274912Z (pass) invoice finance selectors > direct partially paid debt equals remaining
+2026-10-29T22:34:13.3276360Z (pass) invoice finance selectors > direct full debt equals total [1.00ms]
+2026-10-29T22:34:13.3277773Z (pass) invoice finance selectors > returned direct order has no customer debt or courier custody
+2026-10-29T22:34:13.3279226Z (pass) invoice finance selectors > courier pending is pending value, not customer debt
+2026-10-29T22:34:13.3280621Z (pass) invoice finance selectors > courier delivered_none creates full customer debt
+2026-10-29T22:34:13.3282083Z (pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part
+2026-10-29T22:34:13.3283792Z (pass) invoice finance selectors > courier delivered_full creates no customer debt
+2026-10-29T22:34:13.3285303Z (pass) invoice finance selectors > courier returned has no customer debt or courier custody
+2026-10-29T22:34:13.3286604Z (pass) invoice finance selectors > courier custody full equals collected money
+2026-10-29T22:34:13.3288257Z (pass) invoice finance selectors > courier custody partial equals collected money
+2026-10-29T22:34:13.3289396Z (pass) invoice finance selectors > zero remaining stays zero
+2026-10-29T22:34:13.3290399Z (pass) invoice finance selectors > item cost is cost times quantity
+2026-10-29T22:34:13.3291536Z (pass) invoice finance selectors > gross margin is total minus item costs
+2026-10-29T22:34:13.3292639Z (pass) invoice finance selectors > direct debt can be collected
+2026-10-29T22:34:13.3294001Z (pass) invoice finance selectors > returned order cannot be collected
+2026-10-29T22:34:13.3295122Z (pass) invoice finance selectors > courier pending cannot be collected
+2026-10-29T22:34:13.3296219Z (pass) invoice finance selectors > courier delivered_none can be collected
+2026-10-29T22:34:13.3297459Z (pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement
+2026-10-29T22:34:13.3298762Z (pass) invoice finance selectors > courier delivered_full cannot be collected
+2026-10-29T22:34:13.3300264Z (pass) invoice finance selectors > item margin uses price minus cost times quantity
+2026-10-29T22:34:13.3301476Z (pass) invoice finance selectors > gross margin and item margin remain separate concepts
+2026-10-29T22:34:13.3302319Z 
+2026-10-29T22:34:13.3303253Z ##[endgroup]
+2026-10-29T22:34:13.3303698Z 
+2026-10-29T22:34:13.3304421Z ##[group]tests/unit/mcp-request-boundary.test.ts:
+2026-10-29T22:34:13.3765993Z (pass) valid MCP bytes, headers and live abort signal reach the existing handler unchanged [4.00ms]
+2026-10-29T22:34:13.3769298Z (pass) non-MCP requests and MCP non-POST requests retain object and unread body identity
+2026-10-29T22:34:13.3829572Z (pass) router-normalized aliases and companion tool routes cannot bypass limits [5.00ms]
+2026-10-29T22:34:13.3838966Z (pass) exact byte limit passes; one extra byte is rejected without relying on Content-Length [2.00ms]
+2026-10-29T22:34:13.3858459Z (pass) UTF-8 bytes, not UTF-16 character count, enforce the body budget [2.00ms]
+2026-10-29T22:34:13.3873732Z (pass) chunked bodies with absent or forged-small length cannot exceed the actual byte budget [1.00ms]
+2026-10-29T22:34:13.3875630Z (pass) declared oversize and invalid lengths fail before reading the body
+2026-10-29T22:34:13.3876884Z (pass) early refusals preserve the response transport and signal close-after-response
+2026-10-29T22:34:13.3890145Z (pass) combined array/object member budget accepts the boundary and rejects one extra [2.00ms]
+2026-10-29T22:34:13.3901234Z (pass) deep bounded inputs cannot reach recursive downstream schema validation [1.00ms]
+2026-10-29T22:34:13.3903720Z (pass) malformed JSON and invalid UTF-8 get fixed errors without echoing input
+2026-10-29T22:34:13.3909617Z (pass) abort settles an outstanding read even when client cancellation never settles
+2026-10-29T22:34:13.3915985Z (pass) already-aborted inputs and stream failures never pass to the protocol handler [1.00ms]
+2026-10-29T22:34:18.3926595Z (pass) stalled reads have a finite deadline [5001.01ms]
+2026-10-29T22:34:18.3927358Z 
+2026-10-29T22:34:18.3928258Z ##[endgroup]
+2026-10-29T22:34:18.3928687Z 
+2026-10-29T22:34:18.3929354Z ##[group]tests/unit/mcp-issuer.test.ts:
+2026-10-29T22:34:18.5316932Z (pass) actual MCP definition uses the approved local issuer [137.00ms]
+2026-10-29T22:34:18.8082614Z (pass) actual locked handler rejects signature, issuer, audience, expiry and client-claim failures [276.00ms]
+2026-10-29T22:34:18.9292295Z (pass) actual MCP import fails closed without explicit environment configuration [121.00ms]
+2026-10-29T22:34:18.9300847Z (pass) issuer resolution validates local and ci endpoints before canonicalizing [1.00ms]
+2026-10-29T22:34:18.9302734Z (pass) remote environments retain direct Supabase project endpoints
+2026-10-29T22:34:18.9310816Z (pass) issuer cannot bypass the existing endpoint, alias or public key contract [1.00ms]
+2026-10-29T22:34:18.9311613Z 
+2026-10-29T22:34:18.9312561Z ##[endgroup]
+2026-10-29T22:34:18.9333639Z 
+2026-10-29T22:34:18.9338077Z ##[group]tests/unit/dependency-security.test.ts:
+2026-10-29T22:34:18.9394317Z (pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy
+2026-10-29T22:34:18.9398108Z (pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9401428Z (pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy
+2026-10-29T22:34:18.9405005Z (pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9407876Z (pass) TanStack server-function XSS dependency boundary > vite has no vulnerable locked copy
+2026-10-29T22:34:18.9411054Z (pass) TanStack server-function XSS dependency boundary > launch-editor has no vulnerable locked copy
+2026-10-29T22:34:18.9414641Z (pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9417796Z (pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy
+2026-10-29T22:34:18.9420917Z (pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy
+2026-10-29T22:34:18.9424400Z (pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9427517Z (pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy
+2026-10-29T22:34:18.9430795Z (pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy
+2026-10-29T22:34:18.9434571Z (pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9437490Z (pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy
+2026-10-29T22:34:18.9441001Z (pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy
+2026-10-29T22:34:18.9446812Z (pass) TanStack server-function XSS dependency boundary > @hono/node-server has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9450466Z (pass) TanStack server-function XSS dependency boundary > @babel/core has no vulnerable locked copy
+2026-10-29T22:34:18.9454106Z (pass) TanStack server-function XSS dependency boundary > dompurify has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9457105Z (pass) TanStack server-function XSS dependency boundary > qs has no vulnerable locked copy
+2026-10-29T22:34:18.9460232Z (pass) TanStack server-function XSS dependency boundary > hono has no vulnerable locked copy
+2026-10-29T22:34:18.9466943Z (pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy [1.00ms]
+2026-10-29T22:34:18.9473595Z (pass) esbuild exception has no vulnerable or mismatched locked copy
+2026-10-29T22:34:18.9474269Z 
+2026-10-29T22:34:18.9475057Z ##[endgroup]
+2026-10-29T22:34:18.9475583Z 
+2026-10-29T22:34:18.9476292Z ##[group]tests/unit/ip-address-security.test.ts:
+2026-10-29T22:34:18.9590434Z (pass) patched IP parser retains IPv4, IPv6 and zone contracts [1.00ms]
+2026-10-29T22:34:18.9606241Z (pass) zone-heavy malformed inputs are rejected across all line terminators [2.00ms]
+2026-10-29T22:34:18.9607046Z 
+2026-10-29T22:34:18.9607854Z ##[endgroup]
+2026-10-29T22:34:18.9608281Z 
+2026-10-29T22:34:18.9608953Z ##[group]tests/unit/supabase-build-config.test.ts:
+2026-10-29T22:34:18.9623259Z (pass) Supabase build configuration > accepts explicit isolated CI configuration
+2026-10-29T22:34:18.9624723Z (pass) Supabase build configuration > accepts matching browser and server aliases [1.00ms]
+2026-10-29T22:34:18.9626399Z (pass) Supabase build configuration > rejects divergent browser and server aliases
+2026-10-29T22:34:18.9627865Z (pass) Supabase build configuration > uses server aliases when VITE aliases are absent
+2026-10-29T22:34:18.9629419Z (pass) Supabase build configuration > hydrates missing server aliases only from validated resolved values
+2026-10-29T22:34:18.9632407Z (pass) Supabase build configuration > server alias hydration cannot overwrite divergent explicit aliases
+2026-10-29T22:34:18.9634253Z (pass) Supabase build configuration > runtime identity must match the baked build identity
+2026-10-29T22:34:18.9635762Z (pass) Supabase build configuration > fails closed when deployment target is missing or unsupported
+2026-10-29T22:34:18.9637351Z (pass) Supabase build configuration > fails closed when explicit Supabase values are missing or blank
+2026-10-29T22:34:18.9642111Z (pass) Supabase build configuration > blank VITE aliases do not override usable server aliases [1.00ms]
+2026-10-29T22:34:18.9643970Z (pass) Supabase build configuration > deployment targets require their approved endpoint class
+2026-10-29T22:34:18.9645761Z (pass) Supabase build configuration > rejects URL routing components instead of canonicalizing them away
+2026-10-29T22:34:18.9647321Z (pass) Supabase build configuration > non-production targets reject the production host or project
+2026-10-29T22:34:18.9649312Z (pass) Supabase build configuration > terminal DNS dots cannot bypass production isolation
+2026-10-29T22:34:18.9650626Z (pass) Supabase build configuration > production requires the exact approved endpoint and explicit key
+2026-10-29T22:34:18.9651798Z (pass) Supabase build configuration > remote Supabase URL and project ID must match
+2026-10-29T22:34:18.9652650Z 
+2026-10-29T22:34:18.9653908Z ##[endgroup]
+2026-10-29T22:34:18.9654414Z 
+2026-10-29T22:34:18.9655220Z ##[group]tests/unit/supabase-public-key.test.ts:
+2026-10-29T22:34:18.9674645Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format secret
+2026-10-29T22:34:18.9676776Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-10-29T22:34:18.9678854Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-10-29T22:34:18.9680772Z (pass) public Supabase configuration rejects privileged credentials > accepts legacy anon and publishable fixtures
+2026-10-29T22:34:18.9691558Z 
+2026-10-29T22:34:18.9692854Z ##[endgroup]
+2026-10-29T22:34:18.9693826Z 
+2026-10-29T22:34:18.9704426Z ##[group]tests/unit/mcp-dependency-compatibility.test.ts:
+2026-10-29T22:34:19.1438947Z (pass) Lovable MCP adapter initializes with the overridden SDK [20.00ms]
+2026-10-29T22:34:19.1566816Z (pass) Lovable MCP adapter lists and invokes a Zod tool [12.00ms]
+2026-10-29T22:34:19.1618355Z (pass) invalid arguments do not invoke the synthetic tool [4.00ms]
+2026-10-29T22:34:19.1619651Z (pass) protected fixture rejects a missing bearer without external requests [1.00ms]
+2026-10-29T22:34:19.1620268Z 
+2026-10-29T22:34:19.1621452Z ##[endgroup]
+2026-10-29T22:34:19.1621664Z 
+2026-10-29T22:34:19.1621813Z  94 pass
+2026-10-29T22:34:19.1622134Z  0 fail
+2026-10-29T22:34:19.1622459Z  291 expect() calls
+2026-10-29T22:34:19.1653134Z Ran 94 tests across 9 files. [8.95s]
+2026-10-29T22:34:19.1653703Z [mcp-js] auth.no_bearer_token {
+2026-10-29T22:34:19.1654150Z   outcome: "401",
+2026-10-29T22:34:19.1654473Z }
+2026-10-29T22:34:19.1762388Z ##[group]Run node --test tests/b-dependency/webhook-bridge.test.cjs
+2026-10-29T22:34:19.1763288Z [36;1mnode --test tests/b-dependency/webhook-bridge.test.cjs[0m
+2026-10-29T22:34:19.1763777Z [36;1mnode --test tests/account-lifecycle/webhook_handler.test.cjs[0m
+2026-10-29T22:34:19.1764199Z [36;1mnode tests/g0-integrated-types/runtime.cjs[0m
+2026-10-29T22:34:19.1794115Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:34:19.1794381Z env:
+2026-10-29T22:34:19.1794660Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:19.1795029Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:19.1795285Z ##[endgroup]
+2026-10-29T22:34:19.2888205Z ✔ bridge keeps the accepted A comparison and independently pins current B4 bytes (12.412662ms)
+2026-10-29T22:34:19.2899384Z ✔ changed current B4 handler cannot be hidden by the historical A comparison (5.568662ms)
+2026-10-29T22:34:19.2925019Z ✔ every other path retains current source without a replacement (0.170779ms)
+2026-10-29T22:34:19.2926851Z ✔ caller-selected references and overrides are rejected (0.413942ms)
+2026-10-29T22:34:19.3018943Z ℹ tests 4
+2026-10-29T22:34:19.3022008Z ℹ suites 0
+2026-10-29T22:34:19.3022715Z ℹ pass 4
+2026-10-29T22:34:19.3023913Z ℹ fail 0
+2026-10-29T22:34:19.3024516Z ℹ cancelled 0
+2026-10-29T22:34:19.3025095Z ℹ skipped 0
+2026-10-29T22:34:19.3025627Z ℹ todo 0
+2026-10-29T22:34:19.3026243Z ℹ duration_ms 86.852223
+2026-10-29T22:34:19.9199780Z ✔ real SDK retains microsecond order and canonical persistence fields (9.717998ms)
+2026-10-29T22:34:19.9215060Z ✔ acknowledges only durable outcome applied (3.055968ms)
+2026-10-29T22:34:19.9240563Z ✔ acknowledges only durable outcome duplicate (1.175792ms)
+2026-10-29T22:34:19.9259968Z ✔ acknowledges only durable outcome stale (1.435165ms)
+2026-10-29T22:34:19.9291416Z ✔ acknowledges only durable outcome unchanged (1.43777ms)
+2026-10-29T22:34:19.9292554Z ✔ acknowledges only durable outcome legacy_repaired (1.312297ms)
+2026-10-29T22:34:19.9294576Z ✔ acknowledges only durable outcome non_current (0.95441ms)
+2026-10-29T22:34:19.9295595Z ✔ fails closed on database_error (0.955ms)
+2026-10-29T22:34:19.9296407Z ✔ fails closed on null_data (1.139685ms)
+2026-10-29T22:34:19.9297228Z ✔ fails closed on zero_rows (1.371307ms)
+2026-10-29T22:34:19.9298006Z ✔ fails closed on unknown_status (0.956514ms)
+2026-10-29T22:34:19.9299238Z ✔ transport rejection is retryable without raw error logging (0.669538ms)
+2026-10-29T22:34:19.9300451Z ✔ invalid environments never reach verification or persistence (0.343981ms)
+2026-10-29T22:34:19.9301418Z ✔ wrong live secret never persists (0.684796ms)
+2026-10-29T22:34:19.9302325Z ✔ rejects signed invalid payload missing_mapping (0.688504ms)
+2026-10-29T22:34:19.9303477Z ✔ rejects signed invalid payload missing_items (0.507496ms)
+2026-10-29T22:34:19.9304639Z ✔ rejects signed invalid payload unsupported_precision (0.456371ms)
+2026-10-29T22:34:19.9343817Z ✔ rejects signed invalid payload invalid_calendar (0.410194ms)
+2026-10-29T22:34:19.9344945Z ✔ rejects signed invalid payload inconsistent_canceled (0.65991ms)
+2026-10-29T22:34:19.9363883Z ✔ verified unsupported notification is explicitly ignored without persistence (0.638761ms)
+2026-10-29T22:34:23.4150064Z ✔ deadline returns retryable response and aborts, without claiming rollback (3500.332912ms)
+2026-10-29T22:34:23.4164608Z ✔ created scheduled cancel retains original new-row default false (0.930114ms)
+2026-10-29T22:34:23.4344883Z ℹ tests 22
+2026-10-29T22:34:23.4345869Z ℹ suites 0
+2026-10-29T22:34:23.4346509Z ℹ pass 22
+2026-10-29T22:34:23.4347179Z ℹ fail 0
+2026-10-29T22:34:23.4347764Z ℹ cancelled 0
+2026-10-29T22:34:23.4348408Z ℹ skipped 0
+2026-10-29T22:34:23.4349018Z ℹ todo 0
+2026-10-29T22:34:23.4349644Z ℹ duration_ms 4093.541363
+2026-10-29T22:34:24.0360353Z node:assert:152
+2026-10-29T22:34:24.0363897Z   throw new AssertionError(obj);
+2026-10-29T22:34:24.0364585Z   ^
+2026-10-29T22:34:24.0365003Z 
+2026-10-29T22:34:24.0365373Z AssertionError [ERR_ASSERTION]: src/lib/db.ts
+2026-10-29T22:34:24.0366126Z + actual - expected
+2026-10-29T22:34:24.0367169Z ... Skipped lines
+2026-10-29T22:34:24.0367565Z 
+2026-10-29T22:34:24.0367839Z   {
+2026-10-29T22:34:24.0368286Z     errors: [],
+2026-10-29T22:34:24.0368780Z     program: {
+2026-10-29T22:34:24.0369241Z       body: [
+2026-10-29T22:34:24.0369686Z         {
+2026-10-29T22:34:24.0370121Z ...
+2026-10-29T22:34:24.0370574Z             type: 'StringLiteral',
+2026-10-29T22:34:24.0371182Z -           value: '@/domain/finance/quantity'
+2026-10-29T22:34:24.0371791Z -         },
+2026-10-29T22:34:24.0372270Z -         specifiers: [
+2026-10-29T22:34:24.0372776Z -           {
+2026-10-29T22:34:24.0373491Z -             imported: {
+2026-10-29T22:34:24.0374043Z -               name: 'isQuantity',
+2026-10-29T22:34:24.0374641Z -               type: 'Identifier'
+2026-10-29T22:34:24.0375202Z -             },
+2026-10-29T22:34:24.0375685Z -             local: {
+2026-10-29T22:34:24.0376201Z -               name: 'isQuantity',
+2026-10-29T22:34:24.0377118Z -               range: undefined,
+2026-10-29T22:34:24.0377715Z -               type: 'Identifier'
+2026-10-29T22:34:24.0378278Z -             },
+2026-10-29T22:34:24.0378785Z -             type: 'ImportSpecifier'
+2026-10-29T22:34:24.0379377Z -           },
+2026-10-29T22:34:24.0379841Z -           {
+2026-10-29T22:34:24.0380320Z -             imported: {
+2026-10-29T22:34:24.0380879Z -               name: 'QUANTITY_ERROR',
+2026-10-29T22:34:24.0381483Z -               type: 'Identifier'
+2026-10-29T22:34:24.0382038Z -             },
+2026-10-29T22:34:24.0382514Z -             local: {
+2026-10-29T22:34:24.0383239Z -               name: 'QUANTITY_ERROR',
+2026-10-29T22:34:24.0383856Z -               range: undefined,
+2026-10-29T22:34:24.0384423Z -               type: 'Identifier'
+2026-10-29T22:34:24.0384964Z -             },
+2026-10-29T22:34:24.0385467Z -             type: 'ImportSpecifier'
+2026-10-29T22:34:24.0386024Z -           }
+2026-10-29T22:34:24.0386482Z -         ],
+2026-10-29T22:34:24.0386986Z -         type: 'ImportDeclaration'
+2026-10-29T22:34:24.0387560Z -       },
+2026-10-29T22:34:24.0388028Z -       {
+2026-10-29T22:34:24.0388496Z -         attributes: [],
+2026-10-29T22:34:24.0389025Z -         source: {
+2026-10-29T22:34:24.0389545Z -           type: 'StringLiteral',
+2026-10-29T22:34:24.0390227Z             value: '@tanstack/react-query'
+2026-10-29T22:34:24.0390846Z           },
+2026-10-29T22:34:24.0391327Z           specifiers: [
+2026-10-29T22:34:24.0391855Z             {
+2026-10-29T22:34:24.0392332Z               imported: {
+2026-10-29T22:34:24.0392819Z ...
+2026-10-29T22:34:24.0393452Z                                   {
+2026-10-29T22:34:24.0394029Z -                                   alternate: null,
+2026-10-29T22:34:24.0394648Z -                                   consequent: {
+2026-10-29T22:34:24.0395244Z -                                     argument: {
+2026-10-29T22:34:24.0395873Z -                                       arguments: [
+2026-10-29T22:34:24.0396445Z -                                         {
+2026-10-29T22:34:24.0397083Z -                                           name: 'QUANTITY_ERROR',
+2026-10-29T22:34:24.0397756Z -                                           type: 'Identifier'
+2026-10-29T22:34:24.0398364Z -                                         }
+2026-10-29T22:34:24.0398925Z -                                       ],
+2026-10-29T22:34:24.0399587Z -                                       callee: {
+2026-10-29T22:34:24.0400204Z -                                         name: 'Error',
+2026-10-29T22:34:24.0400837Z -                                         type: 'Identifier'
+2026-10-29T22:34:24.0401447Z -                                       },
+2026-10-29T22:34:24.0402055Z -                                       type: 'NewExpression'
+2026-10-29T22:34:24.0402672Z -                                     },
+2026-10-29T22:34:24.0403590Z -                                     type: 'ThrowStatement'
+2026-10-29T22:34:24.0404218Z -                                   },
+2026-10-29T22:34:24.0404804Z -                                   test: {
+2026-10-29T22:34:24.0405638Z -                                     argument: {
+2026-10-29T22:34:24.0406302Z -                                       arguments: [
+2026-10-29T22:34:24.0406919Z -                                         {
+2026-10-29T22:34:24.0407535Z -                                           computed: false,
+2026-10-29T22:34:24.0408190Z -                                           object: {
+2026-10-29T22:34:24.0408834Z -                                             name: 'input',
+2026-10-29T22:34:24.0409509Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0410173Z -                                           },
+2026-10-29T22:34:24.0410803Z -                                           property: {
+2026-10-29T22:34:24.0411518Z -                                             name: 'stock',
+2026-10-29T22:34:24.0412243Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0413064Z -                                           },
+2026-10-29T22:34:24.0414113Z -                                           type: 'MemberExpression'
+2026-10-29T22:34:24.0414809Z -                                         },
+2026-10-29T22:34:24.0415401Z -                                         {
+2026-10-29T22:34:24.0416051Z -                                           type: 'BooleanLiteral',
+2026-10-29T22:34:24.0416745Z -                                           value: true
+2026-10-29T22:34:24.0417361Z -                                         }
+2026-10-29T22:34:24.0417944Z -                                       ],
+2026-10-29T22:34:24.0418543Z -                                       callee: {
+2026-10-29T22:34:24.0419201Z -                                         name: 'isQuantity',
+2026-10-29T22:34:24.0419878Z -                                         type: 'Identifier'
+2026-10-29T22:34:24.0420517Z -                                       },
+2026-10-29T22:34:24.0421160Z -                                       type: 'CallExpression'
+2026-10-29T22:34:24.0421816Z -                                     },
+2026-10-29T22:34:24.0422426Z -                                     operator: '!',
+2026-10-29T22:34:24.0423520Z -                                     prefix: true,
+2026-10-29T22:34:24.0424358Z -                                     type: 'UnaryExpression'
+2026-10-29T22:34:24.0425015Z -                                   },
+2026-10-29T22:34:24.0425628Z -                                   type: 'IfStatement'
+2026-10-29T22:34:24.0426255Z -                                 },
+2026-10-29T22:34:24.0426823Z -                                 {
+2026-10-29T22:34:24.0427412Z                                     declarations: [
+2026-10-29T22:34:24.0428030Z                                       {
+2026-10-29T22:34:24.0428625Z                                         id: {
+2026-10-29T22:34:24.0429337Z                                           properties: [
+2026-10-29T22:34:24.0429962Z                                             {
+2026-10-29T22:34:24.0430558Z ...
+2026-10-29T22:34:24.0431013Z                                   {
+2026-10-29T22:34:24.0431616Z -                                   alternate: null,
+2026-10-29T22:34:24.0432267Z -                                   consequent: {
+2026-10-29T22:34:24.0433102Z -                                     argument: {
+2026-10-29T22:34:24.0433774Z -                                       arguments: [
+2026-10-29T22:34:24.0434396Z -                                         {
+2026-10-29T22:34:24.0435034Z -                                           name: 'QUANTITY_ERROR',
+2026-10-29T22:34:24.0435745Z -                                           type: 'Identifier'
+2026-10-29T22:34:24.0436385Z -                                         }
+2026-10-29T22:34:24.0436966Z -                                       ],
+2026-10-29T22:34:24.0437566Z -                                       callee: {
+2026-10-29T22:34:24.0438202Z -                                         name: 'Error',
+2026-10-29T22:34:24.0438859Z -                                         type: 'Identifier'
+2026-10-29T22:34:24.0439695Z -                                       },
+2026-10-29T22:34:24.0440361Z -                                       type: 'NewExpression'
+2026-10-29T22:34:24.0441012Z -                                     },
+2026-10-29T22:34:24.0441631Z -                                     type: 'ThrowStatement'
+2026-10-29T22:34:24.0442254Z -                                   },
+2026-10-29T22:34:24.0442819Z -                                   test: {
+2026-10-29T22:34:24.0443711Z -                                     argument: {
+2026-10-29T22:34:24.0444468Z -                                       arguments: [
+2026-10-29T22:34:24.0445071Z -                                         {
+2026-10-29T22:34:24.0445672Z -                                           computed: false,
+2026-10-29T22:34:24.0446300Z -                                           object: {
+2026-10-29T22:34:24.0446915Z -                                             name: 'input',
+2026-10-29T22:34:24.0447775Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0448423Z -                                           },
+2026-10-29T22:34:24.0449031Z -                                           property: {
+2026-10-29T22:34:24.0449673Z -                                             name: 'stock',
+2026-10-29T22:34:24.0450345Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0450990Z -                                           },
+2026-10-29T22:34:24.0451685Z -                                           type: 'MemberExpression'
+2026-10-29T22:34:24.0452403Z -                                         },
+2026-10-29T22:34:24.0453190Z -                                         {
+2026-10-29T22:34:24.0454165Z -                                           type: 'BooleanLiteral',
+2026-10-29T22:34:24.0454869Z -                                           value: true
+2026-10-29T22:34:24.0455503Z -                                         }
+2026-10-29T22:34:24.0456090Z -                                       ],
+2026-10-29T22:34:24.0456719Z -                                       callee: {
+2026-10-29T22:34:24.0457379Z -                                         name: 'isQuantity',
+2026-10-29T22:34:24.0458092Z -                                         type: 'Identifier'
+2026-10-29T22:34:24.0458735Z -                                       },
+2026-10-29T22:34:24.0459385Z -                                       type: 'CallExpression'
+2026-10-29T22:34:24.0460038Z -                                     },
+2026-10-29T22:34:24.0460666Z -                                     operator: '!',
+2026-10-29T22:34:24.0461319Z -                                     prefix: true,
+2026-10-29T22:34:24.0462003Z -                                     type: 'UnaryExpression'
+2026-10-29T22:34:24.0462649Z -                                   },
+2026-10-29T22:34:24.0463505Z -                                   type: 'IfStatement'
+2026-10-29T22:34:24.0464117Z -                                 },
+2026-10-29T22:34:24.0464684Z -                                 {
+2026-10-29T22:34:24.0465290Z                                     declarations: [
+2026-10-29T22:34:24.0465907Z                                       {
+2026-10-29T22:34:24.0466491Z                                         id: {
+2026-10-29T22:34:24.0467122Z                                           properties: [
+2026-10-29T22:34:24.0467747Z                                             {
+2026-10-29T22:34:24.0468317Z ...
+2026-10-29T22:34:24.0468757Z                                   {
+2026-10-29T22:34:24.0469352Z -                                   alternate: null,
+2026-10-29T22:34:24.0469997Z -                                   consequent: {
+2026-10-29T22:34:24.0470618Z -                                     argument: {
+2026-10-29T22:34:24.0471253Z -                                       arguments: [
+2026-10-29T22:34:24.0471880Z -                                         {
+2026-10-29T22:34:24.0472528Z -                                           name: 'QUANTITY_ERROR',
+2026-10-29T22:34:24.0473692Z -                                           type: 'Identifier'
+2026-10-29T22:34:24.0474363Z -                                         }
+2026-10-29T22:34:24.0474942Z -                                       ],
+2026-10-29T22:34:24.0475534Z -                                       callee: {
+2026-10-29T22:34:24.0476154Z -                                         name: 'Error',
+2026-10-29T22:34:24.0476812Z -                                         type: 'Identifier'
+2026-10-29T22:34:24.0477437Z -                                       },
+2026-10-29T22:34:24.0478069Z -                                       type: 'NewExpression'
+2026-10-29T22:34:24.0478701Z -                                     },
+2026-10-29T22:34:24.0479305Z -                                     type: 'ThrowStatement'
+2026-10-29T22:34:24.0479931Z -                                   },
+2026-10-29T22:34:24.0480496Z -                                   test: {
+2026-10-29T22:34:24.0481080Z -                                     left: {
+2026-10-29T22:34:24.0481870Z -                                       argument: {
+2026-10-29T22:34:24.0482529Z -                                         computed: false,
+2026-10-29T22:34:24.0483457Z -                                         object: {
+2026-10-29T22:34:24.0484117Z -                                           computed: false,
+2026-10-29T22:34:24.0484782Z -                                           object: {
+2026-10-29T22:34:24.0485444Z -                                             name: 'input',
+2026-10-29T22:34:24.0486138Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0486806Z -                                           },
+2026-10-29T22:34:24.0487483Z -                                           property: {
+2026-10-29T22:34:24.0488151Z -                                             name: 'items',
+2026-10-29T22:34:24.0488822Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0489460Z -                                           },
+2026-10-29T22:34:24.0490123Z -                                           type: 'MemberExpression'
+2026-10-29T22:34:24.0490788Z -                                         },
+2026-10-29T22:34:24.0491422Z -                                         property: {
+2026-10-29T22:34:24.0492084Z -                                           name: 'length',
+2026-10-29T22:34:24.0492767Z -                                           type: 'Identifier'
+2026-10-29T22:34:24.0493603Z -                                         },
+2026-10-29T22:34:24.0494268Z -                                         type: 'MemberExpression'
+2026-10-29T22:34:24.0494913Z -                                       },
+2026-10-29T22:34:24.0495529Z -                                       operator: '!',
+2026-10-29T22:34:24.0496170Z -                                       prefix: true,
+2026-10-29T22:34:24.0496829Z -                                       type: 'UnaryExpression'
+2026-10-29T22:34:24.0497566Z -                                     },
+2026-10-29T22:34:24.0498198Z -                                     operator: '||',
+2026-10-29T22:34:24.0498839Z -                                     right: {
+2026-10-29T22:34:24.0499539Z -                                       arguments: [
+2026-10-29T22:34:24.0500173Z -                                         {
+2026-10-29T22:34:24.0500804Z -                                           async: false,
+2026-10-29T22:34:24.0501459Z -                                           body: {
+2026-10-29T22:34:24.0502112Z -                                             argument: {
+2026-10-29T22:34:24.0502786Z -                                               arguments: [
+2026-10-29T22:34:24.0503629Z -                                                 {
+2026-10-29T22:34:24.0504282Z -                                                   computed: false,
+2026-10-29T22:34:24.0504957Z -                                                   object: {
+2026-10-29T22:34:24.0505614Z -                                                     name: 'item',
+2026-10-29T22:34:24.0506550Z -                                                     type: 'Identifier'
+2026-10-29T22:34:24.0507271Z -                                                   },
+2026-10-29T22:34:24.0507938Z -                                                   property: {
+2026-10-29T22:34:24.0508640Z -                                                     name: 'qty',
+2026-10-29T22:34:24.0509357Z -                                                     type: 'Identifier'
+2026-10-29T22:34:24.0510044Z -                                                   },
+2026-10-29T22:34:24.0510732Z -                                                   type: 'MemberExpression'
+2026-10-29T22:34:24.0511429Z -                                                 }
+2026-10-29T22:34:24.0512048Z -                                               ],
+2026-10-29T22:34:24.0512686Z -                                               callee: {
+2026-10-29T22:34:24.0513574Z -                                                 name: 'isQuantity',
+2026-10-29T22:34:24.0514501Z -                                                 type: 'Identifier'
+2026-10-29T22:34:24.0515195Z -                                               },
+2026-10-29T22:34:24.0515879Z -                                               type: 'CallExpression'
+2026-10-29T22:34:24.0516566Z -                                             },
+2026-10-29T22:34:24.0517224Z -                                             operator: '!',
+2026-10-29T22:34:24.0517910Z -                                             prefix: true,
+2026-10-29T22:34:24.0518626Z -                                             type: 'UnaryExpression'
+2026-10-29T22:34:24.0519318Z -                                           },
+2026-10-29T22:34:24.0519971Z -                                           generator: false,
+2026-10-29T22:34:24.0521265Z -                                           id: null,
+2026-10-29T22:34:24.0521918Z -                                           params: [
+2026-10-29T22:34:24.0522561Z -                                             {
+2026-10-29T22:34:24.0523443Z -                                               name: 'item',
+2026-10-29T22:34:24.0524032Z -                                               type: 'Identifier'
+2026-10-29T22:34:24.0524587Z -                                             }
+2026-10-29T22:34:24.0525079Z -                                           ],
+2026-10-29T22:34:24.0525650Z -                                           type: 'ArrowFunctionExpression'
+2026-10-29T22:34:24.0526232Z -                                         }
+2026-10-29T22:34:24.0526691Z -                                       ],
+2026-10-29T22:34:24.0527170Z -                                       callee: {
+2026-10-29T22:34:24.0527694Z -                                         computed: false,
+2026-10-29T22:34:24.0528223Z -                                         object: {
+2026-10-29T22:34:24.0528751Z -                                           computed: false,
+2026-10-29T22:34:24.0529292Z -                                           object: {
+2026-10-29T22:34:24.0529769Z -                                             name: 'input',
+2026-10-29T22:34:24.0530100Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0530540Z -                                           },
+2026-10-29T22:34:24.0530855Z -                                           property: {
+2026-10-29T22:34:24.0531162Z -                                             name: 'items',
+2026-10-29T22:34:24.0531483Z -                                             type: 'Identifier'
+2026-10-29T22:34:24.0531783Z -                                           },
+2026-10-29T22:34:24.0532100Z -                                           type: 'MemberExpression'
+2026-10-29T22:34:24.0532412Z -                                         },
+2026-10-29T22:34:24.0532707Z -                                         property: {
+2026-10-29T22:34:24.0533395Z -                                           name: 'some',
+2026-10-29T22:34:24.0533966Z -                                           type: 'Identifier'
+2026-10-29T22:34:24.0534495Z -                                         },
+2026-10-29T22:34:24.0535245Z -                                         type: 'MemberExpression'
+2026-10-29T22:34:24.0535788Z -                                       },
+2026-10-29T22:34:24.0536300Z -                                       type: 'CallExpression'
+2026-10-29T22:34:24.0536806Z -                                     },
+2026-10-29T22:34:24.0537304Z -                                     type: 'LogicalExpression'
+2026-10-29T22:34:24.0537810Z -                                   },
+2026-10-29T22:34:24.0538266Z -                                   type: 'IfStatement'
+2026-10-29T22:34:24.0538735Z -                                 },
+2026-10-29T22:34:24.0539157Z -                                 {
+2026-10-29T22:34:24.0539604Z                                     declarations: [
+2026-10-29T22:34:24.0540091Z                                       {
+2026-10-29T22:34:24.0540543Z                                         id: {
+2026-10-29T22:34:24.0541209Z                                           properties: [
+2026-10-29T22:34:24.0541702Z                                             {
+2026-10-29T22:34:24.0542011Z 
+2026-10-29T22:34:24.0542752Z     at Object.<anonymous> (/home/runner/work/simple-store-aid/simple-store-aid/tests/g0-integrated-types/runtime.cjs:172:10)
+2026-10-29T22:34:24.0554294Z     at Module._compile (node:internal/modules/cjs/loader:1929:14)
+2026-10-29T22:34:24.0555028Z     at Object..js (node:internal/modules/cjs/loader:2060:10)
+2026-10-29T22:34:24.0555699Z     at Module.load (node:internal/modules/cjs/loader:1651:32)
+2026-10-29T22:34:24.0556384Z     at Module._load (node:internal/modules/cjs/loader:1443:12)
+2026-10-29T22:34:24.0557088Z     at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+2026-10-29T22:34:24.0557956Z     at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+2026-10-29T22:34:24.0558781Z     at node:internal/main/run_main_module:33:47 {
+2026-10-29T22:34:24.0559326Z   generatedMessage: false,
+2026-10-29T22:34:24.0559762Z   code: 'ERR_ASSERTION',
+2026-10-29T22:34:24.0560157Z   actual: {
+2026-10-29T22:34:24.0560488Z     type: 'File',
+2026-10-29T22:34:24.0560839Z     errors: [],
+2026-10-29T22:34:24.0561186Z     program: {
+2026-10-29T22:34:24.0561527Z       type: 'Program',
+2026-10-29T22:34:24.0561911Z       sourceType: 'module',
+2026-10-29T22:34:24.0562325Z       interpreter: null,
+2026-10-29T22:34:24.0562700Z       body: [
+2026-10-29T22:34:24.0563205Z         {
+2026-10-29T22:34:24.0563554Z           type: 'ImportDeclaration',
+2026-10-29T22:34:24.0564080Z           specifiers: [ [Object], [Object], [Object] ],
+2026-10-29T22:34:24.0564779Z           source: { type: 'StringLiteral', value: '@tanstack/react-query' },
+2026-10-29T22:34:24.0565421Z           attributes: []
+2026-10-29T22:34:24.0565796Z         },
+2026-10-29T22:34:24.0566105Z         {
+2026-10-29T22:34:24.0566454Z           type: 'ImportDeclaration',
+2026-10-29T22:34:24.0566920Z           specifiers: [ [Object] ],
+2026-10-29T22:34:24.0567361Z           source: {
+2026-10-29T22:34:24.0567736Z             type: 'StringLiteral',
+2026-10-29T22:34:24.0568229Z             value: '@/integrations/supabase/client'
+2026-10-29T22:34:24.0568726Z           },
+2026-10-29T22:34:24.0569062Z           attributes: []
+2026-10-29T22:34:24.0569430Z         },
+2026-10-29T22:34:24.0569741Z         {
+2026-10-29T22:34:24.0570102Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0570588Z           specifiers: [],
+2026-10-29T22:34:24.0570986Z           source: null,
+2026-10-29T22:34:24.0571364Z           attributes: [],
+2026-10-29T22:34:24.0571742Z           declaration: {
+2026-10-29T22:34:24.0572156Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0572587Z             id: [Object],
+2026-10-29T22:34:24.0576564Z             generator: false,
+2026-10-29T22:34:24.0577039Z             async: false,
+2026-10-29T22:34:24.0577461Z             params: [],
+2026-10-29T22:34:24.0577853Z             body: [Object]
+2026-10-29T22:34:24.0578245Z           }
+2026-10-29T22:34:24.0578542Z         },
+2026-10-29T22:34:24.0579057Z         {
+2026-10-29T22:34:24.0579418Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0579904Z           specifiers: [],
+2026-10-29T22:34:24.0580305Z           source: null,
+2026-10-29T22:34:24.0580693Z           attributes: [],
+2026-10-29T22:34:24.0581138Z           declaration: {
+2026-10-29T22:34:24.0581554Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0582004Z             id: [Object],
+2026-10-29T22:34:24.0582397Z             generator: false,
+2026-10-29T22:34:24.0582824Z             async: false,
+2026-10-29T22:34:24.0584354Z             params: [Array],
+2026-10-29T22:34:24.0584781Z             body: [Object]
+2026-10-29T22:34:24.0585163Z           }
+2026-10-29T22:34:24.0585491Z         },
+2026-10-29T22:34:24.0585802Z         {
+2026-10-29T22:34:24.0586159Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0586653Z           specifiers: [],
+2026-10-29T22:34:24.0587051Z           source: null,
+2026-10-29T22:34:24.0587725Z           attributes: [],
+2026-10-29T22:34:24.0587960Z           declaration: {
+2026-10-29T22:34:24.0588213Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0588498Z             id: [Object],
+2026-10-29T22:34:24.0588736Z             generator: false,
+2026-10-29T22:34:24.0588977Z             async: false,
+2026-10-29T22:34:24.0589211Z             params: [Array],
+2026-10-29T22:34:24.0589448Z             body: [Object]
+2026-10-29T22:34:24.0589669Z           }
+2026-10-29T22:34:24.0589852Z         },
+2026-10-29T22:34:24.0590034Z         {
+2026-10-29T22:34:24.0590244Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0590526Z           specifiers: [],
+2026-10-29T22:34:24.0590759Z           source: null,
+2026-10-29T22:34:24.0590979Z           attributes: [],
+2026-10-29T22:34:24.0591203Z           declaration: {
+2026-10-29T22:34:24.0591446Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0591722Z             id: [Object],
+2026-10-29T22:34:24.0591953Z             generator: false,
+2026-10-29T22:34:24.0592194Z             async: false,
+2026-10-29T22:34:24.0592419Z             params: [Array],
+2026-10-29T22:34:24.0592652Z             body: [Object]
+2026-10-29T22:34:24.0593119Z           }
+2026-10-29T22:34:24.0593346Z         },
+2026-10-29T22:34:24.0593534Z         {
+2026-10-29T22:34:24.0593739Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0594030Z           specifiers: [],
+2026-10-29T22:34:24.0594256Z           source: null,
+2026-10-29T22:34:24.0594479Z           attributes: [],
+2026-10-29T22:34:24.0594716Z           declaration: {
+2026-10-29T22:34:24.0594963Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0595234Z             id: [Object],
+2026-10-29T22:34:24.0595461Z             generator: false,
+2026-10-29T22:34:24.0595698Z             async: false,
+2026-10-29T22:34:24.0595920Z             params: [Array],
+2026-10-29T22:34:24.0596182Z             body: [Object]
+2026-10-29T22:34:24.0596400Z           }
+2026-10-29T22:34:24.0596589Z         },
+2026-10-29T22:34:24.0596765Z         {
+2026-10-29T22:34:24.0596982Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0597258Z           specifiers: [],
+2026-10-29T22:34:24.0597486Z           source: null,
+2026-10-29T22:34:24.0597706Z           attributes: [],
+2026-10-29T22:34:24.0597939Z           declaration: {
+2026-10-29T22:34:24.0598183Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0598451Z             id: [Object],
+2026-10-29T22:34:24.0598684Z             generator: false,
+2026-10-29T22:34:24.0598921Z             async: false,
+2026-10-29T22:34:24.0599188Z             params: [Array],
+2026-10-29T22:34:24.0599424Z             body: [Object]
+2026-10-29T22:34:24.0599641Z           }
+2026-10-29T22:34:24.0599823Z         },
+2026-10-29T22:34:24.0600012Z         {
+2026-10-29T22:34:24.0600223Z           type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0600540Z           id: { type: 'Identifier', name: 'rpcMessage' },
+2026-10-29T22:34:24.0600855Z           generator: false,
+2026-10-29T22:34:24.0601094Z           async: false,
+2026-10-29T22:34:24.0601480Z           params: [ [Object] ],
+2026-10-29T22:34:24.0601822Z           body: { type: 'BlockStatement', body: [Array], directives: [] }
+2026-10-29T22:34:24.0602166Z         },
+2026-10-29T22:34:24.0602350Z         {
+2026-10-29T22:34:24.0602565Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0602845Z           specifiers: [],
+2026-10-29T22:34:24.0603365Z           source: null,
+2026-10-29T22:34:24.0603596Z           attributes: [],
+2026-10-29T22:34:24.0603832Z           declaration: {
+2026-10-29T22:34:24.0604078Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0604350Z             id: [Object],
+2026-10-29T22:34:24.0604574Z             generator: false,
+2026-10-29T22:34:24.0604813Z             async: false,
+2026-10-29T22:34:24.0605043Z             params: [Array],
+2026-10-29T22:34:24.0605276Z             body: [Object]
+2026-10-29T22:34:24.0605494Z           }
+2026-10-29T22:34:24.0605675Z         },
+2026-10-29T22:34:24.0606002Z         {
+2026-10-29T22:34:24.0606215Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0606492Z           specifiers: [],
+2026-10-29T22:34:24.0606716Z           source: null,
+2026-10-29T22:34:24.0606941Z           attributes: [],
+2026-10-29T22:34:24.0607162Z           declaration: {
+2026-10-29T22:34:24.0607408Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0607675Z             id: [Object],
+2026-10-29T22:34:24.0607898Z             generator: false,
+2026-10-29T22:34:24.0608135Z             async: false,
+2026-10-29T22:34:24.0608356Z             params: [Array],
+2026-10-29T22:34:24.0608601Z             body: [Object]
+2026-10-29T22:34:24.0608822Z           }
+2026-10-29T22:34:24.0609013Z         },
+2026-10-29T22:34:24.0609196Z         {
+2026-10-29T22:34:24.0609405Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0609688Z           specifiers: [],
+2026-10-29T22:34:24.0609921Z           source: null,
+2026-10-29T22:34:24.0610149Z           attributes: [],
+2026-10-29T22:34:24.0610380Z           declaration: {
+2026-10-29T22:34:24.0610634Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0610904Z             id: [Object],
+2026-10-29T22:34:24.0611137Z             generator: false,
+2026-10-29T22:34:24.0611375Z             async: false,
+2026-10-29T22:34:24.0611600Z             params: [Array],
+2026-10-29T22:34:24.0611837Z             body: [Object]
+2026-10-29T22:34:24.0612063Z           }
+2026-10-29T22:34:24.0612246Z         },
+2026-10-29T22:34:24.0612432Z         {
+2026-10-29T22:34:24.0612637Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0613229Z           specifiers: [],
+2026-10-29T22:34:24.0613625Z           source: null,
+2026-10-29T22:34:24.0613991Z           attributes: [],
+2026-10-29T22:34:24.0614364Z           declaration: {
+2026-10-29T22:34:24.0614764Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0615220Z             id: [Object],
+2026-10-29T22:34:24.0615596Z             generator: false,
+2026-10-29T22:34:24.0616012Z             async: false,
+2026-10-29T22:34:24.0616252Z             params: [Array],
+2026-10-29T22:34:24.0616497Z             body: [Object]
+2026-10-29T22:34:24.0616715Z           }
+2026-10-29T22:34:24.0616897Z         },
+2026-10-29T22:34:24.0617076Z         {
+2026-10-29T22:34:24.0617280Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0617560Z           specifiers: [],
+2026-10-29T22:34:24.0618017Z           source: null,
+2026-10-29T22:34:24.0618353Z           attributes: [],
+2026-10-29T22:34:24.0618672Z           declaration: {
+2026-10-29T22:34:24.0619069Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0619473Z             id: [Object],
+2026-10-29T22:34:24.0634804Z             generator: false,
+2026-10-29T22:34:24.0635227Z             async: false,
+2026-10-29T22:34:24.0635517Z             params: [Array],
+2026-10-29T22:34:24.0635776Z             body: [Object]
+2026-10-29T22:34:24.0636001Z           }
+2026-10-29T22:34:24.0636204Z         },
+2026-10-29T22:34:24.0636397Z         {
+2026-10-29T22:34:24.0636800Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0637103Z           specifiers: [],
+2026-10-29T22:34:24.0637350Z           source: null,
+2026-10-29T22:34:24.0637575Z           attributes: [],
+2026-10-29T22:34:24.0637804Z           declaration: {
+2026-10-29T22:34:24.0638049Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0638330Z             id: [Object],
+2026-10-29T22:34:24.0638560Z             generator: false,
+2026-10-29T22:34:24.0638794Z             async: false,
+2026-10-29T22:34:24.0639017Z             params: [Array],
+2026-10-29T22:34:24.0639252Z             body: [Object]
+2026-10-29T22:34:24.0639472Z           }
+2026-10-29T22:34:24.0639656Z         },
+2026-10-29T22:34:24.0639840Z         {
+2026-10-29T22:34:24.0640057Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0640354Z           specifiers: [],
+2026-10-29T22:34:24.0640589Z           source: null,
+2026-10-29T22:34:24.0640816Z           attributes: [],
+2026-10-29T22:34:24.0641176Z           declaration: {
+2026-10-29T22:34:24.0641429Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0641705Z             id: [Object],
+2026-10-29T22:34:24.0641929Z             generator: false,
+2026-10-29T22:34:24.0642164Z             async: false,
+2026-10-29T22:34:24.0642388Z             params: [Array],
+2026-10-29T22:34:24.0642630Z             body: [Object]
+2026-10-29T22:34:24.0643124Z           }
+2026-10-29T22:34:24.0643333Z         },
+2026-10-29T22:34:24.0643515Z         {
+2026-10-29T22:34:24.0643722Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0644025Z           specifiers: [],
+2026-10-29T22:34:24.0644262Z           source: null,
+2026-10-29T22:34:24.0644486Z           attributes: [],
+2026-10-29T22:34:24.0644714Z           declaration: {
+2026-10-29T22:34:24.0644966Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0645236Z             id: [Object],
+2026-10-29T22:34:24.0645461Z             generator: false,
+2026-10-29T22:34:24.0645697Z             async: false,
+2026-10-29T22:34:24.0645935Z             params: [Array],
+2026-10-29T22:34:24.0646177Z             body: [Object]
+2026-10-29T22:34:24.0646399Z           }
+2026-10-29T22:34:24.0646581Z         },
+2026-10-29T22:34:24.0646755Z         {
+2026-10-29T22:34:24.0646963Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0647236Z           specifiers: [],
+2026-10-29T22:34:24.0647460Z           source: null,
+2026-10-29T22:34:24.0647678Z           attributes: [],
+2026-10-29T22:34:24.0647905Z           declaration: {
+2026-10-29T22:34:24.0648145Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0648409Z             id: [Object],
+2026-10-29T22:34:24.0648631Z             generator: false,
+2026-10-29T22:34:24.0648866Z             async: false,
+2026-10-29T22:34:24.0649085Z             params: [Array],
+2026-10-29T22:34:24.0649316Z             body: [Object]
+2026-10-29T22:34:24.0649529Z           }
+2026-10-29T22:34:24.0649710Z         },
+2026-10-29T22:34:24.0649896Z         {
+2026-10-29T22:34:24.0650103Z           type: 'VariableDeclaration',
+2026-10-29T22:34:24.0650387Z           declarations: [ [Object] ],
+2026-10-29T22:34:24.0650642Z           kind: 'const'
+2026-10-29T22:34:24.0650855Z         },
+2026-10-29T22:34:24.0651033Z         {
+2026-10-29T22:34:24.0651237Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0651513Z           specifiers: [],
+2026-10-29T22:34:24.0651734Z           source: null,
+2026-10-29T22:34:24.0651958Z           attributes: [],
+2026-10-29T22:34:24.0652183Z           declaration: {
+2026-10-29T22:34:24.0652423Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0652686Z             id: [Object],
+2026-10-29T22:34:24.0653175Z             generator: false,
+2026-10-29T22:34:24.0653436Z             async: false,
+2026-10-29T22:34:24.0653666Z             params: [Array],
+2026-10-29T22:34:24.0653901Z             body: [Object]
+2026-10-29T22:34:24.0654211Z           }
+2026-10-29T22:34:24.0654397Z         },
+2026-10-29T22:34:24.0654574Z         {
+2026-10-29T22:34:24.0654788Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0655203Z           specifiers: [],
+2026-10-29T22:34:24.0655445Z           source: null,
+2026-10-29T22:34:24.0655663Z           attributes: [],
+2026-10-29T22:34:24.0655884Z           declaration: {
+2026-10-29T22:34:24.0656120Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0656386Z             id: [Object],
+2026-10-29T22:34:24.0656605Z             generator: false,
+2026-10-29T22:34:24.0656837Z             async: false,
+2026-10-29T22:34:24.0657058Z             params: [Array],
+2026-10-29T22:34:24.0657285Z             body: [Object]
+2026-10-29T22:34:24.0657503Z           }
+2026-10-29T22:34:24.0657684Z         },
+2026-10-29T22:34:24.0657864Z         {
+2026-10-29T22:34:24.0658070Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0658347Z           specifiers: [],
+2026-10-29T22:34:24.0658567Z           source: null,
+2026-10-29T22:34:24.0658785Z           attributes: [],
+2026-10-29T22:34:24.0659008Z           declaration: {
+2026-10-29T22:34:24.0659384Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0659647Z             id: [Object],
+2026-10-29T22:34:24.0659868Z             generator: false,
+2026-10-29T22:34:24.0660098Z             async: false,
+2026-10-29T22:34:24.0660318Z             params: [Array],
+2026-10-29T22:34:24.0660556Z             body: [Object]
+2026-10-29T22:34:24.0660770Z           }
+2026-10-29T22:34:24.0660953Z         },
+2026-10-29T22:34:24.0661131Z         {
+2026-10-29T22:34:24.0661345Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0661615Z           specifiers: [],
+2026-10-29T22:34:24.0661834Z           source: null,
+2026-10-29T22:34:24.0662053Z           attributes: [],
+2026-10-29T22:34:24.0662274Z           declaration: {
+2026-10-29T22:34:24.0662515Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0662777Z             id: [Object],
+2026-10-29T22:34:24.0663253Z             generator: false,
+2026-10-29T22:34:24.0663500Z             async: false,
+2026-10-29T22:34:24.0663738Z             params: [Array],
+2026-10-29T22:34:24.0663968Z             body: [Object]
+2026-10-29T22:34:24.0664184Z           }
+2026-10-29T22:34:24.0664362Z         },
+2026-10-29T22:34:24.0664547Z         {
+2026-10-29T22:34:24.0664757Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0665032Z           specifiers: [],
+2026-10-29T22:34:24.0665253Z           source: null,
+2026-10-29T22:34:24.0665469Z           attributes: [],
+2026-10-29T22:34:24.0665694Z           declaration: {
+2026-10-29T22:34:24.0665930Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0666193Z             id: [Object],
+2026-10-29T22:34:24.0666416Z             generator: false,
+2026-10-29T22:34:24.0666663Z             async: false,
+2026-10-29T22:34:24.0666892Z             params: [Array],
+2026-10-29T22:34:24.0667122Z             body: [Object]
+2026-10-29T22:34:24.0667335Z           }
+2026-10-29T22:34:24.0667515Z         },
+2026-10-29T22:34:24.0667693Z         {
+2026-10-29T22:34:24.0667903Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0668187Z           specifiers: [],
+2026-10-29T22:34:24.0668410Z           source: null,
+2026-10-29T22:34:24.0668628Z           attributes: [],
+2026-10-29T22:34:24.0668855Z           declaration: {
+2026-10-29T22:34:24.0669088Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0669347Z             id: [Object],
+2026-10-29T22:34:24.0669566Z             generator: false,
+2026-10-29T22:34:24.0669797Z             async: false,
+2026-10-29T22:34:24.0670021Z             params: [Array],
+2026-10-29T22:34:24.0670244Z             body: [Object]
+2026-10-29T22:34:24.0670456Z           }
+2026-10-29T22:34:24.0670631Z         },
+2026-10-29T22:34:24.0670817Z         {
+2026-10-29T22:34:24.0671022Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0671295Z           specifiers: [],
+2026-10-29T22:34:24.0671518Z           source: null,
+2026-10-29T22:34:24.0671736Z           attributes: [],
+2026-10-29T22:34:24.0671961Z           declaration: {
+2026-10-29T22:34:24.0672207Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0672604Z             id: [Object],
+2026-10-29T22:34:24.0673065Z             generator: false,
+2026-10-29T22:34:24.0673405Z             async: false,
+2026-10-29T22:34:24.0673633Z             params: [Array],
+2026-10-29T22:34:24.0673865Z             body: [Object]
+2026-10-29T22:34:24.0674080Z           }
+2026-10-29T22:34:24.0674266Z         },
+2026-10-29T22:34:24.0674445Z         {
+2026-10-29T22:34:24.0674656Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0674937Z           specifiers: [],
+2026-10-29T22:34:24.0675160Z           source: null,
+2026-10-29T22:34:24.0675385Z           attributes: [],
+2026-10-29T22:34:24.0675607Z           declaration: {
+2026-10-29T22:34:24.0675847Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0676115Z             id: [Object],
+2026-10-29T22:34:24.0676345Z             generator: false,
+2026-10-29T22:34:24.0676575Z             async: false,
+2026-10-29T22:34:24.0676798Z             params: [Array],
+2026-10-29T22:34:24.0677184Z             body: [Object]
+2026-10-29T22:34:24.0677408Z           }
+2026-10-29T22:34:24.0677589Z         },
+2026-10-29T22:34:24.0677770Z         {
+2026-10-29T22:34:24.0677974Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0678248Z           specifiers: [],
+2026-10-29T22:34:24.0678470Z           source: null,
+2026-10-29T22:34:24.0678688Z           attributes: [],
+2026-10-29T22:34:24.0678910Z           declaration: {
+2026-10-29T22:34:24.0679146Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0679409Z             id: [Object],
+2026-10-29T22:34:24.0679630Z             generator: false,
+2026-10-29T22:34:24.0679858Z             async: false,
+2026-10-29T22:34:24.0680079Z             params: [Array],
+2026-10-29T22:34:24.0680313Z             body: [Object]
+2026-10-29T22:34:24.0680525Z           }
+2026-10-29T22:34:24.0680702Z         },
+2026-10-29T22:34:24.0680882Z         {
+2026-10-29T22:34:24.0681085Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0681368Z           specifiers: [],
+2026-10-29T22:34:24.0681589Z           source: null,
+2026-10-29T22:34:24.0681805Z           attributes: [],
+2026-10-29T22:34:24.0682026Z           declaration: {
+2026-10-29T22:34:24.0682265Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0682531Z             id: [Object],
+2026-10-29T22:34:24.0682754Z             generator: false,
+2026-10-29T22:34:24.0683230Z             async: false,
+2026-10-29T22:34:24.0683459Z             params: [Array],
+2026-10-29T22:34:24.0683693Z             body: [Object]
+2026-10-29T22:34:24.0683905Z           }
+2026-10-29T22:34:24.0684086Z         },
+2026-10-29T22:34:24.0684265Z         {
+2026-10-29T22:34:24.0684475Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0684747Z           specifiers: [],
+2026-10-29T22:34:24.0684968Z           source: null,
+2026-10-29T22:34:24.0685186Z           attributes: [],
+2026-10-29T22:34:24.0685407Z           declaration: {
+2026-10-29T22:34:24.0685652Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0685931Z             id: [Object],
+2026-10-29T22:34:24.0686156Z             generator: false,
+2026-10-29T22:34:24.0686389Z             async: false,
+2026-10-29T22:34:24.0686620Z             params: [Array],
+2026-10-29T22:34:24.0686849Z             body: [Object]
+2026-10-29T22:34:24.0687061Z           }
+2026-10-29T22:34:24.0687237Z         },
+2026-10-29T22:34:24.0687419Z         {
+2026-10-29T22:34:24.0687618Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0687887Z           specifiers: [],
+2026-10-29T22:34:24.0688103Z           source: null,
+2026-10-29T22:34:24.0688320Z           attributes: [],
+2026-10-29T22:34:24.0688545Z           declaration: {
+2026-10-29T22:34:24.0688779Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0689040Z             id: [Object],
+2026-10-29T22:34:24.0689258Z             generator: false,
+2026-10-29T22:34:24.0689494Z             async: false,
+2026-10-29T22:34:24.0689713Z             params: [Array],
+2026-10-29T22:34:24.0689949Z             body: [Object]
+2026-10-29T22:34:24.0690291Z           }
+2026-10-29T22:34:24.0690482Z         }
+2026-10-29T22:34:24.0690659Z       ],
+2026-10-29T22:34:24.0690845Z       directives: []
+2026-10-29T22:34:24.0691050Z     }
+2026-10-29T22:34:24.0691230Z   },
+2026-10-29T22:34:24.0691420Z   expected: {
+2026-10-29T22:34:24.0691616Z     type: 'File',
+2026-10-29T22:34:24.0691819Z     errors: [],
+2026-10-29T22:34:24.0692016Z     program: {
+2026-10-29T22:34:24.0692217Z       type: 'Program',
+2026-10-29T22:34:24.0692448Z       sourceType: 'module',
+2026-10-29T22:34:24.0692685Z       interpreter: null,
+2026-10-29T22:34:24.0693242Z       body: [
+2026-10-29T22:34:24.0693441Z         {
+2026-10-29T22:34:24.0693648Z           type: 'ImportDeclaration',
+2026-10-29T22:34:24.0693932Z           specifiers: [ [Object], [Object] ],
+2026-10-29T22:34:24.0694327Z           source: { type: 'StringLiteral', value: '@/domain/finance/quantity' },
+2026-10-29T22:34:24.0694717Z           attributes: []
+2026-10-29T22:34:24.0695095Z         },
+2026-10-29T22:34:24.0695277Z         {
+2026-10-29T22:34:24.0695488Z           type: 'ImportDeclaration',
+2026-10-29T22:34:24.0695794Z           specifiers: [ [Object], [Object], [Object] ],
+2026-10-29T22:34:24.0696205Z           source: { type: 'StringLiteral', value: '@tanstack/react-query' },
+2026-10-29T22:34:24.0696584Z           attributes: []
+2026-10-29T22:34:24.0696809Z         },
+2026-10-29T22:34:24.0696994Z         {
+2026-10-29T22:34:24.0697196Z           type: 'ImportDeclaration',
+2026-10-29T22:34:24.0697472Z           specifiers: [ [Object] ],
+2026-10-29T22:34:24.0697720Z           source: {
+2026-10-29T22:34:24.0697938Z             type: 'StringLiteral',
+2026-10-29T22:34:24.0698219Z             value: '@/integrations/supabase/client'
+2026-10-29T22:34:24.0698508Z           },
+2026-10-29T22:34:24.0698704Z           attributes: []
+2026-10-29T22:34:24.0698920Z         },
+2026-10-29T22:34:24.0699097Z         {
+2026-10-29T22:34:24.0699339Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0699626Z           specifiers: [],
+2026-10-29T22:34:24.0699856Z           source: null,
+2026-10-29T22:34:24.0700076Z           attributes: [],
+2026-10-29T22:34:24.0700301Z           declaration: {
+2026-10-29T22:34:24.0700546Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0700815Z             id: [Object],
+2026-10-29T22:34:24.0701038Z             generator: false,
+2026-10-29T22:34:24.0701276Z             async: false,
+2026-10-29T22:34:24.0701501Z             params: [],
+2026-10-29T22:34:24.0701724Z             body: [Object]
+2026-10-29T22:34:24.0701943Z           }
+2026-10-29T22:34:24.0702124Z         },
+2026-10-29T22:34:24.0702307Z         {
+2026-10-29T22:34:24.0702518Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0702791Z           specifiers: [],
+2026-10-29T22:34:24.0703293Z           source: null,
+2026-10-29T22:34:24.0703527Z           attributes: [],
+2026-10-29T22:34:24.0703762Z           declaration: {
+2026-10-29T22:34:24.0704003Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0704277Z             id: [Object],
+2026-10-29T22:34:24.0704506Z             generator: false,
+2026-10-29T22:34:24.0704740Z             async: false,
+2026-10-29T22:34:24.0704972Z             params: [Array],
+2026-10-29T22:34:24.0705214Z             body: [Object]
+2026-10-29T22:34:24.0705428Z           }
+2026-10-29T22:34:24.0705614Z         },
+2026-10-29T22:34:24.0705800Z         {
+2026-10-29T22:34:24.0706006Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0706284Z           specifiers: [],
+2026-10-29T22:34:24.0706778Z           source: null,
+2026-10-29T22:34:24.0707143Z           attributes: [],
+2026-10-29T22:34:24.0707443Z           declaration: {
+2026-10-29T22:34:24.0707688Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0707957Z             id: [Object],
+2026-10-29T22:34:24.0708178Z             generator: false,
+2026-10-29T22:34:24.0708413Z             async: false,
+2026-10-29T22:34:24.0708634Z             params: [Array],
+2026-10-29T22:34:24.0708874Z             body: [Object]
+2026-10-29T22:34:24.0709312Z           }
+2026-10-29T22:34:24.0709527Z         },
+2026-10-29T22:34:24.0709717Z         {
+2026-10-29T22:34:24.0709922Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0710198Z           specifiers: [],
+2026-10-29T22:34:24.0710420Z           source: null,
+2026-10-29T22:34:24.0710641Z           attributes: [],
+2026-10-29T22:34:24.0710860Z           declaration: {
+2026-10-29T22:34:24.0711097Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0711361Z             id: [Object],
+2026-10-29T22:34:24.0711588Z             generator: false,
+2026-10-29T22:34:24.0711818Z             async: false,
+2026-10-29T22:34:24.0712037Z             params: [Array],
+2026-10-29T22:34:24.0712266Z             body: [Object]
+2026-10-29T22:34:24.0712485Z           }
+2026-10-29T22:34:24.0712666Z         },
+2026-10-29T22:34:24.0713137Z         {
+2026-10-29T22:34:24.0713419Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0713873Z           specifiers: [],
+2026-10-29T22:34:24.0714113Z           source: null,
+2026-10-29T22:34:24.0714338Z           attributes: [],
+2026-10-29T22:34:24.0714566Z           declaration: {
+2026-10-29T22:34:24.0714811Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0715085Z             id: [Object],
+2026-10-29T22:34:24.0715307Z             generator: false,
+2026-10-29T22:34:24.0715542Z             async: false,
+2026-10-29T22:34:24.0715767Z             params: [Array],
+2026-10-29T22:34:24.0716003Z             body: [Object]
+2026-10-29T22:34:24.0716217Z           }
+2026-10-29T22:34:24.0716405Z         },
+2026-10-29T22:34:24.0716590Z         {
+2026-10-29T22:34:24.0716799Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0717077Z           specifiers: [],
+2026-10-29T22:34:24.0717295Z           source: null,
+2026-10-29T22:34:24.0717515Z           attributes: [],
+2026-10-29T22:34:24.0717737Z           declaration: {
+2026-10-29T22:34:24.0717982Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0718251Z             id: [Object],
+2026-10-29T22:34:24.0718475Z             generator: false,
+2026-10-29T22:34:24.0718704Z             async: false,
+2026-10-29T22:34:24.0718923Z             params: [Array],
+2026-10-29T22:34:24.0719160Z             body: [Object]
+2026-10-29T22:34:24.0719374Z           }
+2026-10-29T22:34:24.0719556Z         },
+2026-10-29T22:34:24.0719731Z         {
+2026-10-29T22:34:24.0719941Z           type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0720246Z           id: { type: 'Identifier', name: 'rpcMessage' },
+2026-10-29T22:34:24.0720566Z           generator: false,
+2026-10-29T22:34:24.0720797Z           async: false,
+2026-10-29T22:34:24.0721025Z           params: [ [Object] ],
+2026-10-29T22:34:24.0721354Z           body: { type: 'BlockStatement', body: [Array], directives: [] }
+2026-10-29T22:34:24.0721701Z         },
+2026-10-29T22:34:24.0721879Z         {
+2026-10-29T22:34:24.0722088Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0722372Z           specifiers: [],
+2026-10-29T22:34:24.0722602Z           source: null,
+2026-10-29T22:34:24.0722828Z           attributes: [],
+2026-10-29T22:34:24.0723333Z           declaration: {
+2026-10-29T22:34:24.0723581Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0723857Z             id: [Object],
+2026-10-29T22:34:24.0724083Z             generator: false,
+2026-10-29T22:34:24.0724322Z             async: false,
+2026-10-29T22:34:24.0724557Z             params: [Array],
+2026-10-29T22:34:24.0724795Z             body: [Object]
+2026-10-29T22:34:24.0725017Z           }
+2026-10-29T22:34:24.0725199Z         },
+2026-10-29T22:34:24.0725379Z         {
+2026-10-29T22:34:24.0725593Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0725877Z           specifiers: [],
+2026-10-29T22:34:24.0726102Z           source: null,
+2026-10-29T22:34:24.0726321Z           attributes: [],
+2026-10-29T22:34:24.0726553Z           declaration: {
+2026-10-29T22:34:24.0726796Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0727070Z             id: [Object],
+2026-10-29T22:34:24.0727420Z             generator: false,
+2026-10-29T22:34:24.0727665Z             async: false,
+2026-10-29T22:34:24.0727897Z             params: [Array],
+2026-10-29T22:34:24.0728134Z             body: [Object]
+2026-10-29T22:34:24.0728352Z           }
+2026-10-29T22:34:24.0728540Z         },
+2026-10-29T22:34:24.0728722Z         {
+2026-10-29T22:34:24.0728923Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0729198Z           specifiers: [],
+2026-10-29T22:34:24.0729420Z           source: null,
+2026-10-29T22:34:24.0729640Z           attributes: [],
+2026-10-29T22:34:24.0729855Z           declaration: {
+2026-10-29T22:34:24.0730089Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0730355Z             id: [Object],
+2026-10-29T22:34:24.0730572Z             generator: false,
+2026-10-29T22:34:24.0730807Z             async: false,
+2026-10-29T22:34:24.0731027Z             params: [Array],
+2026-10-29T22:34:24.0731258Z             body: [Object]
+2026-10-29T22:34:24.0731600Z           }
+2026-10-29T22:34:24.0731793Z         },
+2026-10-29T22:34:24.0731971Z         {
+2026-10-29T22:34:24.0732177Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0732453Z           specifiers: [],
+2026-10-29T22:34:24.0732673Z           source: null,
+2026-10-29T22:34:24.0733026Z           attributes: [],
+2026-10-29T22:34:24.0733254Z           declaration: {
+2026-10-29T22:34:24.0733493Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0733758Z             id: [Object],
+2026-10-29T22:34:24.0733982Z             generator: false,
+2026-10-29T22:34:24.0734218Z             async: false,
+2026-10-29T22:34:24.0734436Z             params: [Array],
+2026-10-29T22:34:24.0734664Z             body: [Object]
+2026-10-29T22:34:24.0734885Z           }
+2026-10-29T22:34:24.0735070Z         },
+2026-10-29T22:34:24.0735254Z         {
+2026-10-29T22:34:24.0735461Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0735734Z           specifiers: [],
+2026-10-29T22:34:24.0735967Z           source: null,
+2026-10-29T22:34:24.0736190Z           attributes: [],
+2026-10-29T22:34:24.0736414Z           declaration: {
+2026-10-29T22:34:24.0736651Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0736954Z             id: [Object],
+2026-10-29T22:34:24.0737173Z             generator: false,
+2026-10-29T22:34:24.0737405Z             async: false,
+2026-10-29T22:34:24.0737625Z             params: [Array],
+2026-10-29T22:34:24.0737859Z             body: [Object]
+2026-10-29T22:34:24.0738074Z           }
+2026-10-29T22:34:24.0738251Z         },
+2026-10-29T22:34:24.0738430Z         {
+2026-10-29T22:34:24.0738632Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0738916Z           specifiers: [],
+2026-10-29T22:34:24.0739134Z           source: null,
+2026-10-29T22:34:24.0739353Z           attributes: [],
+2026-10-29T22:34:24.0739573Z           declaration: {
+2026-10-29T22:34:24.0739814Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0740075Z             id: [Object],
+2026-10-29T22:34:24.0740304Z             generator: false,
+2026-10-29T22:34:24.0740541Z             async: false,
+2026-10-29T22:34:24.0740763Z             params: [Array],
+2026-10-29T22:34:24.0741000Z             body: [Object]
+2026-10-29T22:34:24.0741214Z           }
+2026-10-29T22:34:24.0741393Z         },
+2026-10-29T22:34:24.0741572Z         {
+2026-10-29T22:34:24.0741781Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0742055Z           specifiers: [],
+2026-10-29T22:34:24.0742284Z           source: null,
+2026-10-29T22:34:24.0742507Z           attributes: [],
+2026-10-29T22:34:24.0742737Z           declaration: {
+2026-10-29T22:34:24.0743094Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0743356Z             id: [Object],
+2026-10-29T22:34:24.0743576Z             generator: false,
+2026-10-29T22:34:24.0743809Z             async: false,
+2026-10-29T22:34:24.0744039Z             params: [Array],
+2026-10-29T22:34:24.0744270Z             body: [Object]
+2026-10-29T22:34:24.0744488Z           }
+2026-10-29T22:34:24.0744666Z         },
+2026-10-29T22:34:24.0744976Z         {
+2026-10-29T22:34:24.0745188Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0745465Z           specifiers: [],
+2026-10-29T22:34:24.0745689Z           source: null,
+2026-10-29T22:34:24.0745906Z           attributes: [],
+2026-10-29T22:34:24.0746139Z           declaration: {
+2026-10-29T22:34:24.0746378Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0746644Z             id: [Object],
+2026-10-29T22:34:24.0746864Z             generator: false,
+2026-10-29T22:34:24.0747102Z             async: false,
+2026-10-29T22:34:24.0747321Z             params: [Array],
+2026-10-29T22:34:24.0747549Z             body: [Object]
+2026-10-29T22:34:24.0747763Z           }
+2026-10-29T22:34:24.0747950Z         },
+2026-10-29T22:34:24.0748129Z         {
+2026-10-29T22:34:24.0748334Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0748607Z           specifiers: [],
+2026-10-29T22:34:24.0748828Z           source: null,
+2026-10-29T22:34:24.0749224Z           attributes: [],
+2026-10-29T22:34:24.0749447Z           declaration: {
+2026-10-29T22:34:24.0749684Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0749947Z             id: [Object],
+2026-10-29T22:34:24.0750178Z             generator: false,
+2026-10-29T22:34:24.0750412Z             async: false,
+2026-10-29T22:34:24.0750638Z             params: [Array],
+2026-10-29T22:34:24.0750871Z             body: [Object]
+2026-10-29T22:34:24.0751084Z           }
+2026-10-29T22:34:24.0751268Z         },
+2026-10-29T22:34:24.0751446Z         {
+2026-10-29T22:34:24.0751649Z           type: 'VariableDeclaration',
+2026-10-29T22:34:24.0751927Z           declarations: [ [Object] ],
+2026-10-29T22:34:24.0752190Z           kind: 'const'
+2026-10-29T22:34:24.0752403Z         },
+2026-10-29T22:34:24.0752586Z         {
+2026-10-29T22:34:24.0752792Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0753195Z           specifiers: [],
+2026-10-29T22:34:24.0753424Z           source: null,
+2026-10-29T22:34:24.0753647Z           attributes: [],
+2026-10-29T22:34:24.0753871Z           declaration: {
+2026-10-29T22:34:24.0754109Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0754373Z             id: [Object],
+2026-10-29T22:34:24.0754595Z             generator: false,
+2026-10-29T22:34:24.0754827Z             async: false,
+2026-10-29T22:34:24.0755046Z             params: [Array],
+2026-10-29T22:34:24.0755279Z             body: [Object]
+2026-10-29T22:34:24.0755491Z           }
+2026-10-29T22:34:24.0755672Z         },
+2026-10-29T22:34:24.0755852Z         {
+2026-10-29T22:34:24.0756052Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0756330Z           specifiers: [],
+2026-10-29T22:34:24.0756551Z           source: null,
+2026-10-29T22:34:24.0756769Z           attributes: [],
+2026-10-29T22:34:24.0756990Z           declaration: {
+2026-10-29T22:34:24.0757231Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0757497Z             id: [Object],
+2026-10-29T22:34:24.0757722Z             generator: false,
+2026-10-29T22:34:24.0757953Z             async: false,
+2026-10-29T22:34:24.0758184Z             params: [Array],
+2026-10-29T22:34:24.0758413Z             body: [Object]
+2026-10-29T22:34:24.0758628Z           }
+2026-10-29T22:34:24.0758806Z         },
+2026-10-29T22:34:24.0758986Z         {
+2026-10-29T22:34:24.0759197Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0759467Z           specifiers: [],
+2026-10-29T22:34:24.0759691Z           source: null,
+2026-10-29T22:34:24.0759908Z           attributes: [],
+2026-10-29T22:34:24.0760134Z           declaration: {
+2026-10-29T22:34:24.0760367Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0760631Z             id: [Object],
+2026-10-29T22:34:24.0760855Z             generator: false,
+2026-10-29T22:34:24.0761091Z             async: false,
+2026-10-29T22:34:24.0761319Z             params: [Array],
+2026-10-29T22:34:24.0761553Z             body: [Object]
+2026-10-29T22:34:24.0761772Z           }
+2026-10-29T22:34:24.0761958Z         },
+2026-10-29T22:34:24.0762143Z         {
+2026-10-29T22:34:24.0762467Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0762744Z           specifiers: [],
+2026-10-29T22:34:24.0763083Z           source: null,
+2026-10-29T22:34:24.0763307Z           attributes: [],
+2026-10-29T22:34:24.0763526Z           declaration: {
+2026-10-29T22:34:24.0763770Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0764031Z             id: [Object],
+2026-10-29T22:34:24.0764250Z             generator: false,
+2026-10-29T22:34:24.0764486Z             async: false,
+2026-10-29T22:34:24.0764706Z             params: [Array],
+2026-10-29T22:34:24.0764938Z             body: [Object]
+2026-10-29T22:34:24.0765149Z           }
+2026-10-29T22:34:24.0765332Z         },
+2026-10-29T22:34:24.0765510Z         {
+2026-10-29T22:34:24.0765714Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0765985Z           specifiers: [],
+2026-10-29T22:34:24.0766204Z           source: null,
+2026-10-29T22:34:24.0766420Z           attributes: [],
+2026-10-29T22:34:24.0766516Z           declaration: {
+2026-10-29T22:34:24.0766615Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0766701Z             id: [Object],
+2026-10-29T22:34:24.0766791Z             generator: false,
+2026-10-29T22:34:24.0766872Z             async: false,
+2026-10-29T22:34:24.0766963Z             params: [Array],
+2026-10-29T22:34:24.0767050Z             body: [Object]
+2026-10-29T22:34:24.0767125Z           }
+2026-10-29T22:34:24.0767205Z         },
+2026-10-29T22:34:24.0767280Z         {
+2026-10-29T22:34:24.0767388Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0767479Z           specifiers: [],
+2026-10-29T22:34:24.0767562Z           source: null,
+2026-10-29T22:34:24.0767653Z           attributes: [],
+2026-10-29T22:34:24.0767741Z           declaration: {
+2026-10-29T22:34:24.0767842Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0767928Z             id: [Object],
+2026-10-29T22:34:24.0768014Z             generator: false,
+2026-10-29T22:34:24.0768106Z             async: false,
+2026-10-29T22:34:24.0768198Z             params: [Array],
+2026-10-29T22:34:24.0768285Z             body: [Object]
+2026-10-29T22:34:24.0768365Z           }
+2026-10-29T22:34:24.0768444Z         },
+2026-10-29T22:34:24.0768520Z         {
+2026-10-29T22:34:24.0768629Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0768714Z           specifiers: [],
+2026-10-29T22:34:24.0768805Z           source: null,
+2026-10-29T22:34:24.0768893Z           attributes: [],
+2026-10-29T22:34:24.0768977Z           declaration: {
+2026-10-29T22:34:24.0769085Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0769173Z             id: [Object],
+2026-10-29T22:34:24.0769259Z             generator: false,
+2026-10-29T22:34:24.0769347Z             async: false,
+2026-10-29T22:34:24.0769433Z             params: [Array],
+2026-10-29T22:34:24.0769520Z             body: [Object]
+2026-10-29T22:34:24.0769601Z           }
+2026-10-29T22:34:24.0769676Z         },
+2026-10-29T22:34:24.0769762Z         {
+2026-10-29T22:34:24.0769876Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0769961Z           specifiers: [],
+2026-10-29T22:34:24.0770050Z           source: null,
+2026-10-29T22:34:24.0770136Z           attributes: [],
+2026-10-29T22:34:24.0770225Z           declaration: {
+2026-10-29T22:34:24.0770330Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0770412Z             id: [Object],
+2026-10-29T22:34:24.0770503Z             generator: false,
+2026-10-29T22:34:24.0770593Z             async: false,
+2026-10-29T22:34:24.0770678Z             params: [Array],
+2026-10-29T22:34:24.0770765Z             body: [Object]
+2026-10-29T22:34:24.0770841Z           }
+2026-10-29T22:34:24.0770921Z         },
+2026-10-29T22:34:24.0771000Z         {
+2026-10-29T22:34:24.0771102Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0771192Z           specifiers: [],
+2026-10-29T22:34:24.0771281Z           source: null,
+2026-10-29T22:34:24.0771364Z           attributes: [],
+2026-10-29T22:34:24.0771457Z           declaration: {
+2026-10-29T22:34:24.0771677Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0771762Z             id: [Object],
+2026-10-29T22:34:24.0771854Z             generator: false,
+2026-10-29T22:34:24.0771934Z             async: false,
+2026-10-29T22:34:24.0772026Z             params: [Array],
+2026-10-29T22:34:24.0772113Z             body: [Object]
+2026-10-29T22:34:24.0772190Z           }
+2026-10-29T22:34:24.0772270Z         },
+2026-10-29T22:34:24.0772347Z         {
+2026-10-29T22:34:24.0772449Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0772545Z           specifiers: [],
+2026-10-29T22:34:24.0772626Z           source: null,
+2026-10-29T22:34:24.0772714Z           attributes: [],
+2026-10-29T22:34:24.0772804Z           declaration: {
+2026-10-29T22:34:24.0773020Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0773108Z             id: [Object],
+2026-10-29T22:34:24.0773200Z             generator: false,
+2026-10-29T22:34:24.0773416Z             async: false,
+2026-10-29T22:34:24.0773512Z             params: [Array],
+2026-10-29T22:34:24.0773594Z             body: [Object]
+2026-10-29T22:34:24.0773673Z           }
+2026-10-29T22:34:24.0773754Z         },
+2026-10-29T22:34:24.0773828Z         {
+2026-10-29T22:34:24.0773935Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0774025Z           specifiers: [],
+2026-10-29T22:34:24.0774107Z           source: null,
+2026-10-29T22:34:24.0774195Z           attributes: [],
+2026-10-29T22:34:24.0774280Z           declaration: {
+2026-10-29T22:34:24.0774383Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0774470Z             id: [Object],
+2026-10-29T22:34:24.0774554Z             generator: false,
+2026-10-29T22:34:24.0774642Z             async: false,
+2026-10-29T22:34:24.0774732Z             params: [Array],
+2026-10-29T22:34:24.0774813Z             body: [Object]
+2026-10-29T22:34:24.0774893Z           }
+2026-10-29T22:34:24.0774968Z         },
+2026-10-29T22:34:24.0775055Z         {
+2026-10-29T22:34:24.0775168Z           type: 'ExportNamedDeclaration',
+2026-10-29T22:34:24.0775254Z           specifiers: [],
+2026-10-29T22:34:24.0775342Z           source: null,
+2026-10-29T22:34:24.0775431Z           attributes: [],
+2026-10-29T22:34:24.0775516Z           declaration: {
+2026-10-29T22:34:24.0775620Z             type: 'FunctionDeclaration',
+2026-10-29T22:34:24.0775702Z             id: [Object],
+2026-10-29T22:34:24.0775794Z             generator: false,
+2026-10-29T22:34:24.0775886Z             async: false,
+2026-10-29T22:34:24.0775971Z             params: [Array],
+2026-10-29T22:34:24.0776058Z             body: [Object]
+2026-10-29T22:34:24.0776138Z           }
+2026-10-29T22:34:24.0776214Z         }
+2026-10-29T22:34:24.0776300Z       ],
+2026-10-29T22:34:24.0776389Z       directives: []
+2026-10-29T22:34:24.0776467Z     }
+2026-10-29T22:34:24.0776546Z   },
+2026-10-29T22:34:24.0776645Z   operator: 'deepStrictEqual',
+2026-10-29T22:34:24.0776735Z   diff: 'simple'
+2026-10-29T22:34:24.0776825Z }
+2026-10-29T22:34:24.0776831Z 
+2026-10-29T22:34:24.0776916Z Node.js v24.22.1
+2026-10-29T22:34:24.0788021Z ##[error]Process completed with exit code 1.
+2026-10-29T22:34:24.0944852Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T22:34:24.0944953Z with:
+2026-10-29T22:34:24.0945075Z   name: quality-diagnostics
+2026-10-29T22:34:24.0945580Z   path: /tmp/lint-files.txt
+/tmp/lint.log
+/home/runner/work/_temp/app-financial-read/browser.json
+/home/runner/work/_temp/app-financial-read/replay.json
+
+2026-10-29T22:34:24.0945681Z   if-no-files-found: warn
+2026-10-29T22:34:24.0945781Z   compression-level: 6
+2026-10-29T22:34:24.0945876Z   overwrite: false
+2026-10-29T22:34:24.0945978Z   include-hidden-files: false
+2026-10-29T22:34:24.0946063Z env:
+2026-10-29T22:34:24.0946231Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:24.0946343Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:24.0946433Z ##[endgroup]
+2026-10-29T22:34:24.2772429Z (node:3224) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:34:24.2774474Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:34:24.3004981Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T22:34:24.3093706Z The least common ancestor is /. This will be the root directory of the artifact
+2026-10-29T22:34:24.3113537Z With the provided path, there will be 1 file uploaded
+2026-10-29T22:34:24.3133903Z Artifact name is valid!
+2026-10-29T22:34:24.3145946Z Root directory input is valid!
+2026-10-29T22:34:24.5145129Z Beginning upload of artifact content to blob storage
+2026-10-29T22:34:24.5381178Z (node:3224) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T22:34:24.5680559Z Uploaded bytes 797
+2026-10-29T22:34:24.5819470Z Finished uploading artifact content to blob storage!
+2026-10-29T22:34:24.5821230Z SHA256 digest of uploaded artifact zip is 8ea4866652013b6200ae14880b8b59e2ca5d3d3eb6175226dc555da513d04fa9
+2026-10-29T22:34:24.5837200Z Finalizing artifact upload
+2026-10-29T22:34:25.0255584Z Artifact quality-diagnostics.zip successfully finalized. Artifact ID 12938316598
+2026-10-29T22:34:25.0257204Z Artifact quality-diagnostics has been successfully uploaded! Final size is 797 bytes. Artifact ID is 12938316598
+2026-10-29T22:34:25.0266288Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40966773397/artifacts/12938316598
+2026-10-29T22:34:25.0456671Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T22:34:25.0457230Z with:
+2026-10-29T22:34:25.0457702Z   name: integration-source-identity
+2026-10-29T22:34:25.0458366Z   path: /home/runner/work/_temp/g01-evidence/identity.json
+2026-10-29T22:34:25.0458986Z   retention-days: 7
+2026-10-29T22:34:25.0459403Z   if-no-files-found: warn
+2026-10-29T22:34:25.0459865Z   compression-level: 6
+2026-10-29T22:34:25.0460314Z   overwrite: false
+2026-10-29T22:34:25.0460747Z   include-hidden-files: false
+2026-10-29T22:34:25.0461206Z env:
+2026-10-29T22:34:25.0461701Z   EXPECTED_SOURCE: db4a051579d8a6dc8d1ea5b26d6adff0e613a0f1
+2026-10-29T22:34:25.0462367Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:34:25.0462811Z ##[endgroup]
+2026-10-29T22:34:25.2271993Z (node:3236) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:34:25.2276551Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:34:25.2371667Z With the provided path, there will be 1 file uploaded
+2026-10-29T22:34:25.2395165Z Artifact name is valid!
+2026-10-29T22:34:25.2395835Z Root directory input is valid!
+2026-10-29T22:34:25.5408842Z Beginning upload of artifact content to blob storage
+2026-10-29T22:34:25.5617854Z (node:3236) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T22:34:25.5850094Z Uploaded bytes 573
+2026-10-29T22:34:25.6206403Z Finished uploading artifact content to blob storage!
+2026-10-29T22:34:25.6207854Z SHA256 digest of uploaded artifact zip is 9e3077e114de1f47f39e7a82524b755f65571e55e3a7f20bf3f39044b1cd03ad
+2026-10-29T22:34:25.6210851Z Finalizing artifact upload
+2026-10-29T22:34:26.1689648Z Artifact integration-source-identity.zip successfully finalized. Artifact ID 12937298102
+2026-10-29T22:34:26.1691443Z Artifact integration-source-identity has been successfully uploaded! Final size is 573 bytes. Artifact ID is 12937298102
+2026-10-29T22:34:26.1697260Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40966773397/artifacts/12937298102
+2026-10-29T22:34:26.1918365Z Post job cleanup.
+2026-10-29T22:34:26.2929050Z [command]/usr/bin/git version
+2026-10-29T22:34:26.3014042Z git version 2.56.0
+2026-10-29T22:34:26.3085447Z Temporarily overriding HOME='/home/runner/work/_temp/90c7f47f-27c0-4258-b3d0-44f7436f85f1' before making global git config changes
+2026-10-29T22:34:26.3093508Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:34:26.3097541Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:34:26.3169472Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:34:26.3239325Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:34:26.3757644Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:34:26.3854846Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:34:26.4542563Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:34:26.4583591Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:34:26.5030317Z Cleaning up orphan processes
+2026-10-29T22:34:26.5525383Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

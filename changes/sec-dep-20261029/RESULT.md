@@ -1,3 +1,19 @@
+## SEC-DEP-20261029 — dependency remediation and affected G0 checks passed on candidate, 2026-10-30
+
+Owner explicitly authorized package-name/version disclosure to npm (55/6509972254), resolving the prior automatic review blocker. Existing integration tested executable 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7/tree7f1d37b57f31e93cfc96a9bdb38786bae1a3245d; main220fc2066b4d6254b1803b5e32919c47d60a9c7e and original five financial drafts unchanged. Official seroval1.6.11/node-server2.1.3 with generator-owned lock (2/1099records changed), unchanged age rule/vendor; no suppression/manual lock edit.
+
+Final IntegratedG0 40967812727 SUCCESS quality+supportedBun1.4audit(raw{}actualexit0), B1compat40967812714 SUCCESS, SECcontracts40967812725 SUCCESS. Normal frozenBun1.2.14 consumer, C414identity/all54SQL/frozenA+B, B29+C18mutationtests,94unit291expectations, types/lint0errors13warnings, actual callback10+7/bridge3/clock4+2controls, browser containment/financial-readUI, both builds/source invariance pass. Earlier request-boundary40966773248/B7regressions40966773290 pass ondb4; unchanged dependency/control blobs verified, not rerun claimed. Failed AST comparison/formatter/clock harness runs and final receipts preserved in changes/sec-dep-20261029.
+
+Only test harnesses/explicit C inventory extended for known C2; all application src/54SQL/frozenA+B/originalB verifier/tests preserved byte-exact. Full C financial/production acceptance and independent review NOT performed. Incidental originalG1runtime40966773360 FAILED old exact41_migrations contract; environment and complete cleanup passed, public artifacts retained. This remains an open integrated-C5 target/migration contract, not waived or retried unchanged. C3 legacy sale stays revoked; current UI/typeddb still needs C4 idempotent bridge. overall integration_accepted=false.
+
+ONE NEXT: C4/FIN-03 durable unresolved sale identity and typedRPC/UI transport/outcome bridge, preserving fractions and server idempotency; then C5 integrated54schema/browser/restore acceptance, C6 independent financial/security/dependency/source review, C7 owner merge decision. No merge/deploy/production/newcost/newPR/closure/historyrewrite. Old notices below are historical.
+
+[Native source-bound results and failed runs](NATIVE_RESULTS.md). [Raw ZIPs/logs and checksums](EVIDENCE_INDEX.json). [Original rejection resolved by explicit authorization](AUDIT_AUTHORIZATION.json). Rollback remains a normal additive revert; no permission to release prior vulnerable packages.
+
+---
+
+## Historical pre-consent preparation
+
 # SEC-DEP-20261029 — review candidate; audit authorization pending
 
 Sole claim55/6490972023. Base5b6da796/main220fc206 unchanged, original five financial drafts preserved. No branch advanced: existing integration automatically runs bun audit on these changes, and using CI would indirectly repeat the action rejected by automatic review. Candidate commit is for review only; no newPR/merge/deploy/production/newcost/history rewrite.

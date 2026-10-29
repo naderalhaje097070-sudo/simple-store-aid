@@ -1,0 +1,498 @@
+﻿2026-10-29T22:41:53.5772294Z Current runner version: '2.338.0'
+2026-10-29T22:41:53.5849635Z ##[group]Runner Image Provisioner
+2026-10-29T22:41:53.5851576Z Hosted Compute Agent
+2026-10-29T22:41:53.5852854Z Version: 20261021.618
+2026-10-29T22:41:53.5854126Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T22:41:53.5855690Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T22:41:53.5857033Z Worker ID: {f862976a-4ab3-4a18-952d-0f61fd898547}
+2026-10-29T22:41:53.5858338Z Region: eastus
+2026-10-29T22:41:53.5879880Z Cloud: Azure
+2026-10-29T22:41:53.5880973Z ##[endgroup]
+2026-10-29T22:41:53.5883477Z ##[group]Operating System
+2026-10-29T22:41:53.5884518Z Ubuntu
+2026-10-29T22:41:53.5885541Z 26.04.1
+2026-10-29T22:41:53.5886503Z LTS
+2026-10-29T22:41:53.5887576Z ##[endgroup]
+2026-10-29T22:41:53.5888954Z ##[group]Runner Image
+2026-10-29T22:41:53.5890157Z Image: ubuntu-26.04
+2026-10-29T22:41:53.5891283Z Version: 20261025.179.1
+2026-10-29T22:41:53.5893606Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-29T22:41:53.5896647Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-29T22:41:53.5918883Z ##[endgroup]
+2026-10-29T22:41:53.5920904Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T22:41:53.5923932Z Contents: read
+2026-10-29T22:41:53.5924933Z Metadata: read
+2026-10-29T22:41:53.5926051Z ##[endgroup]
+2026-10-29T22:41:53.5929790Z Secret source: Actions
+2026-10-29T22:41:53.5931348Z Cache mode: write
+2026-10-29T22:41:53.5932743Z Prepare workflow directory
+2026-10-29T22:41:53.7498355Z Prepare all required actions
+2026-10-29T22:41:53.7650740Z Getting action download info
+2026-10-29T22:41:53.9716631Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-29T22:41:54.0798157Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-10-29T22:41:54.1524317Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-29T22:41:54.2266879Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-29T22:41:54.4680265Z Complete job name: contracts
+2026-10-29T22:41:54.5629307Z ##[group]Run actions/checkout@v4
+2026-10-29T22:41:54.5630275Z with:
+2026-10-29T22:41:54.5630714Z   fetch-depth: 0
+2026-10-29T22:41:54.5631186Z   persist-credentials: false
+2026-10-29T22:41:54.5631778Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:41:54.5635792Z   token: ***
+2026-10-29T22:41:54.5636230Z   ssh-strict: true
+2026-10-29T22:41:54.5636673Z   ssh-user: git
+2026-10-29T22:41:54.5637094Z   clean: true
+2026-10-29T22:41:54.5637549Z   sparse-checkout-cone-mode: true
+2026-10-29T22:41:54.5638090Z   fetch-tags: false
+2026-10-29T22:41:54.5638751Z   show-progress: true
+2026-10-29T22:41:54.5639236Z   lfs: false
+2026-10-29T22:41:54.5639666Z   submodules: false
+2026-10-29T22:41:54.5640121Z   set-safe-directory: true
+2026-10-29T22:41:54.5640641Z   allow-unsafe-pr-checkout: false
+2026-10-29T22:41:54.5641461Z env:
+2026-10-29T22:41:54.5642006Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:54.5643225Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:41:54.5643808Z ##[endgroup]
+2026-10-29T22:41:54.8919726Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:41:54.8923754Z ##[group]Getting Git version info
+2026-10-29T22:41:54.8925640Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:41:54.8929355Z [command]/usr/bin/git version
+2026-10-29T22:41:54.8990901Z git version 2.56.0
+2026-10-29T22:41:54.9069268Z ##[endgroup]
+2026-10-29T22:41:54.9089949Z Temporarily overriding HOME='/home/runner/work/_temp/aea365bd-e531-4004-ba92-c431e94f5651' before making global git config changes
+2026-10-29T22:41:54.9094708Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:41:54.9099189Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:41:54.9152827Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:41:54.9171180Z ##[group]Initializing the repository
+2026-10-29T22:41:54.9174248Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:41:54.9289279Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T22:41:54.9295470Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T22:41:54.9311644Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T22:41:54.9331910Z hint: call:
+2026-10-29T22:41:54.9333841Z hint:
+2026-10-29T22:41:54.9336057Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T22:41:54.9339006Z hint:
+2026-10-29T22:41:54.9342002Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T22:41:54.9346047Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T22:41:54.9349742Z hint:
+2026-10-29T22:41:54.9351587Z hint: 	git branch -m <name>
+2026-10-29T22:41:54.9353689Z hint:
+2026-10-29T22:41:54.9356315Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T22:41:54.9361145Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-29T22:41:54.9369299Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:41:54.9428043Z ##[endgroup]
+2026-10-29T22:41:54.9451338Z ##[group]Disabling automatic garbage collection
+2026-10-29T22:41:54.9472854Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T22:41:54.9483523Z ##[endgroup]
+2026-10-29T22:41:54.9511633Z ##[group]Setting up auth
+2026-10-29T22:41:54.9525424Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:41:54.9570977Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:41:55.0205194Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:41:55.0239385Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:41:55.0545750Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:41:55.0585904Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:41:55.0880395Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T22:41:55.0934190Z ##[endgroup]
+2026-10-29T22:41:55.0938015Z ##[group]Fetching the repository
+2026-10-29T22:41:55.0949938Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-29T22:41:56.4220181Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:41:56.4249541Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-29T22:41:56.4289446Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-29T22:41:56.4310059Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-29T22:41:56.4317627Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-29T22:41:56.4339486Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-29T22:41:56.4361745Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-29T22:41:56.4379585Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-29T22:41:56.4389974Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-29T22:41:56.4391669Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-29T22:41:56.4393443Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-29T22:41:56.4395189Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-29T22:41:56.4396952Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-29T22:41:56.4399274Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-29T22:41:56.4400918Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-29T22:41:56.4402416Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-29T22:41:56.4403898Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-29T22:41:56.4405390Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-29T22:41:56.4407025Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-29T22:41:56.4409066Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-29T22:41:56.4410564Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-29T22:41:56.4412187Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-29T22:41:56.4413917Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-29T22:41:56.4415851Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-29T22:41:56.4417395Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-29T22:41:56.4418992Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-29T22:41:56.4420439Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-29T22:41:56.4421607Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-29T22:41:56.4540122Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-29T22:41:56.4541733Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-29T22:41:56.4543549Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-29T22:41:56.4544382Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-29T22:41:56.4545433Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-29T22:41:56.4546844Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-29T22:41:56.4548229Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-29T22:41:56.4550229Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:41:56.4551500Z  * [new branch]      main                    -> origin/main
+2026-10-29T22:41:56.4552603Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-29T22:41:56.4554002Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-29T22:41:56.4555629Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-29T22:41:56.4556906Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-29T22:41:56.4558125Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-29T22:41:56.4559835Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-29T22:41:56.4561138Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-29T22:41:56.4562337Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-29T22:41:56.4563787Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-29T22:41:56.4565448Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-29T22:41:56.4567082Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-29T22:41:56.4568834Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-29T22:41:56.4570153Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-29T22:41:56.4571444Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-29T22:41:56.4572699Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-29T22:41:56.4574166Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-29T22:41:56.4575782Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-29T22:41:56.4577090Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-29T22:41:56.4578279Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-29T22:41:56.4580592Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-29T22:41:56.4582073Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-29T22:41:56.4583683Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-29T22:41:56.4585294Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-29T22:41:56.4586797Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-29T22:41:56.4588199Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-29T22:41:56.4590590Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-29T22:41:56.4592220Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-29T22:41:56.4593788Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-29T22:41:56.4595473Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-29T22:41:56.4597017Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-29T22:41:56.4598341Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-29T22:41:56.4600236Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-29T22:41:56.4610441Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-29T22:41:56.4613643Z [command]/usr/bin/git branch --list --remote origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:41:56.4614863Z   origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:41:56.4617437Z [command]/usr/bin/git rev-parse refs/remotes/origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:41:56.4618970Z 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:56.4621289Z ##[endgroup]
+2026-10-29T22:41:56.4622307Z ##[group]Determining the checkout info
+2026-10-29T22:41:56.4623445Z ##[endgroup]
+2026-10-29T22:41:56.4624212Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T22:41:56.4626877Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T22:41:56.4630695Z ##[group]Checking out the ref
+2026-10-29T22:41:56.4632158Z [command]/usr/bin/git checkout --progress --force -B integration/g0-g1-reconcile-2026-10-18 refs/remotes/origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:41:56.6359141Z Switched to a new branch 'integration/g0-g1-reconcile-2026-10-18'
+2026-10-29T22:41:56.6379945Z branch 'integration/g0-g1-reconcile-2026-10-18' set up to track 'origin/integration/g0-g1-reconcile-2026-10-18'.
+2026-10-29T22:41:56.6383065Z ##[endgroup]
+2026-10-29T22:41:56.6482811Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T22:41:56.6504897Z 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:56.6549574Z ##[group]Removing auth
+2026-10-29T22:41:56.6569380Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:41:56.6607487Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:41:56.7049007Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:41:56.7086574Z http.https://github.com/.extraheader
+2026-10-29T22:41:56.7109402Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T22:41:56.7172485Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:41:56.7631874Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:41:56.7698064Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:41:56.8174038Z ##[endgroup]
+2026-10-29T22:41:56.8436742Z ##[group]Run actions/setup-node@v4
+2026-10-29T22:41:56.8437051Z with:
+2026-10-29T22:41:56.8437250Z   node-version: 24.22.1
+2026-10-29T22:41:56.8437475Z   always-auth: false
+2026-10-29T22:41:56.8437697Z   check-latest: false
+2026-10-29T22:41:56.8440292Z   token: ***
+2026-10-29T22:41:56.8440498Z env:
+2026-10-29T22:41:56.8440764Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:56.8441116Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:41:56.8441370Z ##[endgroup]
+2026-10-29T22:41:57.0033235Z Found in cache @ /opt/hostedtoolcache/node/24.22.1/x64
+2026-10-29T22:41:57.0041990Z ##[group]Environment details
+2026-10-29T22:41:57.0054648Z (node:2234) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:41:57.0056617Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:41:57.5660509Z node: v24.22.1
+2026-10-29T22:41:57.5679556Z npm: 11.19.1
+2026-10-29T22:41:57.5689453Z yarn: 1.22.22
+2026-10-29T22:41:57.5700325Z ##[endgroup]
+2026-10-29T22:41:57.5876550Z ##[group]Run actions/setup-python@v5
+2026-10-29T22:41:57.5876846Z with:
+2026-10-29T22:41:57.5877044Z   python-version: 3.12
+2026-10-29T22:41:57.5877271Z   check-latest: false
+2026-10-29T22:41:57.5879990Z   token: ***
+2026-10-29T22:41:57.5880215Z   update-environment: true
+2026-10-29T22:41:57.5880464Z   allow-prereleases: false
+2026-10-29T22:41:57.5880703Z   freethreaded: false
+2026-10-29T22:41:57.5880911Z env:
+2026-10-29T22:41:57.5881165Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:57.5881508Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:41:57.5881956Z ##[endgroup]
+2026-10-29T22:41:57.7358123Z ##[group]Installed versions
+2026-10-29T22:41:57.7493428Z (node:2266) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:41:57.7497333Z Successfully set up CPython (3.12.15)
+2026-10-29T22:41:57.7500778Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:41:57.7502232Z ##[endgroup]
+2026-10-29T22:41:57.7736999Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-29T22:41:57.7737441Z with:
+2026-10-29T22:41:57.7737741Z   bun-version: 1.2.14
+2026-10-29T22:41:57.7738082Z   no-cache: false
+2026-10-29T22:41:57.7742372Z   token: ***
+2026-10-29T22:41:57.7742681Z env:
+2026-10-29T22:41:57.7743092Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:57.7743651Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:41:57.7744142Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:57.7744846Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:41:57.7745566Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:57.7746180Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:57.7746822Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:57.7747455Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:41:57.7747976Z ##[endgroup]
+2026-10-29T22:41:58.1054832Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-10-29T22:41:58.4999597Z Received 34827867 of 34827867 (100.0%), 103.5 MBs/sec
+2026-10-29T22:41:58.5008320Z Cache Size: ~33 MB (34827867 B)
+2026-10-29T22:41:58.5231187Z [command]/usr/bin/tar -xf /home/runner/work/_temp/b47a9f8b-9125-4e57-929e-92ce84792411/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-29T22:41:58.9020873Z Cache restored successfully
+2026-10-29T22:41:58.9065914Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-29T22:41:58.9193158Z 1.2.14+6a363a38d
+2026-10-29T22:41:58.9230522Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-29T22:41:58.9500001Z ##[group]Run bun install --frozen-lockfile --ignore-scripts
+2026-10-29T22:41:58.9501010Z [36;1mbun install --frozen-lockfile --ignore-scripts[0m
+2026-10-29T22:41:58.9576665Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:41:58.9576939Z env:
+2026-10-29T22:41:58.9577232Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:41:58.9577626Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:41:58.9577970Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:58.9578808Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:41:58.9579304Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:58.9579718Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:58.9580127Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:41:58.9580540Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:41:58.9580909Z ##[endgroup]
+2026-10-29T22:41:58.9739453Z bun install v1.2.14 (6a363a38)
+2026-10-29T22:42:04.3591362Z 
+2026-10-29T22:42:04.3592165Z + @eslint/js@9.39.4
+2026-10-29T22:42:04.3592849Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-29T22:42:04.3593478Z + @types/node@22.19.17
+2026-10-29T22:42:04.3594159Z + @types/qrcode@1.5.6
+2026-10-29T22:42:04.3594709Z + @types/react@19.2.14
+2026-10-29T22:42:04.3601551Z + @types/react-dom@19.2.3
+2026-10-29T22:42:04.3602169Z + @vitejs/plugin-react@5.2.0
+2026-10-29T22:42:04.3602703Z + eslint@9.39.4
+2026-10-29T22:42:04.3603394Z + eslint-config-prettier@10.1.8
+2026-10-29T22:42:04.3604108Z + eslint-plugin-prettier@5.5.5
+2026-10-29T22:42:04.3619268Z + eslint-plugin-react-hooks@5.2.0
+2026-10-29T22:42:04.3626209Z + eslint-plugin-react-refresh@0.4.26
+2026-10-29T22:42:04.3648270Z + globals@15.15.0
+2026-10-29T22:42:04.3649206Z + nitro@3.0.260603-beta
+2026-10-29T22:42:04.3649708Z + prettier@3.8.3
+2026-10-29T22:42:04.3650518Z + seroval@1.6.11
+2026-10-29T22:42:04.3650982Z + typescript@5.9.3
+2026-10-29T22:42:04.3651495Z + typescript-eslint@8.59.0
+2026-10-29T22:42:04.3651988Z + vite@8.1.6
+2026-10-29T22:42:04.3652464Z + vite-plugin-pwa@1.3.0
+2026-10-29T22:42:04.3653107Z + workbox-window@7.4.1
+2026-10-29T22:42:04.3653741Z + @hookform/resolvers@5.2.2
+2026-10-29T22:42:04.3660784Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-29T22:42:04.3661455Z + @lovable.dev/email-js@0.1.0
+2026-10-29T22:42:04.3662031Z + @lovable.dev/mcp-js@0.20.1
+2026-10-29T22:42:04.3662636Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-29T22:42:04.3663256Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-29T22:42:04.3663898Z + @radix-ui/react-accordion@1.2.12
+2026-10-29T22:42:04.3664549Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-29T22:42:04.3665205Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-29T22:42:04.3665839Z + @radix-ui/react-avatar@1.1.11
+2026-10-29T22:42:04.3666441Z + @radix-ui/react-checkbox@1.3.3
+2026-10-29T22:42:04.3667066Z + @radix-ui/react-collapsible@1.1.12
+2026-10-29T22:42:04.3667707Z + @radix-ui/react-context-menu@2.2.16
+2026-10-29T22:42:04.3668331Z + @radix-ui/react-dialog@1.1.15
+2026-10-29T22:42:04.3669466Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-29T22:42:04.3676325Z + @radix-ui/react-hover-card@1.1.15
+2026-10-29T22:42:04.3676983Z + @radix-ui/react-label@2.1.8
+2026-10-29T22:42:04.3677610Z + @radix-ui/react-menubar@1.1.16
+2026-10-29T22:42:04.3678374Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-29T22:42:04.3679363Z + @radix-ui/react-popover@1.1.15
+2026-10-29T22:42:04.3694294Z + @radix-ui/react-progress@1.1.8
+2026-10-29T22:42:04.3695124Z + @radix-ui/react-radio-group@1.3.8
+2026-10-29T22:42:04.3699540Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-29T22:42:04.3700251Z + @radix-ui/react-select@2.2.6
+2026-10-29T22:42:04.3700872Z + @radix-ui/react-separator@1.1.8
+2026-10-29T22:42:04.3701490Z + @radix-ui/react-slider@1.3.6
+2026-10-29T22:42:04.3702044Z + @radix-ui/react-slot@1.2.4
+2026-10-29T22:42:04.3702607Z + @radix-ui/react-switch@1.2.6
+2026-10-29T22:42:04.3703168Z + @radix-ui/react-tabs@1.1.13
+2026-10-29T22:42:04.3703748Z + @radix-ui/react-toggle@1.1.10
+2026-10-29T22:42:04.3704763Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-29T22:42:04.3705502Z + @radix-ui/react-tooltip@1.2.8
+2026-10-29T22:42:04.3725703Z + @supabase/supabase-js@2.110.5
+2026-10-29T22:42:04.3726299Z + @tailwindcss/vite@4.2.4
+2026-10-29T22:42:04.3726917Z + @tanstack/react-query@5.100.1
+2026-10-29T22:42:04.3727605Z + @tanstack/react-router@1.170.41
+2026-10-29T22:42:04.3728290Z + @tanstack/react-start@1.168.60
+2026-10-29T22:42:04.3729373Z + @tanstack/router-plugin@1.168.42
+2026-10-29T22:42:04.3730110Z + class-variance-authority@0.7.1
+2026-10-29T22:42:04.3730686Z + clsx@2.1.1
+2026-10-29T22:42:04.3731152Z + cmdk@1.1.1
+2026-10-29T22:42:04.3731638Z + date-fns@4.1.0
+2026-10-29T22:42:04.3732200Z + embla-carousel-react@8.6.0
+2026-10-29T22:42:04.3732807Z + html2canvas@1.4.1
+2026-10-29T22:42:04.3733340Z + input-otp@1.4.2
+2026-10-29T22:42:04.3733833Z + jspdf@4.2.1
+2026-10-29T22:42:04.3734370Z + lucide-react@0.575.0
+2026-10-29T22:42:04.3734890Z + qrcode@1.5.4
+2026-10-29T22:42:04.3735364Z + react@19.2.5
+2026-10-29T22:42:04.3735903Z + react-day-picker@9.14.0
+2026-10-29T22:42:04.3736491Z + react-dom@19.2.5
+2026-10-29T22:42:04.3737030Z + react-hook-form@7.73.1
+2026-10-29T22:42:04.3737650Z + react-resizable-panels@4.10.0
+2026-10-29T22:42:04.3738243Z + recharts@2.15.4
+2026-10-29T22:42:04.3738926Z + sonner@2.0.7
+2026-10-29T22:42:04.3739385Z + tailwind-merge@3.5.0
+2026-10-29T22:42:04.3739863Z + tailwindcss@4.2.4
+2026-10-29T22:42:04.3740321Z + tw-animate-css@1.4.0
+2026-10-29T22:42:04.3740767Z + vaul@1.1.2
+2026-10-29T22:42:04.3741248Z + vite-tsconfig-paths@6.1.1
+2026-10-29T22:42:04.3741731Z + zod@4.6.6
+2026-10-29T22:42:04.3742013Z 
+2026-10-29T22:42:04.3742339Z 825 packages installed [5.39s]
+2026-10-29T22:42:04.3794099Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-10-29T22:42:04.3794587Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-10-29T22:42:04.3795014Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-10-29T22:42:04.3795584Z [36;1mpython tests/c-source/test_identity.py[0m
+2026-10-29T22:42:04.3826529Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:42:04.3826794Z env:
+2026-10-29T22:42:04.3827067Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:42:04.3827441Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:42:04.3827771Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:04.3828228Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:42:04.3829063Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:04.3829611Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:04.3830049Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:04.3830447Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:42:04.3830787Z ##[endgroup]
+2026-10-29T22:42:04.5479326Z {"source_sha": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7", "kind": "identity", "scope": "C3_plus_SEC_DEP_source_identity_only", "base_source": "5b6da796008de10dd429bb53cafdab365b108686", "head_sha": "5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7", "protected_blob_count": 414, "all_integrated_blobs_match": true, "migration_count": 54, "frozen_A_B_unchanged": true, "declared_changes": [".github/workflows/integration-verification.yml", "bun.lock", "package.json", "tests/day-close-clock/replay.mjs", "tests/g0-integrated-types/runtime.cjs", "tests/g01-acceptance/capture.py", "tests/unit/dependency-security.test.ts"], "declared_additions": [".github/workflows/sec-dep-20261029.yml", "tests/c-source/c_identity.py", "tests/c-source/quantity-bridge.cjs", "tests/c-source/quantity-bridge.test.cjs", "tests/c-source/test_identity.py", "tests/sec-dep-20261029/regressions.cjs", "tests/sec-dep-20261029/serde-child.cjs"], "financial_acceptance": false, "integration_accepted": false}
+2026-10-29T22:42:06.3720582Z .............................
+2026-10-29T22:42:06.3721646Z ----------------------------------------------------------------------
+2026-10-29T22:42:06.3722462Z Ran 29 tests in 1.519s
+2026-10-29T22:42:06.3722906Z 
+2026-10-29T22:42:06.3723196Z OK
+2026-10-29T22:42:07.6681430Z ..................
+2026-10-29T22:42:07.6699649Z ----------------------------------------------------------------------
+2026-10-29T22:42:07.6709540Z Ran 18 tests in 1.076s
+2026-10-29T22:42:07.6710004Z 
+2026-10-29T22:42:07.6710410Z OK
+2026-10-29T22:42:07.6867247Z ##[group]Run bun test tests/unit/dependency-security.test.ts
+2026-10-29T22:42:07.6868042Z [36;1mbun test tests/unit/dependency-security.test.ts[0m
+2026-10-29T22:42:07.6930002Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:42:07.6930427Z env:
+2026-10-29T22:42:07.6930892Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:42:07.6931541Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:42:07.6932113Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.6932897Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:42:07.6933712Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.6934423Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.6935118Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.6935792Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:42:07.6936358Z ##[endgroup]
+2026-10-29T22:42:07.7079742Z bun test v1.2.14 (6a363a38)
+2026-10-29T22:42:07.7329049Z 
+2026-10-29T22:42:07.7337680Z ##[group]tests/unit/dependency-security.test.ts:
+2026-10-29T22:42:07.7695682Z (pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [2.00ms]
+2026-10-29T22:42:07.7719952Z (pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7721685Z (pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy
+2026-10-29T22:42:07.7739816Z (pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7759564Z (pass) TanStack server-function XSS dependency boundary > vite has no vulnerable locked copy
+2026-10-29T22:42:07.7779646Z (pass) TanStack server-function XSS dependency boundary > launch-editor has no vulnerable locked copy
+2026-10-29T22:42:07.7787259Z (pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7820004Z (pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy
+2026-10-29T22:42:07.7821675Z (pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy
+2026-10-29T22:42:07.7823376Z (pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7824859Z (pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy
+2026-10-29T22:42:07.7826440Z (pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7828092Z (pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy
+2026-10-29T22:42:07.7829928Z (pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy
+2026-10-29T22:42:07.7832398Z (pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7835583Z (pass) TanStack server-function XSS dependency boundary > @hono/node-server has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7837208Z (pass) TanStack server-function XSS dependency boundary > @babel/core has no vulnerable locked copy
+2026-10-29T22:42:07.7839116Z (pass) TanStack server-function XSS dependency boundary > dompurify has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7840842Z (pass) TanStack server-function XSS dependency boundary > qs has no vulnerable locked copy
+2026-10-29T22:42:07.7842398Z (pass) TanStack server-function XSS dependency boundary > hono has no vulnerable locked copy
+2026-10-29T22:42:07.7846386Z (pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy [1.00ms]
+2026-10-29T22:42:07.7848243Z (pass) esbuild exception has no vulnerable or mismatched locked copy [1.00ms]
+2026-10-29T22:42:07.7850388Z 
+2026-10-29T22:42:07.7850913Z ##[endgroup]
+2026-10-29T22:42:07.7851122Z 
+2026-10-29T22:42:07.7851271Z  22 pass
+2026-10-29T22:42:07.7851591Z  0 fail
+2026-10-29T22:42:07.7851923Z  107 expect() calls
+2026-10-29T22:42:07.7852399Z Ran 22 tests across 1 files. [75.00ms]
+2026-10-29T22:42:07.7882267Z ##[group]Run node --test tests/g0-node-server/contracts.test.cjs
+2026-10-29T22:42:07.7882785Z [36;1mnode --test tests/g0-node-server/contracts.test.cjs[0m
+2026-10-29T22:42:07.7913732Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:42:07.7913984Z env:
+2026-10-29T22:42:07.7914264Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:42:07.7914629Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:42:07.7914962Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.7915412Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:42:07.7915862Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.7916262Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.7916639Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:07.7917023Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:42:07.7917357Z ##[endgroup]
+2026-10-29T22:42:07.9493746Z ✔ actual installed adapter resolves identically from SDK and root (1.312536ms)
+2026-10-29T22:42:07.9706285Z ✔ ordinary public and authorized protected files remain readable (30.06068ms)
+2026-10-29T22:42:07.9742172Z ✔ encoded-backslash-%5C must not bypass prefix authorization (3.239023ms)
+2026-10-29T22:42:07.9765708Z ✔ encoded-backslash-%5c must not bypass prefix authorization (2.812963ms)
+2026-10-29T22:42:07.9861758Z ✔ traversal repeated separators malformed encoding and missing file are rejected (8.52435ms)
+2026-10-29T22:42:07.9914947Z ✔ static HEAD and byte-range responses retain their body and header contracts (5.604937ms)
+2026-10-29T22:42:08.1789681Z ✔ actual adapter preserves HTTP POST status headers JSON and handled errors (8.565387ms)
+2026-10-29T22:42:08.2361789Z ✔ locked SDK Node transport uses real adapter for initialize list invoke and errors (235.861088ms)
+2026-10-29T22:42:08.2512894Z ℹ tests 8
+2026-10-29T22:42:08.2514917Z ℹ suites 0
+2026-10-29T22:42:08.2515629Z ℹ pass 8
+2026-10-29T22:42:08.2516393Z ℹ fail 0
+2026-10-29T22:42:08.2517036Z ℹ cancelled 0
+2026-10-29T22:42:08.2517691Z ℹ skipped 0
+2026-10-29T22:42:08.2518307Z ℹ todo 0
+2026-10-29T22:42:08.2519944Z ℹ duration_ms 420.953749
+2026-10-29T22:42:08.2616645Z ##[group]Run node tests/sec-dep-20261029/regressions.cjs
+2026-10-29T22:42:08.2617102Z [36;1mnode tests/sec-dep-20261029/regressions.cjs[0m
+2026-10-29T22:42:08.2649660Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:42:08.2650106Z env:
+2026-10-29T22:42:08.2650584Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:42:08.2651228Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:42:08.2651820Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.2652624Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:42:08.2653429Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.2654131Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.2654911Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.2655645Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:42:08.2656239Z ##[endgroup]
+2026-10-29T22:42:08.4154740Z {"mode":"patched","checks":[{"name":"ordinary public file remains readable","passed":true},{"name":"ordinary protected prefix refuses anonymous","passed":true},{"name":"ordinary protected prefix allows authorized","passed":true},{"name":"configured-router decode boundary matches expected mode","passed":true}],"observations":{"status":404,"protectedMarkerVisible":false,"guardCalls":0},"serde":{"mode":"patched","checks":[{"name":"ordinary cyclic/date/map/set/bigint/typed/regexp roundtrip","passed":true},{"name":"typed array own-constructor boundary matches expected mode","passed":true},{"name":"RegExp raw less-than boundary matches expected mode","passed":true},{"name":"array-list rejection matches expected mode","passed":true},{"name":"sequence-index rejection matches expected mode","passed":true},{"name":"reused stream id boundary matches expected mode","passed":true}],"observations":{"constructorWritten":false,"rawLessThan":false,"rejectedNodes":{"array-list":true,"sequence-index":true},"pluginOnCalls":0,"pluginSourceRejected":true},"arbitrary_output_evaluated":false,"unbounded_loop_executed":false},"router":"explicit first-decode fixture; not application default","arbitrary_application_exploit_claim":false}
+2026-10-29T22:42:08.4269377Z ##[group]Run git diff --exit-code
+2026-10-29T22:42:08.4269959Z [36;1mgit diff --exit-code[0m
+2026-10-29T22:42:08.4312769Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:42:08.4313038Z env:
+2026-10-29T22:42:08.4313320Z   EXPECTED_SOURCE: 5dcc330ee5c43cbd76b3e33f3e854ca8b009f9c7
+2026-10-29T22:42:08.4313697Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:42:08.4314011Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.4314439Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-10-29T22:42:08.4314896Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.4315293Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.4315681Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-10-29T22:42:08.4316076Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-10-29T22:42:08.4316649Z ##[endgroup]
+2026-10-29T22:42:08.5930427Z Post job cleanup.
+2026-10-29T22:42:09.0266666Z Post job cleanup.
+2026-10-29T22:42:09.2480157Z (node:3191) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:42:09.2483935Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:42:09.2695479Z Post job cleanup.
+2026-10-29T22:42:09.5117463Z (node:3199) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:42:09.5119649Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:42:09.5392901Z Post job cleanup.
+2026-10-29T22:42:09.6616040Z [command]/usr/bin/git version
+2026-10-29T22:42:09.6793345Z git version 2.56.0
+2026-10-29T22:42:09.6798930Z Temporarily overriding HOME='/home/runner/work/_temp/bc360c11-f9ee-4b74-b1af-07fb6053a533' before making global git config changes
+2026-10-29T22:42:09.6800749Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:42:09.6802090Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:42:09.6904559Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:42:09.7027683Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:42:09.8610815Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:42:09.8617003Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:42:09.8620727Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:42:09.8623310Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:42:09.8703678Z Cleaning up orphan processes
+2026-10-29T22:42:09.9060159Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -1,0 +1,512 @@
+﻿2026-10-29T22:38:21.1550829Z Current runner version: '2.338.0'
+2026-10-29T22:38:21.1590362Z ##[group]Runner Image Provisioner
+2026-10-29T22:38:21.1592210Z Hosted Compute Agent
+2026-10-29T22:38:21.1593474Z Version: 20261021.618
+2026-10-29T22:38:21.1594690Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-10-29T22:38:21.1596172Z Build Date: 2026-10-21T00:45:21Z
+2026-10-29T22:38:21.1597537Z Worker ID: {6c0b93fd-5b32-4fe6-ac94-1c5cb675403a}
+2026-10-29T22:38:21.1599055Z Region: centralus
+2026-10-29T22:38:21.1600178Z Cloud: Azure
+2026-10-29T22:38:21.1601335Z ##[endgroup]
+2026-10-29T22:38:21.1604733Z ##[group]Operating System
+2026-10-29T22:38:21.1605849Z Ubuntu
+2026-10-29T22:38:21.1606821Z 26.04.1
+2026-10-29T22:38:21.1607987Z LTS
+2026-10-29T22:38:21.1608967Z ##[endgroup]
+2026-10-29T22:38:21.1610178Z ##[group]Runner Image
+2026-10-29T22:38:21.1611438Z Image: ubuntu-26.04
+2026-10-29T22:38:21.1612852Z Version: 20261025.179.1
+2026-10-29T22:38:21.1615321Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-10-29T22:38:21.1618255Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-10-29T22:38:21.1619939Z ##[endgroup]
+2026-10-29T22:38:21.1622184Z ##[group]GITHUB_TOKEN Permissions
+2026-10-29T22:38:21.1625308Z Contents: read
+2026-10-29T22:38:21.1626290Z Metadata: read
+2026-10-29T22:38:21.1627318Z ##[endgroup]
+2026-10-29T22:38:21.1630253Z Secret source: Actions
+2026-10-29T22:38:21.1632468Z Cache mode: write
+2026-10-29T22:38:21.1634025Z Prepare workflow directory
+2026-10-29T22:38:21.2302513Z Prepare all required actions
+2026-10-29T22:38:21.2374848Z Getting action download info
+2026-10-29T22:38:21.5260709Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-29T22:38:21.6446745Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-10-29T22:38:22.0430960Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-10-29T22:38:22.2445624Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-29T22:38:22.4519312Z Complete job name: quality
+2026-10-29T22:38:22.5439735Z ##[group]Run actions/checkout@v4
+2026-10-29T22:38:22.5440723Z with:
+2026-10-29T22:38:22.5441202Z   fetch-depth: 0
+2026-10-29T22:38:22.5441958Z   ref: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:22.5442649Z   persist-credentials: false
+2026-10-29T22:38:22.5443302Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:38:22.5447279Z   token: ***
+2026-10-29T22:38:22.5447763Z   ssh-strict: true
+2026-10-29T22:38:22.5448245Z   ssh-user: git
+2026-10-29T22:38:22.5448715Z   clean: true
+2026-10-29T22:38:22.5449212Z   sparse-checkout-cone-mode: true
+2026-10-29T22:38:22.5449807Z   fetch-tags: false
+2026-10-29T22:38:22.5450300Z   show-progress: true
+2026-10-29T22:38:22.5450806Z   lfs: false
+2026-10-29T22:38:22.5451275Z   submodules: false
+2026-10-29T22:38:22.5451948Z   set-safe-directory: true
+2026-10-29T22:38:22.5452518Z   allow-unsafe-pr-checkout: false
+2026-10-29T22:38:22.5453380Z env:
+2026-10-29T22:38:22.5454012Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:22.5454756Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:22.5455304Z ##[endgroup]
+2026-10-29T22:38:22.8736802Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:38:22.8748258Z ##[group]Getting Git version info
+2026-10-29T22:38:22.8750813Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:38:22.8760321Z [command]/usr/bin/git version
+2026-10-29T22:38:22.8823505Z git version 2.56.0
+2026-10-29T22:38:22.8830492Z ##[endgroup]
+2026-10-29T22:38:22.8886437Z Temporarily overriding HOME='/home/runner/work/_temp/5b0399a7-d601-4e53-bc9b-a7c76a607c77' before making global git config changes
+2026-10-29T22:38:22.8889568Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:38:22.8892447Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:38:22.9024179Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-10-29T22:38:22.9063932Z ##[group]Initializing the repository
+2026-10-29T22:38:22.9080990Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:38:22.9208328Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-29T22:38:22.9211410Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-29T22:38:22.9216419Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-29T22:38:22.9218412Z hint: call:
+2026-10-29T22:38:22.9219259Z hint:
+2026-10-29T22:38:22.9220305Z hint: 	git config --global init.defaultBranch <name>
+2026-10-29T22:38:22.9240510Z hint:
+2026-10-29T22:38:22.9241704Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-29T22:38:22.9243808Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-29T22:38:22.9245196Z hint:
+2026-10-29T22:38:22.9245987Z hint: 	git branch -m <name>
+2026-10-29T22:38:22.9246899Z hint:
+2026-10-29T22:38:22.9248056Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-29T22:38:22.9263844Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-10-29T22:38:22.9270720Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:38:22.9335347Z ##[endgroup]
+2026-10-29T22:38:22.9337290Z ##[group]Disabling automatic garbage collection
+2026-10-29T22:38:22.9339675Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-29T22:38:22.9403523Z ##[endgroup]
+2026-10-29T22:38:22.9408077Z ##[group]Setting up auth
+2026-10-29T22:38:22.9409790Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:38:22.9473836Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:38:23.0175719Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:38:23.0210208Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:38:23.0508311Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:38:23.0549496Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:38:23.0845104Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-29T22:38:23.0890093Z ##[endgroup]
+2026-10-29T22:38:23.0892935Z ##[group]Fetching the repository
+2026-10-29T22:38:23.0902994Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-29T22:38:24.7954088Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-10-29T22:38:24.7962793Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-10-29T22:38:24.7964675Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-10-29T22:38:24.7976222Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-10-29T22:38:24.7977637Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-10-29T22:38:24.7978741Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-10-29T22:38:24.7979810Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-10-29T22:38:24.7981594Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-10-29T22:38:24.7983329Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-10-29T22:38:24.7984650Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-10-29T22:38:24.7986292Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-10-29T22:38:24.7988073Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-10-29T22:38:24.7989915Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-10-29T22:38:24.7991606Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-10-29T22:38:24.7994389Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-10-29T22:38:24.7995782Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-10-29T22:38:24.7997212Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-10-29T22:38:24.7998602Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-10-29T22:38:24.8000044Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-10-29T22:38:24.8001488Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-10-29T22:38:24.8002991Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-10-29T22:38:24.8004444Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-10-29T22:38:24.8006267Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-10-29T22:38:24.8008519Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-10-29T22:38:24.8009877Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-10-29T22:38:24.8011213Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-10-29T22:38:24.8012847Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-10-29T22:38:24.8014474Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-10-29T22:38:24.8016266Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-10-29T22:38:24.8017915Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-10-29T22:38:24.8019289Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-10-29T22:38:24.8020490Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-10-29T22:38:24.8021743Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-10-29T22:38:24.8023890Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-10-29T22:38:24.8025242Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-10-29T22:38:24.8026841Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-10-29T22:38:24.8028071Z  * [new branch]      main                    -> origin/main
+2026-10-29T22:38:24.8029046Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-10-29T22:38:24.8030261Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-10-29T22:38:24.8032319Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-10-29T22:38:24.8033452Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-10-29T22:38:24.8034837Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-10-29T22:38:24.8036062Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-10-29T22:38:24.8037119Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-10-29T22:38:24.8038006Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-10-29T22:38:24.8039182Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-10-29T22:38:24.8040717Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-10-29T22:38:24.8042805Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-10-29T22:38:24.8044236Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-10-29T22:38:24.8045491Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-10-29T22:38:24.8046787Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-10-29T22:38:24.8048146Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-10-29T22:38:24.8049543Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-10-29T22:38:24.8051159Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-10-29T22:38:24.8053086Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-10-29T22:38:24.8054905Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-10-29T22:38:24.8056663Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-10-29T22:38:24.8058010Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-10-29T22:38:24.8059422Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-10-29T22:38:24.8060832Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-10-29T22:38:24.8062341Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-10-29T22:38:24.8063162Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-10-29T22:38:24.8064738Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-10-29T22:38:24.8065679Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-10-29T22:38:24.8066491Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-10-29T22:38:24.8067471Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-10-29T22:38:24.8068638Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-10-29T22:38:24.8069360Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-10-29T22:38:24.8070058Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-10-29T22:38:24.8070758Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-10-29T22:38:24.8073443Z [command]/usr/bin/git rev-parse --verify --quiet ccf0d4c53561b9bc47458d90d18334331d9eccdc^{object}
+2026-10-29T22:38:24.8075023Z ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:24.8077230Z ##[endgroup]
+2026-10-29T22:38:24.8078118Z ##[group]Determining the checkout info
+2026-10-29T22:38:24.8079160Z ##[endgroup]
+2026-10-29T22:38:24.8079759Z [command]/usr/bin/git sparse-checkout disable
+2026-10-29T22:38:24.8096312Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-29T22:38:24.8144182Z ##[group]Checking out the ref
+2026-10-29T22:38:24.8148271Z [command]/usr/bin/git checkout --progress --force ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:25.0143257Z Note: switching to 'ccf0d4c53561b9bc47458d90d18334331d9eccdc'.
+2026-10-29T22:38:25.0162455Z 
+2026-10-29T22:38:25.0163462Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-29T22:38:25.0167587Z changes and commit them, and you can discard any commits you make in this
+2026-10-29T22:38:25.0192635Z state without impacting any branches by switching back to a branch.
+2026-10-29T22:38:25.0202322Z 
+2026-10-29T22:38:25.0212882Z If you want to create a new branch to retain commits you create, you may
+2026-10-29T22:38:25.0232806Z do so (now or later) by using -c with the switch command. Example:
+2026-10-29T22:38:25.0246944Z 
+2026-10-29T22:38:25.0268387Z   git switch -c <new-branch-name>
+2026-10-29T22:38:25.0292082Z 
+2026-10-29T22:38:25.0295035Z Or undo this operation with:
+2026-10-29T22:38:25.0312407Z 
+2026-10-29T22:38:25.0332610Z   git switch -
+2026-10-29T22:38:25.0333201Z 
+2026-10-29T22:38:25.0353013Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-29T22:38:25.0356390Z 
+2026-10-29T22:38:25.0373314Z HEAD is now at ccf0d4c test(g0): pin C2 behavior while preserving historical AST and live callback controls
+2026-10-29T22:38:25.0413747Z ##[endgroup]
+2026-10-29T22:38:25.0470782Z [command]/usr/bin/git log -1 --format=%H
+2026-10-29T22:38:25.0473476Z ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:25.0513084Z ##[group]Removing auth
+2026-10-29T22:38:25.0521749Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:38:25.0564249Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:38:25.0727764Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:38:25.0758883Z http.https://github.com/.extraheader
+2026-10-29T22:38:25.0764024Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-29T22:38:25.0805775Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:38:25.1090595Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:38:25.1125674Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:38:25.1427014Z ##[endgroup]
+2026-10-29T22:38:25.1699944Z ##[group]Run oven-sh/setup-bun@v2
+2026-10-29T22:38:25.1700320Z with:
+2026-10-29T22:38:25.1700576Z   bun-version: 1.2.14
+2026-10-29T22:38:25.1700854Z   no-cache: false
+2026-10-29T22:38:25.1703699Z   token: ***
+2026-10-29T22:38:25.1703955Z env:
+2026-10-29T22:38:25.1704268Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:25.1704684Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:25.1704985Z ##[endgroup]
+2026-10-29T22:38:25.5620493Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-10-29T22:38:26.5606624Z Received 34827867 of 34827867 (100.0%), 40.2 MBs/sec
+2026-10-29T22:38:26.5609061Z Cache Size: ~33 MB (34827867 B)
+2026-10-29T22:38:26.5645234Z [command]/usr/bin/tar -xf /home/runner/work/_temp/1a393807-0d16-4c29-9785-654e614b3f9e/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-10-29T22:38:26.7832333Z Cache restored successfully
+2026-10-29T22:38:26.7879138Z [command]/home/runner/.bun/bin/bun --revision
+2026-10-29T22:38:26.7978435Z 1.2.14+6a363a38d
+2026-10-29T22:38:26.7979197Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-10-29T22:38:26.8196098Z ##[group]Run bun install --frozen-lockfile
+2026-10-29T22:38:26.8196522Z [36;1mbun install --frozen-lockfile[0m
+2026-10-29T22:38:26.8232646Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:38:26.8232941Z env:
+2026-10-29T22:38:26.8233225Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:26.8233605Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:26.8233869Z ##[endgroup]
+2026-10-29T22:38:26.8369738Z bun install v1.2.14 (6a363a38)
+2026-10-29T22:38:34.6193678Z 
+2026-10-29T22:38:34.6194406Z + @eslint/js@9.39.4
+2026-10-29T22:38:34.6195018Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-10-29T22:38:34.6195645Z + @types/node@22.19.17
+2026-10-29T22:38:34.6196294Z + @types/qrcode@1.5.6
+2026-10-29T22:38:34.6196817Z + @types/react@19.2.14
+2026-10-29T22:38:34.6197293Z + @types/react-dom@19.2.3
+2026-10-29T22:38:34.6198204Z + @vitejs/plugin-react@5.2.0
+2026-10-29T22:38:34.6198765Z + eslint@9.39.4
+2026-10-29T22:38:34.6199270Z + eslint-config-prettier@10.1.8
+2026-10-29T22:38:34.6199947Z + eslint-plugin-prettier@5.5.5
+2026-10-29T22:38:34.6200541Z + eslint-plugin-react-hooks@5.2.0
+2026-10-29T22:38:34.6201151Z + eslint-plugin-react-refresh@0.4.26
+2026-10-29T22:38:34.6201739Z + globals@15.15.0
+2026-10-29T22:38:34.6202861Z + nitro@3.0.260603-beta
+2026-10-29T22:38:34.6203358Z + prettier@3.8.3
+2026-10-29T22:38:34.6203844Z + seroval@1.6.11
+2026-10-29T22:38:34.6204457Z + typescript@5.9.3
+2026-10-29T22:38:34.6204952Z + typescript-eslint@8.59.0
+2026-10-29T22:38:34.6205462Z + vite@8.1.6
+2026-10-29T22:38:34.6206023Z + vite-plugin-pwa@1.3.0
+2026-10-29T22:38:34.6206546Z + workbox-window@7.4.1
+2026-10-29T22:38:34.6207032Z + @hookform/resolvers@5.2.2
+2026-10-29T22:38:34.6207561Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-10-29T22:38:34.6208121Z + @lovable.dev/email-js@0.1.0
+2026-10-29T22:38:34.6208646Z + @lovable.dev/mcp-js@0.20.1
+2026-10-29T22:38:34.6209156Z + @lovable.dev/webhooks-js@0.0.1
+2026-10-29T22:38:34.6209692Z + @paddle/paddle-node-sdk@3.8.0
+2026-10-29T22:38:34.6210257Z + @radix-ui/react-accordion@1.2.12
+2026-10-29T22:38:34.6210816Z + @radix-ui/react-alert-dialog@1.1.15
+2026-10-29T22:38:34.6211393Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-10-29T22:38:34.6212299Z + @radix-ui/react-avatar@1.1.11
+2026-10-29T22:38:34.6212855Z + @radix-ui/react-checkbox@1.3.3
+2026-10-29T22:38:34.6213425Z + @radix-ui/react-collapsible@1.1.12
+2026-10-29T22:38:34.6214019Z + @radix-ui/react-context-menu@2.2.16
+2026-10-29T22:38:34.6214663Z + @radix-ui/react-dialog@1.1.15
+2026-10-29T22:38:34.6215312Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-10-29T22:38:34.6215966Z + @radix-ui/react-hover-card@1.1.15
+2026-10-29T22:38:34.6216584Z + @radix-ui/react-label@2.1.8
+2026-10-29T22:38:34.6217183Z + @radix-ui/react-menubar@1.1.16
+2026-10-29T22:38:34.6217823Z + @radix-ui/react-navigation-menu@1.2.14
+2026-10-29T22:38:34.6218474Z + @radix-ui/react-popover@1.1.15
+2026-10-29T22:38:34.6219151Z + @radix-ui/react-progress@1.1.8
+2026-10-29T22:38:34.6219768Z + @radix-ui/react-radio-group@1.3.8
+2026-10-29T22:38:34.6220417Z + @radix-ui/react-scroll-area@1.2.10
+2026-10-29T22:38:34.6221076Z + @radix-ui/react-select@2.2.6
+2026-10-29T22:38:34.6221717Z + @radix-ui/react-separator@1.1.8
+2026-10-29T22:38:34.6223038Z + @radix-ui/react-slider@1.3.6
+2026-10-29T22:38:34.6223593Z + @radix-ui/react-slot@1.2.4
+2026-10-29T22:38:34.6224116Z + @radix-ui/react-switch@1.2.6
+2026-10-29T22:38:34.6224628Z + @radix-ui/react-tabs@1.1.13
+2026-10-29T22:38:34.6225153Z + @radix-ui/react-toggle@1.1.10
+2026-10-29T22:38:34.6225696Z + @radix-ui/react-toggle-group@1.1.11
+2026-10-29T22:38:34.6226272Z + @radix-ui/react-tooltip@1.2.8
+2026-10-29T22:38:34.6226796Z + @supabase/supabase-js@2.110.5
+2026-10-29T22:38:34.6227305Z + @tailwindcss/vite@4.2.4
+2026-10-29T22:38:34.6227801Z + @tanstack/react-query@5.100.1
+2026-10-29T22:38:34.6228845Z + @tanstack/react-router@1.170.41
+2026-10-29T22:38:34.6229403Z + @tanstack/react-start@1.168.60
+2026-10-29T22:38:34.6229953Z + @tanstack/router-plugin@1.168.42
+2026-10-29T22:38:34.6230526Z + class-variance-authority@0.7.1
+2026-10-29T22:38:34.6231323Z + clsx@2.1.1
+2026-10-29T22:38:34.6231976Z + cmdk@1.1.1
+2026-10-29T22:38:34.6232503Z + date-fns@4.1.0
+2026-10-29T22:38:34.6232993Z + embla-carousel-react@8.6.0
+2026-10-29T22:38:34.6233512Z + html2canvas@1.4.1
+2026-10-29T22:38:34.6233981Z + input-otp@1.4.2
+2026-10-29T22:38:34.6234427Z + jspdf@4.2.1
+2026-10-29T22:38:34.6234877Z + lucide-react@0.575.0
+2026-10-29T22:38:34.6235361Z + qrcode@1.5.4
+2026-10-29T22:38:34.6235799Z + react@19.2.5
+2026-10-29T22:38:34.6236248Z + react-day-picker@9.14.0
+2026-10-29T22:38:34.6236752Z + react-dom@19.2.5
+2026-10-29T22:38:34.6237225Z + react-hook-form@7.73.1
+2026-10-29T22:38:34.6237756Z + react-resizable-panels@4.10.0
+2026-10-29T22:38:34.6238289Z + recharts@2.15.4
+2026-10-29T22:38:34.6238737Z + sonner@2.0.7
+2026-10-29T22:38:34.6239208Z + tailwind-merge@3.5.0
+2026-10-29T22:38:34.6239687Z + tailwindcss@4.2.4
+2026-10-29T22:38:34.6240152Z + tw-animate-css@1.4.0
+2026-10-29T22:38:34.6240613Z + vaul@1.1.2
+2026-10-29T22:38:34.6241056Z + vite-tsconfig-paths@6.1.1
+2026-10-29T22:38:34.6241563Z + zod@4.6.6
+2026-10-29T22:38:34.6242292Z 
+2026-10-29T22:38:34.6242613Z 825 packages installed [7.79s]
+2026-10-29T22:38:34.6382845Z ##[group]Run node scripts/format-generated.mjs --check
+2026-10-29T22:38:34.6383467Z [36;1mnode scripts/format-generated.mjs --check[0m
+2026-10-29T22:38:34.6420434Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:38:34.6444723Z env:
+2026-10-29T22:38:34.6445201Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:34.6445841Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:34.6446299Z ##[endgroup]
+2026-10-29T22:38:34.9918278Z GENERATED_FORMAT_CHECK_PASS: 9
+2026-10-29T22:38:35.0047234Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-10-29T22:38:35.0047729Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-10-29T22:38:35.0048181Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-10-29T22:38:35.0048586Z [36;1mpython tests/c-source/test_identity.py[0m
+2026-10-29T22:38:35.0081065Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:38:35.0081330Z env:
+2026-10-29T22:38:35.0081602Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:35.0082326Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:35.0082601Z ##[endgroup]
+2026-10-29T22:38:35.1164452Z {"source_sha": "ccf0d4c53561b9bc47458d90d18334331d9eccdc", "kind": "identity", "scope": "C3_plus_SEC_DEP_source_identity_only", "base_source": "5b6da796008de10dd429bb53cafdab365b108686", "head_sha": "ccf0d4c53561b9bc47458d90d18334331d9eccdc", "protected_blob_count": 414, "all_integrated_blobs_match": true, "migration_count": 54, "frozen_A_B_unchanged": true, "declared_changes": [".github/workflows/integration-verification.yml", "bun.lock", "package.json", "tests/g0-integrated-types/runtime.cjs", "tests/g01-acceptance/capture.py", "tests/unit/dependency-security.test.ts"], "declared_additions": [".github/workflows/sec-dep-20261029.yml", "tests/c-source/c_identity.py", "tests/c-source/quantity-bridge.cjs", "tests/c-source/quantity-bridge.test.cjs", "tests/c-source/test_identity.py", "tests/sec-dep-20261029/regressions.cjs", "tests/sec-dep-20261029/serde-child.cjs"], "financial_acceptance": false, "integration_accepted": false}
+2026-10-29T22:38:36.6928117Z .............................
+2026-10-29T22:38:36.6929118Z ----------------------------------------------------------------------
+2026-10-29T22:38:36.6930024Z Ran 29 tests in 1.456s
+2026-10-29T22:38:36.6930453Z 
+2026-10-29T22:38:36.6930791Z OK
+2026-10-29T22:38:37.7443358Z ..................
+2026-10-29T22:38:37.7444231Z ----------------------------------------------------------------------
+2026-10-29T22:38:37.7445116Z Ran 18 tests in 0.963s
+2026-10-29T22:38:37.7445622Z 
+2026-10-29T22:38:37.7446189Z OK
+2026-10-29T22:38:37.7625490Z ##[group]Run bun run typecheck
+2026-10-29T22:38:37.7625992Z [36;1mbun run typecheck[0m
+2026-10-29T22:38:37.7655867Z shell: /usr/bin/bash -e {0}
+2026-10-29T22:38:37.7656135Z env:
+2026-10-29T22:38:37.7656407Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:37.7656777Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:37.7657036Z ##[endgroup]
+2026-10-29T22:38:37.7742451Z $ tsc --noEmit
+2026-10-29T22:38:48.3659492Z ##[group]Run set -euo pipefail
+2026-10-29T22:38:48.3660056Z [36;1mset -euo pipefail[0m
+2026-10-29T22:38:48.3660550Z [36;1mbun run lint 2>&1 | tee /tmp/lint.log[0m
+2026-10-29T22:38:48.3701980Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-29T22:38:48.3702593Z env:
+2026-10-29T22:38:48.3703056Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:48.3703709Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:48.3704155Z ##[endgroup]
+2026-10-29T22:38:48.3882732Z $ eslint .
+2026-10-29T22:38:58.3372483Z 
+2026-10-29T22:38:58.3373426Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/DateRangeFilter.tsx
+2026-10-29T22:38:58.3375238Z   19:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3377043Z   53:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3378830Z   58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3380020Z 
+2026-10-29T22:38:58.3380416Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/badge.tsx
+2026-10-29T22:38:58.3382420Z   32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3383848Z 
+2026-10-29T22:38:58.3384338Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/button.tsx
+2026-10-29T22:38:58.3385922Z   49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3387107Z 
+2026-10-29T22:38:58.3387582Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/form.tsx
+2026-10-29T22:38:58.3389181Z   163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3390359Z 
+2026-10-29T22:38:58.3390912Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/navigation-menu.tsx
+2026-10-29T22:38:58.3392940Z   111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3394253Z 
+2026-10-29T22:38:58.3394757Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/sidebar.tsx
+2026-10-29T22:38:58.3396327Z   743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3397530Z 
+2026-10-29T22:38:58.3398005Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/toggle.tsx
+2026-10-29T22:38:58.3399566Z   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3400745Z 
+2026-10-29T22:38:58.3401319Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/inventory/AddProductSheet.tsx
+2026-10-29T22:38:58.3402887Z    1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+2026-10-29T22:38:58.3405554Z   53:6  warning  React Hook useEffect has a missing dependency: 'initial'. Either include it or remove the dependency array. If 'setPrice' needs the current value of 'initial', you can also switch to useReducer instead of useState and read 'initial' in the reducer  react-hooks/exhaustive-deps
+2026-10-29T22:38:58.3407655Z 
+2026-10-29T22:38:58.3408172Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/shared/Money.tsx
+2026-10-29T22:38:58.3409768Z   4:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-10-29T22:38:58.3410866Z 
+2026-10-29T22:38:58.3411341Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c-source/quantity-bridge.cjs
+2026-10-29T22:38:58.3416168Z    8:16  error  Replace `⏎····arguments.length,⏎····2,⏎····"Quantity·bridge·accepts·no·caller-selected·ref·or·override",⏎··` with `arguments.length,·2,·"Quantity·bridge·accepts·no·caller-selected·ref·or·override"`  prettier/prettier
+2026-10-29T22:38:58.3419156Z   14:24  error  Delete `⏎···`                                                                                                                                                                                          prettier/prettier
+2026-10-29T22:38:58.3421509Z   20:16  error  Replace `⏎····actual,⏎····read(AFTER),⏎····"Unreviewed·current·module·mutation·from·tested·C2",⏎··` with `actual,·read(AFTER),·"Unreviewed·current·module·mutation·from·tested·C2"`                    prettier/prettier
+2026-10-29T22:38:58.3423486Z 
+2026-10-29T22:38:58.3424087Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c-source/quantity-bridge.test.cjs
+2026-10-29T22:38:58.3426235Z    5:8   error  Replace `⏎··historicalQuantitySource,⏎··BEFORE,⏎··AFTER,⏎··FILES,⏎` with `·historicalQuantitySource,·BEFORE,·AFTER,·FILES·`                                                                      prettier/prettier
+2026-10-29T22:38:58.3429118Z   19:19  error  Replace `⏎······()·=>·historicalQuantitySource(file,·current·+·"\n//·mutation"),⏎······/Unreviewed/,⏎····` with `()·=>·historicalQuantitySource(file,·current·+·"\n//·mutation"),·/Unreviewed/`  prettier/prettier
+2026-10-29T22:38:58.3432379Z   23:19  error  Replace `⏎······()·=>·historicalQuantitySource(file,·current,·BEFORE),⏎······/no·caller-selected/,⏎····` with `()·=>·historicalQuantitySource(file,·current,·BEFORE),·/no·caller-selected/`      prettier/prettier
+2026-10-29T22:38:58.3435042Z   27:42  error  Replace `⏎······?·"p_paid:·input.paid"⏎·····` with `·?·"p_paid:·input.paid"`                                                                                                                     prettier/prettier
+2026-10-29T22:38:58.3437538Z   30:18  error  Replace `⏎······current.split(needle).length·-·1,⏎······file.endsWith("db.ts")·?·1·:·2,⏎····` with `current.split(needle).length·-·1,·file.endsWith("db.ts")·?·1·:·2`                            prettier/prettier
+2026-10-29T22:38:58.3440334Z   38:27  error  Replace `⏎············needle,⏎············needle·+·(file.endsWith("db.ts")·?·"·+·1"·:·"·false·&&"),⏎··········` with `needle,·needle·+·(file.endsWith("db.ts")·?·"·+·1"·:·"·false·&&")`          prettier/prettier
+2026-10-29T22:38:58.3443325Z   45:19  error  Replace `⏎······()·=>·historicalQuantitySource(file,·read(BEFORE,·file)),⏎······/Unreviewed/,⏎····` with `()·=>·historicalQuantitySource(file,·read(BEFORE,·file)),·/Unreviewed/`                prettier/prettier
+2026-10-29T22:38:58.3444858Z 
+2026-10-29T22:38:58.3445348Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c2-quantity/fixture.tsx
+2026-10-29T22:38:58.3446718Z   6:10  warning  Fast refresh only works when a file has exports. Move your component(s) to a separate file  react-refresh/only-export-components
+2026-10-29T22:38:58.3447675Z 
+2026-10-29T22:38:58.3448215Z /home/runner/work/simple-store-aid/simple-store-aid/tests/g0-integrated-types/runtime.cjs
+2026-10-29T22:38:58.3450484Z     6:8   error  Replace `⏎··historicalWebhookSource,⏎` with `·historicalWebhookSource·`                                                                                                                                                           prettier/prettier
+2026-10-29T22:38:58.3453440Z    56:17  error  Replace `⏎······.map((x)·=>·canon(x,·file,·revised))⏎······` with `.map((x)·=>·canon(x,·file,·revised))`                                                                                                                          prettier/prettier
+2026-10-29T22:38:58.3456375Z    61:9   error  Replace `⏎······value.type·===·"VariableDeclaration"·&&⏎······value.declarations.length·===·1⏎····` with `value.type·===·"VariableDeclaration"·&&·value.declarations.length·===·1`                                                prettier/prettier
+2026-10-29T22:38:58.3459711Z    66:11  error  Replace `⏎········d.id.name·===·"rpcClient"·&&⏎········d.init.type·===·"Identifier"·&&⏎········d.init.name·===·"supabase"⏎······` with `d.id.name·===·"rpcClient"·&&·d.init.type·===·"Identifier"·&&·d.init.name·===·"supabase"`  prettier/prettier
+2026-10-29T22:38:58.3463302Z   101:9   error  Replace `⏎······value.type·===·"VariableDeclaration"·&&⏎······value.declarations.length·===·1⏎····` with `value.type·===·"VariableDeclaration"·&&·value.declarations.length·===·1`                                                prettier/prettier
+2026-10-29T22:38:58.3466162Z   140:61  error  Replace `⏎····"InvoiceDetailScreen",⏎··` with `"InvoiceDetailScreen"`                                                                                                                                                             prettier/prettier
+2026-10-29T22:38:58.3468332Z   149:24  error  Delete `⏎·····`                                                                                                                                                                                                                   prettier/prettier
+2026-10-29T22:38:58.3471114Z   151:9   error  Replace `⏎······declaration?.type·===·"FunctionDeclaration"·&&⏎······changed.has(declaration.id.name)⏎····` with `declaration?.type·===·"FunctionDeclaration"·&&·changed.has(declaration.id.name)`                                prettier/prettier
+2026-10-29T22:38:58.3474896Z   199:14  error  Replace `⏎······historicalQuantitySource(file,·historicalWebhookSource(file,·after)),⏎······file,⏎····` with `historicalQuantitySource(file,·historicalWebhookSource(file,·after)),·file`                                         prettier/prettier
+2026-10-29T22:38:58.3478333Z   221:22  error  Replace `⏎··········(currentFormula.match(/const·todayKey·=·p\.todayKey;/g)·||·[]).length,⏎··········1,⏎········` with `(currentFormula.match(/const·todayKey·=·p\.todayKey;/g)·||·[]).length,·1`                                 prettier/prettier
+2026-10-29T22:38:58.3481617Z   231:15  error  Replace `⏎··········ast(emit(`function·formula()·${originalFormula}`,·file)),⏎··········file,⏎··········false,⏎········` with `ast(emit(`function·formula()·${originalFormula}`,·file)),·file,·false`                             prettier/prettier
+2026-10-29T22:38:58.3485395Z   236:15  error  Replace `⏎··········ast(emit(`function·formula()·${currentFormula}`,·file)),⏎··········file,⏎··········false,⏎········` with `ast(emit(`function·formula()·${currentFormula}`,·file)),·file,·false`                               prettier/prettier
+2026-10-29T22:38:58.3488615Z   261:31  error  Replace `⏎··quantitySource·+·"\nreturn·{·isQuantity,·QUANTITY_ERROR·};·",⏎` with `quantitySource·+·"\nreturn·{·isQuantity,·QUANTITY_ERROR·};·"`                                                                                   prettier/prettier
+2026-10-29T22:38:58.3491410Z   272:22  error  Replace `⏎····.replace(/^import[^;]+;\n/gm,·"")⏎····` with `.replace(/^import[^;]+;\n/gm,·"")`                                                                                                                                    prettier/prettier
+2026-10-29T22:38:58.3493839Z   282:11  error  Delete `⏎·····`                                                                                                                                                                                                                   prettier/prettier
+2026-10-29T22:38:58.3496677Z   307:35  error  Replace `⏎··········.useTenantTodayEstimate("tenant-fixture")⏎··········` with `.useTenantTodayEstimate("tenant-fixture")`                                                                                                        prettier/prettier
+2026-10-29T22:38:58.3499450Z   328:35  error  Replace `⏎··········.useDeleteProduct("tenant-fixture")⏎··········` with `.useDeleteProduct("tenant-fixture")`                                                                                                                    prettier/prettier
+2026-10-29T22:38:58.3502273Z   413:25  error  Replace `⏎······.useCreateSale("tenant-fixture")⏎······` with `.useCreateSale("tenant-fixture")`                                                                                                                                  prettier/prettier
+2026-10-29T22:38:58.3504800Z   433:14  error  Replace `⏎······.useCreateSale("tenant-fixture")⏎······` with `.useCreateSale("tenant-fixture")`                                                                                                                                  prettier/prettier
+2026-10-29T22:38:58.3507484Z   441:36  error  Replace `⏎····"p_paid:·input.paid",⏎····"p_paid:·input.paid·+·1",⏎··` with `"p_paid:·input.paid",·"p_paid:·input.paid·+·1"`                                                                                                       prettier/prettier
+2026-10-29T22:38:58.3509969Z   454:69  error  Replace `⏎··········file,⏎··········[...names],⏎········` with `file,·[...names]`                                                                                                                                                 prettier/prettier
+2026-10-29T22:38:58.3511120Z 
+2026-10-29T22:38:58.3511456Z ✖ 44 problems (31 errors, 13 warnings)
+2026-10-29T22:38:58.3512406Z   31 errors and 1 warning potentially fixable with the `--fix` option.
+2026-10-29T22:38:58.3512971Z 
+2026-10-29T22:38:58.5107641Z error: script "lint" exited with code 1
+2026-10-29T22:38:58.5137513Z ##[error]Process completed with exit code 1.
+2026-10-29T22:38:58.5290717Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T22:38:58.5291105Z with:
+2026-10-29T22:38:58.5291321Z   name: quality-diagnostics
+2026-10-29T22:38:58.5292309Z   path: /tmp/lint-files.txt
+/tmp/lint.log
+/home/runner/work/_temp/app-financial-read/browser.json
+/home/runner/work/_temp/app-financial-read/replay.json
+
+2026-10-29T22:38:58.5293014Z   if-no-files-found: warn
+2026-10-29T22:38:58.5293277Z   compression-level: 6
+2026-10-29T22:38:58.5293510Z   overwrite: false
+2026-10-29T22:38:58.5293747Z   include-hidden-files: false
+2026-10-29T22:38:58.5293996Z env:
+2026-10-29T22:38:58.5294268Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:58.5294634Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:58.5294910Z ##[endgroup]
+2026-10-29T22:38:58.7673413Z (node:3141) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:38:58.7685051Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:38:58.8512996Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-29T22:38:58.8518138Z The least common ancestor is /. This will be the root directory of the artifact
+2026-10-29T22:38:58.8519322Z With the provided path, there will be 1 file uploaded
+2026-10-29T22:38:58.8520942Z Artifact name is valid!
+2026-10-29T22:38:58.8522157Z Root directory input is valid!
+2026-10-29T22:38:59.0557200Z Beginning upload of artifact content to blob storage
+2026-10-29T22:38:59.0835640Z (node:3141) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T22:38:59.2467143Z Uploaded bytes 2130
+2026-10-29T22:38:59.3028033Z Finished uploading artifact content to blob storage!
+2026-10-29T22:38:59.3029999Z SHA256 digest of uploaded artifact zip is 3732b4339ab3015db07dc8d7dd4a457aa8c4dbe894ff857bf7477c2700e9ea88
+2026-10-29T22:38:59.3032091Z Finalizing artifact upload
+2026-10-29T22:38:59.7128815Z Artifact quality-diagnostics.zip successfully finalized. Artifact ID 12938802871
+2026-10-29T22:38:59.7129967Z Artifact quality-diagnostics has been successfully uploaded! Final size is 2130 bytes. Artifact ID is 12938802871
+2026-10-29T22:38:59.7131540Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40967377810/artifacts/12938802871
+2026-10-29T22:38:59.7292543Z ##[group]Run actions/upload-artifact@v4
+2026-10-29T22:38:59.7292900Z with:
+2026-10-29T22:38:59.7293137Z   name: integration-source-identity
+2026-10-29T22:38:59.7293519Z   path: /home/runner/work/_temp/g01-evidence/identity.json
+2026-10-29T22:38:59.7293887Z   retention-days: 7
+2026-10-29T22:38:59.7294129Z   if-no-files-found: warn
+2026-10-29T22:38:59.7294391Z   compression-level: 6
+2026-10-29T22:38:59.7294625Z   overwrite: false
+2026-10-29T22:38:59.7294859Z   include-hidden-files: false
+2026-10-29T22:38:59.7295117Z env:
+2026-10-29T22:38:59.7295391Z   EXPECTED_SOURCE: ccf0d4c53561b9bc47458d90d18334331d9eccdc
+2026-10-29T22:38:59.7295767Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-29T22:38:59.7296030Z ##[endgroup]
+2026-10-29T22:38:59.9046166Z (node:3153) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-29T22:38:59.9048106Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-29T22:38:59.9153692Z With the provided path, there will be 1 file uploaded
+2026-10-29T22:38:59.9156545Z Artifact name is valid!
+2026-10-29T22:38:59.9157620Z Root directory input is valid!
+2026-10-29T22:39:00.1737575Z Beginning upload of artifact content to blob storage
+2026-10-29T22:39:00.1947866Z (node:3153) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-29T22:39:00.3350046Z Uploaded bytes 607
+2026-10-29T22:39:00.3820075Z Finished uploading artifact content to blob storage!
+2026-10-29T22:39:00.3821292Z SHA256 digest of uploaded artifact zip is a67e89c140906a663ddfea456027d83e9fd5a87c51eb2546df42590bc3c84358
+2026-10-29T22:39:00.3836078Z Finalizing artifact upload
+2026-10-29T22:39:00.8792546Z Artifact integration-source-identity.zip successfully finalized. Artifact ID 12939270223
+2026-10-29T22:39:00.8794873Z Artifact integration-source-identity has been successfully uploaded! Final size is 607 bytes. Artifact ID is 12939270223
+2026-10-29T22:39:00.8801437Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/40967377810/artifacts/12939270223
+2026-10-29T22:39:00.9016572Z Post job cleanup.
+2026-10-29T22:39:01.0099142Z [command]/usr/bin/git version
+2026-10-29T22:39:01.0174853Z git version 2.56.0
+2026-10-29T22:39:01.0244816Z Temporarily overriding HOME='/home/runner/work/_temp/f3c356d5-dd9e-4ddb-b08a-f3bf5842bd15' before making global git config changes
+2026-10-29T22:39:01.0256129Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-29T22:39:01.0263092Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-10-29T22:39:01.0343250Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-29T22:39:01.0400852Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-29T22:39:01.0826176Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-29T22:39:01.0902618Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-29T22:39:01.1598195Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-29T22:39:01.1635417Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-29T22:39:01.2259831Z Cleaning up orphan processes
+2026-10-29T22:39:01.2745976Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

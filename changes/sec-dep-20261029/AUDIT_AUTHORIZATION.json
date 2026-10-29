@@ -1,0 +1,10 @@
+{
+  "status": "resolved by explicit owner authorization",
+  "user_reply": "نعم",
+  "question": "هل تأذن بإرسال أسماء حزم المشروع وإصداراتها إلى npm لإكمال التدقيق الأمني؟",
+  "scope": "Dependency package names and versions, including possible private package metadata, transmitted to npm for bun audit and equivalent automatic CI full audit",
+  "consent_receipt": "https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/55#issuecomment-6509972254",
+  "original_block": "AUTO_REVIEW_BLOCK.json",
+  "merge_or_deploy_authorized": false,
+  "production_or_new_cost_authorized": false
+}

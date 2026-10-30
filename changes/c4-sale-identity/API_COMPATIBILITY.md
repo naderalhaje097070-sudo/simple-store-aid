@@ -1,0 +1,3 @@
+# API COMPATIBILITY
+
+Existing output remains {orderId,number}. CreateSaleInput now requires operationId generated once per UI logical sale, optional expectedActorId for recovery. db.ts refines the existing C3 idempotentRPC Args/Returns without editing generated schema. Exact wire includes p_courier_state: direct null; courier paid0 pending, full delivered_full, otherwise delivered_partial under original UI semantics. Current cents/quarter quantities reused. C3 server stock/price/customer/courier validation stays authoritative. Existing legacy caller is replaced because C3 correctly revoked it.

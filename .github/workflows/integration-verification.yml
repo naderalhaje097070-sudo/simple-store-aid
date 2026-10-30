@@ -55,6 +55,8 @@ jobs:
         python tests/g01-acceptance/test_integrated_identity.py
 
         python tests/c-source/test_identity.py'
+    - name: C4 source admission mutation contracts
+      run: python tests/c4-sale/test_identity.py
     - name: Typecheck
       run: bun run typecheck
     - name: Full repository lint including CommonJS and ESM
@@ -76,6 +78,8 @@ jobs:
         node --test tests/c-source/quantity-bridge.test.cjs
 
         node tests/g0-integrated-types/runtime.cjs
+
+        node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs
 
         '
     - name: Build entry failure and forwarding contracts

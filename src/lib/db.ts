@@ -1,4 +1,12 @@
 import { isQuantity, QUANTITY_ERROR } from "@/domain/finance/quantity";
+import {
+  executeSale,
+  saleScope,
+  SALE_ENVIRONMENT,
+  SaleOperationError,
+  validateSaleInput,
+  type SaleInput,
+} from "@/lib/sale-operation";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -46,6 +54,21 @@ type ApplicationRpcs = {
             : GeneratedRpcs[Name]["Args"][Arg];
         };
     Returns: Name extends keyof RpcResults ? RpcResults[Name] : GeneratedRpcs[Name]["Returns"];
+  };
+} & {
+  // Forward C3 SQL contract; generated schema remains generator-owned.
+  create_sale_with_items_idempotent: {
+    Args: {
+      p_idempotency_key: string;
+      p_customer_id: string | null;
+      p_delivery: "direct" | "courier";
+      p_courier_id: string | null;
+      p_paid: number;
+      p_method: "cash" | "transfer";
+      p_items: Json;
+      p_courier_state: "pending" | "delivered_partial" | "delivered_full" | null;
+    };
+    Returns: Json;
   };
 };
 type ApplicationDatabase = Omit<Database, "public"> & {
@@ -603,21 +626,7 @@ export function useAddExpense(tenantId: string | null | undefined) {
 
 /* ---------- sales / debt / settlement / undo ---------- */
 
-export type CreateSaleInput = {
-  items: {
-    productId: string;
-    name: string;
-    qty: number;
-    price: number;
-    cost: number;
-  }[];
-  total: number;
-  paid: number;
-  customerId?: string;
-  delivery: "direct" | "courier";
-  courierId?: string;
-  method: "cash" | "transfer";
-};
+export type CreateSaleInput = SaleInput;
 
 export function useCreateSale(tenantId: string | null | undefined) {
   const qc = useQueryClient();
@@ -626,18 +635,30 @@ export function useCreateSale(tenantId: string | null | undefined) {
       if (!tenantId) throw new Error("no tenant");
       if (!input.items.length || input.items.some((item) => !isQuantity(item.qty)))
         throw new Error(QUANTITY_ERROR);
-      const { data, error } = await rpcClient.rpc("create_sale_with_items", {
-        p_customer_id: input.customerId ?? null,
-        p_delivery: input.delivery,
-        p_courier_id: input.courierId ?? null,
-        p_paid: input.paid,
-        p_method: input.method,
-        p_items: input.items.map((it) => ({ productId: it.productId, qty: it.qty })),
-      });
-      if (error) throw new Error(rpcMessage(error));
-      if (data === null) throw new TypeError("create_sale_with_items returned no result");
-      const out = data;
-      return { orderId: out.order_id, number: String(out.number) };
+      validateSaleInput(input);
+      const snapshot: SaleInput = JSON.parse(JSON.stringify(input));
+      const { data: auth, error: authError } = await supabase.auth.getUser();
+      if (authError || !auth.user)
+        throw new SaleOperationError("تعذّر التحقق من الحساب. لم يبدأ بيع جديد.");
+      if (snapshot.expectedActorId && snapshot.expectedActorId !== auth.user.id)
+        throw new SaleOperationError("تغيّر الحساب. عد إلى الحساب صاحب العملية المحفوظة.");
+      const scope = saleScope(SALE_ENVIRONMENT, tenantId, auth.user.id);
+      return executeSale(
+        scope,
+        snapshot,
+        (request) =>
+          rpcClient
+            .rpc("create_sale_with_items_idempotent", request)
+            .abortSignal(AbortSignal.timeout(20_000)),
+        async () => {
+          const { data, error } = await supabase.auth.getUser();
+          if (error || data.user?.id !== scope.actorId)
+            throw new SaleOperationError(
+              "تغيّر الحساب أو تعذّر التحقق منه. العملية المحفوظة لم تُحذف.",
+            );
+        },
+        rpcMessage,
+      );
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });

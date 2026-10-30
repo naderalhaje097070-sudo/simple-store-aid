@@ -3,12 +3,13 @@ const assert = require("node:assert/strict");
 const cp = require("node:child_process");
 const fs = require("node:fs");
 const { historicalQuantitySource, BEFORE, AFTER, FILES } = require("./quantity-bridge.cjs");
+const { historicalC4Source } = require("../c4-sale/history.cjs");
 const read = (ref, file) =>
   cp.execFileSync("git", ["show", `${ref}:${file}`], { encoding: "utf8" });
 
 for (const file of FILES) {
   test(`fixed C2 bridge admits only the tested current bytes: ${file}`, () => {
-    const current = fs.readFileSync(file, "utf8");
+    const current = historicalC4Source(file, fs.readFileSync(file, "utf8"));
     assert.equal(current, read(AFTER, file));
     assert.equal(historicalQuantitySource(file, current), read(BEFORE, file));
     assert.throws(() => historicalQuantitySource(file, current + "\n// mutation"), /Unreviewed/);

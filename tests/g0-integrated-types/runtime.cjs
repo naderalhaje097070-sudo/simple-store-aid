@@ -5,6 +5,7 @@ const ts = require("typescript");
 const parser = require("@babel/parser");
 const { historicalWebhookSource } = require("../b-dependency/webhook-bridge.cjs");
 const { historicalQuantitySource } = require("../c-source/quantity-bridge.cjs");
+const { historicalC4Source } = require("../c4-sale/history.cjs");
 
 const baseline = "d0a172e7060a5a8a782a923f42986ac7d6287bab";
 const files = [
@@ -174,7 +175,7 @@ for (const file of files) {
   const before = cp.execFileSync("git", ["show", `${baseline}:${file}`], {
     encoding: "utf8",
   });
-  const after = fs.readFileSync(file, "utf8");
+  const after = historicalC4Source(file, fs.readFileSync(file, "utf8"));
   const a = emit(before, file),
     b = emit(historicalQuantitySource(file, historicalWebhookSource(file, after)), file);
   assert.deepEqual(
@@ -406,6 +407,8 @@ async function scenario(kind, data, error) {
       unchangedFinancialMemoBodies: 2,
       intentionalAliasesAndGuards: counters,
       callbackScenarios: 10,
+      currentC4CallbackAcceptance:
+        "separate mandatory tests/c4-sale/contracts.test.cjs and native/browser workflow",
       currentFractionalCallbackControls: 7,
       currentC2ModulesPinned: 2,
       negativeWireMutation: true,

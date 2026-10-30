@@ -1,0 +1,3 @@
+# DATA IMPACT
+
+No schema/backfill/SQL/production data change. New schema2 localStorage record includes operationUUID/input/fingerprint/environment+actor+tenant/status/timestamp and validated result. No tokens/passwords/secrets stored. One record per scope; completion receipt can be replaced only by a distinct explicit logical sale. No pending expiry/delete on logout. Application UI separates actors; browser localStorage is not encrypted against a person controlling the same browser. Shared-device retained draft privacy is a stated limitation. Legacy unscoped candidate sessionStorage is preserved/refused, not guessed onto another actor.

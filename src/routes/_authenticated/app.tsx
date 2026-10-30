@@ -1,6 +1,8 @@
 import { getSaleLineTotal, getSaleTotal } from "@/domain/finance/invoice-selectors";
 import { isQuantity, stepQuantity, sumQuantities, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import { QuantityInput } from "@/features/shared/QuantityInput";
+import { SaleRecovery } from "@/features/sales/SaleRecovery";
+import { newSaleOperationId, saleErrorMessage } from "@/lib/sale-operation";
 import { createFileRoute, useRouter, type ErrorComponentProps } from "@tanstack/react-router";
 import {
   useMemo,
@@ -186,7 +188,7 @@ type AppScreenContext = Omit<AppCtx, "addCustomerAsync" | "createSaleAsync" | "c
   closeDayAsync: ReturnType<typeof useCloseDay>["mutateAsync"];
 };
 
-type PaymentDetails = Omit<CreateSaleInput, "items" | "total">;
+type PaymentDetails = Omit<CreateSaleInput, "items" | "total" | "operationId" | "expectedActorId">;
 type PaymentSheetProps = Pick<AppScreenContext, "customers" | "couriers" | "addCustomerAsync"> & {
   subtotal: number;
   onClose: () => void;
@@ -671,6 +673,14 @@ function MongezzApp() {
           </div>
 
           <div className="mx-auto w-full max-w-md md:max-w-[1400px] md:px-6 lg:px-10 xl:px-14 min-h-screen md:min-h-0 bg-background relative pb-24 md:pb-10 shadow-sm md:shadow-none">
+            <SaleRecovery
+              tenantId={tenantId}
+              onRetry={createSaleMut.mutateAsync}
+              onOpen={(orderId) => {
+                setOpenInvoiceId(orderId);
+                go("invoice_detail");
+              }}
+            />
             {screen === "home" && <HomeScreen {...ctx} />}
             {screen === "invoices" &&
               financialScreen(<InvoicesScreen {...ctx} />, [financialReads.invoices])}
@@ -1509,6 +1519,7 @@ function ExpensesScreen(p: AppScreenContext) {
 /* --------------- SALE --------------- */
 type CartItem = { productId: string; qty: number };
 function SaleScreen(p: AppScreenContext) {
+  const operationId = useRef<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [invalidQuantityIds, setInvalidQuantityIds] = useState<string[]>([]);
   const markQuantityInvalid = (id: string, invalid: boolean) =>
@@ -1742,6 +1753,7 @@ function SaleScreen(p: AppScreenContext) {
             });
             const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
             const created = await p.createSaleAsync({
+              operationId: (operationId.current ??= newSaleOperationId()),
               items,
               total: subtotal,
               paid: d.paid,
@@ -1778,6 +1790,7 @@ function PaymentSheet({
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   const paid = status === "debt" ? 0 : status === "paid" ? subtotal : Number(paidStr || 0);
   const remaining = subtotal - paid;
@@ -1969,6 +1982,11 @@ function PaymentSheet({
           </div>
         </div>
 
+        {saveError && (
+          <div role="alert" className="rounded-xl bg-debt-soft p-3 text-sm text-debt">
+            {saveError}
+          </div>
+        )}
         <button
           disabled={!canSave || saving}
           aria-busy={saving}
@@ -1976,9 +1994,11 @@ function PaymentSheet({
             if (saving) return;
             if (!canSave || overpaid || paid > subtotal) return;
             setSaving(true);
+            setSaveError("");
             try {
               await onSave({ paid, customerId, delivery, courierId, method });
-            } catch {
+            } catch (error) {
+              setSaveError(saleErrorMessage(error));
               setSaving(false);
             }
           }}
@@ -2147,6 +2167,7 @@ function SaleSuccessScreen(p: AppScreenContext) {
 
 /* --------------- SALE QUICK (cash, full-paid, no customer) --------------- */
 function SaleQuickScreen(p: AppScreenContext) {
+  const operationId = useRef<string | null>(null);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [invalidQuantityIds, setInvalidQuantityIds] = useState<string[]>([]);
   const markQuantityInvalid = (id: string, invalid: boolean) =>
@@ -2281,6 +2302,7 @@ function SaleQuickScreen(p: AppScreenContext) {
       });
       const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
       const created = await p.createSaleAsync({
+        operationId: (operationId.current ??= newSaleOperationId()),
         items,
         total: subtotal,
         paid: subtotal,
@@ -2291,8 +2313,8 @@ function SaleQuickScreen(p: AppScreenContext) {
       p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
       p.setLastCreatedInvoiceId(created.orderId);
       p.setScreen("sale_success");
-    } catch {
-      p.showToast?.("تعذّر حفظ الفاتورة — حاول مرة أخرى");
+    } catch (error) {
+      p.showToast?.(saleErrorMessage(error));
       setSaving(false);
     }
   };

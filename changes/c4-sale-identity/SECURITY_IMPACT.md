@@ -1,0 +1,3 @@
+# SECURITY IMPACT
+
+Server remains sole financial/tenant/staff authorization source. Browser storage is a retry safety mechanism, not an authorization authority; local completion always replays at server. Live getUser and recovery expectedActorId block stale actor capture; later Auth failure leaves potentially committed old record intact. Secure UUID + required Web Locks + read-after-write durability fail before outbound write if unsupported/corrupt. Native test process UID loopback-only firewall/canary/cleanup/publication scanning inherited; actual fetched SDK targets exact API Auth+RPC only. No production access, new public RPC or bypass grant.

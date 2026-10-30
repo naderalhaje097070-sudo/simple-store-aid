@@ -1,0 +1,3 @@
+# TEST IMPACT
+
+Local35 actual current hook/module unit cases pass,18C4 identity synthetic mutation cases pass after fixture's permitted changed path corrected; TSsyntax and browser bundle build pass. Exact locked TS5.9.3/Babel and esbuild/react package bytes verified locally. Hosted exact-head G0/types/lint/build/currentC4hook/history/browser and native SDK/Auth/RPC/persisted effects pending; no result transferred. Native response-loss/null interception happens only after actual successful loopbackRPC body has arrived; Python SQL verifies one order/payment/stock movement after restart/retry. UI fixture uses actual cart/payment/recovery code with recording transport, not stored-finance proof. Original C1 controls/source-bound failed results retained.

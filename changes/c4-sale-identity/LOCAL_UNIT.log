@@ -1,0 +1,43 @@
+✔ actual hook uses typed idempotent RPC, explicit key, quarter quantity and existing cents (178.574383ms)
+✔ actual courier wire preserves pending (71.53197ms)
+✔ actual courier wire preserves delivered_partial (58.132507ms)
+✔ actual courier wire preserves delivered_full (48.816945ms)
+✔ lost reply survives 31 minutes, years and a fresh module context with same exact request/key (93.023319ms)
+✔ second operation cannot replace unresolved slot even with identical products (36.854358ms)
+✔ same identity with changed wire is refused before RPC (45.874653ms)
+✔ new identical logical sale after definitive success gets a new explicit key (36.634722ms)
+✔ a local completion receipt never bypasses actual server replay (48.103781ms)
+✔ invalid success retains key: null (30.56673ms)
+✔ invalid success retains key: {} (31.349792ms)
+✔ invalid success retains key: {"success":false,"order_id":"8f9c8a7d-94b8-47fa-a3e1-59cdd87ee34c","number":7} (32.973131ms)
+✔ invalid success retains key: {"success":true,"order_id":"wrong","number":7} (36.660606ms)
+✔ invalid success retains key: {"success":true,"order_id":"8f9c8a7d-94b8-47fa-a3e1-59cdd87ee34c","number":"7"} (34.899596ms)
+✔ invalid success retains key: {"success":true,"order_id":"8f9c8a7d-94b8-47fa-a3e1-59cdd87ee34c","number":1.5} (31.424956ms)
+✔ storage read fails before outbound write (57.978934ms)
+✔ storage write fails before outbound write (36.855576ms)
+✔ storage readback fails before outbound write (31.493499ms)
+✔ missing Web Locks refuses before storage or RPC (28.65003ms)
+✔ malformed and wrong-scope records are retained, not overwritten (25.668313ms)
+✔ old unscoped candidate key is neither TTL-expired nor reassigned (39.187954ms)
+✔ actor, tenant and environment storage keys are distinct (22.657662ms)
+✔ old actor's captured recovery cannot dispatch under new actor (22.292722ms)
+✔ account change after commit keeps old actor pending, without validated success (26.023224ms)
+✔ unauthenticated actor refuses before financial RPC (29.606703ms)
+✔ parallel same-operation callbacks retain one UUID across serialized real callbacks (43.346976ms)
+✔ parallel pending different operation cannot overwrite after first uncertain response (55.181345ms)
+✔ fresh confirmed canonical SQL rollback releases only its own never-uncertain attempt (28.047121ms)
+✔ a denial after lost reply cannot erase a potentially committed operation (25.050862ms)
+✔ storage completion failure after server success keeps original identity (49.18096ms)
+✔ invalid quantity never reaches RPC: 0 (24.828727ms)
+✔ invalid quantity never reaches RPC: -1 (27.285391ms)
+✔ invalid quantity never reaches RPC: 0.001 (24.548655ms)
+✔ invalid quantity never reaches RPC: NaN (24.865933ms)
+✔ invalid quantity never reaches RPC: Infinity (39.774934ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1788.512637

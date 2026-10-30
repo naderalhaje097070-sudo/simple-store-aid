@@ -1,0 +1,146 @@
+{
+  "source": "42406e869fff080d733a10ab3688d82629543c95",
+  "local_unit": {
+    "command": "NODE_PATH=/workspace/scratch/29f45ed9b618/gate-repair/node_modules node --test tests/c4-sale/contracts.test.cjs",
+    "exit_code": 0,
+    "tests": 35,
+    "scope": "actual current TypeScript hook and modules, recording client/serialized lock/storage fixtures, no database"
+  },
+  "local_identity": {
+    "command": "python tests/c4-sale/test_identity.py",
+    "exit_code": 0,
+    "tests": 18,
+    "scope": "isolated synthetic Git mutation fixtures, not full current repository identity"
+  },
+  "focused_types": {
+    "command": "node node_modules/typescript/bin/tsc -p tsconfig.focused.json",
+    "exit_code": 0,
+    "scope": "src/lib/db.ts + sale-operation.ts + SaleRecovery.tsx; exact locked Supabase2.110.5/ReactQuery5.100.1/types. Scratch config has DOM/Vite env type declaration; not whole application or frozen install"
+  },
+  "browser_bundle": {
+    "command": "node tests/c4-sale/build.mjs ../c4-ui-preview",
+    "exit_code": 0,
+    "scope": "actual selected cart/payment functions + recovery component, recording RPC; browser execution not run"
+  },
+  "format": {
+    "command": "official locked Prettier3.8.3 --config .prettierrc --check changed TS/TSX/CJS/MJS",
+    "exit_code": 0
+  },
+  "hosted": {
+    "executed_steps": 0,
+    "runner_names_empty": true,
+    "all_jobs_conclusion": "failure",
+    "logs_fetch": "404 BlobNotFound",
+    "check_run_annotations_count": 2,
+    "annotation_text": "not retrievable through current connector's allowed endpoints; detailed cause not verified",
+    "runs": [
+      {
+        "id": 41066452296,
+        "name": "G1 Bounded Acceptance Repair",
+        "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "id": 41066452097,
+        "name": "SEC dependency and C source contracts",
+        "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "id": 41066452343,
+        "name": "Integrated G0 verification",
+        "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "id": 41066452195,
+        "name": "B1 composition compatibility",
+        "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure"
+      },
+      {
+        "id": 41066452421,
+        "name": "C4 durable sale identity stored and browser contracts",
+        "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure"
+      }
+    ],
+    "checks": [
+      {
+        "id": 124098993503,
+        "name": "composition (fresh)",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098993395,
+        "name": "composition (populated)",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098993061,
+        "name": "browser",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992881,
+        "name": "quality",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992837,
+        "name": "environment",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992551,
+        "name": "audit",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992444,
+        "name": "runtime",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992299,
+        "name": "compatibility",
+        "conclusion": "failure",
+        "annotations_count": 2
+      },
+      {
+        "id": 124098992145,
+        "name": "contracts",
+        "conclusion": "failure",
+        "annotations_count": 2
+      }
+    ]
+  },
+  "local_browser_failure": {
+    "command": "PYTHONPATH=/workspace/scratch/29f45ed9b618/c4-browser-python python -m playwright install chromium --only-shell",
+    "pinned_playwright": "1.62.0",
+    "error": "End of central directory record signature not found. Either not a zip file, or file is truncated.",
+    "exit_code": 1,
+    "browser_cases_executed": 0
+  },
+  "native_SQL": "not executed; no local Docker/psql/Supabase runtime available; hosted jobs started zero steps",
+  "independent_review": false,
+  "financial_acceptance": false,
+  "integration_accepted": false
+}

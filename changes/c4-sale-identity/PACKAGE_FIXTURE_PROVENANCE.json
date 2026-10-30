@@ -1,0 +1,139 @@
+{
+  "note": "Public exact locked package fixtures only; no project dependency change or full frozen install claim",
+  "ui": [
+    {
+      "name": "esbuild",
+      "version": "0.28.1",
+      "integrity": "sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==",
+      "url": "https://registry.npmjs.org/esbuild/-/esbuild-0.28.1.tgz"
+    },
+    {
+      "name": "@esbuild/linux-x64",
+      "version": "0.28.1",
+      "integrity": "sha512-u/anNYF2mmVOEDwLtnQ1wOr3EZ9sTNGLWrsYGYwHWzGA3Si84IOkHXlbWTD1NB+9/1lcnweYKO54uhxZydNzfA==",
+      "url": "https://registry.npmjs.org/@esbuild/linux-x64/-/linux-x64-0.28.1.tgz"
+    },
+    {
+      "name": "react",
+      "version": "19.2.5",
+      "integrity": "sha512-llUJLzz1zTUBrskt2pwZgLq59AemifIftw4aB7JxOqf1HY2FDaGDxgwpAPVzHU1kdWabH7FauP4i1oEeer2WCA==",
+      "url": "https://registry.npmjs.org/react/-/react-19.2.5.tgz"
+    },
+    {
+      "name": "react-dom",
+      "version": "19.2.5",
+      "integrity": "sha512-J5bAZz+DXMMwW/wV3xzKke59Af6CHY7G4uYLN1OvBcKEsWOs4pQExj86BBKamxl/Ik5bx9whOrvBlSDfWzgSag==",
+      "url": "https://registry.npmjs.org/react-dom/-/react-dom-19.2.5.tgz"
+    },
+    {
+      "name": "scheduler",
+      "version": "0.27.0",
+      "integrity": "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==",
+      "url": "https://registry.npmjs.org/scheduler/-/scheduler-0.27.0.tgz"
+    },
+    {
+      "name": "lucide-react",
+      "version": "0.575.0",
+      "integrity": "sha512-VuXgKZrk0uiDlWjGGXmKV6MSk9Yy4l10qgVvzGn2AWBx1Ylt0iBexKOAoA6I7JO3m+M9oeovJd3yYENfkUbOeg==",
+      "url": "https://registry.npmjs.org/lucide-react/-/lucide-react-0.575.0.tgz"
+    }
+  ],
+  "types": [
+    {
+      "name": "@tanstack/react-query",
+      "version": "5.100.1",
+      "integrity": "sha512-UgWRLhQKprC37SsO6y1zRabOqDmM2gsdTNPbqTT35yl7kOOhwXU4nyfOiGHXPwoEFJV1IpSk85hjIFjNFWVpzw==",
+      "url": "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.100.1.tgz"
+    },
+    {
+      "name": "@tanstack/query-core",
+      "version": "5.100.1",
+      "integrity": "sha512-awvQhOO/2TrSCHE5LKKsXcvvj6WSBncwEcMFCB/ez0Qs0b17iyyivoGArNV3HFfXryZwCpnb/olsaBBKrIbtSw==",
+      "url": "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.100.1.tgz"
+    },
+    {
+      "name": "@types/react",
+      "version": "19.2.14",
+      "integrity": "sha512-ilcTH/UniCkMdtexkoCN0bI7pMcJDvmQFPvuPvmEaYA/NSfFTAgdUSLAoVjaRJm7+6PvcM+q1zYOwS4wTYMF9w==",
+      "url": "https://registry.npmjs.org/@types/react/-/react-19.2.14.tgz"
+    },
+    {
+      "name": "@types/react-dom",
+      "version": "19.2.3",
+      "integrity": "sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==",
+      "url": "https://registry.npmjs.org/@types/react-dom/-/react-dom-19.2.3.tgz"
+    },
+    {
+      "name": "csstype",
+      "version": "3.2.3",
+      "integrity": "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==",
+      "url": "https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz"
+    },
+    {
+      "name": "tslib",
+      "version": "2.8.1",
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
+      "url": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz"
+    },
+    {
+      "name": "iceberg-js",
+      "version": "0.8.1",
+      "integrity": "sha512-1dhVQZXhcHje7798IVM+xoo/1ZdVfzOMIc8/rgVSijRK38EDqOJoGula9N/8ZI5RD8QTxNQtK/Gozpr+qUqRRA==",
+      "url": "https://registry.npmjs.org/iceberg-js/-/iceberg-js-0.8.1.tgz"
+    },
+    {
+      "name": "@supabase/auth-js",
+      "version": "2.110.5",
+      "integrity": "sha512-QSlI5CNeEefHP95/GbeMhNgr8aHEHiXFh8c1IWthYyI9ZzBwEigYzJFCw4Ff+GkL8OK9tArBmGGv6rpg5zLXSw==",
+      "url": "https://registry.npmjs.org/@supabase/auth-js/-/auth-js-2.110.5.tgz"
+    },
+    {
+      "name": "@supabase/functions-js",
+      "version": "2.110.5",
+      "integrity": "sha512-nuQuoIoEGT8ukrwr6THlY5v50bSMJ2rqti1FFsGyDaC98POLmcFQVFFh23PVPhRsKWUxrFc0MpmEoHKa7CY4mg==",
+      "url": "https://registry.npmjs.org/@supabase/functions-js/-/functions-js-2.110.5.tgz"
+    },
+    {
+      "name": "@supabase/phoenix",
+      "version": "0.4.4",
+      "integrity": "sha512-Gt0pqoXuIqX/8dvG0OKp/wMCobXNH3klNbUPBNyOfN0YA1IswrM3HyWFMOPk1Jy+BRaIyDPcFx4jLBwHNmlyfQ==",
+      "url": "https://registry.npmjs.org/@supabase/phoenix/-/phoenix-0.4.4.tgz"
+    },
+    {
+      "name": "@supabase/postgrest-js",
+      "version": "2.110.5",
+      "integrity": "sha512-eObfgBjxLPzFakwMpUmsv8nuNPOhoDhzzN8cwvEvGkxkmuRIZcOCYH9+DRbpKnxh7tgsBZW+KWtaZI2j98b2/g==",
+      "url": "https://registry.npmjs.org/@supabase/postgrest-js/-/postgrest-js-2.110.5.tgz"
+    },
+    {
+      "name": "@supabase/realtime-js",
+      "version": "2.110.5",
+      "integrity": "sha512-VtOZxw5jfrc37KgIfFdp9SOFJjtvJ0qU+gT8CPQjL7cqy4DJlaTXacw5aBBogLZksqAI0YN67qhlDaMKFwfOuw==",
+      "url": "https://registry.npmjs.org/@supabase/realtime-js/-/realtime-js-2.110.5.tgz"
+    },
+    {
+      "name": "@supabase/storage-js",
+      "version": "2.110.5",
+      "integrity": "sha512-7GkOZlrYknVGVPyijoDbu5OXGvQ2oQ6dkU0juAkIMPZ9QgtmJ8IPrxe76zGSbmzbaC1GdKw7pqeXEi2HT67sbA==",
+      "url": "https://registry.npmjs.org/@supabase/storage-js/-/storage-js-2.110.5.tgz"
+    },
+    {
+      "name": "@supabase/supabase-js",
+      "version": "2.110.5",
+      "integrity": "sha512-cAO1Nm+CCogRNVXN93bBkh0vjOdLM5e6J9gB/cHV9Lqni/gEmN2HJFrnn4NI33GYIfmlh4Wbm6siH+XXRgpexA==",
+      "url": "https://registry.npmjs.org/@supabase/supabase-js/-/supabase-js-2.110.5.tgz"
+    },
+    {
+      "name": "@types/node",
+      "version": "22.19.17",
+      "integrity": "sha512-wGdMcf+vPYM6jikpS/qhg6WiqSV/OhG+jeeHT/KlVqxYfD40iYJf9/AE1uQxVWFvU7MipKRkRv8NSHiCGgPr8Q==",
+      "url": "https://registry.npmjs.org/@types/node/-/node-22.19.17.tgz"
+    },
+    {
+      "name": "undici-types",
+      "version": "6.21.0",
+      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==",
+      "url": "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz"
+    }
+  ]
+}

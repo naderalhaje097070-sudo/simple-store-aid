@@ -16,7 +16,8 @@ FROZEN = {'tests/c-source/manifest.json': '828eb332e7ce0d6129993342414fb83fee6c0
           'tests/g01-acceptance/integrated-b-source.json': 'f1e2a8cdce0aa02549716321af2a11cf433ab177'}
 ALLOWED_CHANGES = {'src/lib/db.ts', 'src/routes/_authenticated/app.tsx',
                    'tests/g01-acceptance/capture.py', '.github/workflows/integration-verification.yml',
-                   'tests/g0-integrated-types/runtime.cjs', 'tests/c-source/quantity-bridge.test.cjs'}
+                   'tests/g0-integrated-types/runtime.cjs', 'tests/c-source/quantity-bridge.test.cjs',
+                   'tests/app-financial-read/build.mjs'}
 ALLOWED_ADDITIONS = {'src/lib/sale-operation.ts', 'src/features/sales/SaleRecovery.tsx',
                      'tests/c4-sale/identity.py', 'tests/c4-sale/test_identity.py',
                      'tests/c4-sale/loader.cjs', 'tests/c4-sale/contracts.test.cjs',

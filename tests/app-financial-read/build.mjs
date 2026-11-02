@@ -143,7 +143,7 @@ const plugin = {
         "fixture:pdf":
           "export const downloadInvoicePdf=async()=>{globalThis.__readEffects.push(['pdf']);};export const printInvoice=()=>{globalThis.__readEffects.push(['print']);};export const ensureFont=async()=>{};",
         "fixture:client":
-          "export const supabase={auth:{signOut:async()=>{globalThis.__readEffects.push(['signOut']);}}};",
+          "export const supabase={auth:{getUser:async()=>({data:{user:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>{globalThis.__readEffects.push(['signOut']);}}};",
       }[args.path];
       if (!code) throw new Error("Unknown fixture module");
       return { contents: code, loader: "tsx", resolveDir: root };
@@ -153,6 +153,9 @@ const plugin = {
 const common = {
   bundle: true,
   jsx: "automatic",
+  // This read-only CJS/IIFE fixture never contacts a real API. C4 recovery is
+  // separately tested with its own recording and native transport contracts.
+  define: { "import.meta.env.VITE_SUPABASE_URL": '"http://127.0.0.1:54321"' },
   plugins: [plugin],
   tsconfig: resolve("tsconfig.json"),
   logLevel: "warning",

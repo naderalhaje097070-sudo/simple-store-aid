@@ -1556,7 +1556,7 @@
     },
     {
       "path": "tests/app-financial-read/build.mjs",
-      "sha": "e6a5d16ad91ef88fde7a8335ae0ede31005268b4",
+      "sha": "009747b812395d39888a4a25acfb4aa585717c6b",
       "mode": "100644"
     },
     {
@@ -1776,7 +1776,7 @@
     },
     {
       "path": "tests/c4-sale/identity.py",
-      "sha": "24b473e52a50997c2fa809e08749555f403c709e",
+      "sha": "17c9a226148589dd14f9c49389e315267ce14d48",
       "mode": "100644"
     },
     {
@@ -2185,6 +2185,11 @@
       "before": "fba9f624d6dd20cb10eae111262e065101955137",
       "after": "1cef826d6e833301f252367c99c29a669bb2162d",
       "mode": "100644"
+    },
+    "tests/app-financial-read/build.mjs": {
+      "before": "e6a5d16ad91ef88fde7a8335ae0ede31005268b4",
+      "after": "009747b812395d39888a4a25acfb4aa585717c6b",
+      "mode": "100644"
     }
   },
   "additions": {
@@ -2199,7 +2204,7 @@
     "tests/c4-sale/fixture.tsx": "f07ba2ab9b603d6855f5fc0b99442011165af34b",
     "tests/c4-sale/history.cjs": "224ffa69a9b6cb36bba62a8dc5133500f5aa3bd3",
     "tests/c4-sale/history.test.cjs": "3eef2d3e3ef5e990ec3c0cac6c43e26c8a0d68d8",
-    "tests/c4-sale/identity.py": "24b473e52a50997c2fa809e08749555f403c709e",
+    "tests/c4-sale/identity.py": "17c9a226148589dd14f9c49389e315267ce14d48",
     "tests/c4-sale/loader.cjs": "129fec6d36bcf10b6a19fad5976e867d26a7487f",
     "tests/c4-sale/native-hook.cjs": "6d25bdd55592e1dd5273c8336e0f2b82b9a039bf",
     "tests/c4-sale/native.py": "f792690ae269bcc2372a2e822b9b509d87b18373",

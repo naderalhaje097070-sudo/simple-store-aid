@@ -183,12 +183,13 @@ jobs:
               print('C4S_PUBLICATION_BLOCKED '+(out/'publication-blocked.json').read_text())
               raise
           finally:
-              private_files=list(Path('/tmp/monjez-c4sale').glob('*.json*'))
-              if private_files: subprocess.run(['sudo','rm','-f',*[str(p) for p in private_files]],check=True)
+              # The runner cannot enumerate this probe-owned 0711 directory.
+              # Enumerate/delete as root; never treat an inaccessible glob as empty.
+              subprocess.run(['sudo','find','/tmp/monjez-c4sale','-maxdepth','1','-type','f','-name','*.json*','-delete'],check=True)
           cleanup['status_removed']=not Path('/tmp/monjez-c4sale/status.json').exists()
           cleanup['state_removed']=not Path('/tmp/monjez-c4sale/private-state.json').exists()
           (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
-          cleanup['private_files_removed']=not list(Path('/tmp/monjez-c4sale').glob('*.json*'))
+          cleanup['private_files_removed']=not subprocess.check_output(['sudo','find','/tmp/monjez-c4sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip()
           print('C4S_CLEANUP '+json.dumps(cleanup))
           assert before>0 and after==before and v6==0 and cleanup['status_removed'] and cleanup['state_removed'] and cleanup['stack_removed'] and cleanup['private_files_removed']
           PY

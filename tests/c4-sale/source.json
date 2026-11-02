@@ -86,7 +86,7 @@
     },
     {
       "path": ".github/workflows/c4-sale.yml",
-      "sha": "e00cc5e26c18158c8457e78d7f9720b945803b47",
+      "sha": "a06db2615f1b0fd92ba9721ba63a8715e5174c81",
       "mode": "100644"
     },
     {
@@ -2193,7 +2193,7 @@
     }
   },
   "additions": {
-    ".github/workflows/c4-sale.yml": "e00cc5e26c18158c8457e78d7f9720b945803b47",
+    ".github/workflows/c4-sale.yml": "a06db2615f1b0fd92ba9721ba63a8715e5174c81",
     "src/features/sales/SaleRecovery.tsx": "7a8673a26fb219fd9e3f50cd8e0f2febb9b43a00",
     "src/lib/sale-operation.ts": "b59b186cac80b59aa714dee6a2e2bf63e8647e35",
     "tests/c4-sale/browser-client.ts": "29399548f925d1d2a9b9192e4fbc5a91711d399c",

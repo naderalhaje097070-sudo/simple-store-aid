@@ -1,0 +1,5 @@
+# C4 browser transport observation — 2026-11-02
+
+On executable `41c33f1fc3915216348b1d1dbae7f072110afb6b`, G0 quality and B1 compatibility passed. C4 browser job 125290054757 failed at the first exact wire assertion. The recovery button is published by the durable-save event before the asynchronous RPC dispatch; waiting for its visibility does not prove a recorded call exists. Earlier browser passes remain historical evidence, not proof that this scheduling assumption was sound.
+
+The probe now waits for at least one observed recording-transport call before reading it. The independent assertion remains exactly one call, quantity 0.25, paid 3.13; replay must still produce exactly two identical calls and one modeled effect. No sleep, assertion removal, application change, SQL change or dependency change. An assertion failure prints the actual synthetic wire and viewport/screen for diagnosis. This is still recording browser transport, with database proof supplied by the separate native tests.

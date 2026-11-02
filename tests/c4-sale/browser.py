@@ -34,8 +34,11 @@ with sync_playwright() as playwright:
                 page.get_by_role('button',name=re.compile('إصدار الفاتورة')).click()
             recovery=page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True)
             recovery.wait_for()
+            # Recovery is rendered by the durable-save event before the async RPC
+            # is dispatched. Observe the transport, not that earlier UI event.
+            page.wait_for_function('JSON.parse(localStorage.getItem("fixtureCalls") || "[]").length >= 1')
             first=page.evaluate('JSON.parse(localStorage.getItem("fixtureCalls"))')
-            assert len(first)==1 and first[0]['p_items'][0]['qty']==0.25 and first[0]['p_paid']==3.13
+            assert len(first)==1 and first[0]['p_items'][0]['qty']==0.25 and first[0]['p_paid']==3.13, {'viewport':label,'screen':screen,'actual_first_calls':first}
             key=first[0]['p_idempotency_key']
             page.reload();recovery.wait_for()
             # Sign-in transition hides another actor's record without deleting it.

@@ -1,0 +1,7 @@
+# Specific owner exception authorization —2November2026
+
+Owner replied «تابع» to the explicit question applying/testing PROPOSAL.md at50530716ab3163199de4187d3776356a49813dda. Authorization receipt issue55/6581232804; sole claim6580198545 ACTIVE. Exact scope: officialglob14.0.2/minimatch11.0.1 outside current consuming major ranges, paired overrides/resolutions, Bun-generated1783byte export-interop patch SHA2561c2e49a5e9608bdf3b904c9f3ee62b02cc8677e46167ec9d70f117cd3dc07015. Current intake's no-global-major restriction is superseded only for this concrete exception. Earlier esbuild permission is not reused.
+
+Prepare the whole existing1099entry graph with officialBun1.4.0 from its actualv1 lock, fresh frozen1.2.14 consumer, installed official-engine/patch-byte proof and complete unsuppressed audit before adoption. Then full reviewed source/graph admission and affected app gates. Preserve all old security floors, release-age rule, vendor,54SQL and C4 financial behavior. No new Bun/age exclusion/fork, audit waiver, production/spending/merge/deploy/newPR/closure/historyrewrite. Public-subset results remain diagnostic; no full-app acceptance transferred.
+
+The added preparation workflow alone is not an accepted runtime candidate: it verifies only the declared workflow/authorization-doc delta versus exact50530716 and generates in RUNNER_TEMP without altering checkout. Old C4 admission is not broadened here; explicit SEC admission follows only after graph review. Original drafts/main unchanged.

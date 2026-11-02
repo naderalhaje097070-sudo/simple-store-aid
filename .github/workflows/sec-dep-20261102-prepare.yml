@@ -1,0 +1,126 @@
+name: SEC 20261102 complete graph preparation
+"on":
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths: [.github/workflows/sec-dep-20261102-prepare.yml]
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SEC_BASE: 50530716ab3163199de4187d3776356a49813dda
+      DO_NOT_TRACK: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - name: Exact authorized preparation boundary
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          assert os.environ['GITHUB_REPOSITORY']=='naderalhaje097070-sudo/simple-store-aid'
+          base=os.environ['SEC_BASE']
+          subprocess.run(['git','merge-base','--is-ancestor',base,'HEAD'],check=True)
+          changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          assert set(changed)<= {'.github/workflows/sec-dep-20261102-prepare.yml','changes/sec-dep-20261102/OWNER_AUTHORIZATION.md'},changed
+          out=Path(os.environ['RUNNER_TEMP'])/'sec-20261102-preparation';out.mkdir()
+          (out/'source.json').write_text(json.dumps({'base':base,'preparation_head':os.environ['GITHUB_SHA'],'authorized_changes':changed,'financial_acceptance':False},indent=2)+'\n')
+          PY
+      - name: Prepare exact package delta without changing checkout
+        run: |
+          set -euo pipefail
+          candidate="$RUNNER_TEMP/sec-20261102-candidate"
+          mkdir -p "$candidate"
+          git archive "$SEC_BASE" package.json bun.lock bunfig.toml vendor | tar -x -C "$candidate"
+          mkdir -p "$candidate/patches"
+          git show "$SEC_BASE:changes/sec-dep-20261102/proposal/minimatch@11.0.1.patch" > "$candidate/patches/minimatch@11.0.1.patch"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP']);p=root/'sec-20261102-candidate';out=root/'sec-20261102-preparation'
+          for name,expected in [('package.json','2b01ba68ea30be3e801cf75c256fb199849d4044'),('bun.lock','6d017ff0e72d9dbde3d4e3c88ce6b3adc2c0c320')]:
+              raw=(p/name).read_bytes();assert hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==expected
+              (out/('baseline-'+name)).write_bytes(raw)
+          patch=(p/'patches/minimatch@11.0.1.patch').read_bytes()
+          assert hashlib.sha256(patch).hexdigest()=='1c2e49a5e9608bdf3b904c9f3ee62b02cc8677e46167ec9d70f117cd3dc07015'
+          package=json.loads((p/'package.json').read_text())
+          for key in ['overrides','resolutions']:package[key].update({'glob':'14.0.2','minimatch':'11.0.1'})
+          assert 'patchedDependencies' not in package
+          package['patchedDependencies']={'minimatch@11.0.1':'patches/minimatch@11.0.1.patch'}
+          (p/'package.json').write_text(json.dumps(package,indent=2)+'\n')
+          (out/'expected-package.json').write_text(json.dumps(package,indent=2)+'\n')
+          PY
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.0"
+      - name: Official whole lock generation from existing v1
+        working-directory: ${{ runner.temp }}/sec-20261102-candidate
+        run: |
+          set -euo pipefail
+          test "$(bun --version)" = '1.4.0'
+          bun install --lockfile-only --ignore-scripts 2>&1 | tee "$RUNNER_TEMP/sec-20261102-preparation/generator.log"
+          cmp package.json "$RUNNER_TEMP/sec-20261102-preparation/expected-package.json"
+          cp package.json bun.lock bunfig.toml "$RUNNER_TEMP/sec-20261102-preparation/"
+          cp patches/minimatch@11.0.1.patch "$RUNNER_TEMP/sec-20261102-preparation/"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - name: Full fresh frozen consumer
+        working-directory: ${{ runner.temp }}/sec-20261102-candidate
+        run: |
+          set -euo pipefail
+          test ! -e node_modules
+          test "$(bun --version)" = '1.2.14'
+          bun install --frozen-lockfile --ignore-scripts 2>&1 | tee "$RUNNER_TEMP/sec-20261102-preparation/frozen-consumer.log"
+          cmp package.json "$RUNNER_TEMP/sec-20261102-preparation/package.json"
+          cmp bun.lock "$RUNNER_TEMP/sec-20261102-preparation/bun.lock"
+      - name: Official fixed engine and exact installed interop bytes
+        run: |
+          python - <<'PY'
+          import base64,hashlib,io,json,os,tarfile,urllib.request
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP']);p=root/'sec-20261102-candidate';out=root/'sec-20261102-preparation'
+          raw=urllib.request.urlopen('https://registry.npmjs.org/minimatch/-/minimatch-11.0.1.tgz',timeout=40).read()
+          assert 'sha512-'+base64.b64encode(hashlib.sha512(raw).digest()).decode()=='sha512-t+Vn6DX4wPCxS23y03C0uhF7S1jpi1GfqPrnlEipCJaA2ykiNbMkVlDutZtmvLfRcUN6R8AYVlzTsQrT4RZoLQ=='
+          edits={'dist/commonjs/index.js':'\n// MONJEZ proposal: preserve legacy CommonJS callable/default interop.\nmodule.exports = Object.assign(exports.minimatch, exports);\n','dist/esm/index.js':'\n// MONJEZ proposal: preserve legacy default import interop.\nexport default minimatch;\n','dist/commonjs/index.d.ts':'\nexport default minimatch;\n','dist/esm/index.d.ts':'\nexport default minimatch;\n'}
+          records=[];engine=p/'node_modules/minimatch'
+          with tarfile.open(fileobj=io.BytesIO(raw),mode='r:gz') as tar:
+              for m in tar.getmembers():
+                  if not m.isfile():continue
+                  parts=Path(m.name).parts;assert parts[0]=='package' and '..' not in parts
+                  name='/'.join(parts[1:]);before=tar.extractfile(m).read();actual=(engine/name).read_bytes();expected=before+edits.get(name,'').encode()
+                  assert actual in [expected,expected.removesuffix(b'\n')] if name in edits else actual==before,name
+                  records.append({'path':name,'official_sha256':hashlib.sha256(before).hexdigest(),'installed_sha256':hashlib.sha256(actual).hexdigest(),'changed':actual!=before})
+          assert len(records)==37 and sum(r['changed'] for r in records)==4
+          (out/'installed-engine.json').write_text(json.dumps({'source':'official minimatch11.0.1 with exact owner-authorized export additions; only terminal LF normalization allowed','files':records},indent=2)+'\n')
+          PY
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.0"
+      - name: Complete candidate audit with raw exit preserved
+        working-directory: ${{ runner.temp }}/sec-20261102-candidate
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/sec-20261102-preparation"
+          set +e
+          bun audit --json > "$out/audit.json" 2> "$out/audit.stderr"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$out/audit.exit"
+          node -e 'const d=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));if(JSON.stringify(d)!=="{}")throw Error("Full audit has findings")' "$out/audit.json"
+          test "$code" -eq 0
+          git -C "$GITHUB_WORKSPACE" diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sec-20261102-complete-graph-preparation
+          path: ${{ runner.temp }}/sec-20261102-preparation/
+          if-no-files-found: error
+          retention-days: 7

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 
 // GHSA-qx66-fv34-fjm8: check every locked copy, including nested resolutions.
 // This guards dependency regressions; it does not replace runtime security tests.
@@ -25,6 +26,9 @@ const patchedPackages = [
 ];
 
 const patchedPackageMajors = new Map([
+  // SEC-DEP-20261102: exact owner-authorized matching engines and interop patch.
+  ["glob", new Map([[14, [14, 0, 2]]])],
+  ["minimatch", new Map([[11, [11, 0, 1]]])],
   // SEC-DEP-20261029: old1.x is affected; SDK1.32 explicitly permits patched2.x.
   ["@hono/node-server", new Map([[2, [2, 1, 3]]])],
   // G0-BABEL-01: all copies must stay on the stable patched Babel 7.x line.
@@ -99,4 +103,29 @@ test("esbuild exception has no vulnerable or mismatched locked copy", () => {
   expect(wrappers.length).toBeGreaterThan(0);
   expect(platforms.length).toBe(26);
   for (const version of [...wrappers, ...platforms]) expect(version).toBe("0.28.1");
+});
+
+test("owner-authorized glob and minimatch exception stays exact with its interop patch", () => {
+  const pkg = JSON.parse(readFileSync(new URL("../../package.json", import.meta.url), "utf8"));
+  for (const group of ["overrides", "resolutions"]) {
+    expect(pkg[group].glob).toBe("14.0.2");
+    expect(pkg[group].minimatch).toBe("11.0.1");
+  }
+  expect(pkg.patchedDependencies).toEqual({
+    "minimatch@11.0.1": "patches/minimatch@11.0.1.patch",
+  });
+  const patch = readFileSync(new URL("../../patches/minimatch@11.0.1.patch", import.meta.url));
+  expect(createHash("sha256").update(patch).digest("hex")).toBe(
+    "1c2e49a5e9608bdf3b904c9f3ee62b02cc8677e46167ec9d70f117cd3dc07015",
+  );
+  for (const [name, expected] of [
+    ["glob", "14.0.2"],
+    ["minimatch", "11.0.1"],
+  ]) {
+    const copies = [...lock.matchAll(new RegExp(String.raw`\[\s*"${name}@([^"]+)"`, "g"))].map(
+      (match) => match[1],
+    );
+    expect(copies.length).toBeGreaterThan(0);
+    for (const version of copies) expect(version).toBe(expected);
+  }
 });

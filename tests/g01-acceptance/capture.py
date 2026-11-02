@@ -15,6 +15,13 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    if Path('tests/sec-dep-20261102/source.json').exists():
+        import sys
+        sys.path.insert(0, str(Path('tests/sec-dep-20261102').resolve()))
+        from sec_identity import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     if Path('tests/c4-sale/source.json').exists():
         import sys
         sys.path.insert(0, str(Path('tests/c4-sale').resolve()))

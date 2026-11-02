@@ -1,0 +1,65 @@
+name: SEC 20261102 matching engines and source contracts
+"on":
+  push:
+    branches: [integration/g0-g1-reconcile-2026-10-18]
+    paths:
+      [
+        package.json,
+        bun.lock,
+        patches/**,
+        tests/sec-dep-20261102/**,
+        .github/workflows/sec-dep-20261102.yml,
+      ]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - name: Exact source and whole graph before install
+        run: |
+          python tests/g01-acceptance/capture.py identity
+          python tests/sec-dep-20261102/graph.py
+          python tests/sec-dep-20261102/test_identity.py
+          python tests/sec-dep-20261102/test_graph.py
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - name: Normal full frozen consumer
+        run: bun install --frozen-lockfile
+      - name: Exact installed patch and financial source invariance
+        run: |
+          mkdir -p "$RUNNER_TEMP/sec-20261102-evidence"
+          python tests/sec-dep-20261102/installed.py > "$RUNNER_TEMP/sec-20261102-evidence/installed.json"
+          python tests/sec-dep-20261102/test_installed.py
+          bun test tests/unit/dependency-security.test.ts
+          python tests/g01-acceptance/capture.py identity
+      - name: Actual full installed consumer and bounded security contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --test tests/sec-dep-20261102/contracts.cjs 2>&1 | tee "$RUNNER_TEMP/sec-20261102-evidence/contracts.log"
+          node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs
+          node --test tests/g0-node-server/contracts.test.cjs
+          node tests/sec-dep-20261029/regressions.cjs
+          git diff --exit-code
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sec-20261102-contracts
+          path: |
+            ${{ runner.temp }}/sec-20261102-evidence/
+            ${{ runner.temp }}/g01-evidence/identity.json
+          if-no-files-found: warn
+          retention-days: 7

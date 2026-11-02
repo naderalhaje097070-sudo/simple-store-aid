@@ -1,0 +1,3 @@
+# Migration impact
+
+No new or edited SQL. All54 applied migration files and75 repository-wide SQL files remain byte/mode exact against836de635. target.json fixes all54 path/blob/mode rows; verifier derives expected rows from that immutable Git ancestor, preserves41 original rows from frozen A manifest and rejects duplicates, missing/extra/replaced/renamed/symlink/executable SQL. Native DB history must equal all54 source version IDs in canonical order. This proves isolated installation/history agreement, not financial semantics, upgrade acceptance or catalog parity with production. Existing fresh local CLI setup applies all54 as before; no migration repair or history rewriting.

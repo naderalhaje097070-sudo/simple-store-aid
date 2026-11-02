@@ -1,0 +1,7 @@
+# Impact analysis and design
+
+Root cause is test-target staleness, not a product/SQL defect: runtime checks exactly41 while the same workflow copies/applies54 current immutable migrations. Smallest bounded correction replaces this literal gate with explicit source-pinned file and database-history verification, preserving original41 ancestry and byte identity. It adds a narrow reviewed source admission layer rather than modifying prior frozen manifests/verifiers.
+
+Three existing paths change: runtime.py invokes source verification before reading temporary credentials and compares actual DB versions before fixtures; capture.py selects C5 admission first; g01-runtime-retry.yml runs new negative tests and source target preflight in both jobs and triggers on target/migration changes. Five test files and one source manifest are additive. Existing app/SQL/financial/state/permissions/account behavior and all dependency bytes remain exact. Public receipt G2 text is correctly labeled historical; no prior finding is falsely promoted to current state.
+
+No new API, performance-relevant product work, background job, provider or production config. Acceptance evidence integrity is medium risk; native actual SSR/Auth may uncover another current failure, which must be preserved and diagnosed without weakening the gate. New source scope remains financial_acceptance=false/integration_accepted=false. Required full C5 stored financial/browser/restore cases are not replaced by this batch.

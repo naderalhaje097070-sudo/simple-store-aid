@@ -1,0 +1,5 @@
+# Security impact
+
+Existing native firewall UID containment, IPv6 denial, credential-free canary, no inherited proxies/DB routing overrides, exact API origin, traced DNS/syscall/process lineage, browser routing and named mismatch denial remain unchanged. C5 source guard pins all existing source, SQL, lock/patch and five frozen manifests, with only3 admitted test/CI changes and5 additions. No secrets or real users. Exact migration filenames, immutable Git bytes/modes and actual DB history prevent a count-only acceptance bypass. The official Supabase changelog/index and local-development migration guide were checked3November; pinned tools remain unchanged. The PG15.19/17.11 extension/operator advisory was inspected; no schema/operator/extension or production upgrade is performed here.
+
+No independent review is claimed; C6 remains open. Actual native egress and credential-scan receipts are required before claiming this runtime passed. Full financial and account-lifecycle security acceptance remains source-bound to its own evidence.

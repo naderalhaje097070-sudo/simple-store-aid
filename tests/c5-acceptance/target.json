@@ -1,0 +1,278 @@
+{
+  "schema_version": 1,
+  "scope": "C5-G1-SCHEMA-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "836de635e2920480059f3d4dbbd00690c61c080a",
+  "migrations": [
+    {
+      "path": "supabase/migrations/20260626142422_e1e5cd70-ffee-4f24-b2ae-eebd0db18705.sql",
+      "sha": "3c69e44bb480a0a30b4b812d3d1efe2b82dc5d29",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626142438_d4aedf2b-2f70-45c6-a882-4dca332eaefd.sql",
+      "sha": "b7746f47b990dd4b50089d56b751bd4a78e17fc7",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626143241_8c05ee08-2167-458f-8092-777dcc86d8fe.sql",
+      "sha": "a585730de455ddc5a78dc9f3e09fd3e93ca02e79",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626143657_789b3a0b-04fb-4e3a-b03f-7755cc775b53.sql",
+      "sha": "7d5426e64c1fd8d9dad78f42d56d061be778a0ed",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626145704_c8c979bb-7f0f-40d1-ab54-57f9146f0f6d.sql",
+      "sha": "abda83bdb5295dfa6d51d8f5af7d75688631eee0",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626150447_f1b0d716-df50-4ab4-a026-8cb4975ec0ff.sql",
+      "sha": "0dc22071a5448abdb0a95a56c97d24adbf2019df",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626151932_a2de7094-5740-498d-9437-09680527c275.sql",
+      "sha": "88fd9836826e875faa98fde0bc6311c1672b69f1",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "sha": "eb128740f70e1adf13146b7f7ab5182fbbefb13b",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626155333_aa946735-38d8-4fec-b0e6-864218c195bf.sql",
+      "sha": "268a59b85f26e7556e539920327102fe520420be",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626155758_5beb9f68-eae1-491f-b1f8-16b4b27d5f44.sql",
+      "sha": "f5f2f721207a778d60eee35ddc14bd0990b76bdf",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626161037_e3d315aa-e184-49a8-8df2-139109f655d6.sql",
+      "sha": "06ea226cbffa018e831e8a3f9dc784813e588bd6",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626162911_a886535a-5a17-442c-af6b-3304d6448bdb.sql",
+      "sha": "1b2a0d8250d8f837610e204ce5c1cbaa6d1c8948",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626181906_49b593dd-fe90-4337-81ae-59317feb60f5.sql",
+      "sha": "664530b175a3e0e2707f374906840ca8fda26dae",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "sha": "a15606bb8d4b287cf0def00b402e16c9b89afdb8",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626190302_e945fa51-b600-4fff-9ddb-784d5b49c10d.sql",
+      "sha": "7424a63f03e2e547c5c0d0fb0e8bdb6b2cd13231",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626191000_platform_admin_audit_prerequisite.sql",
+      "sha": "83b0aeb7693c3228d003d55c20000963f0725200",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626191523_00647863-6d4f-4917-9505-8a0433f2a3b1.sql",
+      "sha": "c7e5df32149acd8a3227651f88bdc7d83c6e5c04",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626201427_6bca4d36-e5bf-4541-a30f-48292b69c83f.sql",
+      "sha": "2164cfdb56c1479e208e2cea4c28aaf425cc4919",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626213551_992be0ef-9eec-4c9b-a45e-1cef8ae4a909.sql",
+      "sha": "d0ea200dde8b88134593c59f2d419da234721ffd",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626225100_e1e3f9ce-235f-4835-ba96-b44483cebcf5.sql",
+      "sha": "a98ca8632905061be5501dbfe86dd7b880dd51c4",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626231740_59405d8b-7734-42bf-a780-9228b4b63c03.sql",
+      "sha": "b1431806f4db21019257c9a4e2c80b5c07097e5c",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260626233231_468fb9e5-0531-45f2-91cd-6c8d8c79c9a9.sql",
+      "sha": "85a67ecfbc006125496e9afebef0d629e0db6199",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "sha": "df5f868ba59ca95f75d179eceb96e4b81fae342f",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "sha": "07048605f67628ed5b54c5bafd0bb3c388509b76",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627203328_795dab6c-ee59-4e9a-a1c2-581daf2c3027.sql",
+      "sha": "2df0d72d4d6626196451b284721b3e08bc83603f",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627213042_44ccde2c-0b2b-484c-adc0-c67f078d5e16.sql",
+      "sha": "55ce1238fecfb08c39a2c7d9bf1849d927c2733e",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627221524_51fa5022-4212-4573-b088-2bea0db6be6b.sql",
+      "sha": "1c69a97c145c8530c44d941f6b418aad9fb8e60a",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260627224911_62e22d9b-cb4e-4719-98b0-a9bf0c0c559f.sql",
+      "sha": "9f06dc5f53ace2f308b9b6bfed631df2d4d9cdef",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628073856_272cf711-1400-4a7b-a211-902e3771e31e.sql",
+      "sha": "d9c5c0341d063533bd00cded2447e46e96c3a3dd",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628074047_b6c29195-ac60-4f51-a4ad-39cf63c16b16.sql",
+      "sha": "ad099717609b3c27c8fd66be5975d49a489a28f2",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628075333_7b947a26-c419-48d9-b41e-55909cd48566.sql",
+      "sha": "9b5a7f75e6343fc761267ff9123c490add1ebb05",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+      "sha": "6c35e58bcef2781750fba2d79cc154fcb0293f28",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628103809_cfdcc058-ba07-4abf-8ae4-73370f751c82.sql",
+      "sha": "0cf75d0764d058057439b540a29883235ade7942",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260628105459_f4016dc9-2889-4c2d-ad7b-1407080c2258.sql",
+      "sha": "2f6bd895abf01ea11fa4147f2793f2598f27e6bb",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "sha": "d2892a0adb6e567aa11a9a98795f5bc348a833cd",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "sha": "381d968d10f1265a909fc0fdb66f77adbf79af4f",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260706120000_security_fix_e_remove_test_delete_and_tighten_anon.sql",
+      "sha": "37d81c014f40e53626ba09714c843b976fdac7eb",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260708073115_533287b9-69a1-4be2-908b-b3e503e3378c.sql",
+      "sha": "dfb505f8f0f7de742b04c9ebe295f7466c800dea",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260715145141_email_infra.sql",
+      "sha": "0aa11bba4ba0c4d95c42f37aaf957a1d007f7011",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260716064935_f0da86df-787d-446f-ab46-9e262c7a7311.sql",
+      "sha": "661bfcc90c6b9c93cc2bd3bd824e9f24c52731f5",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260717180906_113368d7-ec55-452b-a858-9f49fa3b70e1.sql",
+      "sha": "81d0bfa72c2a59333591ed2236931c4623a740f3",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260815170000_fin_courier_pr_a.sql",
+      "sha": "1e6654acdad1591229df91b77981de264612d738",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20260815171000_fin_idem_sale_create.sql",
+      "sha": "c6a97b4af3b43fc7d6ed2e5b67890aeed77f79d7",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+      "sha": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261010225012_avoid_profile_policy_sublink_recursion.sql",
+      "sha": "b5a992be872a2d9d4d896eed8a80c54cf6379b9f",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261013120223_sec_truncate_01.sql",
+      "sha": "ccab1b2f5bb2922d75210b538656f948fa7003d8",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261013221918_owner_closure_01.sql",
+      "sha": "4fbd720b034198ae4b550de4517576f804edf948",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261020210549_scanner_auth_01.sql",
+      "sha": "f2f6598eb9349ae1674254ff1120479aebdcd84f",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261021080927_tenant_entitlement_01.sql",
+      "sha": "d43f6635bd9b6d7e9ec1798840e8b8b70f076200",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261021132651_webhook_persistence_01.sql",
+      "sha": "5ccc5fa378476e0cebb0563de041d1bc85ee08ea",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261021134621_webhook_bootstrap_01.sql",
+      "sha": "1bb458f7f7e31313fdd17246df811ef54b0915b8",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261021140746_webhook_errors_01.sql",
+      "sha": "9f981d01a333703a1cab4d1c95010f165ce58ea5",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261028213608_fractional_quantity_01.sql",
+      "sha": "8e150e1458cf81060f84a119bc12793627f5900a",
+      "mode": "100644"
+    },
+    {
+      "path": "supabase/migrations/20261029044024_c3_reconcile_financial_adapters.sql",
+      "sha": "ae790acf4052f2ab29b0ed1198d85c5faae8c65e",
+      "mode": "100644"
+    }
+  ]
+}

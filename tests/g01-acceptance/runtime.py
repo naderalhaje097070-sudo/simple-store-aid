@@ -1,4 +1,4 @@
-"""Local41 + unchanged Cloudflare entry/Auth UI; zero financial write flow."""
+"""Pinned local54 + unchanged Cloudflare entry/Auth UI; zero financial write flow."""
 import hashlib
 import json
 import os
@@ -7,15 +7,18 @@ import re
 import secrets
 import shutil
 import subprocess
+import sys
 import time
 import urllib.error
 import urllib.request
 import uuid
 from guard_receipt import receipt as guard_receipt
 from egress_trace import collect as collect_trace, ProcessMap
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'c5-acceptance'))
+from target import verify_source, verify_history
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
-record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'G1-ACCEPTANCE-REPAIR-01','checks':[],'integration_accepted':False}
+record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'C5-G1-SCHEMA-01','checks':[],'integration_accepted':False}
 private_secrets=[]
 process=None
 trace_state=None
@@ -136,12 +139,15 @@ try:
     check('native_canary_rejected',counters()['ipv4']>0)
     firewall_before=counters()
     record['native_phase_counters']={'before':firewall_before}
+    pinned_versions, target_receipt = verify_source(Path.cwd())
+    record['migration_target'] = target_receipt
+    check('pinned54_migration_source',True)
     status=json.loads((root/'g01-status.json').read_text())
     check('exact_local_API',status['API_URL']=='http://127.0.0.1:54321')
     private_secrets=[status['ANON_KEY'],status['SERVICE_ROLE_KEY']]
-    files=sorted(Path('supabase/migrations').glob('*.sql'))
     versions=json.loads(query('select json_agg(version order by version) from supabase_migrations.schema_migrations;'))
-    check('exact41_migrations',len(files)==41 and versions==[p.name.split('_')[0] for p in files])
+    verify_history(pinned_versions, versions)
+    check('exact_pinned54_migrations',True)
     check('initial_empty_finance_auth',all(int(query('select count(*) from public.'+t+';'))==0 for t in ['orders','products','payments','customers']) and query('select count(*) from auth.users;')=='0')
     actors=[]
     for label in ['A','B']:
@@ -203,7 +209,7 @@ try:
     check('bounded_egress_trace_collected',len(record.get('egress_trace',{}))==2 and all(v['complete'] and not v['lineage_read_failed'] and not v['trace_failed'] for v in record.get('egress_trace',{}).values()),defer=True)
     check('tracked_source_unchanged',subprocess.run(['git','diff','--quiet','HEAD','--']).returncode==0)
     record['runtime']={'supabase_cli':'2.101.0','wrangler':'4.149.0','playwright':'1.62.0','node':subprocess.run(['node','--version'],capture_output=True,text=True).stdout.strip()}
-    record['g2_known_unfixed']='preissued banned JWT still has old access on source54; original native evidence retained, not retested/imported'
+    record['g2_historical_source54']='Original preissued banned-JWT finding is historical; current account lifecycle acceptance is not retested or imported by this nonfinancial G1 probe'
     record['financial_flow_executed']=False
     check('credential_free_receipt',not any(x and x in json.dumps(record) for x in private_secrets))
     # A deferred mismatch failure still fails the job after collecting end-state evidence.

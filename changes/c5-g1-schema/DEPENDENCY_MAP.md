@@ -1,0 +1,3 @@
+# Dependency map
+
+G1 workflow → capture identity → new C5 frozen-source layer → unchanged original verifiers/manifests; G1 runtime → pinned target.py/target.json → exact Git base migration list and frozen A original41 archive → real loopback psql schema_migrations versions. Existing native CLI/workdir, write guard, firewall canary, strace/DNS/process-map, build, Cloudflare emulator, Auth browser guard, named error receipt and cleanup dependencies are unchanged. G0 and other workflows using capture identity select the explicit C5 layer; removing its manifest falls back to the rejecting SEC layer. Prior tests still execute independently on their own fixtures.

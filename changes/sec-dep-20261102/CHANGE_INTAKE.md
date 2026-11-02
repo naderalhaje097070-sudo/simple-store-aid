@@ -1,3 +1,9 @@
+# Current status — 2 November 2026
+
+Specific owner exception authorized in #55/6581232804; implemented and tested on 552ce47b924dd90b6b8403670989eced07bb82cf. Six affected workflows pass, complete supported audit {} exit 0. [Implementation result and limits](IMPLEMENTATION_RESULT.md). Automatic legacy G1 exact41 guard remains failed; C5 is ONE NEXT. Not merged or released. The earlier intake/proposal boundary below is historical and superseded by the specific authorization.
+
+---
+
 # Current decision boundary —2November2026
 
 Investigation complete; exact native-patch compatibility proposal prepared, not adopted. Owner authorization of this specific declared-range/interop exception is required before application changes. Read PROPOSAL.md and REPORT.md. Exact application full audit remains failed2Moderate; original financial/54SQL/frozen source unchanged. Historical intake below remains binding until that decision.

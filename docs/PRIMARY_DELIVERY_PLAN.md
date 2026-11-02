@@ -1,3 +1,13 @@
+## Current — SEC-DEP-20261102 implemented and tested, 2026-11-02
+
+Owner authorized the specific declared-range/export-interop exception (#55/6581232804). Exact executable `552ce47b924dd90b6b8403670989eced07bb82cf`, tree `411b79dd616b75efe350274069750498c291af87`, on existing `integration/g0-g1-reconcile-2026-10-18`: six affected workflows SUCCESS; full supported audit `{}` / exit 0, normal frozen install, typecheck, 0 lint errors / 14 warnings, 97 unit / 300 expectations, both builds and actual-consumer/security/source guards passed. Official complete lock generation and 441 protected entries / all 54 migrations (75 SQL files repository-wide) / unchanged app src and frozen A+B+C4 are proven. Status **Implemented → Tested**, candidate only.
+
+Automatic legacy G1 41492623347 still FAILED `exact41_migrations`; environment and cleanup passed. No bypass or full financial acceptance. [Final result, exact runs, evidence and limits](../changes/sec-dep-20261102/IMPLEMENTATION_RESULT.md). Independent review/C5/C6/C7 remain open. Main `220fc2066b4d6254b1803b5e32919c47d60a9c7e` and five original drafts unchanged; no merge, release, deployment or closure. Specific owner authorization is not a general upgrade or scan waiver.
+
+**ONE NEXT: C5** — reconcile legacy G1 41-target with the actual 54-migration history, then complete persisted financial, concurrency/replay, isolation, browser→API→database and restore acceptance on fresh/upgraded safe databases. C2 fractional units are already approved. This delivery changes documentation/evidence only; tests belong to exact source 552ce47, not its documentation descendant. Prior status blocks below are historical and superseded by this block.
+
+---
+
 ## SEC-DEP-20261102 — concrete interop proposal prepared; owner exception decision required,2026-11-02
 
 Sole claim55/6580198545; investigation base b587742231287219e9302d6af70dc128e19e25e0, main220fc206 and original five draftheads unchanged. No application/package/lock/54SQL/CI source or installed project dependency change. Existing430protected source entries and prior C4/frozenA+B admission remain unchanged. This is investigation/proposal only, not a financial or release completion.

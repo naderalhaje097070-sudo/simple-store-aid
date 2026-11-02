@@ -1,3 +1,9 @@
+# Proposal disposition — 2 November 2026
+
+Specifically authorized by the owner (#55/6581232804), implemented and tested on integration source 552ce47b924dd90b6b8403670989eced07bb82cf. [Final result, current full application audit and limits](IMPLEMENTATION_RESULT.md). The original unadopted proposal below is retained as decision history, not the current implementation state.
+
+---
+
 # SEC-DEP-20261102 — concrete compatibility exception proposal
 
 Status: NOT APPLIED TO THE PROJECT. Only isolated public-package prototypes were changed. Current application source/package/lock/54SQL remain at b587742231287219e9302d6af70dc128e19e25e0. Application audit still exits1 with two Moderate records.

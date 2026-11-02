@@ -1,0 +1,523 @@
+{
+  "schema_version": 1,
+  "batch": "SEC-DEP-20261102",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "tested_source": "552ce47b924dd90b6b8403670989eced07bb82cf",
+  "tested_tree": "411b79dd616b75efe350274069750498c291af87",
+  "owner_authorization": "https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/55#issuecomment-6581232804",
+  "status": "Tested",
+  "integration_accepted": false,
+  "preparation": {
+    "id": 41473986779,
+    "name": "SEC 20261102 complete graph preparation",
+    "head_sha": "b40b397990d2db6900bf02660742cc32f6549992",
+    "conclusion": "success",
+    "run_attempt": 1,
+    "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41473986779",
+    "artifact_id": 13157071074,
+    "path": "changes/sec-dep-20261102/accepted-evidence/preparation-13157071074.zip",
+    "bytes": 216117,
+    "sha256": "5d4e098ec3b1a09bff52aea4475b8e9cfdfb36bab82ee3e571f24693a1a089f0",
+    "git_blob": "a1406902b0cab3c45061482a01d1e716cfcaf295"
+  },
+  "runs": [
+    {
+      "id": 41492623283,
+      "name": "Integrated G0 verification",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623283"
+    },
+    {
+      "id": 41492623366,
+      "name": "B1 composition compatibility",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623366"
+    },
+    {
+      "id": 41492623489,
+      "name": "B dependency and request boundary verification",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623489"
+    },
+    {
+      "id": 41492623361,
+      "name": "SEC dependency and C source contracts",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623361"
+    },
+    {
+      "id": 41492623515,
+      "name": "B7 dependency advisory regressions",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623515"
+    },
+    {
+      "id": 41492623491,
+      "name": "SEC 20261102 matching engines and source contracts",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "success",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623491"
+    },
+    {
+      "id": 41492623347,
+      "name": "G1 Bounded Acceptance Repair",
+      "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+      "status": "completed",
+      "conclusion": "failure",
+      "run_attempt": 1,
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41492623347"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 13163549745,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2MzU0OTc0NQ==",
+      "name": "b-dep-audit",
+      "size_in_bytes": 549,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163549745",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163549745/zip",
+      "expired": false,
+      "digest": "sha256:e220fcc2525151377ee3b4f87811956ea76c41d0571f06dac09da0aefd1c69a7",
+      "created_at": "2026-11-02T17:35:48Z",
+      "updated_at": "2026-11-02T17:35:48Z",
+      "expires_at": "2027-01-31T17:35:38Z",
+      "workflow_run": {
+        "id": 41492623489,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623489,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163549745.zip",
+      "verified_sha256": "e220fcc2525151377ee3b4f87811956ea76c41d0571f06dac09da0aefd1c69a7",
+      "git_blob": "36a0d1e41cda4c8041a9e30bb480b1cc0bc6028d"
+    },
+    {
+      "id": 13163554952,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2MzU1NDk1Mg==",
+      "name": "quality-diagnostics",
+      "size_in_bytes": 2134,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163554952",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163554952/zip",
+      "expired": false,
+      "digest": "sha256:d8314f5eae83b4ea016e0eb5320ba50efa346ffe839bee8f63ac0f947b8a6917",
+      "created_at": "2026-11-02T17:37:31Z",
+      "updated_at": "2026-11-02T17:37:31Z",
+      "expires_at": "2027-01-31T17:35:38Z",
+      "workflow_run": {
+        "id": 41492623283,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623283,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163554952.zip",
+      "verified_sha256": "d8314f5eae83b4ea016e0eb5320ba50efa346ffe839bee8f63ac0f947b8a6917",
+      "git_blob": "80fa3f569979312e1478e8c7bcf8d9ee9dac34ae"
+    },
+    {
+      "id": 13163724501,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2MzcyNDUwMQ==",
+      "name": "integration-full-audit",
+      "size_in_bytes": 161,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163724501",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13163724501/zip",
+      "expired": false,
+      "digest": "sha256:12769808fb788809e5676488db332f9af47e495d860508074b303c8ce77d8f11",
+      "created_at": "2026-11-02T17:35:47Z",
+      "updated_at": "2026-11-02T17:35:47Z",
+      "expires_at": "2026-11-09T17:35:46Z",
+      "workflow_run": {
+        "id": 41492623283,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623283,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163724501.zip",
+      "verified_sha256": "12769808fb788809e5676488db332f9af47e495d860508074b303c8ce77d8f11",
+      "git_blob": "80c38f877eea79710f81e622eaf0dd71696abe18"
+    },
+    {
+      "id": 13164233464,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NDIzMzQ2NA==",
+      "name": "g01-environment-attempt1",
+      "size_in_bytes": 618,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164233464",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164233464/zip",
+      "expired": false,
+      "digest": "sha256:93f5ca4053dc745b9719f715191d797b4db04334c034367f7eec91acc9f47f1b",
+      "created_at": "2026-11-02T17:35:58Z",
+      "updated_at": "2026-11-02T17:35:58Z",
+      "expires_at": "2026-11-09T17:35:57Z",
+      "workflow_run": {
+        "id": 41492623347,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164233464.zip",
+      "verified_sha256": "93f5ca4053dc745b9719f715191d797b4db04334c034367f7eec91acc9f47f1b",
+      "git_blob": "a8afe22f98b64c59eb012a1d4c32155ea83d68e6"
+    },
+    {
+      "id": 13164483427,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NDQ4MzQyNw==",
+      "name": "g01-runtime-attempt1",
+      "size_in_bytes": 2748,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164483427",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164483427/zip",
+      "expired": false,
+      "digest": "sha256:3dccefc8d8bd1a96b9ca220314701688e6dfd5c15640abaa70849c288d2e539c",
+      "created_at": "2026-11-02T17:39:44Z",
+      "updated_at": "2026-11-02T17:39:44Z",
+      "expires_at": "2026-11-09T17:39:43Z",
+      "workflow_run": {
+        "id": 41492623347,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164483427.zip",
+      "verified_sha256": "3dccefc8d8bd1a96b9ca220314701688e6dfd5c15640abaa70849c288d2e539c",
+      "git_blob": "0bc2282d9ade59f401670b7986490acf28cdf43e"
+    },
+    {
+      "id": 13164543194,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NDU0MzE5NA==",
+      "name": "sec-20261102-contracts",
+      "size_in_bytes": 1713,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164543194",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13164543194/zip",
+      "expired": false,
+      "digest": "sha256:48a0558850c3f246f9b1183f890ef4d50d5986b1d07fbaaffba626c71d2d797a",
+      "created_at": "2026-11-02T17:36:03Z",
+      "updated_at": "2026-11-02T17:36:03Z",
+      "expires_at": "2026-11-09T17:36:02Z",
+      "workflow_run": {
+        "id": 41492623491,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623491,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164543194.zip",
+      "verified_sha256": "48a0558850c3f246f9b1183f890ef4d50d5986b1d07fbaaffba626c71d2d797a",
+      "git_blob": "234f794e9f140608052bd427a7d0e31def710e8c"
+    },
+    {
+      "id": 13165071484,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NTA3MTQ4NA==",
+      "name": "b-dep-native-entry",
+      "size_in_bytes": 2685,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165071484",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165071484/zip",
+      "expired": false,
+      "digest": "sha256:b72bf95a5fd79ad5e6ae6f6f951ae757942cb5914c1d43f6e6c363ec4b85acdf",
+      "created_at": "2026-11-02T17:36:41Z",
+      "updated_at": "2026-11-02T17:36:41Z",
+      "expires_at": "2027-01-31T17:35:38Z",
+      "workflow_run": {
+        "id": 41492623489,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623489,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165071484.zip",
+      "verified_sha256": "b72bf95a5fd79ad5e6ae6f6f951ae757942cb5914c1d43f6e6c363ec4b85acdf",
+      "git_blob": "69c1fa7d826691a96c3c62796c898812f8adbab8"
+    },
+    {
+      "id": 13165335723,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NTMzNTcyMw==",
+      "name": "b7-advisory-regressions",
+      "size_in_bytes": 10238,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165335723",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165335723/zip",
+      "expired": false,
+      "digest": "sha256:6bc2120899b8d49e82e953118f1756876fb655ab5530ed92c948ce8f5e87f96b",
+      "created_at": "2026-11-02T17:35:59Z",
+      "updated_at": "2026-11-02T17:35:59Z",
+      "expires_at": "2026-11-09T17:35:59Z",
+      "workflow_run": {
+        "id": 41492623515,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623515,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165335723.zip",
+      "verified_sha256": "6bc2120899b8d49e82e953118f1756876fb655ab5530ed92c948ce8f5e87f96b",
+      "git_blob": "78810609908a1d6df96180d988808b6c13e78d51"
+    },
+    {
+      "id": 13165825205,
+      "node_id": "MDg6QXJ0aWZhY3QxMzE2NTgyNTIwNQ==",
+      "name": "integration-source-identity",
+      "size_in_bytes": 618,
+      "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165825205",
+      "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13165825205/zip",
+      "expired": false,
+      "digest": "sha256:279d0ac98eb06a95b19530394ed7e425c7d43889758b53e314a25f26a67b5286",
+      "created_at": "2026-11-02T17:37:32Z",
+      "updated_at": "2026-11-02T17:37:32Z",
+      "expires_at": "2026-11-09T17:37:31Z",
+      "workflow_run": {
+        "id": 41492623283,
+        "repository_id": 1281463067,
+        "head_repository_id": 1281463067,
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "head_sha": "552ce47b924dd90b6b8403670989eced07bb82cf"
+      },
+      "run_id": 41492623283,
+      "preserved_path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165825205.zip",
+      "verified_sha256": "279d0ac98eb06a95b19530394ed7e425c7d43889758b53e314a25f26a67b5286",
+      "git_blob": "ef2f64f399ef43dd08c027a5c7beafb56f5792fb"
+    }
+  ],
+  "git_entries": [
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/preparation-13157071074.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a1406902b0cab3c45061482a01d1e716cfcaf295"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125374606903.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6d96cb56cab2cd268a14de6571a81f0bf4fb0628"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439267411.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9dd805288e7e361f279c3d8cbadc88493a501aa2"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268160.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49c22fb097220b8c35a165767c1d4401f0257c31"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268441.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fd8d6588a0f2dc7192b9092ce19cee39c59403d"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268188.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e83b67f8f858433d28b474f0ad4cf6c9b95e1a5e"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268128.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78704baa89c8432776810d4b696ba3c15b4f15be"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268302.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6eb5193de9d880ae089f33f22c5301fa5f3185ab"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439267893.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5a8f6ecd86d4c5a989188919e32be0bcdfb3a821"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/logs/job-125439268359.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a4e9a917a2467358b8a7e647e017cb3962ab41f"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163549745.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36a0d1e41cda4c8041a9e30bb480b1cc0bc6028d"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163554952.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80fa3f569979312e1478e8c7bcf8d9ee9dac34ae"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13163724501.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "80c38f877eea79710f81e622eaf0dd71696abe18"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164233464.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8afe22f98b64c59eb012a1d4c32155ea83d68e6"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164483427.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0bc2282d9ade59f401670b7986490acf28cdf43e"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13164543194.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "234f794e9f140608052bd427a7d0e31def710e8c"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165071484.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "69c1fa7d826691a96c3c62796c898812f8adbab8"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165335723.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "78810609908a1d6df96180d988808b6c13e78d51"
+    },
+    {
+      "path": "changes/sec-dep-20261102/accepted-evidence/artifacts/13165825205.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef2f64f399ef43dd08c027a5c7beafb56f5792fb"
+    }
+  ],
+  "g1_failure": {
+    "source_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+    "verification_batch": "G1-ACCEPTANCE-REPAIR-01",
+    "checks": [
+      {
+        "name": "clean_HTTP_PROXY",
+        "passed": true
+      },
+      {
+        "name": "clean_HTTPS_PROXY",
+        "passed": true
+      },
+      {
+        "name": "clean_ALL_PROXY",
+        "passed": true
+      },
+      {
+        "name": "clean_http_proxy",
+        "passed": true
+      },
+      {
+        "name": "clean_https_proxy",
+        "passed": true
+      },
+      {
+        "name": "clean_all_proxy",
+        "passed": true
+      },
+      {
+        "name": "clean_PGSERVICE",
+        "passed": true
+      },
+      {
+        "name": "clean_PGSERVICEFILE",
+        "passed": true
+      },
+      {
+        "name": "clean_PGHOSTADDR",
+        "passed": true
+      },
+      {
+        "name": "clean_PGOPTIONS",
+        "passed": true
+      },
+      {
+        "name": "clean_CLOUDFLARE_API_TOKEN",
+        "passed": true
+      },
+      {
+        "name": "clean_LOVABLE_API_KEY",
+        "passed": true
+      },
+      {
+        "name": "native_canary_rejected",
+        "passed": true
+      },
+      {
+        "name": "exact_local_API",
+        "passed": true
+      },
+      {
+        "name": "exact41_migrations",
+        "passed": false
+      }
+    ],
+    "integration_accepted": false,
+    "native_phase_counters": {
+      "before": {
+        "ipv4": 1,
+        "ipv6": 0
+      }
+    },
+    "failure_type": "RuntimeError",
+    "failed_phase": "after_exact41_migrations",
+    "reason": "exact41_migrations"
+  },
+  "g1_cleanup": {
+    "status_removed": true,
+    "worker_env_removed": true,
+    "processes_removed": true,
+    "containers_removed": true,
+    "process_state": "no_processes",
+    "container_state": "absent",
+    "source_sha": "552ce47b924dd90b6b8403670989eced07bb82cf",
+    "passed": true
+  },
+  "limits": {
+    "independent_review": false,
+    "C5_complete": false,
+    "merged": false,
+    "released": false,
+    "delivery_is_docs_and_evidence_only": true
+  },
+  "delivery_preservation": {
+    "protected_entries_exact": 441,
+    "migration_sql_files_exact": 54,
+    "all_repository_sql_files_exact": 75,
+    "sec_manifest_exact": true,
+    "removed_paths": 0,
+    "allowed_changed_paths": 30,
+    "docs_paths": 11,
+    "raw_evidence_paths": 19
+  }
+}

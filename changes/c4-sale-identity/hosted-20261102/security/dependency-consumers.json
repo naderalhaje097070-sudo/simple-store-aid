@@ -1,0 +1,62 @@
+{
+  "source": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+  "lock_blob": "6d017ff0e72d9dbde3d4e3c88ce6b3adc2c0c320",
+  "consumers": [
+    {
+      "consumer": "@eslint/config-array",
+      "version": "@eslint/config-array@0.21.2",
+      "dependency": "minimatch",
+      "requested": "^3.1.5",
+      "resolved": "minimatch",
+      "locked": "minimatch@3.1.5"
+    },
+    {
+      "consumer": "@eslint/eslintrc",
+      "version": "@eslint/eslintrc@3.3.5",
+      "dependency": "minimatch",
+      "requested": "^3.1.5",
+      "resolved": "minimatch",
+      "locked": "minimatch@3.1.5"
+    },
+    {
+      "consumer": "@typescript-eslint/typescript-estree",
+      "version": "@typescript-eslint/typescript-estree@8.59.0",
+      "dependency": "minimatch",
+      "requested": "^10.2.2",
+      "resolved": "@typescript-eslint/typescript-estree/minimatch",
+      "locked": "minimatch@10.2.5"
+    },
+    {
+      "consumer": "eslint",
+      "version": "eslint@9.39.4",
+      "dependency": "minimatch",
+      "requested": "^3.1.5",
+      "resolved": "minimatch",
+      "locked": "minimatch@3.1.5"
+    },
+    {
+      "consumer": "filelist",
+      "version": "filelist@1.0.6",
+      "dependency": "minimatch",
+      "requested": "^5.0.1",
+      "resolved": "filelist/minimatch",
+      "locked": "minimatch@5.1.9"
+    },
+    {
+      "consumer": "glob",
+      "version": "glob@11.1.0",
+      "dependency": "minimatch",
+      "requested": "^10.1.1",
+      "resolved": "glob/minimatch",
+      "locked": "minimatch@10.2.5"
+    },
+    {
+      "consumer": "workbox-build",
+      "version": "workbox-build@7.4.1",
+      "dependency": "glob",
+      "requested": "^11.0.1",
+      "resolved": "glob",
+      "locked": "glob@11.1.0"
+    }
+  ]
+}

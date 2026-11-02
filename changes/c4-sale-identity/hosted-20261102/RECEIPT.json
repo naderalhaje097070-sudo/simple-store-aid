@@ -1,0 +1,3136 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-02",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "tested_source": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+  "tested_tree": "1a25a3fb049092a63b1dbf76dffa8da72c0378a1",
+  "main": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+  "original_drafts": [
+    {
+      "number": 50,
+      "head": "193412a01938d752a98689d85acd727664e4dc8e",
+      "draft": true
+    },
+    {
+      "number": 49,
+      "head": "3106b4710fb9214d6f406d5a3fe7bf44fa2823e6",
+      "draft": true
+    },
+    {
+      "number": 39,
+      "head": "d9ba8709e903e290d375208a3469610f155ecb48",
+      "draft": true
+    },
+    {
+      "number": 35,
+      "head": "090d5564fa368f826316c9dc992a133c4e4872c4",
+      "draft": true
+    },
+    {
+      "number": 27,
+      "head": "86f2b552db3ff83a9091ee2df58b7f4e547717b7",
+      "draft": true
+    }
+  ],
+  "runs": [
+    {
+      "id": 41066452097,
+      "name": "SEC dependency and C source contracts",
+      "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+      "run_attempt": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452097",
+      "created_at": "2026-10-30T13:49:28Z",
+      "updated_at": "2026-11-02T12:53:53Z"
+    },
+    {
+      "id": 41066452421,
+      "name": "C4 durable sale identity stored and browser contracts",
+      "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+      "run_attempt": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452421",
+      "created_at": "2026-10-30T13:49:28Z",
+      "updated_at": "2026-11-02T12:58:17Z"
+    },
+    {
+      "id": 41066452343,
+      "name": "Integrated G0 verification",
+      "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+      "run_attempt": 2,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452343",
+      "created_at": "2026-10-30T13:49:28Z",
+      "updated_at": "2026-11-02T12:55:31Z"
+    },
+    {
+      "id": 41066452195,
+      "name": "B1 composition compatibility",
+      "head_sha": "42406e869fff080d733a10ab3688d82629543c95",
+      "run_attempt": 2,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452195",
+      "created_at": "2026-10-30T13:49:28Z",
+      "updated_at": "2026-11-02T12:55:51Z"
+    },
+    {
+      "id": 41448982495,
+      "name": "Integrated G0 verification",
+      "head_sha": "8ba1cb153f2f8a9c124e31dd5f762db60282cf76",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41448982495",
+      "created_at": "2026-11-02T12:58:11Z",
+      "updated_at": "2026-11-02T13:00:56Z"
+    },
+    {
+      "id": 41448982606,
+      "name": "C4 durable sale identity stored and browser contracts",
+      "head_sha": "8ba1cb153f2f8a9c124e31dd5f762db60282cf76",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41448982606",
+      "created_at": "2026-11-02T12:58:11Z",
+      "updated_at": "2026-11-02T13:01:47Z"
+    },
+    {
+      "id": 41449247359,
+      "name": "C4 durable sale identity stored and browser contracts",
+      "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41449247359",
+      "created_at": "2026-11-02T13:00:13Z",
+      "updated_at": "2026-11-02T13:04:07Z"
+    },
+    {
+      "id": 41449247381,
+      "name": "Integrated G0 verification",
+      "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41449247381",
+      "created_at": "2026-11-02T13:00:13Z",
+      "updated_at": "2026-11-02T13:02:11Z"
+    },
+    {
+      "id": 41449851542,
+      "name": "Integrated G0 verification",
+      "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41449851542",
+      "created_at": "2026-11-02T13:04:37Z",
+      "updated_at": "2026-11-02T13:04:57Z"
+    },
+    {
+      "id": 41449851631,
+      "name": "C4 durable sale identity stored and browser contracts",
+      "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41449851631",
+      "created_at": "2026-11-02T13:04:37Z",
+      "updated_at": "2026-11-02T13:05:19Z"
+    },
+    {
+      "id": 41450072541,
+      "name": "Integrated G0 verification",
+      "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "failure",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41450072541",
+      "created_at": "2026-11-02T13:06:11Z",
+      "updated_at": "2026-11-02T13:08:07Z"
+    },
+    {
+      "id": 41450072561,
+      "name": "B1 composition compatibility",
+      "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41450072561",
+      "created_at": "2026-11-02T13:06:11Z",
+      "updated_at": "2026-11-02T13:07:10Z"
+    },
+    {
+      "id": 41450072822,
+      "name": "C4 durable sale identity stored and browser contracts",
+      "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+      "run_attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41450072822",
+      "created_at": "2026-11-02T13:06:11Z",
+      "updated_at": "2026-11-02T13:10:01Z"
+    }
+  ],
+  "jobs": [
+    {
+      "run_id": 41448982606,
+      "jobs": [
+        {
+          "id": 125289147693,
+          "name": "browser",
+          "head_sha": "8ba1cb153f2f8a9c124e31dd5f762db60282cf76",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run python tests/g01-acceptance/capture.py identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run python -m pip install -r tests/gate4/sec-env/requirements.txt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run node tests/c4-sale/build.mjs \"$RUNNER_TEMP/c4-browser\"",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            }
+          ]
+        },
+        {
+          "id": 125289147987,
+          "name": "composition (populated)",
+          "head_sha": "8ba1cb153f2f8a9c124e31dd5f762db60282cf76",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        },
+        {
+          "id": 125289148112,
+          "name": "composition (fresh)",
+          "head_sha": "8ba1cb153f2f8a9c124e31dd5f762db60282cf76",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41449247359,
+      "jobs": [
+        {
+          "id": 125290054296,
+          "name": "composition (populated)",
+          "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        },
+        {
+          "id": 125290054711,
+          "name": "composition (fresh)",
+          "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        },
+        {
+          "id": 125290054757,
+          "name": "browser",
+          "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run python tests/g01-acceptance/capture.py identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run python -m pip install -r tests/gate4/sec-env/requirements.txt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run node tests/c4-sale/build.mjs \"$RUNNER_TEMP/c4-browser\"",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 9
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 18
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 19
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41449247381,
+      "jobs": [
+        {
+          "id": 125290055241,
+          "name": "audit",
+          "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Complete supported audit with actual exit preserved",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Upload complete audit output",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        },
+        {
+          "id": 125290055701,
+          "name": "quality",
+          "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Check reviewed generated source formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Exact integrated source identity and fail-closed mutations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "C4 source admission mutation contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Full repository lint including CommonJS and ESM",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Read-only existing CI policy contract",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Type erasure and actual hook callback wire replay",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Build entry failure and forwarding contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Focused foundation read and CI regressions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Offline server environment boundary",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Install pinned browser test tooling",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Verify browser redirect, WebSocket and origin containment",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Actual financial read UI and export regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Build from mode-specific env file",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Verify generation leaves tracked application files intact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Recheck complete protected source after both builds",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            },
+            {
+              "name": "Upload quality diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Upload source identity receipt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            },
+            {
+              "name": "Post Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 48
+            },
+            {
+              "name": "Post Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 49
+            },
+            {
+              "name": "Post Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 50
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 51
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41449851542,
+      "jobs": [
+        {
+          "id": 125292077950,
+          "name": "audit",
+          "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Complete supported audit with actual exit preserved",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Upload complete audit output",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        },
+        {
+          "id": 125292078185,
+          "name": "quality",
+          "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Check reviewed generated source formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Exact integrated source identity and fail-closed mutations",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 6
+            },
+            {
+              "name": "C4 source admission mutation contracts",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 7
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Full repository lint including CommonJS and ESM",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Read-only existing CI policy contract",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 10
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Type erasure and actual hook callback wire replay",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Build entry failure and forwarding contracts",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Focused foundation read and CI regressions",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 14
+            },
+            {
+              "name": "Offline server environment boundary",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 15
+            },
+            {
+              "name": "Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 16
+            },
+            {
+              "name": "Install pinned browser test tooling",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Verify browser redirect, WebSocket and origin containment",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 18
+            },
+            {
+              "name": "Actual financial read UI and export regression",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 19
+            },
+            {
+              "name": "Build from mode-specific env file",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 20
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 21
+            },
+            {
+              "name": "Verify generation leaves tracked application files intact",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 22
+            },
+            {
+              "name": "Recheck complete protected source after both builds",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 23
+            },
+            {
+              "name": "Upload quality diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Upload source identity receipt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            },
+            {
+              "name": "Post Setup Bun",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 49
+            },
+            {
+              "name": "Post Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 50
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 51
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41449851631,
+      "jobs": [
+        {
+          "id": 125292078412,
+          "name": "browser",
+          "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run python tests/g01-acceptance/capture.py identity",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 7
+            },
+            {
+              "name": "Run python -m pip install -r tests/gate4/sec-env/requirements.txt",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 8
+            },
+            {
+              "name": "Run node tests/c4-sale/build.mjs \"$RUNNER_TEMP/c4-browser\"",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 18
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 19
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            }
+          ]
+        },
+        {
+          "id": 125292078560,
+          "name": "composition (fresh)",
+          "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        },
+        {
+          "id": 125292078712,
+          "name": "composition (populated)",
+          "head_sha": "56122b609879d85bfe21eb11d1c42645a6f3441d",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41450072541,
+      "jobs": [
+        {
+          "id": 125292807535,
+          "name": "audit",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "failure",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Complete supported audit with actual exit preserved",
+              "status": "completed",
+              "conclusion": "failure",
+              "number": 4
+            },
+            {
+              "name": "Upload complete audit output",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "skipped",
+              "number": 9
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            }
+          ]
+        },
+        {
+          "id": 125292807938,
+          "name": "quality",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Install dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Check reviewed generated source formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Exact integrated source identity and fail-closed mutations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "C4 source admission mutation contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Full repository lint including CommonJS and ESM",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Read-only existing CI policy contract",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Type erasure and actual hook callback wire replay",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Build entry failure and forwarding contracts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Focused foundation read and CI regressions",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Offline server environment boundary",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Install pinned browser test tooling",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Verify browser redirect, WebSocket and origin containment",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Actual financial read UI and export regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Build from mode-specific env file",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            },
+            {
+              "name": "Verify generation leaves tracked application files intact",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 22
+            },
+            {
+              "name": "Recheck complete protected source after both builds",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 23
+            },
+            {
+              "name": "Upload quality diagnostics",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 24
+            },
+            {
+              "name": "Upload source identity receipt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 25
+            },
+            {
+              "name": "Post Setup Python for browser containment regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 48
+            },
+            {
+              "name": "Post Setup Bun",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 49
+            },
+            {
+              "name": "Post Checkout",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 50
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 51
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41450072561,
+      "jobs": [
+        {
+          "id": 125292806909,
+          "name": "compatibility",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Frozen dependencies",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Verify actual PR-head routing and historical benchmark boundaries",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Locked serialization exports",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Generated formatting",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Typecheck",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Full lint",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Unit tests",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Original OC APP wire regression",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Build",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Generation retains tracked files",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 26
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 27
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 28
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 29
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": 41450072822,
+      "jobs": [
+        {
+          "id": 125292808827,
+          "name": "composition (fresh)",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        },
+        {
+          "id": 125292809118,
+          "name": "browser",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run bun install --frozen-lockfile",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run python tests/g01-acceptance/capture.py identity",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Run python -m pip install -r tests/gate4/sec-env/requirements.txt",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Run node tests/c4-sale/build.mjs \"$RUNNER_TEMP/c4-browser\"",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 18
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 19
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 20
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 21
+            }
+          ]
+        },
+        {
+          "id": 125292809173,
+          "name": "composition (populated)",
+          "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67",
+          "status": "completed",
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 1
+            },
+            {
+              "name": "Disable telemetry before CLI setup",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 2
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 3
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 4
+            },
+            {
+              "name": "Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 5
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 6
+            },
+            {
+              "name": "Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 7
+            },
+            {
+              "name": "Frozen current dependencies before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 8
+            },
+            {
+              "name": "Current callback regression contracts before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 9
+            },
+            {
+              "name": "Exact C4 source and immutable SQL admission before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 10
+            },
+            {
+              "name": "Discover pinned CLI operations",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 11
+            },
+            {
+              "name": "Restrict probe UID before credentials",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 12
+            },
+            {
+              "name": "Start disposable full chain",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 13
+            },
+            {
+              "name": "Actual current hook and persisted financial effects",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 14
+            },
+            {
+              "name": "Local migration history and advisor availability",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 15
+            },
+            {
+              "name": "Cleanup and safe final receipts",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 16
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 17
+            },
+            {
+              "name": "Post Run oven-sh/setup-bun@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 30
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 31
+            },
+            {
+              "name": "Post Run supabase/setup-cli@v2",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 32
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 33
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 34
+            },
+            {
+              "name": "Complete job",
+              "status": "completed",
+              "conclusion": "success",
+              "number": 35
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "native_stdout_markers": [
+    {
+      "job_id": 125287523583,
+      "lines": [
+        "2026-11-02T12:57:49.8651762Z C4_STORED_CHECKS=59",
+        "2026-11-02T12:58:02.0974200Z C4S_CLEANUP {\"source\": \"42406e869fff080d733a10ab3688d82629543c95\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": false, \"state_removed\": false, \"stack_removed\": true, \"private_files_removed\": true}"
+      ]
+    },
+    {
+      "job_id": 125287523613,
+      "lines": [
+        "2026-11-02T12:58:01.9816219Z C4_STORED_CHECKS=58",
+        "2026-11-02T12:58:14.3364492Z C4S_CLEANUP {\"source\": \"42406e869fff080d733a10ab3688d82629543c95\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": false, \"state_removed\": false, \"stack_removed\": true, \"private_files_removed\": true}"
+      ]
+    },
+    {
+      "job_id": 125292808827,
+      "lines": [
+        "2026-11-02T13:09:40.5539501Z C4_STORED_CHECKS=58",
+        "2026-11-02T13:09:53.4405971Z C4S_CLEANUP {\"source\": \"2d8c030f2e4a86196ac854a462d66df3e4997e67\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+      ]
+    },
+    {
+      "job_id": 125292809173,
+      "lines": [
+        "2026-11-02T13:09:28.7655743Z C4_STORED_CHECKS=59",
+        "2026-11-02T13:09:40.9657134Z C4S_CLEANUP {\"source\": \"2d8c030f2e4a86196ac854a462d66df3e4997e67\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143084113.zip",
+      "size": 17973,
+      "sha256": "5a40c20e4f83d5d6aa876f9a7c811997ece8f3813aff67fbac83ac2a10ae3440"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143396411.zip",
+      "size": 810,
+      "sha256": "5a1437c5ffe724e40f4f5e891c1f7d5892408930f7d966358291a1aadbd87400"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143406700.zip",
+      "size": 475,
+      "sha256": "b187838d73bb7c49ccc26b0e5ceeca12ed02b41f46ed5cac2e3a1b0a0326547a"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143980644.zip",
+      "size": 34580,
+      "sha256": "0fd97ec2ed03011227eff5b3425255f1b1d4845bd0cdebd019a329b7d81c91b2"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144586711.zip",
+      "size": 4146,
+      "sha256": "80cea970a352449b4fbe6dd7b3632f97c9c618b822cab5d53a17999e68498c9e"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144665003.zip",
+      "size": 4164,
+      "sha256": "bd81f185dcbbbd7da7540494942b5021d150f9b06d749c07b599e158fbb25a77"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143319675.zip",
+      "size": 4145,
+      "sha256": "9664e2a646ac5aa0f4ca856318520c115a787328c260273d0744cad865f9407d"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143527999.zip",
+      "size": 683,
+      "sha256": "daf9342b3e561fb7b46464513abf476609dc4ffcff9d6603cb36fcb573c60372"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143947574.zip",
+      "size": 475,
+      "sha256": "b8f632f953802486c693cb5a13c1d58970786205cd9a04ba4075ca703e47b29c"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144157869.zip",
+      "size": 35228,
+      "sha256": "5e504b2a1d6d7b13551da2bd222b29e687fcde2127eea296555472d7c9fa2b30"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144477792.zip",
+      "size": 4163,
+      "sha256": "fb0285e3644723eca69ce7246fdd3ed607bc88b3b89698937e36a6a226ea6d22"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144651713.zip",
+      "size": 2133,
+      "sha256": "6944902f020b53b7171fd1c36cb9d55397bde5851fb78fa9579dad9bc46cd885"
+    }
+  ],
+  "artifact_api_metadata": [
+    {
+      "run_id": 41066452421,
+      "total_count": 1,
+      "artifacts": [
+        {
+          "id": 13143980644,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0Mzk4MDY0NA==",
+          "name": "c4-browser-attempt2",
+          "size_in_bytes": 34580,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143980644",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143980644/zip",
+          "expired": false,
+          "digest": "sha256:0fd97ec2ed03011227eff5b3425255f1b1d4845bd0cdebd019a329b7d81c91b2",
+          "created_at": "2026-11-02T12:55:11Z",
+          "updated_at": "2026-11-02T12:55:11Z",
+          "expires_at": "2027-01-31T12:54:34Z",
+          "workflow_run": {
+            "id": 41066452421,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "42406e869fff080d733a10ab3688d82629543c95"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": 41066452343,
+      "total_count": 3,
+      "artifacts": [
+        {
+          "id": 13144110860,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDExMDg2MA==",
+          "name": "integration-source-identity",
+          "size_in_bytes": 672,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144110860",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144110860/zip",
+          "expired": false,
+          "digest": "sha256:1ea9fa3c2f66aeaecb6d0df72e840da0634e86ba83e6fad11641f6fcb97f8c82",
+          "created_at": "2026-11-02T12:55:28Z",
+          "updated_at": "2026-11-02T12:55:28Z",
+          "expires_at": "2026-11-09T12:55:27Z",
+          "workflow_run": {
+            "id": 41066452343,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "42406e869fff080d733a10ab3688d82629543c95"
+          }
+        },
+        {
+          "id": 13143406700,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0MzQwNjcwMA==",
+          "name": "integration-full-audit",
+          "size_in_bytes": 475,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143406700",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143406700/zip",
+          "expired": false,
+          "digest": "sha256:b187838d73bb7c49ccc26b0e5ceeca12ed02b41f46ed5cac2e3a1b0a0326547a",
+          "created_at": "2026-11-02T12:55:03Z",
+          "updated_at": "2026-11-02T12:55:03Z",
+          "expires_at": "2026-11-09T12:55:02Z",
+          "workflow_run": {
+            "id": 41066452343,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "42406e869fff080d733a10ab3688d82629543c95"
+          }
+        },
+        {
+          "id": 13143396411,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0MzM5NjQxMQ==",
+          "name": "quality-diagnostics",
+          "size_in_bytes": 810,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143396411",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143396411/zip",
+          "expired": false,
+          "digest": "sha256:5a1437c5ffe724e40f4f5e891c1f7d5892408930f7d966358291a1aadbd87400",
+          "created_at": "2026-11-02T12:55:27Z",
+          "updated_at": "2026-11-02T12:55:27Z",
+          "expires_at": "2027-01-31T12:54:35Z",
+          "workflow_run": {
+            "id": 41066452343,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "42406e869fff080d733a10ab3688d82629543c95"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": 41449247359,
+      "total_count": 3,
+      "artifacts": [
+        {
+          "id": 13144665003,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDY2NTAwMw==",
+          "name": "c4-sale-populated-attempt1",
+          "size_in_bytes": 4164,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144665003",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144665003/zip",
+          "expired": false,
+          "digest": "sha256:bd81f185dcbbbd7da7540494942b5021d150f9b06d749c07b599e158fbb25a77",
+          "created_at": "2026-11-02T13:04:02Z",
+          "updated_at": "2026-11-02T13:04:02Z",
+          "expires_at": "2026-11-09T13:04:01Z",
+          "workflow_run": {
+            "id": 41449247359,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b"
+          }
+        },
+        {
+          "id": 13144586711,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDU4NjcxMQ==",
+          "name": "c4-sale-fresh-attempt1",
+          "size_in_bytes": 4146,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144586711",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144586711/zip",
+          "expired": false,
+          "digest": "sha256:80cea970a352449b4fbe6dd7b3632f97c9c618b822cab5d53a17999e68498c9e",
+          "created_at": "2026-11-02T13:03:46Z",
+          "updated_at": "2026-11-02T13:03:46Z",
+          "expires_at": "2026-11-09T13:03:46Z",
+          "workflow_run": {
+            "id": 41449247359,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b"
+          }
+        },
+        {
+          "id": 13143084113,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0MzA4NDExMw==",
+          "name": "c4-browser-attempt1",
+          "size_in_bytes": 17973,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143084113",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143084113/zip",
+          "expired": false,
+          "digest": "sha256:5a40c20e4f83d5d6aa876f9a7c811997ece8f3813aff67fbac83ac2a10ae3440",
+          "created_at": "2026-11-02T13:00:55Z",
+          "updated_at": "2026-11-02T13:00:55Z",
+          "expires_at": "2027-01-31T13:00:13Z",
+          "workflow_run": {
+            "id": 41449247359,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "41c33f1fc3915216348b1d1dbae7f072110afb6b"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": 41450072541,
+      "total_count": 3,
+      "artifacts": [
+        {
+          "id": 13144651713,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDY1MTcxMw==",
+          "name": "quality-diagnostics",
+          "size_in_bytes": 2133,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144651713",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144651713/zip",
+          "expired": false,
+          "digest": "sha256:6944902f020b53b7171fd1c36cb9d55397bde5851fb78fa9579dad9bc46cd885",
+          "created_at": "2026-11-02T13:07:59Z",
+          "updated_at": "2026-11-02T13:07:59Z",
+          "expires_at": "2027-01-31T13:06:11Z",
+          "workflow_run": {
+            "id": 41450072541,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        },
+        {
+          "id": 13143947574,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0Mzk0NzU3NA==",
+          "name": "integration-full-audit",
+          "size_in_bytes": 475,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143947574",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143947574/zip",
+          "expired": false,
+          "digest": "sha256:b8f632f953802486c693cb5a13c1d58970786205cd9a04ba4075ca703e47b29c",
+          "created_at": "2026-11-02T13:06:19Z",
+          "updated_at": "2026-11-02T13:06:19Z",
+          "expires_at": "2026-11-09T13:06:18Z",
+          "workflow_run": {
+            "id": 41450072541,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        },
+        {
+          "id": 13143527999,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0MzUyNzk5OQ==",
+          "name": "integration-source-identity",
+          "size_in_bytes": 683,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143527999",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143527999/zip",
+          "expired": false,
+          "digest": "sha256:daf9342b3e561fb7b46464513abf476609dc4ffcff9d6603cb36fcb573c60372",
+          "created_at": "2026-11-02T13:08:01Z",
+          "updated_at": "2026-11-02T13:08:01Z",
+          "expires_at": "2026-11-09T13:08:00Z",
+          "workflow_run": {
+            "id": 41450072541,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": 41450072822,
+      "total_count": 3,
+      "artifacts": [
+        {
+          "id": 13144477792,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDQ3Nzc5Mg==",
+          "name": "c4-sale-populated-attempt1",
+          "size_in_bytes": 4163,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144477792",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144477792/zip",
+          "expired": false,
+          "digest": "sha256:fb0285e3644723eca69ce7246fdd3ed607bc88b3b89698937e36a6a226ea6d22",
+          "created_at": "2026-11-02T13:09:41Z",
+          "updated_at": "2026-11-02T13:09:41Z",
+          "expires_at": "2026-11-09T13:09:41Z",
+          "workflow_run": {
+            "id": 41450072822,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        },
+        {
+          "id": 13144157869,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0NDE1Nzg2OQ==",
+          "name": "c4-browser-attempt1",
+          "size_in_bytes": 35228,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144157869",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13144157869/zip",
+          "expired": false,
+          "digest": "sha256:5e504b2a1d6d7b13551da2bd222b29e687fcde2127eea296555472d7c9fa2b30",
+          "created_at": "2026-11-02T13:06:57Z",
+          "updated_at": "2026-11-02T13:06:57Z",
+          "expires_at": "2027-01-31T13:06:11Z",
+          "workflow_run": {
+            "id": 41450072822,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        },
+        {
+          "id": 13143319675,
+          "node_id": "MDg6QXJ0aWZhY3QxMzE0MzMxOTY3NQ==",
+          "name": "c4-sale-fresh-attempt1",
+          "size_in_bytes": 4145,
+          "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143319675",
+          "archive_download_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/artifacts/13143319675/zip",
+          "expired": false,
+          "digest": "sha256:9664e2a646ac5aa0f4ca856318520c115a787328c260273d0744cad865f9407d",
+          "created_at": "2026-11-02T13:09:54Z",
+          "updated_at": "2026-11-02T13:09:54Z",
+          "expires_at": "2026-11-09T13:09:53Z",
+          "workflow_run": {
+            "id": 41450072822,
+            "repository_id": 1281463067,
+            "head_repository_id": 1281463067,
+            "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+            "head_sha": "2d8c030f2e4a86196ac854a462d66df3e4997e67"
+          }
+        }
+      ]
+    }
+  ],
+  "evidence_blobs": [
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143396411.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "990c3c8b21942260b2db4c97b9c147490ccc7dec"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143406700.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46a002cffae63e242d4a41770d95c4f2685288e7"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143084113.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c2120d8fe6404705c3239bbca81fd5cbd420cfe6"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144586711.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d389dcec38a436dda83b4a30c740a8c1af1d8601"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143980644.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f24a66f1921fcf036dc04ab69e79ddc761e1fbf0"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144665003.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f0d483b978982c3f1e41499f93500236e4d08c9"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125287043999.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f28fa5fdf17e2cd57324dd29d27a6ae7dad492e6"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125287530578.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "299f4afa2ae17c13897deff2addfacf929ea20f7"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125290054757.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "adbed5c424829807d79be57bafddb2bbe77d8c2f"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125292078412.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2c58323eeb47845b29c99ca8c09db445ab217bd"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125292809118.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e72a48e63f58f9666aa00eb770374b9243ac4860"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125292807938.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ffbed6942bdb196ae93ba45c4d34c6cbfdd8d11"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125292807535.log",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66e2cee1f6d1db193223ed259effde18b505511c"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143319675.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0a24a180ba54918ebf9a2c39c184e5c5b948ae07"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143527999.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3f11a8ff9a743f04dbd8df58bd512b58f3b0a6e3"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13143947574.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1f1aaa3ee4f84e3908cd49ccc9b23a15624f55a"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144157869.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cc53f3a85816bcb1e5aa42ccdd6740828df29f8"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144477792.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "39f1b88941ac96284b131704407d45e0d099ea00"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/artifacts/13144651713.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f0d72a001fc93aaa4174046353095926cf55726e"
+    },
+    {
+      "path": "changes/c4-sale-identity/hosted-20261102/logs/job-125292806909.log",
+      "type": "blob",
+      "mode": "100644",
+      "sha": "7f98d52684541d701211de94bc30283d29139edb"
+    }
+  ],
+  "review": "implementation-owned; independent C6 not performed",
+  "c4_candidate_contracts": "passed",
+  "current_audit": "failed: two Moderate records; no suppression",
+  "integration_accepted": false,
+  "next": "SEC-DEP-20261102 focused compatibility remediation, then C5/C6/C7"
+}

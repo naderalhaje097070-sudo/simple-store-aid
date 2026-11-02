@@ -1,0 +1,811 @@
+﻿2026-11-02T12:54:39.1838114Z Current runner version: '2.338.2'
+2026-11-02T12:54:39.1871658Z ##[group]Runner Image Provisioner
+2026-11-02T12:54:39.1875105Z Hosted Compute Agent
+2026-11-02T12:54:39.1876607Z Version: 20261021.618
+2026-11-02T12:54:39.1877019Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-02T12:54:39.1877485Z Build Date: 2026-10-21T00:45:21Z
+2026-11-02T12:54:39.1877951Z Worker ID: {18e52a02-44b2-41a9-9f34-7aa31c4b5dc7}
+2026-11-02T12:54:39.1878418Z Region: centralus
+2026-11-02T12:54:39.1878761Z Cloud: Azure
+2026-11-02T12:54:39.1879239Z ##[endgroup]
+2026-11-02T12:54:39.1881570Z ##[group]Operating System
+2026-11-02T12:54:39.1882124Z Ubuntu
+2026-11-02T12:54:39.1882565Z 26.04.1
+2026-11-02T12:54:39.1882963Z LTS
+2026-11-02T12:54:39.1883435Z ##[endgroup]
+2026-11-02T12:54:39.1886477Z ##[group]Runner Image
+2026-11-02T12:54:39.1888507Z Image: ubuntu-26.04
+2026-11-02T12:54:39.1890449Z Version: 20261025.179.1
+2026-11-02T12:54:39.1895708Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-02T12:54:39.1897537Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-11-02T12:54:39.1898232Z ##[endgroup]
+2026-11-02T12:54:39.1900223Z ##[group]GITHUB_TOKEN Permissions
+2026-11-02T12:54:39.1902784Z Contents: read
+2026-11-02T12:54:39.1904768Z Metadata: read
+2026-11-02T12:54:39.1906541Z ##[endgroup]
+2026-11-02T12:54:39.1911541Z Secret source: Actions
+2026-11-02T12:54:39.1915010Z Cache mode: write
+2026-11-02T12:54:39.1916946Z Prepare workflow directory
+2026-11-02T12:54:39.2419978Z Prepare all required actions
+2026-11-02T12:54:39.2454817Z Getting action download info
+2026-11-02T12:54:39.4843530Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-02T12:54:39.5842388Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-11-02T12:54:39.9588656Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-02T12:54:40.0853626Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-02T12:54:40.3490929Z Complete job name: quality
+2026-11-02T12:54:40.4094673Z ##[group]Run actions/checkout@v4
+2026-11-02T12:54:40.4095145Z with:
+2026-11-02T12:54:40.4095403Z   fetch-depth: 0
+2026-11-02T12:54:40.4095811Z   ref: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:40.4096171Z   persist-credentials: false
+2026-11-02T12:54:40.4096515Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-11-02T12:54:40.4098802Z   token: ***
+2026-11-02T12:54:40.4099168Z   ssh-strict: true
+2026-11-02T12:54:40.4099436Z   ssh-user: git
+2026-11-02T12:54:40.4099692Z   clean: true
+2026-11-02T12:54:40.4099958Z   sparse-checkout-cone-mode: true
+2026-11-02T12:54:40.4100270Z   fetch-tags: false
+2026-11-02T12:54:40.4100540Z   show-progress: true
+2026-11-02T12:54:40.4100811Z   lfs: false
+2026-11-02T12:54:40.4174042Z   submodules: false
+2026-11-02T12:54:40.4174617Z   set-safe-directory: true
+2026-11-02T12:54:40.4175101Z   allow-unsafe-pr-checkout: false
+2026-11-02T12:54:40.4178312Z env:
+2026-11-02T12:54:40.4179096Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:40.4179677Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:40.4180105Z ##[endgroup]
+2026-11-02T12:54:40.6954733Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-11-02T12:54:40.6958640Z ##[group]Getting Git version info
+2026-11-02T12:54:40.6961038Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-11-02T12:54:40.6963909Z [command]/usr/bin/git version
+2026-11-02T12:54:40.7062304Z git version 2.56.0
+2026-11-02T12:54:40.7067444Z ##[endgroup]
+2026-11-02T12:54:40.7087557Z Temporarily overriding HOME='/home/runner/work/_temp/c4eec7be-ca29-470c-9b3d-74b25d2a54a6' before making global git config changes
+2026-11-02T12:54:40.7091890Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T12:54:40.7093949Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-02T12:54:40.7224821Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-11-02T12:54:40.7248660Z ##[group]Initializing the repository
+2026-11-02T12:54:40.7250300Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-02T12:54:40.7363990Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-02T12:54:40.7366586Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-02T12:54:40.7368703Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-02T12:54:40.7369962Z hint: call:
+2026-11-02T12:54:40.7371141Z hint:
+2026-11-02T12:54:40.7391744Z hint: 	git config --global init.defaultBranch <name>
+2026-11-02T12:54:40.7399200Z hint:
+2026-11-02T12:54:40.7400202Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-02T12:54:40.7402920Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-02T12:54:40.7403836Z hint:
+2026-11-02T12:54:40.7404206Z hint: 	git branch -m <name>
+2026-11-02T12:54:40.7404606Z hint:
+2026-11-02T12:54:40.7405081Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-02T12:54:40.7405794Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-11-02T12:54:40.7407251Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-11-02T12:54:40.7478745Z ##[endgroup]
+2026-11-02T12:54:40.7480867Z ##[group]Disabling automatic garbage collection
+2026-11-02T12:54:40.7490682Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-02T12:54:40.7631203Z ##[endgroup]
+2026-11-02T12:54:40.7633302Z ##[group]Setting up auth
+2026-11-02T12:54:40.7634267Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T12:54:40.7643052Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T12:54:40.8175571Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T12:54:40.8185312Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T12:54:40.8449835Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T12:54:40.8487712Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T12:54:40.8746652Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-02T12:54:40.8788181Z ##[endgroup]
+2026-11-02T12:54:40.8789622Z ##[group]Fetching the repository
+2026-11-02T12:54:40.8797227Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-02T12:54:42.1743330Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-11-02T12:54:42.1745326Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-11-02T12:54:42.1748196Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-11-02T12:54:42.1751053Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-11-02T12:54:42.1753722Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-11-02T12:54:42.1756173Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-11-02T12:54:42.1759146Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-11-02T12:54:42.1762264Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-11-02T12:54:42.1765128Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-11-02T12:54:42.1767797Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-11-02T12:54:42.1771347Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-11-02T12:54:42.1774457Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-11-02T12:54:42.1777219Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-11-02T12:54:42.1780412Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-11-02T12:54:42.1782877Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-11-02T12:54:42.1784544Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-11-02T12:54:42.1786348Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-11-02T12:54:42.1788109Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-11-02T12:54:42.1790983Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-11-02T12:54:42.1793635Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-11-02T12:54:42.1795822Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-11-02T12:54:42.1798318Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-11-02T12:54:42.1801303Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-11-02T12:54:42.1803620Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-11-02T12:54:42.1805337Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-11-02T12:54:42.1806802Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-11-02T12:54:42.1808499Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-11-02T12:54:42.1813199Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-11-02T12:54:42.1816007Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-11-02T12:54:42.1818708Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-11-02T12:54:42.1821142Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-11-02T12:54:42.1823138Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-11-02T12:54:42.1825284Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-11-02T12:54:42.1827473Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-11-02T12:54:42.1829866Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-11-02T12:54:42.1832260Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-11-02T12:54:42.1834317Z  * [new branch]      main                    -> origin/main
+2026-11-02T12:54:42.1836082Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-11-02T12:54:42.1838246Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-11-02T12:54:42.1840957Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-11-02T12:54:42.1842931Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-11-02T12:54:42.1844921Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-11-02T12:54:42.1847010Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-11-02T12:54:42.1849249Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-11-02T12:54:42.1851221Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-11-02T12:54:42.1853791Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-11-02T12:54:42.1856557Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-11-02T12:54:42.1860173Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-11-02T12:54:42.1862895Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-11-02T12:54:42.1864843Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-11-02T12:54:42.1866899Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-11-02T12:54:42.1869889Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-11-02T12:54:42.1872252Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-11-02T12:54:42.1874881Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-11-02T12:54:42.1877967Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-11-02T12:54:42.1881546Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-11-02T12:54:42.1884380Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-11-02T12:54:42.1886558Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-11-02T12:54:42.1889298Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-11-02T12:54:42.1891851Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-11-02T12:54:42.1893970Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-11-02T12:54:42.1895717Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-11-02T12:54:42.1897579Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-11-02T12:54:42.1900150Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-11-02T12:54:42.1902252Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-11-02T12:54:42.1904539Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-11-02T12:54:42.1906195Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-11-02T12:54:42.1907617Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-11-02T12:54:42.1909210Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-11-02T12:54:42.1910642Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-11-02T12:54:42.1912259Z  * [new branch]      ui/lovable-visual-improvements -> origin/ui/lovable-visual-improvements
+2026-11-02T12:54:42.1915432Z [command]/usr/bin/git rev-parse --verify --quiet 42406e869fff080d733a10ab3688d82629543c95^{object}
+2026-11-02T12:54:42.1916669Z 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:42.1918441Z ##[endgroup]
+2026-11-02T12:54:42.1919675Z ##[group]Determining the checkout info
+2026-11-02T12:54:42.1920702Z ##[endgroup]
+2026-11-02T12:54:42.1921279Z [command]/usr/bin/git sparse-checkout disable
+2026-11-02T12:54:42.2191533Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-02T12:54:42.3211307Z ##[group]Checking out the ref
+2026-11-02T12:54:42.3220937Z [command]/usr/bin/git checkout --progress --force 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:42.5168712Z Note: switching to '42406e869fff080d733a10ab3688d82629543c95'.
+2026-11-02T12:54:42.5170313Z 
+2026-11-02T12:54:42.5170884Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-02T12:54:42.5171595Z changes and commit them, and you can discard any commits you make in this
+2026-11-02T12:54:42.5172329Z state without impacting any branches by switching back to a branch.
+2026-11-02T12:54:42.5172738Z 
+2026-11-02T12:54:42.5173121Z If you want to create a new branch to retain commits you create, you may
+2026-11-02T12:54:42.5173770Z do so (now or later) by using -c with the switch command. Example:
+2026-11-02T12:54:42.5174245Z 
+2026-11-02T12:54:42.5174548Z   git switch -c <new-branch-name>
+2026-11-02T12:54:42.5174888Z 
+2026-11-02T12:54:42.5175226Z Or undo this operation with:
+2026-11-02T12:54:42.5175570Z 
+2026-11-02T12:54:42.5175841Z   git switch -
+2026-11-02T12:54:42.5176111Z 
+2026-11-02T12:54:42.5176492Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-02T12:54:42.5176935Z 
+2026-11-02T12:54:42.5177441Z HEAD is now at 42406e8 fix(sales): retain durable scoped operation identity and bridge current UI to idempotent RPC
+2026-11-02T12:54:42.5201440Z ##[endgroup]
+2026-11-02T12:54:42.5300044Z [command]/usr/bin/git log -1 --format=%H
+2026-11-02T12:54:42.5330599Z 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:42.5363117Z ##[group]Removing auth
+2026-11-02T12:54:42.5380140Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T12:54:42.5425701Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T12:54:42.5804104Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T12:54:42.5853642Z http.https://github.com/.extraheader
+2026-11-02T12:54:42.5855428Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-02T12:54:42.6054196Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T12:54:42.6311377Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T12:54:42.6350549Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T12:54:42.6607150Z ##[endgroup]
+2026-11-02T12:54:42.7058096Z ##[group]Run oven-sh/setup-bun@v2
+2026-11-02T12:54:42.7058320Z with:
+2026-11-02T12:54:42.7058478Z   bun-version: 1.2.14
+2026-11-02T12:54:42.7058642Z   no-cache: false
+2026-11-02T12:54:42.7060315Z   token: ***
+2026-11-02T12:54:42.7060438Z env:
+2026-11-02T12:54:42.7060612Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:42.7060838Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:42.7060997Z ##[endgroup]
+2026-11-02T12:54:43.0006212Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-11-02T12:54:43.9378711Z Received 34827867 of 34827867 (100.0%), 45.8 MBs/sec
+2026-11-02T12:54:43.9391227Z Cache Size: ~33 MB (34827867 B)
+2026-11-02T12:54:43.9406548Z [command]/usr/bin/tar -xf /home/runner/work/_temp/81b2bc99-1d9b-4877-a3aa-e92c48b712aa/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-11-02T12:54:44.0997429Z Cache restored successfully
+2026-11-02T12:54:44.1040297Z [command]/home/runner/.bun/bin/bun --revision
+2026-11-02T12:54:44.1101944Z 1.2.14+6a363a38d
+2026-11-02T12:54:44.1107705Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-11-02T12:54:44.1316803Z ##[group]Run bun install --frozen-lockfile
+2026-11-02T12:54:44.1317109Z [36;1mbun install --frozen-lockfile[0m
+2026-11-02T12:54:44.1348609Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:54:44.1348791Z env:
+2026-11-02T12:54:44.1349183Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:44.1349401Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:44.1349569Z ##[endgroup]
+2026-11-02T12:54:44.1773080Z bun install v1.2.14 (6a363a38)
+2026-11-02T12:54:51.0892992Z 
+2026-11-02T12:54:51.0893873Z + @eslint/js@9.39.4
+2026-11-02T12:54:51.0894430Z + @lovable.dev/vite-tanstack-config@2.9.1
+2026-11-02T12:54:51.0895027Z + @types/node@22.19.17
+2026-11-02T12:54:51.0920084Z + @types/qrcode@1.5.6
+2026-11-02T12:54:51.0920950Z + @types/react@19.2.14
+2026-11-02T12:54:51.0921489Z + @types/react-dom@19.2.3
+2026-11-02T12:54:51.0922011Z + @vitejs/plugin-react@5.2.0
+2026-11-02T12:54:51.0923321Z + eslint@9.39.4
+2026-11-02T12:54:51.0923759Z + eslint-config-prettier@10.1.8
+2026-11-02T12:54:51.0924503Z + eslint-plugin-prettier@5.5.5
+2026-11-02T12:54:51.0924874Z + eslint-plugin-react-hooks@5.2.0
+2026-11-02T12:54:51.0925320Z + eslint-plugin-react-refresh@0.4.26
+2026-11-02T12:54:51.0925691Z + globals@15.15.0
+2026-11-02T12:54:51.0926005Z + nitro@3.0.260603-beta
+2026-11-02T12:54:51.0926331Z + prettier@3.8.3
+2026-11-02T12:54:51.0926635Z + seroval@1.6.11
+2026-11-02T12:54:51.0926948Z + typescript@5.9.3
+2026-11-02T12:54:51.0927271Z + typescript-eslint@8.59.0
+2026-11-02T12:54:51.0927609Z + vite@8.1.6
+2026-11-02T12:54:51.0927943Z + vite-plugin-pwa@1.3.0
+2026-11-02T12:54:51.0928282Z + workbox-window@7.4.1
+2026-11-02T12:54:51.0928620Z + @hookform/resolvers@5.2.2
+2026-11-02T12:54:51.0929065Z + @lovable.dev/cloud-auth-js@1.1.2
+2026-11-02T12:54:51.0929436Z + @lovable.dev/email-js@0.1.0
+2026-11-02T12:54:51.0929798Z + @lovable.dev/mcp-js@0.20.1
+2026-11-02T12:54:51.0930150Z + @lovable.dev/webhooks-js@0.0.1
+2026-11-02T12:54:51.0930521Z + @paddle/paddle-node-sdk@3.8.0
+2026-11-02T12:54:51.0930983Z + @radix-ui/react-accordion@1.2.12
+2026-11-02T12:54:51.0931352Z + @radix-ui/react-alert-dialog@1.1.15
+2026-11-02T12:54:51.0931743Z + @radix-ui/react-aspect-ratio@1.1.8
+2026-11-02T12:54:51.0932106Z + @radix-ui/react-avatar@1.1.11
+2026-11-02T12:54:51.0932463Z + @radix-ui/react-checkbox@1.3.3
+2026-11-02T12:54:51.0932813Z + @radix-ui/react-collapsible@1.1.12
+2026-11-02T12:54:51.0933173Z + @radix-ui/react-context-menu@2.2.16
+2026-11-02T12:54:51.0933529Z + @radix-ui/react-dialog@1.1.15
+2026-11-02T12:54:51.0933892Z + @radix-ui/react-dropdown-menu@2.1.16
+2026-11-02T12:54:51.0934265Z + @radix-ui/react-hover-card@1.1.15
+2026-11-02T12:54:51.0934629Z + @radix-ui/react-label@2.1.8
+2026-11-02T12:54:51.0934974Z + @radix-ui/react-menubar@1.1.16
+2026-11-02T12:54:51.0935332Z + @radix-ui/react-navigation-menu@1.2.14
+2026-11-02T12:54:51.0935708Z + @radix-ui/react-popover@1.1.15
+2026-11-02T12:54:51.0936055Z + @radix-ui/react-progress@1.1.8
+2026-11-02T12:54:51.0936418Z + @radix-ui/react-radio-group@1.3.8
+2026-11-02T12:54:51.0936793Z + @radix-ui/react-scroll-area@1.2.10
+2026-11-02T12:54:51.0937166Z + @radix-ui/react-select@2.2.6
+2026-11-02T12:54:51.0937523Z + @radix-ui/react-separator@1.1.8
+2026-11-02T12:54:51.0937900Z + @radix-ui/react-slider@1.3.6
+2026-11-02T12:54:51.0938246Z + @radix-ui/react-slot@1.2.4
+2026-11-02T12:54:51.0938586Z + @radix-ui/react-switch@1.2.6
+2026-11-02T12:54:51.0939085Z + @radix-ui/react-tabs@1.1.13
+2026-11-02T12:54:51.0939445Z + @radix-ui/react-toggle@1.1.10
+2026-11-02T12:54:51.0939890Z + @radix-ui/react-toggle-group@1.1.11
+2026-11-02T12:54:51.0940421Z + @radix-ui/react-tooltip@1.2.8
+2026-11-02T12:54:51.0940772Z + @supabase/supabase-js@2.110.5
+2026-11-02T12:54:51.0941574Z + @tailwindcss/vite@4.2.4
+2026-11-02T12:54:51.0941911Z + @tanstack/react-query@5.100.1
+2026-11-02T12:54:51.0942261Z + @tanstack/react-router@1.170.41
+2026-11-02T12:54:51.0942630Z + @tanstack/react-start@1.168.60
+2026-11-02T12:54:51.0942982Z + @tanstack/router-plugin@1.168.42
+2026-11-02T12:54:51.0943348Z + class-variance-authority@0.7.1
+2026-11-02T12:54:51.0943920Z + clsx@2.1.1
+2026-11-02T12:54:51.0944231Z + cmdk@1.1.1
+2026-11-02T12:54:51.0944625Z + date-fns@4.1.0
+2026-11-02T12:54:51.0944957Z + embla-carousel-react@8.6.0
+2026-11-02T12:54:51.0945296Z + html2canvas@1.4.1
+2026-11-02T12:54:51.0945609Z + input-otp@1.4.2
+2026-11-02T12:54:51.0945911Z + jspdf@4.2.1
+2026-11-02T12:54:51.0946211Z + lucide-react@0.575.0
+2026-11-02T12:54:51.0946525Z + qrcode@1.5.4
+2026-11-02T12:54:51.0946819Z + react@19.2.5
+2026-11-02T12:54:51.0947134Z + react-day-picker@9.14.0
+2026-11-02T12:54:51.0947464Z + react-dom@19.2.5
+2026-11-02T12:54:51.0947787Z + react-hook-form@7.73.1
+2026-11-02T12:54:51.0948138Z + react-resizable-panels@4.10.0
+2026-11-02T12:54:51.0948488Z + recharts@2.15.4
+2026-11-02T12:54:51.0948792Z + sonner@2.0.7
+2026-11-02T12:54:51.0949205Z + tailwind-merge@3.5.0
+2026-11-02T12:54:51.0949506Z + tailwindcss@4.2.4
+2026-11-02T12:54:51.0949802Z + tw-animate-css@1.4.0
+2026-11-02T12:54:51.0950101Z + vaul@1.1.2
+2026-11-02T12:54:51.0950407Z + vite-tsconfig-paths@6.1.1
+2026-11-02T12:54:51.0950738Z + zod@4.6.6
+2026-11-02T12:54:51.0950956Z 
+2026-11-02T12:54:51.0951164Z 825 packages installed [6.95s]
+2026-11-02T12:54:51.1936784Z ##[group]Run node scripts/format-generated.mjs --check
+2026-11-02T12:54:51.1937092Z [36;1mnode scripts/format-generated.mjs --check[0m
+2026-11-02T12:54:51.1962879Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:54:51.1963051Z env:
+2026-11-02T12:54:51.1963233Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:51.1963446Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:51.1963604Z ##[endgroup]
+2026-11-02T12:54:51.4470077Z GENERATED_FORMAT_CHECK_PASS: 9
+2026-11-02T12:54:51.4591241Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-11-02T12:54:51.4591536Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-11-02T12:54:51.4591792Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-11-02T12:54:51.4592018Z [36;1mpython tests/c-source/test_identity.py[0m
+2026-11-02T12:54:51.4616938Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:54:51.4617110Z env:
+2026-11-02T12:54:51.4617291Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:51.4617509Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:51.4617671Z ##[endgroup]
+2026-11-02T12:54:51.5465144Z {"source_sha": "42406e869fff080d733a10ab3688d82629543c95", "kind": "identity", "scope": "C4_sale_client_source_identity_only", "base_source": "9165d9325c5f50fab5c8eb767a780d993f59259f", "head_sha": "42406e869fff080d733a10ab3688d82629543c95", "protected_blob_count": 430, "all_integrated_blobs_match": true, "migration_count": 54, "frozen_A_B_unchanged": true, "declared_changes": [".github/workflows/integration-verification.yml", "src/lib/db.ts", "src/routes/_authenticated/app.tsx", "tests/c-source/quantity-bridge.test.cjs", "tests/g0-integrated-types/runtime.cjs", "tests/g01-acceptance/capture.py"], "declared_additions": [".github/workflows/c4-sale.yml", "src/features/sales/SaleRecovery.tsx", "src/lib/sale-operation.ts", "tests/c4-sale/browser-client.ts", "tests/c4-sale/browser-query.ts", "tests/c4-sale/browser.py", "tests/c4-sale/build.mjs", "tests/c4-sale/contracts.test.cjs", "tests/c4-sale/fixture.tsx", "tests/c4-sale/history.cjs", "tests/c4-sale/history.test.cjs", "tests/c4-sale/identity.py", "tests/c4-sale/loader.cjs", "tests/c4-sale/native-hook.cjs", "tests/c4-sale/native.py", "tests/c4-sale/test_identity.py"], "financial_acceptance": false, "integration_accepted": false}
+2026-11-02T12:54:52.9139344Z .............................
+2026-11-02T12:54:52.9140263Z ----------------------------------------------------------------------
+2026-11-02T12:54:52.9141261Z Ran 29 tests in 1.290s
+2026-11-02T12:54:52.9141538Z 
+2026-11-02T12:54:52.9141809Z OK
+2026-11-02T12:54:53.8224869Z ..................
+2026-11-02T12:54:53.8225540Z ----------------------------------------------------------------------
+2026-11-02T12:54:53.8226271Z Ran 18 tests in 0.835s
+2026-11-02T12:54:53.8226617Z 
+2026-11-02T12:54:53.8226828Z OK
+2026-11-02T12:54:53.8423501Z ##[group]Run python tests/c4-sale/test_identity.py
+2026-11-02T12:54:53.8423913Z [36;1mpython tests/c4-sale/test_identity.py[0m
+2026-11-02T12:54:53.8458295Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:54:53.8458597Z env:
+2026-11-02T12:54:53.8459062Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:53.8459380Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:53.8459618Z ##[endgroup]
+2026-11-02T12:54:54.8353826Z ..................
+2026-11-02T12:54:54.8354520Z ----------------------------------------------------------------------
+2026-11-02T12:54:54.8355149Z Ran 18 tests in 0.924s
+2026-11-02T12:54:54.8355454Z 
+2026-11-02T12:54:54.8355683Z OK
+2026-11-02T12:54:54.8557203Z ##[group]Run bun run typecheck
+2026-11-02T12:54:54.8557546Z [36;1mbun run typecheck[0m
+2026-11-02T12:54:54.8592994Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:54:54.8593286Z env:
+2026-11-02T12:54:54.8593558Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:54:54.8593892Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:54:54.8594132Z ##[endgroup]
+2026-11-02T12:54:54.8730403Z $ tsc --noEmit
+2026-11-02T12:55:02.7082569Z ##[group]Run set -euo pipefail
+2026-11-02T12:55:02.7082917Z [36;1mset -euo pipefail[0m
+2026-11-02T12:55:02.7083191Z [36;1mbun run lint 2>&1 | tee /tmp/lint.log[0m
+2026-11-02T12:55:02.7112934Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-02T12:55:02.7113161Z env:
+2026-11-02T12:55:02.7113339Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:02.7113560Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:02.7113721Z ##[endgroup]
+2026-11-02T12:55:02.7250258Z $ eslint .
+2026-11-02T12:55:08.7678048Z 
+2026-11-02T12:55:08.7681360Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/DateRangeFilter.tsx
+2026-11-02T12:55:08.7682305Z   19:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7683444Z   53:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7684562Z   58:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7685187Z 
+2026-11-02T12:55:08.7685480Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/badge.tsx
+2026-11-02T12:55:08.7686273Z   32:17  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7686880Z 
+2026-11-02T12:55:08.7687142Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/button.tsx
+2026-11-02T12:55:08.7687935Z   49:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7688511Z 
+2026-11-02T12:55:08.7688773Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/form.tsx
+2026-11-02T12:55:08.7689700Z   163:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7690298Z 
+2026-11-02T12:55:08.7690672Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/navigation-menu.tsx
+2026-11-02T12:55:08.7691589Z   111:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7692588Z 
+2026-11-02T12:55:08.7692865Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/sidebar.tsx
+2026-11-02T12:55:08.7693701Z   743:3  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7694319Z 
+2026-11-02T12:55:08.7694586Z /home/runner/work/simple-store-aid/simple-store-aid/src/components/ui/toggle.tsx
+2026-11-02T12:55:08.7695420Z   42:18  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7696036Z 
+2026-11-02T12:55:08.7696366Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/inventory/AddProductSheet.tsx
+2026-11-02T12:55:08.7697099Z    1:1  warning  Unused eslint-disable directive (no problems were reported from '@typescript-eslint/no-explicit-any')
+2026-11-02T12:55:08.7698411Z   53:6  warning  React Hook useEffect has a missing dependency: 'initial'. Either include it or remove the dependency array. If 'setPrice' needs the current value of 'initial', you can also switch to useReducer instead of useState and read 'initial' in the reducer  react-hooks/exhaustive-deps
+2026-11-02T12:55:08.7700421Z 
+2026-11-02T12:55:08.7700979Z /home/runner/work/simple-store-aid/simple-store-aid/src/features/shared/Money.tsx
+2026-11-02T12:55:08.7701951Z   4:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+2026-11-02T12:55:08.7702662Z 
+2026-11-02T12:55:08.7703024Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c2-quantity/fixture.tsx
+2026-11-02T12:55:08.7703829Z   6:10  warning  Fast refresh only works when a file has exports. Move your component(s) to a separate file  react-refresh/only-export-components
+2026-11-02T12:55:08.7704443Z 
+2026-11-02T12:55:08.7704795Z /home/runner/work/simple-store-aid/simple-store-aid/tests/c4-sale/fixture.tsx
+2026-11-02T12:55:08.7705596Z   16:10  warning  Fast refresh only works when a file has exports. Move your component(s) to a separate file  react-refresh/only-export-components
+2026-11-02T12:55:08.7706198Z 
+2026-11-02T12:55:08.7706807Z ✖ 14 problems (0 errors, 14 warnings)
+2026-11-02T12:55:08.7707355Z   0 errors and 1 warning potentially fixable with the `--fix` option.
+2026-11-02T12:55:08.7707794Z 
+2026-11-02T12:55:08.8532984Z ##[group]Run bun tests/gate4/sec-ci/probe.ts
+2026-11-02T12:55:08.8533355Z [36;1mbun tests/gate4/sec-ci/probe.ts[0m
+2026-11-02T12:55:08.8568219Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:55:08.8568503Z env:
+2026-11-02T12:55:08.8568779Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:08.8569300Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:08.8569573Z ##[endgroup]
+2026-11-02T12:55:08.8960785Z SEC_CI_G4_TARGET_GREEN: setup-cli@v2 pinned to 2.101.0; reporting is least-privilege
+2026-11-02T12:55:08.9014911Z ##[group]Run bun run test:unit
+2026-11-02T12:55:08.9015241Z [36;1mbun run test:unit[0m
+2026-11-02T12:55:08.9050804Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:55:08.9051112Z env:
+2026-11-02T12:55:08.9051397Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:08.9051751Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:08.9052000Z ##[endgroup]
+2026-11-02T12:55:08.9150676Z $ bun test tests/unit
+2026-11-02T12:55:08.9190511Z bun test v1.2.14 (6a363a38)
+2026-11-02T12:55:08.9379609Z 
+2026-11-02T12:55:08.9397756Z ##[group]tests/unit/account-state.test.ts:
+2026-11-02T12:55:09.0072713Z (pass) authoritative assertion succeeds with a nullable tenant and one RPC [9.00ms]
+2026-11-02T12:55:09.0150979Z (pass) only the exact database lifecycle error is an account denial [8.00ms]
+2026-11-02T12:55:09.0161348Z (pass) transport rejection cannot permit the operation [1.00ms]
+2026-11-02T12:55:12.0177535Z (pass) deadline denies even when the transport never settles and aborts it [3002.11ms]
+2026-11-02T12:55:12.0177936Z 
+2026-11-02T12:55:12.0178440Z ##[endgroup]
+2026-11-02T12:55:12.0178567Z 
+2026-11-02T12:55:12.0179099Z ##[group]tests/unit/invoice-selectors.test.ts:
+2026-11-02T12:55:12.0200124Z (pass) invoice finance selectors > direct fully paid has zero remaining debt
+2026-11-02T12:55:12.0201140Z (pass) invoice finance selectors > direct partially paid debt equals remaining
+2026-11-02T12:55:12.0202312Z (pass) invoice finance selectors > direct full debt equals total
+2026-11-02T12:55:12.0203046Z (pass) invoice finance selectors > returned direct order has no customer debt or courier custody
+2026-11-02T12:55:12.0203794Z (pass) invoice finance selectors > courier pending is pending value, not customer debt
+2026-11-02T12:55:12.0204512Z (pass) invoice finance selectors > courier delivered_none creates full customer debt
+2026-11-02T12:55:12.0205239Z (pass) invoice finance selectors > courier delivered_partial creates debt for uncollected part
+2026-11-02T12:55:12.0206365Z (pass) invoice finance selectors > courier delivered_full creates no customer debt
+2026-11-02T12:55:12.0207178Z (pass) invoice finance selectors > courier returned has no customer debt or courier custody
+2026-11-02T12:55:12.0208059Z (pass) invoice finance selectors > courier custody full equals collected money
+2026-11-02T12:55:12.0208976Z (pass) invoice finance selectors > courier custody partial equals collected money
+2026-11-02T12:55:12.0209672Z (pass) invoice finance selectors > zero remaining stays zero
+2026-11-02T12:55:12.0210432Z (pass) invoice finance selectors > item cost is cost times quantity
+2026-11-02T12:55:12.0211109Z (pass) invoice finance selectors > gross margin is total minus item costs
+2026-11-02T12:55:12.0211849Z (pass) invoice finance selectors > direct debt can be collected
+2026-11-02T12:55:12.0212566Z (pass) invoice finance selectors > returned order cannot be collected
+2026-11-02T12:55:12.0213262Z (pass) invoice finance selectors > courier pending cannot be collected
+2026-11-02T12:55:12.0214016Z (pass) invoice finance selectors > courier delivered_none can be collected
+2026-11-02T12:55:12.0214824Z (pass) invoice finance selectors > courier delivered_partial cannot be collected before settlement
+2026-11-02T12:55:12.0215695Z (pass) invoice finance selectors > courier delivered_full cannot be collected [1.00ms]
+2026-11-02T12:55:12.0216452Z (pass) invoice finance selectors > item margin uses price minus cost times quantity
+2026-11-02T12:55:12.0217318Z (pass) invoice finance selectors > gross margin and item margin remain separate concepts
+2026-11-02T12:55:12.0217821Z 
+2026-11-02T12:55:12.0218555Z ##[endgroup]
+2026-11-02T12:55:12.0219010Z 
+2026-11-02T12:55:12.0219566Z ##[group]tests/unit/mcp-request-boundary.test.ts:
+2026-11-02T12:55:12.0607273Z (pass) valid MCP bytes, headers and live abort signal reach the existing handler unchanged [2.00ms]
+2026-11-02T12:55:12.0609426Z (pass) non-MCP requests and MCP non-POST requests retain object and unread body identity
+2026-11-02T12:55:12.0638066Z (pass) router-normalized aliases and companion tool routes cannot bypass limits [2.00ms]
+2026-11-02T12:55:12.0649968Z (pass) exact byte limit passes; one extra byte is rejected without relying on Content-Length [1.00ms]
+2026-11-02T12:55:12.0670503Z (pass) UTF-8 bytes, not UTF-16 character count, enforce the body budget [3.00ms]
+2026-11-02T12:55:12.0683015Z (pass) chunked bodies with absent or forged-small length cannot exceed the actual byte budget
+2026-11-02T12:55:12.0684296Z (pass) declared oversize and invalid lengths fail before reading the body
+2026-11-02T12:55:12.0685271Z (pass) early refusals preserve the response transport and signal close-after-response [1.00ms]
+2026-11-02T12:55:12.0694935Z (pass) combined array/object member budget accepts the boundary and rejects one extra [1.00ms]
+2026-11-02T12:55:12.0707973Z (pass) deep bounded inputs cannot reach recursive downstream schema validation
+2026-11-02T12:55:12.0709553Z (pass) malformed JSON and invalid UTF-8 get fixed errors without echoing input [1.00ms]
+2026-11-02T12:55:12.0710409Z (pass) abort settles an outstanding read even when client cancellation never settles [1.00ms]
+2026-11-02T12:55:12.0714050Z (pass) already-aborted inputs and stream failures never pass to the protocol handler
+2026-11-02T12:55:17.0721316Z (pass) stalled reads have a finite deadline [5001.06ms]
+2026-11-02T12:55:17.0729633Z 
+2026-11-02T12:55:17.0730449Z ##[endgroup]
+2026-11-02T12:55:17.0730694Z 
+2026-11-02T12:55:17.0731102Z ##[group]tests/unit/mcp-issuer.test.ts:
+2026-11-02T12:55:17.1738196Z (pass) actual MCP definition uses the approved local issuer [99.00ms]
+2026-11-02T12:55:17.3830604Z (pass) actual locked handler rejects signature, issuer, audience, expiry and client-claim failures [209.00ms]
+2026-11-02T12:55:17.4741347Z (pass) actual MCP import fails closed without explicit environment configuration [92.00ms]
+2026-11-02T12:55:17.4749022Z (pass) issuer resolution validates local and ci endpoints before canonicalizing
+2026-11-02T12:55:17.4764138Z (pass) remote environments retain direct Supabase project endpoints [1.00ms]
+2026-11-02T12:55:17.4766018Z (pass) issuer cannot bypass the existing endpoint, alias or public key contract
+2026-11-02T12:55:17.4766543Z 
+2026-11-02T12:55:17.4767478Z ##[endgroup]
+2026-11-02T12:55:17.4767780Z 
+2026-11-02T12:55:17.4768198Z ##[group]tests/unit/dependency-security.test.ts:
+2026-11-02T12:55:17.4821033Z (pass) TanStack server-function XSS dependency boundary > @tanstack/react-start has no vulnerable locked copy [1.00ms]
+2026-11-02T12:55:17.4822198Z (pass) TanStack server-function XSS dependency boundary > @tanstack/start-server-core has no vulnerable locked copy
+2026-11-02T12:55:17.4823761Z (pass) TanStack server-function XSS dependency boundary > seroval has no vulnerable locked copy
+2026-11-02T12:55:17.4825877Z (pass) TanStack server-function XSS dependency boundary > @modelcontextprotocol/sdk has no vulnerable locked copy
+2026-11-02T12:55:17.4827814Z (pass) TanStack server-function XSS dependency boundary > vite has no vulnerable locked copy
+2026-11-02T12:55:17.4830180Z (pass) TanStack server-function XSS dependency boundary > launch-editor has no vulnerable locked copy [1.00ms]
+2026-11-02T12:55:17.4832089Z (pass) TanStack server-function XSS dependency boundary > browserslist has no vulnerable locked copy
+2026-11-02T12:55:17.4834006Z (pass) TanStack server-function XSS dependency boundary > fast-uri has no vulnerable locked copy
+2026-11-02T12:55:17.4836080Z (pass) TanStack server-function XSS dependency boundary > ip-address has no vulnerable locked copy
+2026-11-02T12:55:17.4838058Z (pass) TanStack server-function XSS dependency boundary > js-yaml has no vulnerable locked copy
+2026-11-02T12:55:17.4840339Z (pass) TanStack server-function XSS dependency boundary > nanoid has no vulnerable locked copy [1.00ms]
+2026-11-02T12:55:17.4842240Z (pass) TanStack server-function XSS dependency boundary > postcss has no vulnerable locked copy
+2026-11-02T12:55:17.4844183Z (pass) TanStack server-function XSS dependency boundary > proxy-addr has no vulnerable locked copy
+2026-11-02T12:55:17.4847892Z (pass) TanStack server-function XSS dependency boundary > shell-quote has no vulnerable locked copy
+2026-11-02T12:55:17.4849539Z (pass) TanStack server-function XSS dependency boundary > source-map-js has no vulnerable locked copy
+2026-11-02T12:55:17.4853440Z (pass) TanStack server-function XSS dependency boundary > @hono/node-server has no vulnerable locked copy [1.00ms]
+2026-11-02T12:55:17.4855826Z (pass) TanStack server-function XSS dependency boundary > @babel/core has no vulnerable locked copy
+2026-11-02T12:55:17.4857975Z (pass) TanStack server-function XSS dependency boundary > dompurify has no vulnerable locked copy
+2026-11-02T12:55:17.4860302Z (pass) TanStack server-function XSS dependency boundary > qs has no vulnerable locked copy [1.00ms]
+2026-11-02T12:55:17.4862259Z (pass) TanStack server-function XSS dependency boundary > hono has no vulnerable locked copy
+2026-11-02T12:55:17.4864258Z (pass) TanStack server-function XSS dependency boundary > brace-expansion has no vulnerable locked copy
+2026-11-02T12:55:17.4870202Z (pass) esbuild exception has no vulnerable or mismatched locked copy [1.00ms]
+2026-11-02T12:55:17.4870589Z 
+2026-11-02T12:55:17.4871166Z ##[endgroup]
+2026-11-02T12:55:17.4871391Z 
+2026-11-02T12:55:17.4871742Z ##[group]tests/unit/ip-address-security.test.ts:
+2026-11-02T12:55:17.4969298Z (pass) patched IP parser retains IPv4, IPv6 and zone contracts [1.00ms]
+2026-11-02T12:55:17.4977913Z (pass) zone-heavy malformed inputs are rejected across all line terminators [1.00ms]
+2026-11-02T12:55:17.4978369Z 
+2026-11-02T12:55:17.4979210Z ##[endgroup]
+2026-11-02T12:55:17.4979576Z 
+2026-11-02T12:55:17.4980045Z ##[group]tests/unit/supabase-build-config.test.ts:
+2026-11-02T12:55:17.4996330Z (pass) Supabase build configuration > accepts explicit isolated CI configuration
+2026-11-02T12:55:17.4997088Z (pass) Supabase build configuration > accepts matching browser and server aliases
+2026-11-02T12:55:17.4997804Z (pass) Supabase build configuration > rejects divergent browser and server aliases
+2026-11-02T12:55:17.4998500Z (pass) Supabase build configuration > uses server aliases when VITE aliases are absent
+2026-11-02T12:55:17.5003434Z (pass) Supabase build configuration > hydrates missing server aliases only from validated resolved values
+2026-11-02T12:55:17.5008562Z (pass) Supabase build configuration > server alias hydration cannot overwrite divergent explicit aliases
+2026-11-02T12:55:17.5015111Z (pass) Supabase build configuration > runtime identity must match the baked build identity [1.00ms]
+2026-11-02T12:55:17.5015965Z (pass) Supabase build configuration > fails closed when deployment target is missing or unsupported
+2026-11-02T12:55:17.5016716Z (pass) Supabase build configuration > fails closed when explicit Supabase values are missing or blank
+2026-11-02T12:55:17.5017390Z (pass) Supabase build configuration > blank VITE aliases do not override usable server aliases
+2026-11-02T12:55:17.5018092Z (pass) Supabase build configuration > deployment targets require their approved endpoint class
+2026-11-02T12:55:17.5018805Z (pass) Supabase build configuration > rejects URL routing components instead of canonicalizing them away
+2026-11-02T12:55:17.5019687Z (pass) Supabase build configuration > non-production targets reject the production host or project
+2026-11-02T12:55:17.5020372Z (pass) Supabase build configuration > terminal DNS dots cannot bypass production isolation
+2026-11-02T12:55:17.5021099Z (pass) Supabase build configuration > production requires the exact approved endpoint and explicit key
+2026-11-02T12:55:17.5021767Z (pass) Supabase build configuration > remote Supabase URL and project ID must match
+2026-11-02T12:55:17.5035833Z 
+2026-11-02T12:55:17.5036791Z ##[endgroup]
+2026-11-02T12:55:17.5037067Z 
+2026-11-02T12:55:17.5037508Z ##[group]tests/unit/supabase-public-key.test.ts:
+2026-11-02T12:55:17.5038214Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format secret
+2026-11-02T12:55:17.5039680Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-11-02T12:55:17.5040468Z (pass) public Supabase configuration rejects privileged credentials > rejects privileged key format JWT
+2026-11-02T12:55:17.5041242Z (pass) public Supabase configuration rejects privileged credentials > accepts legacy anon and publishable fixtures
+2026-11-02T12:55:17.5041731Z 
+2026-11-02T12:55:17.5042110Z ##[endgroup]
+2026-11-02T12:55:17.5042355Z 
+2026-11-02T12:55:17.5042784Z ##[group]tests/unit/mcp-dependency-compatibility.test.ts:
+2026-11-02T12:55:17.6274748Z (pass) Lovable MCP adapter initializes with the overridden SDK [16.00ms]
+2026-11-02T12:55:17.6443540Z (pass) Lovable MCP adapter lists and invokes a Zod tool [17.00ms]
+2026-11-02T12:55:17.6482802Z (pass) invalid arguments do not invoke the synthetic tool [3.00ms]
+2026-11-02T12:55:17.6484888Z [mcp-js] auth.no_bearer_token {
+2026-11-02T12:55:17.6485801Z   outcome: "401",
+2026-11-02T12:55:17.6486097Z }
+2026-11-02T12:55:17.6486972Z (pass) protected fixture rejects a missing bearer without external requests [1.00ms]
+2026-11-02T12:55:17.6509306Z 
+2026-11-02T12:55:17.6510388Z ##[endgroup]
+2026-11-02T12:55:17.6510634Z 
+2026-11-02T12:55:17.6510793Z  94 pass
+2026-11-02T12:55:17.6511060Z  0 fail
+2026-11-02T12:55:17.6511324Z  291 expect() calls
+2026-11-02T12:55:17.6511652Z Ran 94 tests across 9 files. [8.73s]
+2026-11-02T12:55:17.6627724Z ##[group]Run node --test tests/b-dependency/webhook-bridge.test.cjs
+2026-11-02T12:55:17.6628252Z [36;1mnode --test tests/b-dependency/webhook-bridge.test.cjs[0m
+2026-11-02T12:55:17.6628680Z [36;1mnode --test tests/account-lifecycle/webhook_handler.test.cjs[0m
+2026-11-02T12:55:17.6629278Z [36;1mnode --test tests/c-source/quantity-bridge.test.cjs[0m
+2026-11-02T12:55:17.6629649Z [36;1mnode tests/g0-integrated-types/runtime.cjs[0m
+2026-11-02T12:55:17.6630090Z [36;1mnode --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs[0m
+2026-11-02T12:55:17.6662454Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:55:17.6662658Z env:
+2026-11-02T12:55:17.6662844Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:17.6663084Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:17.6663254Z ##[endgroup]
+2026-11-02T12:55:17.7624208Z ✔ bridge keeps the accepted A comparison and independently pins current B4 bytes (12.701049ms)
+2026-11-02T12:55:17.7627655Z ✔ changed current B4 handler cannot be hidden by the historical A comparison (5.373573ms)
+2026-11-02T12:55:17.7635356Z ✔ every other path retains current source without a replacement (0.120454ms)
+2026-11-02T12:55:17.7640791Z ✔ caller-selected references and overrides are rejected (0.383085ms)
+2026-11-02T12:55:17.7743427Z ℹ tests 4
+2026-11-02T12:55:17.7760084Z ℹ suites 0
+2026-11-02T12:55:17.7774941Z ℹ pass 4
+2026-11-02T12:55:17.7785122Z ℹ fail 0
+2026-11-02T12:55:17.7786607Z ℹ cancelled 0
+2026-11-02T12:55:17.7786962Z ℹ skipped 0
+2026-11-02T12:55:17.7787283Z ℹ todo 0
+2026-11-02T12:55:17.7787576Z ℹ duration_ms 75.02742
+2026-11-02T12:55:18.2318609Z ✔ real SDK retains microsecond order and canonical persistence fields (7.482301ms)
+2026-11-02T12:55:18.2337800Z ✔ acknowledges only durable outcome applied (3.688711ms)
+2026-11-02T12:55:18.2340821Z ✔ acknowledges only durable outcome duplicate (1.596707ms)
+2026-11-02T12:55:18.2360079Z ✔ acknowledges only durable outcome stale (1.410804ms)
+2026-11-02T12:55:18.2379761Z ✔ acknowledges only durable outcome unchanged (1.387398ms)
+2026-11-02T12:55:18.2399540Z ✔ acknowledges only durable outcome legacy_repaired (1.236918ms)
+2026-11-02T12:55:18.2400156Z ✔ acknowledges only durable outcome non_current (0.933075ms)
+2026-11-02T12:55:18.2419453Z ✔ fails closed on database_error (1.085727ms)
+2026-11-02T12:55:18.2439497Z ✔ fails closed on null_data (0.881295ms)
+2026-11-02T12:55:18.2440143Z ✔ fails closed on zero_rows (1.338703ms)
+2026-11-02T12:55:18.2459649Z ✔ fails closed on unknown_status (0.92411ms)
+2026-11-02T12:55:18.2479565Z ✔ transport rejection is retryable without raw error logging (0.848025ms)
+2026-11-02T12:55:18.2480375Z ✔ invalid environments never reach verification or persistence (0.409696ms)
+2026-11-02T12:55:18.2499590Z ✔ wrong live secret never persists (0.665186ms)
+2026-11-02T12:55:18.2519695Z ✔ rejects signed invalid payload missing_mapping (0.64879ms)
+2026-11-02T12:55:18.2534832Z ✔ rejects signed invalid payload missing_items (0.55717ms)
+2026-11-02T12:55:18.2535579Z ✔ rejects signed invalid payload unsupported_precision (0.47861ms)
+2026-11-02T12:55:18.2536208Z ✔ rejects signed invalid payload invalid_calendar (0.545373ms)
+2026-11-02T12:55:18.2536777Z ✔ rejects signed invalid payload inconsistent_canceled (0.692687ms)
+2026-11-02T12:55:18.2537491Z ✔ verified unsupported notification is explicitly ignored without persistence (0.480694ms)
+2026-11-02T12:55:21.7237393Z ✔ deadline returns retryable response and aborts, without claiming rollback (3500.825139ms)
+2026-11-02T12:55:21.7241937Z ✔ created scheduled cancel retains original new-row default false (1.052161ms)
+2026-11-02T12:55:21.7428572Z ℹ tests 22
+2026-11-02T12:55:21.7429373Z ℹ suites 0
+2026-11-02T12:55:21.7429734Z ℹ pass 22
+2026-11-02T12:55:21.7430086Z ℹ fail 0
+2026-11-02T12:55:21.7430489Z ℹ cancelled 0
+2026-11-02T12:55:21.7430854Z ℹ skipped 0
+2026-11-02T12:55:21.7431191Z ℹ todo 0
+2026-11-02T12:55:21.7431547Z ℹ duration_ms 3933.21436
+2026-11-02T12:55:21.9160148Z ✔ fixed C2 bridge admits only the tested current bytes: src/lib/db.ts (45.857085ms)
+2026-11-02T12:55:21.9173150Z ✔ fixed C2 bridge admits only the tested current bytes: src/routes/_authenticated/app.tsx (45.350809ms)
+2026-11-02T12:55:21.9174125Z ✔ unrelated modules retain their actual source (0.278819ms)
+2026-11-02T12:55:21.9251117Z ℹ tests 3
+2026-11-02T12:55:21.9251769Z ℹ suites 0
+2026-11-02T12:55:21.9252204Z ℹ pass 3
+2026-11-02T12:55:21.9252606Z ℹ fail 0
+2026-11-02T12:55:21.9252943Z ℹ cancelled 0
+2026-11-02T12:55:21.9253289Z ℹ skipped 0
+2026-11-02T12:55:21.9253611Z ℹ todo 0
+2026-11-02T12:55:21.9253941Z ℹ duration_ms 147.582123
+2026-11-02T12:55:23.4069053Z {"files":9,"functionalDeclarationContracts":{"src/lib/db.ts":["useTenant","tenantTodayKey"],"src/routes/_authenticated/app.tsx":["MongezzApp","DebtsScreen","DebtCustomerScreen","CourierCustodyScreen","SettlementsScreen","DayCloseScreen","MoneyDetailsSheet"],"src/features/invoices/InvoiceDetailScreen.tsx":["InvoiceDetailScreen"],"src/routes/_authenticated/billing.tsx":["BillingPage"]},"unchangedFinancialMemoBodies":2,"intentionalAliasesAndGuards":{"clientAlias":1,"nullGuard":2,"messageAlias":1,"messageRename":1},"callbackScenarios":10,"currentC4CallbackAcceptance":"separate mandatory tests/c4-sale/contracts.test.cjs and native/browser workflow","currentFractionalCallbackControls":7,"currentC2ModulesPinned":2,"negativeWireMutation":true,"databaseOrProviderCalls":0}
+2026-11-02T12:55:25.2251320Z ✔ actual hook uses typed idempotent RPC, explicit key, quarter quantity and existing cents (156.450105ms)
+2026-11-02T12:55:25.2331155Z ✔ actual courier wire preserves pending (91.134433ms)
+2026-11-02T12:55:25.2345975Z ✔ actual courier wire preserves delivered_partial (78.73196ms)
+2026-11-02T12:55:25.2391385Z ✔ actual courier wire preserves delivered_full (84.393759ms)
+2026-11-02T12:55:25.2430400Z ✔ lost reply survives 31 minutes, years and a fresh module context with same exact request/key (109.493248ms)
+2026-11-02T12:55:25.2450032Z ✔ second operation cannot replace unresolved slot even with identical products (36.930019ms)
+2026-11-02T12:55:25.2469983Z ✔ same identity with changed wire is refused before RPC (51.690646ms)
+2026-11-02T12:55:25.2490067Z ✔ new identical logical sale after definitive success gets a new explicit key (50.646478ms)
+2026-11-02T12:55:25.2509761Z ✔ a local completion receipt never bypasses actual server replay (34.591385ms)
+2026-11-02T12:55:25.2522239Z ✔ invalid success retains key: null (35.097856ms)
+2026-11-02T12:55:25.2535558Z ✔ invalid success retains key: {} (46.014121ms)
+2026-11-02T12:55:25.2536418Z ✔ invalid success retains key: {"success":false,"order_id":"abfc9404-db4c-4cbc-adf5-28f4c60fe160","number":7} (31.350233ms)
+2026-11-02T12:55:25.2544927Z ✔ invalid success retains key: {"success":true,"order_id":"wrong","number":7} (35.352528ms)
+2026-11-02T12:55:25.2545791Z ✔ invalid success retains key: {"success":true,"order_id":"abfc9404-db4c-4cbc-adf5-28f4c60fe160","number":"7"} (32.253141ms)
+2026-11-02T12:55:25.2546679Z ✔ invalid success retains key: {"success":true,"order_id":"abfc9404-db4c-4cbc-adf5-28f4c60fe160","number":1.5} (30.514868ms)
+2026-11-02T12:55:25.2547328Z ✔ storage read fails before outbound write (31.503764ms)
+2026-11-02T12:55:25.2547837Z ✔ storage write fails before outbound write (54.182486ms)
+2026-11-02T12:55:25.2548339Z ✔ storage readback fails before outbound write (28.59257ms)
+2026-11-02T12:55:25.2548968Z ✔ missing Web Locks refuses before storage or RPC (36.388886ms)
+2026-11-02T12:55:25.2549566Z ✔ malformed and wrong-scope records are retained, not overwritten (29.814716ms)
+2026-11-02T12:55:25.2550244Z ✔ old unscoped candidate key is neither TTL-expired nor reassigned (31.277384ms)
+2026-11-02T12:55:25.2551401Z ✔ actor, tenant and environment storage keys are distinct (57.528494ms)
+2026-11-02T12:55:25.2552009Z ✔ old actor's captured recovery cannot dispatch under new actor (22.855678ms)
+2026-11-02T12:55:25.2552698Z ✔ account change after commit keeps old actor pending, without validated success (28.802195ms)
+2026-11-02T12:55:25.2553575Z ✔ unauthenticated actor refuses before financial RPC (24.355172ms)
+2026-11-02T12:55:25.2555353Z ✔ parallel same-operation callbacks retain one UUID across serialized real callbacks (22.066302ms)
+2026-11-02T12:55:25.2556080Z ✔ parallel pending different operation cannot overwrite after first uncertain response (82.456177ms)
+2026-11-02T12:55:25.2556834Z ✔ fresh confirmed canonical SQL rollback releases only its own never-uncertain attempt (24.461791ms)
+2026-11-02T12:55:25.2557552Z ✔ a denial after lost reply cannot erase a potentially committed operation (25.099871ms)
+2026-11-02T12:55:25.2558247Z ✔ storage completion failure after server success keeps original identity (27.543773ms)
+2026-11-02T12:55:25.2559013Z ✔ invalid quantity never reaches RPC: 0 (54.177829ms)
+2026-11-02T12:55:25.2559623Z ✔ invalid quantity never reaches RPC: -1 (25.188944ms)
+2026-11-02T12:55:25.2560007Z ✔ invalid quantity never reaches RPC: 0.001 (23.224722ms)
+2026-11-02T12:55:25.2560381Z ✔ invalid quantity never reaches RPC: NaN (22.476437ms)
+2026-11-02T12:55:25.2560793Z ✔ invalid quantity never reaches RPC: Infinity (23.772005ms)
+2026-11-02T12:55:25.3962178Z ✔ C4 history rejects actual source mutation: src/lib/db.ts (18.853443ms)
+2026-11-02T12:55:25.3963106Z ✔ C4 history rejects actual source mutation: src/routes/_authenticated/app.tsx (17.150524ms)
+2026-11-02T12:55:25.4059846Z ℹ tests 37
+2026-11-02T12:55:25.4061116Z ℹ suites 0
+2026-11-02T12:55:25.4061535Z ℹ pass 37
+2026-11-02T12:55:25.4061908Z ℹ fail 0
+2026-11-02T12:55:25.4062214Z ℹ cancelled 0
+2026-11-02T12:55:25.4062529Z ℹ skipped 0
+2026-11-02T12:55:25.4062874Z ℹ todo 0
+2026-11-02T12:55:25.4063273Z ℹ duration_ms 1942.928236
+2026-11-02T12:55:25.4153734Z ##[group]Run python tests/g0-integrated-types/test_build_entry.py
+2026-11-02T12:55:25.4154079Z [36;1mpython tests/g0-integrated-types/test_build_entry.py[0m
+2026-11-02T12:55:25.4180032Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:55:25.4180204Z env:
+2026-11-02T12:55:25.4180378Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:25.4180599Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:25.4180768Z ##[endgroup]
+2026-11-02T12:55:25.6620729Z .
+2026-11-02T12:55:25.6621335Z ----------------------------------------------------------------------
+2026-11-02T12:55:25.6621903Z Ran 1 test in 0.197s
+2026-11-02T12:55:25.6622152Z 
+2026-11-02T12:55:25.6622331Z OK
+2026-11-02T12:55:25.6769631Z ##[group]Run node tests/app-financial-read/build.mjs "$RUNNER_TEMP/app-financial-read"
+2026-11-02T12:55:25.6770327Z [36;1mnode tests/app-financial-read/build.mjs "$RUNNER_TEMP/app-financial-read"[0m
+2026-11-02T12:55:25.6770909Z [36;1mnode tests/app-financial-read/replay.mjs "$RUNNER_TEMP/app-financial-read"[0m
+2026-11-02T12:55:25.6771468Z [36;1mnode tests/trial-status/replay.mjs "$RUNNER_TEMP/trial-status"[0m
+2026-11-02T12:55:25.6771964Z [36;1mnode tests/day-close-clock/replay.mjs "$RUNNER_TEMP/day-close-clock"[0m
+2026-11-02T12:55:25.6772479Z [36;1mpython tests/test_changed_lint.py "$RUNNER_TEMP/changed-lint"[0m
+2026-11-02T12:55:25.6807241Z shell: /usr/bin/bash -e {0}
+2026-11-02T12:55:25.6807527Z env:
+2026-11-02T12:55:25.6807802Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:25.6808153Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:25.6808407Z ##[endgroup]
+2026-11-02T12:55:26.0661404Z ▲ [WARNING] "import.meta" is not available with the "cjs" output format and will be empty [empty-import-meta]
+2026-11-02T12:55:26.0666171Z 
+2026-11-02T12:55:26.0666627Z     src/lib/sale-operation.ts:5:32:
+2026-11-02T12:55:26.0667314Z       5 │ export const SALE_ENVIRONMENT = import.meta.env.VITE_SUPABASE_URL;
+2026-11-02T12:55:26.0668570Z         ╵                                 ~~~~~~~~~~~
+2026-11-02T12:55:26.0669010Z 
+2026-11-02T12:55:26.0669353Z   You need to set the output format to "esm" for "import.meta" to work correctly.
+2026-11-02T12:55:26.0669770Z 
+2026-11-02T12:55:26.1844896Z ▲ [WARNING] "import.meta" is not available with the "iife" output format and will be empty [empty-import-meta]
+2026-11-02T12:55:26.1869319Z 
+2026-11-02T12:55:26.1890407Z     src/lib/sale-operation.ts:5:32:
+2026-11-02T12:55:26.1891635Z       5 │ export const SALE_ENVIRONMENT = import.meta.env.VITE_SUPABASE_URL;
+2026-11-02T12:55:26.1892328Z         ╵                                 ~~~~~~~~~~~
+2026-11-02T12:55:26.1892689Z 
+2026-11-02T12:55:26.1893100Z   You need to set the output format to "esm" for "import.meta" to work correctly.
+2026-11-02T12:55:26.1893545Z 
+2026-11-02T12:55:26.4912067Z /home/runner/work/_temp/app-financial-read/server.cjs:52497
+2026-11-02T12:55:26.4912837Z var SALE_ENVIRONMENT = import_meta.env.VITE_SUPABASE_URL;
+2026-11-02T12:55:26.4913256Z                                        ^
+2026-11-02T12:55:26.4913506Z 
+2026-11-02T12:55:26.4913785Z TypeError: Cannot read properties of undefined (reading 'VITE_SUPABASE_URL')
+2026-11-02T12:55:26.4914419Z     at Object.<anonymous> (/home/runner/work/_temp/app-financial-read/server.cjs:52497:40)
+2026-11-02T12:55:26.4914986Z     at Module._compile (node:internal/modules/cjs/loader:1929:14)
+2026-11-02T12:55:26.4915434Z     at Object..js (node:internal/modules/cjs/loader:2060:10)
+2026-11-02T12:55:26.4915862Z     at Module.load (node:internal/modules/cjs/loader:1651:32)
+2026-11-02T12:55:26.4916275Z     at Module._load (node:internal/modules/cjs/loader:1443:12)
+2026-11-02T12:55:26.4916730Z     at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+2026-11-02T12:55:26.4917231Z     at loadCJSModuleWithModuleLoad (node:internal/modules/esm/translators:372:15)
+2026-11-02T12:55:26.4917771Z     at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:244:9)
+2026-11-02T12:55:26.4918258Z     at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+2026-11-02T12:55:26.4918699Z     at async node:internal/modules/esm/loader:647:26
+2026-11-02T12:55:26.4919100Z 
+2026-11-02T12:55:26.4919254Z Node.js v24.22.1
+2026-11-02T12:55:26.4973668Z ##[error]Process completed with exit code 1.
+2026-11-02T12:55:26.5106800Z ##[group]Run actions/upload-artifact@v4
+2026-11-02T12:55:26.5107010Z with:
+2026-11-02T12:55:26.5107153Z   name: quality-diagnostics
+2026-11-02T12:55:26.5107539Z   path: /tmp/lint-files.txt
+/tmp/lint.log
+/home/runner/work/_temp/app-financial-read/browser.json
+/home/runner/work/_temp/app-financial-read/replay.json
+
+2026-11-02T12:55:26.5107923Z   if-no-files-found: warn
+2026-11-02T12:55:26.5108078Z   compression-level: 6
+2026-11-02T12:55:26.5108224Z   overwrite: false
+2026-11-02T12:55:26.5108367Z   include-hidden-files: false
+2026-11-02T12:55:26.5108530Z env:
+2026-11-02T12:55:26.5108697Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:26.5109106Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:26.5109303Z ##[endgroup]
+2026-11-02T12:55:26.6461632Z (node:3617) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T12:55:26.6462598Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T12:55:26.6554318Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-02T12:55:26.6556769Z The least common ancestor is /. This will be the root directory of the artifact
+2026-11-02T12:55:26.6557339Z With the provided path, there will be 1 file uploaded
+2026-11-02T12:55:26.6557980Z Artifact name is valid!
+2026-11-02T12:55:26.6558312Z Root directory input is valid!
+2026-11-02T12:55:26.9379603Z Beginning upload of artifact content to blob storage
+2026-11-02T12:55:26.9559063Z (node:3617) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-02T12:55:27.1186445Z Uploaded bytes 810
+2026-11-02T12:55:27.1614947Z Finished uploading artifact content to blob storage!
+2026-11-02T12:55:27.1615843Z SHA256 digest of uploaded artifact zip is 5a1437c5ffe724e40f4f5e891c1f7d5892408930f7d966358291a1aadbd87400
+2026-11-02T12:55:27.1616600Z Finalizing artifact upload
+2026-11-02T12:55:27.5783678Z Artifact quality-diagnostics.zip successfully finalized. Artifact ID 13143396411
+2026-11-02T12:55:27.5784544Z Artifact quality-diagnostics has been successfully uploaded! Final size is 810 bytes. Artifact ID is 13143396411
+2026-11-02T12:55:27.5790706Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452343/artifacts/13143396411
+2026-11-02T12:55:27.5963018Z ##[group]Run actions/upload-artifact@v4
+2026-11-02T12:55:27.5963360Z with:
+2026-11-02T12:55:27.5963586Z   name: integration-source-identity
+2026-11-02T12:55:27.5963911Z   path: /home/runner/work/_temp/g01-evidence/identity.json
+2026-11-02T12:55:27.5964245Z   retention-days: 7
+2026-11-02T12:55:27.5964480Z   if-no-files-found: warn
+2026-11-02T12:55:27.5964726Z   compression-level: 6
+2026-11-02T12:55:27.5964958Z   overwrite: false
+2026-11-02T12:55:27.5965205Z   include-hidden-files: false
+2026-11-02T12:55:27.5965446Z env:
+2026-11-02T12:55:27.5965705Z   EXPECTED_SOURCE: 42406e869fff080d733a10ab3688d82629543c95
+2026-11-02T12:55:27.5966042Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-02T12:55:27.5966283Z ##[endgroup]
+2026-11-02T12:55:27.7430917Z (node:3629) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-02T12:55:27.7431836Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-02T12:55:27.7516904Z With the provided path, there will be 1 file uploaded
+2026-11-02T12:55:27.7518082Z Artifact name is valid!
+2026-11-02T12:55:27.7519316Z Root directory input is valid!
+2026-11-02T12:55:28.0342661Z Beginning upload of artifact content to blob storage
+2026-11-02T12:55:28.0480556Z (node:3629) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-02T12:55:28.2090703Z Uploaded bytes 672
+2026-11-02T12:55:28.2545895Z Finished uploading artifact content to blob storage!
+2026-11-02T12:55:28.2546963Z SHA256 digest of uploaded artifact zip is 1ea9fa3c2f66aeaecb6d0df72e840da0634e86ba83e6fad11641f6fcb97f8c82
+2026-11-02T12:55:28.2548761Z Finalizing artifact upload
+2026-11-02T12:55:28.6862072Z Artifact integration-source-identity.zip successfully finalized. Artifact ID 13144110860
+2026-11-02T12:55:28.6862950Z Artifact integration-source-identity has been successfully uploaded! Final size is 672 bytes. Artifact ID is 13144110860
+2026-11-02T12:55:28.6863885Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41066452343/artifacts/13144110860
+2026-11-02T12:55:28.7065190Z Post job cleanup.
+2026-11-02T12:55:28.7855395Z [command]/usr/bin/git version
+2026-11-02T12:55:28.7927337Z git version 2.56.0
+2026-11-02T12:55:28.7966569Z Temporarily overriding HOME='/home/runner/work/_temp/7e0c23ce-4284-4568-9a36-591a207bbe45' before making global git config changes
+2026-11-02T12:55:28.7967446Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-02T12:55:28.7974648Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-02T12:55:28.8058453Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-02T12:55:28.8132211Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-02T12:55:28.8655879Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-02T12:55:28.8698294Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-02T12:55:28.9100411Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-02T12:55:28.9130408Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-02T12:55:28.9666004Z Cleaning up orphan processes
+2026-11-02T12:55:28.9988566Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

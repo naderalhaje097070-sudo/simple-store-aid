@@ -1,3 +1,13 @@
+## Current — C5-G1-SCHEMA-01 passed; full financial C5 remains open, 2026-11-03
+
+Exact executable `96ad7996a647eb6716ab36d050c96e72ad9963e1`, tree `3afb8cf6ffc0cf2150b12c3e3a13a31d009215f2`, existing `integration/g0-g1-reconcile-2026-10-18`: G1 native/runtime+environment41547084595, G041547084637 and B1 compatibility41547084623 all SUCCESS, attempt1. New pinned54 source/actual DB history contract preserves original41 migration identities. Native41checks prove actual Cloudflare SSR/desktop-mobile Auth UI/named runtime-target denial/unchanged public fixture/zero finance/complete bounded egress/cleanup.449protected source entries and all54migrations/75SQL/app/dependency/frozenA+B+C+C4+SEC bytes preserved within the explicit3testCIedits+5additions+source manifest. New40negative/source tests and old controls pass;97unit300expectations,0lint errors/14warnings, builds and supported complete audit{}exit0 pass.
+
+[Result, evidence and limits](../changes/c5-g1-schema/RESULT.md). The old exact41 G1 target blocker is resolved on this candidate; historical failure remains preserved. Status **Implemented → Tested for this bounded C5 subtask**; full C5 is **In Progress**, independentC6/C7 remain open. Main220fc2066b4d6254b1803b5e32919c47d60a9c7e and five originals unchanged; no merge/release/deploy/closure. This delivery changes docs/evidence only and has no new CI/runtime result.
+
+**ONE NEXT: remaining C5 integrated stored-financial/browser/restore acceptance**, reusing existing C3/C4 harnesses with independent expected financial values, concurrency/replay/tenant+actor isolation and actual browser→API→DB on safe fresh/upgraded/nonempty restored databases. Delivered ≠ Settled. C2 fractional units already approved. Nonfinancial G1 success is not full product/financial acceptance; integration_accepted=false. Prior blocks below are historical.
+
+---
+
 ## Current — SEC-DEP-20261102 implemented and tested, 2026-11-02
 
 Owner authorized the specific declared-range/export-interop exception (#55/6581232804). Exact executable `552ce47b924dd90b6b8403670989eced07bb82cf`, tree `411b79dd616b75efe350274069750498c291af87`, on existing `integration/g0-g1-reconcile-2026-10-18`: six affected workflows SUCCESS; full supported audit `{}` / exit 0, normal frozen install, typecheck, 0 lint errors / 14 warnings, 97 unit / 300 expectations, both builds and actual-consumer/security/source guards passed. Official complete lock generation and 441 protected entries / all 54 migrations (75 SQL files repository-wide) / unchanged app src and frozen A+B+C4 are proven. Status **Implemented → Tested**, candidate only.

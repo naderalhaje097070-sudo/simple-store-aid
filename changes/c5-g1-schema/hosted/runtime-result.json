@@ -1,0 +1,519 @@
+{
+  "source_sha": "96ad7996a647eb6716ab36d050c96e72ad9963e1",
+  "verification_batch": "C5-G1-SCHEMA-01",
+  "checks": [
+    {
+      "name": "clean_HTTP_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_HTTPS_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_ALL_PROXY",
+      "passed": true
+    },
+    {
+      "name": "clean_http_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_https_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_all_proxy",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGSERVICEFILE",
+      "passed": true
+    },
+    {
+      "name": "clean_PGHOSTADDR",
+      "passed": true
+    },
+    {
+      "name": "clean_PGOPTIONS",
+      "passed": true
+    },
+    {
+      "name": "clean_CLOUDFLARE_API_TOKEN",
+      "passed": true
+    },
+    {
+      "name": "clean_LOVABLE_API_KEY",
+      "passed": true
+    },
+    {
+      "name": "native_canary_rejected",
+      "passed": true
+    },
+    {
+      "name": "pinned54_migration_source",
+      "passed": true
+    },
+    {
+      "name": "exact_local_API",
+      "passed": true
+    },
+    {
+      "name": "exact_pinned54_migrations",
+      "passed": true
+    },
+    {
+      "name": "initial_empty_finance_auth",
+      "passed": true
+    },
+    {
+      "name": "A_auth_created",
+      "passed": true
+    },
+    {
+      "name": "A_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "A_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "A_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "A_real_login",
+      "passed": true
+    },
+    {
+      "name": "B_auth_created",
+      "passed": true
+    },
+    {
+      "name": "B_tenant_created",
+      "passed": true
+    },
+    {
+      "name": "B_profile_assigned",
+      "passed": true
+    },
+    {
+      "name": "B_trigger_owner_role_one",
+      "passed": true
+    },
+    {
+      "name": "B_real_login",
+      "passed": true
+    },
+    {
+      "name": "0_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "0_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "1_own_tenant_positive",
+      "passed": true
+    },
+    {
+      "name": "1_foreign_metadata_empty_with_own_positive",
+      "passed": true
+    },
+    {
+      "name": "actual_default_Cloudflare_build",
+      "passed": true
+    },
+    {
+      "name": "real_SSR_matching_target",
+      "passed": true
+    },
+    {
+      "name": "existing_actual_Auth_UI_desktop_mobile",
+      "passed": true
+    },
+    {
+      "name": "real_SSR_conflict_named_denial",
+      "passed": true,
+      "status": 500,
+      "log_drained_before_classification": true
+    },
+    {
+      "name": "public_fixture_unchanged",
+      "passed": true
+    },
+    {
+      "name": "finance_zero_at_end",
+      "passed": true
+    },
+    {
+      "name": "native_unexpected_outbound_zero",
+      "passed": true,
+      "native_before": {
+        "ipv4": 1,
+        "ipv6": 0
+      },
+      "native_after": {
+        "ipv4": 1,
+        "ipv6": 0
+      }
+    },
+    {
+      "name": "bounded_egress_trace_collected",
+      "passed": true
+    },
+    {
+      "name": "tracked_source_unchanged",
+      "passed": true
+    },
+    {
+      "name": "credential_free_receipt",
+      "passed": true
+    }
+  ],
+  "integration_accepted": false,
+  "native_phase_counters": {
+    "before": {
+      "ipv4": 1,
+      "ipv6": 0
+    },
+    "matching_ready": {
+      "ipv4": 1,
+      "ipv6": 0
+    },
+    "after_auth_ui": {
+      "ipv4": 1,
+      "ipv6": 0
+    },
+    "after_conflict_stopped": {
+      "ipv4": 1,
+      "ipv6": 0
+    }
+  },
+  "migration_target": {
+    "base_source": "836de635e2920480059f3d4dbbd00690c61c080a",
+    "target_manifest_blob": "72688a279013b0549a0366d9a88363917285035e",
+    "source_migrations_exact": 54,
+    "original_migrations_preserved": 41,
+    "financial_acceptance": false,
+    "integration_accepted": false
+  },
+  "before": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "bc9e4186e49f8f1f52aaad0db433f8a6"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_idempotency": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "3e65609996eedc20c8e53eb1b57408c7"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "3fd811f97865c224e52186cd778d7399"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "2f450badd75ede117d7b3464195c03ad"
+    }
+  },
+  "build_warnings": {
+    "precache_zero": true
+  },
+  "build_sha256": {
+    ".output/package-lock.json": "04aa29e6ad5c6ce21c2c76c03e58fed8fabb50302c681bcb87d5d2f2952ac079",
+    ".output/package.json": "f8ac46a1418fb2a7fd30470a75cbf5778f782f7c9803432bae7ec61a2d745d9e",
+    ".output/nitro.json": "10fb5afcb270d3ed1eb5ee3d09e1869956483f9bea61c4f67731fe1158b37f46",
+    ".output/server/wrangler.json": "34b1f732a8050f7a14ffd5f993259ee59345a2f6a6ef82e849c3b7e8718f4b74",
+    ".output/server/_runtime.mjs": "fe52b1d422e18ae520ffd8e1d5f5d5d655ed07212b2a542004fe9334eddc1d50",
+    ".output/server/index.mjs": "3fea3ee9b60f0f66df9a079e89884195c56d5cde4fc54ac95f326025a9606d45",
+    ".output/public/favicon.svg": "a851d67cb92db6d6b40652a52ef9492d1736dd66e913135f012a8ee269002ec6",
+    ".output/public/_headers": "8986b1072b0e2a0646b4787388991bb50bc2b87b69a037d8531a62ff4d2c2ff3",
+    ".output/public/manifest.webmanifest": "8ef3c70b729cb18dcbc29896e8bad76422eab993984efc70dd70f0bc60bca1b5",
+    ".output/public/robots.txt": "9703f23c55c4795b376b9916c2d74478cb3e4f5fe6ed4d3917024811622c3f19",
+    ".output/public/offline.html": "9317fe3feedecbd7917a182f49fae4f4631a23eeb6e7c7dd666304ff6c3f43c9",
+    ".output/public/llms.txt": "f873184e93b829cb405c9f36bf6f598cf023f2f01c2e389951e4403129c948e0",
+    ".output/public/og-image.jpg": "8964d7fb385834b3e14deee658cecc4ba7a23cfb8917195dfc6b5e7adc413241",
+    ".output/server/_libs/paddle__paddle-node-sdk.mjs": "12de8958efc1ba85d93a62ef24b67e7dcf8bfa4f28cf7f813a84807af79935d8",
+    ".output/server/_libs/lovable.dev__email-js.mjs": "310c8afaba253552bade22ffea51929e0894200a16629009bab819abeb7a2795",
+    ".output/server/_libs/h3+rou3+srvx.mjs": "39053eb56760e81ceaba2002226892d1104b7955b4ea03b65082a1da5601edef",
+    ".output/server/_libs/supabase__phoenix.mjs": "7857d1d3957acd7b1292cc8c9bfac7362292cf441ca6a31af9ae78f32499b773",
+    ".output/server/_libs/dompurify.mjs": "68d14f605e18082ce115200c87fdc7e99cbc79f195a5a2647c91512d4bc438d9",
+    ".output/server/_libs/canvg+[...].mjs": "820bf75f83cf1cd6b948d6629166b4e4eeeb97be08391a4e5e6dfa4b3567922f",
+    ".output/server/_libs/pngjs.mjs": "4e22132990f625798bf9151f3008befc5ddc481dd054cc51a8185f653f19395c",
+    ".output/server/_libs/supabase__auth-js+tslib.mjs": "aa230396c2257e02b75da621c2d91c10f17a54fd916e7b96fcf3763c1e328bd4",
+    ".output/server/_libs/fflate.mjs": "c4f37ef6d5ed52b51fa13e7d8d6215754f079583358fe8c93d4f3ac08924b671",
+    ".output/server/_libs/supabase__realtime-js+unenv.mjs": "ffb293af75113c58c16dce88d14dd5469ea00fde748ffb3d2300a74b5fbbad64",
+    ".output/server/_libs/babel__runtime.mjs": "4648ccf48f81a32e007b92ca9713b6c982f8879fc8a008b54100b40bf4889f85",
+    ".output/server/_libs/react+tanstack__react-query.mjs": "0cdfa9cc7949980af3b5e77e7d7379ba93e05d8b6cdf006ae7dd8dcd5c0d81b2",
+    ".output/server/_libs/hookable.mjs": "3f5f6ffb7d0fc4a647805c77486740cbc27aa083bfd458d8e113f9d5882ec2fd",
+    ".output/server/_libs/tanstack__history.mjs": "406614a370fd8a427bb0a3a77b78b171311e43b75b714d3d6624253a5d50a3f3",
+    ".output/server/_libs/html2canvas.mjs": "0afb6880d707c18677068778aeb2f618a0d98576eb07e9c22becbec69e05d013",
+    ".output/server/_libs/supabase__functions-js.mjs": "aa902c64099e5f87ce823a527979a0dc5f629b920af7f6f9ea361b989407aa66",
+    ".output/server/_libs/lovable.dev__cloud-auth-js.mjs": "8a6d7abb8361ca553addc521048b26afdf975fd47cba1ec8006c0f2327c81fa9",
+    ".output/server/_libs/lucide-react.mjs": "453c731b5ddf36011c6b2eafb1348422717bd515ae4a5b7e4f995e365512b913",
+    ".output/server/_libs/dijkstrajs.mjs": "d53e624b13ce260f4bb7bfd14d5818b680bae6115dd2ead449dbb284a241734c",
+    ".output/server/_libs/jspdf.mjs": "8bbab72ee79c71cb70edcdaec9c3de066a08d60391cb76a3f82f53b7209a7a2d",
+    ".output/server/_libs/h3-v2+srvx.mjs": "3ae67d4ac7fe84e8c39cbda4096c8bcdf1627f49bcf2483cc2120a5927e9ba86",
+    ".output/server/_libs/tanstack__query-core.mjs": "59a1875f17896b0f383ce94bd776fecdbe4c72776ffce18f5b3cdfae995f16dc",
+    ".output/server/_libs/qrcode.mjs": "433b811c0245c60f08fbeca1155e56af2445e93a6709a7dc71bb72eb28ba7c9c",
+    ".output/server/_libs/supabase__postgrest-js.mjs": "86b2b46cd28b9fdeb03fbb064cc2a6af00339439ef0b2f07f604debb2387942b",
+    ".output/server/_libs/supabase__supabase-js.mjs": "f0f30bc067571a577f6ca478ef021b126054e271721c7f647d9e6e054afaccc7",
+    ".output/server/_libs/fast-png+iobuffer+pako.mjs": "79024f43fbceacbd9007fa580d5d6f62779149b182eedd9258bf67c1f59da6db",
+    ".output/server/_ssr/ssr.mjs": "67f888a4094060749a14ed68170d2bfafe0755a86e46586d56ab41d6a51b1e5d",
+    ".output/server/_chunks/ssr-renderer.mjs": "44616b4298c2632dd1a46ea08babb2df574d7ab92d663ffbdcd6444aa5a197a3",
+    ".output/server/_libs/@lovable.dev/mcp-js+[...].mjs": "97aaf3374c9fe7784c9bf5a2233eaace6438d4d3927217b74a79659758eeafea",
+    ".output/server/_libs/@tanstack/router-core+[...].mjs": "e46e9c10a9c5f0638e73d332d9958c07b0504bd6c13e6ab953dd96abcece6402",
+    ".output/server/_libs/@tanstack/react-router+[...].mjs": "1010d7111bb49b58fd19f72c165a8522d281dadd13974cba5b57dc48146f4f05",
+    ".output/server/_libs/@supabase/storage-js+[...].mjs": "548c8d89c8308c7a3437f31b0389ab6619a01e2004b5295b20c58e8ecc5210d5",
+    ".output/public/icons/icon-maskable-512.png": "9528540e3192397e1b0b04c8ad4d88b5a5566b5de1c2611e3cc5c290fac27a6c",
+    ".output/public/icons/icon-192.png": "d80e5de3c116c8385bf59ef0934f52cc3b589059fbde9d409ca058e1d52dc4ae",
+    ".output/public/icons/apple-touch-icon.png": "97ac6dc44304302cdcf96b9d5826c8bad4dd52713cb422f5a4e624147ac00867",
+    ".output/public/icons/icon-512.png": "2214f9ef7c5883701ad6be692e226f37925a34403bf3bdebd50b30fbadb261f9",
+    ".output/public/assets/lazyRouteComponent-CUrt3gPz.js": "67592668f178f96898213990dc79ebb02e144cd68977f2487b329e3c6f15a783",
+    ".output/public/assets/app-wXvLxusC.js": "da4887fbd3fd28a27b3c32b952e03e4e914598cbbf9a3a0206686e5df9b96a40",
+    ".output/public/assets/styles-IxQzZnRL.css": "f7e7676647a57d28e7e63198dbf368d11837c7ee1bc0ea196a5bfa5e1228413c",
+    ".output/public/assets/_._lovable.oauth.consent-CCu-6CNP.js": "1530d933f00840836461aac666cbe523a8cacc72df1d753c38670e6b93fc8a15",
+    ".output/public/assets/app-DcYplLzK.js": "5eea3453745fd10e452aa5412b259454f6c5879643298cd658a71f71ce68b1cb",
+    ".output/public/assets/client-C9NWj6_l.js": "24daa07258cccb80b7698766dec6cec1957a6771f37acd910122c3080efa8991",
+    ".output/public/assets/x-DEq0QWkK.js": "7addc0f12f7894304d1739e4a1267505f82d5230caf02e93f9e3f3f95dda2b17",
+    ".output/public/assets/guide-DjRGDxzS.js": "432b00464244bbfc724e962252683e18fe4e4e8c1f962727f070a36a4fa76008",
+    ".output/public/assets/onboarding-DjKUbSj0.js": "2fc08d92b1d4fb8ab87a8620ff52980965e4119410b29a38f164ae3fc37e14c0",
+    ".output/public/assets/sparkles-D0dhJp08.js": "994f9a23615cb032cfeecaa28824d0cd67cb7340b0c4e50a26531d8e32e16a57",
+    ".output/public/assets/purify.es-wSQYG3tN.js": "106cfe6025d8ca4bf6fafc8e32e2f1c9b4fa6aafbc5aca7093e397108cdabe50",
+    ".output/public/assets/arrow-left-DKuGIhZq.js": "829d75fd174f055f12c4f722bf2f7be58695e8d1b6895d6b84de2e53e81c8049",
+    ".output/public/assets/invariant-CgFvOqN2.js": "9581f7b30cfddeea2063d0f9ee9c4712ebd265221d0caa1b8b78828399b5e883",
+    ".output/public/assets/useSelector-B2E0INEz.js": "1011b0cc84877f862801d6d23bd5dd41a5a9372d6664db3b1476fd3b5547c4d2",
+    ".output/public/assets/virtual_pwa-register-CM2BOEVr.js": "00773a5e3f3f4c4c2d51657937ede524ce269c14286d82e7dedaefcb56295e8a",
+    ".output/public/assets/rolldown-runtime-QTnfLwEv.js": "5db5ba82eef00d1dee7e86e663098c9427d01183a88d357437daff295aec3e75",
+    ".output/public/assets/typeof-B5XbjTb1.js": "a018c0f2b55a5dbeeb62334a5437c26a040d27303c72982b08859b3e12c9d2f6",
+    ".output/public/assets/react-DPqvtlQV.js": "e186a800bc342ab818fbadb03d664c6f5dbe8b2325443401bc022aca2084b6e3",
+    ".output/public/assets/jsx-runtime-By8HlURe.js": "91463f10a0a3d312febb9fd269f8b68e78b6947b427d43f5d32a64422bc533c8",
+    ".output/public/assets/index-BhnjAWMv.js": "97a46c6a0f98a770a69dc0e1325c75b708f2c3f62dcd30c49602285745518bb4",
+    ".output/public/assets/pwa-register-DkX6BrsM.js": "15380c59672edd754e592f18417e6a1dc89638f4698475ccee6cf7008768c165",
+    ".output/public/assets/routes-BM6FmgoX.js": "d249c1a3fd5f70054000d375dc8eba4fa88ceaf9731b87a560cd531002b44870",
+    ".output/public/assets/html2canvas-CIX34xnf.js": "4312f913cae1aca7edec2dee684ce2cbcb2dbaaa30cbb93ab48a00bd710efcb0",
+    ".output/public/assets/index.es-BVI-yroT.js": "a93ef8c21bb0e8f67a0967587dfce8091dbb303c7e55d322f217137cfc1786d8",
+    ".output/public/assets/not-found-DIgawKw1.js": "ac8e8967ff892a5b649d743b4cb012a73eb22845ecac5325129d4ec5c99c83fc",
+    ".output/public/assets/matchContext-D5yzrWWZ.js": "141dab6927426145f1e4497af757c6415a2e330a4b8a1b63431ca8b3e512340f",
+    ".output/public/assets/useRouter-CI6lzJu4.js": "da01772613ca7bc8f91521e98c705fa6796dd4dd191b43205789bc38973e57e4",
+    ".output/public/assets/createLucideIcon-DGPfniA1.js": "f58337cca5f36c1b2c8fff2ff09f7dd4ad635c5487bc0b1264bdf47a0e99e62e",
+    ".output/public/assets/preload-helper-Czpn1I53.js": "aba87f2a53e45ecdc9113fc30387d16e449d1676428cf5f82dd624c1df97d152",
+    ".output/public/assets/workbox-window.prod.es5-Bd17z0YL.js": "17bcc17d60dc78f927834b880c39649b03af46fd1f5cdbb8c42c5ae2b515dce9",
+    ".output/public/assets/platform-admin-DH7e3710.js": "4f39a1b2439ffeea6a72b2935adff20eeadebc270a7aa4b18252ae78a501d580",
+    ".output/public/assets/auth-DH-wH4Ah.js": "66e45fb351cdeba7f47340736a37f5bd9902a1f79216bc40cb9adfb3591f8a03",
+    ".output/public/assets/route-BOq1mW08.js": "cc2a0f69517cb3019fdee315220bc59214efaff05c7d02f54683ee1b3a7645bc",
+    ".output/public/assets/billing-KKjlo4pJ.js": "255e99b78d466626af4456718a8364bbce9420f736b9b61729506832859ad717",
+    ".output/public/assets/_._lovable.oauth.consent-BrqSlhvh.js": "e900cd6a268d89347062df69711544691c1d422e24f3b15edb2518ade801b386",
+    ".output/public/assets/link-DiJks9SA.js": "67e8839195c32f07ad839805a7ef2bfb94737714d00d75727521d078bf31b605",
+    ".output/public/assets/useNavigate-CZzmch58.js": "2297f12756a227a5ac65619bdbd3899cb401872f791f802889a0d2c6bd6ef9ac",
+    ".output/public/assets/db-CHamElMd.js": "6086975194425d74740371151e722779a9a453f4467359881afdfa4b6a675ff2"
+  },
+  "egress_trace": {
+    "matching": {
+      "complete": true,
+      "lineage_read_failed": false,
+      "trace_failed": null
+    },
+    "conflict": {
+      "complete": true,
+      "lineage_read_failed": false,
+      "trace_failed": null
+    }
+  },
+  "conflict_guard_receipt": {
+    "status": 500,
+    "response_sha256": "7bda1ad24ab9d11b6b7039b1296d95982eee5cd6812224564749812b040c010a",
+    "private_log_sha256": "8f63e6d7d5cebe5c4be6542f3ff7c9cc118b56f450a9cefb60cc704243f1068c",
+    "exact_expected_guard_present": true,
+    "known_guard_categories": [
+      "build_runtime_supabase_mismatch"
+    ],
+    "unclassified_error": false,
+    "passed": true,
+    "format_only_normalization": "ANSI controls removed; whitespace collapsed; full phrase unchanged"
+  },
+  "after": {
+    "couriers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "customers": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "day_closes": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "email_send_state": {
+      "count": 1,
+      "digest": "bc9e4186e49f8f1f52aaad0db433f8a6"
+    },
+    "email_unsubscribe_tokens": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "expenses": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "financial_idempotency": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "order_items": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "orders": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "payments": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admin_audit_log": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "platform_admins": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "products": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "profiles": {
+      "count": 2,
+      "digest": "3e65609996eedc20c8e53eb1b57408c7"
+    },
+    "security_scan_findings": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "security_scan_runs": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "subscriptions": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "suppressed_emails": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenant_counters": {
+      "count": 0,
+      "digest": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "tenants": {
+      "count": 2,
+      "digest": "3fd811f97865c224e52186cd778d7399"
+    },
+    "user_roles": {
+      "count": 2,
+      "digest": "2f450badd75ede117d7b3464195c03ad"
+    }
+  },
+  "runtime": {
+    "supabase_cli": "2.101.0",
+    "wrangler": "4.149.0",
+    "playwright": "1.62.0",
+    "node": "v22.23.4"
+  },
+  "g2_historical_source54": "Original preissued banned-JWT finding is historical; current account lifecycle acceptance is not retested or imported by this nonfinancial G1 probe",
+  "financial_flow_executed": false
+}

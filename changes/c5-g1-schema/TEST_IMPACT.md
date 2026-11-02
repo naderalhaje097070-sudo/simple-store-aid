@@ -1,3 +1,9 @@
+# Hosted disposition — 3 November 2026
+
+Exact executable96ad7996a647eb6716ab36d050c96e72ad9963e1 passed G1 41547084595 (native41checks+environment), G0 41547084637 and B1 41547084623, all attempt1. Cleanup and credential scan pass. [Actual results and limits](RESULT.md), [raw evidence index](hosted/index.json). The original test plan/local history below is retained; its pending-hosted wording is superseded by this disposition. Full financial C5/C6/C7 remain open.
+
+---
+
 # Test impact and actual local results
 
 - Prior hosted baseline41492623347 failed exact41_migrations; preserved historical raw artifacts from the SEC delivery remain unchanged.

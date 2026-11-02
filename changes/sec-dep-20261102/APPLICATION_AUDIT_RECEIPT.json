@@ -1,0 +1,10 @@
+{
+  "source": "b587742231287219e9302d6af70dc128e19e25e0",
+  "runtime": "Bun1.4.0",
+  "actual_exit": 1,
+  "lock_git_blob": "6d017ff0e72d9dbde3d4e3c88ce6b3adc2c0c320",
+  "package_git_blob": "2b01ba68ea30be3e801cf75c256fb199849d4044",
+  "lock_sha256": "49542f676df48efb0c49182ccf692bd66e4618a210cfab9c14d34308e9c36275",
+  "no_suppression": true,
+  "replica_correction": "Initial scratch replica had one extra trailing LF; restored and Git blob checked before this exact-byte audit."
+}

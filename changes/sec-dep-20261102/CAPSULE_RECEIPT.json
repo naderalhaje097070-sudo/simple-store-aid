@@ -1,0 +1,13 @@
+{
+  "path": "COMPATIBILITY_INVESTIGATION.zip",
+  "files": 72,
+  "bytes": 88377,
+  "sha256": "d11121099576605b5f03dac964aabfa6ef20918db2b36bbb988ae6ceafd46f9b",
+  "capsule_manifest_sha256": "20366f2f3b8cc51d21b652a68d7ade900b44cc71ebba6ec38dfd5105dbc7a52e",
+  "base": "b587742231287219e9302d6af70dc128e19e25e0",
+  "application_package_changes": 0,
+  "current_application_audit_exit": 1,
+  "public_prototype_audit_exit": 0,
+  "native_patch_sha256": "1c2e49a5e9608bdf3b904c9f3ee62b02cc8677e46167ec9d70f117cd3dc07015",
+  "decision": "owner authorization of explicit publisher-range/interop exception before application adoption"
+}

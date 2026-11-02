@@ -1,0 +1,3 @@
+# API compatibility
+
+Actual CJS ConfigArray/filelist controls pass blind11, but actual config-array/eslintrc ESM imports fail because11has no default export. Generic legacy callable contract also fails. Native Bun-generated patch restores callable CJS (retaining named properties), default ESM and default declaration exports.8prototype consumer boundaries pass after fresh frozenBun1.2.14 install.33engine files stay exact; intended4export-only additions and terminal-LF normalization are accounted for. Removed legacy makeRe/AST and arbitrary old public APIs are not generally restored. This is a proposed project-specific compatibility exception outside declared major ranges, not publisher endorsement or full1099graph proof. No RPC/generated schema/app API changes.

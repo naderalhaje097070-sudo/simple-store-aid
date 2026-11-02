@@ -1,0 +1,3 @@
+# Migration impact
+
+No SQL/data/backfill migration. All54existing SQL and live account/tenant authorization contracts remain exact. No change to Node24.22.1 or frozenBun1.2.14 consumer is proposed. Two nested/version-scoped Bun rules generatev3 locks that1.2rejects; do not manually lower lock headers. Native patch from a genuinely generatedv1 baseline keeps a compatiblev1 prototype lock. Full project still uses its own existingv1/configVersion1 state, which has not been regenerated in this investigation. Full generator/consumer and installed-byte invariance must be verified on the actual candidate after authorization.

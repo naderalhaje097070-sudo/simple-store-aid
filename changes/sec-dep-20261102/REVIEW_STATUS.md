@@ -1,0 +1,3 @@
+# Review status
+
+Implementation-owner investigation review only; independent review not performed. Exact proposal/patch and bounded positive+expected-negative receipts are ready for the owner compatibility-exception decision. Main and full project dependencies unchanged; current complete audit blocked. Known limits: subset and Linux-only proof, exact-file EOF normalization, project-specific interoperability rather than full legacy API equivalence, new transitive matcher, unregenerated full graph/source admission, unchangedC5/C6/C7 gates. No accepted risk waiver, merge or release authorization.

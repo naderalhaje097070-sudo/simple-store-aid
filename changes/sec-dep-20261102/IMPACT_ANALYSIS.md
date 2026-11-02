@@ -1,0 +1,3 @@
+# Impact analysis
+
+Actual current seven consuming dependency edges are in DEPENDENCY_MAP.json. Glob is used by Workbox's build-time globSync; minimatch is used by ESLint/config-array/eslintrc, filelist and TypeScript-estree. Proposed graph changes concern tooling/PWA and transitive matcher/parser compatibility. Package application has not occurred. Actual protocol/auth/tenant/financial formulas/UI/54SQL remain unchanged. Risk is broken ESM/callable loading, changed matching semantics, unsupported publisher ranges, or silently inconsistent installs. See40case diagnostics and PROPOSAL.md; full affected project gates remain mandatory.

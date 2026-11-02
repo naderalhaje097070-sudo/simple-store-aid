@@ -1,0 +1,38 @@
+diff --git a/dist/commonjs/index.d.ts b/dist/commonjs/index.d.ts
+index 2247bba1b3d19e4de64150ba4d44bd82de532d5f..d8c2183423a0b2c60630ce83152a4132d1d908c7 100644
+--- a/dist/commonjs/index.d.ts
++++ b/dist/commonjs/index.d.ts
+@@ -183,3 +183,4 @@ export { escape } from './escape.js';
+ export { unescape } from './unescape.js';
+ export type { Form };
+ //# sourceMappingURL=index.d.ts.map
++export default minimatch;
+diff --git a/dist/commonjs/index.js b/dist/commonjs/index.js
+index ec1981d9a738ecf28d63190e27506ff0e600bf79..ae710c37603561b770b7d1062deed49a9f0bf213 100644
+--- a/dist/commonjs/index.js
++++ b/dist/commonjs/index.js
+@@ -1510,3 +1510,5 @@ exports.minimatch.Minimatch = Minimatch;
+ exports.minimatch.escape = escape_js_1.escape;
+ exports.minimatch.unescape = unescape_js_1.unescape;
+ //# sourceMappingURL=index.js.map
++// MONJEZ proposal: preserve legacy CommonJS callable/default interop.
++module.exports = Object.assign(exports.minimatch, exports);
+diff --git a/dist/esm/index.d.ts b/dist/esm/index.d.ts
+index 2247bba1b3d19e4de64150ba4d44bd82de532d5f..d8c2183423a0b2c60630ce83152a4132d1d908c7 100644
+--- a/dist/esm/index.d.ts
++++ b/dist/esm/index.d.ts
+@@ -183,3 +183,4 @@ export { escape } from './escape.js';
+ export { unescape } from './unescape.js';
+ export type { Form };
+ //# sourceMappingURL=index.d.ts.map
++export default minimatch;
+diff --git a/dist/esm/index.js b/dist/esm/index.js
+index ab804c2db6951836630594a59844233756d3957c..b6feabf50b2a30d0e30076621deeb6a32172f183 100644
+--- a/dist/esm/index.js
++++ b/dist/esm/index.js
+@@ -1499,3 +1499,5 @@ minimatch.Minimatch = Minimatch;
+ minimatch.escape = escape;
+ minimatch.unescape = unescape;
+ //# sourceMappingURL=index.js.map
++// MONJEZ proposal: preserve legacy default import interop.
++export default minimatch;

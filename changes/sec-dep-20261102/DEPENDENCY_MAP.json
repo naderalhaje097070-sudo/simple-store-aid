@@ -1,0 +1,53 @@
+{
+  "source": "b587742231287219e9302d6af70dc128e19e25e0",
+  "lock_entries": 1099,
+  "types_searched": [
+    "dependencies",
+    "optionalDependencies",
+    "peerDependencies"
+  ],
+  "edges": [
+    {
+      "name": "@eslint/config-array",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^3.1.5"
+    },
+    {
+      "name": "@eslint/eslintrc",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^3.1.5"
+    },
+    {
+      "name": "@typescript-eslint/typescript-estree",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^10.2.2"
+    },
+    {
+      "name": "eslint",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^3.1.5"
+    },
+    {
+      "name": "filelist",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^5.0.1"
+    },
+    {
+      "name": "glob",
+      "kind": "dependencies",
+      "target": "minimatch",
+      "range": "^10.1.1"
+    },
+    {
+      "name": "workbox-build",
+      "kind": "dependencies",
+      "target": "glob",
+      "range": "^11.0.1"
+    }
+  ]
+}

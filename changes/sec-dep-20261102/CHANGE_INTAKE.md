@@ -1,3 +1,7 @@
+# Current decision boundary —2November2026
+
+Investigation complete; exact native-patch compatibility proposal prepared, not adopted. Owner authorization of this specific declared-range/interop exception is required before application changes. Read PROPOSAL.md and REPORT.md. Exact application full audit remains failed2Moderate; original financial/54SQL/frozen source unchanged. Historical intake below remains binding until that decision.
+
 # SEC-DEP-20261102 — current glob/minimatch findings: intake and read-only triage
 
 Status: preparation only. No package, lock, vendor, application, SQL, test or workflow changes in this intake. This follows the owner's standing plan continuation and the observed full-audit failure after C4. One implementation owner, next focused batch; no merge/deploy/production/newcost authority.

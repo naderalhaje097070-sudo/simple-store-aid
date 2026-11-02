@@ -1,0 +1,3 @@
+# Rollback impact
+
+Nothing active to roll back in the application: current changes are docs/evidence only. After separately authorized candidate implementation, revert package/lock/patch and explicit new SEC admission delta together via additive commit; never rewrite published history or edit old54SQL. Maintain old C4 source/UUID/pending-draft guarantees and revoked legacy RPCs. On a failed compatibility/graph/source/audit check, retain failure and do not broaden into a toolchain-major upgrade automatically. No backup/production action or new spend is needed for the proposed dependency-only candidate.

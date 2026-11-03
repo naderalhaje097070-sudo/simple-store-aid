@@ -1,0 +1,4 @@
+2026-11-03T02:55:46.5257025Z G1_EGRESS_POINTER_ONLY_TRACER_CONFIRMED
+2026-11-03T02:59:36.7836341Z {"checks": 41, "passed": true, "source_sha": "e0a75541b981eed0bf1715315f7e418e466330c6"}
+2026-11-03T02:59:49.3194687Z {"status_removed": true, "worker_env_removed": true, "processes_removed": true, "containers_removed": true, "process_state": "no_processes", "container_state": "absent", "source_sha": "e0a75541b981eed0bf1715315f7e418e466330c6", "passed": true}
+2026-11-03T02:59:49.3687691Z G01_EVIDENCE_CREDENTIAL_SCAN_PASS

@@ -1,3 +1,9 @@
+# Hosted disposition — 3 November2026
+
+Actual native C5 run41568980208 FAILED on exact e0a75541b981eed0bf1715315f7e418e466330c6. All63fresh/66populated positive/setup/financial checks pass; the lost-success partial20collection resend target fails with paid40/two payments. Exit2 is retained as failed acceptance; no unchanged rerun/waiver. G0/G1/B1 pass, cleanup/publication pass. [Actual result and limits](RESULT.md). Local/proposed-test history below is retained; pending-hosted text is superseded.
+
+---
+
 # Tests and acceptance rules
 
 Local verdict5 and source-delta19 tests pass. They reject duplicated or missing stored collection receipts, missing first-commit positive, untracked/changed/removed/forged executable/SQL/dependency/source-manifest paths, modes, repository/head/provenance violations; readonly docs permitted. Changed Python syntax and workflow YAML/separate required test commands checked. A local YAML construction error (two intended Python lines initially folded to one scalar) was corrected before publication; no hosted attempt claimed for that draft. No local native SQL/Auth test executed.

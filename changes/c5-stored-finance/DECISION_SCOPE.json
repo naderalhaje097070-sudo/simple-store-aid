@@ -1,0 +1,32 @@
+{
+  "status": "UNAPPLIED_AWAITING_OWNER_DECISION",
+  "basis_source": "e0a75541b981eed0bf1715315f7e418e466330c6",
+  "finding": "C5-COLLECTION-RETRY-01",
+  "new_rpc": "collect_order_debt_idempotent(uuid,uuid,numeric,payment_method)",
+  "new_rpc_arguments": [
+    "p_idempotency_key",
+    "p_order_id",
+    "p_amount",
+    "p_method"
+  ],
+  "existing_inner_rpc": "collect_order_debt(uuid,numeric,payment_method)",
+  "reuse_table": "public.financial_idempotency",
+  "operation_namespace": "order.debt.collect.v1",
+  "actor_tenant_environment_scoped_durable_UI": true,
+  "close_authenticated_unkeyed_bypass": true,
+  "accounting_amount_rounding_policy_change": false,
+  "allowed_after_specific_approval": [
+    "forward-only test-environment migration",
+    "keyed server wrapper and privilege transition",
+    "actual collection UI/types/caller durable identity",
+    "adversarial native/browser/upgrade/restore/affected CI and independent review"
+  ],
+  "not_authorized": [
+    "protected merge",
+    "deployment",
+    "production migration/data correction",
+    "real payment-history rewriting",
+    "new cost",
+    "unrelated financial contract changes"
+  ]
+}

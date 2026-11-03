@@ -1,0 +1,386 @@
+{
+  "source_sha": "e0a75541b981eed0bf1715315f7e418e466330c6",
+  "mode": "populated",
+  "target_contract": {
+    "base_source": "836de635e2920480059f3d4dbbd00690c61c080a",
+    "target_manifest_blob": "72688a279013b0549a0366d9a88363917285035e",
+    "source_migrations_exact": 54,
+    "original_migrations_preserved": 41,
+    "financial_acceptance": false,
+    "integration_accepted": false
+  },
+  "controls": [
+    {
+      "name": "exact_pinned54_history",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_A_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_A_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_A_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_A_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_tenant_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_owner_B_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_owner_B_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_owner_B_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff1_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff1_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff1_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_created",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_profile_seeded",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "C3_staff2_staff_seeded",
+      "passed": true,
+      "status": 201
+    },
+    {
+      "name": "C3_staff2_exactly_one_role",
+      "passed": true
+    },
+    {
+      "name": "C3_staff2_login",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "name": "create_order_21",
+      "passed": true
+    },
+    {
+      "name": "nonempty_prior_tenant_seed",
+      "passed": true
+    },
+    {
+      "name": "create_order_23",
+      "passed": true
+    },
+    {
+      "name": "stored_quarter_sale_cash_stock",
+      "passed": true
+    },
+    {
+      "name": "stored_close_day_25",
+      "passed": true,
+      "observed": {
+        "sales": 25,
+        "collected": 25,
+        "expenses": 0,
+        "realized_profit": 15,
+        "customer_debts": 0,
+        "unsettled_custody": 0
+      },
+      "expected": {
+        "sales": 25,
+        "collected": 25,
+        "expenses": 0,
+        "realized_profit": 15,
+        "customer_debts": 0,
+        "unsettled_custody": 0
+      }
+    },
+    {
+      "name": "create_order_26",
+      "passed": true
+    },
+    {
+      "name": "delivery_is_custody_not_cash",
+      "passed": true
+    },
+    {
+      "name": "stored_close_day_28",
+      "passed": true,
+      "observed": {
+        "sales": 125,
+        "collected": 25,
+        "expenses": 0,
+        "realized_profit": 15,
+        "customer_debts": 60,
+        "unsettled_custody": 40
+      },
+      "expected": {
+        "sales": 125,
+        "collected": 25,
+        "expenses": 0,
+        "realized_profit": 15,
+        "customer_debts": 60,
+        "unsettled_custody": 40
+      }
+    },
+    {
+      "name": "collect_before_settlement",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "collect_before_settlement_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "foreign_settlement",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "foreign_settlement_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "authorized_staff_settlement",
+      "passed": true
+    },
+    {
+      "name": "settlement_single_stored_cash",
+      "passed": true
+    },
+    {
+      "name": "settlement_retry_no_second_cash",
+      "passed": true
+    },
+    {
+      "name": "authorized_remaining_customer_debt_collection",
+      "passed": true
+    },
+    {
+      "name": "stored_close_day_37",
+      "passed": true,
+      "observed": {
+        "sales": 125,
+        "collected": 125,
+        "expenses": 0,
+        "realized_profit": 75,
+        "customer_debts": 0,
+        "unsettled_custody": 0
+      },
+      "expected": {
+        "sales": 125,
+        "collected": 125,
+        "expenses": 0,
+        "realized_profit": 75,
+        "customer_debts": 0,
+        "unsettled_custody": 0
+      }
+    },
+    {
+      "name": "collect_over_remaining",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "collect_over_remaining_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "create_order_40",
+      "passed": true
+    },
+    {
+      "name": "pending_fractional_stock_reserved",
+      "passed": true
+    },
+    {
+      "name": "return_restores_exact_half_and_no_cash",
+      "passed": true
+    },
+    {
+      "name": "returned_cannot_create_customer_collection",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "returned_cannot_create_customer_collection_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "return_retry_cannot_add_stock",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "return_retry_cannot_add_stock_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "create_order_47",
+      "passed": true
+    },
+    {
+      "name": "foreign_order_collection",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "foreign_order_collection_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "anonymous_collection",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "name": "anonymous_collection_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "invalid_zero_collection",
+      "passed": true,
+      "status": 400
+    },
+    {
+      "name": "invalid_zero_collection_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "staff_positive_before_ban",
+      "passed": true
+    },
+    {
+      "name": "previously_authorized_staff_banned",
+      "passed": true
+    },
+    {
+      "name": "banned_old_token_collection",
+      "passed": true,
+      "status": 403
+    },
+    {
+      "name": "banned_old_token_collection_all_relations_unchanged",
+      "passed": true
+    },
+    {
+      "name": "unaffected_active_staff_positive_after_ban",
+      "passed": true
+    },
+    {
+      "name": "concurrent_distinct_sales_one_winner",
+      "passed": true
+    },
+    {
+      "name": "concurrent_same_sale_key_exactly_one_effect",
+      "passed": true
+    },
+    {
+      "name": "create_order_61",
+      "passed": true
+    },
+    {
+      "name": "concurrent_collection_cannot_exceed_total",
+      "passed": true
+    },
+    {
+      "name": "create_order_63",
+      "passed": true
+    },
+    {
+      "name": "lost_reply_first_commit_persisted_once",
+      "passed": true
+    },
+    {
+      "name": "populated_prior_tenant_unchanged",
+      "passed": true
+    }
+  ],
+  "targets": [
+    {
+      "name": "partial_collection_lost_reply_retry_single_effect",
+      "passed": false,
+      "status": 200,
+      "intended_logical_collections": 1,
+      "request_fields": [
+        "p_order_id",
+        "p_amount",
+        "p_method"
+      ],
+      "same_exact_payload_and_actor": true,
+      "first": {
+        "paid": 20,
+        "total": 100,
+        "payment_sum": 20,
+        "payment_count": 1,
+        "debt_payment_sum": 20,
+        "debt_payment_count": 1
+      },
+      "replay": {
+        "paid": 40,
+        "total": 100,
+        "payment_sum": 40,
+        "payment_count": 2,
+        "debt_payment_sum": 40,
+        "debt_payment_count": 2
+      },
+      "actual_UI_retry_observed": false
+    }
+  ],
+  "financial_acceptance": false,
+  "full_C5_acceptance": false,
+  "browser_financial_flow_executed": false,
+  "restore_executed": false
+}

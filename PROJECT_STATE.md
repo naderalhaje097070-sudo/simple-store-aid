@@ -1,3 +1,15 @@
+## Current — C5 stored retry-safety blocker confirmed; owner contract decision next, 2026-11-03
+
+Exact diagnostic executable `e0a75541b981eed0bf1715315f7e418e466330c6`, tree `4c76cb888aef2481ee0987107ce44fb30960b211`, existing `integration/g0-g1-reconcile-2026-10-18`. Native C5 run41568980208 FAILED in both modes:63fresh/66populated positive/setup/financial controls passed, then a hidden-success partial20collection resend on100produced paid20→40/payment1→2 under the same actor/payload. This proves missing logical retry identity in the current collection contract; two genuinely distinct equal payments remain legitimate. Actual UI retry/real-customer duplication were not observed. Both cleanup/publication checks passed; no SQL/application fix applied.
+
+G0 41568980107, G1 41568980367 and B1 41568980137 SUCCESS attempt1, audit{}exit0,97unit300expectations/0lint errors14warnings/builds/source guards pass; they do not accept the failed financial target.456protected entries, all54migrations/75SQL/app/dependencies/patch/prior verifiers+manifests unchanged within the test-only1capture+6additions+delta manifest. [Result/evidence/limits](changes/c5-stored-finance/RESULT.md), [finding](changes/c5-stored-finance/FINDINGS.md), [unapplied proposal](changes/c5-stored-finance/PROPOSAL.md).
+
+Status: diagnostic **Implemented and Tested**; C5 financial acceptance **FAILED/BLOCKED**. **ONE NEXT: owner approval of the specific keyed debt-collection RPC + durable actual UI + authenticated unkeyed-bypass closure**, preserving existing accounting rules. This material RPC/privilege/financial retry contract decision is reserved to the owner. Then implement/test the bounded fix and resume remaining C5 browser/upgrade/restore, C6 independent review, C7 protected merge decision. C2 fractional units are already approved.
+
+Main220fc2066b4d6254b1803b5e32919c47d60a9c7e/five original drafts unchanged; no merge/deploy/release/production/newcost/newPR/closure/historyrewrite. integration_accepted=false; source/test results belong to the exact executable, not this docs/evidence-only descendant. Older status blocks below are historical.
+
+---
+
 ## Current — C5-G1-SCHEMA-01 passed; full financial C5 remains open, 2026-11-03
 
 Exact executable `96ad7996a647eb6716ab36d050c96e72ad9963e1`, tree `3afb8cf6ffc0cf2150b12c3e3a13a31d009215f2`, existing `integration/g0-g1-reconcile-2026-10-18`: G1 native/runtime+environment41547084595, G041547084637 and B1 compatibility41547084623 all SUCCESS, attempt1. New pinned54 source/actual DB history contract preserves original41 migration identities. Native41checks prove actual Cloudflare SSR/desktop-mobile Auth UI/named runtime-target denial/unchanged public fixture/zero finance/complete bounded egress/cleanup.449protected source entries and all54migrations/75SQL/app/dependency/frozenA+B+C+C4+SEC bytes preserved within the explicit3testCIedits+5additions+source manifest. New40negative/source tests and old controls pass;97unit300expectations,0lint errors/14warnings, builds and supported complete audit{}exit0 pass.

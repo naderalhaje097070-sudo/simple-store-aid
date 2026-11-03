@@ -1,0 +1,756 @@
+﻿2026-11-03T02:54:38.9794198Z Current runner version: '2.338.2'
+2026-11-03T02:54:38.9869270Z ##[group]Runner Image Provisioner
+2026-11-03T02:54:38.9870437Z Hosted Compute Agent
+2026-11-03T02:54:38.9871551Z Version: 20261021.618
+2026-11-03T02:54:38.9872449Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-03T02:54:38.9873502Z Build Date: 2026-10-21T00:45:21Z
+2026-11-03T02:54:38.9874538Z Worker ID: {13ff4489-8109-41cf-b062-eecbb8a5b2be}
+2026-11-03T02:54:38.9875563Z Region: northcentralus
+2026-11-03T02:54:38.9876413Z Cloud: Azure
+2026-11-03T02:54:38.9877131Z ##[endgroup]
+2026-11-03T02:54:38.9879081Z ##[group]Operating System
+2026-11-03T02:54:38.9880032Z Ubuntu
+2026-11-03T02:54:38.9880750Z 26.04.1
+2026-11-03T02:54:38.9901925Z LTS
+2026-11-03T02:54:38.9902771Z ##[endgroup]
+2026-11-03T02:54:38.9903695Z ##[group]Runner Image
+2026-11-03T02:54:38.9904581Z Image: ubuntu-26.04
+2026-11-03T02:54:38.9905370Z Version: 20261025.179.1
+2026-11-03T02:54:38.9907268Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261025.179/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-03T02:54:38.9909663Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261025.179
+2026-11-03T02:54:38.9911105Z ##[endgroup]
+2026-11-03T02:54:38.9912968Z ##[group]GITHUB_TOKEN Permissions
+2026-11-03T02:54:38.9915909Z Contents: read
+2026-11-03T02:54:38.9916754Z Metadata: read
+2026-11-03T02:54:38.9917580Z ##[endgroup]
+2026-11-03T02:54:38.9920320Z Secret source: Actions
+2026-11-03T02:54:38.9941959Z Cache mode: write
+2026-11-03T02:54:38.9943275Z Prepare workflow directory
+2026-11-03T02:54:39.1239665Z Prepare all required actions
+2026-11-03T02:54:39.1392625Z Getting action download info
+2026-11-03T02:54:39.4123460Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-03T02:54:39.5343201Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-11-03T02:54:39.6687015Z Download action repository 'oven-sh/setup-bun@v2' (SHA:0c5077e51419868618aeaa5fe8019c62421857d6)
+2026-11-03T02:54:39.9502972Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-03T02:54:40.2496178Z Complete job name: environment
+2026-11-03T02:54:40.3278763Z ##[group]Run actions/checkout@v4
+2026-11-03T02:54:40.3279696Z with:
+2026-11-03T02:54:40.3280456Z   ref: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:40.3281285Z   persist-credentials: false
+2026-11-03T02:54:40.3282140Z   fetch-depth: 0
+2026-11-03T02:54:40.3282819Z   repository: naderalhaje097070-sudo/simple-store-aid
+2026-11-03T02:54:40.3288153Z   token: ***
+2026-11-03T02:54:40.3288739Z   ssh-strict: true
+2026-11-03T02:54:40.3289653Z   ssh-user: git
+2026-11-03T02:54:40.3290230Z   clean: true
+2026-11-03T02:54:40.3290806Z   sparse-checkout-cone-mode: true
+2026-11-03T02:54:40.3291783Z   fetch-tags: false
+2026-11-03T02:54:40.3292460Z   show-progress: true
+2026-11-03T02:54:40.3293137Z   lfs: false
+2026-11-03T02:54:40.3293700Z   submodules: false
+2026-11-03T02:54:40.3294331Z   set-safe-directory: true
+2026-11-03T02:54:40.3295055Z   allow-unsafe-pr-checkout: false
+2026-11-03T02:54:40.3296037Z env:
+2026-11-03T02:54:40.3296601Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:40.3297529Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:40.3298377Z ##[endgroup]
+2026-11-03T02:54:40.6179453Z Syncing repository: naderalhaje097070-sudo/simple-store-aid
+2026-11-03T02:54:40.6184699Z ##[group]Getting Git version info
+2026-11-03T02:54:40.6188077Z Working directory is '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-11-03T02:54:40.6237678Z [command]/usr/bin/git version
+2026-11-03T02:54:40.6239642Z git version 2.56.0
+2026-11-03T02:54:40.6245545Z ##[endgroup]
+2026-11-03T02:54:40.6294674Z Temporarily overriding HOME='/home/runner/work/_temp/827a3d09-fc9c-409f-bc11-90264db93bf7' before making global git config changes
+2026-11-03T02:54:40.6309069Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-03T02:54:40.6313396Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-03T02:54:40.6363009Z Deleting the contents of '/home/runner/work/simple-store-aid/simple-store-aid'
+2026-11-03T02:54:40.6383100Z ##[group]Initializing the repository
+2026-11-03T02:54:40.6386275Z [command]/usr/bin/git init /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-03T02:54:40.6543894Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-03T02:54:40.6545957Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-03T02:54:40.6548145Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-03T02:54:40.6572302Z hint: call:
+2026-11-03T02:54:40.6573207Z hint:
+2026-11-03T02:54:40.6574375Z hint: 	git config --global init.defaultBranch <name>
+2026-11-03T02:54:40.6592526Z hint:
+2026-11-03T02:54:40.6598186Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-03T02:54:40.6603372Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-03T02:54:40.6605436Z hint:
+2026-11-03T02:54:40.6607278Z hint: 	git branch -m <name>
+2026-11-03T02:54:40.6610386Z hint:
+2026-11-03T02:54:40.6612148Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-03T02:54:40.6619103Z Initialized empty Git repository in /home/runner/work/simple-store-aid/simple-store-aid/.git/
+2026-11-03T02:54:40.6628042Z [command]/usr/bin/git remote add origin https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-11-03T02:54:40.6639651Z ##[endgroup]
+2026-11-03T02:54:40.6641252Z ##[group]Disabling automatic garbage collection
+2026-11-03T02:54:40.6645532Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-03T02:54:40.6727702Z ##[endgroup]
+2026-11-03T02:54:40.6729159Z ##[group]Setting up auth
+2026-11-03T02:54:40.6730841Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-03T02:54:40.6793778Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-03T02:54:40.7337537Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-03T02:54:40.7373687Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-03T02:54:40.7590876Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-03T02:54:40.7623025Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-03T02:54:40.7853513Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-03T02:54:40.7888103Z ##[endgroup]
+2026-11-03T02:54:40.7889499Z ##[group]Fetching the repository
+2026-11-03T02:54:40.7898351Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-03T02:54:42.1514575Z From https://github.com/naderalhaje097070-sudo/simple-store-aid
+2026-11-03T02:54:42.1522789Z  * [new branch]      audit/001-pilot-baseline-clean -> origin/audit/001-pilot-baseline-clean
+2026-11-03T02:54:42.1531902Z  * [new branch]      audit/001-pilot-baseline-truth -> origin/audit/001-pilot-baseline-truth
+2026-11-03T02:54:42.1537069Z  * [new branch]      claude/e2e-sale-dashboard-close-prmlvc -> origin/claude/e2e-sale-dashboard-close-prmlvc
+2026-11-03T02:54:42.1541778Z  * [new branch]      claude/fix-c-returned-debt-p0 -> origin/claude/fix-c-returned-debt-p0
+2026-11-03T02:54:42.1546603Z  * [new branch]      claude/mongezz-v2-review-g7u399 -> origin/claude/mongezz-v2-review-g7u399
+2026-11-03T02:54:42.1551085Z  * [new branch]      claude/r5a-invoice-detail-extract -> origin/claude/r5a-invoice-detail-extract
+2026-11-03T02:54:42.1556793Z  * [new branch]      claude/r5b-invoices-screen-extract -> origin/claude/r5b-invoices-screen-extract
+2026-11-03T02:54:42.1562533Z  * [new branch]      claude/sales-delegate-flow-review-l18pq2 -> origin/claude/sales-delegate-flow-review-l18pq2
+2026-11-03T02:54:42.1567948Z  * [new branch]      claude/security-fix-e-harden -> origin/claude/security-fix-e-harden
+2026-11-03T02:54:42.1574398Z  * [new branch]      codex/architecture-hardening-for-mongezz-application -> origin/codex/architecture-hardening-for-mongezz-application
+2026-11-03T02:54:42.1580195Z  * [new branch]      codex/fix-pre-r5-issues-from-audit -> origin/codex/fix-pre-r5-issues-from-audit
+2026-11-03T02:54:42.1585681Z  * [new branch]      docs/account-deletion-safety-intake-2026-10-12 -> origin/docs/account-deletion-safety-intake-2026-10-12
+2026-11-03T02:54:42.1591183Z  * [new branch]      docs/employee-accounts-gate-1-baseline -> origin/docs/employee-accounts-gate-1-baseline
+2026-11-03T02:54:42.1596103Z  * [new branch]      docs/naadf-governance-bootstrap -> origin/docs/naadf-governance-bootstrap
+2026-11-03T02:54:42.1599955Z  * [new branch]      docs/naadf-governance-bootstrap-v1 -> origin/docs/naadf-governance-bootstrap-v1
+2026-11-03T02:54:42.1604608Z  * [new branch]      docs/owner-closure-blocker-2026-10-13 -> origin/docs/owner-closure-blocker-2026-10-13
+2026-11-03T02:54:42.1608932Z  * [new branch]      docs/pilot-baseline-sync-20260727 -> origin/docs/pilot-baseline-sync-20260727
+2026-11-03T02:54:42.1613354Z  * [new branch]      docs/pilot-baseline-sync-clean-20260727 -> origin/docs/pilot-baseline-sync-clean-20260727
+2026-11-03T02:54:42.1618191Z  * [new branch]      docs/primary-resume-001-2026-10-10 -> origin/docs/primary-resume-001-2026-10-10
+2026-11-03T02:54:42.1624870Z  * [new branch]      docs/primary-start-2026-10-09 -> origin/docs/primary-start-2026-10-09
+2026-11-03T02:54:42.1630097Z  * [new branch]      docs/release-baseline-reconcile-20260809 -> origin/docs/release-baseline-reconcile-20260809
+2026-11-03T02:54:42.1643323Z  * [new branch]      docs/security-review-method-2026-10-13 -> origin/docs/security-review-method-2026-10-13
+2026-11-03T02:54:42.1648650Z  * [new branch]      feature/employee-accounts-custody-v1 -> origin/feature/employee-accounts-custody-v1
+2026-11-03T02:54:42.1653185Z  * [new branch]      fin/fin-idem-001-gates-0-3 -> origin/fin/fin-idem-001-gates-0-3
+2026-11-03T02:54:42.1656848Z  * [new branch]      fix/auth-smoke-compat-date -> origin/fix/auth-smoke-compat-date
+2026-11-03T02:54:42.1661052Z  * [new branch]      fix/baseline-runtime-lovable-config -> origin/fix/baseline-runtime-lovable-config
+2026-11-03T02:54:42.1666013Z  * [new branch]      fix/env-native-01-live-account-2026-10-11 -> origin/fix/env-native-01-live-account-2026-10-11
+2026-11-03T02:54:42.1670912Z  * [new branch]      fix/lovable-preview-env-fallback-20260715 -> origin/fix/lovable-preview-env-fallback-20260715
+2026-11-03T02:54:42.1675618Z  * [new branch]      fix/mcp-local-issuer-2026-10-11 -> origin/fix/mcp-local-issuer-2026-10-11
+2026-11-03T02:54:42.1679435Z  * [new branch]      fix/oc-app-01-2026-10-14 -> origin/fix/oc-app-01-2026-10-14
+2026-11-03T02:54:42.1683682Z  * [new branch]      fix/sec-truncate-01-2026-10-13 -> origin/fix/sec-truncate-01-2026-10-13
+2026-11-03T02:54:42.1687791Z  * [new branch]      governance/naadf-bootstrap -> origin/governance/naadf-bootstrap
+2026-11-03T02:54:42.1691915Z  * [new branch]      impl/fin-courier-pr-a-candidate -> origin/impl/fin-courier-pr-a-candidate
+2026-11-03T02:54:42.1696112Z  * [new branch]      impl/fin-idem-001-candidate -> origin/impl/fin-idem-001-candidate
+2026-11-03T02:54:42.1703426Z  * [new branch]      integration/g0-g1-reconcile-2026-10-18 -> origin/integration/g0-g1-reconcile-2026-10-18
+2026-11-03T02:54:42.1707831Z  * [new branch]      main                    -> origin/main
+2026-11-03T02:54:42.1711550Z  * [new branch]      ops/ephemeral-financial-tests -> origin/ops/ephemeral-financial-tests
+2026-11-03T02:54:42.1715471Z  * [new branch]      ops/export-current-migrations -> origin/ops/export-current-migrations
+2026-11-03T02:54:42.1719187Z  * [new branch]      ops/gha-hosted-runner-probe -> origin/ops/gha-hosted-runner-probe
+2026-11-03T02:54:42.1722424Z  * [new branch]      qa/agent-runtime-smoke  -> origin/qa/agent-runtime-smoke
+2026-11-03T02:54:42.1726059Z  * [new branch]      qa/mongzz-live-smoke-20260712 -> origin/qa/mongzz-live-smoke-20260712
+2026-11-03T02:54:42.1729829Z  * [new branch]      qa/secure-live-auth-20260712 -> origin/qa/secure-live-auth-20260712
+2026-11-03T02:54:42.1733330Z  * [new branch]      qa/smoke-20260712       -> origin/qa/smoke-20260712
+2026-11-03T02:54:42.1736694Z  * [new branch]      release/final-gate-20260715 -> origin/release/final-gate-20260715
+2026-11-03T02:54:42.1740819Z  * [new branch]      sec/primary-env-001-reconcile-2026-10-10 -> origin/sec/primary-env-001-reconcile-2026-10-10
+2026-11-03T02:54:42.1745817Z  * [new branch]      sec/primary-sec-001-tanstack-2026-10-09 -> origin/sec/primary-sec-001-tanstack-2026-10-09
+2026-11-03T02:54:42.1750669Z  * [new branch]      sec/primary-sec-002-audit-triage-2026-10-10 -> origin/sec/primary-sec-002-audit-triage-2026-10-10
+2026-11-03T02:54:42.1754246Z  * [new branch]      sec/sec-ci-001-gates-0-3 -> origin/sec/sec-ci-001-gates-0-3
+2026-11-03T02:54:42.1757736Z  * [new branch]      sec/sec-ci-001-implementation -> origin/sec/sec-ci-001-implementation
+2026-11-03T02:54:42.1761467Z  * [new branch]      sec/sec-env-001-gates-0-3 -> origin/sec/sec-env-001-gates-0-3
+2026-11-03T02:54:42.1765197Z  * [new branch]      sec/sec-env-001-implementation -> origin/sec/sec-env-001-implementation
+2026-11-03T02:54:42.1769380Z  * [new branch]      test/auth-natural-expiry-2026-10-12 -> origin/test/auth-natural-expiry-2026-10-12
+2026-11-03T02:54:42.1774432Z  * [new branch]      test/env-native-01-clean-baseline-2026-10-11 -> origin/test/env-native-01-clean-baseline-2026-10-11
+2026-11-03T02:54:42.1779757Z  * [new branch]      test/env-native-01-lifecycle-intake-2026-10-10 -> origin/test/env-native-01-lifecycle-intake-2026-10-10
+2026-11-03T02:54:42.1785461Z  * [new branch]      test/env-native-01-review-evidence-2026-10-11 -> origin/test/env-native-01-review-evidence-2026-10-11
+2026-11-03T02:54:42.1790173Z  * [new branch]      test/fin-courier-001-gate4 -> origin/test/fin-courier-001-gate4
+2026-11-03T02:54:42.1794363Z  * [new branch]      test/fin-courier-001-gate4-20260727 -> origin/test/fin-courier-001-gate4-20260727
+2026-11-03T02:54:42.1798533Z  * [new branch]      test/fin-courier-001-gate4-clean -> origin/test/fin-courier-001-gate4-clean
+2026-11-03T02:54:42.1803090Z  * [new branch]      test/fin-courier-001-gate4-review-clean -> origin/test/fin-courier-001-gate4-review-clean
+2026-11-03T02:54:42.1807078Z  * [new branch]      test/fin-idem-001-gate4 -> origin/test/fin-idem-001-gate4
+2026-11-03T02:54:42.1811097Z  * [new branch]      test/g0-g1-acceptance-01-2026-10-14 -> origin/test/g0-g1-acceptance-01-2026-10-14
+2026-11-03T02:54:42.1815770Z  * [new branch]      test/g0-g1-acceptance-runtime-2026-10-14 -> origin/test/g0-g1-acceptance-runtime-2026-10-14
+2026-11-03T02:54:42.1820261Z  * [new branch]      test/mcp-lifecycle-01-2026-10-11 -> origin/test/mcp-lifecycle-01-2026-10-11
+2026-11-03T02:54:42.1824651Z  * [new branch]      test/mcp-tanstack-route-2026-10-11 -> origin/test/mcp-tanstack-route-2026-10-11
+2026-11-03T02:54:42.1829128Z  * [new branch]      test/owner-retention-catalog-2026-10-12 -> origin/test/owner-retention-catalog-2026-10-12
+2026-11-03T02:54:42.1833217Z  * [new branch]      test/sec-ci-001-gate4   -> origin/test/sec-ci-001-gate4
+2026-11-03T02:54:42.1836841Z  * [new branch]      test/sec-ci-001-gate4-reconcile -> origin/test/sec-ci-001-gate4-reconcile
+2026-11-03T02:54:42.1840367Z  * [new branch]      test/sec-env-001-gate4  -> origin/test/sec-env-001-gate4
+2026-11-03T02:54:42.1844152Z  * [new branch]      test/sec-env-001-gate4-reconcile -> origin/test/sec-env-001-gate4-reconcile
+2026-11-03T02:54:42.1848260Z  * [new branch]      ui/lovable-visual-improvements -> origin/ui/lovable-visual-improvements
+2026-11-03T02:54:42.1855689Z [command]/usr/bin/git rev-parse --verify --quiet e0a75541b981eed0bf1715315f7e418e466330c6^{object}
+2026-11-03T02:54:42.1858917Z e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:42.1864259Z ##[endgroup]
+2026-11-03T02:54:42.1867038Z ##[group]Determining the checkout info
+2026-11-03T02:54:42.1869986Z ##[endgroup]
+2026-11-03T02:54:42.1872021Z [command]/usr/bin/git sparse-checkout disable
+2026-11-03T02:54:42.1877030Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-03T02:54:42.1882808Z ##[group]Checking out the ref
+2026-11-03T02:54:42.1885508Z [command]/usr/bin/git checkout --progress --force e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:42.3464321Z Note: switching to 'e0a75541b981eed0bf1715315f7e418e466330c6'.
+2026-11-03T02:54:42.3482143Z 
+2026-11-03T02:54:42.3503503Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-03T02:54:42.3512131Z changes and commit them, and you can discard any commits you make in this
+2026-11-03T02:54:42.3523144Z state without impacting any branches by switching back to a branch.
+2026-11-03T02:54:42.3525274Z 
+2026-11-03T02:54:42.3527628Z If you want to create a new branch to retain commits you create, you may
+2026-11-03T02:54:42.3544207Z do so (now or later) by using -c with the switch command. Example:
+2026-11-03T02:54:42.3553727Z 
+2026-11-03T02:54:42.3554478Z   git switch -c <new-branch-name>
+2026-11-03T02:54:42.3555137Z 
+2026-11-03T02:54:42.3555772Z Or undo this operation with:
+2026-11-03T02:54:42.3556399Z 
+2026-11-03T02:54:42.3556965Z   git switch -
+2026-11-03T02:54:42.3557545Z 
+2026-11-03T02:54:42.3558162Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-03T02:54:42.3559408Z 
+2026-11-03T02:54:42.3560212Z HEAD is now at e0a7554 test(c5): verify stored cash custody stock and collection retry integrity
+2026-11-03T02:54:42.3563809Z ##[endgroup]
+2026-11-03T02:54:42.3565900Z [command]/usr/bin/git log -1 --format=%H
+2026-11-03T02:54:42.3587895Z e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:42.3652931Z ##[group]Removing auth
+2026-11-03T02:54:42.3665308Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-03T02:54:42.3685953Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-03T02:54:42.3898889Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-03T02:54:42.3922852Z http.https://github.com/.extraheader
+2026-11-03T02:54:42.3926060Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-03T02:54:42.3958948Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-03T02:54:42.4171279Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-03T02:54:42.4196732Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-03T02:54:42.4416550Z ##[endgroup]
+2026-11-03T02:54:42.4666508Z ##[group]Run actions/setup-python@v5
+2026-11-03T02:54:42.4666998Z with:
+2026-11-03T02:54:42.4667355Z   python-version: 3.12
+2026-11-03T02:54:42.4667734Z   check-latest: false
+2026-11-03T02:54:42.4670188Z   token: ***
+2026-11-03T02:54:42.4670536Z   update-environment: true
+2026-11-03T02:54:42.4670993Z   allow-prereleases: false
+2026-11-03T02:54:42.4671562Z   freethreaded: false
+2026-11-03T02:54:42.4671957Z env:
+2026-11-03T02:54:42.4672329Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:42.4672785Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:42.4673370Z ##[endgroup]
+2026-11-03T02:54:42.6054179Z ##[group]Installed versions
+2026-11-03T02:54:42.6184919Z (node:2228) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-03T02:54:42.6186753Z Successfully set up CPython (3.12.15)
+2026-11-03T02:54:42.6202642Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-03T02:54:42.6209852Z ##[endgroup]
+2026-11-03T02:54:42.6459552Z ##[group]Run oven-sh/setup-bun@v2
+2026-11-03T02:54:42.6460147Z with:
+2026-11-03T02:54:42.6460720Z   bun-version: 1.2.14
+2026-11-03T02:54:42.6461229Z   no-cache: false
+2026-11-03T02:54:42.6465710Z   token: ***
+2026-11-03T02:54:42.6466186Z env:
+2026-11-03T02:54:42.6466657Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:42.6467318Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:42.6468090Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:42.6469026Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:42.6469844Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:42.6470633Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:42.6471317Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:42.6472326Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:42.6473012Z ##[endgroup]
+2026-11-03T02:54:43.0094721Z Cache hit for: bun-e01RxPOBgc2yyXsVeUsNVWDj0JE=
+2026-11-03T02:54:43.6524430Z Received 34827867 of 34827867 (100.0%), 68.1 MBs/sec
+2026-11-03T02:54:43.6552523Z Cache Size: ~33 MB (34827867 B)
+2026-11-03T02:54:43.6812032Z [command]/usr/bin/tar -xf /home/runner/work/_temp/286f8d7f-f2c3-45c4-a0fa-b1e81b3d8a11/cache.tzst -P -C /home/runner/work/simple-store-aid/simple-store-aid --use-compress-program unzstd
+2026-11-03T02:54:43.9704933Z Cache restored successfully
+2026-11-03T02:54:43.9755771Z [command]/home/runner/.bun/bin/bun --revision
+2026-11-03T02:54:43.9806005Z 1.2.14+6a363a38d
+2026-11-03T02:54:43.9838550Z Using a cached version of Bun: 1.2.14+6a363a38d
+2026-11-03T02:54:44.0004743Z ##[group]Run python tests/g01-acceptance/capture.py identity
+2026-11-03T02:54:44.0005613Z [36;1mpython tests/g01-acceptance/capture.py identity[0m
+2026-11-03T02:54:44.0006072Z [36;1mpython tests/c5-acceptance/test_identity.py[0m
+2026-11-03T02:54:44.0006503Z [36;1mpython tests/c5-acceptance/test_target.py[0m
+2026-11-03T02:54:44.0006957Z [36;1mpython tests/c5-acceptance/target.py[0m
+2026-11-03T02:54:44.0007889Z [36;1mpython tests/g01-acceptance/test_integrated_identity.py[0m
+2026-11-03T02:54:44.0008427Z [36;1mpython tests/g01-acceptance/test_g1_contracts.py[0m
+2026-11-03T02:54:44.0047106Z shell: /usr/bin/bash -e {0}
+2026-11-03T02:54:44.0047484Z env:
+2026-11-03T02:54:44.0047881Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:44.0048348Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:44.0048791Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:44.0049810Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:44.0050318Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:44.0050859Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:44.0051304Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:44.0052004Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:44.0052403Z ##[endgroup]
+2026-11-03T02:54:44.1589739Z {"source_sha": "e0a75541b981eed0bf1715315f7e418e466330c6", "kind": "identity", "scope": "C5_stored_financial_test_source_only", "base_source": "0b6e17b7b90c19c803936f1690f75cab3e17f53d", "protected_blob_count": 456, "migration_count": 54, "all_integrated_blobs_match": true, "prior_manifests_unchanged": true, "financial_acceptance": false, "integration_accepted": false}
+2026-11-03T02:54:45.6589479Z .....................
+2026-11-03T02:54:45.6590629Z ----------------------------------------------------------------------
+2026-11-03T02:54:45.6592122Z Ran 21 tests in 1.253s
+2026-11-03T02:54:45.6592857Z 
+2026-11-03T02:54:45.6603042Z OK
+2026-11-03T02:54:45.8120924Z ...................
+2026-11-03T02:54:45.8122300Z ----------------------------------------------------------------------
+2026-11-03T02:54:45.8123511Z Ran 19 tests in 0.058s
+2026-11-03T02:54:45.8124082Z 
+2026-11-03T02:54:45.8124458Z OK
+2026-11-03T02:54:45.8573107Z {"base_source": "836de635e2920480059f3d4dbbd00690c61c080a", "target_manifest_blob": "72688a279013b0549a0366d9a88363917285035e", "source_migrations_exact": 54, "original_migrations_preserved": 41, "financial_acceptance": false, "integration_accepted": false}
+2026-11-03T02:54:47.1272259Z .............................
+2026-11-03T02:54:47.1273707Z ----------------------------------------------------------------------
+2026-11-03T02:54:47.1274931Z Ran 29 tests in 1.087s
+2026-11-03T02:54:47.1275388Z 
+2026-11-03T02:54:47.1275971Z OK
+2026-11-03T02:54:47.4240536Z .................
+2026-11-03T02:54:47.4242002Z ----------------------------------------------------------------------
+2026-11-03T02:54:47.4243506Z Ran 17 tests in 0.123s
+2026-11-03T02:54:47.4244122Z 
+2026-11-03T02:54:47.4244779Z OK
+2026-11-03T02:54:47.4432612Z ##[group]Run mkdir -p "$RUNNER_TEMP/g01-evidence"
+2026-11-03T02:54:47.4433150Z [36;1mmkdir -p "$RUNNER_TEMP/g01-evidence"[0m
+2026-11-03T02:54:47.4433561Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:47.4434022Z [36;1mbun tests/gate4/sec-env/probe.ts > /tmp/sec-env-g4.log 2>&1[0m
+2026-11-03T02:54:47.4434436Z [36;1mcat /tmp/sec-env-g4.log[0m
+2026-11-03T02:54:47.4434798Z [36;1m[0m
+2026-11-03T02:54:47.4435099Z [36;1mgrep -Fq \[0m
+2026-11-03T02:54:47.4435659Z [36;1m  "SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production" \[0m
+2026-11-03T02:54:47.4436238Z [36;1m  /tmp/sec-env-g4.log || {[0m
+2026-11-03T02:54:47.4436656Z [36;1m    echo "SEC_ENV_G4_HARNESS_FAIL: exact target-green sentinel missing"[0m
+2026-11-03T02:54:47.4437146Z [36;1m    exit 1[0m
+2026-11-03T02:54:47.4437458Z [36;1m  }[0m
+2026-11-03T02:54:47.4437757Z [36;1m[0m
+2026-11-03T02:54:47.4438059Z [36;1mfor unexpected in \[0m
+2026-11-03T02:54:47.4438522Z [36;1m  SEC_ENV_G4_E1_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4438912Z [36;1m  SEC_ENV_G4_E2_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4439298Z [36;1m  SEC_ENV_G4_E3_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4439640Z [36;1m  SEC_ENV_G4_E4_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4439968Z [36;1m  SEC_ENV_G4_E5_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4440337Z [36;1m  SEC_ENV_G4_E6_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4440683Z [36;1m  SEC_ENV_G4_E7_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4441021Z [36;1m  SEC_ENV_G4_E8_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4441525Z [36;1m  SEC_ENV_G4_E9_EXPECTED_RED \[0m
+2026-11-03T02:54:47.4441912Z [36;1m  SEC_ENV_G4_E10_EXPECTED_RED[0m
+2026-11-03T02:54:47.4442269Z [36;1mdo[0m
+2026-11-03T02:54:47.4442639Z [36;1m  if grep -Fq "$unexpected" /tmp/sec-env-g4.log; then[0m
+2026-11-03T02:54:47.4443174Z [36;1m    echo "SEC_ENV_G4_HARNESS_FAIL: stale expected-red sentinel present: $unexpected"[0m
+2026-11-03T02:54:47.4443689Z [36;1m    exit 1[0m
+2026-11-03T02:54:47.4443967Z [36;1m  fi[0m
+2026-11-03T02:54:47.4444272Z [36;1mdone[0m
+2026-11-03T02:54:47.4444555Z [36;1m[0m
+2026-11-03T02:54:47.4444901Z [36;1mecho "SEC_ENV_G4_TARGET_GREEN_CONFIRMED"[0m
+2026-11-03T02:54:47.4467742Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:47.4468221Z env:
+2026-11-03T02:54:47.4468548Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:47.4468985Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:47.4469444Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:47.4469993Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:47.4470472Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:47.4470892Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:47.4471494Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:47.4471994Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:47.4472584Z ##[endgroup]
+2026-11-03T02:54:52.3443117Z SEC_ENV_G4_TARGET_GREEN: explicit deployment contract fails closed and isolates non-production
+2026-11-03T02:54:52.3576431Z SEC_ENV_G4_TARGET_GREEN_CONFIRMED
+2026-11-03T02:54:52.3657415Z ##[group]Run mkdir -p "$RUNNER_TEMP/g01-evidence"
+2026-11-03T02:54:52.3658040Z [36;1mmkdir -p "$RUNNER_TEMP/g01-evidence"[0m
+2026-11-03T02:54:52.3658478Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:52.3658813Z [36;1mpython3 - <<'PY'[0m
+2026-11-03T02:54:52.3659135Z [36;1mimport ast[0m
+2026-11-03T02:54:52.3659502Z [36;1mfrom pathlib import Path[0m
+2026-11-03T02:54:52.3659839Z [36;1m[0m
+2026-11-03T02:54:52.3660145Z [36;1mfiles = [[0m
+2026-11-03T02:54:52.3660490Z [36;1m    Path("tests/e2e/rapid-click-sale.py"),[0m
+2026-11-03T02:54:52.3660973Z [36;1m    Path("tests/e2e/sale-dashboard-close.py"),[0m
+2026-11-03T02:54:52.3661493Z [36;1m][0m
+2026-11-03T02:54:52.3661859Z [36;1m[0m
+2026-11-03T02:54:52.3662190Z [36;1mdef attr_chain(node):[0m
+2026-11-03T02:54:52.3662579Z [36;1m    parts = [][0m
+2026-11-03T02:54:52.3662942Z [36;1m    while isinstance(node, ast.Attribute):[0m
+2026-11-03T02:54:52.3663333Z [36;1m        parts.append(node.attr)[0m
+2026-11-03T02:54:52.3663841Z [36;1m        node = node.value[0m
+2026-11-03T02:54:52.3664201Z [36;1m    if isinstance(node, ast.Name):[0m
+2026-11-03T02:54:52.3664613Z [36;1m        parts.append(node.id)[0m
+2026-11-03T02:54:52.3664998Z [36;1m        return list(reversed(parts))[0m
+2026-11-03T02:54:52.3665378Z [36;1m    return [][0m
+2026-11-03T02:54:52.3665696Z [36;1m[0m
+2026-11-03T02:54:52.3666024Z [36;1mfor path in files:[0m
+2026-11-03T02:54:52.3666358Z [36;1m    source = path.read_text()[0m
+2026-11-03T02:54:52.3666758Z [36;1m    tree = ast.parse(source, filename=str(path))[0m
+2026-11-03T02:54:52.3667188Z [36;1m    has_session_constructor = False[0m
+2026-11-03T02:54:52.3667614Z [36;1m    has_trust_env_false = False[0m
+2026-11-03T02:54:52.3667967Z [36;1m    session_write_calls = 0[0m
+2026-11-03T02:54:52.3668301Z [36;1m[0m
+2026-11-03T02:54:52.3668606Z [36;1m    for node in ast.walk(tree):[0m
+2026-11-03T02:54:52.3669013Z [36;1m        if isinstance(node, ast.Call):[0m
+2026-11-03T02:54:52.3669434Z [36;1m            chain = attr_chain(node.func)[0m
+2026-11-03T02:54:52.3669847Z [36;1m[0m
+2026-11-03T02:54:52.3670207Z [36;1m            if chain == ["requests", "Session"]:[0m
+2026-11-03T02:54:52.3670630Z [36;1m                has_session_constructor = True[0m
+2026-11-03T02:54:52.3670977Z [36;1m[0m
+2026-11-03T02:54:52.3671492Z [36;1m            if chain in (["requests", "post"], ["requests", "delete"]):[0m
+2026-11-03T02:54:52.3672020Z [36;1m                raise SystemExit([0m
+2026-11-03T02:54:52.3672528Z [36;1m                    f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} contains direct {'.'.join(chain)}"[0m
+2026-11-03T02:54:52.3673024Z [36;1m                )[0m
+2026-11-03T02:54:52.3673320Z [36;1m[0m
+2026-11-03T02:54:52.3673665Z [36;1m            if chain in ([0m
+2026-11-03T02:54:52.3674144Z [36;1m                ["self", "session", "post"],[0m
+2026-11-03T02:54:52.3674541Z [36;1m                ["self", "session", "delete"],[0m
+2026-11-03T02:54:52.3674951Z [36;1m                ["api", "session", "post"],[0m
+2026-11-03T02:54:52.3675373Z [36;1m                ["api", "session", "delete"],[0m
+2026-11-03T02:54:52.3675743Z [36;1m            ):[0m
+2026-11-03T02:54:52.3676071Z [36;1m                session_write_calls += 1[0m
+2026-11-03T02:54:52.3676516Z [36;1m                redirect_kw = next([0m
+2026-11-03T02:54:52.3677005Z [36;1m                    (keyword for keyword in node.keywords if keyword.arg == "allow_redirects"),[0m
+2026-11-03T02:54:52.3677477Z [36;1m                    None,[0m
+2026-11-03T02:54:52.3677815Z [36;1m                )[0m
+2026-11-03T02:54:52.3678157Z [36;1m                if not ([0m
+2026-11-03T02:54:52.3678549Z [36;1m                    redirect_kw[0m
+2026-11-03T02:54:52.3678957Z [36;1m                    and isinstance(redirect_kw.value, ast.Constant)[0m
+2026-11-03T02:54:52.3679588Z [36;1m                    and redirect_kw.value.value is False[0m
+2026-11-03T02:54:52.3679969Z [36;1m                ):[0m
+2026-11-03T02:54:52.3680403Z [36;1m                    raise SystemExit([0m
+2026-11-03T02:54:52.3680999Z [36;1m                        f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} has {'.'.join(chain)} without allow_redirects=False"[0m
+2026-11-03T02:54:52.3681718Z [36;1m                    )[0m
+2026-11-03T02:54:52.3682273Z [36;1m[0m
+2026-11-03T02:54:52.3682581Z [36;1m        if isinstance(node, ast.Assign):[0m
+2026-11-03T02:54:52.3682951Z [36;1m            if not ([0m
+2026-11-03T02:54:52.3683376Z [36;1m                isinstance(node.value, ast.Constant)[0m
+2026-11-03T02:54:52.3683794Z [36;1m                and node.value.value is False[0m
+2026-11-03T02:54:52.3684174Z [36;1m            ):[0m
+2026-11-03T02:54:52.3684483Z [36;1m                continue[0m
+2026-11-03T02:54:52.3684902Z [36;1m            for target in node.targets:[0m
+2026-11-03T02:54:52.3685298Z [36;1m                chain = attr_chain(target)[0m
+2026-11-03T02:54:52.3685660Z [36;1m                if chain in ([0m
+2026-11-03T02:54:52.3686084Z [36;1m                    ["self", "session", "trust_env"],[0m
+2026-11-03T02:54:52.3686492Z [36;1m                    ["api", "session", "trust_env"],[0m
+2026-11-03T02:54:52.3686884Z [36;1m                ):[0m
+2026-11-03T02:54:52.3687235Z [36;1m                    has_trust_env_false = True[0m
+2026-11-03T02:54:52.3687602Z [36;1m[0m
+2026-11-03T02:54:52.3687929Z [36;1m    if not has_session_constructor:[0m
+2026-11-03T02:54:52.3688309Z [36;1m        raise SystemExit([0m
+2026-11-03T02:54:52.3688786Z [36;1m            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not construct requests.Session()"[0m
+2026-11-03T02:54:52.3689303Z [36;1m        )[0m
+2026-11-03T02:54:52.3689599Z [36;1m    if not has_trust_env_false:[0m
+2026-11-03T02:54:52.3689974Z [36;1m        raise SystemExit([0m
+2026-11-03T02:54:52.3690459Z [36;1m            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not set session.trust_env=False"[0m
+2026-11-03T02:54:52.3690977Z [36;1m        )[0m
+2026-11-03T02:54:52.3691295Z [36;1m    if session_write_calls == 0:[0m
+2026-11-03T02:54:52.3691857Z [36;1m        raise SystemExit([0m
+2026-11-03T02:54:52.3692440Z [36;1m            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: no session-backed destructive REST writes found in {path}"[0m
+2026-11-03T02:54:52.3693043Z [36;1m        )[0m
+2026-11-03T02:54:52.3693436Z [36;1m    if "300 <=" not in source or "status_code < 400" not in source:[0m
+2026-11-03T02:54:52.3693858Z [36;1m        raise SystemExit([0m
+2026-11-03T02:54:52.3694720Z [36;1m            f"SEC_ENV_REST_ROUTING_GUARD_FAIL: {path} does not reject HTTP 3xx responses"[0m
+2026-11-03T02:54:52.3695217Z [36;1m        )[0m
+2026-11-03T02:54:52.3695533Z [36;1m[0m
+2026-11-03T02:54:52.3695913Z [36;1mprint("SEC_ENV_REST_ROUTING_GUARD_CONFIRMED")[0m
+2026-11-03T02:54:52.3696295Z [36;1mPY[0m
+2026-11-03T02:54:52.3716560Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:52.3717047Z env:
+2026-11-03T02:54:52.3717370Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:52.3717788Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:52.3718721Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.3719280Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:52.3719771Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.3720232Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.3720675Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.3721194Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:52.3721775Z ##[endgroup]
+2026-11-03T02:54:52.4138582Z SEC_ENV_REST_ROUTING_GUARD_CONFIRMED
+2026-11-03T02:54:52.4227494Z ##[group]Run mkdir -p "$RUNNER_TEMP/g01-evidence"
+2026-11-03T02:54:52.4228133Z [36;1mmkdir -p "$RUNNER_TEMP/g01-evidence"[0m
+2026-11-03T02:54:52.4228572Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:52.4228922Z [36;1m[0m
+2026-11-03T02:54:52.4229256Z [36;1msafe_env=/tmp/sec-env-proxy-safe.env[0m
+2026-11-03T02:54:52.4229629Z [36;1mcat > "$safe_env" <<'EOF'[0m
+2026-11-03T02:54:52.4230108Z [36;1mVITE_SUPABASE_URL=http://127.0.0.1:54321[0m
+2026-11-03T02:54:52.4230557Z [36;1mVITE_SUPABASE_PUBLISHABLE_KEY=isolated-anon-key[0m
+2026-11-03T02:54:52.4230945Z [36;1mEOF[0m
+2026-11-03T02:54:52.4231247Z [36;1m[0m
+2026-11-03T02:54:52.4231880Z [36;1mproxy_vars=(HTTP_PROXY HTTPS_PROXY ALL_PROXY http_proxy https_proxy all_proxy)[0m
+2026-11-03T02:54:52.4232376Z [36;1m[0m
+2026-11-03T02:54:52.4232684Z [36;1massert_proxy_blocked() {[0m
+2026-11-03T02:54:52.4233033Z [36;1m  local script="$1"[0m
+2026-11-03T02:54:52.4233416Z [36;1m  local sentinel="$2"[0m
+2026-11-03T02:54:52.4233850Z [36;1m  local proxy_name="$3"[0m
+2026-11-03T02:54:52.4234221Z [36;1m  local safe_name[0m
+2026-11-03T02:54:52.4234574Z [36;1m  safe_name="${script//\//-}-${proxy_name}"[0m
+2026-11-03T02:54:52.4234968Z [36;1m  local log="/tmp/${safe_name}.log"[0m
+2026-11-03T02:54:52.4235364Z [36;1m[0m
+2026-11-03T02:54:52.4235643Z [36;1m  set +e[0m
+2026-11-03T02:54:52.4236128Z [36;1m  env \[0m
+2026-11-03T02:54:52.4236474Z [36;1m    -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY \[0m
+2026-11-03T02:54:52.4236916Z [36;1m    -u http_proxy -u https_proxy -u all_proxy \[0m
+2026-11-03T02:54:52.4237340Z [36;1m    "$proxy_name=http://203.0.113.10:8080" \[0m
+2026-11-03T02:54:52.4237780Z [36;1m    MONGEZZ_E2E_WRITE_TEST=1 \[0m
+2026-11-03T02:54:52.4238151Z [36;1m    MONGEZZ_DEPLOY_TARGET=ci \[0m
+2026-11-03T02:54:52.4238519Z [36;1m    MONGEZZ_E2E_ENV_FILE="$safe_env" \[0m
+2026-11-03T02:54:52.4238932Z [36;1m    PGHOST=127.0.0.1 \[0m
+2026-11-03T02:54:52.4239289Z [36;1m    PGPORT=54322 \[0m
+2026-11-03T02:54:52.4239631Z [36;1m    PGUSER=postgres \[0m
+2026-11-03T02:54:52.4239981Z [36;1m    PGDATABASE=postgres \[0m
+2026-11-03T02:54:52.4240372Z [36;1m    python3 "$script" --preflight-only \[0m
+2026-11-03T02:54:52.4240771Z [36;1m    > "$log" 2>&1[0m
+2026-11-03T02:54:52.4241111Z [36;1m  local status=$?[0m
+2026-11-03T02:54:52.4241583Z [36;1m  set -e[0m
+2026-11-03T02:54:52.4241978Z [36;1m[0m
+2026-11-03T02:54:52.4242323Z [36;1m  if [[ "$status" -eq 0 ]] || ! grep -Fq "$sentinel" "$log"; then[0m
+2026-11-03T02:54:52.4242875Z [36;1m    echo "SEC_ENV_PROXY_GUARD_FAIL: ${script} accepted ${proxy_name}"[0m
+2026-11-03T02:54:52.4243336Z [36;1m    cat "$log"[0m
+2026-11-03T02:54:52.4243690Z [36;1m    exit 1[0m
+2026-11-03T02:54:52.4243986Z [36;1m  fi[0m
+2026-11-03T02:54:52.4244252Z [36;1m}[0m
+2026-11-03T02:54:52.4244553Z [36;1m[0m
+2026-11-03T02:54:52.4244920Z [36;1mfor proxy_name in "${proxy_vars[@]}"; do[0m
+2026-11-03T02:54:52.4245302Z [36;1m  assert_proxy_blocked \[0m
+2026-11-03T02:54:52.4245671Z [36;1m    tests/e2e/rapid-click-sale.py \[0m
+2026-11-03T02:54:52.4246036Z [36;1m    SEC_ENV_RAPID_CLICK_BLOCKED \[0m
+2026-11-03T02:54:52.4246483Z [36;1m    "$proxy_name"[0m
+2026-11-03T02:54:52.4246806Z [36;1m  assert_proxy_blocked \[0m
+2026-11-03T02:54:52.4247181Z [36;1m    tests/e2e/sale-dashboard-close.py \[0m
+2026-11-03T02:54:52.4247572Z [36;1m    SEC_ENV_WRITE_HARNESS_BLOCKED \[0m
+2026-11-03T02:54:52.4247965Z [36;1m    "$proxy_name"[0m
+2026-11-03T02:54:52.4248306Z [36;1mdone[0m
+2026-11-03T02:54:52.4248586Z [36;1m[0m
+2026-11-03T02:54:52.4248899Z [36;1mecho "SEC_ENV_PROXY_GUARD_CONFIRMED"[0m
+2026-11-03T02:54:52.4268802Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:52.4269252Z env:
+2026-11-03T02:54:52.4269640Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:52.4270087Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:52.4270586Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.4271264Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:52.4272212Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.4272677Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.4273124Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:52.4273589Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:52.4274050Z ##[endgroup]
+2026-11-03T02:54:54.1770452Z SEC_ENV_PROXY_GUARD_CONFIRMED
+2026-11-03T02:54:54.1813485Z ##[group]Run mkdir -p "$RUNNER_TEMP/g01-evidence"
+2026-11-03T02:54:54.1814001Z [36;1mmkdir -p "$RUNNER_TEMP/g01-evidence"[0m
+2026-11-03T02:54:54.1814455Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:54.1814788Z [36;1mpython3 - <<'PY'[0m
+2026-11-03T02:54:54.1815123Z [36;1mimport ast[0m
+2026-11-03T02:54:54.1815429Z [36;1mfrom pathlib import Path[0m
+2026-11-03T02:54:54.1815793Z [36;1m[0m
+2026-11-03T02:54:54.1816100Z [36;1mfiles = [[0m
+2026-11-03T02:54:54.1816437Z [36;1m    Path("tests/e2e/rapid-click-sale.py"),[0m
+2026-11-03T02:54:54.1816902Z [36;1m    Path("tests/e2e/sale-dashboard-close.py"),[0m
+2026-11-03T02:54:54.1817351Z [36;1m    Path("tests/e2e/isolated-auth-smoke.py"),[0m
+2026-11-03T02:54:54.1817778Z [36;1m    Path("tests/visual/mobile-rtl-smoke.py"),[0m
+2026-11-03T02:54:54.1818138Z [36;1m][0m
+2026-11-03T02:54:54.1818395Z [36;1m[0m
+2026-11-03T02:54:54.1818716Z [36;1mfor path in files:[0m
+2026-11-03T02:54:54.1819170Z [36;1m    tree = ast.parse(path.read_text(), filename=str(path))[0m
+2026-11-03T02:54:54.1819627Z [36;1m    context_calls = [][0m
+2026-11-03T02:54:54.1819974Z [36;1m    for node in ast.walk(tree):[0m
+2026-11-03T02:54:54.1820352Z [36;1m        if not isinstance(node, ast.Call):[0m
+2026-11-03T02:54:54.1820772Z [36;1m            continue[0m
+2026-11-03T02:54:54.1821101Z [36;1m        func = node.func[0m
+2026-11-03T02:54:54.1821633Z [36;1m        if not ([0m
+2026-11-03T02:54:54.1822068Z [36;1m            isinstance(func, ast.Attribute)[0m
+2026-11-03T02:54:54.1822483Z [36;1m            and func.attr == "new_context"[0m
+2026-11-03T02:54:54.1822866Z [36;1m            and isinstance(func.value, ast.Name)[0m
+2026-11-03T02:54:54.1823264Z [36;1m            and func.value.id == "browser"[0m
+2026-11-03T02:54:54.1823661Z [36;1m        ):[0m
+2026-11-03T02:54:54.1823938Z [36;1m            continue[0m
+2026-11-03T02:54:54.1824275Z [36;1m        context_calls.append(node)[0m
+2026-11-03T02:54:54.1824602Z [36;1m[0m
+2026-11-03T02:54:54.1824936Z [36;1m    if not context_calls:[0m
+2026-11-03T02:54:54.1825272Z [36;1m        raise SystemExit([0m
+2026-11-03T02:54:54.1825742Z [36;1m            f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: no browser.new_context call found in {path}"[0m
+2026-11-03T02:54:54.1826213Z [36;1m        )[0m
+2026-11-03T02:54:54.1826531Z [36;1m[0m
+2026-11-03T02:54:54.1826806Z [36;1m    for node in context_calls:[0m
+2026-11-03T02:54:54.1827154Z [36;1m        service_workers_kw = next([0m
+2026-11-03T02:54:54.1827615Z [36;1m            (keyword for keyword in node.keywords if keyword.arg == "service_workers"),[0m
+2026-11-03T02:54:54.1828117Z [36;1m            None,[0m
+2026-11-03T02:54:54.1828439Z [36;1m        )[0m
+2026-11-03T02:54:54.1828724Z [36;1m        if not ([0m
+2026-11-03T02:54:54.1829029Z [36;1m            service_workers_kw[0m
+2026-11-03T02:54:54.1829453Z [36;1m            and isinstance(service_workers_kw.value, ast.Constant)[0m
+2026-11-03T02:54:54.1829929Z [36;1m            and service_workers_kw.value.value == "block"[0m
+2026-11-03T02:54:54.1830318Z [36;1m        ):[0m
+2026-11-03T02:54:54.1830653Z [36;1m            raise SystemExit([0m
+2026-11-03T02:54:54.1831168Z [36;1m                f"SEC_ENV_SERVICE_WORKER_GUARD_FAIL: {path} has browser.new_context without service_workers='block'"[0m
+2026-11-03T02:54:54.1831936Z [36;1m            )[0m
+2026-11-03T02:54:54.1832250Z [36;1m[0m
+2026-11-03T02:54:54.1832626Z [36;1mprint("SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED")[0m
+2026-11-03T02:54:54.1833006Z [36;1mPY[0m
+2026-11-03T02:54:54.1852770Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:54.1853376Z env:
+2026-11-03T02:54:54.1853659Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:54.1854072Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:54.1854520Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.1855032Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:54.1855628Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.1856059Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.1856567Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.1857006Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:54.1857445Z ##[endgroup]
+2026-11-03T02:54:54.2318720Z SEC_ENV_SERVICE_WORKER_GUARD_CONFIRMED
+2026-11-03T02:54:54.2400938Z ##[group]Run set -euo pipefail
+2026-11-03T02:54:54.2401758Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:54.2402325Z [36;1mpython tests/gate4/sec-env/visual-runtime-contract.py > /tmp/sec-env-visual-runtime.log[0m
+2026-11-03T02:54:54.2402854Z [36;1mcat /tmp/sec-env-visual-runtime.log[0m
+2026-11-03T02:54:54.2403394Z [36;1mgrep -Fq SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED /tmp/sec-env-visual-runtime.log[0m
+2026-11-03T02:54:54.2421256Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:54.2421884Z env:
+2026-11-03T02:54:54.2422245Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:54.2422656Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:54.2423111Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.2423654Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:54.2424174Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.2424749Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.2425190Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.2425691Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:54.2426081Z ##[endgroup]
+2026-11-03T02:54:54.4073344Z SEC_ENV_VISUAL_RUNTIME_ORIGIN_GUARD_CONFIRMED
+2026-11-03T02:54:54.4092399Z {"before_after_origin_and_violations": true, "context_wiring": true, "fatal_navigation": true, "policy_cases": 13, "shared_navigation_forwarding": true}
+2026-11-03T02:54:54.4146487Z ##[group]Run mkdir -p "$RUNNER_TEMP/g01-evidence"
+2026-11-03T02:54:54.4147112Z [36;1mmkdir -p "$RUNNER_TEMP/g01-evidence"[0m
+2026-11-03T02:54:54.4147509Z [36;1mset -euo pipefail[0m
+2026-11-03T02:54:54.4147842Z [36;1m[0m
+2026-11-03T02:54:54.4148120Z [36;1massert_blocked() {[0m
+2026-11-03T02:54:54.4148477Z [36;1m  local name="$1"[0m
+2026-11-03T02:54:54.4148825Z [36;1m  local target="$2"[0m
+2026-11-03T02:54:54.4149145Z [36;1m  local base_url="$3"[0m
+2026-11-03T02:54:54.4149536Z [36;1m  local log="/tmp/visual-${name}.log"[0m
+2026-11-03T02:54:54.4149878Z [36;1m[0m
+2026-11-03T02:54:54.4150175Z [36;1m  set +e[0m
+2026-11-03T02:54:54.4150523Z [36;1m  MONGEZZ_DEPLOY_TARGET="$target" \[0m
+2026-11-03T02:54:54.4150936Z [36;1m  MONGEZZ_VISUAL_TEST_BASE_URL="$base_url" \[0m
+2026-11-03T02:54:54.4151716Z [36;1m    python3 tests/visual/mobile-rtl-smoke.py --preflight-only \[0m
+2026-11-03T02:54:54.4152168Z [36;1m    > "$log" 2>&1[0m
+2026-11-03T02:54:54.4152611Z [36;1m  local status=$?[0m
+2026-11-03T02:54:54.4152917Z [36;1m  set -e[0m
+2026-11-03T02:54:54.4153243Z [36;1m[0m
+2026-11-03T02:54:54.4153649Z [36;1m  if [[ "$status" -eq 0 ]] || ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" "$log"; then[0m
+2026-11-03T02:54:54.4154164Z [36;1m    echo "SEC_ENV_VISUAL_HARNESS_FAIL: ${name} was accepted"[0m
+2026-11-03T02:54:54.4154627Z [36;1m    cat "$log"[0m
+2026-11-03T02:54:54.4154973Z [36;1m    exit 1[0m
+2026-11-03T02:54:54.4155285Z [36;1m  fi[0m
+2026-11-03T02:54:54.4155563Z [36;1m}[0m
+2026-11-03T02:54:54.4155821Z [36;1m[0m
+2026-11-03T02:54:54.4156184Z [36;1mset +e[0m
+2026-11-03T02:54:54.4156714Z [36;1menv -u MONGEZZ_DEPLOY_TARGET -u MONGEZZ_VISUAL_TEST_BASE_URL \[0m
+2026-11-03T02:54:54.4157243Z [36;1m  python3 tests/visual/mobile-rtl-smoke.py --preflight-only \[0m
+2026-11-03T02:54:54.4157673Z [36;1m  > /tmp/visual-missing.log 2>&1[0m
+2026-11-03T02:54:54.4158411Z [36;1mmissing_status=$?[0m
+2026-11-03T02:54:54.4158738Z [36;1mset -e[0m
+2026-11-03T02:54:54.4159021Z [36;1m[0m
+2026-11-03T02:54:54.4159379Z [36;1mif [[ "$missing_status" -eq 0 ]] || \[0m
+2026-11-03T02:54:54.4159868Z [36;1m   ! grep -Fq "SEC_ENV_VISUAL_SMOKE_BLOCKED" /tmp/visual-missing.log; then[0m
+2026-11-03T02:54:54.4160464Z [36;1m  echo "SEC_ENV_VISUAL_HARNESS_FAIL: missing target/base URL did not fail closed"[0m
+2026-11-03T02:54:54.4160922Z [36;1m  exit 1[0m
+2026-11-03T02:54:54.4161222Z [36;1mfi[0m
+2026-11-03T02:54:54.4161692Z [36;1m[0m
+2026-11-03T02:54:54.4162009Z [36;1massert_blocked production-app preview \[0m
+2026-11-03T02:54:54.4162496Z [36;1m  'https://simple-store-aid.lovable.app'[0m
+2026-11-03T02:54:54.4162979Z [36;1massert_blocked production-supabase preview \[0m
+2026-11-03T02:54:54.4163385Z [36;1m  'https://dahzkekdirrngnkcxinv.supabase.co'[0m
+2026-11-03T02:54:54.4163823Z [36;1massert_blocked unicode-production preview \[0m
+2026-11-03T02:54:54.4164243Z [36;1m  'https://simple-store-aid。lovable.app'[0m
+2026-11-03T02:54:54.4165060Z [36;1massert_blocked backslash-production preview \[0m
+2026-11-03T02:54:54.4165729Z [36;1m  'https://simple-store-aid.lovable.app\preview.example'[0m
+2026-11-03T02:54:54.4166436Z [36;1massert_blocked encoded-production-app preview \[0m
+2026-11-03T02:54:54.4167221Z [36;1m  'https://simple-store-aid%2elovable.app'[0m
+2026-11-03T02:54:54.4167986Z [36;1massert_blocked encoded-production-supabase preview \[0m
+2026-11-03T02:54:54.4168712Z [36;1m  'https://dahzkekdirrngnkcxinv%2esupabase.co'[0m
+2026-11-03T02:54:54.4169380Z [36;1massert_blocked trailing-dot-production preview \[0m
+2026-11-03T02:54:54.4170124Z [36;1m  'https://simple-store-aid.lovable.app.'[0m
+2026-11-03T02:54:54.4170778Z [36;1massert_blocked preview-custom-port preview \[0m
+2026-11-03T02:54:54.4171616Z [36;1m  'https://preview.example:443'[0m
+2026-11-03T02:54:54.4172258Z [36;1massert_blocked ipv4-canonical preview \[0m
+2026-11-03T02:54:54.4172861Z [36;1m  'https://127.0.0.1'[0m
+2026-11-03T02:54:54.4173390Z [36;1massert_blocked ipv4-octal preview \[0m
+2026-11-03T02:54:54.4174233Z [36;1m  'https://0177.0.0.1'[0m
+2026-11-03T02:54:54.4174757Z [36;1massert_blocked ipv4-hex preview \[0m
+2026-11-03T02:54:54.4175298Z [36;1m  'https://0x7f.0.0.1'[0m
+2026-11-03T02:54:54.4175792Z [36;1massert_blocked ipv4-short preview \[0m
+2026-11-03T02:54:54.4176345Z [36;1m  'https://127.1'[0m
+2026-11-03T02:54:54.4176922Z [36;1massert_blocked ipv4-integer preview \[0m
+2026-11-03T02:54:54.4177418Z [36;1m  'https://2130706433'[0m
+2026-11-03T02:54:54.4177959Z [36;1massert_blocked ipv6-literal preview \[0m
+2026-11-03T02:54:54.4178484Z [36;1m  'https://[::1]'[0m
+2026-11-03T02:54:54.4179132Z [36;1massert_blocked numeric-ending-decimal preview \[0m
+2026-11-03T02:54:54.4179766Z [36;1m  'https://preview.127'[0m
+2026-11-03T02:54:54.4180388Z [36;1massert_blocked numeric-ending-invalid-octal preview \[0m
+2026-11-03T02:54:54.4181107Z [36;1m  'https://preview.09'[0m
+2026-11-03T02:54:54.4181925Z [36;1massert_blocked numeric-ending-out-of-range preview \[0m
+2026-11-03T02:54:54.4182545Z [36;1m  'https://1.2.3.999'[0m
+2026-11-03T02:54:54.4182942Z [36;1massert_blocked numeric-ending-hex preview \[0m
+2026-11-03T02:54:54.4183371Z [36;1m  'https://preview.0x7f'[0m
+2026-11-03T02:54:54.4183772Z [36;1massert_blocked invalid-punycode-alabel preview \[0m
+2026-11-03T02:54:54.4184176Z [36;1m  'https://xn--a.example'[0m
+2026-11-03T02:54:54.4184626Z [36;1massert_blocked whatwg-invalid-punycode-alabel preview \[0m
+2026-11-03T02:54:54.4185074Z [36;1m  'https://xn--ksa.example'[0m
+2026-11-03T02:54:54.4185475Z [36;1massert_blocked canonical-punycode-alabel preview \[0m
+2026-11-03T02:54:54.4186115Z [36;1m  'https://xn--bcher-kva.example'[0m
+2026-11-03T02:54:54.4186468Z [36;1m[0m
+2026-11-03T02:54:54.4186826Z [36;1mMONGEZZ_DEPLOY_TARGET=ci \[0m
+2026-11-03T02:54:54.4187230Z [36;1mMONGEZZ_VISUAL_TEST_BASE_URL=http://127.0.0.1:8080 \[0m
+2026-11-03T02:54:54.4187738Z [36;1m  python3 tests/visual/mobile-rtl-smoke.py --preflight-only \[0m
+2026-11-03T02:54:54.4188186Z [36;1m  > /tmp/visual-safe-ci.log 2>&1[0m
+2026-11-03T02:54:54.4188547Z [36;1mgrep -Fq \[0m
+2026-11-03T02:54:54.4189047Z [36;1m  "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \[0m
+2026-11-03T02:54:54.4189538Z [36;1m  /tmp/visual-safe-ci.log || {[0m
+2026-11-03T02:54:54.4190050Z [36;1m    echo "SEC_ENV_VISUAL_HARNESS_FAIL: isolated CI visual target was rejected"[0m
+2026-11-03T02:54:54.4190493Z [36;1m    exit 1[0m
+2026-11-03T02:54:54.4190788Z [36;1m  }[0m
+2026-11-03T02:54:54.4191087Z [36;1m[0m
+2026-11-03T02:54:54.4191698Z [36;1mMONGEZZ_DEPLOY_TARGET=preview \[0m
+2026-11-03T02:54:54.4192148Z [36;1mMONGEZZ_VISUAL_TEST_BASE_URL=https://preview.example \[0m
+2026-11-03T02:54:54.4192643Z [36;1m  python3 tests/visual/mobile-rtl-smoke.py --preflight-only \[0m
+2026-11-03T02:54:54.4193097Z [36;1m  > /tmp/visual-safe-preview.log 2>&1[0m
+2026-11-03T02:54:54.4193508Z [36;1mgrep -Fq \[0m
+2026-11-03T02:54:54.4193949Z [36;1m  "SEC_ENV_VISUAL_SMOKE_PREFLIGHT_OK: explicit non-production visual target verified" \[0m
+2026-11-03T02:54:54.4194470Z [36;1m  /tmp/visual-safe-preview.log || {[0m
+2026-11-03T02:54:54.4194973Z [36;1m    echo "SEC_ENV_VISUAL_HARNESS_FAIL: canonical preview visual target was rejected"[0m
+2026-11-03T02:54:54.4195453Z [36;1m    exit 1[0m
+2026-11-03T02:54:54.4195745Z [36;1m  }[0m
+2026-11-03T02:54:54.4196011Z [36;1m[0m
+2026-11-03T02:54:54.4196355Z [36;1mecho "SEC_ENV_VISUAL_HARNESS_CONFIRMED"[0m
+2026-11-03T02:54:54.4217242Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-03T02:54:54.4217654Z env:
+2026-11-03T02:54:54.4218055Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:54.4218470Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:54.4218917Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.4219429Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:54.4219941Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.4220635Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.4221256Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:54.4222111Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:54.4222692Z ##[endgroup]
+2026-11-03T02:54:57.6399152Z SEC_ENV_VISUAL_HARNESS_CONFIRMED
+2026-11-03T02:54:57.6491883Z ##[group]Run actions/upload-artifact@v4
+2026-11-03T02:54:57.6492267Z with:
+2026-11-03T02:54:57.6492567Z   name: g01-environment-attempt1
+2026-11-03T02:54:57.6492968Z   path: /home/runner/work/_temp/g01-evidence/
+2026-11-03T02:54:57.6493359Z   retention-days: 7
+2026-11-03T02:54:57.6493678Z   if-no-files-found: warn
+2026-11-03T02:54:57.6493999Z   compression-level: 6
+2026-11-03T02:54:57.6494292Z   overwrite: false
+2026-11-03T02:54:57.6494656Z   include-hidden-files: false
+2026-11-03T02:54:57.6494961Z env:
+2026-11-03T02:54:57.6495248Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-03T02:54:57.6495628Z   EXPECTED_SOURCE: e0a75541b981eed0bf1715315f7e418e466330c6
+2026-11-03T02:54:57.6496096Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:57.6496618Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib/pkgconfig
+2026-11-03T02:54:57.6497078Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:57.6497618Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:57.6498064Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
+2026-11-03T02:54:57.6498546Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
+2026-11-03T02:54:57.6498929Z ##[endgroup]
+2026-11-03T02:54:57.8174557Z (node:3335) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-03T02:54:57.8176145Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-03T02:54:57.8296344Z With the provided path, there will be 1 file uploaded
+2026-11-03T02:54:57.8299519Z Artifact name is valid!
+2026-11-03T02:54:57.8300533Z Root directory input is valid!
+2026-11-03T02:54:58.0966201Z Beginning upload of artifact content to blob storage
+2026-11-03T02:54:58.1140689Z (node:3335) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-03T02:54:58.2692480Z Uploaded bytes 379
+2026-11-03T02:54:58.3028691Z Finished uploading artifact content to blob storage!
+2026-11-03T02:54:58.3030134Z SHA256 digest of uploaded artifact zip is 4295745728923d7ff5ff17c44cb7197249385b52e577441b5cfea33c362024da
+2026-11-03T02:54:58.3031765Z Finalizing artifact upload
+2026-11-03T02:54:58.6983499Z Artifact g01-environment-attempt1.zip successfully finalized. Artifact ID 13200576278
+2026-11-03T02:54:58.6990142Z Artifact g01-environment-attempt1 has been successfully uploaded! Final size is 379 bytes. Artifact ID is 13200576278
+2026-11-03T02:54:58.7013920Z Artifact download URL: https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41568980367/artifacts/13200576278
+2026-11-03T02:54:58.7190564Z Post job cleanup.
+2026-11-03T02:54:58.8899990Z Post job cleanup.
+2026-11-03T02:54:59.0763174Z (node:3355) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-03T02:54:59.0812013Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-03T02:54:59.1086404Z Post job cleanup.
+2026-11-03T02:54:59.2274844Z [command]/usr/bin/git version
+2026-11-03T02:54:59.2352352Z git version 2.56.0
+2026-11-03T02:54:59.2387387Z Temporarily overriding HOME='/home/runner/work/_temp/8250c20f-a919-40c6-abdb-6c43123f911a' before making global git config changes
+2026-11-03T02:54:59.2388705Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-03T02:54:59.2410265Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/simple-store-aid/simple-store-aid
+2026-11-03T02:54:59.2454148Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-03T02:54:59.2501977Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-03T02:54:59.2909293Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-03T02:54:59.2950987Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-03T02:54:59.3482693Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-03T02:54:59.3542694Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-03T02:54:59.3960752Z Cleaning up orphan processes
+2026-11-03T02:54:59.4213009Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

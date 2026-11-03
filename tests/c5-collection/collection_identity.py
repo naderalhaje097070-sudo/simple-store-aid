@@ -16,7 +16,7 @@ blob, PRIOR_FROZEN = prior.blob, prior.FROZEN
 
 BASE = '570ec47e4fe78ab25dc7e653a0a84cdc9a5d8644'
 MANIFEST = 'tests/c5-collection/source.json'
-CHANGES = {'tests/c4-sale/native.py', 'tests/c4-sale/history.test.cjs', 'tests/c-source/quantity-bridge.test.cjs', 'tests/g0-integrated-types/runtime.cjs', 'tests/g01-acceptance/capture.py', 'tests/g01-acceptance/runtime.py',
+CHANGES = {'tests/app-financial-read/build.mjs', 'tests/app-financial-read/browser.py', 'tests/c4-sale/native.py', 'tests/c4-sale/history.test.cjs', 'tests/c-source/quantity-bridge.test.cjs', 'tests/g0-integrated-types/runtime.cjs', 'tests/g01-acceptance/capture.py', 'tests/g01-acceptance/runtime.py',
            '.github/workflows/g01-runtime-retry.yml', 'src/lib/db.ts',
            'src/features/shared/AppContext.ts', 'src/routes/_authenticated/app.tsx',
            'src/features/invoices/InvoiceDetailScreen.tsx'}

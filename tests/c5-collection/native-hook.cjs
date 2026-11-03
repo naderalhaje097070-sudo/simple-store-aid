@@ -2,7 +2,13 @@
 const fs = require("node:fs");
 const assert = require("node:assert/strict");
 const { createClient } = require("@supabase/supabase-js");
-const { loadApplication, memoryStorage, serialLocks } = require("./loader.cjs");
+const { loadApplication, memoryStorage, serialLocks } = require("../c4-sale/loader.cjs");
+if (process.argv[2] === "--preflight") {
+  assert.equal(typeof loadApplication, "function");
+  assert.equal(typeof createClient, "function");
+  console.log("C5_COLLECTION_NATIVE_IMPORTS_OK");
+  process.exit(0);
+}
 const config = JSON.parse(fs.readFileSync(process.argv[2], "utf8"));
 assert.equal(config.url, "http://127.0.0.1:54321");
 const requests = [],

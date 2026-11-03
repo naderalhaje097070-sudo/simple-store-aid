@@ -143,7 +143,7 @@ const plugin = {
         "fixture:pdf":
           "export const downloadInvoicePdf=async()=>{globalThis.__readEffects.push(['pdf']);};export const printInvoice=()=>{globalThis.__readEffects.push(['print']);};export const ensureFont=async()=>{};",
         "fixture:client":
-          "export const supabase={auth:{getUser:async()=>({data:{user:null},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>{globalThis.__readEffects.push(['signOut']);}}};",
+          "export const supabase={auth:{getUser:async()=>({data:{user:globalThis.__readSpec.authMissing?null:{id:'actor-fixture'}},error:null}),onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),signOut:async()=>{globalThis.__readEffects.push(['signOut']);}}};",
       }[args.path];
       if (!code) throw new Error("Unknown fixture module");
       return { contents: code, loader: "tsx", resolveDir: root };

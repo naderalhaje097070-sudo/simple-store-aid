@@ -14,6 +14,11 @@ async def main():
         context = await browser.new_context(service_workers="block")
 
         async def reject_http(route):
+            # Fulfilled locally: secure origin supplies real Web Crypto/storage,
+            # while synthetic Auth/read/mutation hooks never contact a provider.
+            if route.request.is_navigation_request() and route.request.url == "https://read-fixture.invalid/":
+                await route.fulfill(status=200, content_type="text/html", body='<html lang="ar"><meta charset="utf-8"><div id="root"></div></html>')
+                return
             requests.append(route.request.url)
             await route.abort("blockedbyclient")
 
@@ -25,7 +30,8 @@ async def main():
         await context.route_web_socket("**/*", reject_ws)
         page = await context.new_page()
         page.on("pageerror", lambda error: errors.append(str(error)))
-        await page.set_content('<html lang="ar"><meta charset="utf-8"><div id="root"></div></html>')
+        await page.goto("https://read-fixture.invalid/")
+        assert await page.evaluate("isSecureContext && typeof crypto.randomUUID === 'function'")
         await page.add_script_tag(path=str(out / "bundle.js"))
 
         async def reset(spec=None):
@@ -105,6 +111,16 @@ async def main():
             await expect(page.get_by_role("button", name="لا دين", exact=True)).to_be_disabled()
             await expect(page.get_by_text("الرصيد غير مؤكد", exact=True)).to_be_visible()
 
+        async def missing_actor():
+            await reset({"authMissing": True})
+            await page.evaluate("window.fixture.openInvoice()")
+            await page.get_by_role("button", name="تحصيل دفعة", exact=True).click()
+            await page.get_by_placeholder("المبلغ", exact=True).fill("1")
+            button = page.get_by_role("button", name="تأكيد التحصيل", exact=True)
+            await button.click()
+            await expect(button).to_be_enabled()
+            assert await page.evaluate("window.fixture.effects()") == []
+
         async def timezone_day():
             await reset()
             await page.get_by_role("button", name="عرض حركة اليوم المالية", exact=False).click()
@@ -144,6 +160,7 @@ async def main():
                           ("empty success versus failed cache", empty), ("warning inside closable financial sheet", modal),
                           ("export rejected then recovers", export_guards), ("collection sheet rejects stale balance then recovers", collect_sheet),
                           ("directory survives unavailable balance", directory),
+                          ("missing actor rejects collection despite complete reads", missing_actor),
                           ("timezone failure hides daily modal/close then recovers", timezone_day),
                           ("cached timezone retains money and independent collection survives", timezone_independent)]:
             await check(name, run)

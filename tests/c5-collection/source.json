@@ -30,7 +30,7 @@
     },
     "tests/g01-acceptance/runtime.py": {
       "before": "d791462d3a878d4c806d55f829a26519f84c9fae",
-      "after": "48f27d2b6703af1acc699c7fee0c15d6ad231a92"
+      "after": "c559b6876d076830d869b53900ab5c20cd6e1669"
     },
     "tests/c4-sale/native.py": {
       "before": "f792690ae269bcc2372a2e822b9b509d87b18373",
@@ -47,10 +47,18 @@
     "tests/g0-integrated-types/runtime.cjs": {
       "before": "4992a688f94902d79a3f0e2cdf4511c0b9e0c7a6",
       "after": "77c35c5cb86e2f3ad9a2ef360aeed4ba9b94d730"
+    },
+    "tests/app-financial-read/build.mjs": {
+      "before": "009747b812395d39888a4a25acfb4aa585717c6b",
+      "after": "f505a786418130cdd81f759a58c112b857fab855"
+    },
+    "tests/app-financial-read/browser.py": {
+      "before": "26b7350f1aafea4b7e296ae5b385773a4e91ce66",
+      "after": "b5a22808ef0d31753e543e5902229223a90a3ff3"
     }
   },
   "additions": {
-    ".github/workflows/c5-collection.yml": "483b52066c5c3d76b19e6579f0311535fff69f66",
+    ".github/workflows/c5-collection.yml": "d56b0b2a7486729032ddb6d9206778acbc43e991",
     "src/features/invoices/CollectionRecovery.tsx": "949474a6ed42742d9e6881434b649bf49f0f3f92",
     "src/lib/collection-operation.ts": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
     "supabase/migrations/20261103060658_c5_keyed_debt_collection.sql": "2f38339ee3a1b2d1a22a3ace47e67c615240f118",
@@ -58,10 +66,10 @@
     "tests/c5-collection/browser-client.ts": "33918c5f5133e49c7beb425441c5bebfee5b44e5",
     "tests/c5-collection/browser-fixture.tsx": "40590c8e715678f31555f4727abb799a7b0a848d",
     "tests/c5-collection/browser.py": "93c527c9415887130786b9f3743adbaca36fb42b",
-    "tests/c5-collection/collection_identity.py": "146c92423f96d7a8d6d3bdcffd654ee1c26d892f",
+    "tests/c5-collection/collection_identity.py": "b751ad12071edeae0eafd1e4d238e185242a7cfe",
     "tests/c5-collection/collection_target.py": "778535cf6fabd18b485bdc835a337a886399b928",
     "tests/c5-collection/contracts.test.cjs": "202f83cf9bccbb32a57b795f7c690106574b2b5e",
-    "tests/c5-collection/native-hook.cjs": "cd370e76f2776691084a5aa4f8af4573fda600a0",
+    "tests/c5-collection/native-hook.cjs": "dd481a2dca6f2e08a17fccdc0bd8654a541689ce",
     "tests/c5-collection/native.py": "1ee5a6e5cf13bdd63791aa1b7098a20c552d4506",
     "tests/c5-collection/test_identity.py": "9a1705e0a6ed43690908a1ee151c078877b9e0ec",
     "tests/c5-collection/test_target.py": "f461f01621fc1e240b437c516c3ccc1615bcd520",

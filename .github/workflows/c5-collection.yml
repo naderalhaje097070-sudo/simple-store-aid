@@ -59,6 +59,7 @@ jobs:
           python tests/c5-collection/test_target.py
           node --test tests/c5-collection/history.test.cjs
           node --test tests/c5-collection/contracts.test.cjs
+          node tests/c5-collection/native-hook.cjs --preflight
           node --test tests/c4-sale/contracts.test.cjs
           node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser
       - name: Exact C5 financial-test source and immutable SQL admission before credentials

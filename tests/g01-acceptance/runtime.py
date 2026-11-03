@@ -193,7 +193,20 @@ try:
     smokeenv=dict(buildenv);smokeenv.update(PILOT_QA_EMAIL=actors[0]['email'],PILOT_QA_PASSWORD=actors[0]['password'])
     with (root/'g01-auth-private.log').open('wb') as log:
         smoke=subprocess.run(['python','tests/e2e/isolated-auth-smoke.py'],env=smokeenv,stdout=log,stderr=subprocess.STDOUT,timeout=180)
-    check('existing_actual_Auth_UI_desktop_mobile',smoke.returncode==0 and 'PASS: isolated authenticated UI smoke' in (root/'g01-auth-private.log').read_text())
+    smoke_log=(root/'g01-auth-private.log').read_text()
+    # Publish only fixed diagnostic labels; raw browser text can contain credentials.
+    record['auth_smoke_diagnostics']={'exit':smoke.returncode,'log_sha256':hashlib.sha256(smoke_log.encode()).hexdigest(),
+        'markers':[label for label,needle in {
+            'protection_timeout':'PROTECTION FAILURE URL', 'login_timeout':'LOGIN FAILURE URL',
+            'network_idle_timeout':'Page.wait_for_load_state: Timeout',
+            'visible_element_timeout':'Locator.wait_for: Timeout',
+            'navigation_timeout':'Page.goto: Timeout',
+            'browser_boundary_rejected':'SEC_ENV_AUTH_SMOKE_BROWSER_BLOCKED',
+            'horizontal_overflow':'Horizontal overflow:', 'locale_mismatch':'Incorrect locale attributes:',
+            'hydration_error':'Hydration error', 'module_missing':'ModuleNotFoundError',
+            'browser_missing':'Executable doesn\'t exist', 'page_closed':'TargetClosedError'
+        }.items() if needle in smoke_log]}
+    check('existing_actual_Auth_UI_desktop_mobile',smoke.returncode==0 and 'PASS: isolated authenticated UI smoke' in smoke_log)
     record['native_phase_counters']['after_auth_ui']=counters()
     stop();code,body,log=start(True)
     # Drain the native process log before inspecting it; publish only static codes/hashes.
@@ -227,4 +240,3 @@ finally:
     stop()
     (root/'g01-status.json').unlink(missing_ok=True)
     subprocess.run(['sudo','rm','-f','/tmp/g01-runtime/worker.env'],check=False)
-

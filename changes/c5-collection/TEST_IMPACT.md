@@ -1,0 +1,3 @@
+# Verification plan and initial local evidence
+
+Actual hook28 cases PASS, unchanged sale35 PASS, source-delta19 PASS, browser bundle and Python/YAML parse PASS before publication. These are not native financial acceptance. Hosted job must prove old lost-reply regression now oneeffect, same-key concurrent exactonce, distinct-key genuinepayments, payload/actor conflicts, completed replay live authority, rollback, raw bypass/ledger ACL, actual SDK restore after clock advance, desktop/mobile collection UI→RPC→DB, fresh55 and populated54 upgrade, previous stored finance controls and affected G0/G1/B1. Preserve actual failed run exits; no waiver. Full disaster-recovery/restore and independentC6 remain separate openC5/C6 work.

@@ -1,5 +1,10 @@
 import { isQuantity, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import {
+  executeCollection,
+  CollectionOperationError,
+  type CollectionInput,
+} from "@/lib/collection-operation";
+import {
   executeSale,
   saleScope,
   SALE_ENVIRONMENT,
@@ -56,6 +61,15 @@ type ApplicationRpcs = {
     Returns: Name extends keyof RpcResults ? RpcResults[Name] : GeneratedRpcs[Name]["Returns"];
   };
 } & {
+  collect_order_debt_idempotent: {
+    Args: {
+      p_idempotency_key: string;
+      p_order_id: string;
+      p_amount: number;
+      p_method: "cash" | "transfer";
+    };
+    Returns: Json;
+  };
   // Forward C3 SQL contract; generated schema remains generator-owned.
   create_sale_with_items_idempotent: {
     Args: {
@@ -688,19 +702,26 @@ export function useDeleteInvoice(tenantId: string | null | undefined) {
 export function useCollectDebt(tenantId: string | null | undefined) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: {
-      orderId: string;
-      customerId?: string;
-      amount: number;
-      method: "cash" | "transfer";
-    }) => {
+    mutationFn: async (input: CollectionInput) => {
       if (!tenantId) throw new Error("no tenant");
-      const { error } = await rpcClient.rpc("collect_order_debt", {
-        p_order_id: input.orderId,
-        p_amount: input.amount,
-        p_method: input.method,
-      });
-      if (error) throw new Error(rpcMessage(error));
+      const snapshot: CollectionInput = JSON.parse(JSON.stringify(input));
+      const scope = saleScope(SALE_ENVIRONMENT, tenantId, snapshot.expectedActorId);
+      return executeCollection(
+        scope,
+        snapshot,
+        (request) =>
+          rpcClient
+            .rpc("collect_order_debt_idempotent", request)
+            .abortSignal(AbortSignal.timeout(20_000)),
+        async () => {
+          const { data, error } = await supabase.auth.getUser();
+          if (error || data.user?.id !== scope.actorId)
+            throw new CollectionOperationError(
+              "تغيّر الحساب أو تعذّر التحقق منه. التحصيل المحفوظ لم يُحذف.",
+            );
+        },
+        rpcMessage,
+      );
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["invoices", tenantId] });

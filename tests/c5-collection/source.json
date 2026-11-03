@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "scope": "C5-COLLECTION-RETRY-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "570ec47e4fe78ab25dc7e653a0a84cdc9a5d8644",
+  "changes": {
+    ".github/workflows/g01-runtime-retry.yml": {
+      "before": "c47211abd33f383b08b8c01445c475332b4e9540",
+      "after": "ea318a0fca0eaa29c8491e9ba805cfed3c1da412"
+    },
+    "src/features/invoices/InvoiceDetailScreen.tsx": {
+      "before": "b25f346fee598cdaff1be902d0b45b61a9f3b023",
+      "after": "d410b8112ef48fab79bc20b1117bc6a5a887f901"
+    },
+    "src/features/shared/AppContext.ts": {
+      "before": "9f8c09ba86c1b558d8d04e700817b3276516e6c5",
+      "after": "3e73e71162e7a41ed66ddcf5260dc2be6e0b6cc0"
+    },
+    "src/lib/db.ts": {
+      "before": "68ca7df1b433170c420619b457fc5aace91a3bbc",
+      "after": "6c4419e9af63cf5a97b728e93e2a5f2a9947e7ab"
+    },
+    "src/routes/_authenticated/app.tsx": {
+      "before": "e868e0b279c1f9bc88ec63b67ea9cc617bf0fae7",
+      "after": "be9436c488f6d58e074669b23d777fb5376a2c49"
+    },
+    "tests/g01-acceptance/capture.py": {
+      "before": "be520a56af2a90519d0a07ea9680572aa7fb46cf",
+      "after": "902129d3bae16dfcd209e0b3204e54e72e5ce778"
+    },
+    "tests/g01-acceptance/runtime.py": {
+      "before": "d791462d3a878d4c806d55f829a26519f84c9fae",
+      "after": "48f27d2b6703af1acc699c7fee0c15d6ad231a92"
+    }
+  },
+  "additions": {
+    ".github/workflows/c5-collection.yml": "58b3370b740a6d9a42a1c0be67225323e42ef4dd",
+    "src/features/invoices/CollectionRecovery.tsx": "949474a6ed42742d9e6881434b649bf49f0f3f92",
+    "src/lib/collection-operation.ts": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
+    "supabase/migrations/20261103060658_c5_keyed_debt_collection.sql": "2f38339ee3a1b2d1a22a3ace47e67c615240f118",
+    "tests/c5-collection/browser-build.mjs": "1dbdc466378e193b3b20967f3fb1e1ef98dcb3e5",
+    "tests/c5-collection/browser-client.ts": "33918c5f5133e49c7beb425441c5bebfee5b44e5",
+    "tests/c5-collection/browser-fixture.tsx": "40590c8e715678f31555f4727abb799a7b0a848d",
+    "tests/c5-collection/browser.py": "93c527c9415887130786b9f3743adbaca36fb42b",
+    "tests/c5-collection/collection_identity.py": "473836dd7a1757099472636c28f79bb26fc9a9db",
+    "tests/c5-collection/collection_target.py": "aa6918814877b15d1d89f06fda33e08c0d4b121c",
+    "tests/c5-collection/contracts.test.cjs": "202f83cf9bccbb32a57b795f7c690106574b2b5e",
+    "tests/c5-collection/native-hook.cjs": "cd370e76f2776691084a5aa4f8af4573fda600a0",
+    "tests/c5-collection/native.py": "1ee5a6e5cf13bdd63791aa1b7098a20c552d4506",
+    "tests/c5-collection/test_identity.py": "9a1705e0a6ed43690908a1ee151c078877b9e0ec"
+  }
+}

@@ -1,0 +1,3 @@
+# Security
+
+Live actor, nonnull auth.uid, actual order tenant and _assert_staff precede reservation or replay; authorization checked again after unique-key wait. SECURITY DEFINER has empty search_path with explicit schema references. Exact request equality is mandatory independent of MD5. Original actor must match. New function PUBLIC/anon revoked, authenticated granted; raw function PUBLIC/anon/authenticated revoked; existing ledger RLS/direct-access denial retained. No production access or secret use. Native tests use loopback54321/54322/54323 restricted UID, IPv6reject and safe cleanup/publication. Browser fixture only substitutes shell/routing and unrelated PDF export; actual components/query/SDK/Auth/RPC/DB execute. Independent C6 is still pending.

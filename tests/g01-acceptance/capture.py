@@ -15,6 +15,13 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    if Path('tests/c5-collection/source.json').exists():
+        import sys
+        sys.path.insert(0, str(Path('tests/c5-collection').resolve()))
+        from collection_identity import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     if Path('tests/c5-finance/source.json').exists():
         import sys
         sys.path.insert(0, str(Path('tests/c5-finance').resolve()))
@@ -125,3 +132,4 @@ elif args.kind == 'lint':
 print(json.dumps({k:v for k,v in receipt.items() if k not in ['audit_records','files_with_diagnostics','rule_counts']}))
 # Do not convert CLI audit/lint failures into a successful gate.
 raise SystemExit(result.returncode)
+

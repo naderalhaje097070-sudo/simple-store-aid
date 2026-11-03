@@ -1,0 +1,3 @@
+# API transition
+
+Owner-approved coordinated candidate replaces the client call with collect_order_debt_idempotent(uuid,uuid,numeric,payment_method). No unkeyed fallback. Existing old clients receive denial after server contraction and must update. This is not yet deployed. Release planning must stage the compatible client/server transition together and verify stale-client behavior before any owner production decision. Distinct genuine equal payments require new operation UUID; retries preserve immutable payload/key. The old privileged inner function remains available only to authorized internal/service actors.

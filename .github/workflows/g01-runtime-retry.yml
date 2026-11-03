@@ -4,6 +4,7 @@ name: G1 Bounded Acceptance Repair
     branches:
     - integration/g0-g1-reconcile-2026-10-18
     paths:
+    - tests/c5-collection/**
     - tests/c5-acceptance/**
     - supabase/migrations/**
     - tests/g01-acceptance/integrated-source.json
@@ -64,12 +65,12 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.2.14
-    - name: Prove C5 reviewed source, pinned54 migrations and preserved original41 identities
+    - name: Prove C5 reviewed source, pinned55 migrations and preserved original41 identities
       run: |
         python tests/g01-acceptance/capture.py identity
         python tests/c5-acceptance/test_identity.py
         python tests/c5-acceptance/test_target.py
-        python tests/c5-acceptance/target.py
+        python tests/c5-collection/collection_target.py
         python tests/g01-acceptance/test_integrated_identity.py
         python tests/g01-acceptance/test_g1_contracts.py
         python tests/g01-acceptance/test_cleanup.py
@@ -133,7 +134,7 @@ jobs:
         test "$canary_status" = 7
         sudo ip6tables -C OUTPUT -m owner --uid-owner "$uid" -j REJECT
         chmod -R a+rX /tmp/g01-tools
-    - name: Fresh disposable pinned54 schema only
+    - name: Fresh disposable pinned55 schema only
       shell: bash
       run: |
         set -euo pipefail
@@ -202,12 +203,12 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         bun-version: 1.2.14
-    - name: Prove C5 reviewed source, pinned54 migrations and preserved original41 identities
+    - name: Prove C5 reviewed source, pinned55 migrations and preserved original41 identities
       run: |
         python tests/g01-acceptance/capture.py identity
         python tests/c5-acceptance/test_identity.py
         python tests/c5-acceptance/test_target.py
-        python tests/c5-acceptance/target.py
+        python tests/c5-collection/collection_target.py
         python tests/g01-acceptance/test_integrated_identity.py
         python tests/g01-acceptance/test_g1_contracts.py
     - name: Run target-green environment isolation probe
@@ -498,4 +499,5 @@ jobs:
         path: ${{ runner.temp }}/g01-evidence/
         retention-days: 7
         if-no-files-found: warn
+
 

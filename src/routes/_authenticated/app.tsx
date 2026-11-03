@@ -1,3 +1,5 @@
+import { CollectionRecovery } from "@/features/invoices/CollectionRecovery";
+import type { CollectionInput } from "@/lib/collection-operation";
 import { getSaleLineTotal, getSaleTotal } from "@/domain/finance/invoice-selectors";
 import { isQuantity, stepQuantity, sumQuantities, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import { QuantityInput } from "@/features/shared/QuantityInput";
@@ -577,12 +579,7 @@ function MongezzApp() {
     createSaleAsync: (input: Parameters<ReturnType<typeof useCreateSale>["mutateAsync"]>[0]) =>
       createSaleMut.mutateAsync(input),
     deleteInvoiceAsync: (orderId: string) => deleteInvoiceMut.mutateAsync(orderId),
-    collectDebtAsync: async (input: {
-      orderId: string;
-      customerId?: string;
-      amount: number;
-      method: "cash" | "transfer";
-    }) => {
+    collectDebtAsync: async (input: CollectionInput) => {
       requireFinancialReads([financialReads.invoices]);
       return collectDebtMut.mutateAsync(input);
     },
@@ -676,6 +673,14 @@ function MongezzApp() {
             <SaleRecovery
               tenantId={tenantId}
               onRetry={createSaleMut.mutateAsync}
+              onOpen={(orderId) => {
+                setOpenInvoiceId(orderId);
+                go("invoice_detail");
+              }}
+            />
+            <CollectionRecovery
+              tenantId={tenantId}
+              onRetry={collectDebtMut.mutateAsync}
               onOpen={(orderId) => {
                 setOpenInvoiceId(orderId);
                 go("invoice_detail");

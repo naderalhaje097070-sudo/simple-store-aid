@@ -1,4 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  newCollectionId,
+  collectionErrorMessage,
+  type CollectionInput,
+} from "@/lib/collection-operation";
 import {
   Info,
   AlertTriangle,
@@ -41,6 +47,9 @@ export function InvoiceDetailScreen(p: AppCtx) {
   const [collectOpen, setCollectOpen] = useState(false);
   const [collectAmt, setCollectAmt] = useState("");
   const [collectMethod, setCollectMethod] = useState<"cash" | "transfer">("cash");
+  const [collectionDraft, setCollectionDraft] = useState<CollectionInput | null>(null);
+  const [collectBusy, setCollectBusy] = useState(false);
+  const collectLock = useRef(false);
   useEffect(() => {
     ensureInvoiceFont();
   }, []);
@@ -67,19 +76,42 @@ export function InvoiceDetailScreen(p: AppCtx) {
 
   const submitCollect = async () => {
     const a = Number(collectAmt);
-    if (!canUseBalance || !canCollectCustomerDebt || !a || a <= 0 || a > customerRemaining) return;
+    if (
+      collectLock.current ||
+      (!collectionDraft &&
+        (!canUseBalance ||
+          !canCollectCustomerDebt ||
+          !Number.isFinite(a) ||
+          a <= 0 ||
+          a > customerRemaining))
+    )
+      return;
+    collectLock.current = true;
+    setCollectBusy(true);
     try {
-      await p.collectDebtAsync({
-        orderId: inv.id,
-        customerId: inv.customerId,
-        amount: a,
-        method: collectMethod,
-      });
+      let input = collectionDraft;
+      if (!input) {
+        const { data, error } = await supabase.auth.getUser();
+        if (error || !data.user) throw new Error("account unavailable");
+        input = {
+          operationId: newCollectionId(),
+          expectedActorId: data.user.id,
+          orderId: inv.id,
+          amount: a,
+          method: collectMethod,
+        };
+        setCollectionDraft(input);
+      }
+      await p.collectDebtAsync(input);
       setCollectOpen(false);
+      setCollectionDraft(null);
       setCollectAmt("");
       setCollectMethod("cash");
     } catch (e) {
-      p.showToast?.(e instanceof Error ? e.message : "تعذّر التحصيل");
+      p.showToast?.(collectionErrorMessage(e));
+    } finally {
+      collectLock.current = false;
+      setCollectBusy(false);
     }
   };
 
@@ -290,7 +322,10 @@ export function InvoiceDetailScreen(p: AppCtx) {
               {canCollectCustomerDebt && (
                 <button
                   disabled={customerRemaining <= 0 || !canUseBalance}
-                  onClick={() => setCollectOpen(true)}
+                  onClick={() => {
+                    setCollectionDraft(null);
+                    setCollectOpen(true);
+                  }}
                   className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
                 >
                   تحصيل دفعة
@@ -302,7 +337,12 @@ export function InvoiceDetailScreen(p: AppCtx) {
       </div>
 
       {collectOpen && (
-        <Sheet onClose={() => setCollectOpen(false)} title="تحصيل دفعة">
+        <Sheet
+          onClose={() => {
+            if (!collectLock.current) setCollectOpen(false);
+          }}
+          title="تحصيل دفعة"
+        >
           <FinancialReadNotice
             reads={[p.financialReads.invoices]}
             onRetry={p.retryFinancialReads}
@@ -312,6 +352,7 @@ export function InvoiceDetailScreen(p: AppCtx) {
               المتبقي: <Money v={customerRemaining} className="text-debt" />
             </div>
             <input
+              disabled={collectBusy || collectionDraft !== null}
               value={collectAmt}
               onChange={(e) => setCollectAmt(e.target.value)}
               inputMode="decimal"
@@ -325,12 +366,14 @@ export function InvoiceDetailScreen(p: AppCtx) {
               <label className="text-xs font-bold text-muted-foreground">طريقة الدفع</label>
               <div className="mt-1 grid grid-cols-2 gap-2">
                 <button
+                  disabled={collectBusy || collectionDraft !== null}
                   onClick={() => setCollectMethod("cash")}
                   className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "cash" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                 >
                   نقدي
                 </button>
                 <button
+                  disabled={collectBusy || collectionDraft !== null}
                   onClick={() => setCollectMethod("transfer")}
                   className={`py-2 rounded-xl text-sm font-bold ${collectMethod === "transfer" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                 >
@@ -340,12 +383,18 @@ export function InvoiceDetailScreen(p: AppCtx) {
             </div>
             <button
               disabled={
-                !canUseBalance || !Number(collectAmt) || Number(collectAmt) > customerRemaining
+                collectBusy ||
+                (!collectionDraft &&
+                  (!canUseBalance || !Number(collectAmt) || Number(collectAmt) > customerRemaining))
               }
               onClick={submitCollect}
               className="w-full rounded-2xl bg-primary text-primary-foreground py-3 font-bold disabled:opacity-40"
             >
-              تأكيد التحصيل
+              {collectBusy
+                ? "جارٍ التحقق…"
+                : collectionDraft
+                  ? "إعادة محاولة التحصيل نفسه"
+                  : "تأكيد التحصيل"}
             </button>
           </div>
         </Sheet>

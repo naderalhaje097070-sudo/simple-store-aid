@@ -1,3 +1,4 @@
+import type { CollectionInput, CollectionResult } from "@/lib/collection-operation";
 /* R2 — Shared AppCtx contract.
    Mirrors the `ctx` object literal built inside MongezzApp (src/routes/_authenticated/app.tsx).
    No behavior, no UI, no logic — type-only.
@@ -168,12 +169,7 @@ export interface AppCtx {
   /* Financial mutations */
   createSaleAsync: (input: any) => Promise<any>;
   deleteInvoiceAsync: (orderId: string) => Promise<any>;
-  collectDebtAsync: (input: {
-    orderId: string;
-    customerId?: string;
-    amount: number;
-    method: "cash" | "transfer";
-  }) => Promise<any>;
+  collectDebtAsync: (input: CollectionInput) => Promise<CollectionResult>;
   settleCourierAsync: (input: {
     courierId: string;
     orders: { id: string; customerId?: string; collected?: number }[];

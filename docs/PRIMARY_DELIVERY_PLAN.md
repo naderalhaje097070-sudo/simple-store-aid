@@ -1,3 +1,11 @@
+## Current — C5 keyed collection implementation authorized, 2026-11-03
+
+Owner direct reply to the concrete proposal570ec47e authorizes keyed collection RPC, durable actual collection UI and raw authenticated bypass closure; recorded issue55/6596692353. Claim6594150829 ACTIVE, sole implementer root. Candidate adds one CLI-generated forward migration, preserves canonical accounting and prior54 migrations, introduces scoped durable UUID, live replay authorization and coordinated client/RPC ACL transition. Local28collection/35sale/19source controls pass; hosted financial/browser/upgrade and affectedCI evidence pending. Prior e0a75541 failed retry baseline retained unchanged. FullC5 restore/C6 independent review/C7 remain open; no acceptance by implementation alone.
+
+Existing integration/g0-g1-reconcile-2026-10-18; main220fc206 and five original drafts unchanged. No protected merge/deploy/production/newcost/PRclosure. See changes/c5-collection/INTAKE.md and impact records. Older status blocks below are historical.
+
+---
+
 ## Current — C5 stored retry-safety blocker confirmed; owner contract decision next, 2026-11-03
 
 Exact diagnostic executable `e0a75541b981eed0bf1715315f7e418e466330c6`, tree `4c76cb888aef2481ee0987107ce44fb30960b211`, existing `integration/g0-g1-reconcile-2026-10-18`. Native C5 run41568980208 FAILED in both modes:63fresh/66populated positive/setup/financial controls passed, then a hidden-success partial20collection resend on100produced paid20→40/payment1→2 under the same actor/payload. This proves missing logical retry identity in the current collection contract; two genuinely distinct equal payments remain legitimate. Actual UI retry/real-customer duplication were not observed. Both cleanup/publication checks passed; no SQL/application fix applied.

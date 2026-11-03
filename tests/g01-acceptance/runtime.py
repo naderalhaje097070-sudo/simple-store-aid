@@ -1,4 +1,4 @@
-"""Pinned local54 + unchanged Cloudflare entry/Auth UI; zero financial write flow."""
+"""Pinned local55 + unchanged Cloudflare entry/Auth UI; zero financial write flow."""
 import hashlib
 import json
 import os
@@ -14,8 +14,8 @@ import urllib.request
 import uuid
 from guard_receipt import receipt as guard_receipt
 from egress_trace import collect as collect_trace, ProcessMap
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'c5-acceptance'))
-from target import verify_source, verify_history
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'c5-collection'))
+from collection_target import verify_source, verify_history
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
 record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'C5-G1-SCHEMA-01','checks':[],'integration_accepted':False}
@@ -141,13 +141,13 @@ try:
     record['native_phase_counters']={'before':firewall_before}
     pinned_versions, target_receipt = verify_source(Path.cwd())
     record['migration_target'] = target_receipt
-    check('pinned54_migration_source',True)
+    check('pinned55_migration_source',True)
     status=json.loads((root/'g01-status.json').read_text())
     check('exact_local_API',status['API_URL']=='http://127.0.0.1:54321')
     private_secrets=[status['ANON_KEY'],status['SERVICE_ROLE_KEY']]
     versions=json.loads(query('select json_agg(version order by version) from supabase_migrations.schema_migrations;'))
     verify_history(pinned_versions, versions)
-    check('exact_pinned54_migrations',True)
+    check('exact_pinned55_migrations',True)
     check('initial_empty_finance_auth',all(int(query('select count(*) from public.'+t+';'))==0 for t in ['orders','products','payments','customers']) and query('select count(*) from auth.users;')=='0')
     actors=[]
     for label in ['A','B']:
@@ -227,3 +227,4 @@ finally:
     stop()
     (root/'g01-status.json').unlink(missing_ok=True)
     subprocess.run(['sudo','rm','-f','/tmp/g01-runtime/worker.env'],check=False)
+

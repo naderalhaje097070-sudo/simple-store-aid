@@ -58,7 +58,7 @@
     }
   },
   "additions": {
-    ".github/workflows/c5-collection.yml": "4bd767055f92ad021c36f086267672e9138df106",
+    ".github/workflows/c5-collection.yml": "d3598a24e19d1d34c758687be5f9dccf98857ddd",
     "src/features/invoices/CollectionRecovery.tsx": "949474a6ed42742d9e6881434b649bf49f0f3f92",
     "src/lib/collection-operation.ts": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
     "supabase/migrations/20261103060658_c5_keyed_debt_collection.sql": "2f38339ee3a1b2d1a22a3ace47e67c615240f118",

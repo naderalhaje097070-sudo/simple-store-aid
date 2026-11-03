@@ -1,0 +1,102 @@
+{
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "executable": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+  "main": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+  "merge": false,
+  "release": false,
+  "scope": "C5-COLLECTION-RETRY-01",
+  "runs": {
+    "G0": 41696369315,
+    "G1": 41696369007,
+    "C5": 41696369037,
+    "B1": 41696369090
+  },
+  "earlier_failed_attempts": [
+    {
+      "sha": "39f25d6bff2dde9f0c68f3dae5459da815274c3e",
+      "kind": "source admission failures"
+    },
+    {
+      "sha": "bc642b8fec4436f03ed3b4f6615e3cea1a6dd7a2",
+      "kind": "native import and synthetic read fixture failures"
+    },
+    {
+      "sha": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "kind": "fixture port occupied;98fresh/101upgrade controls passed"
+    },
+    {
+      "sha": "84bac6d970c2bbe39a0da207c864c23fc68b46a5",
+      "kind": "fixture reply blocked;36IPv4rejects each mode; cleanup removal completed but zero-egress gate failed"
+    }
+  ],
+  "remaining": [
+    "Full C5 disaster restore acceptance",
+    "C6 independent review",
+    "C7 protected owner merge decision"
+  ],
+  "status": "Tested candidate; not Merged or Released",
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "bounded_collection_acceptance": true,
+  "verified_runs": [
+    {
+      "id": 41696369315,
+      "name": "Integrated G0 verification",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41696369315"
+    },
+    {
+      "id": 41696369007,
+      "name": "G1 Bounded Acceptance Repair",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41696369007"
+    },
+    {
+      "id": 41696369090,
+      "name": "B1 composition compatibility",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41696369090"
+    },
+    {
+      "id": 41696369037,
+      "name": "C5 keyed collection regression",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "attempt": 1,
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/41696369037"
+    }
+  ],
+  "controls": {
+    "fresh": 108,
+    "upgrade": 111,
+    "nonfinancial_G1": 41,
+    "unit": 97,
+    "expectations": 300,
+    "read_browser": 11,
+    "read_server": 43,
+    "lint_errors": 0,
+    "lint_warnings": 15,
+    "source_entries": 474,
+    "migrations": 55,
+    "prior_migrations_preserved": 54
+  },
+  "advisors": {
+    "errors": 0,
+    "warnings": 45,
+    "kinds": {
+      "auth_rls_initplan": 43,
+      "multiple_permissive_policies": 2
+    }
+  }
+}

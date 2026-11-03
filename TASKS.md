@@ -1,3 +1,13 @@
+## Current — C5 keyed collection candidate tested, 2026-11-03
+
+Exact executable `a52ee17d57a02da46bc8fb03547711de697ecfea`, existing `integration/g0-g1-reconcile-2026-10-18`: C5 collection41696369037, G041696369315, G141696369007 and B141696369090 all SUCCESS attempt1. Fresh108/upgraded111 controls and desktop/mobile actual-component browser prove a hidden-success20collection replay remains paid20/one payment; a genuine second20 uses a new key and produces paid40/two payments. All prior54 migrations preserved within55; canonical accounting unchanged. Source guard474 entries,97unit/300expectations,0lint errors/15warnings, full audit{}, G1 41checks and final zero-egress/cleanup passed. Advisors0errors/45performance warnings require remaining review.
+
+Status **Implemented → Tested, candidate only**; fullC5/integration acceptance remain false. Remaining full-shell financial journey/restore and independentC6/C7 are not asserted. See changes/c5-collection/RESULT.md and evidence/manifest.json for exact evidence, failed attempts and limits. This handoff changes docs/evidence only; executable test results belong to a52ee17d.
+
+**ONE NEXT: remaining C5**, starting with safe nonempty snapshot restore including the idempotency ledger and replay/financial/isolation invariants; then remaining integrated journey acceptance, independentC6 and protected ownerC7 merge decision. No new financial policy decision is needed for this approved bounded fix. Main220fc206 and five original drafts remain unchanged; no merge/deploy/production/newcost/newPR/closure. Older blocks below are historical.
+
+---
+
 ## Current — C5 keyed collection implementation authorized, 2026-11-03
 
 Owner direct reply to the concrete proposal570ec47e authorizes keyed collection RPC, durable actual collection UI and raw authenticated bypass closure; recorded issue55/6596692353. Claim6594150829 ACTIVE, sole implementer root. Candidate adds one CLI-generated forward migration, preserves canonical accounting and prior54 migrations, introduces scoped durable UUID, live replay authorization and coordinated client/RPC ACL transition. Local28collection/35sale/19source controls pass; hosted financial/browser/upgrade and affectedCI evidence pending. Prior e0a75541 failed retry baseline retained unchanged. FullC5 restore/C6 independent review/C7 remain open; no acceptance by implementation alone.

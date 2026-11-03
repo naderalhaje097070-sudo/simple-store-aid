@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "verified_download_sha256": true,
+  "artifacts": [
+    {
+      "id": 13230630649,
+      "name": "quality-diagnostics",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "86f8a21b10fc39fdb6eba6de4bfd040f552163607a7ebfe8e027c810f2ed8419",
+      "path": "d589f826/quality-diagnostics-13230630649.zip"
+    },
+    {
+      "id": 13229832815,
+      "name": "integration-full-audit",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "e4d8af816176150bea0217640354bdb39dfe9e083797d776391520c24272cc21",
+      "path": "d589f826/integration-full-audit-13229832815.zip"
+    },
+    {
+      "id": 13228944264,
+      "name": "integration-source-identity",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "de673d5675aa5b25f7cbe96692f00e88297343f2ce9d3e0eb3ffae98544ed810",
+      "path": "d589f826/integration-source-identity-13228944264.zip"
+    },
+    {
+      "id": 13230685160,
+      "name": "g01-environment-attempt1",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "6117f0600ff6916aec61355ed0c1ee0240f4bf4eea25371c8dc6ed4afbb3a327",
+      "path": "d589f826/g01-environment-attempt1-13230685160.zip"
+    },
+    {
+      "id": 13230441570,
+      "name": "g01-runtime-attempt1",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "9a672c657489b88b863fa4cf4c85cf6d08d7ebd2795faf9439a5fbbb9f82f0d1",
+      "path": "d589f826/g01-runtime-attempt1-13230441570.zip"
+    },
+    {
+      "id": 13229758652,
+      "name": "c5-collection-upgrade-attempt1",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "6d6504ab1d53b8e57df02f297799101fcd402c0edc691ddbbe9fe4c06e426561",
+      "path": "d589f826/c5-collection-upgrade-attempt1-13229758652.zip"
+    },
+    {
+      "id": 13229308675,
+      "name": "c5-collection-fresh-attempt1",
+      "source": "d589f82618f1b6450214ce40d70ae3b226bb5d67",
+      "sha256": "29c0fdf3df9eb2f9cffef1e9cd5313b3e9ba9a06c6b78b00e085fd4762c98706",
+      "path": "d589f826/c5-collection-fresh-attempt1-13229308675.zip"
+    },
+    {
+      "id": 13262510332,
+      "name": "integration-source-identity",
+      "source": "84bac6d970c2bbe39a0da207c864c23fc68b46a5",
+      "sha256": "43810d4bcf8b87e951d8adb5545dfb0ed7d1c8b0dde3d61dcc1e43c89583989a",
+      "path": "84bac6d9/integration-source-identity-13262510332.zip"
+    },
+    {
+      "id": 13262240095,
+      "name": "integration-full-audit",
+      "source": "84bac6d970c2bbe39a0da207c864c23fc68b46a5",
+      "sha256": "4dcbd908ae578794e61558ac4367d40e619fe8744a1c65993721274dfb5a47f0",
+      "path": "84bac6d9/integration-full-audit-13262240095.zip"
+    },
+    {
+      "id": 13261510828,
+      "name": "quality-diagnostics",
+      "source": "84bac6d970c2bbe39a0da207c864c23fc68b46a5",
+      "sha256": "45b4bcf9aeeceed5fcf38138e65bdf52d2b4cca9ab7a8912c30b0c683fbc201d",
+      "path": "84bac6d9/quality-diagnostics-13261510828.zip"
+    },
+    {
+      "id": 13262306204,
+      "name": "integration-source-identity",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "645eef880134c71ca6bf8d6c7a3d8cf1215b5c78205de62244d49b1dd62a3005",
+      "path": "a52ee17d/integration-source-identity-13262306204.zip"
+    },
+    {
+      "id": 13261176488,
+      "name": "quality-diagnostics",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "5b00d7bf9357f8f013aabf2090b3b69f2d6495e9d800ddcc9c5d016b61f9ec0e",
+      "path": "a52ee17d/quality-diagnostics-13261176488.zip"
+    },
+    {
+      "id": 13260971551,
+      "name": "integration-full-audit",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "16ac365ab99f0d74dc8e0e1a60b530e402f6791f1804303955e6c500a1b975ea",
+      "path": "a52ee17d/integration-full-audit-13260971551.zip"
+    },
+    {
+      "id": 13261366694,
+      "name": "c5-collection-upgrade-attempt1",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "0b9ef4dde95e7f1b6500266f26fe56d0515f90d25a0547307b4af2307f47bacf",
+      "path": "a52ee17d/c5-collection-upgrade-attempt1-13261366694.zip"
+    },
+    {
+      "id": 13261311673,
+      "name": "c5-collection-fresh-attempt1",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "53ee25070a727f552e713f0e23ef41f35b37a7a6b4a08d4e8c3f8fcc0c288e35",
+      "path": "a52ee17d/c5-collection-fresh-attempt1-13261311673.zip"
+    },
+    {
+      "id": 13260628336,
+      "name": "g01-environment-attempt1",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "6bd97cfb1597ed51ab71c97ab8eddb8ec60e7f5ba541d8c53fc3ecb4f2c365ed",
+      "path": "a52ee17d/g01-environment-attempt1-13260628336.zip"
+    },
+    {
+      "id": 13260419352,
+      "name": "g01-runtime-attempt1",
+      "source": "a52ee17d57a02da46bc8fb03547711de697ecfea",
+      "sha256": "0b8297466ec0ff1fff1ac4ba40a7040b2ae5763ac08fc3953232c6e21757bdee",
+      "path": "a52ee17d/g01-runtime-attempt1-13260419352.zip"
+    }
+  ],
+  "notes": [
+    "Original artifact ZIP bytes; SHA256 verified before Git blob creation.",
+    "All included financial/native artifacts passed their runner publication guard.",
+    "84bac6d9 native run failed zero-egress acceptance; no safe artifact was published; its allowlisted log transcription is separately labelled.",
+    "Historical failed runs are not promoted to success."
+  ]
+}

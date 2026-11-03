@@ -1,0 +1,28 @@
+{
+  "source_sha": "84bac6d970c2bbe39a0da207c864c23fc68b46a5",
+  "run": 41695451329,
+  "attempt": 1,
+  "conclusion": "failure",
+  "fresh": {
+    "job": 126124640278,
+    "failure": "Page.goto http://127.0.0.1:4173 timeout30000ms",
+    "ipv4_rejects": 36,
+    "ipv6_rejects": 0
+  },
+  "upgrade": {
+    "job": 126124639719,
+    "failure": "Page.goto http://127.0.0.1:4173 timeout30000ms",
+    "ipv4_rejects": 36,
+    "ipv6_rejects": 0
+  },
+  "cleanup": {
+    "status_removed": true,
+    "state_removed": true,
+    "stack_removed": true,
+    "private_files_removed": true,
+    "zero_egress_gate": false,
+    "safe_artifact_publication": false
+  },
+  "evidence_type": "Allowlisted exact values transcribed from fetched job logs; not an original runner artifact",
+  "financial_acceptance": false
+}

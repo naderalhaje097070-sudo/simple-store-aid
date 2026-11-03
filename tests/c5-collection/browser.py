@@ -10,9 +10,9 @@ def run(probe, a, customer):
     out=Path('/tmp/monjez-c5sale/browser')
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self,*_): pass
-    server=http.server.ThreadingHTTPServer(('127.0.0.1',54323),functools.partial(Quiet,directory=str(out)))
+    server=http.server.ThreadingHTTPServer(('127.0.0.1',4173),functools.partial(Quiet,directory=str(out)))
     threading.Thread(target=server.serve_forever,daemon=True).start()
-    origin='http://127.0.0.1:54323'
+    origin='http://127.0.0.1:4173'
     receipts=[]
     try:
         with sync_playwright() as playwright:

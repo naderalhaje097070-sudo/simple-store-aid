@@ -92,7 +92,7 @@ jobs:
           sudo useradd --system --no-create-home --shell /usr/sbin/nologin c5finance
           uid="$(id -u c5finance)"
           sudo iptables -N C5F
-          sudo iptables -A C5F -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322,54323 -j ACCEPT
+          sudo iptables -A C5F -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322,4173 -j ACCEPT
           sudo iptables -A C5F -j REJECT --reject-with icmp-port-unreachable
           sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j C5F
           sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT

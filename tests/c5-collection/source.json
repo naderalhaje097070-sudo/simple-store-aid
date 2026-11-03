@@ -58,14 +58,14 @@
     }
   },
   "additions": {
-    ".github/workflows/c5-collection.yml": "d56b0b2a7486729032ddb6d9206778acbc43e991",
+    ".github/workflows/c5-collection.yml": "4bd767055f92ad021c36f086267672e9138df106",
     "src/features/invoices/CollectionRecovery.tsx": "949474a6ed42742d9e6881434b649bf49f0f3f92",
     "src/lib/collection-operation.ts": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
     "supabase/migrations/20261103060658_c5_keyed_debt_collection.sql": "2f38339ee3a1b2d1a22a3ace47e67c615240f118",
     "tests/c5-collection/browser-build.mjs": "1dbdc466378e193b3b20967f3fb1e1ef98dcb3e5",
     "tests/c5-collection/browser-client.ts": "33918c5f5133e49c7beb425441c5bebfee5b44e5",
     "tests/c5-collection/browser-fixture.tsx": "40590c8e715678f31555f4727abb799a7b0a848d",
-    "tests/c5-collection/browser.py": "93c527c9415887130786b9f3743adbaca36fb42b",
+    "tests/c5-collection/browser.py": "b21e6c87fe323f3ea8fc27bcc4019cc719cfc2c1",
     "tests/c5-collection/collection_identity.py": "b751ad12071edeae0eafd1e4d238e185242a7cfe",
     "tests/c5-collection/collection_target.py": "778535cf6fabd18b485bdc835a337a886399b928",
     "tests/c5-collection/contracts.test.cjs": "202f83cf9bccbb32a57b795f7c690106574b2b5e",

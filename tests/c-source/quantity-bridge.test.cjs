@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const cp = require("node:child_process");
 const fs = require("node:fs");
 const { historicalQuantitySource, BEFORE, AFTER, FILES } = require("./quantity-bridge.cjs");
-const { historicalC4Source } = require("../c4-sale/history.cjs");
+const { historicalC4Source } = require("../c5-collection/history.cjs");
 const read = (ref, file) =>
   cp.execFileSync("git", ["show", `${ref}:${file}`], { encoding: "utf8" });
 

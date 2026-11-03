@@ -2,7 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const cp = require("node:child_process");
-const { historicalC4Source, BASE, FILES } = require("./history.cjs");
+const { historicalC4Source, BASE, FILES } = require("../c5-collection/history.cjs");
 for (const file of FILES)
   test("C4 history rejects actual source mutation: " + file, () => {
     const actual = fs.readFileSync(file, "utf8");

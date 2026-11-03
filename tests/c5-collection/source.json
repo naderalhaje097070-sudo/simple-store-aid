@@ -31,10 +31,26 @@
     "tests/g01-acceptance/runtime.py": {
       "before": "d791462d3a878d4c806d55f829a26519f84c9fae",
       "after": "48f27d2b6703af1acc699c7fee0c15d6ad231a92"
+    },
+    "tests/c4-sale/native.py": {
+      "before": "f792690ae269bcc2372a2e822b9b509d87b18373",
+      "after": "67c810d5d55dad2e07bf2395a77bbb8c5a9a983f"
+    },
+    "tests/c4-sale/history.test.cjs": {
+      "before": "3eef2d3e3ef5e990ec3c0cac6c43e26c8a0d68d8",
+      "after": "01dcd58ae8baeac0585b3e0410b00ebd19bf3fbb"
+    },
+    "tests/c-source/quantity-bridge.test.cjs": {
+      "before": "925726ff1167963607698a9f75152be085b87e78",
+      "after": "28e62c124bcf1b273f94b5290313dfe066d010b5"
+    },
+    "tests/g0-integrated-types/runtime.cjs": {
+      "before": "4992a688f94902d79a3f0e2cdf4511c0b9e0c7a6",
+      "after": "77c35c5cb86e2f3ad9a2ef360aeed4ba9b94d730"
     }
   },
   "additions": {
-    ".github/workflows/c5-collection.yml": "58b3370b740a6d9a42a1c0be67225323e42ef4dd",
+    ".github/workflows/c5-collection.yml": "483b52066c5c3d76b19e6579f0311535fff69f66",
     "src/features/invoices/CollectionRecovery.tsx": "949474a6ed42742d9e6881434b649bf49f0f3f92",
     "src/lib/collection-operation.ts": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
     "supabase/migrations/20261103060658_c5_keyed_debt_collection.sql": "2f38339ee3a1b2d1a22a3ace47e67c615240f118",
@@ -42,11 +58,14 @@
     "tests/c5-collection/browser-client.ts": "33918c5f5133e49c7beb425441c5bebfee5b44e5",
     "tests/c5-collection/browser-fixture.tsx": "40590c8e715678f31555f4727abb799a7b0a848d",
     "tests/c5-collection/browser.py": "93c527c9415887130786b9f3743adbaca36fb42b",
-    "tests/c5-collection/collection_identity.py": "473836dd7a1757099472636c28f79bb26fc9a9db",
-    "tests/c5-collection/collection_target.py": "aa6918814877b15d1d89f06fda33e08c0d4b121c",
+    "tests/c5-collection/collection_identity.py": "146c92423f96d7a8d6d3bdcffd654ee1c26d892f",
+    "tests/c5-collection/collection_target.py": "778535cf6fabd18b485bdc835a337a886399b928",
     "tests/c5-collection/contracts.test.cjs": "202f83cf9bccbb32a57b795f7c690106574b2b5e",
     "tests/c5-collection/native-hook.cjs": "cd370e76f2776691084a5aa4f8af4573fda600a0",
     "tests/c5-collection/native.py": "1ee5a6e5cf13bdd63791aa1b7098a20c552d4506",
-    "tests/c5-collection/test_identity.py": "9a1705e0a6ed43690908a1ee151c078877b9e0ec"
+    "tests/c5-collection/test_identity.py": "9a1705e0a6ed43690908a1ee151c078877b9e0ec",
+    "tests/c5-collection/test_target.py": "f461f01621fc1e240b437c516c3ccc1615bcd520",
+    "tests/c5-collection/history.cjs": "a83009bd2d3e1a9355ae46164dcc28d1c30f0e84",
+    "tests/c5-collection/history.test.cjs": "a836bc25b2933e9a0ad361a72fae1bfcf7b08b3a"
   }
 }

@@ -16,6 +16,8 @@ spec.loader.exec_module(composition)
 CompositionProbe = composition.CompositionProbe
 sys.path.insert(0, str(ROOT / 'tests/account-lifecycle'))
 from scanner_evidence import verify_publication
+sys.path.insert(0, str(ROOT / "tests/c5-collection"))
+from collection_target import verify_source, verify_history
 
 
 class ClientProbe(CompositionProbe):
@@ -44,7 +46,9 @@ class ClientProbe(CompositionProbe):
     def run_client(self, private):
         files = sorted((ROOT / 'supabase/migrations').glob('*.sql'))
         versions = self.query("select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;")
-        self.control('exact_full54_chain', len(files) == 54 and versions == [p.name.split('_')[0] for p in files])
+        expected, _ = verify_source(ROOT)
+        verify_history(expected, versions)
+        self.control('exact_approved55_chain_with_original54_preserved', True)
         state = self.actors_state(private)
         actors = state['actors']; a = actors['a']
         pid = self.seed_product(a, 10)

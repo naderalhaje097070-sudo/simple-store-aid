@@ -16,7 +16,7 @@ blob, PRIOR_FROZEN = prior.blob, prior.FROZEN
 
 BASE = '570ec47e4fe78ab25dc7e653a0a84cdc9a5d8644'
 MANIFEST = 'tests/c5-collection/source.json'
-CHANGES = {'tests/g01-acceptance/capture.py', 'tests/g01-acceptance/runtime.py',
+CHANGES = {'tests/c4-sale/native.py', 'tests/c4-sale/history.test.cjs', 'tests/c-source/quantity-bridge.test.cjs', 'tests/g0-integrated-types/runtime.cjs', 'tests/g01-acceptance/capture.py', 'tests/g01-acceptance/runtime.py',
            '.github/workflows/g01-runtime-retry.yml', 'src/lib/db.ts',
            'src/features/shared/AppContext.ts', 'src/routes/_authenticated/app.tsx',
            'src/features/invoices/InvoiceDetailScreen.tsx'}
@@ -25,7 +25,7 @@ ADDITIONS = {MIGRATION, 'src/lib/collection-operation.ts',
              'src/features/invoices/CollectionRecovery.tsx',
              '.github/workflows/c5-collection.yml',
              *{'tests/c5-collection/'+n for n in [
-                 'collection_identity.py','test_identity.py','collection_target.py',
+                 'collection_identity.py','test_identity.py','collection_target.py','test_target.py','history.cjs','history.test.cjs',
                  'contracts.test.cjs','native.py','native-hook.cjs',
                  'browser-client.ts','browser-fixture.tsx','browser-build.mjs','browser.py']}}
 
@@ -89,4 +89,3 @@ def verify(root):
             'protected_blob_count':len(base)+len(additions),'migration_count':55,
             'all_integrated_blobs_match':True,'prior_manifests_unchanged':True,
             'financial_acceptance':False,'integration_accepted':False}
-

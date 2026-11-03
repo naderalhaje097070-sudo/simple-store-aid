@@ -5,7 +5,7 @@ const ts = require("typescript");
 const parser = require("@babel/parser");
 const { historicalWebhookSource } = require("../b-dependency/webhook-bridge.cjs");
 const { historicalQuantitySource } = require("../c-source/quantity-bridge.cjs");
-const { historicalC4Source } = require("../c4-sale/history.cjs");
+const { historicalC4Source } = require("../c5-collection/history.cjs");
 
 const baseline = "d0a172e7060a5a8a782a923f42986ac7d6287bab";
 const files = [

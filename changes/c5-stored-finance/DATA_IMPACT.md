@@ -1,0 +1,3 @@
+# Data impact
+
+Synthetic users/tenants/customers/couriers/products/orders/payments/day-close rows only in throwaway local hosted databases. Populated mode seeds an independent second tenant and checks its stored sale/stock remains exact. Real JWT-authenticated RPCs create measured test effects; queries independently inspect actual stored values. Proxy/redirect/server failures do not become business denials or zero finance. Snapshot denials cover public/private relations. No production keys/customer data or shared DB access. Private credentials stay outside the evidence sink, are scanned before publication and removed in always-cleanup.

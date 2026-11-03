@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "scope": "C5-STORED-FINANCE-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "0b6e17b7b90c19c803936f1690f75cab3e17f53d",
+  "change": {
+    "path": "tests/g01-acceptance/capture.py",
+    "before": "08b8e85a65a5193b3cd0f977b928d0026b1059ed",
+    "after": "be520a56af2a90519d0a07ea9680572aa7fb46cf"
+  },
+  "additions": {
+    ".github/workflows/c5-stored-finance.yml": "d83baf987ccbf8a664cd43270d143cc3d881790a",
+    "tests/c5-finance/identity.py": "e09d95c45aa0f1f9cf5d46af139f5e910dbe2956",
+    "tests/c5-finance/native.py": "1e718d042ca1892c83b7a8813010bbdbd48ea33d",
+    "tests/c5-finance/test_identity.py": "ce2278f318f4644324ba14316ef33edbc581f7de",
+    "tests/c5-finance/test_verdict.py": "eb3bfe8de9f415886b0c8251cad90c8b0d7ecedd",
+    "tests/c5-finance/verdict.py": "c2d0680cead6291c3fbc087a51588ae99ba63619"
+  }
+}

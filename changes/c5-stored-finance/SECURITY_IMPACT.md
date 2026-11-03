@@ -1,0 +1,3 @@
+# Security impact
+
+Reuse exact nonproduction write-harness and explicit loopback API/DB target. Restricted test UID may reach only127.0.0.1:54321/54322; IPv6 rejected, credential-free external canary required. Publication scanner rejects JWT/key/exact synthetic credentials; full native logs are not republished. Owner/staff/foreign/anonymous/banned old-token controls use actual Auth and stored-state preservation, plus an unaffected active positive after ban. No production/RLS/grant/role/financial guard changed. New delta verifier fixes the source ancestor, all existing source bytes and prior frozen manifests while admitting only reviewed capture/test files. Independent review is not performed; C6 remains open.

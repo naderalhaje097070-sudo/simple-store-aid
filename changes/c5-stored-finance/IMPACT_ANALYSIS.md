@@ -1,0 +1,7 @@
+# Impact and change design
+
+Only tests/CI/admission change. One existing capture path selects a new narrow delta guard; six declared new code/workflow paths and one manifest are additive. The guard derives the whole immutable baseline from Git rather than copying another full snapshot, fixes the capture before/after and exact addition set, checks all index/worktree blobs/modes, source/repo/ancestry and prior frozen manifests. SQL/application/dependency mutations cannot be self-adopted. Prior verifiers/tests/manifests stay exact.
+
+The new workflow reuses the existing C4 restricted-UID/firewall/isolation/cleanup/publication design and C3 fixture/RPC/snapshot helpers. It runs source/verdict negatives before credentials. Two jobs fresh/populated independently install all54SQL. The probe records actual stored cash/custody/debt/stock and close-day outputs, permissions and concurrent actions, then evaluates the lost-response partial-collection target. A false target exits2 and keeps financial_acceptance=false; no fixture emulates server accounting or hides a failure. Existing G0/B1/G1 may trigger automatically from capture; only affected gates are inspected.
+
+The first runtime pass may reveal a different positive-control error; classify it from preserved progress before attributing a retry defect. A missing idempotency key is currently source-reviewed, not a confirmed exploit or an observed UI behavior. No core financial correction is authorized by this test-only batch.

@@ -1,0 +1,3 @@
+# API compatibility and suspected contract gap
+
+No RPC or UI contract changed. The existing collection request is exactly {p_order_id,p_amount,p_method}; there is no logical-operation key. The lost-response experiment resends this exact payload under the same actor after a verified committed first payment. Two genuinely distinct20payments can currently have identical payloads; a safe correction must introduce explicit logical identity rather than guessing duplicates by amount/time. Actual UI retries are not claimed. Any proposed new collection RPC/key, legacy privilege transition and coordinated UI durable identity are prepared separately for an owner decision if actual native results confirm the gap. No approved major financial contract is silently replaced here.

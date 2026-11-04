@@ -4,3 +4,6 @@
 
 
 dc9389c: both restore attempts failed specifically at pg_restore after source/Git preflight; safe receipt has command_failed:pg_restore with no recognized existing label. No successful restore is claimed. Add actual tool/server versions and finite-vocabulary first-error words (every unapproved token becomes ?). This gathers missing evidence instead of changing restore semantics/ignoring errors. Prior native financial/browser controls, cleanup and G0/B1 passed; G1 passed on80e56afc and has not been rerun for a diagnostic-only change.19source controls still pass locally.
+
+
+c702bdd9 safe receipt: pg_dump17.6, pg_restore17.6, server170006; pg_restore error words identify must be able to SET ROLE, so version mismatch is disproven. The normal postgres role cannot restore every original owner. Use the existing local supabase_admin bootstrap role only for pg_restore, first asserting it is an existing LOGIN superuser. No role/grant/owner/function changes are introduced and no --no-owner/--no-acl/error-ignore option is used. The original database remains read-only; restored replay/denial uses SET LOCAL ROLE authenticated. Exact owner/ACL comparisons remain mandatory. This is isolated test orchestration, not an application authorization change or production access.19source tests and syntax pass locally; new hosted acceptance pending.

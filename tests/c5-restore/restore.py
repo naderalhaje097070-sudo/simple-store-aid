@@ -109,6 +109,7 @@ def main():
         VERSIONS[tool] = version
     VERSIONS['server_version_num'] = sql('postgres', "select current_setting('server_version_num')::integer;")
     check('separate_target_absent', sql('postgres', "select count(*) from pg_database where datname='" + TARGET + "';") == 0)
+    check('existing_local_restore_admin', sql('postgres', "select coalesce((select rolsuper and rolcanlogin from pg_roles where rolname='supabase_admin'),false);") is True)
     state = json.loads(PRIVATE.read_text())
     before, structure = rows('postgres'), catalog('postgres')
     check('nonempty_finance_and_auth', all(before[t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))
@@ -122,7 +123,9 @@ def main():
         stream.write(archive)
     digest = hashlib.sha256(archive).hexdigest()
     command(['docker','exec',CONTAINER,'createdb','-U','postgres','-T','template0',TARGET])
-    command(['docker','exec','-i',CONTAINER,'pg_restore','-U','postgres','-d',TARGET,'--exit-on-error'], ARCHIVE.read_bytes())
+    # Preserve original owners/ACLs using the existing isolated bootstrap admin.
+    # No role, privilege, application function or original database is altered.
+    command(['docker','exec','-i',CONTAINER,'pg_restore','-U','supabase_admin','-d',TARGET,'--exit-on-error'], ARCHIVE.read_bytes())
     check('all_selected_relations_restored_exactly', rows(TARGET) == before)
     check('functions_RLS_policies_owners_ACLs_restored', catalog(TARGET) == structure)
     check('restored_original_key_returns_original_result', rpc(actor, sample) == sample['result'])

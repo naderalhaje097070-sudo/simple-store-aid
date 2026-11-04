@@ -313,7 +313,7 @@ def main():
     # EXTENSION runs as the restore user; template0 supplies builtin plpgsql.
     # initdb's actual vendor identity matches the measured builtin owner.
     check('builtin_template_extension_owner_matches', builtin_owner == BOOTSTRAP)
-    sql('template1','drop database postgres;')
+    sql('template1','drop database postgres with (force);')
     first, remainder, counts = partition_toc(source_command('pg_restore --list',ARCHIVE.read_bytes(),phase='archive_toc'))
     check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['remainder'])
     DETAILS['archive_toc_coverage'] = counts
@@ -384,7 +384,8 @@ def execute():
         result['discovery'] = DETAILS
         OUTDIR.mkdir(parents=True,exist_ok=True)
         (OUTDIR/('independent-restore-failure-canary.json' if canary else 'independent-restore-result.json')).write_text(json.dumps(result,indent=2)+'\n')
-    print(json.dumps({'independent_restore':result['restored'],'checks':len(CHECKS),'exit':exit_code,'failure_canary':canary,'phase':result.get('phase'),'reason':result.get('reason'),'cleanup':result.get('cleanup')}))
+    # Result contains only fixed checks/booleans/public image metadata; never snapshots, SQL, claims or credentials.
+    print('C5_INDEPENDENT_RECEIPT ' + json.dumps(result,separators=(',',':')))
     return exit_code
 
 

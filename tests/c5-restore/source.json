@@ -10,7 +10,7 @@
     }
   },
   "additions": {
-    "tests/c5-restore/restore.py": "42000d68758ab7edaaf3247f445aaf5d2b9a4e25",
+    "tests/c5-restore/restore.py": "c09f82df57aa885d7c622b53b59f8f7a17379876",
     "tests/c5-restore/test_identity.py": "47b7a0614baead1379e17b3dd900c6cb33898888",
     "tests/c5-restore/restore_identity.py": "e434b14d5c5c913ba2024882e9686853f1ff7e8e",
     ".github/workflows/c5-restore.yml": "67da373761cbe1d1065d4ba0a728f77dc5b61b40"

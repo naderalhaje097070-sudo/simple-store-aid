@@ -19,7 +19,7 @@ VERSIONS = {}
 
 def error_words(stderr):
     # Only finite public vocabulary is emitted, never arbitrary identifiers or values.
-    allowed = set('pg_restore error could not execute query cannot can only create extension database parameter unrecognized unsupported version input file too short end unexpected configuration transaction_timeout schema table function permission denied already exists does must be owner data type operator constraint duplicate key value invalid syntax for is reserved prefix role superuser access on set all publication subscription timeout'.split())
+    allowed = set('pg_restore error could not execute query cannot can only create extension database parameter unrecognized unsupported version input file too short end unexpected configuration transaction_timeout schema table function permission denied already exists does must be owner data type operator constraint duplicate key value invalid syntax for is reserved prefix role superuser access on set all publication subscription timeout connection server socket failed fatal peer authentication user'.split())
     lines = stderr.decode(errors='replace').splitlines()
     line = next((line for line in lines if 'error:' in line.lower()), '')
     return ' '.join(word if word in allowed else '?' for word in re.findall('[a-z_]+', line.lower()))
@@ -110,6 +110,7 @@ def main():
     VERSIONS['server_version_num'] = sql('postgres', "select current_setting('server_version_num')::integer;")
     check('separate_target_absent', sql('postgres', "select count(*) from pg_database where datname='" + TARGET + "';") == 0)
     check('existing_local_restore_admin', sql('postgres', "select to_jsonb(coalesce((select rolsuper and rolcanlogin from pg_roles where rolname='supabase_admin'),false));") is True)
+    check('existing_container_database_operator', command(['docker','exec','--user','postgres',CONTAINER,'id','-un']).decode().strip() == 'postgres')
     state = json.loads(PRIVATE.read_text())
     before, structure = rows('postgres'), catalog('postgres')
     check('nonempty_finance_and_auth', all(before[t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))
@@ -125,7 +126,7 @@ def main():
     command(['docker','exec',CONTAINER,'createdb','-U','postgres','-T','template0',TARGET])
     # Preserve original owners/ACLs using the existing isolated bootstrap admin.
     # No role, privilege, application function or original database is altered.
-    command(['docker','exec','-i',CONTAINER,'pg_restore','-U','supabase_admin','-d',TARGET,'--exit-on-error'], ARCHIVE.read_bytes())
+    command(['docker','exec','--user','postgres','-i',CONTAINER,'pg_restore','-U','supabase_admin','-d',TARGET,'--exit-on-error'], ARCHIVE.read_bytes())
     check('all_selected_relations_restored_exactly', rows(TARGET) == before)
     check('functions_RLS_policies_owners_ACLs_restored', catalog(TARGET) == structure)
     check('restored_original_key_returns_original_result', rpc(actor, sample) == sample['result'])

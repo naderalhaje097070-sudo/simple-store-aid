@@ -215,6 +215,72 @@ class RecoverySafety(unittest.TestCase):
         self.assertIn(b'EXTENSION - pg_graphql \n',rest)
         self.assertEqual(set(first.splitlines()) | set(rest.splitlines()),set(toc.splitlines()))
 
+    def catalog_fixture(self):
+        return {'structure':{'prior_catalog':{
+            'functions':[['public','synthetic_private_function','secret_argument text','private SQL body',True,['private_config=value'],'{owner=X/owner,user=X/owner}','private_owner']],
+            'tables':[['public','synthetic_private_table',True,True,'{owner=arwdDxt/owner}','private_owner']],
+            'policies':[{'schemaname':'public','tablename':'synthetic_private_table','policyname':'private_policy','permissive':'PERMISSIVE','roles':['private_role'],'cmd':'ALL','qual':'private SQL expression','with_check':'private check'}]},
+            'extra':{'schemas':[['private_namespace','private_owner','private ACL']] }},
+            'acl_semantics':{'functions':[['private grantor','private grantee','EXECUTE',False]],'tables':[['private grantor','private grantee','SELECT',False]]}}
+
+    def test_catalog_diagnostic_equal_and_does_not_mutate_inputs(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left);saved=copy.deepcopy(left)
+        result=r.catalog_diagnostics(left,right)
+        self.assertTrue(result['literal_equal']);self.assertTrue(result['semantic_acl_equal'])
+        self.assertEqual(left,saved);self.assertEqual(right,saved)
+
+    def test_catalog_diagnostic_acl_representation_never_passes_literal_gate(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left)
+        right['structure']['prior_catalog']['functions'][0][6]='{user=X/owner,owner=X/owner}'
+        result=r.catalog_diagnostics(left,right)
+        self.assertFalse(result['literal_equal']);self.assertTrue(result['semantic_acl_equal'])
+        self.assertEqual(result['functions']['field_counts']['acl'],1)
+        with self.assertRaises(RuntimeError):r.check('prior_functions_RLS_owners_ACLs_restored',result['literal_equal'])
+
+    def test_catalog_diagnostic_owner_and_rls_differences_remain_visible(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left)
+        right['structure']['prior_catalog']['functions'][0][7]='different_private_owner'
+        right['structure']['prior_catalog']['tables'][0][2]=False
+        result=r.catalog_diagnostics(left,right)
+        self.assertFalse(result['literal_equal']);self.assertEqual(result['functions']['field_counts']['owner'],1)
+        self.assertEqual(result['tables']['field_counts']['rls'],1)
+
+    def test_catalog_diagnostic_grantor_grantee_privilege_and_option_retained(self):
+        left=self.catalog_fixture()
+        for index in range(4):
+            right=copy.deepcopy(left);right['acl_semantics']['functions'][0][index]='different_private_value'
+            result=r.catalog_diagnostics(left,right)
+            self.assertFalse(result['semantic_acl_equal']);self.assertFalse(result['functions']['semantic_acl_equal'])
+
+    def test_catalog_diagnostic_missing_added_and_order_only_objects(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left)
+        extra=copy.deepcopy(left['structure']['prior_catalog']['functions'][0]);extra[1]='another_private_function'
+        left['structure']['prior_catalog']['functions'].append(extra)
+        right['structure']['prior_catalog']['functions']=[extra,right['structure']['prior_catalog']['functions'][0]]
+        result=r.catalog_diagnostics(left,right)
+        self.assertTrue(result['functions']['list_order_only']);self.assertFalse(result['literal_equal'])
+        right['structure']['prior_catalog']['functions'].pop()
+        result=r.catalog_diagnostics(left,right)
+        self.assertEqual(result['functions']['missing_count'],1)
+
+    def test_catalog_diagnostic_never_serializes_values_names_or_unknown_fields(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left)
+        right['structure']['prior_catalog']['functions'][0][3]='another private SQL body'
+        right['structure']['prior_catalog']['policies'][0]['qual']='another private expression'
+        right['structure']['extra']['schemas']=[];right['structure']['extra']['unknown_private_section']='private value'
+        result=r.catalog_diagnostics(left,right);serialized=json.dumps(result)
+        for value in ('synthetic_private','private_owner','private SQL','private_policy','private expression','private_namespace','private_config','unknown_private'):
+            self.assertNotIn(value,serialized)
+        self.assertEqual(result['extra_different_sections'],['schemas'])
+        self.assertTrue(all(len(h)==64 for h in result['functions']['changed_key_hashes']))
+
+    def test_catalog_diagnostic_invalid_or_duplicate_shape_fails_closed(self):
+        left=self.catalog_fixture();right=copy.deepcopy(left)
+        right['structure']['prior_catalog']['functions'].append(copy.deepcopy(right['structure']['prior_catalog']['functions'][0]))
+        with self.assertRaises(RuntimeError):r.catalog_diagnostics(left,right)
+        right=copy.deepcopy(left);right['structure']['prior_catalog']['functions'][0].append('private unexpected')
+        with self.assertRaises(RuntimeError):r.catalog_diagnostics(left,right)
+
 
 if __name__ == '__main__': unittest.main()
 

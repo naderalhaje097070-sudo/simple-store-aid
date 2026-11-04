@@ -148,6 +148,66 @@ def roles(database):
       'memberships',(select jsonb_agg(jsonb_build_array(r.rolname,m.rolname,g.rolname,a.admin_option,a.inherit_option,a.set_option) order by r.rolname,m.rolname,g.rolname) from pg_auth_members a join pg_roles r on r.oid=a.roleid join pg_roles m on m.oid=a.member join pg_roles g on g.oid=a.grantor));""")
 
 
+def acl_catalog(database):
+    # Diagnostic only: retain grantor/grantee/privilege/grant-option tuples.
+    # NULL is PostgreSQL's object default; an explicit empty ACL stays empty.
+    return sql(database, """select jsonb_build_object(
+      'functions',(select jsonb_agg(jsonb_build_array(n.nspname,p.proname,pg_get_function_identity_arguments(p.oid),
+        (select coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]'::jsonb) from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a))
+        order by n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','monjez_private')),
+      'tables',(select jsonb_agg(jsonb_build_array(n.nspname,c.relname,
+        (select coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]'::jsonb) from aclexplode(coalesce(c.relacl,acldefault('r',c.relowner))) a))
+        order by n.nspname,c.relname) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','monjez_private') and c.relkind in ('r','p'))
+      );""")
+
+
+def catalog_field_differences(before, after, fields, key_columns):
+    def indexed(rows):
+        result = {}
+        for row in rows or []:
+            key = json.dumps(row[:key_columns],separators=(',',':'),ensure_ascii=True)
+            if key in result or len(row) != len(fields):
+                raise RuntimeError('unexpected_catalog_diagnostic_shape')
+            result[key] = row
+        return result
+    left, right = indexed(before), indexed(after)
+    common = left.keys() & right.keys()
+    changed = [key for key in common if left[key] != right[key]]
+    return {'source_count':len(left),'recovered_count':len(right),
+            'missing_count':len(left.keys()-right.keys()),'added_count':len(right.keys()-left.keys()),
+            'changed_count':len(changed),'literal_equal':before == after,
+            'list_order_only':before != after and left == right,
+            'field_counts':{field:sum(left[key][index] != right[key][index] for key in common)
+                            for index,field in enumerate(fields)},
+            'changed_key_hashes':sorted(hashlib.sha256(key.encode()).hexdigest() for key in changed)[:4]}
+
+
+def catalog_diagnostics(before, after):
+    """Publish fixed field labels/counts/key hashes; never values or raw identities.
+
+    This function does not mutate snapshots or decide whether a restore passes.
+    """
+    left, right = before['structure']['prior_catalog'], after['structure']['prior_catalog']
+    policy_fields = ('schema','table','name','permissive','roles','command','using','with_check')
+    def policies(rows):
+        return [[p.get(key) for key in ('schemaname','tablename','policyname','permissive','roles','cmd','qual','with_check')]
+                for p in rows or []]
+    result = {'literal_equal':left == right,
+        'functions':catalog_field_differences(left['functions'],right['functions'],
+            ('schema','name','arguments','body','security_definer','config','acl','owner'),3),
+        'tables':catalog_field_differences(left['tables'],right['tables'],
+            ('schema','name','rls','forced_rls','acl','owner'),2),
+        'policies':catalog_field_differences(policies(left['policies']),policies(right['policies']),policy_fields,3),
+        'semantic_acl_equal':before['acl_semantics'] == after['acl_semantics']}
+    for kind in ('functions','tables'):
+        result[kind]['semantic_acl_equal'] = before['acl_semantics'][kind] == after['acl_semantics'][kind]
+    sections = ('schemas','extensions','vendor_functions','event_triggers','constraints','indexes','triggers',
+                'sequences','database','settings','sequence_positions')
+    result['extra_different_sections'] = [s for s in sections
+        if before['structure']['extra'].get(s) != after['structure']['extra'].get(s)]
+    return result
+
+
 def snapshot(database):
     global SECTION
     result = {}
@@ -158,6 +218,8 @@ def snapshot(database):
         result['structure'] = structure(database)
         SECTION = 'roles'
         result['roles'] = roles(database)
+        SECTION = 'acl_semantics'
+        result['acl_semantics'] = acl_catalog(database)
         SECTION = 'cron_jobs'
         result['cron_jobs'] = sql(database, "select coalesce(jsonb_agg(to_jsonb(j) order by jobid),'[]') from cron.job j;")
         return result
@@ -421,6 +483,7 @@ def main():
     run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','postgres','--exit-on-error','--use-list=/tmp/c5-remainder.list'],ARCHIVE.read_bytes(),phase='pg_restore_all_remaining_entries')
     check('scheduler_stays_disabled', sql('recovery',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
     recovered = snapshot('recovery')
+    DETAILS['catalog_diagnostics'] = catalog_diagnostics(BEFORE,recovered)
     check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])
     check('prior_functions_RLS_owners_ACLs_restored', recovered['structure']['prior_catalog'] == BEFORE['structure']['prior_catalog'])
     for section in BEFORE['structure']['extra']:

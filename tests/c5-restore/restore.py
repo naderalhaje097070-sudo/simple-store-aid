@@ -13,16 +13,28 @@ TARGET = 'monjez_c5_restore'
 PRIVATE = Path('/tmp/monjez-c5sale/private-state.json')
 OUT = Path('/tmp/monjez-c5sale/evidence/restore-result.json')
 ARCHIVE = Path('/tmp/monjez-c5-restore-private.dump')
+PHASE = 'preflight'
+
+
+def classify(stderr):
+    text = stderr.decode(errors='replace').lower()
+    return [name for name in ('dubious ownership', 'permission denied', 'already exists',
+            'does not exist', 'pg_cron', 'must be owner', 'extension', 'superuser',
+            'connection refused', 'could not connect') if name in text]
 
 
 def command(args, data=None):
+    global PHASE
+    PHASE = next((a for a in args if a in ('git','pg_dump','pg_restore','createdb')), 'container_inspect')
     result = subprocess.run(args, input=data, capture_output=True, timeout=180)
     if result.returncode:
-        raise RuntimeError('local_restore_command_failed:' + args[0])
+        raise RuntimeError('command_failed:' + PHASE + ':' + ','.join(classify(result.stderr)))
     return result.stdout
 
 
 def sql(database, statement, denied=None):
+    global PHASE
+    PHASE = 'SQL_' + database
     assert database in ('postgres', TARGET)
     args = ['docker', 'exec', '-i', CONTAINER, 'psql', '-X', '-U', 'postgres', '-d', database,
             '-Atq', '-v', 'ON_ERROR_STOP=1']
@@ -31,7 +43,7 @@ def sql(database, statement, denied=None):
         assert result.returncode != 0 and denied.encode() in result.stderr
         return None
     if result.returncode:
-        raise RuntimeError('local_restore_SQL_failed')
+        raise RuntimeError('SQL_failed:' + ','.join(classify(result.stderr)))
     return json.loads(result.stdout)
 
 
@@ -77,9 +89,10 @@ def main():
         checks.append({'name': name, 'passed': bool(passed)})
         if not passed:
             raise RuntimeError(name)
-    source = command(['git', 'rev-parse', 'HEAD']).decode().strip()
+    git = ['git','-c','safe.directory=/tmp/monjez-c5sale/repo']
+    source = command([*git, 'rev-parse', 'HEAD']).decode().strip()
     check('exact_source_and_isolation', source == os.environ['EXPECTED_SOURCE'] and os.environ.get('CI_ISOLATED_SUPABASE') == '1')
-    check('tracked_source_clean', subprocess.run(['git','diff','--quiet','HEAD','--']).returncode == 0)
+    check('tracked_source_clean', subprocess.run([*git,'diff','--quiet','HEAD','--']).returncode == 0)
     check('fixed_local_container', command(['docker','inspect','--format','{{.Name}}',CONTAINER]).decode().strip() == '/' + CONTAINER)
     check('separate_target_absent', sql('postgres', "select count(*) from pg_database where datname='" + TARGET + "';") == 0)
     state = json.loads(PRIVATE.read_text())
@@ -120,7 +133,7 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error:
-        OUT.write_text(json.dumps({'source':os.environ.get('EXPECTED_SOURCE'),'restored':False,'failure_type':type(error).__name__})+'\n')
+        OUT.write_text(json.dumps({'source':os.environ.get('EXPECTED_SOURCE'),'restored':False,'failure_type':type(error).__name__,'phase':PHASE,'reason':str(error) if type(error) is RuntimeError else 'private_details_withheld'})+'\n')
         print('C5_RESTORE_FAILED_PRIVATE_DETAILS_WITHHELD')
         raise SystemExit(2)
     finally:

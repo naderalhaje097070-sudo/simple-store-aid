@@ -223,8 +223,15 @@ def split_graphql_prerequisites(toc):
         match = re.fullmatch(r'(\d+);\s+\d+\s+\d+\s+(.+)',line)
         if not match or int(match[1]) in ids:
             raise RuntimeError('invalid_graphql_toc_entry')
-        ids.add(int(match[1])); entries.append((int(match[1]),match[2],line))
+        # An empty archive owner leaves a trailing separator (not an identifier).
+        # Normalize comparison only; retain the exact original execution line.
+        ids.add(int(match[1])); entries.append((int(match[1]),match[2].rstrip(),line))
     descriptions = [d for _,d,_ in entries]
+    DETAILS['graphql_archive'] = {'helper_entries':descriptions.count(helper),
+        'trigger_entries':descriptions.count(trigger),
+        'extension_entries':descriptions.count('EXTENSION - pg_graphql'),
+        'wrapper_declarations':sum(d.startswith('FUNCTION graphql_public graphql(') for d in descriptions),
+        'trailing_separator_entries':sum(line != line.rstrip() for _,_,line in entries)}
     if (descriptions.count(helper) != 1 or descriptions.count(trigger) != 1
         or descriptions.count('EXTENSION - pg_graphql') != 1
         or any(d.startswith('FUNCTION graphql_public graphql(') for d in descriptions)):

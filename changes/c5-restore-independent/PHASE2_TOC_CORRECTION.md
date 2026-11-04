@@ -1,0 +1,7 @@
+# Phase2 archive descriptor comparison correction
+
+First candidate a58802f3/run41905909940 measured actual wrapper extension membership and exact source owners/enabled hook. The source helper-definition SHA256 is c3a126f9bf8958b3af27e6bec128aca58627df257259003b59511fdd3af82333. The strict archive guard then stopped before target creation (21 passing checks); no restore-order repair was selected. Source/target/private-file cleanup passed. Preserve this failed run and its original artifacts, with no transferred acceptance.
+
+A local regression with pg_restore TOC's empty-owner trailing separator fails the current literal descriptor equality. Normalize trailing whitespace only for descriptor comparisons, preserving every original raw archive line and ID. Add bounded integer counts for the exact helper/trigger/extension/wrapper predicates so the next native result confirms which prerequisites exist without exposing object descriptions. No unknown owner, extra wrapper declaration, missing/duplicate prerequisite or malformed ID is accepted. All26local safety/TOC/privacy tests and AST pass; one new test fails on a588 while25existing pass. Actual successful TOC admission and restore remain pending.
+
+No application/SQL/migration/dependency/prior helper/manifest change. This is a narrow test-parser correction within the existing phase2 claim, not a retry that ignores the failed source contract. No merge/deploy/production/closure/newcost/financial action.

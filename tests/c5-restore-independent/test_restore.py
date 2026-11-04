@@ -208,6 +208,13 @@ class RecoverySafety(unittest.TestCase):
         for data in (self.graphql_toc()+b'1; 0 0 COMMENT - unrelated postgres\n', self.graphql_toc()+b'unrecognized private entry\n'):
             with self.assertRaises(RuntimeError): r.split_graphql_prerequisites(data)
 
+    def test_graphql_toc_empty_owner_trailing_space_keeps_original_archive_line(self):
+        toc=self.graphql_toc().replace(b'EXTENSION - pg_graphql\n',b'EXTENSION - pg_graphql \n')
+        first,rest,counts=r.split_graphql_prerequisites(toc)
+        self.assertEqual(counts, {'prerequisites':2,'remainder':6})
+        self.assertIn(b'EXTENSION - pg_graphql \n',rest)
+        self.assertEqual(set(first.splitlines()) | set(rest.splitlines()),set(toc.splitlines()))
+
 
 if __name__ == '__main__': unittest.main()
 

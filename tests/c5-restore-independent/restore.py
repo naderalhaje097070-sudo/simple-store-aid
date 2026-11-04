@@ -19,7 +19,7 @@ prior = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(prior)
 SOURCE = prior.CONTAINER
 TARGET = 'monjez-c5-independent-recovery'
-BOOTSTRAP = 'c5_recovery_bootstrap'
+BOOTSTRAP = 'supabase_admin'
 LABEL = 'monjez.c5-recovery.source'
 PRIVATE = prior.PRIVATE
 ARCHIVE = Path('/tmp/monjez-c5-independent.dump')
@@ -114,7 +114,7 @@ def structure(database):
 
 def roles(database):
     return sql(database, """select jsonb_build_object(
-      'roles',(select jsonb_agg(to_jsonb(r)-'oid'-'rolpassword' order by rolname) from pg_roles r where rolname <> 'c5_recovery_bootstrap'),
+      'roles',(select jsonb_agg(to_jsonb(r)-'oid'-'rolpassword' order by rolname) from pg_roles r),
       'memberships',(select jsonb_agg(jsonb_build_array(r.rolname,m.rolname,g.rolname,a.admin_option,a.inherit_option,a.set_option) order by r.rolname,m.rolname,g.rolname) from pg_auth_members a join pg_roles r on r.oid=a.roleid join pg_roles m on m.oid=a.member join pg_roles g on g.oid=a.grantor));""")
 
 
@@ -171,6 +171,17 @@ def partition_toc(toc):
     return encode(first), encode(rest), {'all':len(all_ids),'bootstrap':len(first),'remainder':len(rest)}
 
 
+def prepare_roles(role_dump):
+    # Supabase's patched server requires its real bootstrap administrator for
+    # reserved-role management. initdb has already created precisely that role.
+    # Remove only the one expected CREATE; all ALTER/config/grants remain fatal.
+    declaration = b'CREATE ROLE supabase_admin;'
+    lines = role_dump.splitlines(keepends=True)
+    if sum(line.rstrip(b'\r\n') == declaration for line in lines) != 1:
+        raise RuntimeError('bootstrap_role_declaration_count')
+    return b''.join(line for line in lines if line.rstrip(b'\r\n') != declaration)
+
+
 def target_info():
     return json.loads(run(['docker','inspect',TARGET_ID],phase='target_identity'))[0]
 
@@ -217,7 +228,7 @@ def main():
     check('exact_source_image', re.fullmatch('sha256:[0-9a-f]{64}',image) and src['Name'] == '/'+SOURCE)
     image_meta = json.loads(run(['docker','image','inspect',image],phase='image_identity'))[0]
     check('image_has_no_automatic_volumes', not image_meta['Config'].get('Volumes'))
-    check('bootstrap_role_absent_on_source', sql('source',"select count(*) from pg_roles where rolname='c5_recovery_bootstrap';") == 0)
+    check('original_vendor_bootstrap_identity', sql('source',"select to_jsonb(rolsuper and rolcanlogin) from pg_roles where rolname='supabase_admin';") is True)
     settings = sql('source', "select jsonb_object_agg(name,setting) from pg_settings where name in ('shared_preload_libraries','cron.database_name','pgsodium.getkey_script','vault.getkey_script','server_version_num');")
     check('original_database_and_cron_name', settings.get('cron.database_name') == 'postgres' and 'pg_cron' in [x.strip() for x in settings['shared_preload_libraries'].split(',')])
     check('preload_setting_safe', re.fullmatch('[a-zA-Z0-9_, $/.-]+', settings['shared_preload_libraries']) is not None)
@@ -244,8 +255,8 @@ def main():
     archive = source_command('pg_dump -U supabase_admin -d postgres -Fc',phase='full_dump')
     check('full_custom_archive', archive.startswith(b'PGDMP') and len(archive) > 1000)
     private_file(ARCHIVE,archive)
-    role_dump = source_command('pg_dumpall -U supabase_admin --roles-only --no-role-passwords',phase='global_roles_dump')
-    check('roles_archive_present', b'CREATE ROLE' in role_dump and BOOTSTRAP.encode() not in role_dump)
+    role_dump = prepare_roles(source_command('pg_dumpall -U supabase_admin --roles-only --no-role-passwords',phase='global_roles_dump'))
+    check('only_expected_bootstrap_create_prehandled', b'CREATE ROLE' in role_dump and b'ALTER ROLE supabase_admin ' in role_dump)
     private_file(ROLES,role_dump)
     DETAILS['archive_sha256'] = hashlib.sha256(archive).hexdigest()
     # A private tmpfs cluster bypasses the image's service bootstrap scripts.
@@ -300,10 +311,9 @@ def main():
     check('builtin_owner_safe', re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*',builtin_owner) is not None)
     # Standard pg_dump intentionally does not encode extension owners. Its CREATE
     # EXTENSION runs as the restore user; template0 supplies builtin plpgsql.
-    # Reassign only fresh target bootstrap objects, before recreating postgres.
-    sql('template1','alter database template0 allow_connections true;')
-    sql('template0','reassign owned by '+BOOTSTRAP+' to "'+builtin_owner+'";')
-    sql('template1','alter database template0 allow_connections false; drop database postgres;')
+    # initdb's actual vendor identity matches the measured builtin owner.
+    check('builtin_template_extension_owner_matches', builtin_owner == BOOTSTRAP)
+    sql('template1','drop database postgres;')
     first, remainder, counts = partition_toc(source_command('pg_restore --list',ARCHIVE.read_bytes(),phase='archive_toc'))
     check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['remainder'])
     DETAILS['archive_toc_coverage'] = counts

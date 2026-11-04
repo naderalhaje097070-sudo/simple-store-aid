@@ -140,5 +140,17 @@ class RecoverySafety(unittest.TestCase):
         for toc in [b'1; 0 0 DATABASE - postgres owner\n',b'2; 0 0 TABLE public x owner\n']:
             with self.assertRaises(RuntimeError):r.partition_toc(toc)
 
+    def test_only_known_bootstrap_create_is_prehandled(self):
+        original=b'CREATE ROLE supabase_admin;\nALTER ROLE supabase_admin WITH SUPERUSER;\nCREATE ROLE postgres;\nGRANT postgres TO supabase_admin;\n'
+        self.assertEqual(r.prepare_roles(original),b'ALTER ROLE supabase_admin WITH SUPERUSER;\nCREATE ROLE postgres;\nGRANT postgres TO supabase_admin;\n')
+
+    def test_bootstrap_create_missing_or_duplicate_fails(self):
+        for data in [b'CREATE ROLE postgres;\n',b'CREATE ROLE supabase_admin;\nCREATE ROLE supabase_admin;\n']:
+            with self.assertRaises(RuntimeError):r.prepare_roles(data)
+
+    def test_role_alterations_and_grants_preserved_exact(self):
+        tail=b'ALTER ROLE supabase_admin WITH NOSUPERUSER;\nALTER ROLE postgres SET statement_timeout TO 10;\nGRANT pg_monitor TO postgres;\n'
+        self.assertEqual(r.prepare_roles(b'CREATE ROLE supabase_admin;\n'+tail),tail)
+
 
 if __name__ == '__main__': unittest.main()

@@ -27,6 +27,7 @@ ROLES = Path('/tmp/monjez-c5-independent.roles')
 OUTDIR = Path('/tmp/monjez-c5sale/evidence')
 CHECKS = []
 PHASE = 'preflight'
+SECTION = 'none'
 DETAILS = {}
 CREATED_FILES = set()
 TARGET_ID = None
@@ -57,15 +58,15 @@ def source_command(command, data=None, phase='source'):
 
 def sql(database, statement, denied=None):
     global PHASE
-    assert database in ('source','recovery','template1')
-    PHASE = 'sql_' + database
+    assert database in ('source','recovery','template1','template0')
+    PHASE = 'sql_' + database + '_' + SECTION
     if database == 'source':
         args = ['docker','exec','--user','postgres','-i',SOURCE,'sh','-ec',
                 ADMIN + 'exec psql -X -U supabase_admin -d postgres -Atq -v ON_ERROR_STOP=1']
     else:
         assert TARGET_ID is not None
         args = ['docker','exec','--user','postgres','-i',TARGET_ID,'psql','-X',
-                '-h','/tmp','-U',BOOTSTRAP,'-d','template1' if database == 'template1' else 'postgres',
+                '-h','/tmp','-U',BOOTSTRAP,'-d',database if database in ('template0','template1') else 'postgres',
                 '-Atq','-v','ON_ERROR_STOP=1']
     result = subprocess.run(args, input=statement.encode(), capture_output=True, timeout=90)
     if denied:
@@ -108,8 +109,20 @@ def roles(database):
 
 
 def snapshot(database):
-    return {'rows': prior.rows(database), 'structure': structure(database), 'roles': roles(database),
-            'cron_jobs': sql(database, "select coalesce(jsonb_agg(to_jsonb(j) order by jobid),'[]') from cron.job j;")}
+    global SECTION
+    result = {}
+    try:
+        SECTION = 'rows'
+        result['rows'] = prior.rows(database)
+        SECTION = 'structure'
+        result['structure'] = structure(database)
+        SECTION = 'roles'
+        result['roles'] = roles(database)
+        SECTION = 'cron_jobs'
+        result['cron_jobs'] = sql(database, "select coalesce(jsonb_agg(to_jsonb(j) order by jobid),'[]') from cron.job j;")
+        return result
+    finally:
+        SECTION = 'none'
 
 
 def private_file(path, value):
@@ -180,6 +193,7 @@ def main():
                     'server_version_num':settings['server_version_num'],'shared_preload_libraries':settings['shared_preload_libraries'],
                     'cron_database':'postgres','scheduler_execution':'disabled; not accepted','network_mode':'none','host_ports':False})
     BEFORE = snapshot('source')
+    DETAILS['extensions'] = BEFORE['structure']['extra']['extensions']
     check('nonempty_finance_and_auth', all(BEFORE['rows'][t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))
     archive = source_command('pg_dump -U supabase_admin -d postgres -Fc',phase='full_dump')
     check('full_custom_archive', archive.startswith(b'PGDMP') and len(archive) > 1000)
@@ -222,10 +236,26 @@ def main():
         raise RuntimeError('injected_after_global_roles')
     # Only the attested independent target's default empty postgres DB is dropped.
     # --create restores the original name, database settings/owner/ACL from archive.
-    sql('template1','drop database postgres;')
-    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U',BOOTSTRAP,'-d','template1','--create','--exit-on-error'],ARCHIVE.read_bytes(),phase='pg_restore_full')
+    extensions = BEFORE['structure']['extra']['extensions']
+    builtin_owner = next(e[3] for e in extensions if e[0] == 'plpgsql')
+    restore_owners = {e[3] for e in extensions if e[0] != 'plpgsql'}
+    check('known_uniform_extension_restore_owner', restore_owners == {'supabase_admin'})
+    check('builtin_owner_safe', re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*',builtin_owner) is not None)
+    # Standard pg_dump intentionally does not encode extension owners. Its CREATE
+    # EXTENSION runs as the restore user; template0 supplies builtin plpgsql.
+    # Reassign only fresh target bootstrap objects, before recreating postgres.
+    sql('template1','alter database template0 allow_connections true;')
+    sql('template0','reassign owned by '+BOOTSTRAP+' to "'+builtin_owner+'";')
+    sql('template1','alter database template0 allow_connections false; drop database postgres;')
+    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','template1','--create','--exit-on-error'],ARCHIVE.read_bytes(),phase='pg_restore_full')
     check('scheduler_stays_disabled', sql('recovery',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
-    check('all_selected_rows_and_schema_and_roles_restored', snapshot('recovery') == BEFORE)
+    recovered = snapshot('recovery')
+    check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])
+    check('prior_functions_RLS_owners_ACLs_restored', recovered['structure']['prior_catalog'] == BEFORE['structure']['prior_catalog'])
+    for section in BEFORE['structure']['extra']:
+        check('metadata_restored_' + section, recovered['structure']['extra'][section] == BEFORE['structure']['extra'][section])
+    check('roles_restored', recovered['roles'] == BEFORE['roles'])
+    check('cron_definitions_restored', recovered['cron_jobs'] == BEFORE['cron_jobs'])
     state = json.loads(PRIVATE.read_text())
     sample = sql('recovery',"select jsonb_build_object('key',i.idempotency_key,'order_id',o.id,'amount',(i.request_payload->>'amount')::numeric,'method',i.request_payload->>'method','result',i.result,'actor',i.created_by,'paid',o.paid,'payments',(select count(*) from public.payments where order_id=o.id)) from public.financial_idempotency i join public.orders o on o.id=(i.request_payload->>'order_id')::uuid where i.operation='order.debt.collect.v1' and i.result is not null and o.total-o.paid>=20 order by i.created_at limit 1;")
     actor = next(a for a in state['actors'].values() if a['uid'] == sample['actor'])
@@ -272,7 +302,7 @@ def execute():
         result['discovery'] = DETAILS
         OUTDIR.mkdir(parents=True,exist_ok=True)
         (OUTDIR/('independent-restore-failure-canary.json' if canary else 'independent-restore-result.json')).write_text(json.dumps(result,indent=2)+'\n')
-    print(json.dumps({'independent_restore':result['restored'],'checks':len(CHECKS),'exit':exit_code,'failure_canary':canary}))
+    print(json.dumps({'independent_restore':result['restored'],'checks':len(CHECKS),'exit':exit_code,'failure_canary':canary,'phase':result.get('phase'),'reason':result.get('reason'),'cleanup':result.get('cleanup')}))
     return exit_code
 
 

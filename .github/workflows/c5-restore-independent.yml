@@ -224,7 +224,7 @@ jobs:
             sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
             sudo chown -R "$(id -un):$(id -gn)" "$out"
           fi
-          sudo python - <<'PY'
+          sudo env RUNNER_TEMP="$RUNNER_TEMP" EXPECTED_SOURCE="$EXPECTED_SOURCE" python - <<'PY'
           import json,os,subprocess
           from pathlib import Path
           out=Path(os.environ['RUNNER_TEMP'])/'c5finance-evidence'

@@ -55,6 +55,12 @@ class RecoverySafety(unittest.TestCase):
         i=self.info();i['NetworkSettings']['Ports']={'5432/tcp':None}
         self.assertTrue(self.validate(i))
 
+    def test_only_private_tmpfs_mounts_allowed(self):
+        i=self.info();i['Mounts']=[{'Type':'tmpfs','Destination':'/tmp'}, {'Type':'tmpfs','Destination':'/etc/postgresql-custom'}]
+        self.assertTrue(self.validate(i))
+        for mount in [{'Type':'bind','Destination':'/tmp'}, {'Type':'volume','Destination':'/etc/postgresql-custom'}, {'Type':'tmpfs','Destination':'/unreviewed'}]:
+            i=self.info();i['Mounts']=[mount];self.assertFalse(self.validate(i))
+
     def test_private_exclusive_files(self):
         r.private_file(r.ARCHIVE,b'synthetic-private')
         self.assertEqual(r.ARCHIVE.stat().st_mode & 0o777,0o600)
@@ -105,6 +111,34 @@ class RecoverySafety(unittest.TestCase):
         self.assertNotIn('synthetic_secret_value',str(failure.exception))
         self.assertNotIn('private-stdout',str(failure.exception))
         self.assertIn('permission denied',str(failure.exception))
+
+    def test_toc_partition_covers_every_entry_once(self):
+        toc=b'''; private archive comment
+1; 1262 1 DATABASE - postgres supabase_admin
+2; 0 0 DATABASE PROPERTIES - postgres supabase_admin
+3; 2615 2 SCHEMA - pgmq postgres
+4; 0 0 ACL - DATABASE postgres supabase_admin
+5; 0 0 ACL - SCHEMA pgmq postgres
+6; 3079 3 EXTENSION - pgmq
+7; 1259 4 TABLE public orders postgres
+8; 0 4 TABLE DATA public orders postgres
+9; 0 4 ACL public TABLE orders postgres
+'''
+        first,rest,counts=r.partition_toc(toc)
+        self.assertEqual(counts,{'all':9,'bootstrap':4,'remainder':5})
+        self.assertIn(b'EXTENSION - pgmq',rest)
+        self.assertIn(b'ACL - SCHEMA pgmq',rest)
+        self.assertIn(b'TABLE DATA',rest)
+        self.assertNotIn(b'TABLE DATA',first)
+        self.assertEqual(set(first.splitlines()+rest.splitlines()),set(toc.splitlines()[1:]))
+
+    def test_toc_duplicate_or_unknown_lines_rejected(self):
+        for toc in [b'1; 0 0 DATABASE - postgres owner\n1; 0 0 TABLE public x owner\n',b'not a toc entry\n']:
+            with self.assertRaises(RuntimeError):r.partition_toc(toc)
+
+    def test_toc_requires_both_partitions(self):
+        for toc in [b'1; 0 0 DATABASE - postgres owner\n',b'2; 0 0 TABLE public x owner\n']:
+            with self.assertRaises(RuntimeError):r.partition_toc(toc)
 
 
 if __name__ == '__main__': unittest.main()

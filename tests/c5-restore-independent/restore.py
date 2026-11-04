@@ -67,7 +67,8 @@ def sql(database, statement, denied=None):
     else:
         assert TARGET_ID is not None
         args = ['docker','exec','--user','postgres','-i',TARGET_ID,'psql','-X',
-                '-h','/tmp','-U',BOOTSTRAP,'-d',database if database in ('template0','template1') else 'postgres',
+                '-h','/tmp','-U','supabase_admin' if database == 'recovery' else BOOTSTRAP,
+                '-d',database if database in ('template0','template1') else 'postgres',
                 '-Atq','-v','ON_ERROR_STOP=1']
     result = subprocess.run(args, input=statement.encode(), capture_output=True, timeout=90)
     if denied:
@@ -142,6 +143,34 @@ def private_file(path, value):
     check('private_mode_' + ('archive' if path == ARCHIVE else 'roles'), path.stat().st_mode & 0o777 == 0o600)
 
 
+def partition_toc(toc):
+    """Partition execution, never discard an archive entry or an extension.
+
+    DB/schema/database-ACL creation precedes mixed-owner extension bootstrap;
+    every other TOC entry is subsequently restored, with errors fatal in both.
+    """
+    first, rest, all_ids = [], [], set()
+    for line in toc.decode().splitlines():
+        if not line or line.startswith(';'):
+            continue
+        match = re.fullmatch(r'(\d+);\s+\d+\s+\d+\s+(.+)',line)
+        if not match:
+            raise RuntimeError('invalid_archive_toc_entry')
+        entry, description = int(match[1]), match[2]
+        if entry in all_ids:
+            raise RuntimeError('duplicate_archive_toc_entry')
+        all_ids.add(entry)
+        bootstrap = (re.match(r'(DATABASE(?: PROPERTIES)?|SCHEMA) ',description) is not None
+                     or description.startswith('ACL - DATABASE '))
+        (first if bootstrap else rest).append((entry,line))
+    if not first or not rest:
+        raise RuntimeError('empty_archive_toc_partition')
+    assert not ({i for i,_ in first} & {i for i,_ in rest})
+    assert {i for i,_ in first+rest} == all_ids
+    encode = lambda values: ('\n'.join(line for _,line in values)+'\n').encode()
+    return encode(first), encode(rest), {'all':len(all_ids),'bootstrap':len(first),'remainder':len(rest)}
+
+
 def target_info():
     return json.loads(run(['docker','inspect',TARGET_ID],phase='target_identity'))[0]
 
@@ -151,7 +180,8 @@ def validate_target(info, source_id, image, expected_source):
             and info['Name'] == '/'+TARGET and info['Config']['Labels'].get(LABEL) == expected_source
             and info['HostConfig']['NetworkMode'] == 'none' and not info['HostConfig']['PortBindings']
             and all(not bindings for bindings in (info['NetworkSettings']['Ports'] or {}).values()) and not info['HostConfig']['Binds']
-            and not info['Mounts'] and info['HostConfig']['ReadonlyRootfs']
+            and all(m.get('Type') == 'tmpfs' and m.get('Destination') in ('/tmp','/etc/postgresql-custom') for m in info['Mounts'])
+            and info['HostConfig']['ReadonlyRootfs']
             and info['Config']['User'] == 'postgres')
 
 
@@ -200,10 +230,16 @@ def main():
     check('role_dump_required_flags', b'--no-role-passwords' in source_command('pg_dumpall --help',phase='tool_help'))
     DETAILS.update({'image_id':image,'image_repo_digests':image_meta.get('RepoDigests',[]),'tools':versions,
                     'server_version_num':settings['server_version_num'],'shared_preload_libraries':settings['shared_preload_libraries'],
-                    'cron_database':'postgres','scheduler_execution':'disabled; not accepted','network_mode':'none','host_ports':False})
+                    'cron_database':'postgres','scheduler_execution':'requested disabled; target attestation pending',
+                    'target_created_and_contained':False,'network_mode':'none','host_ports':False})
     BEFORE = snapshot('source')
     check('native_sequence_regression_and_position_read', SEQUENCE_REGRESSION_PROVED)
     DETAILS['extensions'] = BEFORE['structure']['extra']['extensions']
+    # This drill does not recover provider master keys. Fail closed if the fixture
+    # contains Vault/pgsodium key-dependent records rather than claiming they work.
+    for schema, table in (('vault','secrets'),('pgsodium','key')):
+        if sql('source', "select to_jsonb(to_regclass('"+schema+'.'+table+"') is not null);"):
+            check('no_master_key_dependent_fixture_'+schema, sql('source','select count(*) from "'+schema+'"."'+table+'";') == 0)
     check('nonempty_finance_and_auth', all(BEFORE['rows'][t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))
     archive = source_command('pg_dump -U supabase_admin -d postgres -Fc',phase='full_dump')
     check('full_custom_archive', archive.startswith(b'PGDMP') and len(archive) > 1000)
@@ -214,7 +250,7 @@ def main():
     DETAILS['archive_sha256'] = hashlib.sha256(archive).hexdigest()
     # A private tmpfs cluster bypasses the image's service bootstrap scripts.
     # No source mounts, source credentials, host ports or network connectivity.
-    script = ('set -eu; initdb -D /tmp/c5pg -U '+BOOTSTRAP+' --auth-local=trust --auth-host=reject --encoding=UTF8 > /tmp/init-private.log 2>&1; '
+    script = ('set -eu; initdb -D /tmp/c5pg -U '+BOOTSTRAP+' --auth-local=trust --auth-host=reject --encoding=UTF8; '
               'exec postgres -D /tmp/c5pg -c listen_addresses= -c unix_socket_directories=/tmp -c unix_socket_permissions=0700 '
               '-c cron.database_name=postgres -c cron.launch_active_jobs=off -c wal_level=logical "$@"')
     config = ['-c','shared_preload_libraries='+settings['shared_preload_libraries']]
@@ -222,13 +258,18 @@ def main():
         if settings.get(name):
             check('key_script_path_'+name, re.fullmatch('/[a-zA-Z0-9_/.-]+',settings[name]) is not None)
             config += ['-c',name+'='+settings[name]]
+    operator_uid = int(run(['docker','exec','--user','postgres',SOURCE,'id','-u'],phase='operator_uid'))
+    operator_gid = int(run(['docker','exec','--user','postgres',SOURCE,'id','-g'],phase='operator_gid'))
+    check('nonroot_operator_uid_gid', 0 < operator_uid < 65536 and 0 < operator_gid < 65536)
     TARGET_ID = run(['docker','create','--name',TARGET,'--label',LABEL+'='+source,'--network','none',
                     '--read-only','--tmpfs','/tmp:rw,mode=1777,size=1073741824','--shm-size','256m',
+                    '--tmpfs','/etc/postgresql-custom:rw,mode=0700,uid='+str(operator_uid)+',gid='+str(operator_gid),
                     '--user','postgres','--cap-drop','ALL','--security-opt','no-new-privileges',
                     '--no-healthcheck','--entrypoint','sh',image,'-ec',script,'c5-recovery',*config],phase='create_target').decode().strip()
     check('created_target_id', re.fullmatch('[0-9a-f]{64}',TARGET_ID) is not None)
     run(['docker','start',TARGET_ID],phase='start_target')
-    check('distinct_no_network_no_mount_target', validate_target(target_info(),src['Id'],image,source))
+    check('distinct_no_network_no_host_mount_target', validate_target(target_info(),src['Id'],image,source))
+    DETAILS['target_created_and_contained'] = True
     for _ in range(50):
         ready = subprocess.run(['docker','exec','--user','postgres',TARGET_ID,'pg_isready','-h','/tmp','-U',BOOTSTRAP,'-d','template1'],capture_output=True,timeout=5)
         if ready.returncode == 0:
@@ -236,7 +277,13 @@ def main():
         time.sleep(.2)
     else:
         # Fixed vocabulary only; underlying startup log stays private.
+        output = subprocess.run(['docker','logs',TARGET_ID],stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)
+        logs = output.stdout.decode(errors='replace').lower()
+        DETAILS['startup_labels'] = [label for label in ('read-only file system','permission denied','invalid locale','initdb','could not load library','fatal','pgsodium','no such file or directory') if label in logs]
+        DETAILS['target_running'] = bool(target_info()['State']['Running'])
         raise RuntimeError('target_readiness_failed')
+    check('target_cron_disabled_before_role_restore', sql('template1',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
+    DETAILS['scheduler_execution'] = 'disabled before role/archive restore; scheduler execution not accepted'
     source_system = sql('source',"select system_identifier::text::jsonb from pg_control_system();")
     target_system = sql('template1',"select system_identifier::text::jsonb from pg_control_system();")
     check('distinct_cluster_system_identifier', source_system != target_system)
@@ -248,8 +295,8 @@ def main():
     # --create restores the original name, database settings/owner/ACL from archive.
     extensions = BEFORE['structure']['extra']['extensions']
     builtin_owner = next(e[3] for e in extensions if e[0] == 'plpgsql')
-    restore_owners = {e[3] for e in extensions if e[0] != 'plpgsql'}
-    check('known_uniform_extension_restore_owner', restore_owners == {'supabase_admin'})
+    mixed = [e for e in extensions if e[0] != 'plpgsql' and e[3] != 'supabase_admin']
+    check('known_mixed_extension_bootstrap', all(e == ['pgmq','1.5.1','pgmq','postgres'] for e in mixed))
     check('builtin_owner_safe', re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*',builtin_owner) is not None)
     # Standard pg_dump intentionally does not encode extension owners. Its CREATE
     # EXTENSION runs as the restore user; template0 supplies builtin plpgsql.
@@ -257,7 +304,22 @@ def main():
     sql('template1','alter database template0 allow_connections true;')
     sql('template0','reassign owned by '+BOOTSTRAP+' to "'+builtin_owner+'";')
     sql('template1','alter database template0 allow_connections false; drop database postgres;')
-    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','template1','--create','--exit-on-error'],ARCHIVE.read_bytes(),phase='pg_restore_full')
+    first, remainder, counts = partition_toc(source_command('pg_restore --list',ARCHIVE.read_bytes(),phase='archive_toc'))
+    check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['remainder'])
+    DETAILS['archive_toc_coverage'] = counts
+    for name, content in (('bootstrap',first),('remainder',remainder)):
+        run(['docker','exec','--user','postgres','-i',TARGET_ID,'sh','-ec','umask 077; cat > /tmp/c5-'+name+'.list'],content,phase='private_toc_'+name)
+    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','template1','--create','--exit-on-error','--use-list=/tmp/c5-bootstrap.list'],ARCHIVE.read_bytes(),phase='pg_restore_database_schemas')
+    for name, version, schema, owner in mixed:
+        # pgmq is an explicitly measured non-superuser extension. Install under
+        # its original role after source database/schema ACLs exist, then keep
+        # its normal IF NOT EXISTS archive entry in the full remainder restore.
+        check('pgmq_non_superuser_extension', sql('source',"select to_jsonb(not superuser) from pg_available_extension_versions where name='pgmq' and version='1.5.1';") is True)
+        check('source_owner_has_database_create', sql('source',"select to_jsonb(has_database_privilege('postgres','postgres','CREATE'));") is True)
+        check('recovered_owner_has_database_create', sql('recovery',"select to_jsonb(has_database_privilege('postgres','postgres','CREATE'));") is True)
+        check('recovered_owner_has_schema_create', sql('recovery',"select to_jsonb(has_schema_privilege('postgres','pgmq','CREATE'));") is True)
+        sql('recovery',"set session authorization postgres; create extension pgmq with schema pgmq version '1.5.1'; reset session authorization;")
+    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','postgres','--exit-on-error','--use-list=/tmp/c5-remainder.list'],ARCHIVE.read_bytes(),phase='pg_restore_all_remaining_entries')
     check('scheduler_stays_disabled', sql('recovery',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
     recovered = snapshot('recovery')
     check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])

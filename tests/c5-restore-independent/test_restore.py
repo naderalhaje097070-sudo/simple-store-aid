@@ -132,6 +132,24 @@ class RecoverySafety(unittest.TestCase):
         self.assertNotIn(b'TABLE DATA',first)
         self.assertEqual(set(first.splitlines()+rest.splitlines()),set(toc.splitlines()[1:]))
 
+    def test_restore_error_known_vendor_routine_without_raw_query(self):
+        raw = b'pg_restore: from TOC entry 17; 0 0 EVENT TRIGGER issue_x supabase_admin\npg_restore: error: could not execute query: ERROR:  function extensions.grant_pg_net_access() does not exist\nCommand was: private SQL synthetic_secret_value;'
+        result = r.restore_error_metadata(raw)
+        self.assertEqual(result['known_vendor_routine'], 'extensions.grant_pg_net_access')
+        self.assertEqual(result['object_kind'], 'EVENT TRIGGER')
+        self.assertEqual(result['toc_entry'], 17)
+        self.assertNotIn('synthetic_secret_value', json.dumps(result))
+
+    def test_restore_error_unknown_identifiers_withheld(self):
+        result = r.restore_error_metadata(b'ERROR:  function private.synthetic_secret_value(text) does not exist\nCommand was: private SQL;')
+        self.assertEqual(result['known_vendor_routine'], 'unrecognized_withheld')
+        self.assertNotIn('synthetic_secret_value', json.dumps(result))
+        self.assertNotIn('private', json.dumps(result))
+
+    def test_restore_error_does_not_extract_values_or_sql(self):
+        for raw in (b'ERROR: password authentication failed for user secret', b'function extensions.grant_pg_net_access() secret', b'ERROR: function "private"."secret"(text) does not exist'):
+            self.assertEqual(r.restore_error_metadata(raw), {'missing_function': False})
+
     def test_toc_duplicate_or_unknown_lines_rejected(self):
         for toc in [b'1; 0 0 DATABASE - postgres owner\n1; 0 0 TABLE public x owner\n',b'not a toc entry\n']:
             with self.assertRaises(RuntimeError):r.partition_toc(toc)
@@ -154,3 +172,4 @@ class RecoverySafety(unittest.TestCase):
 
 
 if __name__ == '__main__': unittest.main()
+

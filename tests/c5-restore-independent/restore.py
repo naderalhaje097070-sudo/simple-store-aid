@@ -47,9 +47,37 @@ def run(args, data=None, phase='command', timeout=180):
     PHASE = phase
     result = subprocess.run(args, input=data, capture_output=True, timeout=timeout)
     if result.returncode:
+        if phase.startswith('pg_restore_'):
+            DETAILS['restore_error'] = restore_error_metadata(result.stderr)
         # Never serialize raw stdout/stderr, SQL, roles or Docker environment.
         raise RuntimeError('command_failed:' + phase + ':' + ','.join(prior.classify(result.stderr)) + ':' + prior.error_words(result.stderr))
     return result.stdout
+
+
+def restore_error_metadata(stderr):
+    """Finite vendor vocabulary only; never emit raw SQL or arbitrary names."""
+    message = stderr.decode(errors='replace')
+    known_routines = (
+        'extensions.grant_pg_graphql_access', 'extensions.grant_pg_cron_access',
+        'extensions.grant_pg_net_access', 'extensions.set_graphql_placeholder',
+        'extensions.notify_api_restart', 'extensions.pgrst_ddl_watch',
+        'extensions.pgrst_drop_watch', 'graphql_public.graphql',
+        'graphql.resolve', 'net.http_collect_response', 'net.http_get',
+        'net.http_post', 'pgsodium.get_key_by_id', 'vault.create_secret',
+    )
+    missing = re.search(r'ERROR:\s+function ([a-z_][a-z_0-9]*\.[a-z_][a-z_0-9]*)\([^\n]*?\) does not exist', message)
+    result = {'missing_function': bool(missing)}
+    if missing:
+        routine = missing[1]
+        result['known_vendor_routine'] = routine if routine in known_routines else 'unrecognized_withheld'
+        result['routine_name_sha256'] = hashlib.sha256(routine.encode()).hexdigest()
+    # Object kind is a bounded diagnostic, not the TOC description or object name.
+    match = re.search(r'from TOC entry (\d+); \d+ \d+ ([A-Z][A-Z ]*) ', message)
+    kinds = ('FUNCTION', 'EVENT TRIGGER', 'EXTENSION', 'ACL', 'COMMENT', 'TABLE', 'TABLE DATA', 'TRIGGER', 'DEFAULT ACL')
+    if match:
+        result['toc_entry'] = int(match[1])
+        result['object_kind'] = next((kind for kind in kinds if match[2].strip() == kind), 'unrecognized_withheld')
+    return result
 
 
 def source_command(command, data=None, phase='source'):
@@ -391,3 +419,4 @@ def execute():
 
 if __name__ == '__main__':
     raise SystemExit(execute())
+

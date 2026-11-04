@@ -1,0 +1,7 @@
+# Missing-function restore diagnosis — phase 1, 4 November 2026
+
+Exact baseline990b712a: native41848623708 fails both fresh and upgrade at pg_restore_all_remaining_entries. Roles, target identity, original database/schema creation and mixed-owner pgmq bootstrap passed. Failure canary30checks and final cleanup/source invariance/zero unexpected egress passed; restored data/financial assertions not reached. G041848623591 and B141848623889 pass on990.
+
+The previous finite-word error receipt conceals the missing routine and TOC object kind. Add only bounded diagnostics: fixed vendor-routine vocabulary, routine-name SHA256, numeric TOC entry and fixed object-kind vocabulary. Raw stderr, SQL and unknown identifiers remain withheld. Three new privacy regression tests; all21 local recovery safety tests pass. No local Docker is available; hosted native acceptance remains necessary. No behavior repair or acceptance is claimed by this diagnostic change; do not omit objects/extensions or ignore any restore error.
+
+Original helpers, application, all55 migrations, dependencies and prior source manifests remain unchanged. Existing execution/source admission is maintained through the current additive manifest. Continue this same staged C5 task to a measured repair or a documented genuine blocker. C5full/C6/C7 remain open; main and five original drafts unchanged. No merge/deploy/production/closure/newcost.

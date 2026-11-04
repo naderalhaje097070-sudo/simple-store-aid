@@ -1,3 +1,9 @@
+## Current — C5-RESTORE-01 in progress, 2026-11-04
+
+Owner continuation authorizes planned isolated nonempty logical restore testing. Sole implementer root, claim55/6624766893. Test-only delta; app/SQL/dependencies/prior manifests unchanged. Nineteen local source negative controls passed; hosted restore/affected checks pending. Exact baseline be0f128f (tested product a52ee17d). See changes/c5-restore/INTAKE.md for scope/limits. No restore acceptance yet; fullC5/C6/C7 open. Main220fc206/five drafts unchanged; no merge/deploy/production/cost/closure.
+
+---
+
 ## Current — C5 keyed collection candidate tested, 2026-11-03
 
 Exact executable `a52ee17d57a02da46bc8fb03547711de697ecfea`, existing `integration/g0-g1-reconcile-2026-10-18`: C5 collection41696369037, G041696369315, G141696369007 and B141696369090 all SUCCESS attempt1. Fresh108/upgraded111 controls and desktop/mobile actual-component browser prove a hidden-success20collection replay remains paid20/one payment; a genuine second20 uses a new key and produces paid40/two payments. All prior54 migrations preserved within55; canonical accounting unchanged. Source guard474 entries,97unit/300expectations,0lint errors/15warnings, full audit{}, G1 41checks and final zero-egress/cleanup passed. Advisors0errors/45performance warnings require remaining review.

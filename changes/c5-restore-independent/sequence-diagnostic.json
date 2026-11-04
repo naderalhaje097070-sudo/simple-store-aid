@@ -1,0 +1,17 @@
+{
+  "version": "PostgreSQL 17.5 on aarch64-unknown-linux-gnu, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "runtime": "temporary PGlite0.3.14, single connection WASM; not native restore proof",
+  "old_failure": {
+    "code": "42809",
+    "message": "relation \"c5_fixture_sequence\" does not have a composite type"
+  },
+  "before": {
+    "is_called": false,
+    "last_value": 1
+  },
+  "after": {
+    "is_called": true,
+    "last_value": 1
+  },
+  "metadata_query_passed": true
+}

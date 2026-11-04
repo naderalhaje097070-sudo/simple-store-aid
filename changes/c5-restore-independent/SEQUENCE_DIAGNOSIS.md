@@ -1,0 +1,6 @@
+# Sequence metadata regression — reproduced before correction
+Native c24aa01a failed at sql_source_structure in both modes,13 successful preflight checks. Cleanup/publication succeeded; private target absent, source stack/private JSON removed, zero unexpected IPv4/IPv6; no accepted source snapshot/recovery yet.
+The whole-row sequence query `select to_jsonb(s) from sequence s` raises42809, relation does not have a composite type. Reproduced locally on actual PostgreSQL17.5 WASM via temporary integrity-verified PGlite0.3.14 (not an app dependency and not native cluster proof). Full static metadata query passes; explicit last_value/is_called query passes before and after nextval.
+Correction reads explicit logical sequence position fields. Internal log_cnt is WAL bookkeeping, not pg_dump setval state; it is not an acceptance oracle. No prior product assertion or prior verifier is modified.
+New driver also proves the old read-only query rejection on the actual17.6 source and successfully reads explicit fields, then requires equal recovered sequence states. No source data writes for reproduction.
+See sequence-diagnostic.json for the local exact version/outcome. Next actual hosted restore remains pending; this correction does not establish recovery acceptance.

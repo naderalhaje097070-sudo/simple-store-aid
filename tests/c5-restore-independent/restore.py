@@ -32,6 +32,7 @@ DETAILS = {}
 CREATED_FILES = set()
 TARGET_ID = None
 BEFORE = None
+SEQUENCE_REGRESSION_PROVED = False
 ADMIN = 'test -n "${POSTGRES_PASSWORD:-}"; export PGPASSWORD="$POSTGRES_PASSWORD"; '
 
 
@@ -82,6 +83,7 @@ prior.TARGET = 'recovery'
 
 
 def structure(database):
+    global SEQUENCE_REGRESSION_PROVED
     # Stable identities rather than cluster-local OIDs; private values never published.
     extra = sql(database, """select jsonb_build_object(
       'schemas',(select jsonb_agg(jsonb_build_array(nspname,pg_get_userbyid(nspowner),nspacl::text) order by nspname) from pg_namespace where nspname !~ '^pg_' and nspname <> 'information_schema'),
@@ -98,7 +100,14 @@ def structure(database):
     extra['sequence_positions'] = {}
     for schema, name in sequences:
         assert re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*', schema) and re.fullmatch('[a-zA-Z_][a-zA-Z_0-9]*', name)
-        extra['sequence_positions'][schema+'.'+name] = sql(database, 'select to_jsonb(s) from "'+schema+'"."'+name+'" s;')
+        relation = '"'+schema+'"."'+name+'"'
+        if database == 'source' and not SEQUENCE_REGRESSION_PROVED:
+            # Read-only regression: sequence relations have no composite row type.
+            # Explicit position fields are the logical setval state restored by pg_dump;
+            # internal WAL log_cnt is not logical recovery state.
+            sql(database, 'select to_jsonb(s) from '+relation+' s;', 'does not have a composite type')
+            SEQUENCE_REGRESSION_PROVED = True
+        extra['sequence_positions'][schema+'.'+name] = sql(database, "select jsonb_build_object('last_value',last_value,'is_called',is_called) from "+relation+';')
     return {'prior_catalog': prior.catalog(database), 'extra': extra}
 
 
@@ -193,6 +202,7 @@ def main():
                     'server_version_num':settings['server_version_num'],'shared_preload_libraries':settings['shared_preload_libraries'],
                     'cron_database':'postgres','scheduler_execution':'disabled; not accepted','network_mode':'none','host_ports':False})
     BEFORE = snapshot('source')
+    check('native_sequence_regression_and_position_read', SEQUENCE_REGRESSION_PROVED)
     DETAILS['extensions'] = BEFORE['structure']['extra']['extensions']
     check('nonempty_finance_and_auth', all(BEFORE['rows'][t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))
     archive = source_command('pg_dump -U supabase_admin -d postgres -Fc',phase='full_dump')

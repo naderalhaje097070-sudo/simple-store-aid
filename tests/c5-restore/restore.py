@@ -109,7 +109,7 @@ def main():
         VERSIONS[tool] = version
     VERSIONS['server_version_num'] = sql('postgres', "select current_setting('server_version_num')::integer;")
     check('separate_target_absent', sql('postgres', "select count(*) from pg_database where datname='" + TARGET + "';") == 0)
-    check('existing_local_restore_admin', sql('postgres', "select coalesce((select rolsuper and rolcanlogin from pg_roles where rolname='supabase_admin'),false);") is True)
+    check('existing_local_restore_admin', sql('postgres', "select to_jsonb(coalesce((select rolsuper and rolcanlogin from pg_roles where rolname='supabase_admin'),false));") is True)
     state = json.loads(PRIVATE.read_text())
     before, structure = rows('postgres'), catalog('postgres')
     check('nonempty_finance_and_auth', all(before[t]['count'] > 0 for t in ('public.orders','public.order_items','public.payments','public.financial_idempotency','public.products','auth.users')))

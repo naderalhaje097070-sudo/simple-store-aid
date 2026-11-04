@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "task": "C5-RESTORE-INDEPENDENT-01",
+  "phase": "phase1_diagnosis",
+  "date": "2026-11-04",
+  "executable": "14e729951b55570041c3f951147d943782793ddc",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "diagnostic_status": "Tested",
+  "restore_accepted": false,
+  "full_C5_accepted": false,
+  "integration_accepted": false,
+  "tests": {
+    "local_safety": 21,
+    "baseline_existing": 18,
+    "baseline_expected_new_errors": 3,
+    "unit": 97,
+    "expectations": 300,
+    "lint_errors": 0,
+    "lint_warnings": 15
+  },
+  "runs": {
+    "restore": {
+      "id": 41898466686,
+      "conclusion": "failure",
+      "attempt": 1
+    },
+    "g0": {
+      "id": 41898466745,
+      "conclusion": "success",
+      "attempt": 1
+    },
+    "b1": {
+      "id": 41898466712,
+      "conclusion": "success",
+      "attempt": 1
+    }
+  },
+  "native": [
+    {
+      "mode": "fresh",
+      "source": "14e729951b55570041c3f951147d943782793ddc",
+      "restored": false,
+      "partial_checks": 38,
+      "failure_canary_checks": 30,
+      "prior_financial_controls": 108,
+      "diagnostic": {
+        "missing_function": true,
+        "known_vendor_routine": "graphql_public.graphql",
+        "routine_name_sha256": "b38c7d40bf3d778343fbd10c1bd99ac8bf42c4b7b450979843f45253dcc6834c"
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    },
+    {
+      "mode": "upgrade",
+      "source": "14e729951b55570041c3f951147d943782793ddc",
+      "restored": false,
+      "partial_checks": 38,
+      "failure_canary_checks": 30,
+      "prior_financial_controls": 111,
+      "diagnostic": {
+        "missing_function": true,
+        "known_vendor_routine": "graphql_public.graphql",
+        "routine_name_sha256": "b38c7d40bf3d778343fbd10c1bd99ac8bf42c4b7b450979843f45253dcc6834c"
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    }
+  ],
+  "source_identity": {
+    "protected_blobs": 485,
+    "migrations": 55,
+    "prior_manifests_unchanged": true
+  },
+  "limits": [
+    "extension membership/archive omission not measured",
+    "no restored financial data/RPC acceptance",
+    "no restored HTTP/Auth/password/encryption-key/PITR acceptance",
+    "no independent C6 review"
+  ],
+  "next": "phase2 inspect actual vendor wrapper membership/definition/TOC and repair measured GraphQL bootstrap/archive dependencies; complete existing full restore assertions"
+}

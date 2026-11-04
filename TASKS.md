@@ -1,3 +1,15 @@
+## Current — C5 restore phase1 diagnosed and tested; phase2 next, 2026-11-04
+
+Staged owner continuation: exact executable14e729951b55570041c3f951147d943782793ddc on integration/g0-g1-reconcile-2026-10-18. Native41898466686 FAILED fresh/upgrade at pg_restore_all_remaining_entries; safe diagnostics identify missing vendor graphql_public.graphql. Each real path38passing setup checks; injected-failure30checks, cleanup/source invariance/publication/zero unexpected egress pass. Prior collection108/111 controls pass before restore; no recovered financial assertion has completed. G041898466745/B141898466712 SUCCESS;97unit/300expectations,0lint errors/15warnings, full audit{},485protected/55migrations/prior manifests exact. Local21privacy/safety tests pass.
+
+Phase1 diagnostic **Implemented → Tested**; full restore acceptance **FAILED/BLOCKED**, fullC5 In Progress; C6/C7/RC/Pilot remain open. [Result and precise limits](changes/c5-restore-independent/RESULT_PHASE1.md); seven unchanged original artifact ZIPs/hash manifest preserved. No independent C6 or G1 rerun claimed. Actual source extension membership/archive inclusion remain phase2 investigation, not a proved omission.
+
+**ONE NEXT: phase2 — inspect actual vendor wrapper definition/membership/TOC and faithfully repair GraphQL bootstrap/archive dependencies, then complete fresh/upgrade restored-data/replay/isolation/new-payment/cleanup acceptance.** After successful recovery follow the fixed financial journey → C6 → ownerC7 → RC/Pilot sequence. This handoff releases only the phase1 diagnostic work; no concurrent implementer/new claim is implied.
+
+Main220fc206 and five draft PRs27/35/39/49/50 remain unchanged/open; #50 tracking context only. No merge/deploy/production/closure/newcost/financial-policy change. This publication is docs/evidence only; runtime results belong to14e72995. Prior history below remains exact.
+
+---
+
 ## Current — C5 independent restore In Progress, 2026-11-04
 
 Owner execution request resumes fixed plan b1be7f4; sole implementer root, claim55/6631994321. Test-only independent no-network target, exact source image/runtime discovery, role/owner/ACL/extension preservation, full restore and stored replay/isolation/new-payment, native injected failure cleanup control. Existing C5 restore and all55 migrations/app/dependencies stay frozen; only new test/CI admission and capture dispatch. Local19 source/11 safety controls and syntax pass; actual hosted fresh/upgrade recovery remains pending. See changes/c5-restore-independent/INTAKE.md and DESIGN.md.

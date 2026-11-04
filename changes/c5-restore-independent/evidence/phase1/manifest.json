@@ -1,0 +1,76 @@
+{
+  "source": "14e729951b55570041c3f951147d943782793ddc",
+  "archives": [
+    {
+      "path": "c5-990-fresh.zip",
+      "artifact_id": 13334115924,
+      "run_id": 41848623708,
+      "mode": "fresh",
+      "sha256": "1be995cce6acb150f83781a36102f9fb1ed3e49bf78b6880cfd80ec929dfcefb",
+      "bytes": 7301,
+      "format": "original GitHub artifact ZIP",
+      "result": "failed restore, successful cleanup",
+      "source": "990b712a370c0aeb51fb6803ba30c40642b9fc8c"
+    },
+    {
+      "path": "c5-990-upgrade.zip",
+      "artifact_id": 13334890168,
+      "run_id": 41848623708,
+      "mode": "upgrade",
+      "sha256": "d68f2e6c76db801126d03956ebede7bba784c74d924aaae6c443d5d58a92fff4",
+      "bytes": 7781,
+      "format": "original GitHub artifact ZIP",
+      "result": "failed restore, successful cleanup",
+      "source": "990b712a370c0aeb51fb6803ba30c40642b9fc8c"
+    },
+    {
+      "path": "quality-diagnostics-13357072969.zip",
+      "artifact_id": 13357072969,
+      "run_id": 41898466745,
+      "sha256": "8df71f9ce3621ca9d50ecec91642c2c2dfe6d57db003d0905fdfdad4023e5014",
+      "bytes": 2159,
+      "format": "original GitHub artifact ZIP",
+      "source": "14e729951b55570041c3f951147d943782793ddc"
+    },
+    {
+      "path": "integration-full-audit-13356817562.zip",
+      "artifact_id": 13356817562,
+      "run_id": 41898466745,
+      "sha256": "445b67d5cc71327f89b3705e86ee9f5b4056911b4d7645689a3813a040337be2",
+      "bytes": 161,
+      "format": "original GitHub artifact ZIP",
+      "source": "14e729951b55570041c3f951147d943782793ddc"
+    },
+    {
+      "path": "integration-source-identity-13356328660.zip",
+      "artifact_id": 13356328660,
+      "run_id": 41898466745,
+      "sha256": "10e3b86161c8292f838c958df207b8f79837d49b8d5ae1e84da17e1df538e66f",
+      "bytes": 387,
+      "format": "original GitHub artifact ZIP",
+      "source": "14e729951b55570041c3f951147d943782793ddc"
+    },
+    {
+      "path": "c5-diag-fresh.zip",
+      "artifact_id": 13356528908,
+      "run_id": 41898466686,
+      "mode": "fresh",
+      "sha256": "cc4764b70f6de283feb30ad605c54e7b0d395397e9924a8aeedd33b38c76287a",
+      "bytes": 7414,
+      "format": "original GitHub artifact ZIP",
+      "result": "failed restore; known missing graphql_public.graphql; successful cleanup",
+      "source": "14e729951b55570041c3f951147d943782793ddc"
+    },
+    {
+      "path": "c5-diag-upgrade.zip",
+      "artifact_id": 13356234162,
+      "run_id": 41898466686,
+      "mode": "upgrade",
+      "sha256": "2477ee59d9fb2ec867f052e614b7d5e357f79fc0cdfb0c5021e32dc9ae18988e",
+      "bytes": 7890,
+      "format": "original GitHub artifact ZIP",
+      "result": "failed restore; known missing graphql_public.graphql; successful cleanup",
+      "source": "14e729951b55570041c3f951147d943782793ddc"
+    }
+  ]
+}

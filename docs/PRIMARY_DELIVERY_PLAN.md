@@ -1,3 +1,17 @@
+## Current — C5 phase2 GraphQL restore correction tested; catalog equality blocks, 2026-11-04
+
+Exact candidate febfca66dc331c6071c235ccfec1256f91b88770 on integration/g0-g1-reconcile-2026-10-18. Native41906845470 executes all1039archive entries in both modes (13schema/database +2original GraphQL prerequisites +1024remainder), and all selected rows match. Original helper definition exact; source extension membership/owners/hook and TOC coverage measured. No dummy wrapper/object exclusion/error suppression. Real receipts44pass/1FAIL (prior_functions_RLS_owners_ACLs_restored) per mode; injected-failure33checks/cleanup/source invariance/publication/zero unexpected egress pass.
+
+GraphQL bootstrap correction **Implemented → Tested candidate only**. Full restoration acceptance **FAILED/BLOCKED** at prior.catalog public/private function/table/RLS/policy/owner/ACL equality. Exact differing object/field and semantic versus representation cause are unmeasured; the original assertion remains unchanged. Restored financial RPC/new-payment checks have not executed. FullC5 In Progress; C6/C7/RC/Pilot remain open. [Result/next diagnosis](../changes/c5-restore-independent/RESULT_PHASE2.md);10original ZIPs and SHA256 manifest retained, including failed a588 admission. Phase1 history/artifacts remain exact.
+
+G041906845589/B141906845491 SUCCESS;97unit/300expectations,0lint errors/15warnings, audit{},485protected/55migrations/prior manifests exact. Local26safety/TOC/privacy tests and AST pass;108/111collection controls before restore pass. No new G1/advisor/independentC6 acceptance.
+
+**ONE NEXT: phase3 within this same C5 restore task — diagnose the precise prior-catalog mismatch with private field-level/semantic comparisons and bounded safe receipts, keeping the current failing assertion.** Choose a faithful narrow recovery correction only after measured evidence; complete catalog/vendor/role/sequence/cron and restored replay/isolation/conflict/new-payment checks. Then fixed full financial journey → C6 → ownerC7 → RC/Pilot.
+
+Main220fc206 and five draft PRs27/35/39/49/50 unchanged/open; #50 tracking context only. No merge/deploy/production/closure/newcost/financial-policy change. Final publication is docs/evidence only; native results belong to febfca66. Prior history below remains exact.
+
+---
+
 ## Current — C5 restore phase1 diagnosed and tested; phase2 next, 2026-11-04
 
 Staged owner continuation: exact executable14e729951b55570041c3f951147d943782793ddc on integration/g0-g1-reconcile-2026-10-18. Native41898466686 FAILED fresh/upgrade at pg_restore_all_remaining_entries; safe diagnostics identify missing vendor graphql_public.graphql. Each real path38passing setup checks; injected-failure30checks, cleanup/source invariance/publication/zero unexpected egress pass. Prior collection108/111 controls pass before restore; no recovered financial assertion has completed. G041898466745/B141898466712 SUCCESS;97unit/300expectations,0lint errors/15warnings, full audit{},485protected/55migrations/prior manifests exact. Local21privacy/safety tests pass.

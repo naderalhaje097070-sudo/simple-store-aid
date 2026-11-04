@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "current_source": "febfca66dc331c6071c235ccfec1256f91b88770",
+  "archives": [
+    {
+      "path": "integration-full-audit-13360965316.zip",
+      "artifact_id": 13360965316,
+      "run_id": 41905909918,
+      "sha256": "fdd3278ffa8cb6e50e9a2d81ce952d918eb38edc7bb8e82aa250d327fec321a1",
+      "bytes": 161,
+      "format": "original GitHub artifact ZIP",
+      "source": "a58802f3732d0d8be23a837505ac435f1de91d52"
+    },
+    {
+      "path": "quality-diagnostics-13360436529.zip",
+      "artifact_id": 13360436529,
+      "run_id": 41905909918,
+      "sha256": "86d5932469b263a706b524bfb894fdf3c7808c5b73cf49aedad9b35ed43779d6",
+      "bytes": 2159,
+      "format": "original GitHub artifact ZIP",
+      "source": "a58802f3732d0d8be23a837505ac435f1de91d52"
+    },
+    {
+      "path": "integration-source-identity-13359329700.zip",
+      "artifact_id": 13359329700,
+      "run_id": 41905909918,
+      "sha256": "a8c3d859f219f591a21729f50b7710125c7df180a452578bdec7dd0bbfc8c072",
+      "bytes": 387,
+      "format": "original GitHub artifact ZIP",
+      "source": "a58802f3732d0d8be23a837505ac435f1de91d52"
+    },
+    {
+      "path": "c5-restore-independent-upgrade-attempt1-13360870989.zip",
+      "artifact_id": 13360870989,
+      "run_id": 41905909940,
+      "source": "a58802f3732d0d8be23a837505ac435f1de91d52",
+      "sha256": "82088a0b7d8fe6eba95d354bfa0591e44786da774f3b2c77b1f15660d57b03e1",
+      "bytes": 5944,
+      "format": "original GitHub artifact ZIP",
+      "result": "strict TOC admission failure before target creation; source contract and cleanup pass"
+    },
+    {
+      "path": "c5-restore-independent-fresh-attempt1-13360139067.zip",
+      "artifact_id": 13360139067,
+      "run_id": 41905909940,
+      "source": "a58802f3732d0d8be23a837505ac435f1de91d52",
+      "sha256": "1b41c6e0c9c73bb22a284b1c31717826ec77392035e2547881bc429963630749",
+      "bytes": 5475,
+      "format": "original GitHub artifact ZIP",
+      "result": "strict TOC admission failure before target creation; source contract and cleanup pass"
+    },
+    {
+      "path": "integration-source-identity-13361845694.zip",
+      "artifact_id": 13361845694,
+      "run_id": 41906845589,
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "sha256": "c1560ba0a2bb79d3ec8636dbbda4613f203082f44b5fcaea5130ca9494daab01",
+      "bytes": 387,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "quality-diagnostics-13361810672.zip",
+      "artifact_id": 13361810672,
+      "run_id": 41906845589,
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "sha256": "8c42269171a36c4c6a4210c59c89f5aa35fa0e9163c3c70a2b6ad315d33c3fc5",
+      "bytes": 2157,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "integration-full-audit-13361670515.zip",
+      "artifact_id": 13361670515,
+      "run_id": 41906845589,
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "sha256": "53523a1db1e658856fe128e03916d293a71e56544d3ec8f9bf72b2294a61ef7a",
+      "bytes": 161,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "c5-restore-independent-upgrade-attempt1-13361556086.zip",
+      "artifact_id": 13361556086,
+      "run_id": 41906845470,
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "sha256": "fd8a5b9c5c9337302a4bbd510eacd1132552a1b2fd6f4591a9240c700b94b22c",
+      "bytes": 8269,
+      "format": "original GitHub artifact ZIP",
+      "result": "full archive execution and row comparison pass; prior catalog equality fails; cleanup passes"
+    },
+    {
+      "path": "c5-restore-independent-fresh-attempt1-13360792232.zip",
+      "artifact_id": 13360792232,
+      "run_id": 41906845470,
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "sha256": "14c01a6108d0543d4c3cb7e2dc989b430f635ee10f986f13c6d816d550e0e700",
+      "bytes": 7796,
+      "format": "original GitHub artifact ZIP",
+      "result": "full archive execution and row comparison pass; prior catalog equality fails; cleanup passes"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "task": "C5-RESTORE-INDEPENDENT-01",
+  "phase": "phase2_graphql_bootstrap",
+  "date": "2026-11-04",
+  "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "bounded_correction_status": "Tested on candidate",
+  "restoration_accepted": false,
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "open_barrier": "prior_functions_RLS_owners_ACLs_restored",
+  "precise_catalog_difference_measured": false,
+  "unit": 97,
+  "expectations": 300,
+  "lint": {
+    "errors": 0,
+    "warnings": 15
+  },
+  "local_safety_tests": 26,
+  "source_identity": {
+    "protected_blobs": 485,
+    "migrations": 55,
+    "prior_manifests_unchanged": true
+  },
+  "runs": {
+    "restore": {
+      "id": 41906845470,
+      "conclusion": "failure",
+      "attempt": 1
+    },
+    "g0": {
+      "id": 41906845589,
+      "conclusion": "success",
+      "attempt": 1
+    },
+    "b1": {
+      "id": 41906845491,
+      "conclusion": "success",
+      "attempt": 1
+    }
+  },
+  "native": [
+    {
+      "mode": "upgrade",
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "restored": false,
+      "full_archive_executed": true,
+      "all_selected_rows_match": true,
+      "checks": 45,
+      "passed": 44,
+      "failed": [
+        "prior_functions_RLS_owners_ACLs_restored"
+      ],
+      "canary_checks": 33,
+      "prior_financial_controls": 111,
+      "graphql_archive": {
+        "helper_entries": 1,
+        "trigger_entries": 1,
+        "extension_entries": 1,
+        "wrapper_declarations": 0,
+        "trailing_separator_entries": 16
+      },
+      "archive_toc_coverage": {
+        "all": 1039,
+        "bootstrap": 13,
+        "remainder": 1024,
+        "graphql_prerequisites": 2
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    },
+    {
+      "mode": "fresh",
+      "source": "febfca66dc331c6071c235ccfec1256f91b88770",
+      "restored": false,
+      "full_archive_executed": true,
+      "all_selected_rows_match": true,
+      "checks": 45,
+      "passed": 44,
+      "failed": [
+        "prior_functions_RLS_owners_ACLs_restored"
+      ],
+      "canary_checks": 33,
+      "prior_financial_controls": 108,
+      "graphql_archive": {
+        "helper_entries": 1,
+        "trigger_entries": 1,
+        "extension_entries": 1,
+        "wrapper_declarations": 0,
+        "trailing_separator_entries": 16
+      },
+      "archive_toc_coverage": {
+        "all": 1039,
+        "bootstrap": 13,
+        "remainder": 1024,
+        "graphql_prerequisites": 2
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    }
+  ],
+  "prior_failed_source": {
+    "sha": "a58802f3732d0d8be23a837505ac435f1de91d52",
+    "run": 41905909940,
+    "reason": "unmeasured_graphql_archive_dependencies",
+    "target_created": false
+  },
+  "next": "phase3 diagnose precise prior.catalog field/semantic mismatch while preserving existing failing assertion; complete full restoration proof"
+}

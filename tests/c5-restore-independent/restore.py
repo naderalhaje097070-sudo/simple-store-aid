@@ -149,16 +149,89 @@ def roles(database):
 
 
 def acl_catalog(database):
-    # Diagnostic only: retain grantor/grantee/privilege/grant-option tuples.
+    # Stable identities rather than local OIDs; PUBLIC has a separate type tag.
     # NULL is PostgreSQL's object default; an explicit empty ACL stays empty.
-    return sql(database, """select jsonb_build_object(
+    def grants(expression):
+        # All expressions are fixed below, never identifiers from a snapshot.
+        return """(select coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(a.grantor),
+          jsonb_build_object('public',a.grantee=0,'role',case when a.grantee=0 then null else pg_get_userbyid(a.grantee) end),
+          a.privilege_type,a.is_grantable) order by pg_get_userbyid(a.grantor),a.grantee=0,
+          case when a.grantee=0 then null else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]'::jsonb)
+          from aclexplode(""" + expression + ") a)"
+    function_acl = grants("coalesce(p.proacl,acldefault('f',p.proowner))")
+    table_acl = grants("coalesce(c.relacl,acldefault('r',c.relowner))")
+    schema_acl = grants("coalesce(n.nspacl,acldefault('n',n.nspowner))")
+    database_acl = grants("coalesce(d.datacl,acldefault('d',d.datdba))")
+    return sql(database, f"""select jsonb_build_object(
       'functions',(select jsonb_agg(jsonb_build_array(n.nspname,p.proname,pg_get_function_identity_arguments(p.oid),
-        (select coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]'::jsonb) from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a))
+        {function_acl})
         order by n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('public','monjez_private')),
       'tables',(select jsonb_agg(jsonb_build_array(n.nspname,c.relname,
-        (select coalesce(jsonb_agg(jsonb_build_array(pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable) order by pg_get_userbyid(a.grantor),case when a.grantee=0 then '<PUBLIC>' else pg_get_userbyid(a.grantee) end,a.privilege_type,a.is_grantable),'[]'::jsonb) from aclexplode(coalesce(c.relacl,acldefault('r',c.relowner))) a))
-        order by n.nspname,c.relname) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','monjez_private') and c.relkind in ('r','p'))
+        {table_acl})
+        order by n.nspname,c.relname) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','monjez_private') and c.relkind in ('r','p')),
+      'schemas',(select jsonb_agg(jsonb_build_array(n.nspname,{schema_acl}) order by n.nspname) from pg_namespace n where n.nspname !~ '^pg_' and n.nspname <> 'information_schema'),
+      'database',(select jsonb_agg(jsonb_build_array(d.datname,{database_acl}) order by d.datname) from pg_database d where d.datname=current_database())
       );""")
+
+
+def rows_with_logical_acl(rows, acl_rows, key_columns, acl_column, width):
+    """Replace only textual ACL representation in a new comparison copy.
+
+    Coverage, grantors, typed grantees, privileges, duplicates and grant options
+    are preserved. Owners/RLS/definitions and all other values stay exact.
+    """
+    rights = {}
+    for row in acl_rows or []:
+        if len(row) != key_columns+1 or not all(isinstance(v,str) for v in row[:key_columns]):
+            raise RuntimeError('unexpected_acl_identity_shape')
+        key = tuple(row[:key_columns])
+        if key in rights or not isinstance(row[-1],list):
+            raise RuntimeError('duplicate_or_invalid_acl_identity')
+        normalized = []
+        for grant in row[-1]:
+            if (not isinstance(grant,list) or len(grant) != 4 or not isinstance(grant[0],str)
+                or not isinstance(grant[1],dict) or set(grant[1]) != {'public','role'}
+                or type(grant[1]['public']) is not bool
+                or (grant[1]['role'] is not None if grant[1]['public'] else not isinstance(grant[1]['role'],str))
+                or not isinstance(grant[2],str) or type(grant[3]) is not bool):
+                raise RuntimeError('unexpected_acl_grant_shape')
+            normalized.append(json.dumps(grant,separators=(',',':'),sort_keys=True))
+        rights[key] = sorted(normalized)
+    result, seen = [], set()
+    for row in rows or []:
+        if len(row) != width or not all(isinstance(v,str) for v in row[:key_columns]):
+            raise RuntimeError('unexpected_catalog_acl_shape')
+        key = tuple(row[:key_columns])
+        if key in seen or key not in rights:
+            raise RuntimeError('catalog_acl_coverage_mismatch')
+        seen.add(key)
+        value = list(row)
+        value[acl_column] = rights[key]
+        result.append(value)
+    if seen != rights.keys():
+        raise RuntimeError('catalog_acl_coverage_mismatch')
+    return result
+
+
+def catalog_contract_equal(before, after):
+    left, right = before['structure']['prior_catalog'], after['structure']['prior_catalog']
+    if set(left) != {'functions','tables','policies'} or set(right) != set(left):
+        return False
+    return (left['functions'] == right['functions'] and left['policies'] == right['policies']
+        and rows_with_logical_acl(left['tables'],before['acl_semantics']['tables'],2,4,6)
+         == rows_with_logical_acl(right['tables'],after['acl_semantics']['tables'],2,4,6))
+
+
+def metadata_contract_equal(before, after, section):
+    left, right = before['structure']['extra'][section], after['structure']['extra'][section]
+    if section == 'schemas':
+        return (rows_with_logical_acl(left,before['acl_semantics']['schemas'],1,2,3)
+             == rows_with_logical_acl(right,after['acl_semantics']['schemas'],1,2,3))
+    if section == 'database':
+        # Both fixed routes address postgres; all nine original attributes stay.
+        return (rows_with_logical_acl([['postgres',*left]],before['acl_semantics']['database'],1,9,10)
+             == rows_with_logical_acl([['postgres',*right]],after['acl_semantics']['database'],1,9,10))
+    return left == right
 
 
 def catalog_field_differences(before, after, fields, key_columns):
@@ -205,6 +278,12 @@ def catalog_diagnostics(before, after):
                 'sequences','database','settings','sequence_positions')
     result['extra_different_sections'] = [s for s in sections
         if before['structure']['extra'].get(s) != after['structure']['extra'].get(s)]
+    if 'schemas' in before['acl_semantics'] and 'schemas' in after['acl_semantics']:
+        result['schemas'] = catalog_field_differences(before['structure']['extra']['schemas'],after['structure']['extra']['schemas'],('schema','owner','acl'),1)
+        result['schemas']['semantic_acl_equal'] = before['acl_semantics']['schemas'] == after['acl_semantics']['schemas']
+        result['database'] = catalog_field_differences([['postgres',*before['structure']['extra']['database']]],[['postgres',*after['structure']['extra']['database']]],
+            ('database','owner','encoding','collate','ctype','locale_provider','locale','icu_rules','collation_version','acl'),1)
+        result['database']['semantic_acl_equal'] = before['acl_semantics']['database'] == after['acl_semantics']['database']
     return result
 
 
@@ -485,9 +564,9 @@ def main():
     recovered = snapshot('recovery')
     DETAILS['catalog_diagnostics'] = catalog_diagnostics(BEFORE,recovered)
     check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])
-    check('prior_functions_RLS_owners_ACLs_restored', recovered['structure']['prior_catalog'] == BEFORE['structure']['prior_catalog'])
+    check('prior_functions_RLS_owners_ACLs_restored', catalog_contract_equal(BEFORE,recovered))
     for section in BEFORE['structure']['extra']:
-        check('metadata_restored_' + section, recovered['structure']['extra'][section] == BEFORE['structure']['extra'][section])
+        check('metadata_restored_' + section, metadata_contract_equal(BEFORE,recovered,section))
     check('roles_restored', recovered['roles'] == BEFORE['roles'])
     check('cron_definitions_restored', recovered['cron_jobs'] == BEFORE['cron_jobs'])
     state = json.loads(PRIVATE.read_text())

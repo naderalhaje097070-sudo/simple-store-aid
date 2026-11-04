@@ -281,6 +281,87 @@ class RecoverySafety(unittest.TestCase):
         right=copy.deepcopy(left);right['structure']['prior_catalog']['functions'][0].append('private unexpected')
         with self.assertRaises(RuntimeError):r.catalog_diagnostics(left,right)
 
+    def logical_catalog_fixture(self):
+        value=self.catalog_fixture()
+        grant=['private_owner',{'public':False,'role':'private_role'},'SELECT',False]
+        value['acl_semantics']={
+            'functions':[['public','synthetic_private_function','secret_argument text',[['private_owner',{'public':False,'role':'private_role'},'EXECUTE',False]]]],
+            'tables':[['public','synthetic_private_table',[grant]]],
+            'schemas':[['private_namespace',[['private_owner',{'public':True,'role':None},'USAGE',False]]]],
+            'database':[['postgres',[['private_owner',{'public':True,'role':None},'CONNECT',False]]]]}
+        value['structure']['extra']['database']=['private_owner',6,'C.UTF-8','C.UTF-8','c',None,None,None,'private_database_acl']
+        return value
+
+    def test_logical_acl_representation_preserves_all_other_fields_and_raw_evidence(self):
+        left=self.logical_catalog_fixture();right=copy.deepcopy(left)
+        right['structure']['prior_catalog']['tables'][0][4]='another equivalent ACL representation'
+        right['structure']['extra']['schemas'][0][2]='another equivalent schema ACL'
+        right['structure']['extra']['database'][-1]='another equivalent database ACL'
+        before=copy.deepcopy(left);after=copy.deepcopy(right)
+        self.assertTrue(r.catalog_contract_equal(left,right))
+        self.assertTrue(r.metadata_contract_equal(left,right,'schemas'))
+        self.assertTrue(r.metadata_contract_equal(left,right,'database'))
+        self.assertFalse(r.catalog_diagnostics(left,right)['literal_equal'])
+        self.assertEqual(left,before);self.assertEqual(right,after)
+
+    def test_logical_acl_owner_rls_and_forced_rls_changes_rejected(self):
+        left=self.logical_catalog_fixture()
+        for index,value in ((2,False),(3,False),(5,'another_private_owner')):
+            right=copy.deepcopy(left);right['structure']['prior_catalog']['tables'][0][index]=value
+            self.assertFalse(r.catalog_contract_equal(left,right))
+
+    def test_logical_acl_function_and_policy_contracts_remain_exact(self):
+        left=self.logical_catalog_fixture()
+        for index in range(3,8):
+            right=copy.deepcopy(left);right['structure']['prior_catalog']['functions'][0][index]='changed_private_value'
+            self.assertFalse(r.catalog_contract_equal(left,right))
+        for key in ('roles','cmd','qual','with_check','permissive'):
+            right=copy.deepcopy(left);right['structure']['prior_catalog']['policies'][0][key]='changed_private_value'
+            self.assertFalse(r.catalog_contract_equal(left,right))
+
+    def test_logical_acl_grantor_grantee_privilege_and_option_changes_rejected(self):
+        left=self.logical_catalog_fixture()
+        for index,value in ((0,'another_private_grantor'),(1,{'public':False,'role':'another_private_role'}),(2,'UPDATE'),(3,True)):
+            right=copy.deepcopy(left);right['acl_semantics']['tables'][0][-1][0][index]=value
+            self.assertFalse(r.catalog_contract_equal(left,right))
+
+    def test_logical_acl_public_is_distinct_from_a_role_named_like_public(self):
+        left=self.logical_catalog_fixture();right=copy.deepcopy(left)
+        left['acl_semantics']['tables'][0][-1][0][1]={'public':True,'role':None}
+        right['acl_semantics']['tables'][0][-1][0][1]={'public':False,'role':'<PUBLIC>'}
+        self.assertFalse(r.catalog_contract_equal(left,right))
+
+    def test_logical_acl_schema_database_owner_locale_and_rights_remain_exact(self):
+        left=self.logical_catalog_fixture()
+        right=copy.deepcopy(left);right['structure']['extra']['schemas'][0][1]='another_private_owner'
+        self.assertFalse(r.metadata_contract_equal(left,right,'schemas'))
+        for index in range(8):
+            right=copy.deepcopy(left);right['structure']['extra']['database'][index]='changed_private_value'
+            self.assertFalse(r.metadata_contract_equal(left,right,'database'))
+        for section in ('schemas','database'):
+            right=copy.deepcopy(left);right['acl_semantics'][section][0][-1][0][3]=True
+            self.assertFalse(r.metadata_contract_equal(left,right,section))
+
+    def test_logical_acl_missing_duplicate_and_invalid_coverage_fail_closed(self):
+        left=self.logical_catalog_fixture()
+        for action in ('missing','duplicate','extra','invalid_public'):
+            right=copy.deepcopy(left);rows=right['acl_semantics']['tables']
+            if action=='missing':rows.clear()
+            elif action=='duplicate':rows.append(copy.deepcopy(rows[0]))
+            elif action=='extra':
+                extra=copy.deepcopy(rows[0]);extra[1]='unmatched_private_table';rows.append(extra)
+            else:rows[0][-1][0][1]={'public':1,'role':None}
+            with self.assertRaises(RuntimeError):r.catalog_contract_equal(left,right)
+
+    def test_logical_acl_order_preserved_as_multiset_and_no_rights_dropped(self):
+        left=self.logical_catalog_fixture();right=copy.deepcopy(left)
+        extra=['private_owner',{'public':False,'role':'other_private_role'},'UPDATE',True]
+        left['acl_semantics']['tables'][0][-1].append(extra)
+        right['acl_semantics']['tables'][0][-1].insert(0,copy.deepcopy(extra))
+        self.assertTrue(r.catalog_contract_equal(left,right))
+        right['acl_semantics']['tables'][0][-1].pop()
+        self.assertFalse(r.catalog_contract_equal(left,right))
+
 
 if __name__ == '__main__': unittest.main()
 

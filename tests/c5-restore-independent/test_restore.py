@@ -170,6 +170,44 @@ class RecoverySafety(unittest.TestCase):
         tail=b'ALTER ROLE supabase_admin WITH NOSUPERUSER;\nALTER ROLE postgres SET statement_timeout TO 10;\nGRANT pg_monitor TO postgres;\n'
         self.assertEqual(r.prepare_roles(b'CREATE ROLE supabase_admin;\n'+tail),tail)
 
+    def graphql_toc(self):
+        return b'''1; 3079 1 EXTENSION - pg_graphql
+2; 1255 2 FUNCTION extensions grant_pg_graphql_access() supabase_admin
+3; 0 0 COMMENT extensions FUNCTION grant_pg_graphql_access() supabase_admin
+4; 0 0 ACL graphql_public FUNCTION graphql(text, text, jsonb, jsonb) supabase_admin
+5; 3466 3 EVENT TRIGGER - issue_pg_graphql_access supabase_admin
+6; 1259 4 TABLE public orders postgres
+7; 0 4 TABLE DATA public orders postgres
+8; 0 0 DEFAULT ACL graphql DEFAULT PRIVILEGES FOR FUNCTIONS supabase_admin
+'''
+
+    def test_graphql_prerequisites_move_only_original_function_and_trigger(self):
+        first, rest, counts = r.split_graphql_prerequisites(self.graphql_toc())
+        self.assertEqual(counts, {'prerequisites': 2, 'remainder': 6})
+        self.assertIn(b'FUNCTION extensions grant_pg_graphql_access()', first)
+        self.assertIn(b'EVENT TRIGGER - issue_pg_graphql_access', first)
+        for item in (b'EXTENSION - pg_graphql', b'COMMENT', b'ACL graphql_public', b'TABLE DATA', b'DEFAULT ACL'):
+            self.assertIn(item, rest)
+        self.assertEqual(set(first.splitlines()) | set(rest.splitlines()), set(self.graphql_toc().splitlines()))
+        self.assertFalse(set(first.splitlines()) & set(rest.splitlines()))
+
+    def test_graphql_prerequisites_missing_or_duplicate_objects_fail(self):
+        for excluded in (b'FUNCTION extensions grant_pg_graphql_access()', b'EVENT TRIGGER - issue_pg_graphql_access', b'EXTENSION - pg_graphql'):
+            data=b'\n'.join(line for line in self.graphql_toc().splitlines() if excluded not in line)+b'\n'
+            with self.assertRaises(RuntimeError): r.split_graphql_prerequisites(data)
+        with self.assertRaises(RuntimeError):
+            r.split_graphql_prerequisites(self.graphql_toc()+b'9; 3466 7 EVENT TRIGGER - issue_pg_graphql_access supabase_admin\n')
+
+    def test_graphql_prerequisites_refuse_changed_owner_or_archive_wrapper(self):
+        for data in (self.graphql_toc().replace(b'grant_pg_graphql_access() supabase_admin',b'grant_pg_graphql_access() postgres'),
+                     self.graphql_toc().replace(b'issue_pg_graphql_access supabase_admin',b'issue_pg_graphql_access postgres'),
+                     self.graphql_toc()+b'9; 1255 7 FUNCTION graphql_public graphql(text, text, jsonb, jsonb) supabase_admin\n'):
+            with self.assertRaises(RuntimeError): r.split_graphql_prerequisites(data)
+
+    def test_graphql_prerequisites_reject_duplicate_ids_or_malformed_input(self):
+        for data in (self.graphql_toc()+b'1; 0 0 COMMENT - unrelated postgres\n', self.graphql_toc()+b'unrecognized private entry\n'):
+            with self.assertRaises(RuntimeError): r.split_graphql_prerequisites(data)
+
 
 if __name__ == '__main__': unittest.main()
 

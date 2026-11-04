@@ -117,6 +117,8 @@ def structure(database):
     extra = sql(database, """select jsonb_build_object(
       'schemas',(select jsonb_agg(jsonb_build_array(nspname,pg_get_userbyid(nspowner),nspacl::text) order by nspname) from pg_namespace where nspname !~ '^pg_' and nspname <> 'information_schema'),
       'extensions',(select jsonb_agg(jsonb_build_array(e.extname,e.extversion,n.nspname,pg_get_userbyid(e.extowner)) order by e.extname) from pg_extension e join pg_namespace n on n.oid=e.extnamespace),
+      'vendor_functions',(select jsonb_agg(jsonb_build_array(n.nspname,p.proname,pg_get_function_identity_arguments(p.oid),pg_get_functiondef(p.oid),p.prosecdef,p.proconfig,p.proacl::text,pg_get_userbyid(p.proowner),(select e.extname from pg_depend d join pg_extension e on e.oid=d.refobjid where d.classid='pg_proc'::regclass and d.objid=p.oid and d.deptype='e')) order by n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in ('extensions','graphql','graphql_public') and p.prokind in ('f','p')),
+      'event_triggers',(select jsonb_agg(jsonb_build_array(t.evtname,t.evtevent,t.evtenabled,t.evttags,pg_get_userbyid(t.evtowner),n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)) order by t.evtname) from pg_event_trigger t join pg_proc p on p.oid=t.evtfoid join pg_namespace n on n.oid=p.pronamespace),
       'constraints',(select jsonb_agg(jsonb_build_array(n.nspname,c.relname,k.conname,k.contype,k.convalidated,pg_get_constraintdef(k.oid,true)) order by n.nspname,c.relname,k.conname) from pg_constraint k join pg_class c on c.oid=k.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname in ('public','monjez_private','auth')),
       'indexes',(select jsonb_agg(to_jsonb(i) order by schemaname,tablename,indexname) from pg_indexes i where schemaname in ('public','monjez_private','auth')),
       'triggers',(select jsonb_agg(jsonb_build_array(n.nspname,c.relname,t.tgname,t.tgenabled,pg_get_triggerdef(t.oid,true)) order by n.nspname,c.relname,t.tgname) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where not t.tgisinternal and n.nspname in ('public','monjez_private','auth')),
@@ -210,6 +212,50 @@ def prepare_roles(role_dump):
     return b''.join(line for line in lines if line.rstrip(b'\r\n') != declaration)
 
 
+def split_graphql_prerequisites(toc):
+    """Replay the archived vendor hook before extension creation; never omit IDs."""
+    entries, ids = [], set()
+    helper = 'FUNCTION extensions grant_pg_graphql_access() supabase_admin'
+    trigger = 'EVENT TRIGGER - issue_pg_graphql_access supabase_admin'
+    for line in toc.decode().splitlines():
+        if not line or line.startswith(';'):
+            continue
+        match = re.fullmatch(r'(\d+);\s+\d+\s+\d+\s+(.+)',line)
+        if not match or int(match[1]) in ids:
+            raise RuntimeError('invalid_graphql_toc_entry')
+        ids.add(int(match[1])); entries.append((int(match[1]),match[2],line))
+    descriptions = [d for _,d,_ in entries]
+    if (descriptions.count(helper) != 1 or descriptions.count(trigger) != 1
+        or descriptions.count('EXTENSION - pg_graphql') != 1
+        or any(d.startswith('FUNCTION graphql_public graphql(') for d in descriptions)):
+        raise RuntimeError('unmeasured_graphql_archive_dependencies')
+    # Preserve the original owner/definition via pg_restore, not handwritten SQL.
+    before = [next(e for e in entries if e[1] == d) for d in (helper,trigger)]
+    rest = [e for e in entries if e[1] not in (helper,trigger)]
+    assert not ({i for i,_,_ in before} & {i for i,_,_ in rest})
+    assert {i for i,_,_ in before+rest} == ids
+    encode = lambda values: ('\n'.join(line for _,_,line in values)+'\n').encode()
+    return encode(before), encode(rest), {'prerequisites':len(before),'remainder':len(rest)}
+
+
+def graphql_source_contract():
+    """Read source membership/owner/hook evidence before selecting this repair."""
+    measured = sql('source', """select jsonb_build_object(
+      'wrapper_extension',(select e.extname from pg_depend d join pg_extension e on e.oid=d.refobjid where d.classid='pg_proc'::regclass and d.objid=to_regprocedure('graphql_public.graphql(text,text,jsonb,jsonb)') and d.deptype='e'),
+      'wrapper_owner',(select pg_get_userbyid(proowner) from pg_proc where oid=to_regprocedure('graphql_public.graphql(text,text,jsonb,jsonb)')),
+      'helper_owner',(select pg_get_userbyid(proowner) from pg_proc where oid=to_regprocedure('extensions.grant_pg_graphql_access()')),
+      'helper_definition',(select pg_get_functiondef(to_regprocedure('extensions.grant_pg_graphql_access()'))),
+      'trigger_matches',(select evtfoid=to_regprocedure('extensions.grant_pg_graphql_access()') and evtevent='ddl_command_end' and evtenabled='O' and evttags=ARRAY['CREATE FUNCTION']::text[] and evtowner=(select oid from pg_roles where rolname='supabase_admin') from pg_event_trigger where evtname='issue_pg_graphql_access')
+      );""")
+    check('source_graphql_wrapper_is_extension_member', measured['wrapper_extension'] == 'pg_graphql')
+    check('source_graphql_owners_and_hook_match', measured['wrapper_owner'] == BOOTSTRAP
+          and measured['helper_owner'] == BOOTSTRAP and measured['trigger_matches'] is True
+          and isinstance(measured['helper_definition'],str))
+    DETAILS['graphql_bootstrap'] = {'source_extension_member':True,'source_owners_and_hook_match':True,
+        'source_helper_definition_sha256':hashlib.sha256(measured['helper_definition'].encode()).hexdigest()}
+    return measured
+
+
 def target_info():
     return json.loads(run(['docker','inspect',TARGET_ID],phase='target_identity'))[0]
 
@@ -283,6 +329,14 @@ def main():
     archive = source_command('pg_dump -U supabase_admin -d postgres -Fc',phase='full_dump')
     check('full_custom_archive', archive.startswith(b'PGDMP') and len(archive) > 1000)
     private_file(ARCHIVE,archive)
+    graphql_contract = graphql_source_contract()
+    first, remaining, counts = partition_toc(source_command('pg_restore --list',archive,phase='archive_toc'))
+    graphql_prerequisites, remainder, graphql_counts = split_graphql_prerequisites(remaining)
+    counts.update({'graphql_prerequisites':graphql_counts['prerequisites'],'remainder':graphql_counts['remainder']})
+    check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['graphql_prerequisites']+counts['remainder'])
+    DETAILS['archive_toc_coverage'] = counts
+    DETAILS['graphql_bootstrap']['archive_wrapper_declaration_absent'] = True
+    DETAILS['graphql_bootstrap']['archived_function_and_hook_reordered'] = True
     role_dump = prepare_roles(source_command('pg_dumpall -U supabase_admin --roles-only --no-role-passwords',phase='global_roles_dump'))
     check('only_expected_bootstrap_create_prehandled', b'CREATE ROLE' in role_dump and b'ALTER ROLE supabase_admin ' in role_dump)
     private_file(ROLES,role_dump)
@@ -342,12 +396,12 @@ def main():
     # initdb's actual vendor identity matches the measured builtin owner.
     check('builtin_template_extension_owner_matches', builtin_owner == BOOTSTRAP)
     sql('template1','drop database postgres with (force);')
-    first, remainder, counts = partition_toc(source_command('pg_restore --list',ARCHIVE.read_bytes(),phase='archive_toc'))
-    check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['remainder'])
-    DETAILS['archive_toc_coverage'] = counts
-    for name, content in (('bootstrap',first),('remainder',remainder)):
+    for name, content in (('bootstrap',first),('graphql-prerequisites',graphql_prerequisites),('remainder',remainder)):
         run(['docker','exec','--user','postgres','-i',TARGET_ID,'sh','-ec','umask 077; cat > /tmp/c5-'+name+'.list'],content,phase='private_toc_'+name)
     run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','template1','--create','--exit-on-error','--use-list=/tmp/c5-bootstrap.list'],ARCHIVE.read_bytes(),phase='pg_restore_database_schemas')
+    check('no_dummy_graphql_wrapper_before_extension', sql('recovery',"select to_jsonb(to_regprocedure('graphql_public.graphql(text,text,jsonb,jsonb)') is null);") is True)
+    run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','postgres','--exit-on-error','--use-list=/tmp/c5-graphql-prerequisites.list'],ARCHIVE.read_bytes(),phase='pg_restore_graphql_prerequisites')
+    check('archived_graphql_hook_definition_exact', sql('recovery',"select to_jsonb(pg_get_functiondef(to_regprocedure('extensions.grant_pg_graphql_access()')));") == graphql_contract['helper_definition'])
     for name, version, schema, owner in mixed:
         # pgmq is an explicitly measured non-superuser extension. Install under
         # its original role after source database/schema ACLs exist, then keep

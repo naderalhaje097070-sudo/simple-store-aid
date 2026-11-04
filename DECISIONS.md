@@ -1,3 +1,11 @@
+## Current — C5 independent restore In Progress, 2026-11-04
+
+Owner execution request resumes fixed plan b1be7f4; sole implementer root, claim55/6631994321. Test-only independent no-network target, exact source image/runtime discovery, role/owner/ACL/extension preservation, full restore and stored replay/isolation/new-payment, native injected failure cleanup control. Existing C5 restore and all55 migrations/app/dependencies stay frozen; only new test/CI admission and capture dispatch. Local19 source/11 safety controls and syntax pass; actual hosted fresh/upgrade recovery remains pending. See changes/c5-restore-independent/INTAKE.md and DESIGN.md.
+
+Prior C5 restore remains FAILED/BLOCKED; no current restoration acceptance/fullC5/C6/C7 claim. Fixed sequence remains recovery → full financial app journey → independentC6 → ownerC7 → RC/Pilot. main220fc206/five drafts unchanged; no merge/deploy/production/closure/cost.
+
+---
+
 ## Current — تثبيت الخطة والتقدم، 2026-11-04
 
 طلب المالك تثبيت الخطوات والتقدم. المرجع الحالي هو القسم الأول من [PRIMARY_DELIVERY_PLAN](docs/PRIMARY_DELIVERY_PLAN.md): A+B مدمجتان،23من28طلبًا أصليًا حُسمت؛ C1 تحضير مكتمل وC2–C4 والتحصيل مختبرة ضمن النطاق على فرع التكامل، وليست مدمجة. C5 الشامل In Progress؛ قبول الاستعادة FAILED/BLOCKED؛ C6/C7 وRC/Pilot مفتوحة.

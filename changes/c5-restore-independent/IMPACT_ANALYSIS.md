@@ -1,0 +1,2 @@
+# Impact
+Only additive independent restore test/CI files and a minimal capture.py source-admission dispatch change. Old restore helpers/assertions reused without edits. New source guard pins the base, previous manifests and all55 migrations. Application/UI/API/financial contracts and dependencies unchanged. Runner privileges match existing Docker orchestration; new target has no network or host mounts.

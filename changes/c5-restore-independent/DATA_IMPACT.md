@@ -1,0 +1,2 @@
+# Data
+Disposable dummy source read only during recovery phase; original prior finance/browser seeding is retained. Synthetic target alone receives roles, database creation/full restore and SQL-role replay/newpayment. Two root0600 exclusive private files contain archive/role definitions; role passwords omitted. Finally removes owned files/attested target and compares source again. Safe artifacts contain only fixed check names, booleans, image/version metadata and archive SHA256; no SQL/rows/tokens/dumps.

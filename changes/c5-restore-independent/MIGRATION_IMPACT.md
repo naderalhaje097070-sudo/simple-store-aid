@@ -1,0 +1,2 @@
+# Migrations
+No migration added/edited; all55 source migrations preserved byte/mode exact. Fresh55 and populated54→55 seeding retained. Target pg_restore --create --exit-on-error restores original database owner/settings/ACL and every archived extension; no filter/no-owner/no-acl/ignored error. DROP DATABASE is confined to the independently attested target's empty bootstrap postgres database, never the source.

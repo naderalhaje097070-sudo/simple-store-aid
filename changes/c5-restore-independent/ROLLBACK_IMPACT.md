@@ -1,0 +1,2 @@
+# Rollback
+No product/schema rollout. Driver finally deletes only its exclusive task private files and attested owned target; source data/catalog comparison runs on success/failure. Workflow separately observes cleanup and removes an attested leftover target if needed; fallback cannot turn acceptance green. Existing source stack cleanup/scanner remain required. For code errors, forward correction commit; no migration rewrite, history rewrite or production action.

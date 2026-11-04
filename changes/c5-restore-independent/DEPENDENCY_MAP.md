@@ -1,0 +1,2 @@
+# Dependencies
+Frozen tests/c5-restore/restore.py supplies selected-row/catalog and claims/RPC helpers; new driver substitutes explicitly source/recovery SQL routing in its process only. Existing C5 collection native seed/component browser, target guards, B1/G0 source admission, and publication scanner reused. CLI2.101.0/Node24.22.1/Bun1.2.14/Playwright requirements unchanged. Source image discovered/attested at runtime; use exact installed image ID, not a tag or remote pull.

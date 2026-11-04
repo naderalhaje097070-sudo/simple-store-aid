@@ -1,0 +1,9 @@
+# C5-RESTORE-INDEPENDENT-01
+4 November2026; sole implementer root. Owner requests execution of fixed plan b1be7f4. Claim55/6631994321.
+Goal: accept the existing nonempty logical backup in a distinct disposable cluster, then prove retained rows/security/catalog/idempotency and safe cleanup.
+Type: test/CI only, moderate harness/credential-containment risk. No product/financial/SQL/dependency contract change.
+Base b1be7f4d57979398c475e78b679a655d63111428, existing integration/g0-g1-reconcile-2026-10-18. main220fc206 unchanged; original drafts27/35/39/49/50 open. Old restore source, workflow, manifest and verifier remain frozen.
+Expected behavior: full archive restores with original database name, extensions, owners and ACLs; reuse prior SQL authenticated-role assertions; include source invariance on failure and success.
+Acceptance: fresh/upgraded nonempty source; actual injected failure after global roles and independently observed cleanup; full unfiltered fail-on-error restore; selected rows/catalog/constraints/indexes/triggers/sequences/global roles/memberships/settings/cron definitions exact; replay/foreign/payload denial and genuine new payment exactly once; source unchanged; no network/host ports/mounts; private files and target removed; safe evidence publication.
+Limits: selected row comparisons cover public/monjez_private/auth/supabase_migrations, not every provider service's evolving internal state. Full archive itself is not schema-filtered. Roles restored without passwords; no HTTP/Auth service deployment, password/master-encryption-key recovery, production/PITR or operational RPO/RTO proof.
+Gate0 authorization: explicit owner execution request and fixed current plan authorize this bounded isolated work. Missing local Docker requires existing GitHub-hosted disposable runner; no new subscription or production credentials.

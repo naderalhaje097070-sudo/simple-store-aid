@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "scope": "C5-RESTORE-INDEPENDENT-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "b1be7f4d57979398c475e78b679a655d63111428",
+  "changes": {
+    "tests/g01-acceptance/capture.py": {
+      "before": "94e3f14809cf355c6b9e5985cfee492ff8b4b05b",
+      "after": "bb2b1094ef6c34e0c463b83fe8332c45ede8fc9d"
+    }
+  },
+  "additions": {
+    "tests/c5-restore-independent/identity.py": "8c863e7531ff65ab47ecf4dafbdd29f97e336ad2",
+    "tests/c5-restore-independent/test_identity.py": "8118bc4903597941541f5b8a5072c0dfd56cdea4",
+    "tests/c5-restore-independent/test_restore.py": "e50252988bebb060875090e919e732a31cbd3470",
+    "tests/c5-restore-independent/restore.py": "215fbca1e9d8928b686b68e35914ce3acaa21188",
+    ".github/workflows/c5-restore-independent.yml": "79b7de640f1b59824cdb14663011062e21251d00"
+  }
+}

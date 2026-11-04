@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "current_source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+  "archives": [
+    {
+      "path": "integration-full-audit-13370226122.zip",
+      "artifact_id": 13370226122,
+      "run_id": 41927269721,
+      "source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+      "sha256": "cbd2dc7491dfa5dca712d1686ff33bd74dac6b16a760ce992a64099dc3ce9676",
+      "bytes": 161,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "quality-diagnostics-13369642472.zip",
+      "artifact_id": 13369642472,
+      "run_id": 41927269721,
+      "source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+      "sha256": "ec21595eb0547c62b02f5c9c05486fdd1cf3f5885e8b35d068101cfe3f16786f",
+      "bytes": 2159,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "integration-source-identity-13368693919.zip",
+      "artifact_id": 13368693919,
+      "run_id": 41927269721,
+      "source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+      "sha256": "e9951dfee4ed4de1ffb4b3d124b8bdbc4594bed39a091d6d223451b98a8c74c1",
+      "bytes": 387,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "c5-restore-independent-upgrade-attempt1-13370685646.zip",
+      "artifact_id": 13370685646,
+      "run_id": 41927270178,
+      "source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+      "sha256": "b8f2e608f741255799ea6cd0e6ac62b2d5d4124143b85419e65b5f27ea8b9ed3",
+      "bytes": 8625,
+      "format": "original GitHub artifact ZIP",
+      "result": "prior_functions_RLS_owners_ACLs_restored"
+    },
+    {
+      "path": "c5-restore-independent-fresh-attempt1-13370307380.zip",
+      "artifact_id": 13370307380,
+      "run_id": 41927270178,
+      "source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+      "sha256": "f10d4b08e2282858b3821596afe303020b711bca1a6556c7401ce29de4eafd32",
+      "bytes": 8155,
+      "format": "original GitHub artifact ZIP",
+      "result": "prior_functions_RLS_owners_ACLs_restored"
+    },
+    {
+      "path": "integration-full-audit-13370157641.zip",
+      "artifact_id": 13370157641,
+      "run_id": 41928863138,
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "sha256": "eb25be31ba68e1f6180bed71e5eb1ec0fbb6eeaceae7c1d9bc436f2427d9e6d9",
+      "bytes": 161,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "quality-diagnostics-13370057979.zip",
+      "artifact_id": 13370057979,
+      "run_id": 41928863138,
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "sha256": "7f3e396be54c2b70a54580272a235d4bb6f9dc500997da7a5ad856a3fe63ce63",
+      "bytes": 2158,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "integration-source-identity-13369743486.zip",
+      "artifact_id": 13369743486,
+      "run_id": 41928863138,
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "sha256": "4780fe514f4985355790d21a2a9c6fd923aa79f00aad87d7412096d7b86a373d",
+      "bytes": 387,
+      "format": "original GitHub artifact ZIP"
+    },
+    {
+      "path": "c5-restore-independent-fresh-attempt1-13371845160.zip",
+      "artifact_id": 13371845160,
+      "run_id": 41928863171,
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "sha256": "3058839f0be5022e66efd008e4fdaedac80dac9ccb2c1c9601d0983ead4dee10",
+      "bytes": 8357,
+      "format": "original GitHub artifact ZIP",
+      "result": "metadata_restored_schemas"
+    },
+    {
+      "path": "c5-restore-independent-upgrade-attempt1-13371445584.zip",
+      "artifact_id": 13371445584,
+      "run_id": 41928863171,
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "sha256": "729683071d3e7901f6871f6893740c4dff7b3395881e201368d2094896b71b64",
+      "bytes": 8832,
+      "format": "original GitHub artifact ZIP",
+      "result": "metadata_restored_schemas"
+    }
+  ]
+}

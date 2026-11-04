@@ -1,3 +1,19 @@
+## Current — C5 phase3 catalog verifier corrected; vendor grants block, 2026-11-05
+
+Exact candidate fe62a3cc1e290607afd9891720d6239adb2a3daf, integration/g0-g1-reconcile-2026-10-18. Native41928863171 passes application prior.catalog after a measured1table ACL-representation correction:49functions/26tables/82policies,0missing/added; function/policy/body/security/config/owners/RLS exact, actual table grants exact. Full1039archive execution/selected rows still pass. Each real path46PASS/1FAIL (metadata_restored_schemas); intentional-failure33controls, source invariance/private files/target cleanup/publication/zero unexpected egress PASS.
+
+Actual grant tuples differ for1vendor schema graphql_public and fixed postgres database; all their identities/owners/database/encoding/locale/collation attributes match. Exact changed grantor/grantee/privilege/grant-option components and producing statement remain unmeasured; no effective-access exploit or harmless-formatting claim for these2objects. Schema gate remains FAILED; database grant mismatch is diagnostic and later restored-RPC/new-payment gates remain unexecuted.
+
+Scoped verifier correction **Implemented → Tested candidate only**; full restoration **FAILED/BLOCKED**, fullC5 In Progress, C6/C7/RC/Pilot open. [Result and next private grant diagnosis](../changes/c5-restore-independent/RESULT_PHASE3.md);10original artifact ZIPs/digests preserved; e8f3ba90 diagnostic literal failure retained. Raw snapshots unchanged, typed PUBLIC, complete grant multisets and exact coverage; no supplementary permission write or ignored security difference.
+
+G041928863138/B141928863250 SUCCESS;97unit/300expectations,0lint errors/15warnings, audit{},485protected/55migrations/prior manifests exact. Local41tests/AST pass;33prior test methods exact.108/111collection controls before restore pass. No new G1/advisor/independentC6 acceptance.
+
+**ONE NEXT: phase4 in this same C5 task — privately identify and trace precise graphql_public/postgres grant-tuple differences, then faithfully restore source grants on the isolated target and complete all remaining metadata/replay/isolation/conflict/new-payment gates.** Keep actual differences blocking; then the fixed full financial journey → C6 → ownerC7 → RC/Pilot sequence.
+
+Main220fc206/five draft PRs27/35/39/49/50 unchanged/open; #50 tracking only. No merge/deploy/production/closure/newcost/financial-policy change. Final docs/evidence publication attributes native results only to fe62a3cc. Prior histories below remain exact.
+
+---
+
 ## Current — C5 phase2 GraphQL restore correction tested; catalog equality blocks, 2026-11-04
 
 Exact candidate febfca66dc331c6071c235ccfec1256f91b88770 on integration/g0-g1-reconcile-2026-10-18. Native41906845470 executes all1039archive entries in both modes (13schema/database +2original GraphQL prerequisites +1024remainder), and all selected rows match. Original helper definition exact; source extension membership/owners/hook and TOC coverage measured. No dummy wrapper/object exclusion/error suppression. Real receipts44pass/1FAIL (prior_functions_RLS_owners_ACLs_restored) per mode; injected-failure33checks/cleanup/source invariance/publication/zero unexpected egress pass.

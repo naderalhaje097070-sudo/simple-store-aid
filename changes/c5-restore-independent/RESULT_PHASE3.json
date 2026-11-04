@@ -1,0 +1,336 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "task": "C5-RESTORE-INDEPENDENT-01",
+  "phase": "phase3_catalog_verification",
+  "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+  "diagnostic_source": "e8f3ba9016353d1efd662815bed70c6b3c07a651",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "status": "Implemented and Tested candidate verifier correction",
+  "full_restore_accepted": false,
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "current_barrier": "metadata_restored_schemas",
+  "source_identity": {
+    "protected_blobs": 485,
+    "migrations": 55,
+    "prior_manifests_unchanged": true
+  },
+  "local_tests": 41,
+  "prior_tests_AST_exact": 33,
+  "unit": 97,
+  "expectations": 300,
+  "lint": {
+    "errors": 0,
+    "warnings": 15
+  },
+  "runs": {
+    "diagnostic": {
+      "id": 41927270178,
+      "conclusion": "failure",
+      "attempt": 1
+    },
+    "restore": {
+      "id": 41928863171,
+      "conclusion": "failure",
+      "attempt": 1
+    },
+    "g0": {
+      "id": 41928863138,
+      "conclusion": "success",
+      "attempt": 1
+    },
+    "b1": {
+      "id": 41928863250,
+      "conclusion": "success",
+      "attempt": 1
+    }
+  },
+  "native": [
+    {
+      "mode": "fresh",
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "restored": false,
+      "catalog_contract_passed": true,
+      "all_selected_rows_match": true,
+      "checks": 47,
+      "passed": 46,
+      "failed": [
+        "metadata_restored_schemas"
+      ],
+      "canary_checks": 33,
+      "collection_controls": 108,
+      "diagnostic": {
+        "literal_equal": false,
+        "functions": {
+          "source_count": 49,
+          "recovered_count": 49,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 0,
+          "literal_equal": true,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "name": 0,
+            "arguments": 0,
+            "body": 0,
+            "security_definer": 0,
+            "config": 0,
+            "acl": 0,
+            "owner": 0
+          },
+          "changed_key_hashes": [],
+          "semantic_acl_equal": true
+        },
+        "tables": {
+          "source_count": 26,
+          "recovered_count": 26,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "name": 0,
+            "rls": 0,
+            "forced_rls": 0,
+            "acl": 1,
+            "owner": 0
+          },
+          "changed_key_hashes": [
+            "9b159b74ba10057a75bf0449931af550c14ff75716a90b7f76f81613806ad580"
+          ],
+          "semantic_acl_equal": true
+        },
+        "policies": {
+          "source_count": 82,
+          "recovered_count": 82,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 0,
+          "literal_equal": true,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "table": 0,
+            "name": 0,
+            "permissive": 0,
+            "roles": 0,
+            "command": 0,
+            "using": 0,
+            "with_check": 0
+          },
+          "changed_key_hashes": []
+        },
+        "semantic_acl_equal": false,
+        "extra_different_sections": [
+          "schemas",
+          "database"
+        ],
+        "schemas": {
+          "source_count": 16,
+          "recovered_count": 16,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "owner": 0,
+            "acl": 1
+          },
+          "changed_key_hashes": [
+            "7ffe3af024af2cd5f335b4f18dd89ee409a7593f2c54ca37f5d859fa2afb4449"
+          ],
+          "semantic_acl_equal": false
+        },
+        "database": {
+          "source_count": 1,
+          "recovered_count": 1,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "database": 0,
+            "owner": 0,
+            "encoding": 0,
+            "collate": 0,
+            "ctype": 0,
+            "locale_provider": 0,
+            "locale": 0,
+            "icu_rules": 0,
+            "collation_version": 0,
+            "acl": 1
+          },
+          "changed_key_hashes": [
+            "66911f262dea5e809920fc370148343afb060103e3684c324d7b1365d4496740"
+          ],
+          "semantic_acl_equal": false
+        }
+      },
+      "archive_toc_coverage": {
+        "all": 1039,
+        "bootstrap": 13,
+        "remainder": 1024,
+        "graphql_prerequisites": 2
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    },
+    {
+      "mode": "upgrade",
+      "source": "fe62a3cc1e290607afd9891720d6239adb2a3daf",
+      "restored": false,
+      "catalog_contract_passed": true,
+      "all_selected_rows_match": true,
+      "checks": 47,
+      "passed": 46,
+      "failed": [
+        "metadata_restored_schemas"
+      ],
+      "canary_checks": 33,
+      "collection_controls": 111,
+      "diagnostic": {
+        "literal_equal": false,
+        "functions": {
+          "source_count": 49,
+          "recovered_count": 49,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 0,
+          "literal_equal": true,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "name": 0,
+            "arguments": 0,
+            "body": 0,
+            "security_definer": 0,
+            "config": 0,
+            "acl": 0,
+            "owner": 0
+          },
+          "changed_key_hashes": [],
+          "semantic_acl_equal": true
+        },
+        "tables": {
+          "source_count": 26,
+          "recovered_count": 26,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "name": 0,
+            "rls": 0,
+            "forced_rls": 0,
+            "acl": 1,
+            "owner": 0
+          },
+          "changed_key_hashes": [
+            "9b159b74ba10057a75bf0449931af550c14ff75716a90b7f76f81613806ad580"
+          ],
+          "semantic_acl_equal": true
+        },
+        "policies": {
+          "source_count": 82,
+          "recovered_count": 82,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 0,
+          "literal_equal": true,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "table": 0,
+            "name": 0,
+            "permissive": 0,
+            "roles": 0,
+            "command": 0,
+            "using": 0,
+            "with_check": 0
+          },
+          "changed_key_hashes": []
+        },
+        "semantic_acl_equal": false,
+        "extra_different_sections": [
+          "schemas",
+          "database"
+        ],
+        "schemas": {
+          "source_count": 16,
+          "recovered_count": 16,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "schema": 0,
+            "owner": 0,
+            "acl": 1
+          },
+          "changed_key_hashes": [
+            "7ffe3af024af2cd5f335b4f18dd89ee409a7593f2c54ca37f5d859fa2afb4449"
+          ],
+          "semantic_acl_equal": false
+        },
+        "database": {
+          "source_count": 1,
+          "recovered_count": 1,
+          "missing_count": 0,
+          "added_count": 0,
+          "changed_count": 1,
+          "literal_equal": false,
+          "list_order_only": false,
+          "field_counts": {
+            "database": 0,
+            "owner": 0,
+            "encoding": 0,
+            "collate": 0,
+            "ctype": 0,
+            "locale_provider": 0,
+            "locale": 0,
+            "icu_rules": 0,
+            "collation_version": 0,
+            "acl": 1
+          },
+          "changed_key_hashes": [
+            "66911f262dea5e809920fc370148343afb060103e3684c324d7b1365d4496740"
+          ],
+          "semantic_acl_equal": false
+        }
+      },
+      "archive_toc_coverage": {
+        "all": 1039,
+        "bootstrap": 13,
+        "remainder": 1024,
+        "graphql_prerequisites": 2
+      },
+      "cleanup": {
+        "private_files_removed": true,
+        "target_removed": true,
+        "source_unchanged": true
+      },
+      "zero_unexpected_egress": true
+    }
+  ],
+  "next": "phase4 privately identify exact grant-tuple differences and bootstrap/archive cause for graphql_public and postgres; faithfully restore source privileges and complete all remaining gates",
+  "unverified": [
+    "changed grant components and effective-access impact",
+    "later metadata and restored RPCs/new payment",
+    "restored HTTP/Auth/password/encryption/PITR",
+    "independent C6"
+  ]
+}

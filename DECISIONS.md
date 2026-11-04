@@ -1,3 +1,13 @@
+## Current — C5 restore diagnostic tested; acceptance blocked, 2026-11-04
+
+Executable46373de654b8ecb5deb60315da763b9377c67c3e: C5 restore41793455289 FAILED in both modes at pg_restore due pg_cron database restriction. The full dump cannot be accepted into a second database in the same cluster. PostgreSQL tools/server17.6; inherited108fresh/111upgrade financial/browser controls, cleanup/zero-egress pass. G041793455447 andB141793455484 SUCCESS;97unit/300expectations,0lint errors/15warnings, audit{}. New19source controls and479protected entries/55migrations preserve application/SQL/dependencies/prior manifests. HistoricalG1passed on80e56afc; not promoted to current source.
+
+Status: **Implemented/Tested diagnostic; restore acceptance FAILED/BLOCKED**, fullC5/integration acceptance=false. No restored replay/data comparison has completed. See changes/c5-restore/RESULT.md, FINDINGS.md, NEXT_DESIGN.md and evidence/manifest.json. Earlier failed attempts retained;19safe original ZIPs verified.
+
+**ONE NEXT: independent disposable recovery target preserving original database name, extension configuration and owners/ACL/roles**, then existing restored data/replay/isolation/new-payment/cleanup assertions. Do not skip pg_cron or ignore restore errors. Full financial journey/C6/C7 remain open. No new owner financial decision required for this test-only next step. Main220fc206/five drafts unchanged; no merge/deploy/production/closure/cost. Older blocks below are historical.
+
+---
+
 ## Current — C5-RESTORE-01 in progress, 2026-11-04
 
 Owner continuation authorizes planned isolated nonempty logical restore testing. Sole implementer root, claim55/6624766893. Test-only delta; app/SQL/dependencies/prior manifests unchanged. Nineteen local source negative controls passed; hosted restore/affected checks pending. Exact baseline be0f128f (tested product a52ee17d). See changes/c5-restore/INTAKE.md for scope/limits. No restore acceptance yet; fullC5/C6/C7 open. Main220fc206/five drafts unchanged; no merge/deploy/production/cost/closure.

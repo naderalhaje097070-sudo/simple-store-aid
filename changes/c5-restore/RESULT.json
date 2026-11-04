@@ -1,0 +1,54 @@
+{
+  "scope": "C5-RESTORE-01",
+  "source": "46373de654b8ecb5deb60315da763b9377c67c3e",
+  "status": "Implemented and Tested diagnostic; restore acceptance FAILED",
+  "restore_acceptance": false,
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "finding": "C5-RESTORE-TOPOLOGY-01",
+  "current_runs": [
+    {
+      "id": 41793455289,
+      "source": "46373de654b8ecb5deb60315da763b9377c67c3e",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1
+    },
+    {
+      "id": 41793455447,
+      "source": "46373de654b8ecb5deb60315da763b9377c67c3e",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1
+    },
+    {
+      "id": 41793455484,
+      "source": "46373de654b8ecb5deb60315da763b9377c67c3e",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1
+    }
+  ],
+  "historical_G1": {
+    "run": 41789737769,
+    "source": "80e56afc7f1aee0844c828f406c8fa117cff821f",
+    "conclusion": "success"
+  },
+  "financial_controls": {
+    "fresh": 108,
+    "upgrade": 111,
+    "passed": true,
+    "restore_scope": false
+  },
+  "versions": {
+    "pg_dump": "17.6",
+    "pg_restore": "17.6",
+    "server_version_num": 170006
+  },
+  "source_entries": 479,
+  "migrations": 55,
+  "next": "Independent disposable recovery cluster preserving original database name/extensions/owners, then complete stored-data and replay acceptance",
+  "merge": false,
+  "release": false
+}

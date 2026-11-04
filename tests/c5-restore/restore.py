@@ -14,6 +14,15 @@ PRIVATE = Path('/tmp/monjez-c5sale/private-state.json')
 OUT = Path('/tmp/monjez-c5sale/evidence/restore-result.json')
 ARCHIVE = Path('/tmp/monjez-c5-restore-private.dump')
 PHASE = 'preflight'
+VERSIONS = {}
+
+
+def error_words(stderr):
+    # Only finite public vocabulary is emitted, never arbitrary identifiers or values.
+    allowed = set('pg_restore error could not execute query cannot can only create extension database parameter unrecognized unsupported version input file too short end unexpected configuration transaction_timeout schema table function permission denied already exists does must be owner data type operator constraint duplicate key value invalid syntax for is reserved prefix role superuser access on set all publication subscription timeout'.split())
+    lines = stderr.decode(errors='replace').splitlines()
+    line = next((line for line in lines if 'error:' in line.lower()), '')
+    return ' '.join(word if word in allowed else '?' for word in re.findall('[a-z_]+', line.lower()))
 
 
 def classify(stderr):
@@ -28,7 +37,7 @@ def command(args, data=None):
     PHASE = next((a for a in args if a in ('git','pg_dump','pg_restore','createdb')), 'container_inspect')
     result = subprocess.run(args, input=data, capture_output=True, timeout=180)
     if result.returncode:
-        raise RuntimeError('command_failed:' + PHASE + ':' + ','.join(classify(result.stderr)))
+        raise RuntimeError('command_failed:' + PHASE + ':' + ','.join(classify(result.stderr)) + ':' + error_words(result.stderr))
     return result.stdout
 
 
@@ -94,6 +103,11 @@ def main():
     check('exact_source_and_isolation', source == os.environ['EXPECTED_SOURCE'] and os.environ.get('CI_ISOLATED_SUPABASE') == '1')
     check('tracked_source_clean', subprocess.run([*git,'diff','--quiet','HEAD','--']).returncode == 0)
     check('fixed_local_container', command(['docker','inspect','--format','{{.Name}}',CONTAINER]).decode().strip() == '/' + CONTAINER)
+    for tool in ('pg_dump','pg_restore'):
+        version = command(['docker','exec',CONTAINER,tool,'--version']).decode().strip()
+        assert re.fullmatch(r'[a-z_]+ \(PostgreSQL\) [0-9.]+(?: \([^\n]*\))?', version)
+        VERSIONS[tool] = version
+    VERSIONS['server_version_num'] = sql('postgres', "select current_setting('server_version_num')::integer;")
     check('separate_target_absent', sql('postgres', "select count(*) from pg_database where datname='" + TARGET + "';") == 0)
     state = json.loads(PRIVATE.read_text())
     before, structure = rows('postgres'), catalog('postgres')
@@ -133,7 +147,7 @@ if __name__ == '__main__':
     try:
         main()
     except Exception as error:
-        OUT.write_text(json.dumps({'source':os.environ.get('EXPECTED_SOURCE'),'restored':False,'failure_type':type(error).__name__,'phase':PHASE,'reason':str(error) if type(error) is RuntimeError else 'private_details_withheld'})+'\n')
+        OUT.write_text(json.dumps({'source':os.environ.get('EXPECTED_SOURCE'),'restored':False,'failure_type':type(error).__name__,'phase':PHASE,'versions':VERSIONS,'reason':str(error) if type(error) is RuntimeError else 'private_details_withheld'})+'\n')
         print('C5_RESTORE_FAILED_PRIVATE_DETAILS_WITHHELD')
         raise SystemExit(2)
     finally:

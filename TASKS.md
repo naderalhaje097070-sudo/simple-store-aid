@@ -1,3 +1,13 @@
+## Current — تثبيت الخطة والتقدم، 2026-11-04
+
+طلب المالك تثبيت الخطوات والتقدم. المرجع الحالي هو القسم الأول من [PRIMARY_DELIVERY_PLAN](docs/PRIMARY_DELIVERY_PLAN.md): A+B مدمجتان،23من28طلبًا أصليًا حُسمت؛ C1 تحضير مكتمل وC2–C4 والتحصيل مختبرة ضمن النطاق على فرع التكامل، وليست مدمجة. C5 الشامل In Progress؛ قبول الاستعادة FAILED/BLOCKED؛ C6/C7 وRC/Pilot مفتوحة.
+
+**ONE NEXT: C5 استعادة إلى عنقود مستقل مؤقت، ثم الرحلة المالية الكاملة → C6 المستقلة → C7 قرار المالك والتحقق والتسوية → RC/Pilot.** لكل خطوة شروط إغلاق في الخطة؛ لا نسبة جاهزية عامة ولا ميزات ثانوية. موافقتا الكسور والتحصيل محسومتان.
+
+main220fc206؛ رأس ما قبل تثبيت الخطة489c853c؛ المصدر التنفيذي المختبر46373de6. الفرع integration/g0-g1-reconcile-2026-10-18؛ الطلبات27/35/39/49/50 مفتوحة. هذا التحديث توثيقي فقط؛ لا تنفيذ استعادة جديد أو اختبارات مالية جديدة أو دمج/نشر/إغلاق. النتائج والإخفاقات السابقة محفوظة، وكل CURRENT/ONE NEXT أدناه تاريخي ويُفسر وفق المرجع الحالي أعلاه.
+
+---
+
 ## Current — C5 restore diagnostic tested; acceptance blocked, 2026-11-04
 
 Executable46373de654b8ecb5deb60315da763b9377c67c3e: C5 restore41793455289 FAILED in both modes at pg_restore due pg_cron database restriction. The full dump cannot be accepted into a second database in the same cluster. PostgreSQL tools/server17.6; inherited108fresh/111upgrade financial/browser controls, cleanup/zero-egress pass. G041793455447 andB141793455484 SUCCESS;97unit/300expectations,0lint errors/15warnings, audit{}. New19source controls and479protected entries/55migrations preserve application/SQL/dependencies/prior manifests. HistoricalG1passed on80e56afc; not promoted to current source.

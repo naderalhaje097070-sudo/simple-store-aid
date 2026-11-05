@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "task": "C5-FIRST-FAILED-ASSERTION-01",
+  "date_tripoli": "2026-11-06",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "evidence_source": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+  "read_from_head": "5c8328a3b96c94c5a4a52b9693483604c3bac70b",
+  "native_run": 42125234643,
+  "claim": 6671950951,
+  "comparison": [
+    {
+      "artifact_id": 13460626236,
+      "sha256": "fb16e988ff802e433e1771ccfe6cc077d62eedfe02b342f6d6d1a10814025a89",
+      "mode": "fresh",
+      "source": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+      "first_failure_ordinal": 58,
+      "passed_before": 57,
+      "total_recorded": 58,
+      "first_failure": {
+        "name": "desktop_final_day_close_independent_oracle",
+        "passed": false,
+        "observed": {
+          "sales": 275,
+          "expenses": 5,
+          "collected": 225,
+          "customer_debts": 0,
+          "realized_profit": 135,
+          "unsettled_custody": 0
+        },
+        "expected": {
+          "sales": 275,
+          "collected": 225,
+          "expenses": 5,
+          "realized_profit": 130,
+          "customer_debts": 0,
+          "unsettled_custody": 0
+        }
+      },
+      "only_differences": {
+        "realized_profit": {
+          "expected": 130,
+          "actual": 135
+        }
+      },
+      "previous_named_checks": [
+        {
+          "name": "desktop_settlement_cash_once",
+          "passed": true
+        },
+        {
+          "name": "desktop_return_exact_stock_no_cash_debt_custody",
+          "passed": true
+        },
+        {
+          "name": "desktop_real_UI_expense_stored",
+          "passed": true
+        },
+        {
+          "name": "desktop_actual_profit_display_after_expense",
+          "passed": true
+        },
+        {
+          "name": "desktop_close_day_success",
+          "passed": true
+        }
+      ],
+      "members": [
+        "cleanup.json",
+        "journey-failure.json",
+        "progress.json",
+        "runtime-image.json"
+      ]
+    },
+    {
+      "artifact_id": 13460512159,
+      "sha256": "110a8bdda4669135d7f51b2fd9aff575b133319c6b21cab3150470657e7223e4",
+      "mode": "upgrade",
+      "source": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+      "first_failure_ordinal": 59,
+      "passed_before": 58,
+      "total_recorded": 59,
+      "first_failure": {
+        "name": "desktop_final_day_close_independent_oracle",
+        "passed": false,
+        "observed": {
+          "sales": 275,
+          "expenses": 5,
+          "collected": 225,
+          "customer_debts": 0,
+          "realized_profit": 135,
+          "unsettled_custody": 0
+        },
+        "expected": {
+          "sales": 275,
+          "collected": 225,
+          "expenses": 5,
+          "realized_profit": 130,
+          "customer_debts": 0,
+          "unsettled_custody": 0
+        }
+      },
+      "only_differences": {
+        "realized_profit": {
+          "expected": 130,
+          "actual": 135
+        }
+      },
+      "previous_named_checks": [
+        {
+          "name": "desktop_settlement_cash_once",
+          "passed": true
+        },
+        {
+          "name": "desktop_return_exact_stock_no_cash_debt_custody",
+          "passed": true
+        },
+        {
+          "name": "desktop_real_UI_expense_stored",
+          "passed": true
+        },
+        {
+          "name": "desktop_actual_profit_display_after_expense",
+          "passed": true
+        },
+        {
+          "name": "desktop_close_day_success",
+          "passed": true
+        }
+      ],
+      "members": [
+        "journey-failure.json",
+        "cleanup.json",
+        "progress.json",
+        "runtime-image.json",
+        "upgrade-seed.json"
+      ]
+    }
+  ],
+  "first_and_only_failed_check": "desktop_final_day_close_independent_oracle",
+  "field_comparison": {
+    "sales": {
+      "expected": 275,
+      "actual": 275
+    },
+    "collected": {
+      "expected": 225,
+      "actual": 225
+    },
+    "expenses": {
+      "expected": 5,
+      "actual": 5
+    },
+    "realized_profit": {
+      "expected": 130,
+      "actual": 135
+    },
+    "customer_debts": {
+      "expected": 0,
+      "actual": 0
+    },
+    "unsettled_custody": {
+      "expected": 0,
+      "actual": 0
+    }
+  },
+  "calculation": {
+    "collected": 225,
+    "allocated_item_cost": 90,
+    "margin_before_expense": 135,
+    "expense": 5,
+    "net_after_expense": 130,
+    "difference": 5,
+    "method": "fixture unit price100/cost40; recognized quantities0.25+1+1; returned0.5 has no payment"
+  },
+  "migration_scan": {
+    "count": 55,
+    "definitions": [
+      "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+      "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+      "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+      "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+      "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+      "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+      "supabase/migrations/20261010223557_enforce_live_account_state.sql"
+    ],
+    "last_definition": "supabase/migrations/20261010223557_enforce_live_account_state.sql",
+    "source_lines": [
+      189,
+      274
+    ],
+    "blob": "d632a985f2330c8f969cd49aa9a7d5fba2e38bfe",
+    "later_migrations_with_close_day_mentions": []
+  },
+  "source_evidence": {
+    "sql": "payment-weighted item margins persisted as realized_profit; expenses separate; no expense subtraction",
+    "ui": "app.tsx370 and2546–2553 subtract expenses",
+    "ui_blob": "be9436c488f6d58e074669b23d777fb5376a2c49",
+    "product_fixture": "tests/c2-quantity/probe.py price100 cost40",
+    "product_blob": "5082f80b38dc23f597ad2bb52df6278d145e1ab0"
+  },
+  "diagnosis": "Confirmed stored/UI profit-semantics mismatch; no canonical financial-contract resolution selected; no cash loss or collection defect established.",
+  "verification": {
+    "zip_sha256_matched": true,
+    "all_rows_before_first_failure_pass": true,
+    "only_one_difference": true,
+    "all_members_json_checked": true,
+    "credential_pattern_and_sensitive_key_scan_pass": true,
+    "independent_review": true,
+    "new_native_run": false,
+    "financial_or_test_oracle_change": false
+  },
+  "full_C5_accepted": false,
+  "integration_accepted": false,
+  "next": "Prepare a bounded contract-alignment design for persisted profit and net display, including historical snapshot compatibility; retain failing130 expectation until an explicit reviewed resolution."
+}

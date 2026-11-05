@@ -1,3 +1,17 @@
+## Current — first failed C5 assertion extracted; stored/UI profit semantics differ, 2026-11-06
+
+Read-only diagnosis `C5-FIRST-FAILED-ASSERTION-01`, original executable122d8aa4/native42125234643. Original fresh13460626236 and upgrade13460512159 ZIPs downloaded with newly available artifact capability; SHA256 exactly matches recorded GitHub digests. First and sole false row `desktop_final_day_close_independent_oracle`: ordinal58fresh/59upgrade; all57/58 earlier rows PASS. Stored sales275/collected225/expenses5/debt0/custody0 match. Only realized_profit differs: expected130, actual135, difference5. Prior actual profit-display-after-expense, return/settlement and close_day_success controls PASS. No new native run or executable/SQL/test expectation change.
+
+Full55migration trace and actual independent reviewer confirm last close_day body in20261010223557_enforce_live_account_state.sql (189–274), no later definition/mention. It stores payment-weighted item margin before expense subtraction, with expenses separate. UI app.tsx370 and2546–2553 subtracts expense. Fixture225collected−90allocatedcost=135margin;135−5expense=130net. Confirmed stored/UI semantics mismatch, not proof of missing cash or failed collection. Reviewed decisions/intake do not explicitly select a new persisted-field meaning; neither SQL nor oracle is silently changed.
+
+Diagnosis/extraction verified and independently accepted in scope only. FullC5/In Progress, acceptance blocked, integration=false; fullC6/C7/RC/Pilot pending. Mobile and later network assertion remain unexecuted/unaccepted; blocked-external attempts unresolved. Original ZIP bytes are now durably preserved in this packet (earlier metadata-only notices remain historical). See `changes/c5-journey/RESULT_FIRST_ASSERTION.md`, `REVIEW_FIRST_ASSERTION.md`, `evidence/first-assertion/`.
+
+**ONE NEXT: prepare a bounded contract-alignment design defining whether stored realized_profit is before-expense margin or net after expenses, including UI/API/history compatibility, before selecting and implementing the reviewed resolution.** Preserve the failing evidence and130 expectation while unresolved; any later SQL correction must be forward-only. No approval of a new financial policy or history rewrite is inferred.
+
+Main220fc206/five original drafts unchanged. This publication is documentation/original evidence only, no new CI result claimed for its SHA. Sole/root claim6671950951 pauses at final55handoff; no next active implementation claim. No merge/deploy/production/PR closure/newcost/financial modification. All prior state/history below remains exact.
+
+---
+
 ## Current — C5 customer selector repaired/tested; later assertion blocks, 2026-11-06
 
 Existing `integration/g0-g1-reconcile-2026-10-18`. Diagnostic source `a91369a7e628e4d9eeec277a8248cd9894c0c7e0`/native42124180329 narrows the old wait to grouped advanced checkout, after desktop quarter-sale/hidden-response/reload/replay controls. Frozen app picker button includes customer name plus phone/بدون رقم; the old exact button-name selector is incompatible. Corrected `122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560` chooses a button containing the exact customer-name child and retains strict ambiguity failure. Fine checkpoints/count-only sanitized diagnostics remain; no financial assertion/application/SQL/dependency/guard change. Cumulative5source paths only; all55SQL/original23test methods/19browser+3native control ASTs preserved.

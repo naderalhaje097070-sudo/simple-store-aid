@@ -1,3 +1,9 @@
+## Current — J-PROFIT-SEMANTICS-01 confirmed; diagnosis only, 2026-11-06
+
+The formerly unestablished downstream failure is identified from original verified ZIPs: desktop_final_day_close_independent_oracle, fresh58/upgrade59, only realized_profit130expected vs135stored. All prior57/58rows PASS; five other fields match. Latest effective close_day SQL stores payment-weighted margin without subtracting expenses; UI subtracts5 and displays130. This is confirmed persisted/UI reporting-semantic inconsistency and a C5 blocker; no cash-loss or collection-defect claim. Canonical persisted-field semantics not selected by this read-only task. Do not change expected130 to135 merely for a green check or edit applied migrations. See RESULT_FIRST_ASSERTION.md and independent review. Network/mobile acceptance remains separately pending. Earlier notices below are preserved history.
+
+---
+
 ## Current — selector repair tested, later C5 assertion pending, 2026-11-06
 
 J-SALE-SELECTOR-01 resolved in candidate122d8aa4: actual picker button accessible name includes phone/no-phone suffix; old exact button-name incompatible. New button-with-exact-name-child helper passes native2case browser contract and actual journey progresses beyond old advanced checkout. Independent source/native bounded review accepted repair only. All financial assertions retained. Low contract-test sentinel isolation finding fixed before publication by resetting window.picked for each case.

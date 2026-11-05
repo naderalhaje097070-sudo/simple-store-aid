@@ -1,0 +1,3 @@
+# Test impact
+
+Confirmed missing actual UI↔SDK↔Auth↔DB bridges: sale, courier lifecycle, complete debt and final close. Add19 source-admission mutation controls, AST/YAML/format checks, real application production fixture build before credentials, then fresh/upgrade desktop/mobile UI financial journeys. Reuse old collection/concurrency/authority and independent restore77/77 via immutable bytes + same-image receipt. Preserve actual failures and immutable artifact ZIPs, never convert missing setup to success. G0/source identity and independent review on final candidate; no broad historical rerun or weakened tests.

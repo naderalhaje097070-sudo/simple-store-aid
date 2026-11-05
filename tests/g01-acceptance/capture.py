@@ -15,6 +15,13 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    if Path('tests/c5-journey/source.json').exists():
+        import sys
+        sys.path.insert(0, str(Path('tests/c5-journey').resolve()))
+        from journey_identity import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     if Path('tests/c5-restore-independent/source.json').exists():
         import sys
         sys.path.insert(0, str(Path('tests/c5-restore-independent').resolve()))

@@ -1,0 +1,261 @@
+name: C5 full financial journey
+on:
+  push:
+    branches: ["integration/g0-g1-reconcile-2026-10-18"]
+    paths:
+      - "tests/c5-journey/**"
+      - ".github/workflows/c5-journey.yml"
+      - "tests/g01-acceptance/capture.py"
+permissions:
+  contents: read
+env:
+  SUPABASE_TELEMETRY_DISABLED: "1"
+  DO_NOT_TRACK: "1"
+  SUPABASE_HOME: /tmp/monjez-c5-disabled-cli
+jobs:
+  composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [fresh, upgrade]
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      CONTRACT_MODE: ${{ matrix.mode }}
+    steps:
+      - name: Disable telemetry before CLI setup
+        run: |
+          mkdir -p "$SUPABASE_HOME"
+          echo '{"enabled":false,"consent":"denied","schema_version":1,"device_id":"00000000-0000-4000-8000-000000000001","session_id":"00000000-0000-4000-8000-000000000002","session_last_active":"2026-10-28T00:00:00Z"}' > "$SUPABASE_HOME/telemetry.json"
+          chmod 600 "$SUPABASE_HOME/telemetry.json"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: supabase/setup-cli@v2
+        with:
+          version: "2.101.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - name: Frozen current dependencies before credentials
+        run: bun install --frozen-lockfile
+      - name: Journey source-admission negative controls and actual application build
+        run: |
+          python tests/c5-journey/test_identity.py
+          node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser
+      - name: Exact C5 financial-test source and immutable SQL admission before credentials
+        run: python tests/g01-acceptance/capture.py identity
+      - name: Discover pinned CLI operations
+        run: |
+          set -euo pipefail
+          supabase telemetry status > "$RUNNER_TEMP/telemetry-status.txt"
+          grep -q "Telemetry is disabled" "$RUNNER_TEMP/telemetry-status.txt"
+          test "$(supabase --version)" = '2.101.0'
+          supabase start --help > "$RUNNER_TEMP/start-help.txt"
+          supabase stop --help > "$RUNNER_TEMP/stop-help.txt"
+          supabase migration up --help > "$RUNNER_TEMP/up-help.txt"
+          supabase db advisors --help > "$RUNNER_TEMP/advisors-help.txt"
+          supabase migration list --help > "$RUNNER_TEMP/list-help.txt"
+          grep -q -- '--local' "$RUNNER_TEMP/up-help.txt"
+          grep -q -- '--include-all' "$RUNNER_TEMP/up-help.txt"
+          grep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1
+      - name: Pinned browser before credentials
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/collection-browser-install.log" 2>&1
+          PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/collection-browser-install.log" 2>&1
+          chmod -R a+rX /tmp/collection-playwright
+      - name: Restrict probe UID before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo useradd --system --no-create-home --shell /usr/sbin/nologin c5finance
+          uid="$(id -u c5finance)"
+          sudo iptables -N C5F
+          sudo iptables -A C5F -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322,4173 -j ACCEPT
+          sudo iptables -A C5F -o lo -s 127.0.0.1/32 -d 127.0.0.1/32 -p tcp --sport 4173 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+          sudo iptables -A C5F -j REJECT --reject-with icmp-port-unreachable
+          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j C5F
+          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+          sudo -u c5finance "$(command -v python)" - <<'PY'
+          import socket
+          try:
+              with socket.create_connection(('1.1.1.1',443),timeout=3): pass
+          except OSError:
+              print('C5F_CREDENTIAL_FREE_EGRESS_REJECTED')
+          else:
+              raise SystemExit('C5F_FIREWALL_FAILED')
+          # Prove both directions of the exact UI socket before any credentials.
+          import http.server, threading, urllib.request
+          class Canary(http.server.BaseHTTPRequestHandler):
+              def log_message(self,*args): pass
+              def do_GET(self):
+                  body=b'C5F_LOCAL_UI_OK'
+                  self.send_response(200)
+                  self.send_header('Content-Length',str(len(body)))
+                  self.end_headers();self.wfile.write(body)
+          server=http.server.ThreadingHTTPServer(('127.0.0.1',4173),Canary)
+          thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+          try:
+              opener=urllib.request.build_opener(urllib.request.ProxyHandler({}))
+              with opener.open('http://127.0.0.1:4173/',timeout=3) as response:
+                  assert response.read()==b'C5F_LOCAL_UI_OK'
+              print('C5F_LOCAL_UI_ROUNDTRIP_OK')
+          finally:
+              server.shutdown();server.server_close();thread.join(timeout=3)
+          PY
+          sudo install -d -m 711 -o c5finance -g c5finance /tmp/monjez-c5sale
+          sudo cp -a "$GITHUB_WORKSPACE/." /tmp/monjez-c5sale/repo
+          sudo install -d -m 700 -o c5finance -g c5finance /tmp/monjez-c5sale/evidence
+          sudo cp -a /tmp/monjez-c5sale-browser /tmp/monjez-c5sale/browser
+          sudo chown -R c5finance:c5finance /tmp/monjez-c5sale
+          sudo iptables -nvxL C5F > "$RUNNER_TEMP/firewall-before.txt"
+      - name: Start disposable full chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-c5sale-stack"
+          mkdir -p "$stack"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/init-private.log" 2>&1
+          mkdir -p "$stack/supabase/migrations"
+          cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          if [[ "$CONTRACT_MODE" == upgrade ]]; then
+            rm "$stack/supabase/migrations/20261103060658_c5_keyed_debt_collection.sql"
+          fi
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then
+            echo 'C5F_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/status-private.json"
+          sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/status-private.json" /tmp/monjez-c5sale/status.json
+      - name: Exact PostgreSQL image binding for reused evidence
+        run: |
+          python - <<'PYIMAGE'
+          import json,subprocess,os
+          from pathlib import Path
+          image=subprocess.check_output(['docker','inspect','--format','{{.Image}}','supabase_db_monjez-c5sale-stack'],text=True).strip()
+          expected='sha256:21ab971149317ea9cd12a8126fe4ebb34def08c8972956b0958cba0924409dab'
+          assert image==expected,'PostgreSQL image differs from reused financial/recovery evidence'
+          receipt={'source':os.environ['EXPECTED_SOURCE'],'image_id':image,'prior_source':'a88d4fba6942500d3c999b1475961bff8d652501','same_image':True}
+          Path(os.environ['RUNNER_TEMP'],'journey-image.json').write_text(json.dumps(receipt)+'\n')
+          PYIMAGE
+          sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/journey-image.json" /tmp/monjez-c5sale/evidence/runtime-image.json
+      - name: Populated54 seed and forward-only55 upgrade
+        if: matrix.mode == 'upgrade'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 COLLECTION_PHASE=seed54 \
+            EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE="$CONTRACT_MODE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c5-journey/native.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
+              --private-state /tmp/monjez-c5sale/private-state.json
+          cp supabase/migrations/20261103060658_c5_keyed_debt_collection.sql "$RUNNER_TEMP/monjez-c5sale-stack/supabase/migrations/"
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration up --local --include-all > "$RUNNER_TEMP/collection-upgrade-private.log" 2>&1
+      - name: Actual desktop mobile full application financial journey
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright \
+            EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE="$CONTRACT_MODE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c5-journey/native.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
+              --private-state /tmp/monjez-c5sale/private-state.json
+      - name: Local migration history and advisor availability
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
+          if grep -q -- '--local' "$RUNNER_TEMP/advisors-help.txt"; then
+            advisor_exit=0
+            supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" db advisors --local --fail-on error > "$RUNNER_TEMP/advisors-private.txt" 2>&1 || advisor_exit=$?
+            sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/advisors-private.txt" /tmp/monjez-c5sale/evidence/advisors.txt
+            exit "$advisor_exit"
+          else
+            echo 'C5F_OFFICIAL_ADVISOR_LOCAL_MODE_UNAVAILABLE_NO_REMOTE_FALLBACK'
+          fi
+      - name: Cleanup and safe final receipts
+        id: publication
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/c5finance-evidence"
+          mkdir -p "$out"
+          if [[ -d /tmp/monjez-c5sale/evidence ]]; then
+            sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
+            sudo chown -R "$(id -un):$(id -gn)" "$out"
+          fi
+          rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log"
+          if [[ -d "$RUNNER_TEMP/monjez-c5sale-stack/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1
+          fi
+          python - <<'PY'
+          import json,os,subprocess,sys
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP']);out=root/'c5finance-evidence'
+          def rejects(path):
+              return sum(int(x.split()[0]) for x in path.splitlines() if 'REJECT' in x)
+          before=rejects((root/'firewall-before.txt').read_text())
+          after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','C5F'],text=True))
+          uid=subprocess.check_output(['id','-u','c5finance'],text=True).strip()
+          v6=sum(int(x.split()[0]) for x in subprocess.check_output(['sudo','ip6tables','-nvxL','OUTPUT'],text=True).splitlines()
+                 if 'REJECT' in x and ('owner UID match '+uid) in x)
+          cleanup={'source':os.environ['EXPECTED_SOURCE'],'credential_free_canary_rejected':before>0,
+                   'unexpected_ipv4_rejects':after-before,'ipv6_rejects':v6,
+                   'status_removed':not Path('/tmp/monjez-c5sale/status.json').exists(),
+                   'state_removed':not Path('/tmp/monjez-c5sale/private-state.json').exists(),
+                   'stack_removed':'monjez-c5sale-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+          sys.path.insert(0,'tests/account-lifecycle')
+          from scanner_evidence import verify_publication, PublicationBlocked
+          forbidden=[]
+          for filename in ['status.json','private-state.json']:
+              p=Path('/tmp/monjez-c5sale')/filename
+              if p.exists():
+                  raw=subprocess.check_output(['sudo','cat',str(p)],text=True)
+                  data=json.loads(raw)
+                  if filename=='status.json':
+                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
+                  else:
+                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
+                                    if k in ('token','refresh','password','email')]
+          try:
+              verify_publication(out,root/'c5finance-private-quarantine',forbidden)
+          except PublicationBlocked:
+              print('C5F_PUBLICATION_BLOCKED '+(out/'publication-blocked.json').read_text())
+              raise
+          finally:
+              # The runner cannot enumerate this probe-owned 0711 directory.
+              # Enumerate/delete as root; never treat an inaccessible glob as empty.
+              subprocess.run(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-type','f','-name','*.json*','-delete'],check=True)
+          cleanup['status_removed']=not Path('/tmp/monjez-c5sale/status.json').exists()
+          cleanup['state_removed']=not Path('/tmp/monjez-c5sale/private-state.json').exists()
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+          cleanup['private_files_removed']=not subprocess.check_output(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip()
+          print('C5F_CLEANUP '+json.dumps(cleanup))
+          assert before>0 and after==before and v6==0 and cleanup['status_removed'] and cleanup['state_removed'] and cleanup['stack_removed'] and cleanup['private_files_removed']
+          PY
+          echo 'safe=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.publication.outputs.safe == 'true'
+        with:
+          name: c5-full-journey-${{ matrix.mode }}-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/c5finance-evidence/
+          retention-days: 7

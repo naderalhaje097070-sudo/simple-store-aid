@@ -1,0 +1,11 @@
+# C5-FULL-JOURNEY-01 — Change intake
+
+Date 2026-11-05 Africa/Tripoli. Base d5c5566228f78c3b8f76e3aa721521244affd05a, existing integration/g0-g1-reconcile-2026-10-18. Execution #55/6653881228; sole implementer /root. Owner explicitly authorized closing full financial journey gaps then independent review, with no merge/deploy. This fulfills Gate0 for routine isolated test work; no protected decision is inferred.
+
+Goal/type: close confirmed runtime acceptance evidence gaps, test harness only. In scope: actual MongezzApp component/navigation/styles, real Query/SDK/Auth/API/DB desktop/mobile on fresh and populated54→55; quarter cash sale with lost reply/reload, full debt collection after partial/lost reply, pending→partial delivery→settlement→remaining collection, half-quantity return, nonzero expense, UI summaries/profit and stored close_day. Independent reviewer financial_review verifies source and final evidence separately.
+
+Out of scope: application code changes, financial contracts, migrations, package/lock changes, production, merge/deploy, PR closure, restored HTTP/Auth/password/key/PITR, route/auth-entry/PDF/SW. Risk medium (write-capable disposable fixtures and credential containment). Missing blocking information: none; pinned loopback-only environment already authorized. Assumption: existing issued-invoice sales sum retains returned invoice total; selectors exclude returned debt/custody. This is verified from app and latest close_day source, not changed.
+
+Baseline: a88d4fba G041993105190/B141993105424, collection108/111 and independent restore77/77. All existing executable bytes, manifests,55 migrations and package/lock frozen by new explicit admission. No repeated historical suites. Independent source gap review found C4 mocked RPC vs separate native hook and courier/return/close direct-RPC-only coverage; four UI gaps confirmed. New admission has19 local mutation cases PASS. Native browser build/runtime pending at first publication.
+
+Acceptance: four viewport/migration combinations; independent fixed-value intermediate/final DB and actual UI oracles, exact persisted requests/actor on recovery, populated other-tenant control, cleanup/publication/zero-egress evidence, source identity and independent final-source review. No Product/Production readiness inference.

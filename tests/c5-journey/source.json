@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "scope": "C5-FULL-JOURNEY-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "d5c5566228f78c3b8f76e3aa721521244affd05a",
+  "changes": {
+    "tests/g01-acceptance/capture.py": {
+      "before": "bb2b1094ef6c34e0c463b83fe8332c45ede8fc9d",
+      "after": "d1496c7c6a06c8919e12ba043efe9005a70af72a"
+    }
+  },
+  "additions": {
+    "tests/c5-journey/journey_identity.py": "dec088fce6c3fb209380b146b096bc8cb09d9bef",
+    "tests/c5-journey/test_identity.py": "2d6f189125586e425d3381cb40c01f2beaa2ce30",
+    "tests/c5-journey/client.ts": "2c92d1c4197a0a7071313faa1f962a1699a17a33",
+    "tests/c5-journey/fixture.tsx": "5690d8a50cf3d9ba380fdd92e20482c4278eb717",
+    "tests/c5-journey/index.html": "c762aff8df68d7a9985440ba68cc0490a6282078",
+    "tests/c5-journey/build.mjs": "90535d23fd7e119bef8ee8e99e3398ec16f23bfa",
+    "tests/c5-journey/browser.py": "b47d679ad2c629e037f6507f5da41258a82970f8",
+    "tests/c5-journey/native.py": "3d1ac7aa08703de3f92690e1d32c23473a46eab7",
+    ".github/workflows/c5-journey.yml": "aac0fcd7f0c61e2f504457a5778d49f0911c31a2"
+  }
+}

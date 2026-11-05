@@ -1,0 +1,3 @@
+# Security impact
+
+Exact head/repo/ancestor/full protected-path/byte/mode/index/manifest verification before credentials;19 negative admission controls. Fixed loopback SDK and fetch-origin/redirect guard; existing restricted UID/firewall allowlist and credential-free egress/local-socket canaries before secrets. Real Auth setSession/getUser, RLS product reads and business server checks; no service-role browser or mocked authorization. Native SQL oracle admin is outside business UI. Lost reply discarded only after real HTTP200/commit; exact original payload/key and stored actor verified. Publication scanner and private cleanup retained. Independent final SHA review required; no merge authority.

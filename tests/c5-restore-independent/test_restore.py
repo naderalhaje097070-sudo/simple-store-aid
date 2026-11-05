@@ -22,7 +22,7 @@ class RecoverySafety(unittest.TestCase):
                         patch.object(r,'ACL_BACKUP',root/'scoped-acl.json',create=True),
                         patch.object(r,'OUTDIR',root/'evidence'),patch.object(r,'CREATED_FILES',set()),
                         patch.object(r,'CHECKS',[]),patch.object(r,'DETAILS',{}),patch.object(r,'BEFORE',None),
-                        patch.object(r,'TARGET_ID','b'*64),patch.dict(os.environ,{'EXPECTED_SOURCE':'a'*40})]
+                        patch.object(r,'TARGET_ID','b'*64),patch.object(r,'SECTION','none'),patch.dict(os.environ,{'EXPECTED_SOURCE':'a'*40})]
         for p in self.patches: p.start()
 
     def tearDown(self):
@@ -536,6 +536,40 @@ class RecoverySafety(unittest.TestCase):
             clean=r.cleanup()
         self.assertTrue(clean['private_files_removed']);self.assertFalse(r.ACL_BACKUP.exists())
 
+
+    def test_sql_failure_metadata_is_finite_and_withholds_raw_values(self):
+        result=r.sql_error_metadata(b'ERROR:  42501: account_inactive\nCONTEXT: private_token secret SQL')
+        self.assertEqual(result,{'sqlstate':'42501','domain_error':'account_inactive'})
+        for raw in (b'ERROR: XX123: private_secret',b'ERROR: private_token secret',b'FATAL: private_token'):
+            self.assertEqual(set(r.sql_error_metadata(raw).values()),{'unrecognized_withheld'})
+        self.assertNotIn('private_',json.dumps(result))
+
+    def test_replay_stage_rejects_arbitrary_identifiers(self):
+        r.set_replay_stage('original_replay')
+        self.assertEqual(r.DETAILS['replay_stage'],'original_replay');self.assertEqual(r.SECTION,'original_replay')
+        with self.assertRaises(RuntimeError):r.set_replay_stage('private_customer_name')
+        self.assertNotIn('private_customer_name',json.dumps(r.DETAILS))
+
+    def test_sql_errors_capture_metadata_without_raw_stderr_or_sql(self):
+        result=subprocess.CompletedProcess([],1,b'',b'ERROR:  P0001: idempotency_conflict\nprivate_token secret')
+        with patch.object(r.subprocess,'run',return_value=result) as command:
+            with self.assertRaises(RuntimeError):r.sql('recovery','private SQL payload')
+        self.assertIn('VERBOSITY=verbose',command.call_args.args[0])
+        self.assertEqual(r.DETAILS['sql_failure'],{'sqlstate':'P0001','domain_error':'idempotency_conflict'})
+        self.assertNotIn('private',json.dumps(r.DETAILS))
+
+    def test_sample_context_uses_real_guard_and_fixed_recovery_sql_role(self):
+        subject='11111111-1111-4111-8111-111111111111'
+        with patch.object(r.prior,'claims',return_value='synthetic_claims'),patch.object(r,'sql',return_value={'active':False,'subject_matches':True}) as sql:
+            result=r.sample_actor_context({'uid':subject},{'actor':subject})
+        self.assertFalse(result['active']);self.assertEqual(sql.call_args.args[0],'recovery')
+        statement=sql.call_args.args[1]
+        self.assertIn('set local role authenticated',statement);self.assertIn('monjez_private.actor_is_active()',statement)
+        for word in ('update ','insert ','delete ','alter ','service_role'):
+            self.assertNotIn(word,statement.lower())
+        with patch.object(r,'sql') as sql:
+            with self.assertRaises(ValueError):r.sample_actor_context({}, {'actor':'unsafe SQL'})
+            sql.assert_not_called()
 
 if __name__ == '__main__': unittest.main()
 

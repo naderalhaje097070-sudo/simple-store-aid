@@ -93,20 +93,52 @@ def sql(database, statement, denied=None):
     PHASE = 'sql_' + database + '_' + SECTION
     if database == 'source':
         args = ['docker','exec','--user','postgres','-i',SOURCE,'sh','-ec',
-                ADMIN + 'exec psql -X -U supabase_admin -d postgres -Atq -v ON_ERROR_STOP=1']
+                ADMIN + 'exec psql -X -U supabase_admin -d postgres -Atq -v ON_ERROR_STOP=1 -v VERBOSITY=verbose']
     else:
         assert TARGET_ID is not None
         args = ['docker','exec','--user','postgres','-i',TARGET_ID,'psql','-X',
                 '-h','/tmp','-U','supabase_admin' if database == 'recovery' else BOOTSTRAP,
                 '-d',database if database in ('template0','template1') else 'postgres',
-                '-Atq','-v','ON_ERROR_STOP=1']
+                '-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose']
     result = subprocess.run(args, input=statement.encode(), capture_output=True, timeout=90)
     if denied:
         check('explicit_denial_' + denied, result.returncode != 0 and denied.encode() in result.stderr)
         return None
     if result.returncode:
+        DETAILS['sql_failure'] = sql_error_metadata(result.stderr)
         raise RuntimeError('SQL_failed:' + PHASE + ':' + ','.join(prior.classify(result.stderr)) + ':' + prior.error_words(result.stderr))
     return json.loads(result.stdout) if result.stdout.strip() else None
+
+
+def sql_error_metadata(stderr):
+    # Verbose psql stderr remains private. Emit finite code/domain labels only.
+    match = re.search(r'ERROR:\s+([0-9A-Z]{5}):\s*([a-z_]+)',stderr.decode(errors='replace'))
+    codes = {'42501','P0001','22P02','42883','42P01','42703','42601','23505','23503','23514',
+             '25P02','08006','08001','57014','0A000','XX000'}
+    labels = {'account_inactive','authentication_required','unauthenticated','forbidden_tenant',
+              'forbidden_role','order_not_found','idempotency_conflict','idempotency_key_required',
+              'idempotency_state_missing','idempotency_incomplete','invalid_amount',
+              'cannot_collect_returned_order','settle_courier_first','amount_exceeds_remaining'}
+    return {'sqlstate':match[1] if match and match[1] in codes else 'unrecognized_withheld',
+            'domain_error':match[2] if match and match[2] in labels else 'unrecognized_withheld'}
+
+
+def set_replay_stage(stage):
+    global SECTION
+    allowed = {'sample_select','sample_actor_context','original_replay','original_replay_rows',
+               'foreign_replay','foreign_replay_rows','conflicting_replay','conflicting_replay_rows',
+               'new_payment','new_payment_replay','new_payment_effect'}
+    if stage not in allowed:
+        raise RuntimeError('invalid_replay_stage')
+    SECTION = stage
+    DETAILS['replay_stage'] = stage
+
+
+def sample_actor_context(actor, sample):
+    subject = str(uuid.UUID(sample['actor']))
+    return sql('recovery',"begin; set local role authenticated; set local request.jwt.claims = '"+
+        prior.claims(actor)+"'; select jsonb_build_object('active',monjez_private.actor_is_active(),"+
+        "'subject_matches',auth.uid()='"+subject+"'::uuid); commit;")
 
 
 prior.sql = sql
@@ -721,18 +753,35 @@ def main():
     check('roles_restored', recovered['roles'] == BEFORE['roles'])
     check('cron_definitions_restored', recovered['cron_jobs'] == BEFORE['cron_jobs'])
     state = json.loads(PRIVATE.read_text())
+    set_replay_stage('sample_select')
     sample = sql('recovery',"select jsonb_build_object('key',i.idempotency_key,'order_id',o.id,'amount',(i.request_payload->>'amount')::numeric,'method',i.request_payload->>'method','result',i.result,'actor',i.created_by,'paid',o.paid,'payments',(select count(*) from public.payments where order_id=o.id)) from public.financial_idempotency i join public.orders o on o.id=(i.request_payload->>'order_id')::uuid where i.operation='order.debt.collect.v1' and i.result is not null and o.total-o.paid>=20 order by i.created_at limit 1;")
+    check('restored_sample_found',isinstance(sample,dict))
     actor = next(a for a in state['actors'].values() if a['uid'] == sample['actor'])
     foreign = next(a for a in state['actors'].values() if a['tenant'] != actor['tenant'])
+    set_replay_stage('sample_actor_context')
+    context = sample_actor_context(actor,sample)
+    check('restored_sample_context_shape',isinstance(context,dict) and set(context) == {'active','subject_matches'}
+          and all(type(value) is bool for value in context.values()))
+    DETAILS['sample_actor_context'] = context
+    check('restored_sample_subject_matches',context['subject_matches'])
+    set_replay_stage('original_replay')
     check('restored_original_key_returns_original_result', prior.rpc(actor,sample) == sample['result'])
+    set_replay_stage('original_replay_rows')
     check('replay_no_effect_on_relations', prior.rows('recovery') == BEFORE['rows'])
+    set_replay_stage('foreign_replay')
     prior.rpc(foreign,sample,'forbidden_tenant')
+    set_replay_stage('foreign_replay_rows')
     check('foreign_denial_atomic', prior.rows('recovery') == BEFORE['rows'])
+    set_replay_stage('conflicting_replay')
     prior.rpc(actor,{**sample,'amount':sample['amount']+1},'idempotency_conflict')
+    set_replay_stage('conflicting_replay_rows')
     check('payload_conflict_atomic', prior.rows('recovery') == BEFORE['rows'])
     fresh = {**sample,'key':str(uuid.uuid4()),'amount':20}
+    set_replay_stage('new_payment')
     first = prior.rpc(actor,fresh)
+    set_replay_stage('new_payment_replay')
     check('new_payment_replay_same_result', prior.rpc(actor,fresh) == first)
+    set_replay_stage('new_payment_effect')
     effect = sql('recovery',"select jsonb_build_object('paid',paid,'payments',(select count(*) from public.payments where order_id=o.id)) from public.orders o where id='"+sample['order_id']+"';")
     check('intentional_new_payment_exactly_once', effect == {'paid':sample['paid']+20,'payments':sample['payments']+1})
     check('source_unchanged_after_recovery', snapshot('source') == BEFORE)

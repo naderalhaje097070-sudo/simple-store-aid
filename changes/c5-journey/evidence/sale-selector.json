@@ -1,0 +1,1983 @@
+{
+  "schema_version": 1,
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "task": "C5-FULL-JOURNEY-01 advanced customer selector",
+  "date_tripoli": "2026-11-06",
+  "start_source": "cc5857ade5a82ff4fec504a9ed412c0e1c442e38",
+  "diagnostic_source": "a91369a7e628e4d9eeec277a8248cd9894c0c7e0",
+  "corrective_source": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "claim": 6671454171,
+  "cumulative_source_paths": [
+    "tests/c5-journey/browser.py",
+    "tests/c5-journey/native.py",
+    "tests/c5-journey/test_identity.py",
+    ".github/workflows/c5-journey.yml",
+    "tests/c5-journey/source.json"
+  ],
+  "unchanged_guard_blob": "abf8d9b1927074c2154bab41f6b5d67cafabc4a4",
+  "unchanged_migrations": 55,
+  "local": {
+    "baseline_admission_pass": 23,
+    "new_privacy_safety_before_implementation": "StopIteration; function not yet implemented",
+    "corrected_admission_pass": 24,
+    "prior_test_methods_AST_exact": 23,
+    "browser_control_calls_AST_exact": 19,
+    "native_control_calls_AST_exact": 3,
+    "partial_workspace": true,
+    "local_browser_execution": "Unavailable: pinned binary absent, system browser socket denied; no native local acceptance"
+  },
+  "diagnostic": {
+    "run": 42124180329,
+    "jobs": [
+      {
+        "id": 127583974032,
+        "run_id": 42124180329,
+        "workflow_name": "C5 full financial journey",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180329",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtJjykA",
+        "head_sha": "a91369a7e628e4d9eeec277a8248cd9894c0c7e0",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127583974032",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180329/job/127583974032",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T22:45:33Z",
+        "started_at": "2026-11-05T22:45:35Z",
+        "completed_at": "2026-11-05T22:49:39Z",
+        "name": "composition (fresh)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:45:36Z",
+            "completed_at": "2026-11-05T22:45:37Z"
+          },
+          {
+            "name": "Disable telemetry before CLI setup",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:37Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:40Z"
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:45:40Z",
+            "completed_at": "2026-11-05T22:45:40Z"
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:45:40Z",
+            "completed_at": "2026-11-05T22:45:44Z"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:45:44Z",
+            "completed_at": "2026-11-05T22:45:49Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:45:49Z",
+            "completed_at": "2026-11-05T22:45:50Z"
+          },
+          {
+            "name": "Frozen current dependencies before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:45:50Z",
+            "completed_at": "2026-11-05T22:45:55Z"
+          },
+          {
+            "name": "Journey source-admission negative controls and actual application build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:45:55Z",
+            "completed_at": "2026-11-05T22:45:59Z"
+          },
+          {
+            "name": "Exact C5 financial-test source and immutable SQL admission before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:45:59Z",
+            "completed_at": "2026-11-05T22:46:00Z"
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:46:00Z",
+            "completed_at": "2026-11-05T22:46:10Z"
+          },
+          {
+            "name": "Pinned browser before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:46:10Z",
+            "completed_at": "2026-11-05T22:46:24Z"
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:46:24Z",
+            "completed_at": "2026-11-05T22:46:30Z"
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:46:30Z",
+            "completed_at": "2026-11-05T22:48:54Z"
+          },
+          {
+            "name": "Exact PostgreSQL image binding for reused evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:48:54Z",
+            "completed_at": "2026-11-05T22:48:55Z"
+          },
+          {
+            "name": "Populated54 seed and forward-only55 upgrade",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 16,
+            "started_at": "2026-11-05T22:48:55Z",
+            "completed_at": "2026-11-05T22:48:55Z"
+          },
+          {
+            "name": "Actual desktop mobile full application financial journey",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 17,
+            "started_at": "2026-11-05T22:48:55Z",
+            "completed_at": "2026-11-05T22:49:23Z"
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18,
+            "started_at": "2026-11-05T22:49:23Z",
+            "completed_at": "2026-11-05T22:49:23Z"
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T22:49:23Z",
+            "completed_at": "2026-11-05T22:49:35Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T22:49:35Z",
+            "completed_at": "2026-11-05T22:49:36Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 36,
+            "started_at": "2026-11-05T22:49:36Z",
+            "completed_at": "2026-11-05T22:49:36Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 37,
+            "started_at": "2026-11-05T22:49:36Z",
+            "completed_at": "2026-11-05T22:49:36Z"
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-11-05T22:49:36Z",
+            "completed_at": "2026-11-05T22:49:36Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 39,
+            "started_at": "2026-11-05T22:49:36Z",
+            "completed_at": "2026-11-05T22:49:36Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40,
+            "started_at": "2026-11-05T22:49:36Z",
+            "completed_at": "2026-11-05T22:49:37Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41,
+            "started_at": "2026-11-05T22:49:37Z",
+            "completed_at": "2026-11-05T22:49:37Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127583974032",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001269,
+        "runner_name": "GitHub Actions 1000001269",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127583974233,
+        "run_id": 42124180329,
+        "workflow_name": "C5 full financial journey",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180329",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtJjzWQ",
+        "head_sha": "a91369a7e628e4d9eeec277a8248cd9894c0c7e0",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127583974233",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180329/job/127583974233",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T22:45:33Z",
+        "started_at": "2026-11-05T22:45:35Z",
+        "completed_at": "2026-11-05T22:49:42Z",
+        "name": "composition (upgrade)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:45:35Z",
+            "completed_at": "2026-11-05T22:45:37Z"
+          },
+          {
+            "name": "Disable telemetry before CLI setup",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:37Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:39Z"
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:45:39Z",
+            "completed_at": "2026-11-05T22:45:40Z"
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:45:40Z",
+            "completed_at": "2026-11-05T22:45:43Z"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:45:43Z",
+            "completed_at": "2026-11-05T22:45:48Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:45:48Z",
+            "completed_at": "2026-11-05T22:45:49Z"
+          },
+          {
+            "name": "Frozen current dependencies before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:45:49Z",
+            "completed_at": "2026-11-05T22:45:55Z"
+          },
+          {
+            "name": "Journey source-admission negative controls and actual application build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:45:55Z",
+            "completed_at": "2026-11-05T22:45:59Z"
+          },
+          {
+            "name": "Exact C5 financial-test source and immutable SQL admission before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:45:59Z",
+            "completed_at": "2026-11-05T22:46:00Z"
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:46:00Z",
+            "completed_at": "2026-11-05T22:46:10Z"
+          },
+          {
+            "name": "Pinned browser before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:46:10Z",
+            "completed_at": "2026-11-05T22:46:24Z"
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:46:24Z",
+            "completed_at": "2026-11-05T22:46:30Z"
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:46:30Z",
+            "completed_at": "2026-11-05T22:48:56Z"
+          },
+          {
+            "name": "Exact PostgreSQL image binding for reused evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:48:56Z",
+            "completed_at": "2026-11-05T22:48:56Z"
+          },
+          {
+            "name": "Populated54 seed and forward-only55 upgrade",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T22:48:56Z",
+            "completed_at": "2026-11-05T22:48:59Z"
+          },
+          {
+            "name": "Actual desktop mobile full application financial journey",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 17,
+            "started_at": "2026-11-05T22:48:59Z",
+            "completed_at": "2026-11-05T22:49:27Z"
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 18,
+            "started_at": "2026-11-05T22:49:27Z",
+            "completed_at": "2026-11-05T22:49:27Z"
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T22:49:27Z",
+            "completed_at": "2026-11-05T22:49:39Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T22:49:39Z",
+            "completed_at": "2026-11-05T22:49:40Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 36,
+            "started_at": "2026-11-05T22:49:40Z",
+            "completed_at": "2026-11-05T22:49:40Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 37,
+            "started_at": "2026-11-05T22:49:40Z",
+            "completed_at": "2026-11-05T22:49:40Z"
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38,
+            "started_at": "2026-11-05T22:49:40Z",
+            "completed_at": "2026-11-05T22:49:40Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 39,
+            "started_at": "2026-11-05T22:49:40Z",
+            "completed_at": "2026-11-05T22:49:40Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40,
+            "started_at": "2026-11-05T22:49:40Z",
+            "completed_at": "2026-11-05T22:49:41Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41,
+            "started_at": "2026-11-05T22:49:41Z",
+            "completed_at": "2026-11-05T22:49:41Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127583974233",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001270,
+        "runner_name": "GitHub Actions 1000001270",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 13460960109,
+        "name": "c5-full-journey-upgrade-attempt1",
+        "digest": "sha256:55dfe9f7a05644a0b8b43e1771716b1b7af74519c7f1e42fa80f75963134a990",
+        "raw_zip_saved": false
+      },
+      {
+        "id": 13459908162,
+        "name": "c5-full-journey-fresh-attempt1",
+        "digest": "sha256:f10bf0132833de2f56024f7907d219c1bb67837c6eb1812d4b6abbfb44a14c4e",
+        "raw_zip_saved": false
+      }
+    ],
+    "safe_log_excerpts": [
+      {
+        "job_id": 127583974032,
+        "lines": [
+          "2026-11-05T22:49:23.8967419Z C5_JOURNEY_FAILED {\"source\": \"a91369a7e628e4d9eeec277a8248cd9894c0c7e0\", \"stage\": \"desktop_sale_advanced_checkout\", \"failure_type\": \"TimeoutError\", \"controls_completed\": 18, \"diagnostic\": {\"quantity_inputs\": 1, \"quick_checkout_buttons\": 0, \"advanced_checkout_buttons\": 1, \"sale_recovery_buttons\": 0, \"sale_rpc_calls\": 1, \"sale_rpc_completed\": 1, \"sale_rpc_http200\": 1, \"page_errors\": 0, \"blocked_external\": 1}}",
+          "2026-11-05T22:49:35.9816620Z C5F_CLEANUP {\"source\": \"a91369a7e628e4d9eeec277a8248cd9894c0c7e0\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+        ]
+      },
+      {
+        "job_id": 127583974233,
+        "lines": [
+          "2026-11-05T22:49:27.4991794Z C5_JOURNEY_FAILED {\"source\": \"a91369a7e628e4d9eeec277a8248cd9894c0c7e0\", \"stage\": \"desktop_sale_advanced_checkout\", \"failure_type\": \"TimeoutError\", \"controls_completed\": 19, \"diagnostic\": {\"quantity_inputs\": 1, \"quick_checkout_buttons\": 0, \"advanced_checkout_buttons\": 1, \"sale_recovery_buttons\": 0, \"sale_rpc_calls\": 1, \"sale_rpc_completed\": 1, \"sale_rpc_http200\": 1, \"page_errors\": 0, \"blocked_external\": 1}}",
+          "2026-11-05T22:49:39.7267919Z C5F_CLEANUP {\"source\": \"a91369a7e628e4d9eeec277a8248cd9894c0c7e0\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+        ]
+      }
+    ]
+  },
+  "corrective": {
+    "run": 42125234643,
+    "jobs": [
+      {
+        "id": 127587599613,
+        "run_id": 42125234643,
+        "workflow_name": "C5 full financial journey",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234643",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtNBE_Q",
+        "head_sha": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127587599613",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234643/job/127587599613",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T22:53:21Z",
+        "started_at": "2026-11-05T22:53:23Z",
+        "completed_at": "2026-11-05T22:57:26Z",
+        "name": "composition (fresh)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:53:24Z",
+            "completed_at": "2026-11-05T22:53:27Z"
+          },
+          {
+            "name": "Disable telemetry before CLI setup",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:53:27Z",
+            "completed_at": "2026-11-05T22:53:27Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:53:27Z",
+            "completed_at": "2026-11-05T22:53:30Z"
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:53:30Z",
+            "completed_at": "2026-11-05T22:53:30Z"
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:53:30Z",
+            "completed_at": "2026-11-05T22:53:34Z"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:53:34Z",
+            "completed_at": "2026-11-05T22:53:40Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:53:40Z",
+            "completed_at": "2026-11-05T22:53:42Z"
+          },
+          {
+            "name": "Frozen current dependencies before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:53:42Z",
+            "completed_at": "2026-11-05T22:53:48Z"
+          },
+          {
+            "name": "Journey source-admission negative controls and actual application build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:53:48Z",
+            "completed_at": "2026-11-05T22:53:53Z"
+          },
+          {
+            "name": "Exact C5 financial-test source and immutable SQL admission before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:53:53Z",
+            "completed_at": "2026-11-05T22:53:53Z"
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:53:53Z",
+            "completed_at": "2026-11-05T22:54:03Z"
+          },
+          {
+            "name": "Pinned browser before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:54:03Z",
+            "completed_at": "2026-11-05T22:54:18Z"
+          },
+          {
+            "name": "Customer picker accessible-name regression before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:54:18Z",
+            "completed_at": "2026-11-05T22:54:19Z"
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:54:19Z",
+            "completed_at": "2026-11-05T22:54:24Z"
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:54:24Z",
+            "completed_at": "2026-11-05T22:56:51Z"
+          },
+          {
+            "name": "Exact PostgreSQL image binding for reused evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T22:56:51Z",
+            "completed_at": "2026-11-05T22:56:52Z"
+          },
+          {
+            "name": "Populated54 seed and forward-only55 upgrade",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 17,
+            "started_at": "2026-11-05T22:56:52Z",
+            "completed_at": "2026-11-05T22:56:52Z"
+          },
+          {
+            "name": "Actual desktop mobile full application financial journey",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 18,
+            "started_at": "2026-11-05T22:56:52Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:21Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T22:57:21Z",
+            "completed_at": "2026-11-05T22:57:22Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 38,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 39,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 41,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43,
+            "started_at": "2026-11-05T22:57:23Z",
+            "completed_at": "2026-11-05T22:57:23Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127587599613",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001274,
+        "runner_name": "GitHub Actions 1000001274",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127587599805,
+        "run_id": 42125234643,
+        "workflow_name": "C5 full financial journey",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234643",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtNBFvQ",
+        "head_sha": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127587599805",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234643/job/127587599805",
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-11-05T22:53:21Z",
+        "started_at": "2026-11-05T22:53:23Z",
+        "completed_at": "2026-11-05T22:57:11Z",
+        "name": "composition (upgrade)",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:53:24Z",
+            "completed_at": "2026-11-05T22:53:25Z"
+          },
+          {
+            "name": "Disable telemetry before CLI setup",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:53:25Z",
+            "completed_at": "2026-11-05T22:53:25Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:53:25Z",
+            "completed_at": "2026-11-05T22:53:28Z"
+          },
+          {
+            "name": "Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:53:28Z",
+            "completed_at": "2026-11-05T22:53:28Z"
+          },
+          {
+            "name": "Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:53:28Z",
+            "completed_at": "2026-11-05T22:53:31Z"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:53:31Z",
+            "completed_at": "2026-11-05T22:53:36Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:53:36Z",
+            "completed_at": "2026-11-05T22:53:37Z"
+          },
+          {
+            "name": "Frozen current dependencies before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:53:37Z",
+            "completed_at": "2026-11-05T22:53:42Z"
+          },
+          {
+            "name": "Journey source-admission negative controls and actual application build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:53:42Z",
+            "completed_at": "2026-11-05T22:53:46Z"
+          },
+          {
+            "name": "Exact C5 financial-test source and immutable SQL admission before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:53:46Z",
+            "completed_at": "2026-11-05T22:53:46Z"
+          },
+          {
+            "name": "Discover pinned CLI operations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:53:46Z",
+            "completed_at": "2026-11-05T22:53:56Z"
+          },
+          {
+            "name": "Pinned browser before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:53:56Z",
+            "completed_at": "2026-11-05T22:54:11Z"
+          },
+          {
+            "name": "Customer picker accessible-name regression before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:54:11Z",
+            "completed_at": "2026-11-05T22:54:13Z"
+          },
+          {
+            "name": "Restrict probe UID before credentials",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:54:13Z",
+            "completed_at": "2026-11-05T22:54:18Z"
+          },
+          {
+            "name": "Start disposable full chain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:54:18Z",
+            "completed_at": "2026-11-05T22:56:38Z"
+          },
+          {
+            "name": "Exact PostgreSQL image binding for reused evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T22:56:38Z",
+            "completed_at": "2026-11-05T22:56:38Z"
+          },
+          {
+            "name": "Populated54 seed and forward-only55 upgrade",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-05T22:56:38Z",
+            "completed_at": "2026-11-05T22:56:41Z"
+          },
+          {
+            "name": "Actual desktop mobile full application financial journey",
+            "status": "completed",
+            "conclusion": "failure",
+            "number": 18,
+            "started_at": "2026-11-05T22:56:41Z",
+            "completed_at": "2026-11-05T22:56:56Z"
+          },
+          {
+            "name": "Local migration history and advisor availability",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 19,
+            "started_at": "2026-11-05T22:56:56Z",
+            "completed_at": "2026-11-05T22:56:56Z"
+          },
+          {
+            "name": "Cleanup and safe final receipts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T22:56:56Z",
+            "completed_at": "2026-11-05T22:57:08Z"
+          },
+          {
+            "name": "Run actions/upload-artifact@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T22:57:08Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 38,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 39,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Post Run supabase/setup-cli@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Post Run actions/setup-python@v5",
+            "status": "completed",
+            "conclusion": "skipped",
+            "number": 41,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43,
+            "started_at": "2026-11-05T22:57:09Z",
+            "completed_at": "2026-11-05T22:57:09Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127587599805",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001275,
+        "runner_name": "GitHub Actions 1000001275",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 13460626236,
+        "name": "c5-full-journey-fresh-attempt1",
+        "digest": "sha256:fb16e988ff802e433e1771ccfe6cc077d62eedfe02b342f6d6d1a10814025a89",
+        "raw_zip_saved": false
+      },
+      {
+        "id": 13460512159,
+        "name": "c5-full-journey-upgrade-attempt1",
+        "digest": "sha256:110a8bdda4669135d7f51b2fd9aff575b133319c6b21cab3150470657e7223e4",
+        "raw_zip_saved": false
+      }
+    ],
+    "safe_log_excerpts": [
+      {
+        "job_id": 127587599613,
+        "lines": [
+          "2026-11-05T22:54:19.2584660Z C5_CUSTOMER_PICKER_CONTRACT_PASS cases=2 old_exact_matches=0 new_matches=1",
+          "2026-11-05T22:57:09.4699339Z C5_JOURNEY_FAILED {\"source\": \"122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560\", \"stage\": \"desktop_day_close\", \"failure_type\": \"HarnessFailure\", \"controls_completed\": 58, \"diagnostic\": {\"quantity_inputs\": 1, \"quick_checkout_buttons\": 0, \"advanced_checkout_buttons\": 1, \"sale_recovery_buttons\": 0, \"sale_rpc_calls\": 2, \"sale_rpc_completed\": 2, \"sale_rpc_http200\": 2, \"page_errors\": 0, \"blocked_external\": 2}}",
+          "2026-11-05T22:57:21.5890310Z C5F_CLEANUP {\"source\": \"122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+        ]
+      },
+      {
+        "job_id": 127587599805,
+        "lines": [
+          "2026-11-05T22:54:13.0895927Z C5_CUSTOMER_PICKER_CONTRACT_PASS cases=2 old_exact_matches=0 new_matches=1",
+          "2026-11-05T22:56:56.7805326Z C5_JOURNEY_FAILED {\"source\": \"122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560\", \"stage\": \"desktop_day_close\", \"failure_type\": \"HarnessFailure\", \"controls_completed\": 59, \"diagnostic\": {\"quantity_inputs\": 1, \"quick_checkout_buttons\": 0, \"advanced_checkout_buttons\": 1, \"sale_recovery_buttons\": 0, \"sale_rpc_calls\": 2, \"sale_rpc_completed\": 2, \"sale_rpc_http200\": 2, \"page_errors\": 0, \"blocked_external\": 2}}",
+          "2026-11-05T22:57:08.5906751Z C5F_CLEANUP {\"source\": \"122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560\", \"credential_free_canary_rejected\": true, \"unexpected_ipv4_rejects\": 0, \"ipv6_rejects\": 0, \"status_removed\": true, \"state_removed\": true, \"stack_removed\": true, \"private_files_removed\": true}"
+        ]
+      }
+    ]
+  },
+  "selector_scope_accepted": true,
+  "financial_journey_accepted": false,
+  "full_C5_accepted": false,
+  "integration_accepted": false,
+  "diagnostic_interpretation": "pre-action count snapshots, not final UI/financial state; recorded control counts include fixture/setup and may include failure",
+  "unresolved": [
+    "exact downstream failing control at coarse desktop_day_close",
+    "blocked external attempts, not waived"
+  ],
+  "next": "Identify the first failed downstream control and expected/observed boundary from safe evidence; retain all financial and network assertions.",
+  "g0_diagnostic": {
+    "run": 42124180395,
+    "result": "success",
+    "jobs": [
+      {
+        "id": 127583973429,
+        "run_id": 42124180395,
+        "workflow_name": "Integrated G0 verification",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180395",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtJjwNQ",
+        "head_sha": "a91369a7e628e4d9eeec277a8248cd9894c0c7e0",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127583973429",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180395/job/127583973429",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T22:45:33Z",
+        "started_at": "2026-11-05T22:45:35Z",
+        "completed_at": "2026-11-05T22:57:03Z",
+        "name": "quality",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:38Z"
+          },
+          {
+            "name": "Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:45:38Z",
+            "completed_at": "2026-11-05T22:45:41Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:45:41Z",
+            "completed_at": "2026-11-05T22:45:43Z"
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:45:43Z",
+            "completed_at": "2026-11-05T22:45:52Z"
+          },
+          {
+            "name": "Check reviewed generated source formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:45:52Z",
+            "completed_at": "2026-11-05T22:45:52Z"
+          },
+          {
+            "name": "Exact integrated source identity and fail-closed mutations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:45:52Z",
+            "completed_at": "2026-11-05T22:45:56Z"
+          },
+          {
+            "name": "C4 source admission mutation contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:45:56Z",
+            "completed_at": "2026-11-05T22:45:57Z"
+          },
+          {
+            "name": "SEC 20261102 exact graph installed engine and negative controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:45:57Z",
+            "completed_at": "2026-11-05T22:46:01Z"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:46:01Z",
+            "completed_at": "2026-11-05T22:46:13Z"
+          },
+          {
+            "name": "Full repository lint including CommonJS and ESM",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:46:13Z",
+            "completed_at": "2026-11-05T22:46:23Z"
+          },
+          {
+            "name": "Read-only existing CI policy contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:46:23Z",
+            "completed_at": "2026-11-05T22:46:23Z"
+          },
+          {
+            "name": "Unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:46:23Z",
+            "completed_at": "2026-11-05T22:46:32Z"
+          },
+          {
+            "name": "Type erasure and actual hook callback wire replay",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:46:32Z",
+            "completed_at": "2026-11-05T22:46:41Z"
+          },
+          {
+            "name": "Build entry failure and forwarding contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:46:41Z",
+            "completed_at": "2026-11-05T22:46:42Z"
+          },
+          {
+            "name": "Focused foundation read and CI regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:46:42Z",
+            "completed_at": "2026-11-05T22:46:45Z"
+          },
+          {
+            "name": "Offline server environment boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T22:46:45Z",
+            "completed_at": "2026-11-05T22:46:45Z"
+          },
+          {
+            "name": "Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-05T22:46:45Z",
+            "completed_at": "2026-11-05T22:46:45Z"
+          },
+          {
+            "name": "Install pinned browser test tooling",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-11-05T22:46:45Z",
+            "completed_at": "2026-11-05T22:56:03Z"
+          },
+          {
+            "name": "Verify browser redirect, WebSocket and origin containment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T22:56:03Z",
+            "completed_at": "2026-11-05T22:56:27Z"
+          },
+          {
+            "name": "Actual financial read UI and export regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T22:56:27Z",
+            "completed_at": "2026-11-05T22:56:29Z"
+          },
+          {
+            "name": "Build from mode-specific env file",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T22:56:29Z",
+            "completed_at": "2026-11-05T22:56:43Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T22:56:43Z",
+            "completed_at": "2026-11-05T22:56:57Z"
+          },
+          {
+            "name": "Verify generation leaves tracked application files intact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T22:56:57Z",
+            "completed_at": "2026-11-05T22:56:57Z"
+          },
+          {
+            "name": "Recheck complete protected source after both builds",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T22:56:57Z",
+            "completed_at": "2026-11-05T22:56:57Z"
+          },
+          {
+            "name": "Upload quality diagnostics",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T22:56:57Z",
+            "completed_at": "2026-11-05T22:56:58Z"
+          },
+          {
+            "name": "Upload source identity receipt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26,
+            "started_at": "2026-11-05T22:56:58Z",
+            "completed_at": "2026-11-05T22:57:00Z"
+          },
+          {
+            "name": "Post Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-11-05T22:57:00Z",
+            "completed_at": "2026-11-05T22:57:00Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-11-05T22:57:00Z",
+            "completed_at": "2026-11-05T22:57:00Z"
+          },
+          {
+            "name": "Post Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 52,
+            "started_at": "2026-11-05T22:57:00Z",
+            "completed_at": "2026-11-05T22:57:00Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 53,
+            "started_at": "2026-11-05T22:57:00Z",
+            "completed_at": "2026-11-05T22:57:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127583973429",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001267,
+        "runner_name": "GitHub Actions 1000001267",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127583973733,
+        "run_id": 42124180395,
+        "workflow_name": "Integrated G0 verification",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180395",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtJjxZQ",
+        "head_sha": "a91369a7e628e4d9eeec277a8248cd9894c0c7e0",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127583973733",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42124180395/job/127583973733",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T22:45:33Z",
+        "started_at": "2026-11-05T22:45:35Z",
+        "completed_at": "2026-11-05T22:45:44Z",
+        "name": "audit",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:45:35Z",
+            "completed_at": "2026-11-05T22:45:37Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:45:37Z",
+            "completed_at": "2026-11-05T22:45:39Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:45:39Z",
+            "completed_at": "2026-11-05T22:45:40Z"
+          },
+          {
+            "name": "Complete supported audit with actual exit preserved",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:45:40Z",
+            "completed_at": "2026-11-05T22:45:40Z"
+          },
+          {
+            "name": "Upload complete audit output",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:45:40Z",
+            "completed_at": "2026-11-05T22:45:42Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:45:42Z",
+            "completed_at": "2026-11-05T22:45:42Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:45:42Z",
+            "completed_at": "2026-11-05T22:45:42Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:45:42Z",
+            "completed_at": "2026-11-05T22:45:42Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127583973733",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001268,
+        "runner_name": "GitHub Actions 1000001268",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "g0_corrective": {
+    "run": 42125234639,
+    "result": "success",
+    "jobs": [
+      {
+        "id": 127587598953,
+        "run_id": 42125234639,
+        "workflow_name": "Integrated G0 verification",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234639",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtNBCaQ",
+        "head_sha": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127587598953",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234639/job/127587598953",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T22:53:21Z",
+        "started_at": "2026-11-05T22:53:23Z",
+        "completed_at": "2026-11-05T22:53:32Z",
+        "name": "audit",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:53:23Z",
+            "completed_at": "2026-11-05T22:53:24Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:53:24Z",
+            "completed_at": "2026-11-05T22:53:27Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:53:27Z",
+            "completed_at": "2026-11-05T22:53:28Z"
+          },
+          {
+            "name": "Complete supported audit with actual exit preserved",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:53:28Z",
+            "completed_at": "2026-11-05T22:53:28Z"
+          },
+          {
+            "name": "Upload complete audit output",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:53:28Z",
+            "completed_at": "2026-11-05T22:53:29Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:53:29Z",
+            "completed_at": "2026-11-05T22:53:30Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:53:30Z",
+            "completed_at": "2026-11-05T22:53:30Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:53:30Z",
+            "completed_at": "2026-11-05T22:53:30Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127587598953",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001271,
+        "runner_name": "GitHub Actions 1000001271",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 127587599170,
+        "run_id": 42125234639,
+        "workflow_name": "Integrated G0 verification",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234639",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtNBDQg",
+        "head_sha": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127587599170",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234639/job/127587599170",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T22:53:21Z",
+        "started_at": "2026-11-05T22:53:23Z",
+        "completed_at": "2026-11-05T23:05:26Z",
+        "name": "quality",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:53:24Z",
+            "completed_at": "2026-11-05T22:53:26Z"
+          },
+          {
+            "name": "Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:53:26Z",
+            "completed_at": "2026-11-05T22:53:29Z"
+          },
+          {
+            "name": "Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:53:29Z",
+            "completed_at": "2026-11-05T22:53:31Z"
+          },
+          {
+            "name": "Install dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:53:31Z",
+            "completed_at": "2026-11-05T22:53:45Z"
+          },
+          {
+            "name": "Check reviewed generated source formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:53:45Z",
+            "completed_at": "2026-11-05T22:53:45Z"
+          },
+          {
+            "name": "Exact integrated source identity and fail-closed mutations",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:53:45Z",
+            "completed_at": "2026-11-05T22:53:58Z"
+          },
+          {
+            "name": "C4 source admission mutation contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:53:58Z",
+            "completed_at": "2026-11-05T22:54:00Z"
+          },
+          {
+            "name": "SEC 20261102 exact graph installed engine and negative controls",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:54:00Z",
+            "completed_at": "2026-11-05T22:54:03Z"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:54:03Z",
+            "completed_at": "2026-11-05T22:54:11Z"
+          },
+          {
+            "name": "Full repository lint including CommonJS and ESM",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:54:11Z",
+            "completed_at": "2026-11-05T22:54:17Z"
+          },
+          {
+            "name": "Read-only existing CI policy contract",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:54:17Z",
+            "completed_at": "2026-11-05T22:54:17Z"
+          },
+          {
+            "name": "Unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:54:17Z",
+            "completed_at": "2026-11-05T22:54:26Z"
+          },
+          {
+            "name": "Type erasure and actual hook callback wire replay",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:54:26Z",
+            "completed_at": "2026-11-05T22:54:34Z"
+          },
+          {
+            "name": "Build entry failure and forwarding contracts",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:54:34Z",
+            "completed_at": "2026-11-05T22:54:35Z"
+          },
+          {
+            "name": "Focused foundation read and CI regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-05T22:54:35Z",
+            "completed_at": "2026-11-05T22:54:37Z"
+          },
+          {
+            "name": "Offline server environment boundary",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16,
+            "started_at": "2026-11-05T22:54:37Z",
+            "completed_at": "2026-11-05T22:54:37Z"
+          },
+          {
+            "name": "Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17,
+            "started_at": "2026-11-05T22:54:37Z",
+            "completed_at": "2026-11-05T22:54:38Z"
+          },
+          {
+            "name": "Install pinned browser test tooling",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18,
+            "started_at": "2026-11-05T22:54:38Z",
+            "completed_at": "2026-11-05T23:04:31Z"
+          },
+          {
+            "name": "Verify browser redirect, WebSocket and origin containment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19,
+            "started_at": "2026-11-05T23:04:31Z",
+            "completed_at": "2026-11-05T23:04:54Z"
+          },
+          {
+            "name": "Actual financial read UI and export regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20,
+            "started_at": "2026-11-05T23:04:54Z",
+            "completed_at": "2026-11-05T23:04:56Z"
+          },
+          {
+            "name": "Build from mode-specific env file",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21,
+            "started_at": "2026-11-05T23:04:56Z",
+            "completed_at": "2026-11-05T23:05:08Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22,
+            "started_at": "2026-11-05T23:05:08Z",
+            "completed_at": "2026-11-05T23:05:19Z"
+          },
+          {
+            "name": "Verify generation leaves tracked application files intact",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23,
+            "started_at": "2026-11-05T23:05:19Z",
+            "completed_at": "2026-11-05T23:05:19Z"
+          },
+          {
+            "name": "Recheck complete protected source after both builds",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24,
+            "started_at": "2026-11-05T23:05:19Z",
+            "completed_at": "2026-11-05T23:05:19Z"
+          },
+          {
+            "name": "Upload quality diagnostics",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25,
+            "started_at": "2026-11-05T23:05:19Z",
+            "completed_at": "2026-11-05T23:05:20Z"
+          },
+          {
+            "name": "Upload source identity receipt",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26,
+            "started_at": "2026-11-05T23:05:20Z",
+            "completed_at": "2026-11-05T23:05:22Z"
+          },
+          {
+            "name": "Post Setup Python for browser containment regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50,
+            "started_at": "2026-11-05T23:05:22Z",
+            "completed_at": "2026-11-05T23:05:22Z"
+          },
+          {
+            "name": "Post Setup Bun",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51,
+            "started_at": "2026-11-05T23:05:22Z",
+            "completed_at": "2026-11-05T23:05:22Z"
+          },
+          {
+            "name": "Post Checkout",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 52,
+            "started_at": "2026-11-05T23:05:22Z",
+            "completed_at": "2026-11-05T23:05:22Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 53,
+            "started_at": "2026-11-05T23:05:22Z",
+            "completed_at": "2026-11-05T23:05:22Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127587599170",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001272,
+        "runner_name": "GitHub Actions 1000001272",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "b1_corrective": {
+    "run": 42125234641,
+    "result": "success",
+    "jobs": [
+      {
+        "id": 127587599081,
+        "run_id": 42125234641,
+        "workflow_name": "B1 composition compatibility",
+        "head_branch": "integration/g0-g1-reconcile-2026-10-18",
+        "run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234641",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOTGGTG88AAAAdtNBC6Q",
+        "head_sha": "122d8aa4f33ba1e54a08ce90a5c2db16a4ab5560",
+        "url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/actions/jobs/127587599081",
+        "html_url": "https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/42125234641/job/127587599081",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-05T22:53:21Z",
+        "started_at": "2026-11-05T22:53:23Z",
+        "completed_at": "2026-11-05T22:54:24Z",
+        "name": "compatibility",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-05T22:53:24Z",
+            "completed_at": "2026-11-05T22:53:25Z"
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-05T22:53:25Z",
+            "completed_at": "2026-11-05T22:53:27Z"
+          },
+          {
+            "name": "Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-05T22:53:27Z",
+            "completed_at": "2026-11-05T22:53:29Z"
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-05T22:53:29Z",
+            "completed_at": "2026-11-05T22:53:29Z"
+          },
+          {
+            "name": "Frozen dependencies",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-05T22:53:29Z",
+            "completed_at": "2026-11-05T22:53:37Z"
+          },
+          {
+            "name": "Verify actual PR-head routing and historical benchmark boundaries",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-05T22:53:37Z",
+            "completed_at": "2026-11-05T22:53:37Z"
+          },
+          {
+            "name": "Locked serialization exports",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-05T22:53:37Z",
+            "completed_at": "2026-11-05T22:53:38Z"
+          },
+          {
+            "name": "Generated formatting",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8,
+            "started_at": "2026-11-05T22:53:38Z",
+            "completed_at": "2026-11-05T22:53:38Z"
+          },
+          {
+            "name": "Typecheck",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9,
+            "started_at": "2026-11-05T22:53:38Z",
+            "completed_at": "2026-11-05T22:53:50Z"
+          },
+          {
+            "name": "Full lint",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10,
+            "started_at": "2026-11-05T22:53:50Z",
+            "completed_at": "2026-11-05T22:53:59Z"
+          },
+          {
+            "name": "Unit tests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11,
+            "started_at": "2026-11-05T22:53:59Z",
+            "completed_at": "2026-11-05T22:54:08Z"
+          },
+          {
+            "name": "Original OC APP wire regression",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-05T22:54:08Z",
+            "completed_at": "2026-11-05T22:54:08Z"
+          },
+          {
+            "name": "Build",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-05T22:54:08Z",
+            "completed_at": "2026-11-05T22:54:21Z"
+          },
+          {
+            "name": "Generation retains tracked files",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-05T22:54:21Z",
+            "completed_at": "2026-11-05T22:54:21Z"
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26,
+            "started_at": "2026-11-05T22:54:21Z",
+            "completed_at": "2026-11-05T22:54:21Z"
+          },
+          {
+            "name": "Post Run oven-sh/setup-bun@v2",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27,
+            "started_at": "2026-11-05T22:54:21Z",
+            "completed_at": "2026-11-05T22:54:22Z"
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28,
+            "started_at": "2026-11-05T22:54:22Z",
+            "completed_at": "2026-11-05T22:54:22Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29,
+            "started_at": "2026-11-05T22:54:22Z",
+            "completed_at": "2026-11-05T22:54:22Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/naderalhaje097070-sudo/simple-store-aid/check-runs/127587599081",
+        "labels": [
+          "ubuntu-latest"
+        ],
+        "runner_id": 1000001273,
+        "runner_name": "GitHub Actions 1000001273",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "unchanged_original_blob_modes": 2741
+}

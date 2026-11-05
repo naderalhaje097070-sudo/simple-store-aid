@@ -1,3 +1,11 @@
+## Current — selector repair tested, later C5 assertion pending, 2026-11-06
+
+J-SALE-SELECTOR-01 resolved in candidate122d8aa4: actual picker button accessible name includes phone/no-phone suffix; old exact button-name incompatible. New button-with-exact-name-child helper passes native2case browser contract and actual journey progresses beyond old advanced checkout. Independent source/native bounded review accepted repair only. All financial assertions retained. Low contract-test sentinel isolation finding fixed before publication by resetting window.picked for each case.
+
+J-SALE-DOWNSTREAM-01 remains BLOCKED/UNESTABLISHED: current native42125234643 fails with HarnessFailure at coarse desktop_day_close after58fresh/59upgrade recorded controls. Exact failed control/value unknown; not a demonstrated financial defect or a demonstrated close_day SQL failure. Earlier checkpoint blocked_external2 also unresolved, not waived. ONE NEXT in current state files: safely identify first failed assertion and expected/observed boundary before any correction. Earlier notices below are preserved history.
+
+---
+
 ## Current inventory repair — Implemented → Tested candidate only
 
 J-INVENTORY-01 is resolved within its source-admission scope on14f00488: logged digest matches supabase/.temp/cli-latest; CLI discovery is isolated outside checkout, with cache absence checks. Local/native23tests and497source/55SQL admission pass in fresh/upgrade; strict guard unchanged. Independent reviewer accepts this correction only. Full C5 remains blocked by a newly reached desktop_sale TimeoutError (18fresh/19upgrade controls), exact locator/runtime cause unestablished. See RESULT_INVENTORY.md and REVIEW_INVENTORY.md. Earlier notices below are retained historical evidence, not current scheduling.

@@ -12,6 +12,28 @@ SALE = 'create_sale_with_items_idempotent'
 COLLECT = 'collect_order_debt_idempotent'
 
 
+def customer_choice(page):
+    # The actual picker button's accessible name also contains the phone line.
+    return page.get_by_role('button').filter(has=page.get_by_text('Journey customer',exact=True))
+
+
+def selector_contract():
+    with sync_playwright() as pw:
+        browser=pw.chromium.launch(headless=True)
+        page=browser.new_page()
+        page.route('**/*',lambda route:route.abort())
+        for phone in ('بدون رقم','0912345678'):
+            page.set_content('<button onclick="window.picked=true"><div>Journey customer</div><div>'+phone+'</div></button>'
+                             '<button><div>Journey customer extra</div><div>بدون رقم</div></button>')
+            assert page.get_by_role('button',name='Journey customer',exact=True).count()==0
+            choice=customer_choice(page)
+            assert choice.count()==1
+            page.evaluate('window.picked=false')
+            choice.click();assert page.evaluate('window.picked===true')
+        browser.close()
+    print('C5_CUSTOMER_PICKER_CONTRACT_PASS cases=2 old_exact_matches=0 new_matches=1')
+
+
 def run(p, state, private):
     class Quiet(http.server.SimpleHTTPRequestHandler):
         def log_message(self,*_): pass
@@ -94,13 +116,15 @@ def run(p, state, private):
                     checkpoint('sale_quantity_fill');field.fill(str(qty))
                     checkpoint('sale_quantity_commit');field.press('Tab')
                     if advanced:
-                        checkpoint('sale_advanced_checkout')
-                        click('إتمام البيع');click('دين')
-                        if courier_sale:click('عبر مندوب')
-                        click('اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل')
-                        click('Journey customer')
-                        if courier_sale:click('Journey courier')
-                        before=len(calls(SALE));click('حفظ الفاتورة')
+                        checkpoint('sale_payment_open');click('إتمام البيع')
+                        checkpoint('sale_debt_select');click('دين')
+                        if courier_sale:
+                            checkpoint('sale_delivery_select');click('عبر مندوب')
+                        checkpoint('sale_customer_picker_open');click('اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل')
+                        checkpoint('sale_customer_select');customer_choice(page).click()
+                        if courier_sale:
+                            checkpoint('sale_courier_select');click('Journey courier')
+                        checkpoint('sale_save');before=len(calls(SALE));click('حفظ الفاتورة')
                     else:
                         checkpoint('sale_quick_checkout')
                         before=len(calls(SALE));click(re.compile('إصدار الفاتورة'))
@@ -188,3 +212,6 @@ def run(p, state, private):
     finally:
         server.shutdown();server.server_close()
     return receipts
+
+
+if __name__=='__main__':selector_contract()

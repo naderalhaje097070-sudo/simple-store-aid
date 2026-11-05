@@ -81,6 +81,8 @@ jobs:
           python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/collection-browser-install.log" 2>&1
           PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/collection-browser-install.log" 2>&1
           chmod -R a+rX /tmp/collection-playwright
+      - name: Customer picker accessible-name regression before credentials
+        run: PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright python tests/c5-journey/browser.py
       - name: Restrict probe UID before credentials
         shell: bash
         run: |

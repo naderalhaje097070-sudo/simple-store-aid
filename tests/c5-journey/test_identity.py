@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
+import textwrap
 import unittest
 from unittest.mock import patch
 import journey_identity as identity
@@ -59,6 +60,35 @@ class FinanceIdentity(unittest.TestCase):
         self.assertEqual(result['missing'],['src/finance.ts'])
         self.assertEqual(result['extra_count'],1)
         self.assertNotIn('private_secret_token_name',json.dumps(result))
+    def test_cli_cache_is_still_rejected(self):
+        self.write('supabase/.temp/cli-latest','fixture-version\n')
+        with self.assertRaisesRegex(IdentityError,'39311e8e471fd5a9ce8665c60c63a3741ee1177f5f965562a22c97c236246d4d'):
+            identity.verify(self.root)
+    def test_cli_discovery_does_not_pollute_copied_source(self):
+        workflow=(Path(__file__).resolve().parents[2]/'.github/workflows/c5-journey.yml').read_text()
+        step=workflow.split('      - name: Discover pinned CLI operations\n',1)[1].split('      - name:',1)[0]
+        script=textwrap.dedent(step.split('        run: |\n',1)[1])
+        with tempfile.TemporaryDirectory(prefix='c5-cli-discovery-') as folder:
+            temp=Path(folder);bin_dir=temp/'bin';bin_dir.mkdir()
+            cli=bin_dir/'supabase'
+            cli.write_text('#!'+shutil.which('python3')+'\n'+textwrap.dedent('''\
+                from pathlib import Path
+                import sys
+                cache=Path('supabase/.temp/cli-latest')
+                cache.parent.mkdir(parents=True,exist_ok=True)
+                cache.write_text('fixture-version\\n')
+                args=sys.argv[1:]
+                print('2.101.0' if args==['--version'] else 'Telemetry is disabled --local --include-all --no-backup')
+                '''))
+            cli.chmod(0o755)
+            sudo=bin_dir/'sudo';sudo.write_text('#!/bin/sh\nexit 0\n');sudo.chmod(0o755)
+            env={**os.environ,'RUNNER_TEMP':str(temp),'GITHUB_WORKSPACE':str(self.root),
+                 'PATH':str(bin_dir)+os.pathsep+os.environ['PATH']}
+            subprocess.run(['bash','-e','-c',script],cwd=self.root,env=env,check=True,capture_output=True)
+            self.assertFalse((self.root/'supabase/.temp/cli-latest').exists())
+            self.assertTrue(list(temp.glob('*/supabase/.temp/cli-latest')))
+            copied=temp/'copied';shutil.copytree(self.root,copied)
+            self.assertTrue(identity.verify(copied)['reviewed_head_tree_match'])
     def test_sql_drift(self):self.write('supabase/migrations/053.sql','select 2;\n');self.deny()
     def test_package_lock_patch_drift(self):
         for p in ['package.json','bun.lock','patches/minimatch@11.0.1.patch']:

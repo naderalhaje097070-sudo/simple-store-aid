@@ -56,6 +56,11 @@ jobs:
       - name: Discover pinned CLI operations
         run: |
           set -euo pipefail
+          # CLI discovery may write supabase/.temp/cli-latest in its cwd.
+          # Keep that state outside the exact source copied to the probe UID.
+          test ! -e "$GITHUB_WORKSPACE/supabase/.temp/cli-latest"
+          mkdir -p "$RUNNER_TEMP/monjez-c5sale-cli-probe"
+          cd "$RUNNER_TEMP/monjez-c5sale-cli-probe"
           supabase telemetry status > "$RUNNER_TEMP/telemetry-status.txt"
           grep -q "Telemetry is disabled" "$RUNNER_TEMP/telemetry-status.txt"
           test "$(supabase --version)" = '2.101.0'
@@ -67,6 +72,8 @@ jobs:
           grep -q -- '--local' "$RUNNER_TEMP/up-help.txt"
           grep -q -- '--include-all' "$RUNNER_TEMP/up-help.txt"
           grep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"
+          test ! -e "$GITHUB_WORKSPACE/supabase/.temp/cli-latest"
+          echo 'C5F_CLI_SOURCE_CACHE_ABSENT'
           sudo apt-get update -qq
           sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1
       - name: Pinned browser before credentials

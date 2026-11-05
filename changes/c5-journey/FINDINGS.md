@@ -1,3 +1,9 @@
+## Current inventory repair — Implemented → Tested candidate only
+
+J-INVENTORY-01 is resolved within its source-admission scope on14f00488: logged digest matches supabase/.temp/cli-latest; CLI discovery is isolated outside checkout, with cache absence checks. Local/native23tests and497source/55SQL admission pass in fresh/upgrade; strict guard unchanged. Independent reviewer accepts this correction only. Full C5 remains blocked by a newly reached desktop_sale TimeoutError (18fresh/19upgrade controls), exact locator/runtime cause unestablished. See RESULT_INVENTORY.md and REVIEW_INVENTORY.md. Earlier notices below are retained historical evidence, not current scheduling.
+
+---
+
 # Finding register
 
 ## J-IDENTITY-01 — Medium, confirmed and corrected on candidate (verification pending)

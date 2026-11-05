@@ -1,3 +1,17 @@
+## Current — C5 inventory repair tested; actual desktop sale timeout blocks, 2026-11-05
+
+Exact executable `14f00488bba4b2ad0b08103444c2521d6c6585e5`, existing `integration/g0-g1-reconcile-2026-10-18`. Native C5 `42112588038` reaches the actual app journey in both fresh and populated54→55 modes. The old unexpected cache-path digest identifies `supabase/.temp/cli-latest`; CLI discovery now runs outside the source checkout. Strict source guard unchanged; no cache ignore/deletion/waiver. Only workflow/test/declared manifest identities changed; all55SQL/application/dependencies/old21test ASTs preserved. Local and each native admission23/23 PASS; native497protected/55migrations/reviewedHEAD PASS. Independent read-only reviewer accepts this inventory correction only.
+
+The full journey remains FAILED/BLOCKED: `desktop_sale` TimeoutError after18fresh/19upgrade setup/behavior controls. Exact waiting locator/runtime cause remains unestablished; no financial defect or successful financial scenario inferred. Populated seed/forward upgrade, both cleanup/publication/private-file+stack removal and zero unexpected egress PASS. B1 `42112588006` SUCCESS. G0 `42112587955` audit and quality SUCCESS (all executed required steps pass or normal conditional skips); results belong to executable14f00488, not later documentation commits.
+
+Inventory correction **Implemented → Tested candidate only**. FullC5/integration acceptance=false; full independentC6/C7/RC/Pilot pending. Main220fc206 and five drafts27/35/39/49/50 unchanged. Existing recovery77/77 evidence retained, not rerun. Report/review/safe receipts: `changes/c5-journey/RESULT_INVENTORY.md`, `REVIEW_INVENTORY.md`, `evidence/inventory-repair.json`. Raw artifact IDs/digests are linked metadata; no downloaded ZIP archival claim.
+
+**ONE NEXT: diagnose the exact desktop_sale waiting step/locator/runtime state using bounded safe receipts and the existing private-publication scanner; retain the failing assertion, fix only the proven cause, then verify affected fresh/upgrade desktop/mobile paths.** Do not repeat an unchanged run, waive identity/isolation gates or change core financial contracts. Then fixed full-journey → independentC6 → ownerC7 → RC/Pilot.
+
+Sole implementer/root pauses this completed inventory batch at handoff; no concurrent implementation claim remains active after final55handoff. No merge/deploy/production/PRclosure/newcost/financial-policy action. Prior complete state/history below is preserved verbatim.
+
+---
+
 ## Current — C5 independent logical recovery/replay PASSED; fixed-plan step2 next, 2026-11-05
 
 Exact tested a88d4fba6942500d3c999b1475961bff8d652501, integration/g0-g1-reconcile-2026-10-18; native41993105090 SUCCESS fresh and populated upgrade.77/77 checks each: complete selected rows/application catalog/owners/ACL/RLS/schema/database/all remaining metadata/roles/cron definitions, oldest inactive saved-key atomic denial, active saved-key original-result replay/no effects, active foreign denial, payload-conflict denial, new payment replay and exactly one effect, source unchanged and private dump/roles/ACL companion/target cleanup.1039TOC entries exactly once;8scoped owner grants restored; SQL-role only, not restored HTTP/Auth/password/key/PITR acceptance.

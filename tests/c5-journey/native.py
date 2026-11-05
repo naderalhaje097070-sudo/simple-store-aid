@@ -13,6 +13,15 @@ sys.path.insert(0,str(Path(__file__).parent))
 from journey_identity import verify
 
 
+def safe_diagnostic(raw):
+    fields={'quantity_inputs','quick_checkout_buttons','advanced_checkout_buttons',
+            'sale_recovery_buttons','sale_rpc_calls','sale_rpc_completed',
+            'sale_rpc_http200','page_errors','blocked_external'}
+    if not isinstance(raw,dict):return {}
+    return {key:value for key,value in raw.items()
+            if key in fields and type(value) is int and 0<=value<=10000}
+
+
 def main():
     parser=argparse.ArgumentParser()
     for name in ('status-file','evidence-dir','private-state'):parser.add_argument('--'+name,type=Path,required=True)
@@ -45,9 +54,10 @@ def main():
         return 0
     except Exception as error:
         result={'source_sha':p.source,'mode':os.environ['CONTRACT_MODE'],'stage':p.stage,
-                'failure_type':type(error).__name__,'controls':p.controls,'journey_acceptance':False,'full_C5_acceptance':False}
+                'failure_type':type(error).__name__,'controls':p.controls,'journey_acceptance':False,'full_C5_acceptance':False,
+                'diagnostic':safe_diagnostic(getattr(p,'journey_diagnostic',{}))}
         (args.evidence_dir/'journey-failure.json').write_text(json.dumps(result,indent=2)+'\n')
-        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls)}))
+        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'diagnostic':result['diagnostic']}))
         return 2
 
 

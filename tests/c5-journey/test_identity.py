@@ -1,4 +1,5 @@
 import json
+import ast
 import os
 from pathlib import Path
 import shutil
@@ -64,6 +65,19 @@ class FinanceIdentity(unittest.TestCase):
         self.write('supabase/.temp/cli-latest','fixture-version\n')
         with self.assertRaisesRegex(IdentityError,'39311e8e471fd5a9ce8665c60c63a3741ee1177f5f965562a22c97c236246d4d'):
             identity.verify(self.root)
+    def test_journey_diagnostic_only_publishes_bounded_counts(self):
+        source=(Path(__file__).parent/'native.py').read_text()
+        function=next(n for n in ast.parse(source).body if isinstance(n,ast.FunctionDef) and n.name=='safe_diagnostic')
+        namespace={};exec(compile(ast.Module(body=[function],type_ignores=[]),'<diagnostic>','exec'),namespace)
+        diagnostic=namespace['safe_diagnostic']
+        raw={'quantity_inputs':0,'quick_checkout_buttons':1,'advanced_checkout_buttons':2,
+             'sale_recovery_buttons':3,'sale_rpc_calls':4,'sale_rpc_completed':5,
+             'sale_rpc_http200':6,'page_errors':7,'blocked_external':8,
+             'token':'private-token-value','url':'https://private.example.test'}
+        self.assertEqual(diagnostic(raw),{k:v for k,v in raw.items() if type(v) is int})
+        for value in [-1,10001,True,False,1.5,'secret',None,[],{}]:
+            self.assertEqual(diagnostic({'quantity_inputs':value}),{})
+        self.assertEqual(diagnostic('private-token-value'),{})
     def test_cli_discovery_does_not_pollute_copied_source(self):
         workflow=(Path(__file__).resolve().parents[2]/'.github/workflows/c5-journey.yml').read_text()
         step=workflow.split('      - name: Discover pinned CLI operations\n',1)[1].split('      - name:',1)[0]

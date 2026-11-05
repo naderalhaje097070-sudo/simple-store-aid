@@ -41,6 +41,17 @@ def run(p, state, private):
                 page.goto(origin);page.wait_for_function('window.journeyReady===true')
 
                 def control(name,ok,**details):p.control(label+'_'+name,ok,**details)
+                def checkpoint(step):
+                    p.stage=label+'_'+step;p.journey_diagnostic={}
+                    sale_calls=page.evaluate('(rpc)=>(window.journeyCalls||[]).filter(c=>c.rpc===rpc).map(c=>({status:c.status,complete:c.result!==undefined}))',SALE)
+                    p.journey_diagnostic={
+                        'quantity_inputs':page.get_by_role('textbox',name='الكمية',exact=True).count(),
+                        'quick_checkout_buttons':page.get_by_role('button',name=re.compile('إصدار الفاتورة')).count(),
+                        'advanced_checkout_buttons':page.get_by_role('button',name='إتمام البيع',exact=True).count(),
+                        'sale_recovery_buttons':page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).count(),
+                        'sale_rpc_calls':len(sale_calls),'sale_rpc_completed':sum(c['complete'] for c in sale_calls),
+                        'sale_rpc_http200':sum(c['status']==200 for c in sale_calls),
+                        'page_errors':len(errors),'blocked_external':len(external)}
                 def click(name,exact=True):
                     matches=page.get_by_role('button',name=name,exact=exact)
                     for i in range(matches.count()):
@@ -69,18 +80,21 @@ def run(p, state, private):
                     click('تحصيل دفعة');page.get_by_placeholder('المبلغ',exact=True).fill(str(amount))
                     before=len(calls(COLLECT));click('تأكيد التحصيل');return completed(COLLECT,before)
                 def start_sale(qty,advanced=False,courier_sale=False):
-                    p.stage=label+'_sale'
+                    checkpoint('sale_home')
                     if page.get_by_role('button',name='عودة للرئيسية',exact=True).count():home()
                     elif not page.get_by_text('إجراءات سريعة',exact=True).count():home()
-                    click(re.compile('فاتورة جديدة'))
+                    checkpoint('sale_open');click(re.compile('فاتورة جديدة'))
+                    checkpoint('sale_product_wait')
                     page.get_by_text('C2 dummy',exact=True).first.wait_for()
                     control('foreign_nonempty_product_hidden',page.get_by_text('Journey foreign canary',exact=True).count()==0)
-                    page.get_by_text('C2 dummy',exact=True).first.click()
+                    checkpoint('sale_product_add');page.get_by_text('C2 dummy',exact=True).first.click()
                     if advanced:
-                        click('بيع متقدم');page.get_by_text('C2 dummy',exact=True).first.click()
+                        checkpoint('sale_advanced_open');click('بيع متقدم');page.get_by_text('C2 dummy',exact=True).first.click()
                     field=page.get_by_role('textbox',name='الكمية',exact=True)
-                    field.fill(str(qty));field.press('Tab')
+                    checkpoint('sale_quantity_fill');field.fill(str(qty))
+                    checkpoint('sale_quantity_commit');field.press('Tab')
                     if advanced:
+                        checkpoint('sale_advanced_checkout')
                         click('إتمام البيع');click('دين')
                         if courier_sale:click('عبر مندوب')
                         click('اختر عميلًا — لا يمكن تسجيل متبقٍّ دون عميل')
@@ -88,10 +102,13 @@ def run(p, state, private):
                         if courier_sale:click('Journey courier')
                         before=len(calls(SALE));click('حفظ الفاتورة')
                     else:
+                        checkpoint('sale_quick_checkout')
                         before=len(calls(SALE));click(re.compile('إصدار الفاتورة'))
+                    checkpoint('sale_rpc_wait')
                     call=completed(SALE,before)
                     oid=str(uuid.UUID(call['result']['order_id']))
-                    if advanced:page.get_by_text('تم حفظ الفاتورة',exact=True).wait_for()
+                    if advanced:
+                        checkpoint('sale_success_wait');page.get_by_text('تم حفظ الفاتورة',exact=True).wait_for()
                     return oid,call
                 def custody():
                     home()
@@ -117,7 +134,7 @@ def run(p, state, private):
                 page.evaluate('(rpc)=>window.journeyDrop[rpc]=1',SALE)
                 quick,first=start_sale(.25)
                 control('quarter_first_committed_cash_stock',p.effect(quick)=={'total':25,'paid':25,'payment_count':1,'payment_sum':25,'debt_payment_count':0,'debt_payment_sum':0} and p.stock(pid)==9.75)
-                page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).wait_for()
+                checkpoint('sale_recovery_wait');page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).wait_for()
                 page.reload();page.wait_for_function('window.journeyReady===true')
                 page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).wait_for()
                 n=len(calls(SALE));click('استعادة البيع المحفوظ');replay=completed(SALE,n)

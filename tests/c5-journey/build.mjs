@@ -31,9 +31,7 @@ await build({
     ],
   },
   define: {
-    "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(
-      "http://127.0.0.1:54321",
-    ),
+    "import.meta.env.VITE_SUPABASE_URL": JSON.stringify("http://127.0.0.1:54321"),
   },
   build: {
     outDir: path.resolve(process.argv[2]),

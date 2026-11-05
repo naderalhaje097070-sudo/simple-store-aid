@@ -50,6 +50,15 @@ class FinanceIdentity(unittest.TestCase):
         self.assertEqual(identity.verify(self.root)['migration_count'],55)
         self.assertFalse(identity.verify(self.root)['financial_acceptance'])
     def test_financial_source_drift(self):self.write('src/finance.ts','changed\n');self.deny()
+    def test_committed_financial_drift_masked_by_staged_restoration(self):
+        self.write('src/finance.ts','unreviewed committed finance\n');self.commit()
+        self.write('src/finance.ts','old\n');self.g('add','src/finance.ts')
+        self.deny()
+    def test_inventory_diagnostics_withhold_unknown_names(self):
+        result=identity.inventory_delta({'src/finance.ts'},{'private_secret_token_name'})
+        self.assertEqual(result['missing'],['src/finance.ts'])
+        self.assertEqual(result['extra_count'],1)
+        self.assertNotIn('private_secret_token_name',json.dumps(result))
     def test_sql_drift(self):self.write('supabase/migrations/053.sql','select 2;\n');self.deny()
     def test_package_lock_patch_drift(self):
         for p in ['package.json','bun.lock','patches/minimatch@11.0.1.patch']:

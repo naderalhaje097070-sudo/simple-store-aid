@@ -21,6 +21,13 @@ FROZEN={'tests/g01-acceptance/integrated-source.json','tests/g01-acceptance/inte
 def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+bytes([0])+data).hexdigest()
 def selected(path):return path!=MANIFEST and (protected(path) or path in FROZEN)
 
+def inventory_delta(expected,observed):
+    def public_path(p):
+        return p if p.startswith(('src/','tests/','.github/','patches/')) else 'path_sha256:'+hashlib.sha256(p.encode()).hexdigest()
+    return {'missing_count':len(expected-observed),'extra_count':len(observed-expected),
+            'missing':[public_path(p) for p in sorted(expected-observed)[:8]],
+            'extra':[public_path(p) for p in sorted(observed-expected)[:8]]}
+
 def verify(root):
     root=Path(root);head=git(root,'rev-parse','HEAD').decode().strip()
     check(not os.environ.get('EXPECTED_SOURCE') or os.environ['EXPECTED_SOURCE']==head,'Journey source mismatch')
@@ -48,13 +55,21 @@ def verify(root):
     expected={**base,**{p:(c['after'],base[p][1]) for p,c in changes.items()},**{p:(sha,'100644') for p,sha in additions.items()}}
     check(all(valid_path(p) and isinstance(sha,str) and len(sha)==40 and all(c in '0123456789abcdef' for c in sha) for p,(sha,_) in expected.items()),'Journey path/blob invalid')
     paths={p.decode() for p in git(root,'ls-files','--cached','--others','--exclude-standard','-z').split(bytes([0])) if p}
-    check({p for p in paths if selected(p)}==set(expected),'Journey executable inventory changed')
+    observed={p for p in paths if selected(p)}
+    check(observed==set(expected),'Journey executable inventory changed:'+json.dumps(inventory_delta(set(expected),observed),separators=(',',':')))
     index={}
     for row in git(root,'ls-files','--stage','-z').split(bytes([0])):
         if row:
             meta,p=row.split(b'\t',1);mode,sha,stage=meta.decode().split()
             check(stage=='0','Journey unmerged index');index[p.decode()]=(sha,mode)
     expected[MANIFEST]=(blob(raw),'100644')
+    reviewed={}
+    for row in git(root,'ls-tree','-r','-z','HEAD').split(bytes([0])):
+        if row:
+            meta,p=row.split(b'\t',1);mode,kind,sha=meta.decode().split();p=p.decode()
+            if selected(p) or p==MANIFEST:
+                check(kind=='blob','Journey HEAD nonblob');reviewed[p]=(sha,mode)
+    check(reviewed==expected,'Journey reviewed HEAD differs from executed source')
     for p,(sha,mode) in expected.items():
         file=root/p
         check(file.exists() and stat.S_ISREG(file.lstat().st_mode),'Journey nonregular source: '+p)
@@ -63,4 +78,4 @@ def verify(root):
     check(len([p for p in base if p.startswith('supabase/migrations/') and p.endswith('.sql')])==55,'Journey migration count')
     return {'scope':'C5_full_journey_test_only_delta','source_sha':head,'base_source':BASE,
             'protected_blob_count':len(base)+len(additions),'migration_count':55,'all_integrated_blobs_match':True,
-            'prior_manifests_unchanged':True,'financial_acceptance':False,'integration_accepted':False}
+            'prior_manifests_unchanged':True,'reviewed_head_tree_match':True,'financial_acceptance':False,'integration_accepted':False}

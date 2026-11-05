@@ -571,5 +571,95 @@ class RecoverySafety(unittest.TestCase):
             with self.assertRaises(ValueError):r.sample_actor_context({}, {'actor':'unsafe SQL'})
             sql.assert_not_called()
 
+    def selection_fixture(self):
+        blocked='11111111-1111-4111-8111-111111111111'
+        active='22222222-2222-4222-8222-222222222222'
+        foreign='33333333-3333-4333-8333-333333333333'
+        actors={name:{'uid':uid,'tenant':tenant,'token':'private_token_'+name}
+            for name,uid,tenant in (('blocked',blocked,'tenant_A'),('active',active,'tenant_A'),('foreign',foreign,'tenant_B'))}
+        def sample(actor,key):
+            return {'key':key,'order_id':'44444444-4444-4444-8444-444444444444','actor':actor,
+                'amount':5,'method':'cash','result':{'paid':10},'paid':10,'payments':2}
+        samples=[sample(blocked,'55555555-5555-4555-8555-555555555555'),sample(active,'66666666-6666-4666-8666-666666666666')]
+        def context(actor,sample):return {'active':actor['uid']!=blocked,'subject_matches':True}
+        return samples,actors,context
+
+    def test_replay_selection_retains_oldest_blocked_request_and_active_positive(self):
+        samples,actors,context=self.selection_fixture();saved=copy.deepcopy((samples,actors))
+        with patch.object(r,'sample_actor_context',side_effect=context) as query:
+            result=r.select_replay_samples(samples,actors)
+        self.assertEqual(result['inactive'],(samples[0],actors['blocked']))
+        self.assertEqual(result['active'],(samples[1],actors['active']))
+        self.assertEqual(result['foreign'],actors['foreign']);self.assertEqual(query.call_count,3)
+        self.assertFalse(result['summary']['oldest_saved_actor_active'])
+        self.assertTrue(result['summary']['oldest_saved_request_selected_for_denial'])
+        self.assertEqual((samples,actors),saved)
+
+    def test_replay_selection_requires_both_active_and_inactive_saved_requests(self):
+        samples,actors,_=self.selection_fixture()
+        for active in (True,False):
+            with patch.object(r,'sample_actor_context',return_value={'active':active,'subject_matches':True}):
+                with self.assertRaisesRegex(RuntimeError,'missing_active_or_inactive'):
+                    r.select_replay_samples(samples,actors)
+
+    def test_replay_selection_requires_a_currently_active_foreign_actor(self):
+        samples,actors,context=self.selection_fixture()
+        for mutation in ('same_tenant','inactive'):
+            changed=copy.deepcopy(actors)
+            if mutation=='same_tenant':changed['foreign']['tenant']='tenant_A'
+            def observed(actor,sample):
+                return {'active':actor['uid']==changed['active']['uid'],'subject_matches':True}
+            with patch.object(r,'sample_actor_context',side_effect=observed):
+                with self.assertRaisesRegex(RuntimeError,'missing_active_foreign'):
+                    r.select_replay_samples(samples,changed)
+
+    def test_replay_selection_rejects_missing_or_mismatched_real_subject(self):
+        samples,actors,_=self.selection_fixture()
+        for observed in ({'active':True,'subject_matches':False},{'active':1,'subject_matches':True},
+                         {'active':False,'subject_matches':True,'private':'secret'}):
+            with patch.object(r,'sample_actor_context',return_value=observed):
+                with self.assertRaisesRegex(RuntimeError,'invalid_saved_actor_context'):
+                    r.select_replay_samples(samples,actors)
+
+    def test_replay_selection_validates_entire_inventory_before_actor_queries(self):
+        for mutation in ('empty','too_many','duplicate_request','unknown_actor','duplicate_actor','bad_uuid','bad_shape'):
+            samples,actors,_=self.selection_fixture()
+            if mutation=='empty':samples=[]
+            elif mutation=='too_many':samples=samples*65
+            elif mutation=='duplicate_request':samples.append(copy.deepcopy(samples[0]))
+            elif mutation=='unknown_actor':samples[-1]['actor']='77777777-7777-4777-8777-777777777777'
+            elif mutation=='duplicate_actor':actors['duplicate']=copy.deepcopy(actors['active'])
+            elif mutation=='bad_uuid':samples[-1]['key']='private SQL injection'
+            else:samples[-1]['extra']='private field'
+            with patch.object(r,'sample_actor_context') as query:
+                with self.assertRaises((RuntimeError,ValueError)):r.select_replay_samples(samples,actors)
+                query.assert_not_called()
+
+    def test_replay_selection_rejects_unsafe_or_nonfinite_saved_payment_values(self):
+        for key,value in (('amount',True),('amount',0),('amount',float('nan')),('amount',float('inf')),
+                ('paid',float('nan')),('paid',float('inf')),('payments',True),('payments',-1),
+                ('payments',1.5),('method','unsafe method'),('result',None)):
+            samples,actors,_=self.selection_fixture();samples[-1][key]=value
+            with patch.object(r,'sample_actor_context') as query:
+                with self.assertRaises(RuntimeError):r.select_replay_samples(samples,actors)
+                query.assert_not_called()
+
+    def test_replay_selection_caches_actor_context_but_preserves_each_saved_request(self):
+        samples,actors,context=self.selection_fixture();another=copy.deepcopy(samples[1])
+        another['key']='88888888-8888-4888-8888-888888888888';samples.append(another)
+        with patch.object(r,'sample_actor_context',side_effect=context) as query:
+            result=r.select_replay_samples(samples,actors)
+        self.assertEqual(query.call_count,3);self.assertEqual(result['summary']['active_saved_requests'],2)
+        self.assertEqual(result['summary']['inactive_saved_requests'],1)
+
+    def test_replay_selection_published_summary_has_only_counts_and_booleans(self):
+        samples,actors,context=self.selection_fixture()
+        with patch.object(r,'sample_actor_context',side_effect=context):result=r.select_replay_samples(samples,actors)
+        raw=json.dumps(result['summary'])
+        self.assertEqual(result['summary']['eligible_saved_requests'],2)
+        for actor in actors.values():
+            self.assertNotIn(actor['uid'],raw);self.assertNotIn(actor['token'],raw)
+        self.assertTrue(all(type(v) in (bool,int) for v in result['summary'].values()))
+
 if __name__ == '__main__': unittest.main()
 

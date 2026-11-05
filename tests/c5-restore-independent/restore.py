@@ -125,7 +125,7 @@ def sql_error_metadata(stderr):
 
 def set_replay_stage(stage):
     global SECTION
-    allowed = {'sample_select','sample_actor_context','original_replay','original_replay_rows',
+    allowed = {'sample_select','sample_actor_context','inactive_replay','inactive_replay_rows','original_replay','original_replay_rows',
                'foreign_replay','foreign_replay_rows','conflicting_replay','conflicting_replay_rows',
                'new_payment','new_payment_replay','new_payment_effect'}
     if stage not in allowed:
@@ -139,6 +139,65 @@ def sample_actor_context(actor, sample):
     return sql('recovery',"begin; set local role authenticated; set local request.jwt.claims = '"+
         prior.claims(actor)+"'; select jsonb_build_object('active',monjez_private.actor_is_active(),"+
         "'subject_matches',auth.uid()='"+subject+"'::uuid); commit;")
+
+
+def select_replay_samples(samples, actors):
+    """Keep blocked saved requests as negative controls, active ones as positives.
+
+    Do not alter account state or use administrator authority for a replay.
+    Every actor check runs the already restored canonical live-account guard.
+    """
+    if not isinstance(samples,list) or not 1 <= len(samples) <= 128 or not isinstance(actors,dict):
+        raise RuntimeError('invalid_restored_sample_inventory')
+    by_id = {}
+    for actor in actors.values():
+        if not isinstance(actor,dict) or not all(key in actor for key in ('uid','tenant','token')):
+            raise RuntimeError('invalid_saved_actor_inventory')
+        uid = str(uuid.UUID(actor['uid']))
+        if uid in by_id:
+            raise RuntimeError('duplicate_saved_actor')
+        by_id[uid] = actor
+    seen = set()
+    for sample in samples:
+        if not isinstance(sample,dict) or set(sample) != {'key','order_id','amount','method','result','actor','paid','payments'}:
+            raise RuntimeError('invalid_saved_request_shape')
+        for key in ('key','order_id','actor'):
+            if str(uuid.UUID(sample[key])) != sample[key]:
+                raise RuntimeError('invalid_saved_request_identity')
+        identity = (sample['actor'],sample['key'])
+        if identity in seen or sample['actor'] not in by_id:
+            raise RuntimeError('duplicate_or_unowned_saved_request')
+        seen.add(identity)
+        if (type(sample['amount']) not in (int,float) or not 0 < sample['amount'] <= 100
+                or sample['method'] not in ('cash','transfer') or not isinstance(sample['result'],dict)
+                or type(sample['paid']) not in (int,float) or not 0 <= sample['paid'] < float('inf')
+                or type(sample['payments']) is not int or sample['payments'] < 0):
+            raise RuntimeError('invalid_saved_request_values')
+    contexts = {}
+    def context(actor):
+        if actor['uid'] not in contexts:
+            value = sample_actor_context(actor,{'actor':actor['uid']})
+            if (not isinstance(value,dict) or set(value) != {'active','subject_matches'}
+                    or not all(type(v) is bool for v in value.values()) or not value['subject_matches']):
+                raise RuntimeError('invalid_saved_actor_context')
+            contexts[actor['uid']] = value
+        return contexts[actor['uid']]
+    active, inactive = [], []
+    for sample in samples:
+        actor = by_id[sample['actor']]
+        (active if context(actor)['active'] else inactive).append((sample,actor))
+    if not active or not inactive:
+        raise RuntimeError('missing_active_or_inactive_saved_request')
+    foreign = next((actor for actor in actors.values()
+        if actor['tenant'] != active[0][1]['tenant'] and context(actor)['active']),None)
+    if foreign is None:
+        raise RuntimeError('missing_active_foreign_actor')
+    return {'active':active[0],'inactive':inactive[0],'foreign':foreign,
+        'active_context':context(active[0][1]),
+        'summary':{'eligible_saved_requests':len(samples),'active_saved_requests':len(active),
+            'inactive_saved_requests':len(inactive),
+            'oldest_saved_actor_active':context(by_id[samples[0]['actor']])['active'],
+            'oldest_saved_request_selected_for_denial':inactive[0][0] == samples[0]}}
 
 
 prior.sql = sql
@@ -754,16 +813,24 @@ def main():
     check('cron_definitions_restored', recovered['cron_jobs'] == BEFORE['cron_jobs'])
     state = json.loads(PRIVATE.read_text())
     set_replay_stage('sample_select')
-    sample = sql('recovery',"select jsonb_build_object('key',i.idempotency_key,'order_id',o.id,'amount',(i.request_payload->>'amount')::numeric,'method',i.request_payload->>'method','result',i.result,'actor',i.created_by,'paid',o.paid,'payments',(select count(*) from public.payments where order_id=o.id)) from public.financial_idempotency i join public.orders o on o.id=(i.request_payload->>'order_id')::uuid where i.operation='order.debt.collect.v1' and i.result is not null and o.total-o.paid>=20 order by i.created_at limit 1;")
-    check('restored_sample_found',isinstance(sample,dict))
-    actor = next(a for a in state['actors'].values() if a['uid'] == sample['actor'])
-    foreign = next(a for a in state['actors'].values() if a['tenant'] != actor['tenant'])
+    samples = sql('recovery',"select coalesce(jsonb_agg(s.request order by s.created_at,s.key),'[]'::jsonb) from (select jsonb_build_object('key',i.idempotency_key,'order_id',o.id,'amount',(i.request_payload->>'amount')::numeric,'method',i.request_payload->>'method','result',i.result,'actor',i.created_by,'paid',o.paid,'payments',(select count(*) from public.payments where order_id=o.id)) as request,i.created_at,i.idempotency_key as key from public.financial_idempotency i join public.orders o on o.id=(i.request_payload->>'order_id')::uuid where i.operation='order.debt.collect.v1' and i.result is not null and o.total-o.paid>=20 order by i.created_at,i.idempotency_key limit 129) s;")
     set_replay_stage('sample_actor_context')
-    context = sample_actor_context(actor,sample)
+    selected = select_replay_samples(samples,state['actors'])
+    sample,actor = selected['active']
+    blocked_sample,blocked_actor = selected['inactive']
+    foreign = selected['foreign']
+    DETAILS['sample_selection'] = selected['summary']
+    check('restored_sample_found',isinstance(sample,dict))
+    context = selected['active_context']
     check('restored_sample_context_shape',isinstance(context,dict) and set(context) == {'active','subject_matches'}
           and all(type(value) is bool for value in context.values()))
     DETAILS['sample_actor_context'] = context
     check('restored_sample_subject_matches',context['subject_matches'])
+    check('restored_positive_actor_active',context['active'])
+    set_replay_stage('inactive_replay')
+    prior.rpc(blocked_actor,blocked_sample,'account_inactive')
+    set_replay_stage('inactive_replay_rows')
+    check('inactive_saved_replay_denial_atomic',prior.rows('recovery') == BEFORE['rows'])
     set_replay_stage('original_replay')
     check('restored_original_key_returns_original_result', prior.rpc(actor,sample) == sample['result'])
     set_replay_stage('original_replay_rows')

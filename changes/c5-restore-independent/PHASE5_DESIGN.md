@@ -15,3 +15,10 @@ psql VERBOSITY=verbose is captured privately. Emit only allowlisted SQLSTATE/dom
 
 ## Completion
 Complete existing original-result/no-effect/foreign-denial/payload-conflict/exactly-once-new-payment tests, preserve failed diagnostic evidence and raw workflow artifact ZIPs. Full C5/integration acceptance remains false until the separate full financial journey, independent C6, ownerC7 and RC/Pilot sequence. This drill excludes restored HTTP/Auth, role-password/encryption-key recovery, all-provider-data/PITR/RPO/RTO acceptance.
+
+## Measured diagnostic and correction
+Diagnostic 56ce610e2a7286c2c0a461cfe26094dba484b42a, native41992098519, both fresh/upgrade: stage original_replay, SQLSTATE42501, account_inactive, subject_matches=true and canonical active=false. All65 recorded checks passed before expected blocking exception; cleanup/source invariance preserved. G041992098543 and B141992098546 SUCCESS. The source's intentional staff ban was faithfully restored; the positive replay sample was invalid.
+
+Correction keeps the oldest blocked saved request as a mandatory negative control, requires its account_inactive denial and unchanged complete selected relations, then replays a completed saved request owned by a currently active authenticated actor. Select an active foreign-tenant actor for the existing denial. Every actor uses the canonical restored actor_is_active guard and real saved-token subject, never an admin replay. No account mutations. Fail closed if blocked or active saved request or active foreign actor missing; validate all request identities/values before actor queries, bound candidate list to128 (SQL limit129 detects overflow), cache only read-only live contexts. Source rows/archive/full metadata assertions remain exact.
+
+69 local cases pass;61 diagnostic cases AST-preserved and8 selection regressions added. Exact correction native fresh/upgrade/G0/B1 pending. No full C5/integration/independent-C6/merge/Pilot acceptance implied.

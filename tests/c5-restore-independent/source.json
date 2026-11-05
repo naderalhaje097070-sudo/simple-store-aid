@@ -12,8 +12,8 @@
   "additions": {
     "tests/c5-restore-independent/identity.py": "8c863e7531ff65ab47ecf4dafbdd29f97e336ad2",
     "tests/c5-restore-independent/test_identity.py": "8118bc4903597941541f5b8a5072c0dfd56cdea4",
-    "tests/c5-restore-independent/test_restore.py": "14ef15889097754dc39d69fb5ad1d948cb65ac3a",
-    "tests/c5-restore-independent/restore.py": "5f6be3608e7035ccb67a65766ea51ce2a1a91eb8",
+    "tests/c5-restore-independent/test_restore.py": "a69cd4480c63afda56c9c26a4627a372cb3bde6b",
+    "tests/c5-restore-independent/restore.py": "97008347193fc57f88877b2c23cf2e61fd1e9489",
     ".github/workflows/c5-restore-independent.yml": "0cb021ebf14b5d04dbe39f3424f9a7e7eb5ca3e5"
   }
 }

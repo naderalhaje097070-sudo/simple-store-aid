@@ -362,6 +362,72 @@ class RecoverySafety(unittest.TestCase):
         right['acl_semantics']['tables'][0][-1].pop()
         self.assertFalse(r.catalog_contract_equal(left,right))
 
+    def provenance_acl_fixture(self):
+        return {'schemas':[['graphql_public',[['supabase_admin',{'public':False,'role':'postgres'},'USAGE',False]]]],
+                'database':[['postgres',[['supabase_admin',{'public':False,'role':'authenticated'},'CONNECT',False]]]]}
+
+    def test_scoped_grants_preserve_missing_extra_options_and_input_values(self):
+        left=self.provenance_acl_fixture();right=copy.deepcopy(left)
+        right['schemas'][0][-1][0][3]=True
+        saved=copy.deepcopy(right);result=r.scoped_grant_delta(left,right)
+        self.assertEqual(result['schemas']['missing_count'],1);self.assertEqual(result['schemas']['extra_count'],1)
+        self.assertFalse(result['schemas']['missing'][0]['grant_option'])
+        self.assertTrue(result['schemas']['extra'][0]['grant_option'])
+        self.assertEqual(right,saved);self.assertEqual(result['database']['missing_count'],0)
+
+    def test_scoped_grants_unknown_roles_and_privileges_never_exposed(self):
+        left=self.provenance_acl_fixture();right=copy.deepcopy(left)
+        right['schemas'][0][-1][0]=['private_secret_grantor',{'public':False,'role':'private_secret_role'},'PRIVATE_SECRET_PRIVILEGE',False]
+        raw=json.dumps(r.scoped_grant_delta(left,right))
+        for token in ('private_secret','PRIVATE_SECRET_PRIVILEGE'):
+            self.assertNotIn(token,raw)
+        self.assertIn('role_sha256',raw);self.assertIn('unknown_privilege_withheld',raw)
+
+    def test_scoped_grants_public_and_named_role_are_distinct(self):
+        left=self.provenance_acl_fixture();right=copy.deepcopy(left)
+        right['database'][0][-1][0][1]={'public':True,'role':None}
+        result=r.scoped_grant_delta(left,right)
+        self.assertEqual(result['database']['extra'][0]['grantee'],{'public':True})
+        self.assertEqual(result['database']['missing_count'],1)
+
+    def test_scoped_grants_invalid_source_or_duplicate_target_fails(self):
+        left=self.provenance_acl_fixture();right=copy.deepcopy(left)
+        left['schemas']=[]
+        with self.assertRaises(RuntimeError):r.scoped_grant_delta(left,right)
+        left=self.provenance_acl_fixture();right=copy.deepcopy(left)
+        right['schemas'].append(copy.deepcopy(right['schemas'][0]))
+        with self.assertRaises(RuntimeError):r.scoped_grant_delta(left,right)
+
+    def test_acl_stage_receipt_only_uses_fixed_stage_and_known_objects(self):
+        acl=self.provenance_acl_fixture()
+        with patch.object(r,'BEFORE',{'acl_semantics':acl}),patch.object(r,'acl_catalog') as query:
+            r.note_acl_stage('full_archive',copy.deepcopy(acl));query.assert_not_called()
+            with self.assertRaises(RuntimeError):r.note_acl_stage('unknown_private_stage',acl)
+        self.assertEqual(set(r.DETAILS['grant_provenance']),{'full_archive'})
+
+    def test_acl_archive_render_never_executes_or_emits_sql(self):
+        toc=b'1; 0 0 ACL - SCHEMA graphql_public supabase_admin\n2; 0 0 ACL - DATABASE postgres supabase_admin\n3; 0 0 ACL public TABLE private_table postgres\n'
+        commands=b'GRANT USAGE ON SCHEMA graphql_public TO private_secret_role WITH GRANT OPTION;\nREVOKE ALL ON DATABASE postgres FROM PUBLIC;\nGRANT CONNECT ON DATABASE postgres TO authenticated;\n'
+        r.ARCHIVE.write_bytes(b'PGDMPsynthetic')
+        with patch.object(r,'run',side_effect=[b'',commands]) as command:
+            result=r.archive_acl_observations(toc)
+        args=command.call_args_list[1].args[0]
+        self.assertIn('--file=-',args);self.assertNotIn('-d',args)
+        self.assertEqual(result['schemas']['with_grant_option'],1)
+        self.assertEqual(result['database']['revoke_all'],1)
+        self.assertNotIn('private_secret_role',json.dumps(result))
+        self.assertNotIn('GRANT ',json.dumps(result))
+
+    def test_acl_archive_no_entries_never_renders_unfiltered_archive(self):
+        with patch.object(r,'run') as command:
+            result=r.archive_acl_observations(b'1; 1259 1 TABLE public orders postgres\n')
+            command.assert_not_called()
+        self.assertEqual(result['schemas']['archive_entries'],0)
+        with patch.object(r,'run') as command:
+            with self.assertRaises(RuntimeError):
+                r.archive_acl_observations(b'1; 0 0 ACL - DATABASE postgres owner\n2; 0 0 ACL - DATABASE postgres owner\n')
+            command.assert_not_called()
+
 
 if __name__ == '__main__': unittest.main()
 

@@ -4,6 +4,7 @@ The frozen prior helpers retain their data/catalog and SQL-role RPC assertions.
 No restored HTTP/Auth, password, encryption-key or managed-PITR claim is made.
 """
 import hashlib
+from collections import Counter
 import importlib.util
 import json
 import os
@@ -287,6 +288,73 @@ def catalog_diagnostics(before, after):
     return result
 
 
+def scoped_grant_delta(source_acls, recovered_acls):
+    """Only fixed vendor objects, known role labels and bounded grant deltas."""
+    known_roles = {'postgres','supabase_admin','anon','authenticated','service_role','pg_database_owner',
+                   'supabase_auth_admin','supabase_storage_admin','supabase_functions_admin','pgbouncer',
+                   'supabase_read_only_user','supabase_replication_admin'}
+    def role(value):
+        return {'known_role':value} if value in known_roles else {'role_sha256':hashlib.sha256(value.encode()).hexdigest()}
+    def public_grant(value):
+        recipient = {'public':True} if value[1]['public'] else role(value[1]['role'])
+        privilege = value[2] if value[2] in {'CREATE','USAGE','CONNECT','TEMPORARY'} else 'unknown_privilege_withheld'
+        return {'grantor':role(value[0]),'grantee':recipient,'privilege':privilege,'grant_option':value[3]}
+    result = {}
+    for kind,name in (('schemas','graphql_public'),('database','postgres')):
+        source = [row for row in source_acls[kind] or [] if row[0] == name]
+        restored = [row for row in recovered_acls[kind] or [] if row[0] == name]
+        if len(source) != 1 or len(restored) > 1:
+            raise RuntimeError('scoped_acl_inventory_invalid')
+        left = rows_with_logical_acl([[name,None]],source,1,1,2)[0][1]
+        right = rows_with_logical_acl([[name,None]],restored,1,1,2)[0][1] if restored else []
+        missing = Counter(left)-Counter(right); extra = Counter(right)-Counter(left)
+        result[kind] = {'source_present':True,'target_present':bool(restored),
+            'source_grants':len(left),'target_grants':len(right),
+            'missing_count':sum(missing.values()),'extra_count':sum(extra.values()),
+            'missing':[public_grant(json.loads(g)) for g in sorted(missing.elements())[:8]],
+            'extra':[public_grant(json.loads(g)) for g in sorted(extra.elements())[:8]]}
+    return result
+
+
+def note_acl_stage(stage, recovered_acls=None):
+    if stage not in ('database_schemas','graphql_hook','pgmq_bootstrap','full_archive'):
+        raise RuntimeError('invalid_acl_stage')
+    observed = acl_catalog('recovery') if recovered_acls is None else recovered_acls
+    DETAILS.setdefault('grant_provenance',{})[stage] = scoped_grant_delta(BEFORE['acl_semantics'],observed)
+
+
+def archive_acl_observations(toc):
+    selected, counts = [], {'schemas':0,'database':0}
+    for line in toc.decode().splitlines():
+        match = re.fullmatch(r'(\d+);\s+\d+\s+\d+\s+(.+)',line)
+        if not match:
+            continue
+        description = match[2].rstrip()
+        for kind,prefix in (('schemas','ACL - SCHEMA graphql_public '),('database','ACL - DATABASE postgres ')):
+            if description.startswith(prefix):
+                selected.append(line);counts[kind] += 1
+    if any(v > 1 for v in counts.values()):
+        raise RuntimeError('duplicate_scoped_acl_archive_entry')
+    output = b''
+    if selected:
+        run(['docker','exec','--user','postgres','-i',TARGET_ID,'sh','-ec','umask 077; cat > /tmp/c5-acl-observe.list'],
+            ('\n'.join(selected)+'\n').encode(),phase='private_acl_observation_list')
+        # No -d: this renders text into private memory, never executes SQL.
+        output = run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','--create','--exit-on-error',
+            '--use-list=/tmp/c5-acl-observe.list','--file=-'],ARCHIVE.read_bytes(),phase='pg_restore_acl_observation')
+    result = {}
+    for kind,clause in (('schemas','ON SCHEMA graphql_public '),('database','ON DATABASE postgres ')):
+        commands = [line.strip() for line in output.decode().splitlines()
+                    if line.lstrip().startswith(('GRANT ','REVOKE ')) and clause in line]
+        result[kind] = {'archive_entries':counts[kind],'grant_statements':sum(c.startswith('GRANT ') for c in commands),
+            'revoke_statements':sum(c.startswith('REVOKE ') for c in commands),
+            'with_grant_option':sum('WITH GRANT OPTION' in c for c in commands),
+            'revoke_grant_option':sum(c.startswith('REVOKE GRANT OPTION FOR ') for c in commands),
+            'revoke_all':sum(c.startswith('REVOKE ALL ') for c in commands),
+            'statement_hashes':[hashlib.sha256(c.encode()).hexdigest() for c in commands[:8]]}
+    return result
+
+
 def snapshot(database):
     global SECTION
     result = {}
@@ -478,7 +546,8 @@ def main():
     check('full_custom_archive', archive.startswith(b'PGDMP') and len(archive) > 1000)
     private_file(ARCHIVE,archive)
     graphql_contract = graphql_source_contract()
-    first, remaining, counts = partition_toc(source_command('pg_restore --list',archive,phase='archive_toc'))
+    archive_toc = source_command('pg_restore --list',archive,phase='archive_toc')
+    first, remaining, counts = partition_toc(archive_toc)
     graphql_prerequisites, remainder, graphql_counts = split_graphql_prerequisites(remaining)
     counts.update({'graphql_prerequisites':graphql_counts['prerequisites'],'remainder':graphql_counts['remainder']})
     check('archive_toc_full_disjoint_coverage', counts['all'] == counts['bootstrap']+counts['graphql_prerequisites']+counts['remainder'])
@@ -547,9 +616,12 @@ def main():
     for name, content in (('bootstrap',first),('graphql-prerequisites',graphql_prerequisites),('remainder',remainder)):
         run(['docker','exec','--user','postgres','-i',TARGET_ID,'sh','-ec','umask 077; cat > /tmp/c5-'+name+'.list'],content,phase='private_toc_'+name)
     run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','template1','--create','--exit-on-error','--use-list=/tmp/c5-bootstrap.list'],ARCHIVE.read_bytes(),phase='pg_restore_database_schemas')
+    note_acl_stage('database_schemas')
+    DETAILS['archive_acl_observations'] = archive_acl_observations(archive_toc)
     check('no_dummy_graphql_wrapper_before_extension', sql('recovery',"select to_jsonb(to_regprocedure('graphql_public.graphql(text,text,jsonb,jsonb)') is null);") is True)
     run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','postgres','--exit-on-error','--use-list=/tmp/c5-graphql-prerequisites.list'],ARCHIVE.read_bytes(),phase='pg_restore_graphql_prerequisites')
     check('archived_graphql_hook_definition_exact', sql('recovery',"select to_jsonb(pg_get_functiondef(to_regprocedure('extensions.grant_pg_graphql_access()')));") == graphql_contract['helper_definition'])
+    note_acl_stage('graphql_hook')
     for name, version, schema, owner in mixed:
         # pgmq is an explicitly measured non-superuser extension. Install under
         # its original role after source database/schema ACLs exist, then keep
@@ -559,9 +631,11 @@ def main():
         check('recovered_owner_has_database_create', sql('recovery',"select to_jsonb(has_database_privilege('postgres','postgres','CREATE'));") is True)
         check('recovered_owner_has_schema_create', sql('recovery',"select to_jsonb(has_schema_privilege('postgres','pgmq','CREATE'));") is True)
         sql('recovery',"set session authorization postgres; create extension pgmq with schema pgmq version '1.5.1'; reset session authorization;")
+    note_acl_stage('pgmq_bootstrap')
     run(['docker','exec','--user','postgres','-i',TARGET_ID,'pg_restore','-h','/tmp','-U','supabase_admin','-d','postgres','--exit-on-error','--use-list=/tmp/c5-remainder.list'],ARCHIVE.read_bytes(),phase='pg_restore_all_remaining_entries')
     check('scheduler_stays_disabled', sql('recovery',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
     recovered = snapshot('recovery')
+    note_acl_stage('full_archive',recovered['acl_semantics'])
     DETAILS['catalog_diagnostics'] = catalog_diagnostics(BEFORE,recovered)
     check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])
     check('prior_functions_RLS_owners_ACLs_restored', catalog_contract_equal(BEFORE,recovered))

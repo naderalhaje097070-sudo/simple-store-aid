@@ -1,3 +1,21 @@
+## Current — C5 independent logical recovery/replay PASSED; fixed-plan step2 next, 2026-11-05
+
+Exact tested a88d4fba6942500d3c999b1475961bff8d652501, integration/g0-g1-reconcile-2026-10-18; native41993105090 SUCCESS fresh and populated upgrade.77/77 checks each: complete selected rows/application catalog/owners/ACL/RLS/schema/database/all remaining metadata/roles/cron definitions, oldest inactive saved-key atomic denial, active saved-key original-result replay/no effects, active foreign denial, payload-conflict denial, new payment replay and exactly one effect, source unchanged and private dump/roles/ACL companion/target cleanup.1039TOC entries exactly once;8scoped owner grants restored; SQL-role only, not restored HTTP/Auth/password/key/PITR acceptance.
+
+Root cause measured at diagnostic56ce610e2a7286c2c0a461cfe26094dba484b42a/41992098519: sample SELECT succeeds, subject matches, canonical actor_is_active=false; original_replay denied42501/account_inactive. Harness incorrectly treated the oldest intentionally blocked actor's saved request as a positive. That original request is now a mandatory negative; no unban/account-state/security/financial SQL/migration change.10eligible saved requests:9active/1inactive; oldest selected for denial. Failed diagnostic evidence retained.
+
+G041993105190/B141993105424 SUCCESS;97unit/300expectations,0lint errors/15warnings,audit{},485protected/55migrations/prior manifests unchanged. Local69safety cases,61prior diagnostic test methods AST-preserved. Collection before restore108/111PASS; intentional-failure34controls per path, publication and zero unexpected egress PASS. Available CLI advisor on disposable source:45WARN (43auth_rls_initplan,2multiple_permissive_policies),0ERROR; not independent G1 reacceptance.
+
+Independent recovery subtask **Implemented → Tested candidate only**. Fixed-plan step1's scoped lab blocker closed; fullC5/In Progress, integration_accepted=false, C6/C7/RC/Pilot pending. No independent C6 review or Merged/Released claim. Main220fc206/five drafts27/35/39/49/50 unchanged; #50 tracking only. No merge/deploy/production/PRclosure/newcost/core financial-policy change.10original ZIPs/digests preserved; results attributed only to executable a88d4fba6942500d3c999b1475961bff8d652501.
+
+**ONE NEXT: Step2 of the fixed delivery plan: close gaps in the full C5 financial journey. Map and reuse existing evidence; verify actual desktop/mobile UI → API → database with independent expected amounts for fractional sales, full/partial collections and debt, courier delivery/custody/settlement, returns/stock, concurrency/replay/lost replies, authority and tenant isolation. Run only uncovered or affected checks on the fixed acceptance candidate; then independent C6 → owner C7 → RC/Pilot. Delivered is not Settled. Do not rerun all historical suites or claim restored HTTP/Auth/password/key/PITR acceptance from this SQL-role drill.**
+
+Prior current notices and fixed-table step1 pointers below are preserved history and do not override this current step2 selection.
+
+[Phase5 result and evidence](../changes/c5-restore-independent/RESULT_PHASE5.md).
+
+---
+
 ## Current — C5 phase4 grants restored; post-metadata SQL replay blocks, 2026-11-05
 
 Exact tested candidate c6625a405ff80a7869b9ac0eae4ced66b487c4b0, integration/g0-g1-reconcile-2026-10-18; native41990151896 fresh and populated upgrade FAILED after complete scoped ACL recovery and all metadata gates. Three graphql_public USAGE and five postgres database owner-issued grants were measured missing, zero extras; saved source/archive/roles-bound mode0600 companion recovers exactly8 using target-only transactional owner GRANT. No extra privileges waived, no source grant/core finance/migration change. Full logical ACL multisets, owners/RLS, raw diagnostics and prior equality gates preserved.

@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "task": "C5-RESTORE-INDEPENDENT-01",
+  "phase": 5,
+  "date": "2026-11-05",
+  "timezone": "Africa/Tripoli",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "base": "9306fe4da073d3ee688dce7d5bf5baf052f228ab",
+  "diagnostic_source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+  "tested_source": "a88d4fba6942500d3c999b1475961bff8d652501",
+  "tested_tree": "658f2977bcfaad8e2c48ab3ba7e801e1c47e7818",
+  "status": "independent logical PostgreSQL recovery and authenticated SQL-role replay Implemented → Tested on candidate only",
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "merged": false,
+  "released": false,
+  "diagnostic": {
+    "native_run": 41992098519,
+    "G0_run": 41992098543,
+    "B1_run": 41992098546,
+    "outcome": "expected original_replay failure retained in both modes",
+    "sqlstate": "42501",
+    "domain_error": "account_inactive",
+    "subject_matches": true,
+    "canonical_actor_active": false,
+    "checks_passed_before_exception": 65,
+    "canary_checks": 34,
+    "root_cause": "Harness chose oldest eligible completed request belonging to inactive actor deliberately left banned by collection fixture; restored live-account guard correctly denied it."
+  },
+  "correction": {
+    "native_run": 41993105090,
+    "G0_run": 41993105190,
+    "B1_run": 41993105424,
+    "native_conclusion": "SUCCESS fresh and upgrade",
+    "local_tests": 69,
+    "previous_test_methods_AST_preserved": 61,
+    "phase4_test_methods_preserved": 57,
+    "fresh": {
+      "restored": true,
+      "checks": 77,
+      "checks_passed": 77,
+      "canary_checks": 34,
+      "canary_passed": 34,
+      "collection_controls": 108,
+      "collection_controls_passed": 108
+    },
+    "upgrade": {
+      "restored": true,
+      "checks": 77,
+      "checks_passed": 77,
+      "canary_checks": 34,
+      "canary_passed": 34,
+      "collection_controls": 111,
+      "collection_controls_passed": 111
+    },
+    "selection": {
+      "eligible_saved_requests": 10,
+      "active_saved_requests": 9,
+      "inactive_saved_requests": 1,
+      "oldest_saved_actor_active": false,
+      "oldest_saved_request_selected_for_denial": true
+    },
+    "passed_gates": [
+      "all selected rows",
+      "application functions/owners/ACL/security settings and tables/RLS/policies",
+      "schema/database logical ACL and all other metadata",
+      "extensions/vendor functions/hooks/constraints/indexes/triggers/sequence definitions and positions/settings",
+      "global roles and memberships without passwords",
+      "cron definitions with scheduler execution disabled",
+      "inactive oldest saved-key denial is atomic",
+      "active saved-key original result restored",
+      "original replay has no relation changes",
+      "active foreign tenant denied atomically",
+      "conflicting request denied atomically",
+      "new payment replay same result",
+      "new payment exactly one stored effect",
+      "source snapshot unchanged and private files/target removed"
+    ],
+    "source_grants_recovered": 8,
+    "archive_entries": 1039,
+    "TOC_partition": {
+      "bootstrap": 13,
+      "graphql_prerequisites": 2,
+      "remainder": 1024
+    },
+    "unit_tests": 97,
+    "unit_expectations": 300,
+    "lint_errors": 0,
+    "lint_warnings": 15,
+    "audit": "{}",
+    "protected_blobs": 485,
+    "migrations": 55,
+    "prior_manifests_unchanged": true,
+    "disposable_source_advisor": {
+      "WARN": 45,
+      "ERROR": 0,
+      "categories": {
+        "auth_rls_initplan": 43,
+        "multiple_permissive_policies": 2
+      },
+      "scope": "existing warnings observed by available CLI after recovery drill; not independent G1 reacceptance"
+    },
+    "cleanup": "both real and deliberate-failure paths remove target and private dump/roles/ACL companion, preserve source, and pass publication/zero-unexpected-egress controls"
+  },
+  "scope": {
+    "core_financial_source_changed": false,
+    "migration_changed": false,
+    "account_state_mutation": false,
+    "unban": false,
+    "source_permission_change": false,
+    "production_access": false,
+    "independent_C6_review": false,
+    "positive_replay_role": "authenticated using saved actual isolated Auth token claims; canonical restored actor_is_active guard; no administrator replay"
+  },
+  "limits": [
+    "restored HTTP/Auth and JWT signature verification not accepted",
+    "role-password and provider encryption-key recovery not accepted",
+    "all provider data/scheduler execution/managed PITR/RPO/RTO not accepted",
+    "full financial journey and C6/C7/RC/Pilot still pending",
+    "15 lint and45 advisor warnings remain",
+    "G1 not rerun independently"
+  ],
+  "unchanged": {
+    "main": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+    "open_draft_PRs": [
+      27,
+      35,
+      39,
+      49,
+      50
+    ],
+    "PR50": "tracking only"
+  },
+  "artifacts": "evidence/phase5/manifest.json: 10 unmodified original workflow ZIPs, checked against GitHub SHA256; failed diagnostic retained",
+  "next": "Step2 of the fixed delivery plan: close gaps in the full C5 financial journey. Map and reuse existing evidence; verify actual desktop/mobile UI → API → database with independent expected amounts for fractional sales, full/partial collections and debt, courier delivery/custody/settlement, returns/stock, concurrency/replay/lost replies, authority and tenant isolation. Run only uncovered or affected checks on the fixed acceptance candidate; then independent C6 → owner C7 → RC/Pilot. Delivered is not Settled. Do not rerun all historical suites or claim restored HTTP/Auth/password/key/PITR acceptance from this SQL-role drill."
+}

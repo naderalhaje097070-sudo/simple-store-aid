@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "phase": 5,
+  "artifacts": [
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/integration-full-audit-13398966030.zip",
+      "artifact_id": 13398966030,
+      "run_id": 41992098543,
+      "source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+      "sha256": "170202b3d99072300b4e29ec80d9f8b5c3593d88ba8f96e1760c647a5850ae27",
+      "bytes": 161,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/integration-source-identity-13397849814.zip",
+      "artifact_id": 13397849814,
+      "run_id": 41992098543,
+      "source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+      "sha256": "9cdc39f6f2c755096184ed6955427d7a8df1d25ccb75bab5c2b17801522dcdb6",
+      "bytes": 387,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/quality-diagnostics-13397719985.zip",
+      "artifact_id": 13397719985,
+      "run_id": 41992098543,
+      "source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+      "sha256": "fd815fe2569b4f5fdde572f1d9b24f9a705260b4c730bb8131171c9a5ce938a3",
+      "bytes": 2158,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/c5-restore-independent-upgrade-attempt1-13398499114.zip",
+      "artifact_id": 13398499114,
+      "run_id": 41992098519,
+      "source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+      "sha256": "f5e920b0d6c16edb2a93a5de05a69ba35b9ba06261c20ed0c902d7ea970c7eb7",
+      "bytes": 9811,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/c5-restore-independent-fresh-attempt1-13398044750.zip",
+      "artifact_id": 13398044750,
+      "run_id": 41992098519,
+      "source": "56ce610e2a7286c2c0a461cfe26094dba484b42a",
+      "sha256": "1a4ca7036d1d637b1df169df7da82fd195ca799e6b7d28d801434a33a2fb0296",
+      "bytes": 9345,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/integration-full-audit-13398877525.zip",
+      "artifact_id": 13398877525,
+      "run_id": 41993105190,
+      "source": "a88d4fba6942500d3c999b1475961bff8d652501",
+      "sha256": "9069be4d5851f0d5b35d7ea565c95f194f01879687895b1de145f9fb9fe3696d",
+      "bytes": 161,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/quality-diagnostics-13398713271.zip",
+      "artifact_id": 13398713271,
+      "run_id": 41993105190,
+      "source": "a88d4fba6942500d3c999b1475961bff8d652501",
+      "sha256": "7d30ae6c0f91edea3d7499adf6d1fc7e34159c9380b355cc2fcee5a31676acfd",
+      "bytes": 2158,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/integration-source-identity-13398369272.zip",
+      "artifact_id": 13398369272,
+      "run_id": 41993105190,
+      "source": "a88d4fba6942500d3c999b1475961bff8d652501",
+      "sha256": "edfd9dcf8185d54c2ef5d838bf89dcc6953dffe66e125d4eed0ae5374fee0058",
+      "bytes": 387,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/c5-restore-independent-upgrade-attempt1-13400095771.zip",
+      "artifact_id": 13400095771,
+      "run_id": 41993105090,
+      "source": "a88d4fba6942500d3c999b1475961bff8d652501",
+      "sha256": "fbbe730c83a28d1169d67c2e5da64189a823e33eba9c5d9c6039daf7ae632236",
+      "bytes": 12148,
+      "format": "original GitHub Actions ZIP"
+    },
+    {
+      "path": "changes/c5-restore-independent/evidence/phase5/c5-restore-independent-fresh-attempt1-13399695748.zip",
+      "artifact_id": 13399695748,
+      "run_id": 41993105090,
+      "source": "a88d4fba6942500d3c999b1475961bff8d652501",
+      "sha256": "58b89607d1bddce1ee85b6ebb653efba1088a13c0b7995fe06fd6123120c48cb",
+      "bytes": 11679,
+      "format": "original GitHub Actions ZIP"
+    }
+  ]
+}

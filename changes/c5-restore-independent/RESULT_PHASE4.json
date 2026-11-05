@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "task": "C5-RESTORE-INDEPENDENT-01",
+  "phase": 4,
+  "date": "2026-11-05",
+  "timezone": "Africa/Tripoli",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "branch": "integration/g0-g1-reconcile-2026-10-18",
+  "diagnostic_source": "0727e6923d33b1fd09b3875efb4d5a455c2084a9",
+  "tested_source": "c6625a405ff80a7869b9ac0eae4ced66b487c4b0",
+  "tested_tree": "cc14a8e3236e21eadd0400abd66c4473915a2053",
+  "status": "scoped grant capture/recovery implemented and tested on candidate; full recovery FAILED/BLOCKED",
+  "full_C5_acceptance": false,
+  "integration_accepted": false,
+  "merged": false,
+  "released": false,
+  "diagnostic": {
+    "native_run": 41988824420,
+    "G0_run": 41988824462,
+    "B1_run": 41988824380,
+    "real_paths": "fresh and upgrade",
+    "result": "metadata_restored_schemas failed; 46 checks pass, 1 check fail per real path",
+    "missing_schema_owner_grants": 3,
+    "missing_database_owner_grants": 5,
+    "extra_grants": 0,
+    "matching_scoped_acl_TOC_entries": 0,
+    "upstream_cause": "not established"
+  },
+  "correction": {
+    "native_run": 41990151896,
+    "G0_run": 41990151953,
+    "B1_run": 41990151981,
+    "local_tests": 57,
+    "previous_test_methods_AST_preserved": 48,
+    "native": {
+      "fresh": {
+        "checks_recorded": 62,
+        "checks_passed": 62,
+        "canary_checks": 34,
+        "canary_passed": 34,
+        "owner_grants_recovered": 8,
+        "restored": false,
+        "reason": "SQL_failed:sql_recovery_none::error ?",
+        "collection_controls": 108,
+        "collection_controls_passed": 108
+      },
+      "upgrade": {
+        "checks_recorded": 62,
+        "checks_passed": 62,
+        "canary_checks": 34,
+        "canary_passed": 34,
+        "owner_grants_recovered": 8,
+        "restored": false,
+        "reason": "SQL_failed:sql_recovery_none::error ?",
+        "collection_controls": 111,
+        "collection_controls_passed": 111
+      }
+    },
+    "restored_and_compared": [
+      "all selected rows",
+      "49 application function definitions, owners, ACLs and security settings",
+      "26 application table identities, owners and RLS",
+      "82 policies",
+      "all 16 schemas including full logical ACLs",
+      "database owner, encoding, locale, collation, settings and full logical ACL",
+      "extensions and owners",
+      "vendor functions and event triggers",
+      "constraints, indexes and triggers",
+      "sequence definitions and positions",
+      "global roles, flags and memberships without passwords",
+      "cron definitions with execution disabled"
+    ],
+    "not_yet_passed": [
+      "restored original key returns original result",
+      "replay has no relation effects",
+      "restored foreign-tenant denial atomicity",
+      "restored payload conflict atomicity",
+      "restored new payment exactly once"
+    ],
+    "failure_location": "After cron_definitions_restored and before restored_original_key_returns_original_result; sample SELECT vs first RPC and exact private SQL error are not distinguished by current receipt.",
+    "cleanup": "both real/canary targets and private archive/roles/scoped-ACL files removed; source snapshot unchanged; no unexpected egress; publication guard passed",
+    "G0": "SUCCESS",
+    "B1": "SUCCESS",
+    "unit_tests": 97,
+    "unit_expectations": 300,
+    "lint_errors": 0,
+    "lint_warnings": 15,
+    "audit": "{}",
+    "protected_blobs": 485,
+    "migrations": 55,
+    "prior_manifests_unchanged": true
+  },
+  "scope": {
+    "backup_companion": "exclusive mode0600, full logical ACLs for two fixed objects, source/archive/roles digest binding",
+    "restore": "additive owner-issued non-grantable named-role GRANT only; full plan validated before transaction; extras/options/PUBLIC/delegated grantors rejected; max8",
+    "core_financial_source_changed": false,
+    "source_permission_write": false,
+    "production_access": false,
+    "independent_C6_review": false
+  },
+  "boundaries": [
+    "SQL role replay does not verify restored HTTP/Auth or JWT signature verification",
+    "role passwords and provider encryption keys not recovered",
+    "all provider data, scheduler execution and managed PITR/RPO/RTO not accepted",
+    "G1/advisor not rerun for this test-only delta",
+    "C6/C7/RC/Pilot remain pending"
+  ],
+  "unchanged": {
+    "main": "220fc2066b4d6254b1803b5e32919c47d60a9c7e",
+    "open_draft_PRs": [
+      27,
+      35,
+      39,
+      49,
+      50
+    ],
+    "PR50": "tracking only",
+    "deleted_blobs": 0
+  },
+  "next": "Phase 5 of the same C5 task: distinguish the restored sample SELECT from the first authenticated SQL-role RPC using bounded stage/SQLSTATE/domain-error diagnostics; verify the selected saved request and actor's current authority, fix only the proven harness/recovery defect, and complete original-result replay, foreign denial, payload conflict and exactly-once new-payment gates. Do not unban an actor, weaken live-authority checks, alter the financial RPC or waive a gate to force success.",
+  "artifacts": "evidence/phase4/manifest.json: 10 unmodified original workflow ZIPs, each independently downloaded and checked against GitHub SHA256; diagnostic failures retained"
+}

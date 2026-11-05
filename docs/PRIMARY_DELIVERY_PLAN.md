@@ -1,3 +1,19 @@
+## Current — C5 phase4 grants restored; post-metadata SQL replay blocks, 2026-11-05
+
+Exact tested candidate c6625a405ff80a7869b9ac0eae4ced66b487c4b0, integration/g0-g1-reconcile-2026-10-18; native41990151896 fresh and populated upgrade FAILED after complete scoped ACL recovery and all metadata gates. Three graphql_public USAGE and five postgres database owner-issued grants were measured missing, zero extras; saved source/archive/roles-bound mode0600 companion recovers exactly8 using target-only transactional owner GRANT. No extra privileges waived, no source grant/core finance/migration change. Full logical ACL multisets, owners/RLS, raw diagnostics and prior equality gates preserved.
+
+Both real paths record62 passing checks then raise SQL_failed:sql_recovery_none::error ?. All selected rows,49application functions/26tables/82policies,16schemas/database attributes and logical ACL,extensions/vendor functions/hooks/constraints/indexes/triggers/sequences/settings/roles/cron definitions PASS. Last accepted gate cron_definitions_restored; first original-result replay assertion not reached successfully. Sample SELECT vs first authenticated RPC and SQLSTATE/domain error still unmeasured. Do not call overall restore successful. Failure-canary34controls, source invariance/private files/sidecar/target cleanup/publication/zero unexpected egress PASS.
+
+G041990151953/B141990151981 SUCCESS;97unit/300expectations,0lint errors/15warnings,audit{},485protected/55migrations/prior manifests exact. Local57safety tests,48previous test methods AST-preserved. Collection before restore108/111controls PASS; does not prove restored financial behavior. Diagnostic0727e692/run41988824420 schema-gate FAIL retained.10original ZIPs/digests preserved.
+
+Scoped grant recovery **Implemented → Tested candidate only**; full restore FAILED/BLOCKED, fullC5 In Progress, C6/C7/RC/Pilot pending. No independent C6 or new G1/advisor acceptance. Main220fc206/five draft PRs27/35/39/49/50 unchanged; #50 tracking only. No merge/deploy/production/closure/newcost/financial-policy change.
+
+**ONE NEXT: Phase 5 of the same C5 task: distinguish the restored sample SELECT from the first authenticated SQL-role RPC using bounded stage/SQLSTATE/domain-error diagnostics; verify the selected saved request and actor's current authority, fix only the proven harness/recovery defect, and complete original-result replay, foreign denial, payload conflict and exactly-once new-payment gates. Do not unban an actor, weaken live-authority checks, alter the financial RPC or waive a gate to force success.** Then fixed full financial journey → C6 → ownerC7 → RC/Pilot. Prior histories below remain exact.
+
+[Phase4 result and exact evidence](../changes/c5-restore-independent/RESULT_PHASE4.md).
+
+---
+
 ## Current — C5 phase3 catalog verifier corrected; vendor grants block, 2026-11-05
 
 Exact candidate fe62a3cc1e290607afd9891720d6239adb2a3daf, integration/g0-g1-reconcile-2026-10-18. Native41928863171 passes application prior.catalog after a measured1table ACL-representation correction:49functions/26tables/82policies,0missing/added; function/policy/body/security/config/owners/RLS exact, actual table grants exact. Full1039archive execution/selected rows still pass. Each real path46PASS/1FAIL (metadata_restored_schemas); intentional-failure33controls, source invariance/private files/target cleanup/publication/zero unexpected egress PASS.

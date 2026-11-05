@@ -19,7 +19,7 @@ Every TOC entry still executes exactly once; prior equality gates remain intact.
 
 ## Validation
 
-57 local safety/comparison unit cases pass (48 diagnostic cases preserved, 9 recovery cases added). Tests cover additive-only recovery, grantors, typed PUBLIC, grant options, quoting, all-plan-before-write behavior, digest/source/archive/roles tamper rejection, original backup use, post-apply equality and companion cleanup. These are mocked safety tests, not native Postgres proof. Exact-source native fresh/upgrade plus G0 and B1 checks are pending on the correction commit.
+57 local safety/comparison unit cases pass (48 diagnostic cases preserved, 9 recovery cases added). Tests cover additive-only recovery, grantors, typed PUBLIC, grant options, quoting, all-plan-before-write behavior, digest/source/archive/roles tamper rejection, original backup use, post-apply equality and companion cleanup. These are mocked safety tests, not native Postgres proof. Exact correction c6625a405ff80a7869b9ac0eae4ced66b487c4b0: G0 41990151953 and B1 41990151981 SUCCESS. Native41990151896 fresh/upgrade recover exactly8 grants, pass all metadata/ACL gates and then FAIL at post-metadata SQL (sample selection vs first RPC not distinguished). Overall restored=false/fullC5=false. See RESULT_PHASE4.md for results and ONE NEXT.
 
 ## Boundaries
 

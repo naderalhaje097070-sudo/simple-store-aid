@@ -19,6 +19,7 @@ class RecoverySafety(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         root = Path(self.tmp.name)
         self.patches = [patch.object(r,'ARCHIVE',root/'archive'),patch.object(r,'ROLES',root/'roles'),
+                        patch.object(r,'ACL_BACKUP',root/'scoped-acl.json',create=True),
                         patch.object(r,'OUTDIR',root/'evidence'),patch.object(r,'CREATED_FILES',set()),
                         patch.object(r,'CHECKS',[]),patch.object(r,'DETAILS',{}),patch.object(r,'BEFORE',None),
                         patch.object(r,'TARGET_ID','b'*64),patch.dict(os.environ,{'EXPECTED_SOURCE':'a'*40})]
@@ -427,6 +428,113 @@ class RecoverySafety(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 r.archive_acl_observations(b'1; 0 0 ACL - DATABASE postgres owner\n2; 0 0 ACL - DATABASE postgres owner\n')
             command.assert_not_called()
+
+    def recovery_acl_fixture(self):
+        return {'schemas':[['graphql_public',[['supabase_admin',{'public':False,'role':'anon'},'USAGE',False]]]],
+                'database':[['postgres',[['postgres',{'public':False,'role':'storage_role'},'CREATE',False]]]]}
+
+    def test_scoped_recovery_only_adds_measured_grants_under_original_owners(self):
+        left=self.recovery_acl_fixture();right=copy.deepcopy(left)
+        for kind in right:right[kind][0][-1]=[]
+        saved=copy.deepcopy(left)
+        statement,count=r.missing_scoped_grants(left,right,{'anon','storage_role'})
+        self.assertEqual(count,2);self.assertEqual(left,saved)
+        self.assertIn('SET SESSION AUTHORIZATION "supabase_admin";',statement)
+        self.assertIn('GRANT USAGE ON SCHEMA "graphql_public" TO "anon";',statement)
+        self.assertIn('SET SESSION AUTHORIZATION "postgres";',statement)
+        self.assertIn('GRANT CREATE ON DATABASE "postgres" TO "storage_role";',statement)
+        self.assertTrue(statement.startswith('BEGIN;'));self.assertTrue(statement.endswith('COMMIT;'))
+        self.assertNotIn('REVOKE',statement);self.assertNotIn('WITH GRANT OPTION',statement)
+        self.assertEqual(r.missing_scoped_grants(left,left,{'anon','storage_role'}),('',0))
+
+    def test_scoped_recovery_rejects_extra_duplicate_and_shifted_grant_options(self):
+        left=self.recovery_acl_fixture()
+        for mutation in ('extra','duplicate','option'):
+            right=copy.deepcopy(left)
+            if mutation=='extra':right['schemas'][0][-1].append(['supabase_admin',{'public':False,'role':'stranger'},'USAGE',False])
+            elif mutation=='duplicate':right['schemas'][0][-1].append(copy.deepcopy(right['schemas'][0][-1][0]))
+            else:right['schemas'][0][-1][0][3]=True
+            with self.assertRaises(RuntimeError):r.missing_scoped_grants(left,right,{'anon','storage_role','stranger'})
+
+    def test_scoped_recovery_rejects_public_delegated_missing_roles_and_unsupported_rights(self):
+        for mutation in ('public','grantor','missing_role','privilege','option'):
+            left=self.recovery_acl_fixture();right=copy.deepcopy(left);right['schemas'][0][-1]=[]
+            grant=left['schemas'][0][-1][0]
+            if mutation=='public':grant[1]={'public':True,'role':None}
+            elif mutation=='grantor':grant[0]='delegate'
+            elif mutation=='missing_role':grant[1]['role']='absent'
+            elif mutation=='privilege':grant[2]='CREATE'
+            else:grant[3]=True
+            with self.assertRaises(RuntimeError):r.missing_scoped_grants(left,right,{'anon','storage_role'})
+
+    def test_scoped_recovery_quotes_role_identifiers_and_never_interpolates_privileges(self):
+        left=self.recovery_acl_fixture();right=copy.deepcopy(left);right['schemas'][0][-1]=[]
+        name='role"; DROP SCHEMA public; --'
+        left['schemas'][0][-1][0][1]['role']=name
+        statement,count=r.missing_scoped_grants(left,right,{name,'storage_role'})
+        self.assertEqual(count,1)
+        self.assertIn('TO "role""; DROP SCHEMA public; --";',statement)
+        for bad in ('','bad\x00role','r'*64):
+            left['schemas'][0][-1][0][1]['role']=bad
+            with self.assertRaises(RuntimeError):r.missing_scoped_grants(left,right,{bad,'storage_role'})
+
+    def test_scoped_recovery_bounds_missing_grants_and_requires_both_objects(self):
+        left=self.recovery_acl_fixture();right=copy.deepcopy(left);right['schemas'][0][-1]=[]
+        names={'role'+str(n) for n in range(9)}
+        left['schemas'][0][-1]=[['supabase_admin',{'public':False,'role':name},'USAGE',False] for name in names]
+        with self.assertRaises(RuntimeError):r.missing_scoped_grants(left,right,names|{'storage_role'})
+        for action in ('missing','duplicate'):
+            left=self.recovery_acl_fixture();right=copy.deepcopy(left)
+            if action=='missing':left['schemas']=[]
+            else:left['database'].append(copy.deepcopy(left['database'][0]))
+            with self.assertRaises(RuntimeError):r.missing_scoped_grants(left,right,{'anon','storage_role'})
+
+    def save_acl_fixture(self):
+        r.ARCHIVE.write_bytes(b'PGDMPsynthetic');r.ROLES.write_bytes(b'synthetic roles')
+        r.CREATED_FILES.update({r.ARCHIVE,r.ROLES})
+        r.BEFORE={'acl_semantics':self.recovery_acl_fixture()}
+        r.save_scoped_acl_backup('a'*40)
+
+    def test_scoped_backup_private_and_recovery_uses_backup_not_live_source(self):
+        self.save_acl_fixture()
+        self.assertEqual(r.ACL_BACKUP.stat().st_mode & 0o777,0o600)
+        right=self.recovery_acl_fixture();right['schemas'][0][-1]=[]
+        r.BEFORE=None
+        inventory={'roles':[{'rolname':name} for name in ('anon','storage_role')]}
+        with patch.object(r,'roles',return_value=inventory) as roles,patch.object(r,'sql') as sql,patch.object(r,'acl_catalog',return_value=self.recovery_acl_fixture()) as query:
+            r.recover_scoped_acl_backup(right)
+            roles.assert_called_once_with('recovery');query.assert_called_once_with('recovery')
+            self.assertEqual(sql.call_count,1);self.assertEqual(sql.call_args.args[0],'recovery')
+        self.assertEqual(r.DETAILS['scoped_acl_recovery']['missing_owner_grants_applied'],1)
+
+    def test_scoped_backup_tampering_and_wrong_archive_roles_or_source_prevent_writes(self):
+        for mutation in ('backup','archive','roles','source'):
+            with self.subTest(mutation=mutation):
+                r.ACL_BACKUP.unlink(missing_ok=True);r.CREATED_FILES.clear();self.save_acl_fixture()
+                if mutation=='backup':r.ACL_BACKUP.write_bytes(r.ACL_BACKUP.read_bytes()+b' ')
+                elif mutation=='archive':r.ARCHIVE.write_bytes(b'changed archive')
+                elif mutation=='roles':r.ROLES.write_bytes(b'changed roles')
+                else:os.environ['EXPECTED_SOURCE']='b'*40
+                with patch.object(r,'sql') as sql,patch.object(r,'roles') as roles:
+                    with self.assertRaises(RuntimeError):r.recover_scoped_acl_backup(self.recovery_acl_fixture())
+                    sql.assert_not_called();roles.assert_not_called()
+                os.environ['EXPECTED_SOURCE']='a'*40
+
+    def test_scoped_backup_validation_finishes_before_any_grant(self):
+        self.save_acl_fixture();right=self.recovery_acl_fixture()
+        right['schemas'][0][-1]=[]
+        right['database'][0][-1].append(['postgres',{'public':False,'role':'stranger'},'CONNECT',False])
+        with patch.object(r,'roles',return_value={'roles':[{'rolname':'anon'},{'rolname':'storage_role'},{'rolname':'stranger'}]}),patch.object(r,'sql') as sql:
+            with self.assertRaises(RuntimeError):r.recover_scoped_acl_backup(right)
+            sql.assert_not_called()
+
+    def test_scoped_backup_post_restore_mismatch_fails_and_cleanup_removes_sidecar(self):
+        self.save_acl_fixture();right=self.recovery_acl_fixture();right['schemas'][0][-1]=[]
+        with patch.object(r,'roles',return_value={'roles':[{'rolname':'anon'},{'rolname':'storage_role'}]}),patch.object(r,'sql'),patch.object(r,'acl_catalog',return_value=right):
+            with self.assertRaises(RuntimeError):r.recover_scoped_acl_backup(right)
+        with patch.object(r,'target_info',return_value=self.info()),patch.object(r,'run',return_value=b''),patch.object(r,'snapshot',return_value=r.BEFORE):
+            clean=r.cleanup()
+        self.assertTrue(clean['private_files_removed']);self.assertFalse(r.ACL_BACKUP.exists())
 
 
 if __name__ == '__main__': unittest.main()

@@ -1,11 +1,26 @@
-# Phase4 — grant provenance before recovery correction, 5 November2026
+# C5 independent restore — Phase 4 scoped ACL capture and recovery
 
-Owner continuation from a827c434; sole implementer root, claim55/6652483601. Existing integration/g0-g1-reconcile-2026-10-18; main220fc206/five original drafts unchanged. Baselinefe62/run41928863171: application catalog/1039archive/selected rows pass; graphql_public schema and postgres database grant tuples differ. Components and producing stage remain unmeasured.
+Date: 2026-11-05 (Africa/Tripoli). Repository: naderalhaje097070-sudo/simple-store-aid.
+Diagnostic source: 0727e6923d33b1fd09b3875efb4d5a455c2084a9.
+Native diagnostic run: 41988824420 (fresh and populated upgrade).
+Full C5/integration acceptance remains false.
 
-Add immutable Counter-based missing/extra grant diagnostics scoped only to graphql_public/postgres, preserving typed PUBLIC/grantor/grantee/privilege/grant option and multiplicities. Publish known fixed vendor role/privilege names only; unknown names are hashes/withheld. Bound tuple samples8per direction and retain total counts; never emit arbitrary names, SQL/config/row values.
+## Measured blocker
 
-Observe ACL states after existing database/schema restore, archived GraphQL-hook restore, pgmq bootstrap and full archive. This is read-only. Select only the two relevant ACL TOC objects and render their SQL into private memory with pg_restore --file=- and no -d; never execute a second copy of an archive ID. Publish statement-category counts and hashes only; empty selections never render the unfiltered archive. All existing equality/owner/RLS/actual-grant gates remain unchanged and blocking.
+Both real paths preserve all selected rows and application functions, owners, RLS and policy catalogs. The complete archive leaves three USAGE grants missing on graphql_public (owner supabase_admin to anon, authenticated and service_role) and five owner-postgres database grants missing. There are zero extra grants in these two scopes. The bounded archive observer found zero matching schema/database ACL entries; the graphql vendor hook restores one original postgres USAGE grant but does not restore the three missing named-role grants. No claim is made about an unmeasured upstream cause or vulnerability.
 
-Local48tests/AST pass;7new privacy/tuple/options/unknown-role/fixed-stage/render-only/empty-list controls fail on exact parent while41existing pass. No native provenance or recovery correction claimed yet. After evidence, choose the smallest faithful isolated-target bootstrap/archive correction and complete all restore/financial assertions; do not broaden source policy or normalize away grant differences. FullC5/C6/C7 remain open. Compensation is a forward test-only correction/current manifest; no production/history/financial SQL action.
+## Narrow correction
 
-Primary references: https://www.postgresql.org/docs/17/sql-grant.html (GRANT adds to existing privileges); https://www.postgresql.org/docs/17/sql-revoke.html ; https://www.postgresql.org/docs/17/app-pgrestore.html . No app/55migration/dependency/original frozen helper change or protected merge/deploy/closure/newcost.
+Capture full logical ACLs for exactly graphql_public schema and postgres database into an exclusive mode-0600 JSON backup companion. Capture occurs before creating the target, from the original pre-dump snapshot, and binds the companion to source SHA, archive SHA256 and role dump SHA256. Publish only its digest, never private role identifiers or SQL.
+
+Read the saved companion during recovery rather than copying current source permissions. Validate integrity and all bindings before planning writes. Plan only missing owner-issued, non-grantable privileges for existing named roles on those two fixed objects. Reject extra grants, grant-option shifts, PUBLIC additions, delegated grantors, duplicates, invalid identities and more than eight missing tuples before the first write. Quote all role identifiers. Use ordinary transactional GRANT under the original owner in the independently attested target, then verify the complete saved scopes exactly. No REVOKE, catalog UPDATE, source write or owner-policy change.
+
+Every TOC entry still executes exactly once; prior equality gates remain intact. Re-snapshot target after the companion and run the existing full metadata, roles, cron and financial SQL-role replay gates. Cleanup removes archive, role dump and ACL companion on success and failure.
+
+## Validation
+
+57 local safety/comparison unit cases pass (48 diagnostic cases preserved, 9 recovery cases added). Tests cover additive-only recovery, grantors, typed PUBLIC, grant options, quoting, all-plan-before-write behavior, digest/source/archive/roles tamper rejection, original backup use, post-apply equality and companion cleanup. These are mocked safety tests, not native Postgres proof. Exact-source native fresh/upgrade plus G0 and B1 checks are pending on the correction commit.
+
+## Boundaries
+
+No production connection, financial contract change, migration edit, merge or deployment. SQL authenticated-role replay does not verify restored HTTP/Auth or password/encryption-key recovery. Full C5 acceptance, C6 independent review, protected owner merge and Pilot remain separate pending gates.

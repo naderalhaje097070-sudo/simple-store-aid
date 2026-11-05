@@ -25,6 +25,7 @@ LABEL = 'monjez.c5-recovery.source'
 PRIVATE = prior.PRIVATE
 ARCHIVE = Path('/tmp/monjez-c5-independent.dump')
 ROLES = Path('/tmp/monjez-c5-independent.roles')
+ACL_BACKUP = Path('/tmp/monjez-c5-independent.scoped-acl.json')
 OUTDIR = Path('/tmp/monjez-c5sale/evidence')
 CHECKS = []
 PHASE = 'preflight'
@@ -355,6 +356,79 @@ def archive_acl_observations(toc):
     return result
 
 
+def scoped_acl_inventory(acls):
+    result = {}
+    for kind,name in (('schemas','graphql_public'),('database','postgres')):
+        selected = [row for row in acls[kind] or [] if row[0] == name]
+        # Reuse the strict typed ACL validator, including identity uniqueness.
+        rows_with_logical_acl([[name,None]],selected,1,1,2)
+        result[kind] = selected
+    return result
+
+
+def missing_scoped_grants(backup_acls, recovered_acls, role_names):
+    """Add only missing, owner-issued named-role grants on two fixed objects.
+
+    Extra grants, grant-option changes, PUBLIC additions or delegated grantors
+    are outside this measured recovery correction and fail before any write.
+    """
+    expected = scoped_acl_inventory(backup_acls)
+    current = scoped_acl_inventory(recovered_acls)
+    statements, count = [], 0
+    def identifier(value):
+        if not isinstance(value,str) or not value or '\x00' in value or len(value.encode()) > 63:
+            raise RuntimeError('invalid_scoped_acl_role')
+        return '"'+value.replace('"','""')+'"'
+    for kind,name,owner,privileges,object_type in (
+            ('schemas','graphql_public','supabase_admin',{'USAGE'},'SCHEMA'),
+            ('database','postgres','postgres',{'CONNECT','CREATE','TEMPORARY'},'DATABASE')):
+        left = rows_with_logical_acl([[name,None]],expected[kind],1,1,2)[0][1]
+        right = rows_with_logical_acl([[name,None]],current[kind],1,1,2)[0][1]
+        if len(left) != len(set(left)) or len(right) != len(set(right)) or Counter(right)-Counter(left):
+            raise RuntimeError('scoped_acl_not_additive')
+        for value in sorted((Counter(left)-Counter(right)).elements()):
+            grantor,recipient,privilege,grant_option = json.loads(value)
+            if (grantor != owner or recipient['public'] or recipient['role'] not in role_names
+                    or privilege not in privileges or grant_option is not False):
+                raise RuntimeError('unapproved_scoped_acl_delta')
+            statements += ['SET SESSION AUTHORIZATION '+identifier(owner)+';',
+                'GRANT '+privilege+' ON '+object_type+' '+identifier(name)+' TO '+identifier(recipient['role'])+';',
+                'RESET SESSION AUTHORIZATION;']
+            count += 1
+    if count > 8:
+        raise RuntimeError('scoped_acl_delta_bound')
+    return ('BEGIN;\n'+'\n'.join(statements)+'\nCOMMIT;' if count else ''),count
+
+
+def save_scoped_acl_backup(source):
+    payload = {'schema_version':1,'source':source,
+        'archive_sha256':hashlib.sha256(ARCHIVE.read_bytes()).hexdigest(),
+        'roles_sha256':hashlib.sha256(ROLES.read_bytes()).hexdigest(),
+        'acls':scoped_acl_inventory(BEFORE['acl_semantics'])}
+    content = (json.dumps(payload,sort_keys=True,separators=(',',':'))+'\n').encode()
+    private_file(ACL_BACKUP,content)
+    DETAILS['scoped_acl_backup_sha256'] = hashlib.sha256(content).hexdigest()
+
+
+def recover_scoped_acl_backup(recovered_acls):
+    content = ACL_BACKUP.read_bytes()
+    check('scoped_acl_backup_digest',hashlib.sha256(content).hexdigest() == DETAILS['scoped_acl_backup_sha256'])
+    payload = json.loads(content)
+    check('scoped_acl_backup_binding',set(payload) == {'schema_version','source','archive_sha256','roles_sha256','acls'}
+        and payload['schema_version'] == 1 and payload['source'] == os.environ['EXPECTED_SOURCE']
+        and payload['archive_sha256'] == hashlib.sha256(ARCHIVE.read_bytes()).hexdigest()
+        and payload['roles_sha256'] == hashlib.sha256(ROLES.read_bytes()).hexdigest())
+    statement,count = missing_scoped_grants(payload['acls'],recovered_acls,
+        {role['rolname'] for role in roles('recovery')['roles']})
+    # Validation covers the entire plan before the first write. sql's target
+    # route is fixed to the already attested independent cluster, never source.
+    if statement:
+        sql('recovery',statement)
+    DETAILS['scoped_acl_recovery'] = {'scope':'graphql_public schema and postgres database',
+        'missing_owner_grants_applied':count,'extra_grants_removed':0,'grant_options_changed':0}
+    check('scoped_acl_backup_restored',scoped_acl_inventory(acl_catalog('recovery')) == payload['acls'])
+
+
 def snapshot(database):
     global SECTION
     result = {}
@@ -379,7 +453,7 @@ def private_file(path, value):
     CREATED_FILES.add(path)
     with os.fdopen(fd, 'wb') as stream:
         stream.write(value)
-    check('private_mode_' + ('archive' if path == ARCHIVE else 'roles'), path.stat().st_mode & 0o777 == 0o600)
+    check('private_mode_' + ('archive' if path == ARCHIVE else 'scoped_acl' if path == ACL_BACKUP else 'roles'), path.stat().st_mode & 0o777 == 0o600)
 
 
 def partition_toc(toc):
@@ -490,7 +564,7 @@ def cleanup():
     result = {'private_files_removed': False, 'target_removed': False, 'source_unchanged': None}
     for path in CREATED_FILES:
         path.unlink(missing_ok=True)
-    result['private_files_removed'] = not ARCHIVE.exists() and not ROLES.exists()
+    result['private_files_removed'] = not ARCHIVE.exists() and not ROLES.exists() and not ACL_BACKUP.exists()
     if TARGET_ID is not None:
         info = target_info()
         # Never remove an unowned resource or the source, even if a name is reused.
@@ -510,7 +584,7 @@ def main():
     git = ['git','-c','safe.directory=/tmp/monjez-c5sale/repo']
     check('exact_source_and_isolation', run([*git,'rev-parse','HEAD'],phase='git').decode().strip() == source and os.environ.get('CI_ISOLATED_SUPABASE') == '1')
     run([*git,'diff','--exit-code','HEAD','--'],phase='clean_source')
-    check('private_paths_absent', not ARCHIVE.exists() and not ROLES.exists())
+    check('private_paths_absent', not ARCHIVE.exists() and not ROLES.exists() and not ACL_BACKUP.exists())
     names = run(['docker','ps','-a','--format','{{.Names}}'],phase='inventory').decode().splitlines()
     check('source_present_target_absent', SOURCE in names and TARGET not in names)
     src = json.loads(run(['docker','inspect',SOURCE],phase='source_identity'))[0]
@@ -557,6 +631,7 @@ def main():
     role_dump = prepare_roles(source_command('pg_dumpall -U supabase_admin --roles-only --no-role-passwords',phase='global_roles_dump'))
     check('only_expected_bootstrap_create_prehandled', b'CREATE ROLE' in role_dump and b'ALTER ROLE supabase_admin ' in role_dump)
     private_file(ROLES,role_dump)
+    save_scoped_acl_backup(source)
     DETAILS['archive_sha256'] = hashlib.sha256(archive).hexdigest()
     # A private tmpfs cluster bypasses the image's service bootstrap scripts.
     # No source mounts, source credentials, host ports or network connectivity.
@@ -636,6 +711,8 @@ def main():
     check('scheduler_stays_disabled', sql('recovery',"select to_jsonb(current_setting('cron.launch_active_jobs')='off' and current_setting('listen_addresses')='');") is True)
     recovered = snapshot('recovery')
     note_acl_stage('full_archive',recovered['acl_semantics'])
+    recover_scoped_acl_backup(recovered['acl_semantics'])
+    recovered = snapshot('recovery')
     DETAILS['catalog_diagnostics'] = catalog_diagnostics(BEFORE,recovered)
     check('all_selected_rows_restored', recovered['rows'] == BEFORE['rows'])
     check('prior_functions_RLS_owners_ACLs_restored', catalog_contract_equal(BEFORE,recovered))

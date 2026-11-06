@@ -23,6 +23,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+from datetime import datetime, timedelta, timezone
 
 REPOSITORY = 'naderalhaje097070-sudo/simple-store-aid'
 MIGRATIONS = 'supabase/migrations/'
@@ -36,19 +37,34 @@ LEGACY_ORDER = {
 }
 
 
-# Files that define acceptance itself. A PR changing any of them could make the
-# required checks pass vacuously (pull_request runs the PR's own copy), so the
-# trusted gate blocks such PRs until the owner adds GOVERNANCE_LABEL.
-GOVERNANCE_PATTERNS = (
-    '.github/workflows/',
-    'tests/release/',
-    'tests/c5-collection/native.py',
-    'tests/c4-sale/native.py',
-    'tests/c5-journey/native.py',
-    'tests/c5-journey/browser.py',
-    'tests/c5-journey/profit_contract.py',
-)
-GOVERNANCE_LABEL = 'governance-change-approved'
+# Governance. Required checks on pull_request run the PR's own copy of the
+# workflows, harnesses, helpers and dependency manifests, so a PR changing any
+# of them could make those checks pass vacuously. Allow-list, not block-list:
+# only the product itself may change without owner approval; every other path,
+# including new or renamed files anywhere else, needs it.
+#   src/, public/          application under test (judged by the suites)
+#   supabase/migrations/   judged by the migration rules above
+#   supabase/functions/    edge functions (application)
+#   docs/, top-level *.md  documentation
+# Approval is bound to one commit and one person: the trusted gate accepts only
+# the label approval_label(head) whose latest labeled event was made by the
+# repository owner directly (not through an app or bot token).
+UNGOVERNED_PREFIXES = ('src/', 'public/', 'supabase/migrations/', 'supabase/functions/', 'docs/')
+APPROVAL_PREFIX = 'gov-ok-'
+# Kept for the receipt and error messages.
+GOVERNANCE_LABEL = APPROVAL_PREFIX + '<head sha>'
+FUTURE_SLACK = timedelta(days=2)
+
+
+def governed(path):
+    if '/' not in path and path.endswith('.md'):
+        return False
+    return not path.startswith(UNGOVERNED_PREFIXES)
+
+
+def approval_label(head_sha):
+    check(re.fullmatch('[0-9a-f]{40}', head_sha or ''), 'Approval needs a full head SHA')
+    return APPROVAL_PREFIX + head_sha
 
 
 class GateFailure(Exception):
@@ -77,9 +93,17 @@ def tree(root, ref, prefix=MIGRATIONS):
     return out
 
 
-def verify_migrations(root, head='HEAD', base='origin/main', legacy=None):
+def version_time(version):
+    try:
+        return datetime.strptime(version, '%Y%m%d%H%M%S').replace(tzinfo=timezone.utc)
+    except ValueError:
+        raise GateFailure('Invalid migration timestamp: ' + version) from None
+
+
+def verify_migrations(root, head='HEAD', base='origin/main', legacy=None, now=None):
     """Return the sorted migration versions of head after checks A-C(migrations)."""
     legacy = LEGACY_ORDER if legacy is None else legacy
+    now = now or datetime.now(timezone.utc)
     for ref, label in ((base, 'Base'), (head, 'Head')):
         r = subprocess.run(['git', '-C', str(root), 'rev-parse', '--verify', '--quiet', ref + '^{commit}'],
                            capture_output=True, timeout=60)
@@ -94,7 +118,10 @@ def verify_migrations(root, head='HEAD', base='origin/main', legacy=None):
         check(head_files[path][2] == entry[2], 'Base migration changed: ' + path)
     newest = max(NAME.fullmatch(p).group(1) for p in base_files)
     for path in sorted(set(head_files) - set(base_files)):
-        if NAME.fullmatch(path).group(1) > newest:
+        version = NAME.fullmatch(path).group(1)
+        # A far-future version would force every later migration after it.
+        check(version_time(version) <= now + FUTURE_SLACK, 'New migration timestamp in the future: ' + path)
+        if version > newest:
             continue
         check(legacy.get(path) == head_files[path][2], 'New migration out of order: ' + path)
     versions = [NAME.fullmatch(p).group(1) for p in sorted(head_files)]
@@ -105,21 +132,43 @@ def verify_migrations(root, head='HEAD', base='origin/main', legacy=None):
 def verify_checkout(root):
     """Working tree must equal HEAD exactly, including migration files on disk."""
     check(not git(root, 'status', '--porcelain', '--untracked-files=all').strip(), 'Checkout not clean')
-    on_disk = {str(p.relative_to(root)) for p in (Path(root) / MIGRATIONS).iterdir()}
+    directory = Path(root) / MIGRATIONS
+    check(directory.is_dir() and not directory.is_symlink(), 'Migration directory missing or nonregular')
+    on_disk = {str(p.relative_to(root)) for p in directory.iterdir()}
     check(on_disk == set(tree(root, 'HEAD')), 'Migration directory differs from HEAD')
     for path in on_disk:
         check((Path(root) / path).is_file() and not (Path(root) / path).is_symlink(), 'Nonregular migration: ' + path)
 
 
+def changed_paths(root, base, head):
+    """Every path touched between the merge base and head. --no-renames lists
+    both sides of a rename, so moving a governed file out of place is seen."""
+    out = git(root, 'diff', '--no-renames', '--name-only', '-z', base + '...' + head).split(b'\0')
+    return sorted({p.decode() for p in out if p})
+
+
 def governance_changes(root, base, head):
-    out = git(root, 'diff', '--name-only', '-z', base + '...' + head).split(b'\0')
-    return sorted(p.decode() for p in out if p and p.decode().startswith(GOVERNANCE_PATTERNS))
+    return [p for p in changed_paths(root, base, head) if governed(p)]
+
+
+def owner_approved(events, label, owner):
+    """True if the latest labeled/unlabeled event for label is a labeled event by
+    owner made directly, not through a GitHub App (agents, bots, integrations)."""
+    relevant = [e for e in events if isinstance(e, dict) and e.get('event') in ('labeled', 'unlabeled')
+                and isinstance(e.get('label'), dict) and e['label'].get('name') == label]
+    if not relevant:
+        return False
+    last = max(relevant, key=lambda e: (str(e.get('created_at', '')), int(e.get('id') or 0)))
+    check('performed_via_github_app' in last, 'Approval event does not state whether an app made it')
+    actor = last.get('actor') or {}
+    return (last['event'] == 'labeled' and actor.get('login') == owner and actor.get('type') == 'User'
+            and last['performed_via_github_app'] is None)
 
 
 def verify_governance(root, base, head, approved):
     """Fail if acceptance-defining files change without explicit owner approval."""
     changed = governance_changes(root, base, head)
-    check(not changed or approved, 'Acceptance-defining files changed without approval label '
+    check(not changed or approved, 'Acceptance-defining files changed without owner approval label '
           + GOVERNANCE_LABEL + ': ' + ', '.join(changed[:20]))
     return changed
 
@@ -137,12 +186,21 @@ def verify(root, head='HEAD', base='origin/main', mode='checkout', expected=None
         verify_checkout(root)
     versions = verify_migrations(root, head_sha, base)
     base_sha = git(root, 'rev-parse', '--verify', base + '^{commit}').decode().strip()
-    changed = git(root, 'diff', '--name-only', '-z', base_sha + '...' + head_sha).split(b'\0')
-    changed = sorted(p.decode() for p in changed if p)
-    sensitive = [p for p in changed if p.startswith(('.github/', 'tests/release/', MIGRATIONS))]
+    changed = changed_paths(root, base_sha, head_sha)
+    sensitive = [p for p in changed if governed(p) or p.startswith(MIGRATIONS)]
     return {'scope': 'release_gate_v1', 'source_sha': head_sha, 'base_sha': base_sha, 'mode': mode,
             'migration_count': len(versions), 'base_migrations_preserved': True,
             'changed_file_count': len(changed), 'review_sensitive_paths': sensitive}
+
+
+def load_events(path):
+    """JSON array or JSON lines (gh api --paginate --jq '.[]')."""
+    text = Path(path).read_text()
+    try:
+        data = json.loads(text)
+        return data if isinstance(data, list) else [data]
+    except json.JSONDecodeError:
+        return [json.loads(line) for line in text.splitlines() if line.strip()]
 
 
 def main(argv=None):
@@ -152,14 +210,22 @@ def main(argv=None):
     parser.add_argument('--base', default='origin/main')
     parser.add_argument('--mode', choices=['checkout', 'objects'], default='checkout')
     parser.add_argument('--governance', action='store_true',
-                        help='also block acceptance-defining changes unless GATE_GOVERNANCE_APPROVED=true')
+                        help='also block acceptance-defining changes unless the owner approved this head')
+    parser.add_argument('--approval-events', help='issue events of the pull request (JSON or JSON lines)')
+    parser.add_argument('--owner', help='login whose direct label counts as approval')
     args = parser.parse_args(argv)
     try:
         receipt = verify(args.root, args.head, args.base, args.mode)
         if args.governance:
-            approved = os.environ.get('GATE_GOVERNANCE_APPROVED') == 'true'
-            receipt['governance_changes'] = verify_governance(args.root, args.base, args.head, approved)
+            check(args.approval_events and args.owner, 'Governance mode needs --approval-events and --owner')
+            label = approval_label(receipt['source_sha'])
+            changed = governance_changes(args.root, args.base, args.head)
+            approved = bool(changed) and owner_approved(load_events(args.approval_events), label, args.owner)
+            check(not changed or approved, 'Acceptance-defining files changed; owner approval needed: add label '
+                  + label + ' (by ' + args.owner + ', directly). Files: ' + ', '.join(changed[:20]))
+            receipt['governance_changes'] = changed
             receipt['governance_approved'] = approved
+            receipt['approval_label'] = label
     except GateFailure as error:
         print('RELEASE_GATE_FAILED ' + json.dumps({'reason': str(error)}))
         return 1

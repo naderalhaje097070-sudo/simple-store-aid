@@ -49,7 +49,12 @@ const db = dbNames
   .map((name) => {
     if (name === "tenantTodayKey")
       return `export const tenantTodayKey=(tz)=>new Intl.DateTimeFormat('en-CA',{timeZone:tz}).format(new Date());`;
-    const reads = { useInvoices: "invoices", usePayments: "payments", useExpenses: "expenses" };
+    const reads = {
+      useInvoices: "invoices",
+      usePayments: "payments",
+      useExpenses: "expenses",
+      useDayCloses: "dayCloses",
+    };
     if (reads[name]) return `export const ${name}=()=>globalThis.__readQueries.${reads[name]};`;
     if (name === "useTenantId")
       return `export const useTenantId=()=>({data:globalThis.__readSpec.tenantMissing?null:'tenant-fixture',status:globalThis.__readSpec.tenantError?'error':'success',isError:!!globalThis.__readSpec.tenantError,refetch:async()=>{globalThis.__readEffects.push(['refetch','tenant']);}});`;
@@ -57,7 +62,6 @@ const db = dbNames
       useProducts: "products",
       useCustomers: "customers",
       useCouriers: "couriers",
-      useDayCloses: "dayCloses",
     };
     if (rows[name])
       return `export const ${name}=()=>({data:globalThis.__readData.${rows[name]},isLoading:false});`;
@@ -84,7 +88,7 @@ export function reset(spec={}) {
   expenses:spec.empty?[]:[{id:'expense-fixture',type:'نقل',amount:10,method:'cash',createdAt:now,time:'12:00'}]
  };
  globalThis.__readQueries={};
- for(const key of ['invoices','payments','expenses']) {
+ for(const key of ['invoices','payments','expenses','dayCloses']) {
   const mode=spec.reads?.[key]??'ready';
   const data=['missing','error','paused'].includes(mode)?undefined:globalThis.__readData[key];
   globalThis.__readQueries[key]={data,status:mode.includes('error')?'error':data===undefined?'pending':'success',

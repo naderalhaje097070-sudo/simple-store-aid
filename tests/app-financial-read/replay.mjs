@@ -176,6 +176,7 @@ await check("retry uses the existing read queries", async () => {
     ["refetch", "payments"],
     ["refetch", "expenses"],
     ["refetch", "settings"],
+    ["refetch", "dayCloses"],
   ]);
 });
 await check("missing tenant retry resolves tenant before financial reads", async () => {

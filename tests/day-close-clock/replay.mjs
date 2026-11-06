@@ -188,6 +188,7 @@ await check("day-close timezone-only refresh recomputes stable props", () => {
     expenses,
     rawTotals: totals,
     totals,
+    dayCloses: [],
     tenantTz: "UTC",
     todayKey: "2026-10-19",
   };
@@ -217,6 +218,7 @@ await check("day-close same timezone new day invalidates preview", () => {
     expenses,
     rawTotals: totals,
     totals,
+    dayCloses: [],
     tenantTz: "UTC",
     todayKey: "2026-10-18",
   };

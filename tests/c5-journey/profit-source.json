@@ -47,12 +47,24 @@
     "tests/c5-collection/history.cjs": {
       "before": "a83009bd2d3e1a9355ae46164dcc28d1c30f0e84",
       "after": "5e44b0bd08391e55f2ad18a4c2a65ff01d4d99b1"
+    },
+    "tests/app-financial-read/build.mjs": {
+      "before": "f505a786418130cdd81f759a58c112b857fab855",
+      "after": "885fa0b7b3499c16785e548191dbc04e3fd5bf38"
+    },
+    "tests/app-financial-read/replay.mjs": {
+      "before": "a901644feb8503356d4e17c1add5dba3d5b04892",
+      "after": "e5a050faa46234595e102d4d1711c5da02a2803e"
+    },
+    "tests/day-close-clock/replay.mjs": {
+      "before": "b45ffbdf5f8b35d79cf1f9e087b17bef6c85f86d",
+      "after": "e6379f3a65548cfa32dada6313d2f54370d2e9f3"
     }
   },
   "additions": {
     "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
     "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
-    "tests/c5-journey/profit_identity.py": "8c2da284dec3b8d0d96a95deda758f9511cabcc6",
+    "tests/c5-journey/profit_identity.py": "bbeffedf5d2ff450f6139fcede8e1bd892cdfb63",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
     "tests/c5-journey/profit_contract.py": "8926c0ac82f132144cd3c33606c1bcfd364ae8ae",

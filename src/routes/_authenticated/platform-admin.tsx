@@ -156,7 +156,12 @@ const fmt = (n: number | string | null | undefined) => {
 const dl = (n: number | string | null | undefined) => `${fmt(n)} د.ل`;
 const short = (s: string | null | undefined, n = 8) => (s ? s.slice(0, n) : "—");
 const dt = (s: string | null | undefined) =>
-  s ? new Date(s).toLocaleString("ar-LY", { dateStyle: "short", timeStyle: "short" }) : "—";
+  s
+    ? new Date(s).toLocaleString("ar-LY", {
+        dateStyle: "short",
+        timeStyle: "short",
+      })
+    : "—";
 
 function Card({
   title,
@@ -507,7 +512,7 @@ function DayCloseTab() {
             <th className="p-2">مصاريف</th>
             <th className="p-2">ديون</th>
             <th className="p-2">عهدة</th>
-            <th className="p-2">ربح محقق</th>
+            <th className="p-2">هامش التحصيل قبل المصروفات</th>
             <th className="p-2">Δ مبيعات</th>
             <th className="p-2">Δ محصّل</th>
             <th className="p-2">Δ مصاريف</th>
@@ -608,9 +613,15 @@ function AlertsTab() {
 
   (checks.data ?? []).forEach((c) => {
     if (c.status === "Critical")
-      alerts.push({ level: "Critical", text: `${c.explanation_ar} (${c.affected_count})` });
+      alerts.push({
+        level: "Critical",
+        text: `${c.explanation_ar} (${c.affected_count})`,
+      });
     else if (c.status === "Warning")
-      alerts.push({ level: "Medium", text: `${c.explanation_ar} (${c.affected_count})` });
+      alerts.push({
+        level: "Medium",
+        text: `${c.explanation_ar} (${c.affected_count})`,
+      });
   });
   (sys.data?.rls ?? []).forEach((r) => {
     if (!r.rls_enabled) alerts.push({ level: "High", text: `RLS معطّل على ${r.table}` });
@@ -633,7 +644,12 @@ function AlertsTab() {
       });
   });
 
-  const order: Record<Alert["level"], number> = { Critical: 0, High: 1, Medium: 2, Low: 3 };
+  const order: Record<Alert["level"], number> = {
+    Critical: 0,
+    High: 1,
+    Medium: 2,
+    Low: 3,
+  };
   alerts.sort((a, b) => order[a.level] - order[b.level]);
 
   if (alerts.length === 0)
@@ -834,7 +850,11 @@ function SecurityTab() {
     warn: "bg-warn-soft text-warn",
     info: "bg-info-soft text-info",
   };
-  const lvLabel: Record<string, string> = { error: "حرج", warn: "تحذير", info: "معلومة" };
+  const lvLabel: Record<string, string> = {
+    error: "حرج",
+    warn: "تحذير",
+    info: "معلومة",
+  };
 
   return (
     <div className="space-y-4">

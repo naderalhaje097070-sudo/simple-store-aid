@@ -198,13 +198,29 @@ def run(p, state, private):
                 click('عرض حركة اليوم المالية (الكاش، الديون، العهدة)')
                 ui_row('بعت (قيمة الفواتير)',275);ui_row('المحصّل فعلًا',225);ui_row('المصروفات',5);ui_row('صافي الكاش',220)
                 click('الربح في شاشة مستقلة ←')
-                profit=page.get_by_text('ربح تقديري',exact=True).locator('..').locator('.num').first
+                profit=page.get_by_text('صافي ربح تقديري بعد المصروفات',exact=True).locator('..').locator('.num').first
                 profit.filter(has_text=re.compile('^130$')).wait_for()
                 control('actual_profit_display_after_expense',profit.inner_text().strip()=='130')
                 day(225,0,0,True)
                 observed=p.query(f"select jsonb_build_object('sales',sales,'collected',collected,'expenses',expenses,'realized_profit',realized_profit,'customer_debts',customer_debts,'unsettled_custody',unsettled_custody) from public.day_closes where tenant_id='{actor['tenant']}';")
-                expected={'sales':275,'collected':225,'expenses':5,'realized_profit':130,'customer_debts':0,'unsettled_custody':0}
+                expected={'sales':275,'collected':225,'expenses':5,'realized_profit':135,'customer_debts':0,'unsettled_custody':0}
                 control('final_day_close_independent_oracle',observed==expected,observed=observed,expected=expected)
+                net=p.query(f"select jsonb_build_object('margin',realized_margin_before_expenses,'net',realized_net_profit) from public.day_close_profit_report where tenant_id='{actor['tenant']}';")
+                control('final_saved_gross135_net130',net=={'margin':135,'net':130},observed=net,expected={'margin':135,'net':130})
+                day(225,0,0)
+                ui_row('هامش التحصيل المحفوظ قبل المصروفات',135)
+                ui_row('صافي ربح التحصيل المحفوظ بعد المصروفات',130)
+                for failure in (404,503):
+                    p.stage=label+'_report_read_failure_'+str(failure)
+                    page.route('**/rest/v1/day_close_profit_report*',lambda route:route.fulfill(status=failure,json={'message':'injected report unavailable'}))
+                    page.reload();page.wait_for_function('window.journeyReady===true')
+                    home();click(re.compile('إقفال اليوم'))
+                    page.get_by_text('الملخص المالي غير متاح حتى تكتمل قراءة البيانات المطلوبة.',exact=True).wait_for()
+                    control('report_read_'+str(failure)+'_cannot_show_healthy_open_close',page.get_by_role('button',name='تثبيت إقفال اليوم',exact=True).count()==0 and page.get_by_text('صافي ربح التحصيل المحفوظ بعد المصروفات',exact=True).count()==0)
+                    page.unroute('**/rest/v1/day_close_profit_report*')
+                    click('إعادة تحميل البيانات المالية')
+                    ui_row('صافي ربح التحصيل المحفوظ بعد المصروفات',130)
+                    control('report_read_'+str(failure)+'_recovered',page.get_by_role('button',name='✓ تم إقفال اليوم مسبقًا — رجوع',exact=True).is_visible())
                 control('browser_no_external_or_script_error',not errors and not external)
                 receipts.append({'viewport':label,'actual_application_component':True,'real_Query_SDK_Auth_RPC_DB':True,'stored_final':observed,'stock':7.75,'external_requests':0,'script_errors':0})
                 context.close()

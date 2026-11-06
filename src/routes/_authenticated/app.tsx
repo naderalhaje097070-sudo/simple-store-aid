@@ -227,7 +227,9 @@ function MongezzApp() {
   const collectDebtMut = useCollectDebt(tenantId);
   const settleCourierMut = useSettleCourier(tenantId);
   const updateCourierStateMut = useUpdateCourierState(tenantId);
-  const { data: dbDayCloses } = useDayCloses(tenantId);
+  const dayClosesQuery = useDayCloses(tenantId);
+  const { data: dbDayCloses } = dayClosesQuery;
+  const dayClosesRead = financialReadState(dayClosesQuery, !!tenantId, tenantQuery.isError);
   const closeDayMut = useCloseDay(tenantId);
   const { data: myRole } = useMyRole(tenantId);
   const tenantSettingsQuery = useTenant(tenantId);
@@ -263,6 +265,7 @@ function MongezzApp() {
       paymentsQuery.refetch(),
       expensesQuery.refetch(),
       tenantSettingsQuery.refetch(),
+      dayClosesQuery.refetch(),
     ]);
   };
 
@@ -283,6 +286,7 @@ function MongezzApp() {
   const periodFinancialReads =
     period === "day" ? [...allFinancialReads, tenantTimezoneRead] : allFinancialReads;
   const dayFinancialReads = [...allFinancialReads, tenantTimezoneRead];
+  const closeFinancialReads = [...dayFinancialReads, dayClosesRead];
 
   const [quickExpenseOpen, setQuickExpenseOpen] = useState(false);
   const [moneyDetailsOpen, setMoneyDetailsOpen] = useState(false);
@@ -299,7 +303,9 @@ function MongezzApp() {
   const todayKey = tenantTimezoneRead.hasData ? tenantTodayKey(tenantTz, new Date(clockNow)) : "";
   const dayCloses = dbDayCloses ?? [];
   const closedToday =
-    tenantTimezoneRead.complete && dayCloses.some((d) => d.closedFor === todayKey);
+    tenantTimezoneRead.complete && dayClosesRead.complete
+      ? dayCloses.some((d) => d.closedFor === todayKey)
+      : null;
   const setClosedToday = (_: boolean) => {};
   const [toast, setToast] = useState<string | null>(null);
 
@@ -357,7 +363,7 @@ function MongezzApp() {
     const collected = payP.reduce((s, pm) => s + pm.amount, 0);
     const grossProfit = sales - cogs;
     const netProfit = grossProfit - expenseTotal;
-    // Realized profit per-order (matches close_day RPC formula):
+    // Invoice-period paid-ratio estimate; distinct from payment-date close snapshots:
     // for each invoice take (price-cost)*qty * min(paid/total, 1)
     const realizedCogs = invP.reduce((s, i) => {
       const ratio = i.total > 0 ? Math.min(1, i.paid / i.total) : 0;
@@ -388,6 +394,7 @@ function MongezzApp() {
       netProfit,
       realizedProfit,
       realizedCogs,
+      realizedRevenue,
       customerDebts,
       unsettledCustody,
       inTransit,
@@ -519,6 +526,7 @@ function MongezzApp() {
     setPeriod,
     alerts,
     closedToday,
+    dayClosesRead,
     setClosedToday,
     dayCloses,
     tenantId,
@@ -526,7 +534,7 @@ function MongezzApp() {
     todayKey,
     tenantSettings,
     closeDayAsync: async (input: Parameters<ReturnType<typeof useCloseDay>["mutateAsync"]>[0]) => {
-      requireFinancialReads(dayFinancialReads);
+      requireFinancialReads(closeFinancialReads);
       return closeDayMut.mutateAsync(input);
     },
     go,
@@ -714,8 +722,8 @@ function MongezzApp() {
             {screen === "sale_quick" && <SaleQuickScreen {...ctx} />}
             {screen === "sale_success" && <SaleSuccessScreen {...ctx} />}
             {screen === "day_close" &&
-              financialScreen(<DayCloseScreen {...ctx} />, dayFinancialReads)}
-            {screen === "pilot" && financialScreen(<PilotScreen {...ctx} />, dayFinancialReads)}
+              financialScreen(<DayCloseScreen {...ctx} />, closeFinancialReads)}
+            {screen === "pilot" && financialScreen(<PilotScreen {...ctx} />, closeFinancialReads)}
 
             {!hideNav && (
               <div className="md:hidden">
@@ -965,7 +973,11 @@ function CourierCustodyScreen(p: AppScreenContext) {
           ? Number(markAmount)
           : 0;
     if (markMode === "delivered_partial" && (!amt || amt <= 0 || amt >= total)) return;
-    await p.updateCourierStateAsync({ orderId: markOrder.id, state: markMode, collected: amt });
+    await p.updateCourierStateAsync({
+      orderId: markOrder.id,
+      state: markMode,
+      collected: amt,
+    });
     setMarkOrder(null);
     setMarkMode(null);
     setMarkAmount("");
@@ -1767,7 +1779,11 @@ function SaleScreen(p: AppScreenContext) {
               courierId: d.courierId,
               method: d.method,
             });
-            p.setLastSaleSummary({ total: subtotal, paid: d.paid, profit: subtotal - cogs });
+            p.setLastSaleSummary({
+              total: subtotal,
+              paid: d.paid,
+              profit: subtotal - cogs,
+            });
             p.setLastCreatedInvoiceId(created.orderId);
             p.setScreen("sale_success");
           }}
@@ -2303,7 +2319,13 @@ function SaleQuickScreen(p: AppScreenContext) {
     try {
       const items: InvoiceItem[] = cart.map((c) => {
         const pr = p.products.find((x: Product) => x.id === c.productId)!;
-        return { productId: pr.id, name: pr.name, qty: c.qty, price: pr.price, cost: pr.cost };
+        return {
+          productId: pr.id,
+          name: pr.name,
+          qty: c.qty,
+          price: pr.price,
+          cost: pr.cost,
+        };
       });
       const cogs = items.reduce((s, it) => s + it.cost * it.qty, 0);
       const created = await p.createSaleAsync({
@@ -2315,7 +2337,12 @@ function SaleQuickScreen(p: AppScreenContext) {
         method: "cash" as const,
       });
       const elapsedMs = Math.round(performance.now() - startedAt.current);
-      p.setLastSaleSummary({ total: subtotal, paid: subtotal, profit: subtotal - cogs, elapsedMs });
+      p.setLastSaleSummary({
+        total: subtotal,
+        paid: subtotal,
+        profit: subtotal - cogs,
+        elapsedMs,
+      });
       p.setLastCreatedInvoiceId(created.orderId);
       p.setScreen("sale_success");
     } catch (error) {
@@ -2524,6 +2551,7 @@ function SaleQuickScreen(p: AppScreenContext) {
 
 /* --------------- DAY CLOSE --------------- */
 function DayCloseScreen(p: AppScreenContext) {
+  const savedClose = p.dayCloses.find((close) => close.closedFor === p.todayKey);
   // Day close always reflects TODAY only — independent of dashboard period filter.
   // This matches the close_day RPC which computes today's snapshot server-side.
   const tenantTz: string = p.tenantTz ?? "Africa/Tripoli";
@@ -2539,7 +2567,8 @@ function DayCloseScreen(p: AppScreenContext) {
     const sales = invs.reduce((s, i) => s + i.total, 0);
     const collected = pays.reduce((s, pm) => s + pm.amount, 0);
     const expenseTotal = exps.reduce((s, e) => s + e.amount, 0);
-    // Mirror close_day RPC: cash-basis profit allocated by today's payments.
+    // Preview the net reporting projection: payment-date margin minus expenses.
+    // Legacy close_day.realized_profit itself remains before expenses.
     // For each payment today linked to an order, take payment.amount/order.total
     // multiplied by the order's item-margin sum, then subtract today's expenses.
     const invById = new Map<string, Invoice>((p.invoices ?? []).map((i: Invoice) => [i.id, i]));
@@ -2637,6 +2666,16 @@ function DayCloseScreen(p: AppScreenContext) {
           )}
         </div>
 
+        {savedClose && (
+          <div className="rounded-2xl bg-card border border-border px-4 divide-y divide-border">
+            <Row
+              label="هامش التحصيل المحفوظ قبل المصروفات"
+              v={savedClose.realizedMarginBeforeExpenses}
+            />
+            <Row label="صافي ربح التحصيل المحفوظ بعد المصروفات" v={savedClose.realizedNetProfit} />
+          </div>
+        )}
+
         <div className="rounded-2xl bg-success-soft border border-success/20 p-4">
           <div className="text-xs text-muted-foreground">صافي الكاش اليوم</div>
           <Money
@@ -2664,6 +2703,7 @@ function DayCloseScreen(p: AppScreenContext) {
           ) : (
             <button
               disabled={
+                !p.dayClosesRead.complete ||
                 !p.tenantTimezoneRead.complete ||
                 !Object.values(p.financialReads).every((read) => read.complete)
               }

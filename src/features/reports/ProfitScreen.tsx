@@ -12,6 +12,7 @@ export function ProfitScreen(p: AppCtx) {
     netProfit,
     collected,
     realizedCogs,
+    realizedRevenue,
     realizedProfit,
     customerDebts,
     unsettledCustody,
@@ -42,26 +43,30 @@ export function ProfitScreen(p: AppCtx) {
         {/* Realized profit — primary */}
         <div className="rounded-2xl bg-profit-soft border-2 border-profit/30 p-4">
           <div className="flex items-center gap-2 text-profit text-xs font-bold">
-            <TrendingUp className="w-4 h-4" /> ربح تقديري
+            <TrendingUp className="w-4 h-4" /> صافي ربح تقديري بعد المصروفات
           </div>
           <Money v={realizedProfit} className="text-2xl text-profit mt-1" />
           <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed">
-            تقدير مبني على نسبة الدفع لفواتير الفترة. الحساب النهائي يُوحَّد لاحقًا على أساس
-            المدفوعات الفعلية.
+            تقدير بحسب نسبة الدفع لفواتير الفترة، بعد المصروفات. يختلف أساسه الزمني عن ملخص التحصيل
+            في إقفال اليوم.
           </div>
           <div className="mt-3 pt-3 border-t border-profit/20 space-y-1.5 text-xs">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">المحصّل فعليًا</span>
-              <Money v={collected} />
+              <span className="text-muted-foreground">الإيراد المقدّر بحسب نسبة الدفع</span>
+              <Money v={realizedRevenue} />
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">− تكلفة البضاعة المرتبطة بالمحصّل</span>
+              <span className="text-muted-foreground">− تكلفة البضاعة المخصّصة للتقدير</span>
               <Money v={realizedCogs} />
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">− مصروفات</span>
               <Money v={expenseTotal} />
             </div>
+          </div>
+          <div className="flex justify-between mt-3 text-xs text-muted-foreground">
+            <span>المحصّل الفعلي في الفترة — بيان نقدي مستقل</span>
+            <Money v={collected} />
           </div>
         </div>
 
@@ -83,8 +88,9 @@ export function ProfitScreen(p: AppCtx) {
         <div className="rounded-2xl bg-warn-soft border border-warn/20 p-3 text-xs text-warn flex gap-2">
           <Info className="w-4 h-4 shrink-0 mt-0.5" />
           <span>
-            الفرق بين الرقمين = ديون <span className="num">{fmt(customerDebts)}</span> + عهدة{" "}
-            <span className="num">{fmt(unsettledCustody)}</span> د.ل لم تدخل جيبك بعد.
+            ديون العملاء <span className="num">{fmt(customerDebts)}</span> وعهدة المندوب{" "}
+            <span className="num">{fmt(unsettledCustody)}</span> د.ل أرصدة مستقلة، ولا تمثل الفرق
+            بين رقمي الربح.
           </span>
         </div>
       </div>

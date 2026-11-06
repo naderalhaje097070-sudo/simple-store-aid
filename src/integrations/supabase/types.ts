@@ -924,7 +924,32 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      day_close_profit_report: {
+        Row: {
+          closed_for: string | null
+          collected: number | null
+          created_at: string | null
+          customer_debts: number | null
+          expenses: number | null
+          id: string | null
+          note: string | null
+          realized_margin_before_expenses: number | null
+          realized_net_profit: number | null
+          realized_profit: number | null
+          sales: number | null
+          tenant_id: string | null
+          unsettled_custody: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "day_closes_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       _assert_owner: { Args: { _tid: string }; Returns: undefined }
@@ -1251,3 +1276,4 @@ export const Constants = {
     },
   },
 } as const
+

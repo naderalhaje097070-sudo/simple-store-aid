@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "scope": "C5-PROFIT-CONTRACT-IMPLEMENT-01",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "base_source": "f2967cfbc0cf46fb09a5f4fc0c454f38f3f51a66",
+  "changes": {
+    "src/lib/db.ts": {
+      "before": "6c4419e9af63cf5a97b728e93e2a5f2a9947e7ab",
+      "after": "51f04beb964c9afa3f63b974ad7c255df21a1065"
+    },
+    "src/features/shared/AppContext.ts": {
+      "before": "3e73e71162e7a41ed66ddcf5260dc2be6e0b6cc0",
+      "after": "f44feb73215627866201b9f641e517b7873738bf"
+    },
+    "src/routes/_authenticated/app.tsx": {
+      "before": "be9436c488f6d58e074669b23d777fb5376a2c49",
+      "after": "bde2d02a256fbe5bef5ba8f72fd6136c5f75c358"
+    },
+    "src/routes/_authenticated/platform-admin.tsx": {
+      "before": "85976c3b4b8205df04990c0c2877febb504e791b",
+      "after": "b49789a59a34ef2e59d501cab03584c72d5ab61f"
+    },
+    "src/features/reports/ProfitScreen.tsx": {
+      "before": "bc3bad01724d6b4807a64f3a10b8b0cdb6624446",
+      "after": "fc615fa5624354fd33824424afa9b631268f4585"
+    },
+    "src/integrations/supabase/types.ts": {
+      "before": "7216cdaf91f4d49b3b5ae49fb40fe886e10a727b",
+      "after": "7c145af1469a2cd9b04b44dc4088dfbcc0134e1a"
+    },
+    "tests/g01-acceptance/capture.py": {
+      "before": "d1496c7c6a06c8919e12ba043efe9005a70af72a",
+      "after": "9b718b4895a809a623942ac820800e8445468b19"
+    },
+    "tests/c5-journey/native.py": {
+      "before": "af59a1f04eddccc7afe8812c2f7a3d8850cce4f8",
+      "after": "b909719614c10e12ab943dfe25c538132b9d0045"
+    },
+    "tests/c5-journey/browser.py": {
+      "before": "a301cb78973a4453ec6a3669b1aae91b78b8d431",
+      "after": "18cd1712ed751a34791854c7e726fa28d849000b"
+    },
+    ".github/workflows/c5-journey.yml": {
+      "before": "f6052eacb0cc983f92590b6b704392eec636144d",
+      "after": "266d7ada80b76847a94316b4a8a843f1c5472bcb"
+    }
+  },
+  "additions": {
+    "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
+    "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
+    "tests/c5-journey/profit_identity.py": "f267e922cb112552f43a21baedf22218333e9864",
+    "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
+    "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
+    "tests/c5-journey/profit_contract.py": "8926c0ac82f132144cd3c33606c1bcfd364ae8ae",
+    "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874"
+  }
+}

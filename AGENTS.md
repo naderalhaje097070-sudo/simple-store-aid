@@ -1,3 +1,11 @@
+## Important decisions — owner standing direction, 2026-11-06
+
+For material project decisions, use actual independent financial and programming advisers; add a security review when relevant. The lead compares the options, their evidence, compatibility/history/risk and acceptance conditions, then records a justified decision within the owner's authorized scope. Do not simulate independent agents by writing several roles in one response. Keep one implementer per task and distinguish source advice from runtime proof.
+
+This method is the owner's standing preference. It does not turn advice or broad continuation into permission for protected merge, production release, destructive actions, new expenditure or security/governance bypass. Core financial-contract choices still require specific owner authorization/delegation; C5-PROFIT-BASIS-01 has that scoped delegation recorded in its adopted decision. Routine authorized implementation and checks proceed without repeat approval.
+
+---
+
 ## Current repository authority — MONJEZ v2.2, 2026-10-10
 
 The owner transferred the active repository to `naderalhaje097070-sudo/simple-store-aid`.

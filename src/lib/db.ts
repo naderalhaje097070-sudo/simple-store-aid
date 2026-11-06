@@ -1,3 +1,5 @@
+import { decodeDayCloseReports, type DBDayClose } from "@/lib/day-close-report";
+export type { DBDayClose } from "@/lib/day-close-report";
 import { isQuantity, QUANTITY_ERROR } from "@/domain/finance/quantity";
 import {
   executeCollection,
@@ -384,7 +386,11 @@ export function useDeleteProduct(tenantId: string | null | undefined) {
       });
       if (error) throw new Error(rpcMessage(error));
       const d = data;
-      return { deleted: !!d?.deleted, archived: !!d?.archived, usedIn: Number(d?.used_in ?? 0) };
+      return {
+        deleted: !!d?.deleted,
+        archived: !!d?.archived,
+        usedIn: Number(d?.used_in ?? 0),
+      };
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["products", tenantId] });
@@ -421,7 +427,11 @@ export function useAddCustomer(tenantId: string | null | undefined) {
       if (!tenantId) throw new Error("no tenant");
       const { data, error } = await supabase
         .from("customers")
-        .insert({ tenant_id: tenantId, name: input.name, phone: input.phone ?? null })
+        .insert({
+          tenant_id: tenantId,
+          name: input.name,
+          phone: input.phone ?? null,
+        })
         .select("id,name,phone")
         .single();
       if (error) throw error;
@@ -459,9 +469,11 @@ export function useAddCourier(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: { name: string; phone?: string }) => {
       if (!tenantId) throw new Error("no tenant");
-      const { error } = await supabase
-        .from("couriers")
-        .insert({ tenant_id: tenantId, name: input.name, phone: input.phone ?? null });
+      const { error } = await supabase.from("couriers").insert({
+        tenant_id: tenantId,
+        name: input.name,
+        phone: input.phone ?? null,
+      });
       if (error) throw error;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ["couriers", tenantId] }),
@@ -493,7 +505,11 @@ export type DBInvoice = {
 };
 
 const fmtTime = (iso: string) =>
-  new Date(iso).toLocaleTimeString("ar-LY", { hour: "2-digit", minute: "2-digit", hour12: false });
+  new Date(iso).toLocaleTimeString("ar-LY", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 
 export function useInvoices(tenantId: string | null | undefined) {
   return useQuery({
@@ -779,44 +795,20 @@ export function useUpdateCourierState(tenantId: string | null | undefined) {
 }
 
 /* ---------- day close snapshots ---------- */
-export type DBDayClose = {
-  id: string;
-  closedFor: string;
-  sales: number;
-  collected: number;
-  expenses: number;
-  realizedProfit: number;
-  customerDebts: number;
-  unsettledCustody: number;
-  note?: string;
-  createdAt: string;
-};
-
 export function useDayCloses(tenantId: string | null | undefined) {
   return useQuery({
     queryKey: ["day_closes", tenantId],
     enabled: !!tenantId,
     queryFn: async (): Promise<DBDayClose[]> => {
       const { data, error } = await supabase
-        .from("day_closes")
+        .from("day_close_profit_report")
         .select(
-          "id,closed_for,sales,collected,expenses,realized_profit,customer_debts,unsettled_custody,note,created_at",
+          "id,tenant_id,closed_for,sales,collected,expenses,realized_profit,realized_margin_before_expenses,realized_net_profit,customer_debts,unsettled_custody,note,created_at",
         )
         .order("closed_for", { ascending: false })
         .limit(30);
       if (error) throw error;
-      return (data ?? []).map((r) => ({
-        id: r.id,
-        closedFor: r.closed_for,
-        sales: Number(r.sales),
-        collected: Number(r.collected),
-        expenses: Number(r.expenses),
-        realizedProfit: Number(r.realized_profit),
-        customerDebts: Number(r.customer_debts),
-        unsettledCustody: Number(r.unsettled_custody),
-        note: r.note ?? undefined,
-        createdAt: r.created_at,
-      }));
+      return decodeDayCloseReports(data);
     },
   });
 }
@@ -826,7 +818,9 @@ export function useCloseDay(tenantId: string | null | undefined) {
   return useMutation({
     mutationFn: async (input: { note?: string }) => {
       if (!tenantId) throw new Error("no tenant");
-      const { error } = await rpcClient.rpc("close_day", { p_note: input.note ?? null });
+      const { error } = await rpcClient.rpc("close_day", {
+        p_note: input.note ?? null,
+      });
       if (error) throw new Error(rpcMessage(error));
     },
     onSuccess: () => {

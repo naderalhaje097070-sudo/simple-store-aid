@@ -50,6 +50,8 @@ jobs:
       - name: Journey source-admission negative controls and actual application build
         run: |
           python tests/c5-journey/test_identity.py
+          python tests/c5-journey/test_profit_identity.py
+          node --test tests/c5-journey/profit-report.test.ts
           node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser
       - name: Exact C5 financial-test source and immutable SQL admission before credentials
         run: python tests/g01-acceptance/capture.py identity
@@ -139,7 +141,7 @@ jobs:
           mkdir -p "$stack/supabase/migrations"
           cp supabase/migrations/*.sql "$stack/supabase/migrations/"
           if [[ "$CONTRACT_MODE" == upgrade ]]; then
-            rm "$stack/supabase/migrations/20261103060658_c5_keyed_debt_collection.sql"
+            rm "$stack/supabase/migrations/20261106145346_c5_day_close_profit_report.sql"
           fi
           if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then
             echo 'C5F_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'
@@ -159,21 +161,29 @@ jobs:
           Path(os.environ['RUNNER_TEMP'],'journey-image.json').write_text(json.dumps(receipt)+'\n')
           PYIMAGE
           sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/journey-image.json" /tmp/monjez-c5sale/evidence/runtime-image.json
-      - name: Populated54 seed and forward-only55 upgrade
+      - name: Populated55 seed and forward-only56 upgrade
         if: matrix.mode == 'upgrade'
         shell: bash
         run: |
           set -euo pipefail
           cd /tmp/monjez-c5sale/repo
-          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 COLLECTION_PHASE=seed54 \
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 COLLECTION_PHASE=seed55 \
             EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE="$CONTRACT_MODE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
             VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
             PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
             python tests/c5-journey/native.py --expected-source "$EXPECTED_SOURCE" \
               --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
               --private-state /tmp/monjez-c5sale/private-state.json
-          cp supabase/migrations/20261103060658_c5_keyed_debt_collection.sql "$RUNNER_TEMP/monjez-c5sale-stack/supabase/migrations/"
+          cp supabase/migrations/20261106145346_c5_day_close_profit_report.sql "$RUNNER_TEMP/monjez-c5sale-stack/supabase/migrations/"
           supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration up --local --include-all > "$RUNNER_TEMP/collection-upgrade-private.log" 2>&1
+      - name: Compare actual generated report types from the isolated database
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q -- '--local' "$RUNNER_TEMP/profit-types-help.txt"
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" gen types --local --lang typescript --schema public > "$RUNNER_TEMP/profit-generated-types.ts"
+          node tests/c5-journey/profit-types.cjs "$RUNNER_TEMP/profit-generated-types.ts" "$RUNNER_TEMP/profit-types.json"
+          sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/profit-types.json" /tmp/monjez-c5sale/evidence/profit-types.json
       - name: Actual desktop mobile full application financial journey
         shell: bash
         run: |

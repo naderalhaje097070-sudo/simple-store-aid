@@ -1,3 +1,4 @@
+import type { DBDayClose } from "@/lib/day-close-report";
 import type { CollectionInput, CollectionResult } from "@/lib/collection-operation";
 /* R2 — Shared AppCtx contract.
    Mirrors the `ctx` object literal built inside MongezzApp (src/routes/_authenticated/app.tsx).
@@ -43,6 +44,7 @@ export type AppTotals = {
   netProfit: number;
   realizedProfit: number;
   realizedCogs: number;
+  realizedRevenue: number;
   customerDebts: number;
   unsettledCustody: number;
   inTransit: number;
@@ -57,10 +59,7 @@ export type SaleSummary = {
   elapsedMs?: number;
 };
 
-export type DayCloseRow = {
-  closedFor: string;
-  [k: string]: any;
-};
+export type DayCloseRow = DBDayClose;
 
 export type TenantSettings =
   | {
@@ -105,7 +104,8 @@ export interface AppCtx {
 
   /* Alerts + day-close state */
   alerts: AppAlert[];
-  closedToday: boolean;
+  closedToday: boolean | null;
+  dayClosesRead: FinancialRead;
   setClosedToday: (b: boolean) => void;
   dayCloses: DayCloseRow[];
 

@@ -10,7 +10,8 @@ ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('frozen_collection_probe',ROOT/'tests/c5-collection/native.py')
 prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior)
 sys.path.insert(0,str(Path(__file__).parent))
-from journey_identity import verify
+from profit_identity import verify, verify_migrations, verify_history
+import profit_contract
 
 
 def safe_diagnostic(raw):
@@ -30,14 +31,15 @@ def main():
     p=prior.FinanceProbe(args.status_file,args.evidence_dir,args.expected_source);p.stage='setup'
     try:
         p.control('exact_reused_PostgreSQL_17_6',p.query("select current_setting('server_version_num')::integer;")==170006)
-        if os.environ.get('COLLECTION_PHASE')=='seed54':
-            result=p.seed_upgrade(args.private_state)
+        versions=verify_migrations(ROOT)
+        verify_history(versions,p.query('select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;'),seed55=os.environ.get('COLLECTION_PHASE')=='seed55')
+        if os.environ.get('COLLECTION_PHASE')=='seed55':
+            result=profit_contract.seed55(p,args.private_state)
             (args.evidence_dir/'upgrade-seed.json').write_text(json.dumps(result,indent=2)+'\n')
             return 0
-        versions,_=prior.verify_source(ROOT)
-        prior.verify_history(versions,p.query('select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;'))
         state=json.loads(args.private_state.read_text()) if args.private_state.exists() else {'actors':{}}
-        if 'upgrade_snapshot' in state:p.control('populated54_to55_all_relations_preserved',p.snapshot()==state['upgrade_snapshot'])
+        if 'upgrade_snapshot' in state:p.control('populated55_to56_all_base_relations_preserved',p.snapshot()==state['upgrade_snapshot'])
+        profit_contract.run(p,state,args.private_state)
         foreign=p.fixture('Journey_foreign');state['actors']['journey_foreign']=foreign;p.save(args.private_state,state)
         foreign_pid=p.seed_product(foreign)
         p.sql(f"update public.products set name='Journey foreign canary' where id='{foreign_pid}';")

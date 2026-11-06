@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "task": "C5-PROFIT-DELEGATED-DECISION-01",
+  "reviewed_source": "1c8f43c76471332bb80248929a47a66a1c80af8e",
+  "date": "2026-11-06",
+  "timezone": "Africa/Tripoli",
+  "authority": "Specific owner delegation to technical lead with financial and engineering agents",
+  "decision": "ADOPT",
+  "implementation_status": "Planned",
+  "agents": [
+    {
+      "name": "/root/financial_decision",
+      "role": "financial",
+      "verdict": "ADOPT with precise terminology/presentation"
+    },
+    {
+      "name": "/root/engineering_decision",
+      "role": "engineering/security",
+      "verdict": "ADOPT with typed/read-state/admission conditions"
+    }
+  ],
+  "arithmetic_check": {
+    "method": "Python Decimal only; no source/native tests",
+    "gross": "135",
+    "expense": "5",
+    "net": "130",
+    "false_gap_equality_counterexample": {
+      "sale": "100",
+      "cost": "40",
+      "paid": "50",
+      "expense": "5",
+      "full_net": "55",
+      "paid_ratio_estimated_net": "25",
+      "profit_gap": "30",
+      "debt": "50",
+      "profit_gap_equals_debt": false
+    }
+  },
+  "native_tests_run": false,
+  "executable_changes": false,
+  "merge_or_deployment_authorized": false
+}

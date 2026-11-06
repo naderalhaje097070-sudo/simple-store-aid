@@ -1,3 +1,11 @@
+## Superseding decision — 2026-11-06
+
+C5-PROFIT-BASIS-01 is now **ADOPTED** by the lead under the owner's explicit scoped delegation after two actual financial/programming ADOPT reviews. See [DECISION_ADOPTED.md](DECISION_ADOPTED.md), [financial review](REVIEW_DELEGATED_FINANCIAL.md), [engineering review](REVIEW_DELEGATED_ENGINEERING.md) and [approved implementation intake](IMPLEMENTATION_INTAKE.md). Earlier pending-owner/design-only notices below describe the prior batch and are superseded for this precise decision.
+
+The additive gross/net view is selected; include the two reviewed presentation corrections, required-value/read-state handling and explicit layered55→56 admission in implementation. Implementation remains Planned and untested, not claimed from this decision. Merge/deploy/destructive/new-cost/security-bypass boundaries remain unchanged.
+
+---
+
 # C5-PROFIT-BASIS-01 — concrete owner decision proposal
 
 Status: **PROPOSED, NOT FINANCIALLY ADOPTED OR IMPLEMENTED**. Date2026-11-06 Africa/Tripoli. Source4f7aec69077fa6df9f468c9942008fe33f683adf, existing integration/g0-g1-reconcile-2026-10-18. Owner-directed design batch C5-PROFIT-CONTRACT-DESIGN-01.

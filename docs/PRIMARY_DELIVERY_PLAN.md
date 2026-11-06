@@ -1,3 +1,17 @@
+## Current — profit contract ADOPTED under specific owner delegation, 2026-11-06
+
+The owner explicitly delegated the pending choice to the lead assisted by financial/programming agents. Two actual fresh independent read-only advisers (/root/financial_decision and /root/engineering_decision) reviewed source1c8f43c76471332bb80248929a47a66a1c80af8e and both returned ADOPT. Root adopts C5-PROFIT-BASIS-01: preserve legacy recorded before-expense margin, add explicit gross alias and net=saved margin−saved expenses once (fixture135−5=130), via SELECT-only invoker projection. No rounding/clamp/backfill or old API/data meaning change. This is an operational collection-based measure, not audited statutory profit.
+
+**The prior owner-adoption blocker is RESOLVED for this specific contract.** This is scoped delegated adoption, not general permission to alter other financial policies, merge/deploy, incur cost, destroy data or bypass governance. Implementation C5-PROFIT-CONTRACT-IMPLEMENT-01 is Planned/ready; the decision alone is not implementation/testing.
+
+Adopted presentation conditions: expose existing realizedRevenue through totals/types for the invoice-period estimate equation; collected remains a separate payment-date cash fact. Remove false profit-gap=debt+custody equality and universal close_day-equivalence comment; label admin legacy margin before expenses. Preserve financial algorithms. Carry view read-state/errors/retry into affected day-close/pilot controls and validate required values rather than null-to-zero. Explicit layered source admission/new55→56 acceptance must preserve all old55 proofs.
+
+Decision records: changes/c5-profit-contract/DECISION_ADOPTED.md, REVIEW_DELEGATED_FINANCIAL.md, REVIEW_DELEGATED_ENGINEERING.md, IMPLEMENTATION_INTAKE.md, evidence/delegated-decision.json. Current batch is documentation/source decision only. Decimal135−5 and counterexample (profit gap30, debt50) checked; no SQL/view/RLS/native/type/build implementation tested here. Original failed archives/oracle/executable source remain unchanged; fullC5/integration=false, C6/C7/RC/Pilot pending.
+
+**ONE NEXT: execute the approved bounded isolated implementation and explicit safety-net/admission delta, then exact-source fresh/populated/security/history/read-state/desktop/mobile verification and independent implementation review. No repeat request for adoption of this split.** Then remaining C5/network → full independent C6 → protected owner C7/main verification/settle original5drafts → RC/Pilot. Existing branch integration/g0-g1-reconcile-2026-10-18; main220fc206/five drafts unchanged. Claim6687511352 pauses at final decision handoff; no concurrent implementer. Prior records below preserved as history.
+
+---
+
 ## Current — concrete profit-contract proposal reviewed; owner adoption OPEN, 2026-11-06
 
 C5-PROFIT-CONTRACT-DESIGN-01 completes the fixed next design batch on source4f7aec69, existing integration/g0-g1-reconcile-2026-10-18. Source inventory130code files+55SQL,7consumer files; exact recommended SQL/ACL/typed-consumer/history/rollback plan and phased acceptance matrix prepared. NineDecimal arithmetic vectors PASS; two actual separate read-only reviewers accepted proposal/design scope. No SQL/view/RLS/native/implementation acceptance claimed.

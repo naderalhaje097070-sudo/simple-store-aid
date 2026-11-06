@@ -1,0 +1,253 @@
+name: Release financial acceptance
+# One workflow for the release candidate. The release gate replaces the chained
+# per-stage source manifests; the behavioural suites run unchanged against a
+# database built from the gate-verified migrations.
+#   fresh   : every candidate migration on an empty stack
+#   upgrade : origin/main's migrations, seeded through main's own RPCs, then
+#             upgraded to the candidate (the transition production will take)
+on:
+  push:
+    branches: ["integration/g0-g1-reconcile-2026-10-18"]
+    paths:
+      ["src/**", "supabase/**", "tests/**", "package.json", "bun.lock", ".github/workflows/release-finance.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  SUPABASE_TELEMETRY_DISABLED: "1"
+  DO_NOT_TRACK: "1"
+  SUPABASE_HOME: /tmp/monjez-c5-disabled-cli
+jobs:
+  suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [collection, sale, journey]
+        mode: [fresh, upgrade]
+    env:
+      EXPECTED_SOURCE: ${{ github.sha }}
+      CONTRACT_MODE: ${{ matrix.mode }}
+      SUITE: ${{ matrix.suite }}
+    steps:
+      - name: Disable telemetry before CLI setup
+        run: |
+          mkdir -p "$SUPABASE_HOME"
+          echo '{"enabled":false,"consent":"denied","schema_version":1,"device_id":"00000000-0000-4000-8000-000000000001","session_id":"00000000-0000-4000-8000-000000000002","session_last_active":"2026-10-28T00:00:00Z"}' > "$SUPABASE_HOME/telemetry.json"
+          chmod 600 "$SUPABASE_HOME/telemetry.json"
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: supabase/setup-cli@v2
+        with:
+          version: "2.101.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.22.1"
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.14"
+      - name: Frozen current dependencies before credentials
+        run: bun install --frozen-lockfile
+      - name: Release gate before credentials
+        run: |
+          python tests/release/test_gate.py
+          python tests/release/gate.py
+      - name: Suite source checks and build before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$SUITE" in
+            collection)
+              node tests/c5-collection/native-hook.cjs --preflight
+              node --test tests/c5-collection/contracts.test.cjs
+              node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser ;;
+            sale)
+              node --test tests/c4-sale/contracts.test.cjs ;;
+            journey)
+              node --test tests/c5-journey/profit-report.test.ts
+              node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser ;;
+          esac
+      - name: Discover pinned CLI operations
+        run: |
+          set -euo pipefail
+          test ! -e "$GITHUB_WORKSPACE/supabase/.temp/cli-latest"
+          mkdir -p "$RUNNER_TEMP/cli-probe" && cd "$RUNNER_TEMP/cli-probe"
+          supabase telemetry status > "$RUNNER_TEMP/telemetry-status.txt"
+          grep -q "Telemetry is disabled" "$RUNNER_TEMP/telemetry-status.txt"
+          test "$(supabase --version)" = '2.101.0'
+          supabase migration up --help > "$RUNNER_TEMP/up-help.txt"
+          supabase db advisors --help > "$RUNNER_TEMP/advisors-help.txt"
+          supabase stop --help > "$RUNNER_TEMP/stop-help.txt"
+          supabase gen types --help > "$RUNNER_TEMP/types-help.txt"
+          grep -q -- '--include-all' "$RUNNER_TEMP/up-help.txt"
+          grep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"
+          grep -q -- '--local' "$RUNNER_TEMP/types-help.txt"
+          test ! -e "$GITHUB_WORKSPACE/supabase/.temp/cli-latest"
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1
+      - name: Pinned browser before credentials
+        if: matrix.suite != 'sale'
+        run: |
+          python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/browser-install.log" 2>&1
+          PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/browser-install.log" 2>&1
+          chmod -R a+rX /tmp/collection-playwright
+      - name: Restrict probe UID before credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo useradd --system --no-create-home --shell /usr/sbin/nologin c5finance
+          uid="$(id -u c5finance)"
+          sudo iptables -N C5F
+          sudo iptables -A C5F -o lo -d 127.0.0.1/32 -p tcp -m multiport --dports 54321,54322,4173 -j ACCEPT
+          sudo iptables -A C5F -o lo -s 127.0.0.1/32 -d 127.0.0.1/32 -p tcp --sport 4173 -m conntrack --ctstate ESTABLISHED -j ACCEPT
+          sudo iptables -A C5F -j REJECT --reject-with icmp-port-unreachable
+          sudo iptables -I OUTPUT 1 -m owner --uid-owner "$uid" -j C5F
+          sudo ip6tables -I OUTPUT 1 -m owner --uid-owner "$uid" -j REJECT
+          sudo -u c5finance "$(command -v python)" - <<'PY'
+          import socket
+          try:
+              with socket.create_connection(('1.1.1.1',443),timeout=3): pass
+          except OSError:
+              print('C5F_CREDENTIAL_FREE_EGRESS_REJECTED')
+          else:
+              raise SystemExit('C5F_FIREWALL_FAILED')
+          PY
+          sudo install -d -m 711 -o c5finance -g c5finance /tmp/monjez-c5sale
+          sudo cp -a "$GITHUB_WORKSPACE/." /tmp/monjez-c5sale/repo
+          sudo install -d -m 700 -o c5finance -g c5finance /tmp/monjez-c5sale/evidence
+          if [[ -d /tmp/monjez-c5sale-browser ]]; then sudo cp -a /tmp/monjez-c5sale-browser /tmp/monjez-c5sale/browser; fi
+          sudo chown -R c5finance:c5finance /tmp/monjez-c5sale
+          sudo iptables -nvxL C5F > "$RUNNER_TEMP/firewall-before.txt"
+      - name: Start disposable stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          stack="$RUNNER_TEMP/monjez-c5sale-stack"
+          mkdir -p "$stack/supabase/migrations"
+          supabase --workdir "$stack" init > "$RUNNER_TEMP/init-private.log" 2>&1
+          if [[ "$CONTRACT_MODE" == upgrade ]]; then
+            # Production-shaped start: exactly the migrations already on main.
+            mkdir -p "$RUNNER_TEMP/main-migrations"
+            git archive origin/main supabase/migrations | tar -x -C "$RUNNER_TEMP/main-migrations"
+            cp "$RUNNER_TEMP/main-migrations/supabase/migrations/"*.sql "$stack/supabase/migrations/"
+          else
+            cp supabase/migrations/*.sql "$stack/supabase/migrations/"
+          fi
+          echo "RELEASE_STACK_MIGRATIONS $(ls "$stack/supabase/migrations" | wc -l)"
+          if ! supabase --workdir "$stack" start > "$RUNNER_TEMP/start-private.log" 2>&1; then
+            echo 'RELEASE_STACK_START_FAILURE_PRIVATE_LOG_WITHHELD'
+            exit 1
+          fi
+          supabase --workdir "$stack" status -o json > "$RUNNER_TEMP/status-private.json"
+          sudo install -m 600 -o c5finance -g c5finance "$RUNNER_TEMP/status-private.json" /tmp/monjez-c5sale/status.json
+      - name: Seed on main, upgrade to candidate, verify financial facts
+        if: matrix.mode == 'upgrade'
+        shell: bash
+        run: |
+          set -euo pipefail
+          probe() {
+            (cd /tmp/monjez-c5sale/repo && sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 \
+              EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE="$CONTRACT_MODE" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+              VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+              PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+              python tests/release/upgrade.py "$1" --expected-source "$EXPECTED_SOURCE" \
+                --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
+                --private-state /tmp/monjez-c5sale/private-state.json)
+          }
+          probe seed
+          cp supabase/migrations/*.sql "$RUNNER_TEMP/monjez-c5sale-stack/supabase/migrations/"
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration up --local --include-all > "$RUNNER_TEMP/upgrade-private.log" 2>&1 \
+            || { echo 'RELEASE_UPGRADE_MIGRATION_FAILED_PRIVATE_LOG_WITHHELD'; exit 1; }
+          probe verify
+      - name: Generated report types match the candidate database
+        if: matrix.suite == 'journey'
+        run: |
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" gen types --local --lang typescript --schema public > "$RUNNER_TEMP/generated-types.ts"
+          node tests/c5-journey/profit-types.cjs "$RUNNER_TEMP/generated-types.ts" "$RUNNER_TEMP/profit-types.json"
+      - name: Behavioural suite against the real stack
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$SUITE" in
+            collection) script=tests/c5-collection/native.py ;;
+            sale)       script=tests/c4-sale/native.py ;;
+            journey)    script=tests/c5-journey/native.py ;;
+          esac
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright \
+            MONJEZ_RELEASE_TARGET=1 EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE="$CONTRACT_MODE" \
+            MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python "$script" --expected-source "$EXPECTED_SOURCE" \
+              --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
+              --private-state /tmp/monjez-c5sale/private-state.json
+      - name: Migration history and database advisors
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
+          echo "RELEASE_APPLIED_MIGRATIONS $(grep -cE '^ *[0-9]{14} ' "$RUNNER_TEMP/migrations.txt")"
+          supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" db advisors --local --fail-on error > "$RUNNER_TEMP/advisors-private.txt" 2>&1
+      - name: Cleanup and safe final receipts
+        id: publication
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/release-evidence"
+          mkdir -p "$out"
+          if [[ -d /tmp/monjez-c5sale/evidence ]]; then
+            sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
+            sudo chown -R "$(id -un):$(id -gn)" "$out"
+          fi
+          rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log" "$RUNNER_TEMP/upgrade-private.log" "$RUNNER_TEMP/advisors-private.txt"
+          if [[ -d "$RUNNER_TEMP/monjez-c5sale-stack/supabase" ]]; then
+            supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1 || true
+          fi
+          python - <<'PY'
+          import json,os,subprocess,sys
+          from pathlib import Path
+          root=Path(os.environ['RUNNER_TEMP']);out=root/'release-evidence'
+          def rejects(text):
+              return sum(int(x.split()[0]) for x in text.splitlines() if 'REJECT' in x)
+          before=rejects((root/'firewall-before.txt').read_text()) if (root/'firewall-before.txt').exists() else 0
+          after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','C5F'],text=True)) if before else 0
+          sys.path.insert(0,'tests/account-lifecycle')
+          from scanner_evidence import verify_publication, PublicationBlocked
+          forbidden=[]
+          for filename in ['status.json','private-state.json']:
+              p=Path('/tmp/monjez-c5sale')/filename
+              if p.exists():
+                  data=json.loads(subprocess.check_output(['sudo','cat',str(p)],text=True))
+                  if filename=='status.json':
+                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
+                  else:
+                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
+                                    if k in ('token','refresh','password','email')]
+          try:
+              verify_publication(out,root/'release-private-quarantine',forbidden)
+          finally:
+              subprocess.run(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-type','f','-name','*.json*','-delete'],check=False)
+          cleanup={'source':os.environ['EXPECTED_SOURCE'],'suite':os.environ['SUITE'],'mode':os.environ['CONTRACT_MODE'],
+                   'unexpected_ipv4_rejects':after-before,
+                   'private_files_removed':not subprocess.check_output(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip(),
+                   'stack_removed':'monjez-c5sale-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
+          (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
+          print('RELEASE_CLEANUP '+json.dumps(cleanup))
+          assert after==before and cleanup['private_files_removed'] and cleanup['stack_removed']
+          PY
+          echo 'safe=true' >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.publication.outputs.safe == 'true'
+        with:
+          name: release-${{ matrix.suite }}-${{ matrix.mode }}-attempt${{ github.run_attempt }}
+          path: ${{ runner.temp }}/release-evidence/
+          retention-days: 7

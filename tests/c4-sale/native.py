@@ -17,7 +17,14 @@ CompositionProbe = composition.CompositionProbe
 sys.path.insert(0, str(ROOT / 'tests/account-lifecycle'))
 from scanner_evidence import verify_publication
 sys.path.insert(0, str(ROOT / "tests/c5-collection"))
-from collection_target import verify_source, verify_history
+if os.environ.get('MONJEZ_RELEASE_TARGET') == '1':
+    # Release workflow: migrations come from the release gate, not a stage pin.
+    _rt = importlib.util.spec_from_file_location('monjez_release_target', ROOT / 'tests/release/target.py')
+    _release = importlib.util.module_from_spec(_rt)
+    _rt.loader.exec_module(_release)
+    verify_source, verify_history = _release.verify_source, _release.verify_history
+else:
+    from collection_target import verify_source, verify_history
 
 
 class ClientProbe(CompositionProbe):

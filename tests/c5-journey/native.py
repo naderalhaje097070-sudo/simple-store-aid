@@ -4,6 +4,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import sys
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -61,7 +62,9 @@ def main():
         (args.evidence_dir/'journey-failure.json').write_text(json.dumps(result,indent=2)+'\n')
         # Control names are fixed source literals; publish only the first failed one.
         failed=next((c['name'] for c in p.controls if not c.get('passed')),None)
-        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'first_failed_control':failed,'diagnostic':result['diagnostic']}))
+        message=str(error)
+        message=message if re.fullmatch(r'[A-Za-z0-9 _:./-]{1,120}',message) else None
+        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'first_failed_control':failed,'failure_message':message,'diagnostic':result['diagnostic']}))
         return 2
 
 

@@ -34,7 +34,7 @@
     },
     "tests/c5-journey/native.py": {
       "before": "af59a1f04eddccc7afe8812c2f7a3d8850cce4f8",
-      "after": "7278849c2e455cfeb3eb5784d9771877ff1d1dd7"
+      "after": "97739c7641fe6eb1a62698a72ccdc743abc3997b"
     },
     "tests/c5-journey/browser.py": {
       "before": "a301cb78973a4453ec6a3669b1aae91b78b8d431",
@@ -67,7 +67,7 @@
     "tests/c5-journey/profit_identity.py": "bbeffedf5d2ff450f6139fcede8e1bd892cdfb63",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
-    "tests/c5-journey/profit_contract.py": "8926c0ac82f132144cd3c33606c1bcfd364ae8ae",
+    "tests/c5-journey/profit_contract.py": "22076aea0713f06e8b174f3eebdfb1564cde9cd7",
     "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874",
     "tests/c5-journey/profit-history.cjs": "6f88104cd2c204ee560b3b3b14c4d773e22d396f"
   }

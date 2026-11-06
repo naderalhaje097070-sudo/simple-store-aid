@@ -29,6 +29,14 @@ def role_query(p,actor,expression,role='authenticated'):
     subject=f"set local request.jwt.claim.sub='{actor['uid']}';" if actor else ''
     return p.query(f'begin; set local role {role}; {subject} {expression} rollback;')
 
+def role_read_or_denied(p,actor,expression):
+    """Return ('rows', value) or ('denied',) for an explicit 42501; any other error raises."""
+    sql=f"begin; set local role authenticated; set local request.jwt.claim.sub='{actor['uid']}'; {expression} rollback;"
+    r=subprocess.run(_psql_command(p.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),input=sql,capture_output=True,text=True,env=_psql_env(p.config))
+    if r.returncode==0:return ('rows',json.loads(r.stdout.strip()))
+    if '42501' in r.stderr:return ('denied',)
+    raise RuntimeError('unexpected role read failure')
+
 def sql_write_denied(p,actor,statement):
     sql=f"begin; set local role authenticated; set local request.jwt.claim.sub='{actor['uid']}'; {statement}; rollback;"
     r=subprocess.run(_psql_command(p.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),input=sql,capture_output=True,text=True,env=_psql_env(p.config))
@@ -90,6 +98,8 @@ def run(p,state,private):
     p.sql(f"update auth.users set banned_until=now()+interval '1 day' where id='{owner['uid']}';")
     code,rows=p.request('GET',f'/rest/v1/{VIEW}?select=id',token=owner['token'])
     p.control('profit_inactive_old_token_API_no_rows',(code==200 and rows==[]) or (code in (401,403) and isinstance(rows,dict) and rows.get('code') in ('42501','PGRST301','PGRST302')))
-    p.control('profit_inactive_SQL_no_rows',role_query(p,owner,f'select to_jsonb(count(*)) from public.{VIEW};')==0)
+    # Same two safe outcomes as the API control above: no rows, or an explicit
+    # 42501 account_inactive denial raised by current_tenant_id() under RLS.
+    p.control('profit_inactive_SQL_no_rows',role_read_or_denied(p,owner,f'select to_jsonb(count(*)) from public.{VIEW};') in (('rows',0),('denied',)))
     p.control('profit_unaffected_staff_still_allowed',role_query(p,staff,f'select to_jsonb(count(*)) from public.{VIEW};')==4)
     return {'controls':'recorded in progress.json','runtime_SQL_API':True,'historical_rows_rewritten_by_migration':False}

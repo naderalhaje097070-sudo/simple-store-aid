@@ -24,7 +24,7 @@ CHANGES={'src/lib/db.ts','src/features/shared/AppContext.ts','src/routes/_authen
 ADDITIONS={MIGRATION,'src/lib/day-close-report.ts','tests/c5-journey/profit_identity.py',
            'tests/c5-journey/test_profit_identity.py','tests/c5-journey/profit-report.test.ts',
            'tests/c5-journey/profit_contract.py','tests/c5-journey/profit-types.cjs',
-           'tests/c5-journey/profit-history.cjs'}
+           'tests/c5-journey/profit-history.cjs','tests/release/gate.py','tests/release/test_gate.py'}
 FROZEN={'tests/g01-acceptance/integrated-source.json','tests/g01-acceptance/integrated-b-source.json'}
 
 def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()

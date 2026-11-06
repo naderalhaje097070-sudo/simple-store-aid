@@ -1,0 +1,833 @@
+{
+  "schema_version": 1,
+  "source": "4f7aec69077fa6df9f468c9942008fe33f683adf",
+  "repository": "naderalhaje097070-sudo/simple-store-aid",
+  "code_files_scanned": 130,
+  "all_code_entries": [
+    {
+      "path": "src/components/DateRangeFilter.tsx",
+      "blob": "69946cede1a0ba3413aa751399f66ade67dad8e7",
+      "mentions": []
+    },
+    {
+      "path": "src/components/PaymentTestModeBanner.tsx",
+      "blob": "39af713e03c800e02717521c7b95ef896fbbad53",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/accordion.tsx",
+      "blob": "16ee9004561ab0de3cc53789d5265cba511c8570",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/alert-dialog.tsx",
+      "blob": "072a66562e9d94e33ccaf32d27c8efe3a52e7c32",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/alert.tsx",
+      "blob": "cd0a0627702e492c3f02607dbc77025999c5ed13",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "blob": "c9e6f4bf9e1c01d6d7022b53e68438e61746c86c",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/avatar.tsx",
+      "blob": "7904926b9d89e90f6e9a3a9dad2abeed5af99c2e",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/badge.tsx",
+      "blob": "3aabd17e73034f71efdd2f301f8a81ab8cdae23c",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "blob": "94eb6291a6f26846562a63438b3c49595e9bff25",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/button.tsx",
+      "blob": "bc3bc9f6bbefc3155d1f4d053ff58f9b8662edbe",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/calendar.tsx",
+      "blob": "781f8853f2a4044c305cc862f832a2b01d41d3d7",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/card.tsx",
+      "blob": "d886b020243248cee648b14274a763b325a3bc55",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/carousel.tsx",
+      "blob": "5dd7455702b2fb2c9561dd3b1ed700210ef3be3d",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/chart.tsx",
+      "blob": "f27e7ca5343ccc102441afeb45ef946e1d504944",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/checkbox.tsx",
+      "blob": "f01d47c865e9ce28610b16bfa4021a88beebec3e",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/collapsible.tsx",
+      "blob": "cb003d17563549c97d3d349477c0aa073b2244aa",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/command.tsx",
+      "blob": "dc859d7281e5b4fef5a2b71ea30459e0745003a8",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/context-menu.tsx",
+      "blob": "bad5ecec471b1fffa49c1f23a43f4d69ebb4edb3",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/dialog.tsx",
+      "blob": "8ed559e3d6f2ab5f0d0287f56c63fbcd48a47b87",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/drawer.tsx",
+      "blob": "33533cc7600c40d506a3d308d16ef25f95af3e9d",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "blob": "f11da936afd13d3036831b96e8d36f62bf2b81de",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/form.tsx",
+      "blob": "4d15828dac1306f42581c2aa2aa45d04c65522db",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/hover-card.tsx",
+      "blob": "36f3b7976293638d6c1eef6c426847107dbf766f",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "blob": "95d1f4c303a394a313c79f27184456bef5d99ae5",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/input.tsx",
+      "blob": "7db524115c08e80b10d5282d1bb504b06b238d17",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "blob": "392197c3b43d69a9b426d49dec06d32ff53ea8d4",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/menubar.tsx",
+      "blob": "5c9eb98d5eaca6f6da74f71e73893c739da6cb3e",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/navigation-menu.tsx",
+      "blob": "94b2ecc95158b20a18bd986d1313558a128c480f",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/pagination.tsx",
+      "blob": "f8cd41fbaad75c338aec493b5c750b65f95845c5",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "blob": "dc78a209bbda251914e8ee4633c303ba55a59d2c",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/progress.tsx",
+      "blob": "1741cd2f42b7b3c7edcabee07c06e8750556f5ed",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/radio-group.tsx",
+      "blob": "38a1a6629d76c4a6f445eb85aa8c6d485b9c064a",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/resizable.tsx",
+      "blob": "02e9460e72e5e0afa5f71264f0fcd4a16d021aea",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/scroll-area.tsx",
+      "blob": "69febe58466d6309bdfc74bdca456c7aac448f79",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/select.tsx",
+      "blob": "3fdfc929eb90d4f33e2591e94cdfb2278d1b5c38",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/separator.tsx",
+      "blob": "5f5966c41731e846b2bc97de315471ea605ffe86",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/sheet.tsx",
+      "blob": "0aedeb766169d085f3b4bb72e80eac6fe552b971",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/sidebar.tsx",
+      "blob": "3922680246adfbcdc91110f779eea0b291222a54",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "blob": "6d9a616758e39fcbc07480484a308ffb9d9fba5d",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/slider.tsx",
+      "blob": "e56622ad7eec5f4e98dc870f745c2e066c66f10e",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "blob": "7a214692adeeea9cfe4acd8659b1b7e0fd4f756f",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/switch.tsx",
+      "blob": "6338184e11d92961b4dfd06f151ce5ada7dd838c",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "blob": "49d2d5c7c3e9d2d43fb2a2e423c751ec77da4279",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/tabs.tsx",
+      "blob": "6047b50eb6db8395f79c666e488d71881155d97e",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/textarea.tsx",
+      "blob": "29330b61811cf9aaac31a94f981728f898229bd5",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/toggle-group.tsx",
+      "blob": "d2c9f8ee385d50f14ca51f63db9cad9b92accd47",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "blob": "9d146b6a1051516735339895093cbcbcfeb9a3e8",
+      "mentions": []
+    },
+    {
+      "path": "src/components/ui/tooltip.tsx",
+      "blob": "07e55fafdcf32ee9a57164a07c89422e61c6ac2e",
+      "mentions": []
+    },
+    {
+      "path": "src/domain/finance/invoice-selectors.ts",
+      "blob": "2034d5e5462726b2a02723e50c44eebeda12c2bf",
+      "mentions": []
+    },
+    {
+      "path": "src/domain/finance/quantity.ts",
+      "blob": "854c1d37506989b2a0139932cf5d594b02f34301",
+      "mentions": []
+    },
+    {
+      "path": "src/features/couriers/CouriersScreen.tsx",
+      "blob": "b4de869f12941f2af893ae475b96e6d6bd24f03c",
+      "mentions": []
+    },
+    {
+      "path": "src/features/customers/AddCustomerInline.tsx",
+      "blob": "d834fd65b3f60d32bb006d43a730151125f79234",
+      "mentions": []
+    },
+    {
+      "path": "src/features/customers/CustomersScreen.tsx",
+      "blob": "5219d2f4cba049e33f1f7fefe58c05f5f153579a",
+      "mentions": []
+    },
+    {
+      "path": "src/features/home/HomeScreen.tsx",
+      "blob": "9f37278a10607613843c89e0ea8939c5c0da13c7",
+      "mentions": []
+    },
+    {
+      "path": "src/features/inventory/AddProductSheet.tsx",
+      "blob": "9ba4b39b4f30abaff2bf9f5f19ffbbaf0154d22f",
+      "mentions": []
+    },
+    {
+      "path": "src/features/inventory/InventoryScreen.tsx",
+      "blob": "048832afc1b558ac7b1574949e059472e91244fc",
+      "mentions": []
+    },
+    {
+      "path": "src/features/invoices/CollectionRecovery.tsx",
+      "blob": "949474a6ed42742d9e6881434b649bf49f0f3f92",
+      "mentions": []
+    },
+    {
+      "path": "src/features/invoices/InvoiceDetailScreen.tsx",
+      "blob": "d410b8112ef48fab79bc20b1117bc6a5a887f901",
+      "mentions": []
+    },
+    {
+      "path": "src/features/invoices/InvoicesScreen.tsx",
+      "blob": "7fa5bacdad3dd5983ed23bc003920055bf14ff09",
+      "mentions": []
+    },
+    {
+      "path": "src/features/layout/BottomNav.tsx",
+      "blob": "092dbbe0e3723c211f369fe86b8541ae0ff7e858",
+      "mentions": []
+    },
+    {
+      "path": "src/features/layout/DesktopSidebar.tsx",
+      "blob": "f3c7f03e58b0c3e64de79ca3bf50043762192392",
+      "mentions": []
+    },
+    {
+      "path": "src/features/layout/TopBar.tsx",
+      "blob": "358c2555c68161d3792e504ef34b9e20901e1e3c",
+      "mentions": []
+    },
+    {
+      "path": "src/features/pilot/PilotScreen.tsx",
+      "blob": "7248d317f082e4c363a69f8aadcec0e90576a9b9",
+      "mentions": [
+        {
+          "line": 23,
+          "text": "  const dayCloses: { closedFor: string }[] = p.dayCloses ?? [];"
+        },
+        {
+          "line": 79,
+          "text": "  const lastClose = dayCloses[0]?.closedFor ?? null;"
+        },
+        {
+          "line": 242,
+          "text": "            <Metric label=\"إغلاقات يومية\" value={dayCloses.length} />"
+        }
+      ]
+    },
+    {
+      "path": "src/features/reports/CollectedScreen.tsx",
+      "blob": "bf4eb326e11cc856b659d57206e19c69b0205769",
+      "mentions": []
+    },
+    {
+      "path": "src/features/reports/ProfitScreen.tsx",
+      "blob": "bc3bad01724d6b4807a64f3a10b8b0cdb6624446",
+      "mentions": [
+        {
+          "line": 15,
+          "text": "    realizedProfit,"
+        },
+        {
+          "line": 47,
+          "text": "          <Money v={realizedProfit} className=\"text-2xl text-profit mt-1\" />"
+        }
+      ]
+    },
+    {
+      "path": "src/features/sales/SaleRecovery.tsx",
+      "blob": "7a8673a26fb219fd9e3f50cd8e0f2febb9b43a00",
+      "mentions": []
+    },
+    {
+      "path": "src/features/settings/SettingsScreen.tsx",
+      "blob": "29bc4b0f278523438e43d3119b46b268442f5c60",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/AppContext.ts",
+      "blob": "3e73e71162e7a41ed66ddcf5260dc2be6e0b6cc0",
+      "mentions": [
+        {
+          "line": 44,
+          "text": "  realizedProfit: number;"
+        },
+        {
+          "line": 110,
+          "text": "  dayCloses: DayCloseRow[];"
+        }
+      ]
+    },
+    {
+      "path": "src/features/shared/EmptyState.tsx",
+      "blob": "31d9d514ae8e165ae7c07f1b7ac474d410a848af",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/FinancialReadBoundary.tsx",
+      "blob": "380c76602ab39604fb739dfb73b4974466d4afa1",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/Money.tsx",
+      "blob": "f68bac1f42154bcc994296deb86e417a967b595e",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/QuantityInput.tsx",
+      "blob": "d7a7e1b5faf9d88476d4c20f1268e90f888a1752",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/Sheet.tsx",
+      "blob": "306ca1c3b4f5b68bc476543fa6aa90fbee219947",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/StatusChip.tsx",
+      "blob": "4cdc9e8b1150de546790c36be91a6c7a237bf59b",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/Toast.tsx",
+      "blob": "e3ec1548c4b1efeaa814f5b236466b4e37e7b1ef",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/financial-read-state.ts",
+      "blob": "ece80c5ee61835c9933bbf169f4c0248dac3f93a",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shared/types.ts",
+      "blob": "5ba152a3ae5c68bcdc22bd12856e32704b45708d",
+      "mentions": []
+    },
+    {
+      "path": "src/features/shop/ShopHubScreen.tsx",
+      "blob": "d7a6c80b8aa7660bca72a17b23e235be10322308",
+      "mentions": []
+    },
+    {
+      "path": "src/hooks/use-mobile.tsx",
+      "blob": "502fd323934501eab408a396a9ae4a07c0ae3560",
+      "mentions": []
+    },
+    {
+      "path": "src/hooks/usePaddleCheckout.ts",
+      "blob": "6bf0944b1b93d751d2dfbeae923c1e17c826d654",
+      "mentions": []
+    },
+    {
+      "path": "src/hooks/useTheme.ts",
+      "blob": "36eeac15a0fc19369d7d9d9890297faaabddda70",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/lovable/index.ts",
+      "blob": "dd9550c59c7465e48ca5328eb7d794251a3d188e",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/supabase/auth-attacher.ts",
+      "blob": "cbedca6167a1e9f52826e86c62ffbe669a24d081",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/supabase/auth-middleware.ts",
+      "blob": "4ee311cfbb2da3c06c0405801b347b92e29082c4",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/supabase/client.server.ts",
+      "blob": "f63eeb841c3a7954fc501f2c9f225429dd35cf2d",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/supabase/client.ts",
+      "blob": "63809f2aaf351d70a6fe57a827afdcee72b25663",
+      "mentions": []
+    },
+    {
+      "path": "src/integrations/supabase/types.ts",
+      "blob": "7216cdaf91f4d49b3b5ae49fb40fe886e10a727b",
+      "mentions": [
+        {
+          "line": 93,
+          "text": "      day_closes: {"
+        },
+        {
+          "line": 103,
+          "text": "          realized_profit: number"
+        },
+        {
+          "line": 117,
+          "text": "          realized_profit?: number"
+        },
+        {
+          "line": 131,
+          "text": "          realized_profit?: number"
+        },
+        {
+          "line": 138,
+          "text": "            foreignKeyName: \"day_closes_tenant_id_fkey\""
+        },
+        {
+          "line": 1009,
+          "text": "          realized_profit: number"
+        }
+      ]
+    },
+    {
+      "path": "src/lib/account-state.server.ts",
+      "blob": "4967ff9f59587cbc6162e2ba19f5b2154cae2e18",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/business-types.ts",
+      "blob": "c28cf3859be32a91761e3d6d64a4235edd49a5e7",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/collection-operation.ts",
+      "blob": "2c3b7d11a7e6c40bd98d9e75458877bb8b5caf98",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/db.ts",
+      "blob": "6c4419e9af63cf5a97b728e93e2a5f2a9947e7ab",
+      "mentions": [
+        {
+          "line": 32,
+          "text": "    realized_profit: number;"
+        },
+        {
+          "line": 191,
+          "text": "export function useTenantTodayEstimate(tenantId: string | null | undefined) {"
+        },
+        {
+          "line": 207,
+          "text": "        realizedProfit: Number(d.realized_profit ?? 0),"
+        },
+        {
+          "line": 782,
+          "text": "export type DBDayClose = {"
+        },
+        {
+          "line": 788,
+          "text": "  realizedProfit: number;"
+        },
+        {
+          "line": 795,
+          "text": "export function useDayCloses(tenantId: string | null | undefined) {"
+        },
+        {
+          "line": 797,
+          "text": "    queryKey: [\"day_closes\", tenantId],"
+        },
+        {
+          "line": 799,
+          "text": "    queryFn: async (): Promise<DBDayClose[]> => {"
+        },
+        {
+          "line": 801,
+          "text": "        .from(\"day_closes\")"
+        },
+        {
+          "line": 803,
+          "text": "          \"id,closed_for,sales,collected,expenses,realized_profit,customer_debts,unsettled_custody,note,created_at\","
+        },
+        {
+          "line": 814,
+          "text": "        realizedProfit: Number(r.realized_profit),"
+        },
+        {
+          "line": 833,
+          "text": "      qc.invalidateQueries({ queryKey: [\"day_closes\", tenantId] });"
+        }
+      ]
+    },
+    {
+      "path": "src/lib/error-capture.ts",
+      "blob": "171c9b5800c5b17efc0598eae4c760b3778021e6",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/error-page.ts",
+      "blob": "725235ce7bdf496daf2d870148978939f4f40a9b",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/invoice-pdf.ts",
+      "blob": "089e9735612ce2f7e22b3918b74054097f3e4889",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/lovable-error-reporting.ts",
+      "blob": "d1f9b1b009111538a2a65a79edf1f85a4f3424f1",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/index.ts",
+      "blob": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/request-boundary.ts",
+      "blob": "d62d72ffd20f91ac74f367df47e08f7d4bf68b36",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/tools/list-customers.ts",
+      "blob": "aefb9e1ee5d3ea08570b1da7f02f8c0af953bd29",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/tools/list-products.ts",
+      "blob": "8835e58960be140ab5a301d4527ad526f291eac8",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/tools/list-recent-orders.ts",
+      "blob": "0439a6a23aec4f165965b19a54e1e1473510516f",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/mcp/tools/today-summary.ts",
+      "blob": "5451d4f1d49d26edad871bbc3833ebf45ed64dfc",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/paddle.server.ts",
+      "blob": "a6195712a4956d670dfc9bc8fff323fcfc9ae1c4",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/paddle.ts",
+      "blob": "4a422678b31efff0c2eb7e7b2983428097010b9a",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/pwa-register.ts",
+      "blob": "ec6ce2414ff0fdc387556060d8aae03ddd0ce189",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/sale-operation.ts",
+      "blob": "b59b186cac80b59aa714dee6a2e2bf63e8647e35",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/subscription-webhook.server.ts",
+      "blob": "9333457594afe25d90ce2d63bdc4f2c7db000fb3",
+      "mentions": []
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "blob": "a5ef193506d07d0459fec4f187af08283094d7c8",
+      "mentions": []
+    },
+    {
+      "path": "src/routeTree.gen.ts",
+      "blob": "773224349572a5a572dc387329b846c973b24bab",
+      "mentions": []
+    },
+    {
+      "path": "src/router.tsx",
+      "blob": "3423d598036579e62f42faec438f868b4bb0bb17",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/[.]lovable.oauth.consent.tsx",
+      "blob": "d59dbb0cb68b13f8085c8f702fb9672156b1c974",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",
+      "blob": "e631701c3f93723ca95bc2fe95cfb655b0a08c2e",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/[.mcp]/list-tools.ts",
+      "blob": "5104f6ef2f2d8e914a7768d2b1c35be1810ee6d3",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/[.well-known]/oauth-protected-resource.ts",
+      "blob": "ac78a6d33a40bbf0111db81c81a82202c1ffa708",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/__root.tsx",
+      "blob": "07baa469d4147f9870cff0c0628f0b65f97fcfae",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/_authenticated/app.tsx",
+      "blob": "be9436c488f6d58e074669b23d777fb5376a2c49",
+      "mentions": [
+        {
+          "line": 82,
+          "text": "  useDayCloses,"
+        },
+        {
+          "line": 230,
+          "text": "  const { data: dbDayCloses } = useDayCloses(tenantId);"
+        },
+        {
+          "line": 300,
+          "text": "  const dayCloses = dbDayCloses ?? [];"
+        },
+        {
+          "line": 302,
+          "text": "    tenantTimezoneRead.complete && dayCloses.some((d) => d.closedFor === todayKey);"
+        },
+        {
+          "line": 370,
+          "text": "    const realizedProfit = realizedRevenue - realizedCogs - expenseTotal;"
+        },
+        {
+          "line": 389,
+          "text": "      realizedProfit,"
+        },
+        {
+          "line": 523,
+          "text": "    dayCloses,"
+        },
+        {
+          "line": 2546,
+          "text": "    const realizedProfit ="
+        },
+        {
+          "line": 2563,
+          "text": "      realizedProfit,"
+        }
+      ]
+    },
+    {
+      "path": "src/routes/_authenticated/billing.tsx",
+      "blob": "ab896a541cb4031400f5f311b2aedfa4bdc9d6f3",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/_authenticated/onboarding.tsx",
+      "blob": "bb89aa6d939d5d0316eb6dd4d31c59596896477c",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/_authenticated/platform-admin.tsx",
+      "blob": "85976c3b4b8205df04990c0c2877febb504e791b",
+      "mentions": [
+        {
+          "line": 481,
+          "text": "  realized_profit: number;"
+        },
+        {
+          "line": 527,
+          "text": "              <td className=\"p-2\">{dl(r.realized_profit)}</td>"
+        }
+      ]
+    },
+    {
+      "path": "src/routes/_authenticated/route.tsx",
+      "blob": "0eb206f28305c00fa0f9722cdfb7185e88673f1c",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/api/public/payments/webhook.ts",
+      "blob": "06ab5598a53d1170401ec8b46451f51c9e911c40",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/auth.tsx",
+      "blob": "77384b5056a714a0aeaa250ea810c2727c29e48f",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/guide.tsx",
+      "blob": "c2c0517a4bb27fe5daa8fbcccf529bde4ec9f7e8",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/index.tsx",
+      "blob": "1474d6446b23e191d732c12a90be6f0e1ffbaf8a",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/lovable/email/queue/process.ts",
+      "blob": "26fc649b7fadf13d11e509f6b1fadcbb3300b682",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/mcp.ts",
+      "blob": "0436bb4ab0d9567668c13dcb4a7f73a1958cbdc8",
+      "mentions": []
+    },
+    {
+      "path": "src/routes/sitemap[.]xml.ts",
+      "blob": "5e45e999063d0feacd7db4e41751de38caa0e10c",
+      "mentions": []
+    },
+    {
+      "path": "src/server.ts",
+      "blob": "ea3c70442835f259d44466e7d3c9cba7c904327a",
+      "mentions": []
+    },
+    {
+      "path": "src/start.ts",
+      "blob": "2b6bb36c089cce08d18def495d0ad716e484818a",
+      "mentions": []
+    },
+    {
+      "path": "src/utils/payments.functions.ts",
+      "blob": "3c7dbd8e0954a606b6ba7f4fced3261f0b496541",
+      "mentions": []
+    },
+    {
+      "path": "src/vite-env.d.ts",
+      "blob": "0f53bb0695f56148d678fac7feb5e9328a58d860",
+      "mentions": []
+    }
+  ],
+  "migration_count": 55,
+  "matched_consumers": [
+    "src/features/pilot/PilotScreen.tsx",
+    "src/features/reports/ProfitScreen.tsx",
+    "src/features/shared/AppContext.ts",
+    "src/integrations/supabase/types.ts",
+    "src/lib/db.ts",
+    "src/routes/_authenticated/app.tsx",
+    "src/routes/_authenticated/platform-admin.tsx"
+  ],
+  "writer_migrations": [
+    "supabase/migrations/20260626155319_c9018aeb-8703-4674-b068-f4d759434d3e.sql",
+    "supabase/migrations/20260626183212_62c28b84-f0c5-4c8e-9e2c-5f1bee2f8e2b.sql",
+    "supabase/migrations/20260627100633_232a75c5-d386-4663-ae39-9e343920d06a.sql",
+    "supabase/migrations/20260627201534_c35b8581-3304-41cf-86c6-b36bc6c6c879.sql",
+    "supabase/migrations/20260628102723_00a7a028-eeeb-4839-addc-8e0a1a887522.sql",
+    "supabase/migrations/20260701090000_returned_order_not_debt.sql",
+    "supabase/migrations/20260704105413_204ac0f6-dd88-4b06-8820-9990238f8908.sql",
+    "supabase/migrations/20261010223557_enforce_live_account_state.sql"
+  ],
+  "limits": [
+    "repository source only; external/manual writers and deployed volumes unknown",
+    "no database or financial implementation performed"
+  ]
+}

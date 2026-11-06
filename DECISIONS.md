@@ -1,3 +1,17 @@
+## Current — concrete profit-contract proposal reviewed; owner adoption OPEN, 2026-11-06
+
+C5-PROFIT-CONTRACT-DESIGN-01 completes the fixed next design batch on source4f7aec69, existing integration/g0-g1-reconcile-2026-10-18. Source inventory130code files+55SQL,7consumer files; exact recommended SQL/ACL/typed-consumer/history/rollback plan and phased acceptance matrix prepared. NineDecimal arithmetic vectors PASS; two actual separate read-only reviewers accepted proposal/design scope. No SQL/view/RLS/native/implementation acceptance claimed.
+
+PROPOSED C5-PROFIT-BASIS-01: preserve old day_closes.realized_profit135 before expenses and all oldRPC/DTO meanings; add SELECT-only security-invoker reporting projection with explicit realized_margin_before_expenses135 and realized_net_profit130 (=135−5). No stored-row mutation/backfill/reallocation. Historical/manual provenance remains unverified; net derived from recorded v1 values, not retroactively audited. Separate invoice-period estimate and payment-date snapshot scopes; admin135label clarified without cross-tenant scope change. Old failing130oracle/archive remain unchanged until exact split is adopted and implemented with stronger gross135+net130 checks.
+
+Owner adoption of this precise financial-report contract remains OPEN under AGENTS/user protected-decision rules. Broad continuation instructions authorized concrete design/docs, not choosing a protected financial meaning on owner's behalf. Implementation is Planned, not Implemented/Tested/Merged/Released. See `changes/c5-profit-contract/DESIGN.md`, `RESULT.md`, `REVIEW.md` and eight impact records/evidence.
+
+**ONE NEXT: owner adopts the exact preserved-gross135/separate-net130 split, or specifies another reviewed meaning. Then execute the specified isolated additive implementation (generated forward-only migration, typed reader/clear labels) and exact-source fresh/populated/desktop/mobile/security/history tests without repeating routine permission.** Remaining C5 network/journey → full independentC6 → ownerC7/verified main/settle five drafts → RC/Pilot remain the fixed path. No early PR closure or broad feature expansion.
+
+All executable/financial/SQL/test-oracle/dependency source unchanged in this documentation-only delivery. No new CI/native run, no transferred acceptance from earlier sources; fullC5/integration=false, C6/C7/RC/Pilot unaccepted. Main220fc206/five original drafts unchanged. Claim6672249212 pauses at final55handoff pending owner decision; no active parallel implementation. No merge/deploy/production/newcost/financial-policy adoption. Earlier state/history below remains exact.
+
+---
+
 ## Current — first failed C5 assertion extracted; stored/UI profit semantics differ, 2026-11-06
 
 Read-only diagnosis `C5-FIRST-FAILED-ASSERTION-01`, original executable122d8aa4/native42125234643. Original fresh13460626236 and upgrade13460512159 ZIPs downloaded with newly available artifact capability; SHA256 exactly matches recorded GitHub digests. First and sole false row `desktop_final_day_close_independent_oracle`: ordinal58fresh/59upgrade; all57/58 earlier rows PASS. Stored sales275/collected225/expenses5/debt0/custody0 match. Only realized_profit differs: expected130, actual135, difference5. Prior actual profit-display-after-expense, return/settlement and close_day_success controls PASS. No new native run or executable/SQL/test expectation change.

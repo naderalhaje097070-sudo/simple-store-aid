@@ -1,0 +1,92 @@
+{
+  "status": "PROPOSED_CONTRACT_NOT_ADOPTED",
+  "scope": "Decimal arithmetic validation only; no application/Postgres/RLS/native acceptance",
+  "cases": [
+    {
+      "case": "original_fixture",
+      "recorded_margin": "135",
+      "recorded_expense": "5",
+      "expected_net": "130",
+      "calculated_net": "130",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "zero_expense",
+      "recorded_margin": "135",
+      "recorded_expense": "0",
+      "expected_net": "135",
+      "calculated_net": "135",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "expense_without_receipts",
+      "recorded_margin": "0",
+      "recorded_expense": "5",
+      "expected_net": "-5",
+      "calculated_net": "-5",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "negative_margin",
+      "recorded_margin": "-10",
+      "recorded_expense": "5",
+      "expected_net": "-15",
+      "calculated_net": "-15",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "decimal",
+      "recorded_margin": "14.37",
+      "recorded_expense": "2.11",
+      "expected_net": "12.26",
+      "calculated_net": "12.26",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "expense_exceeds_margin",
+      "recorded_margin": "4",
+      "recorded_expense": "7",
+      "expected_net": "-3",
+      "calculated_net": "-3",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "zero",
+      "recorded_margin": "0",
+      "recorded_expense": "0",
+      "expected_net": "0",
+      "calculated_net": "0",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "saved_history",
+      "recorded_margin": "200",
+      "recorded_expense": "20",
+      "expected_net": "180",
+      "calculated_net": "180",
+      "arithmetic_pass": true
+    },
+    {
+      "case": "preserve_numeric_precision",
+      "recorded_margin": "1.234",
+      "recorded_expense": "0.006",
+      "expected_net": "1.228",
+      "calculated_net": "1.228",
+      "arithmetic_pass": true
+    }
+  ],
+  "source_fixture_calculation": {
+    "payments": [
+      "25",
+      "20",
+      "80",
+      "40",
+      "60"
+    ],
+    "unit_price": "100",
+    "unit_cost": "40",
+    "recorded_gross_margin": "135.00",
+    "expense": "5",
+    "proposed_net": "130.00"
+  }
+}

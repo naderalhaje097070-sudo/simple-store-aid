@@ -57,8 +57,13 @@ function validate(docs) {
     assert.deepEqual(doc.permissions, { contents: "read" }, name);
     assert.deepEqual(doc.on.pull_request.branches, ["main"], name);
     assert.deepEqual(doc.on.pull_request.types, ["opened", "synchronize", "reopened"], name);
-    for (const impact of IMPACT)
-      assert.ok(doc.on.pull_request.paths.includes(impact), name + impact);
+    // Coverage rule: no path filter means every PR runs (full coverage). A path
+    // filter is allowed only if it still includes every impact path, and
+    // paths-ignore is never allowed, since it silently narrows acceptance.
+    assert.equal(doc.on.pull_request["paths-ignore"], undefined, name + " must not ignore paths");
+    if (doc.on.pull_request.paths !== undefined)
+      for (const impact of IMPACT)
+        assert.ok(doc.on.pull_request.paths.includes(impact), name + impact);
     for (const job of Object.values(doc.jobs)) {
       assert.equal(job["continue-on-error"], undefined, name);
       assert.equal(job.if, undefined, name + " must not skip current acceptance");
@@ -215,4 +220,17 @@ test("historical manual jobs cannot retain a current check-context name", () => 
   const docs = documents();
   docs["owner-retention-catalog.yml"].jobs.catalog.name = "catalog";
   assert.throws(() => validate(docs));
+});
+test("current PR acceptance may run unfiltered but never narrowed", () => {
+  const unfiltered = documents();
+  delete unfiltered["integration-verification.yml"].on.pull_request.paths;
+  validate(unfiltered);
+  const narrowed = documents();
+  narrowed["integration-verification.yml"].on.pull_request.paths = IMPACT.filter(
+    (impact) => impact !== "supabase/migrations/**",
+  );
+  assert.throws(() => validate(narrowed), /supabase\/migrations/);
+  const ignored = documents();
+  ignored["integration-verification.yml"].on.pull_request["paths-ignore"] = ["supabase/**"];
+  assert.throws(() => validate(ignored), /must not ignore paths/);
 });

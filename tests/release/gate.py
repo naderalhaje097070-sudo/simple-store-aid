@@ -36,6 +36,21 @@ LEGACY_ORDER = {
 }
 
 
+# Files that define acceptance itself. A PR changing any of them could make the
+# required checks pass vacuously (pull_request runs the PR's own copy), so the
+# trusted gate blocks such PRs until the owner adds GOVERNANCE_LABEL.
+GOVERNANCE_PATTERNS = (
+    '.github/workflows/',
+    'tests/release/',
+    'tests/c5-collection/native.py',
+    'tests/c4-sale/native.py',
+    'tests/c5-journey/native.py',
+    'tests/c5-journey/browser.py',
+    'tests/c5-journey/profit_contract.py',
+)
+GOVERNANCE_LABEL = 'governance-change-approved'
+
+
 class GateFailure(Exception):
     pass
 
@@ -96,6 +111,19 @@ def verify_checkout(root):
         check((Path(root) / path).is_file() and not (Path(root) / path).is_symlink(), 'Nonregular migration: ' + path)
 
 
+def governance_changes(root, base, head):
+    out = git(root, 'diff', '--name-only', '-z', base + '...' + head).split(b'\0')
+    return sorted(p.decode() for p in out if p and p.decode().startswith(GOVERNANCE_PATTERNS))
+
+
+def verify_governance(root, base, head, approved):
+    """Fail if acceptance-defining files change without explicit owner approval."""
+    changed = governance_changes(root, base, head)
+    check(not changed or approved, 'Acceptance-defining files changed without approval label '
+          + GOVERNANCE_LABEL + ': ' + ', '.join(changed[:20]))
+    return changed
+
+
 def verify(root, head='HEAD', base='origin/main', mode='checkout', expected=None):
     root = Path(root)
     head_sha = git(root, 'rev-parse', '--verify', head + '^{commit}').decode().strip()
@@ -123,9 +151,15 @@ def main(argv=None):
     parser.add_argument('--head', default='HEAD')
     parser.add_argument('--base', default='origin/main')
     parser.add_argument('--mode', choices=['checkout', 'objects'], default='checkout')
+    parser.add_argument('--governance', action='store_true',
+                        help='also block acceptance-defining changes unless GATE_GOVERNANCE_APPROVED=true')
     args = parser.parse_args(argv)
     try:
         receipt = verify(args.root, args.head, args.base, args.mode)
+        if args.governance:
+            approved = os.environ.get('GATE_GOVERNANCE_APPROVED') == 'true'
+            receipt['governance_changes'] = verify_governance(args.root, args.base, args.head, approved)
+            receipt['governance_approved'] = approved
     except GateFailure as error:
         print('RELEASE_GATE_FAILED ' + json.dumps({'reason': str(error)}))
         return 1

@@ -162,7 +162,9 @@ def run(p, state, private):
                 page.get_by_text('إجراءات سريعة',exact=True).wait_for()
                 page.evaluate('(rpc)=>window.journeyDrop[rpc]=1',SALE)
                 quick,first=start_sale(.25)
-                control('quarter_first_committed_cash_stock',p.effect(quick)=={'total':25,'paid':25,'payment_count':1,'payment_sum':25,'debt_payment_count':0,'debt_payment_sum':0} and p.stock(pid)==9.75)
+                quick_effect,quick_stock=p.effect(quick),p.stock(pid)
+                control('quarter_first_committed_cash_stock',quick_effect=={'total':25,'paid':25,'payment_count':1,'payment_sum':25,'debt_payment_count':0,'debt_payment_sum':0} and quick_stock==9.75,
+                        observed={'effect':quick_effect,'stock':quick_stock,'tenant_orders':p.query(f"select to_jsonb(count(*)) from public.orders where tenant_id='{actor['tenant']}';"),'sale_calls':len(calls(SALE))})
                 checkpoint('sale_recovery_wait');page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).wait_for()
                 page.reload();page.wait_for_function('window.journeyReady===true')
                 page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).wait_for()

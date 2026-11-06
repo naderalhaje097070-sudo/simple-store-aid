@@ -34,11 +34,11 @@
     },
     "tests/c5-journey/native.py": {
       "before": "af59a1f04eddccc7afe8812c2f7a3d8850cce4f8",
-      "after": "b20a4f7fb719dd2b12ab83a2d1ee0b4654121f20"
+      "after": "c9bf12d7506b424acdef1f414663e12d61ed8b6f"
     },
     "tests/c5-journey/browser.py": {
       "before": "a301cb78973a4453ec6a3669b1aae91b78b8d431",
-      "after": "523beefac5dfc74fac188f90433f15dafc595303"
+      "after": "469d64ce9c80a31bed5cdf4e13ea48264226d417"
     },
     ".github/workflows/c5-journey.yml": {
       "before": "f6052eacb0cc983f92590b6b704392eec636144d",
@@ -75,22 +75,26 @@
     ".github/workflows/integration-verification.yml": {
       "before": "eb845cce3bf38326e1ebda9c36bb73a04e59c74d",
       "after": "f9641381e790fdc9958e37d09bcb9b28eb6bad58"
+    },
+    "tests/b7-ci-routing/contract.test.cjs": {
+      "before": "c862edc8b24ab93851460c882352de2da862e86c",
+      "after": "ee1d5badd84363320068a693f89d926ac99ffb65"
     }
   },
   "additions": {
     "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
     "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
-    "tests/c5-journey/profit_identity.py": "c4ea9bd9082e7b0a593d717318d22f6c0981ba79",
+    "tests/c5-journey/profit_identity.py": "89f4fee74d25cfd9f08cbbb15c5b72e5a4888e87",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
     "tests/c5-journey/profit_contract.py": "6ee00f3e5e859c9a7aa8a4431dd84f51278c38e8",
     "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874",
     "tests/c5-journey/profit-history.cjs": "6f88104cd2c204ee560b3b3b14c4d773e22d396f",
-    "tests/release/gate.py": "88c8b58a0e6c4943acc8221dfac0ec32532b75af",
-    "tests/release/test_gate.py": "75297c0b838dcf64a8ca24b9a58fa40d4cae8535",
+    "tests/release/gate.py": "a49976e7f6bdc7460d3531b3ab82a166a734116c",
+    "tests/release/test_gate.py": "7b32a0c5367d0f2d09ff73b3a7cfc6c4495e7bd3",
     "tests/release/target.py": "b3599f341429acf22463bee549109a69c5e75c57",
     "tests/release/upgrade.py": "57748f4bd16ec702c8245ab2bbe74d691bc53810",
     ".github/workflows/release-finance.yml": "d1ef8997124f9d3877ef6d0af0f15ddc68cdaa6b",
-    ".github/workflows/release-gate-trusted.yml": "1db25055d9760a67e8520a858c5b689b1d38753a"
+    ".github/workflows/release-gate-trusted.yml": "056139e361ab106f1baf690e0ea5a7d68eb22a94"
   }
 }

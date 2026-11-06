@@ -10,7 +10,8 @@ name: Release gate (trusted)
 on:
   pull_request_target:
     branches: [main]
-    types: [opened, synchronize, reopened, ready_for_review]
+    # labeled/unlabeled: re-evaluate when the owner adds or removes the approval label.
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 permissions:
   contents: read
 concurrency:
@@ -35,8 +36,10 @@ jobs:
         env:
           EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # Labels come from the event payload, set by a maintainer, not by PR code.
+          GATE_GOVERNANCE_APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'governance-change-approved') }}
         run: |
           set -euo pipefail
           test "$(git rev-parse refs/remotes/pr/head)" = "$EXPECTED_SOURCE"
           python3 tests/release/test_gate.py
-          python3 tests/release/gate.py --mode objects --head "$EXPECTED_SOURCE" --base "$BASE_SHA"
+          python3 tests/release/gate.py --mode objects --governance --head "$EXPECTED_SOURCE" --base "$BASE_SHA"

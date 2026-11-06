@@ -21,7 +21,8 @@ CHANGES={'src/lib/db.ts','src/features/shared/AppContext.ts','src/routes/_authen
          'tests/c5-collection/history.cjs','tests/app-financial-read/build.mjs',
          'tests/app-financial-read/replay.mjs','tests/day-close-clock/replay.mjs',
          'tests/c5-journey/build.mjs','tests/c5-collection/native.py','tests/c4-sale/native.py',
-         '.github/workflows/integration-verification.yml'}
+         '.github/workflows/integration-verification.yml',
+         'tests/b7-ci-routing/contract.test.cjs'}
 ADDITIONS={MIGRATION,'src/lib/day-close-report.ts','tests/c5-journey/profit_identity.py',
            'tests/c5-journey/test_profit_identity.py','tests/c5-journey/profit-report.test.ts',
            'tests/c5-journey/profit_contract.py','tests/c5-journey/profit-types.cjs',

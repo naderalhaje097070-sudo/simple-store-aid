@@ -62,9 +62,13 @@ def main():
         (args.evidence_dir/'journey-failure.json').write_text(json.dumps(result,indent=2)+'\n')
         # Control names are fixed source literals; publish only the first failed one.
         failed=next((c['name'] for c in p.controls if not c.get('passed')),None)
+        def numeric(v):
+            return v is None or type(v) in (int,float,bool) or (isinstance(v,dict) and all(re.fullmatch(r'[a-z_]{1,40}',k) and numeric(x) for k,x in v.items()))
+        observed=next((c.get('observed') for c in p.controls if not c.get('passed')),None)
+        observed=observed if numeric(observed) else None
         message=str(error)
         message=message if re.fullmatch(r'[A-Za-z0-9 _:./-]{1,120}',message) else None
-        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'first_failed_control':failed,'failure_message':message,'blocked_external_origins':[b for b in getattr(p,'journey_blocked',[]) if re.fullmatch(r'[a-z]+://[A-Za-z0-9.?-]{1,253} [a-z]{1,20}',b)][:10],'diagnostic':result['diagnostic']}))
+        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'first_failed_control':failed,'failed_control_observed':observed,'failure_message':message,'blocked_external_origins':[b for b in getattr(p,'journey_blocked',[]) if re.fullmatch(r'[a-z]+://[A-Za-z0-9.?-]{1,253} [a-z]{1,20}',b)][:10],'diagnostic':result['diagnostic']}))
         return 2
 
 

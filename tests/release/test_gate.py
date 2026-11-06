@@ -148,6 +148,42 @@ class GateTests(unittest.TestCase):
         self.assertRejects('Base reference unavailable')
 
 
+class GovernanceTests(unittest.TestCase):
+    def setUp(self):
+        self.repo = Repo()
+        self.addCleanup(self.repo.tmp.cleanup)
+
+    def test_ordinary_change_needs_no_approval(self):
+        self.repo.write('src/app.ts', 'x\n')
+        self.repo.commit('code')
+        self.assertEqual(gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False), [])
+
+    def test_workflow_change_blocked_without_approval(self):
+        self.repo.write('.github/workflows/release-finance.yml', 'jobs: {}\n')
+        self.repo.commit('weaken')
+        with self.assertRaises(gate.GateFailure) as ctx:
+            gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False)
+        self.assertIn(gate.GOVERNANCE_LABEL, str(ctx.exception))
+
+    def test_suite_entrypoint_change_blocked_without_approval(self):
+        self.repo.write('tests/c4-sale/native.py', 'print(1)\n')
+        self.repo.commit('vacuous suite')
+        with self.assertRaises(gate.GateFailure):
+            gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False)
+
+    def test_gate_change_blocked_without_approval(self):
+        self.repo.write('tests/release/gate.py', 'pass\n')
+        self.repo.commit('gate')
+        with self.assertRaises(gate.GateFailure):
+            gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False)
+
+    def test_approved_change_passes_and_is_listed(self):
+        self.repo.write('.github/workflows/release-finance.yml', 'jobs: {}\n')
+        self.repo.commit('reviewed')
+        self.assertEqual(gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', True),
+                         ['.github/workflows/release-finance.yml'])
+
+
 class CurrentRepository(unittest.TestCase):
     def test_candidate_migrations_pass_against_main(self):
         root = Path(__file__).resolve().parents[2]

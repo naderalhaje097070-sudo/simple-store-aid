@@ -1,3 +1,13 @@
+## Current — Phase 1 remaining, 2026-11-06
+
+1. [In progress] release-finance.yml: 8 jobs green on one SHA (collection, sale x fresh/upgrade/populated; journey x fresh/upgrade).
+2. [Planned] Trusted gate: pull_request_target from main, objects mode, never executes PR code; owner enables required status check.
+3. [Planned] Independent review of gate + workflow; then retire stage identity manifests and old stage workflows.
+4. [Planned, Pilot condition] Restore of real financial data (backup -> restore -> balances match) in the Phase 5 rehearsal. Restore suites are kept, not deleted; Pilot is blocked until this passes.
+5. [Backlog, low] Self-host the Cairo invoice font (production InvoiceDetailScreen calls fonts.googleapis.com).
+
+---
+
 ## Current — profit contract ADOPTED under specific owner delegation, 2026-11-06
 
 The owner explicitly delegated the pending choice to the lead assisted by financial/programming agents. Two actual fresh independent read-only advisers (/root/financial_decision and /root/engineering_decision) reviewed source1c8f43c76471332bb80248929a47a66a1c80af8e and both returned ADOPT. Root adopts C5-PROFIT-BASIS-01: preserve legacy recorded before-expense margin, add explicit gross alias and net=saved margin−saved expenses once (fixture135−5=130), via SELECT-only invoker projection. No rounding/clamp/backfill or old API/data meaning change. This is an operational collection-based measure, not audited statutory profit.

@@ -1,3 +1,17 @@
+## Current — Phase 1: C5 journey green, release gate and unified acceptance workflow, 2026-11-06
+
+Branch `integration/g0-g1-reconcile-2026-10-18` (contains main 220fc206). Sole implementer: this session (Issue #55 claim 6696734740).
+
+- C5 full financial journey PASSED on 60ff130 (run 42303370542): fresh 182 controls, desktop and mobile, stored 275/225/5/135/0/0, margin 135, net 130, 0 external requests, 0 script errors; upgrade mode passed too. Journey-level acceptance only.
+- Root causes fixed on the way (all test/harness defects, no SQL or app change): missing profit bridge layer; c5-journey.yml read a help file nothing created; two harnesses predating the day-close read contract; the inactive-owner SQL control accepted only 0 rows while the guard raises 42501 (now accepts only 42501 account_inactive, proven to reject a missing grant); the journey build did not really stub the PDF module, so InvoiceDetailScreen loaded fonts.googleapis.com.
+- New release gate `tests/release/gate.py` (18 tests, 13 rejections): tested SHA, clean checkout, every origin/main migration byte-identical, new migrations after main's newest except two pinned August files (F7).
+- New `.github/workflows/release-finance.yml`: gate first; suites collection/sale/journey; modes fresh, upgrade (main's 50 migrations seeded via main's RPCs, upgraded, money compared by value) and populated (prior tenant unchanged). An explicit step fails the job if required controls are missing. Runs on every push. Old workflows untouched until it is proven.
+- Not yet: unified workflow green on one SHA; pull_request_target gate from main; owner GitHub settings; removal of old gates; independent review.
+
+**ONE NEXT:** all 8 release-finance jobs green on one SHA, then the trusted pull_request_target gate and the owner settings list. No merge/deploy without owner approval. Phase 2 (financial fixes F4/F5/F10/F11) not started.
+
+---
+
 ## Current — profit contract ADOPTED under specific owner delegation, 2026-11-06
 
 The owner explicitly delegated the pending choice to the lead assisted by financial/programming agents. Two actual fresh independent read-only advisers (/root/financial_decision and /root/engineering_decision) reviewed source1c8f43c76471332bb80248929a47a66a1c80af8e and both returned ADOPT. Root adopts C5-PROFIT-BASIS-01: preserve legacy recorded before-expense margin, add explicit gross alias and net=saved margin−saved expenses once (fixture135−5=130), via SELECT-only invoker projection. No rounding/clamp/backfill or old API/data meaning change. This is an operational collection-based measure, not audited statutory profit.

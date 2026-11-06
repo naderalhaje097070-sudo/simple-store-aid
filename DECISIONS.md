@@ -1,3 +1,9 @@
+## 2026-11-06 — Release gate replaces chained stage manifests (owner-authorized lead decision)
+
+Per-stage byte manifests forced every reviewed change to break all earlier workflows (measured: 36 identity/manifest files, cascading pins). Replaced, gradually, by one gate that keeps: tested SHA, clean checkout, base-branch migration immutability (compared with origin/main, not a mutable in-branch file), forward-only new migrations with a two-file pinned legacy exception. Per-file provenance moves to PR review plus independent review. Behavioural, financial and security suites are unchanged. Restore of real financial data is a mandatory Pilot condition (Phase 5).
+
+---
+
 ## Current — profit contract ADOPTED under specific owner delegation, 2026-11-06
 
 The owner explicitly delegated the pending choice to the lead assisted by financial/programming agents. Two actual fresh independent read-only advisers (/root/financial_decision and /root/engineering_decision) reviewed source1c8f43c76471332bb80248929a47a66a1c80af8e and both returned ADOPT. Root adopts C5-PROFIT-BASIS-01: preserve legacy recorded before-expense margin, add explicit gross alias and net=saved margin−saved expenses once (fixture135−5=130), via SELECT-only invoker projection. No rounding/clamp/backfill or old API/data meaning change. This is an operational collection-based measure, not audited statutory profit.

@@ -5,11 +5,12 @@ name: Release financial acceptance
 #   fresh   : every candidate migration on an empty stack
 #   upgrade : origin/main's migrations, seeded through main's own RPCs, then
 #             upgraded to the candidate (the transition production will take)
+#   populated: every candidate migration, with a prior tenant seeded first whose
+#             money and stock must stay unchanged (collection and sale suites)
 on:
+  # Every push: no path filter, so no change (app config included) skips acceptance.
   push:
     branches: ["integration/g0-g1-reconcile-2026-10-18"]
-    paths:
-      ["src/**", "supabase/**", "tests/**", "package.json", "bun.lock", ".github/workflows/release-finance.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,7 +26,12 @@ jobs:
       fail-fast: false
       matrix:
         suite: [collection, sale, journey]
-        mode: [fresh, upgrade]
+        mode: [fresh, upgrade, populated]
+        # populated keeps the prior-tenant controls the old c4-sale and
+        # stored-finance workflows ran; the journey suite has no such branch.
+        exclude:
+          - suite: journey
+            mode: populated
     env:
       EXPECTED_SOURCE: ${{ github.sha }}
       CONTRACT_MODE: ${{ matrix.mode }}
@@ -189,6 +195,29 @@ jobs:
             python "$script" --expected-source "$EXPECTED_SOURCE" \
               --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
               --private-state /tmp/monjez-c5sale/private-state.json
+      - name: Required controls actually executed and passed
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo SUITE="$SUITE" CONTRACT_MODE="$CONTRACT_MODE" python3 - <<'PY'
+          import json,os
+          from pathlib import Path
+          suite,mode=os.environ['SUITE'],os.environ['CONTRACT_MODE']
+          files={'collection':'financial-result.json','sale':'client.json','journey':'journey-result.json'}
+          data=json.loads((Path('/tmp/monjez-c5sale/evidence')/files[suite]).read_text())
+          rows=data.get('controls') or data.get('checks') or []
+          passed={r['name'] for r in rows if r.get('passed')}
+          required={('collection','populated'):{'nonempty_prior_tenant_seed','populated_prior_tenant_unchanged'},
+                    ('sale','populated'):{'nonempty_prior_quarter_sale'}}.get((suite,mode),set())
+          if mode=='upgrade':
+              required|={'main_seed_matches_independent_oracle','upgraded_financial_facts_preserved',
+                         'upgraded_saved_close_reads_margin84_net79','upgraded_old_debt_settles_exactly_once'}
+              upgrade=json.loads(Path('/tmp/monjez-c5sale/evidence/upgrade-verify.json').read_text())
+              passed|={r['name'] for r in upgrade['controls'] if r.get('passed')}
+          missing=sorted(required-passed)
+          print('RELEASE_REQUIRED_CONTROLS '+json.dumps({'suite':suite,'mode':mode,'controls':len(rows),'required':sorted(required),'missing':missing}))
+          assert rows and not missing
+          PY
       - name: Migration history and database advisors
         shell: bash
         run: |

@@ -1,0 +1,45 @@
+name: Release gate (trusted)
+# Runs for pull requests into main using pull_request_target, so the workflow
+# file and the gate code come from main, never from the pull request. The PR
+# head is fetched as git objects only and read in objects mode: no PR code is
+# checked out, installed or executed, and the token is read-only.
+#
+# Bootstrap: pull_request_target uses main's copy of this file, so it starts
+# protecting PRs only after it is merged into main. Until then the push-mode
+# gate in release-finance.yml and review cover the first merge.
+on:
+  pull_request_target:
+    branches: [main]
+    # labeled/unlabeled: re-evaluate when the owner adds or removes the approval label.
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+permissions:
+  contents: read
+concurrency:
+  group: release-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out main (trusted code only)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Fetch pull request head as data
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: git fetch --no-tags origin "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
+      - name: Gate the PR head against main (objects mode)
+        env:
+          EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          # Labels come from the event payload, set by a maintainer, not by PR code.
+          GATE_GOVERNANCE_APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'governance-change-approved') }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse refs/remotes/pr/head)" = "$EXPECTED_SOURCE"
+          python3 tests/release/test_gate.py
+          python3 tests/release/gate.py --mode objects --governance --head "$EXPECTED_SOURCE" --base "$BASE_SHA"

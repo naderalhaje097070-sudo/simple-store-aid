@@ -246,7 +246,7 @@
     },
     {
       "path": "bun.lock",
-      "sha": "cb326ac9108c4f5ea4ff4e5a5b09484c58b978ec",
+      "sha": "b6d95a16bdc877db76595fb6f7ce9b33c3fbe80a",
       "mode": "100644"
     },
     {
@@ -311,7 +311,12 @@
     },
     {
       "path": "package.json",
-      "sha": "c948b6a5d4af6f3fe2656ca0b7e6fc524e1d9536",
+      "sha": "7be7ed4e44e9f0bf1467f3de69951a89daa88974",
+      "mode": "100644"
+    },
+    {
+      "path": "patches/minimatch@11.0.1.patch",
+      "sha": "476b8edaf23e7dd604e694eb8bc67e827f89c543",
       "mode": "100644"
     },
     {
@@ -1881,7 +1886,7 @@
     },
     {
       "path": "tests/unit/dependency-security.test.ts",
-      "sha": "dfccc2c1fc4c3b261d8cfe7a604198632c85aca9",
+      "sha": "30be1dd53b23e4f6664612de56d2249b40cc99d3",
       "mode": "100644"
     },
     {

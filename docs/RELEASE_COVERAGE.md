@@ -27,7 +27,7 @@
 | `c5-stored-finance.yml` (fresh, populated) | `suite (collection, fresh/populated)`: كل controls الـ20 موجودة فيه بالاسم نفسه، عدا pin الـ54 الذي استُبدل بسجل الـgate |
 | `c5-journey.yml` | `suite (journey, *)` مع `profit-report.test.ts` وفحص الأنواع المولدة و`selector_contract` |
 | `c5-journey.yml` upgrade (seed55 ثم 56) | `upgrade` من Migrations `main` (50) إلى المرشح (56). البذر بـRPCs `main` نفسها، ثم مقارنة كل صف في كل جدول على أعمدته السابقة، وسجل البداية = `main`، وسجل النهاية = المرشح |
-| `c2-quantity.yml` (fresh) | `suite (quantity, fresh)` |
+| `c2-quantity.yml` (fresh) | `suite (quantity, fresh)`. البيع يمر عبر العقد المعتمد `create_sale_with_items_idempotent`، لأن Migration `20261029044024` تسحب الدالة القديمة من `authenticated` عمدًا (FIN-IDEM). الشروط نفسها لم تتغير |
 | بصمات البايت لكل مرحلة | `trusted-release-gate` في `release-finance`، و`tests/release/target.py` |
 
 ## ما لم يُستبدل (فجوات معروفة)

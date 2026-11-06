@@ -32,6 +32,21 @@ class QuantityProbe(Probe):
     def sale(self, actor, pid, qty, paid=None, customer=None, courier=None):
         if paid is None:
             paid = float(qty) * 100
+        if os.environ.get('MONJEZ_RELEASE_TARGET') == '1':
+            # Migration 20261029044024 revokes the legacy six-argument RPC from
+            # authenticated on purpose (FIN-IDEM is server-enforced), so the
+            # release candidate is exercised through the approved keyed contract:
+            # one fresh key per logical sale, explicit courier state (this probe
+            # only creates unpaid courier sales, i.e. pending). Assertions unchanged.
+            if courier and paid != 0:
+                raise HarnessFailure('probe creates only unpaid courier sales')
+            return self.request('POST', '/rest/v1/rpc/create_sale_with_items_idempotent', {
+                'p_idempotency_key': str(uuid.uuid4()),
+                'p_customer_id': customer, 'p_delivery': 'courier' if courier else 'direct',
+                'p_courier_id': courier, 'p_paid': paid, 'p_method': 'cash',
+                'p_items': [{'productId': pid, 'qty': qty}],
+                'p_courier_state': 'pending' if courier else None,
+            }, token=actor['token'])
         return self.request('POST', '/rest/v1/rpc/create_sale_with_items', {
             'p_customer_id': customer, 'p_delivery': 'courier' if courier else 'direct',
             'p_courier_id': courier, 'p_paid': paid, 'p_method': 'cash',
@@ -83,7 +98,8 @@ class QuantityProbe(Probe):
         self.control('stock_reset_exact', code == 200 and self.stock(pid) == 10)
         for n in range(4):
             code, body = self.sale(a, pid, .25)
-            self.control('quarter_sale_' + str(n), code == 200 and body.get('success') is True)
+            self.control('quarter_sale_' + str(n), code == 200 and body.get('success') is True,
+                         observed={'status': code, 'success': body.get('success') is True if isinstance(body, dict) else None})
             self.control('quarter_stock_' + str(n), self.stock(pid) == 10 - (n + 1) / 4)
         totals = self.query(f"select jsonb_build_object('qty',(select sum(qty) from public.order_items where product_id='{pid}'),'orders',count(*),'total',sum(total),'paid',sum(paid),'payments',(select sum(amount) from public.payments where order_id in (select order_id from public.order_items where product_id='{pid}'))) from public.orders where id in (select order_id from public.order_items where product_id='{pid}');")
         self.control('stored_four_quarters_equal_one_unit_and_100_cash', totals == {'qty': 1, 'orders': 4, 'total': 100, 'paid': 100, 'payments': 100})

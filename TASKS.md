@@ -7,7 +7,9 @@
 3a. [In progress] release-finance (9 jobs incl. quantity), B1, G0, C5 green on one SHA after the fixes.
 3b. [Planned, before the first Phase 2 PR] Port the durable c3 controls (idempotency table RLS deny, direct table denial, same-key replay without writes) into release-finance; review b2-b4 coverage.
 3c. [Planned, after the gate is proven on main] Retire the stage identity chain from integrated-quality and the old stage workflows (separate owner-visible decision).
-3d. [Owner] Apply docs/RELEASE_GATE_SETTINGS.md after merging PR #73; check Lovable sync under the PR-required rule; run the two verification PRs.
+3e. [Planned, after PR #74 merges] Update PR #73 on the new main: both edit tests/g01-acceptance/integrated-b-source.json; recompute blobs, rerun main's identity and all PR checks; PR #73's earlier results do not count.
+3f. [Blockers, documented] c3 durable controls before the first Phase 2 PR; restore with synthetic data before Pilot.
+3d. [Owner] Apply docs/RELEASE_GATE_SETTINGS.md in two stages (A: trusted-release-gate after PR #73; B: full 11 checks incl. suite (quantity, fresh) after the integration merge); check Lovable sync under the PR-required rule; run the two verification PRs.
 4. [Planned, Pilot condition] Restore of real financial data (backup -> restore -> balances match) in the Phase 5 rehearsal. Restore suites are kept, not deleted; Pilot is blocked until this passes. Use realistic synthetic or de-identified financial data, never real customer data.
 5. [Backlog, low] Self-host the Cairo invoice font (production InvoiceDetailScreen calls fonts.googleapis.com).
 

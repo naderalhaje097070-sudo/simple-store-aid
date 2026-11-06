@@ -3,12 +3,20 @@
 هذه الإعدادات لا يستطيع الوكيل تطبيقها: هي في إعدادات المستودع وتحتاج صلاحية المالك.
 بدونها تبقى البوابات مجرد فحوص تظهر نتيجتها، ولا تمنع الدمج.
 
-## متى تُطبَّق
+## متى تُطبَّق: على مرحلتين
 
-بعد دمج الـPR الذي يُدخل `release-gate-trusted.yml` و`release-finance.yml` إلى `main`.
-قبل ذلك لا يملك GitHub أسماء هذه الفحوص ليختارها.
+يطلب GitHub الفحص بالاسم. إذا طُلب فحص لا يعمل على `main`، يتعلق كل PR بانتظاره. وإذا تكرر
+الاسم، يصبح الطلب غامضًا. الحقائق على `main` الآن (من فحوص PR #74):
+- لا يوجد عليه `release-finance.yml`، فلا تعمل فحوص `suite (...)` إلا على PR يحمل الملف نفسه.
+- يوجد فيه فحصان باسم `quality` (Quality وIntegrated G0) وفحصان باسم `audit`.
+- إعادة التسمية إلى `integrated-quality` موجودة في فرع التكامل فقط.
 
-## الخطوات
+لذلك:
+- **المرحلة A:** بعد دمج PR #73 (البوابة الموثوقة فقط). لا تنتظر شيئًا آخر.
+- **المرحلة B:** بعد دمج فرع التكامل في `main`. يصل حينها `release-finance.yml` واسم
+  `integrated-quality`.
+
+## الخطوات المشتركة
 
 المسار: **Settings ← Rules ← Rulesets ← New ruleset ← New branch ruleset**
 
@@ -24,19 +32,37 @@
      - فعّل **Dismiss stale pull request approvals when new commits are pushed**.
    - **Require status checks to pass**
      - فعّل **Require branches to be up to date before merging**.
-     - أضف الفحوص التالية بأسمائها كما تظهر:
-       - `trusted-release-gate` (من Release gate (trusted))
-       - `suite (collection, fresh)`
-       - `suite (collection, upgrade)`
-       - `suite (collection, populated)`
-       - `suite (sale, fresh)`
-       - `suite (sale, upgrade)`
-       - `suite (sale, populated)`
-       - `suite (journey, fresh)`
-       - `suite (journey, upgrade)`
-       - `integrated-quality` (من Integrated G0 verification)
-     - اسما الفحصين الأول والأخير فريدان عمدًا: اختبار `tests/b7-ci-routing` يفشل إن عرّف أي
-       workflow آخر وظيفة بالاسم نفسه. لا تضف `quality` (من Quality) بدلًا منهما؛ الاسم مكرر.
+     - أضف الفحوص حسب المرحلة (أدناه). لا يعرض GitHub في القائمة إلا الفحوص التي عملت مؤخرًا.
+       إن لم يظهر اسم، فشغّل PR يُنتجه أولًا.
+
+### المرحلة A: الفحوص المطلوبة بعد دمج PR #73
+
+- `trusted-release-gate` (من Release gate (trusted)) فقط.
+
+لا تُضِف `quality` ولا `audit` الآن، فكلاهما مكرر على `main`. الفحوص الأخرى ستظل تعمل على كل
+PR وتظهر نتائجها، لكنها لا تمنع الدمج آليًا في هذه المرحلة.
+
+ملاحظة: PR دمج فرع التكامل يغيّر ملفات خارج المنتج، فسيفشل فيه `trusted-release-gate` حتى تضيف
+الوسم `gov-ok-<SHA>` بنفسك بعد مراجعته. هذا هو المقصود.
+
+### المرحلة B: الفحوص المطلوبة بعد دمج فرع التكامل
+
+عدّل الـruleset نفسه وأضف إلى `trusted-release-gate`:
+- `suite (collection, fresh)`
+- `suite (collection, upgrade)`
+- `suite (collection, populated)`
+- `suite (sale, fresh)`
+- `suite (sale, upgrade)`
+- `suite (sale, populated)`
+- `suite (journey, fresh)`
+- `suite (journey, upgrade)`
+- `suite (quantity, fresh)`
+- `integrated-quality` (من Integrated G0 verification)
+
+اسما `trusted-release-gate` و`integrated-quality` فريدان عمدًا: اختبار `tests/b7-ci-routing`
+يفشل إن عرّف أي workflow آخر وظيفة بالاسم نفسه. هذه القائمة (11 فحصًا) هي نفسها قائمة
+`docs/RELEASE_COVERAGE.md`.
+
 5. **Bypass list:** اتركها فارغة. لو أضفت نفسك، تستطيع تجاوز كل ما سبق بضغطة واحدة.
 6. اضغط **Create**.
 

@@ -42,16 +42,21 @@
     },
     ".github/workflows/c5-journey.yml": {
       "before": "f6052eacb0cc983f92590b6b704392eec636144d",
-      "after": "266d7ada80b76847a94316b4a8a843f1c5472bcb"
+      "after": "c26e8ada7dc68e58fe05f130ce3407967c3e23db"
+    },
+    "tests/c5-collection/history.cjs": {
+      "before": "a83009bd2d3e1a9355ae46164dcc28d1c30f0e84",
+      "after": "5e44b0bd08391e55f2ad18a4c2a65ff01d4d99b1"
     }
   },
   "additions": {
     "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
     "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
-    "tests/c5-journey/profit_identity.py": "f267e922cb112552f43a21baedf22218333e9864",
+    "tests/c5-journey/profit_identity.py": "8c2da284dec3b8d0d96a95deda758f9511cabcc6",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
     "tests/c5-journey/profit_contract.py": "8926c0ac82f132144cd3c33606c1bcfd364ae8ae",
-    "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874"
+    "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874",
+    "tests/c5-journey/profit-history.cjs": "6f88104cd2c204ee560b3b3b14c4d773e22d396f"
   }
 }

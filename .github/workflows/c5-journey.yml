@@ -71,6 +71,7 @@ jobs:
           supabase migration up --help > "$RUNNER_TEMP/up-help.txt"
           supabase db advisors --help > "$RUNNER_TEMP/advisors-help.txt"
           supabase migration list --help > "$RUNNER_TEMP/list-help.txt"
+          supabase gen types --help > "$RUNNER_TEMP/profit-types-help.txt"
           grep -q -- '--local' "$RUNNER_TEMP/up-help.txt"
           grep -q -- '--include-all' "$RUNNER_TEMP/up-help.txt"
           grep -q -- '--no-backup' "$RUNNER_TEMP/stop-help.txt"

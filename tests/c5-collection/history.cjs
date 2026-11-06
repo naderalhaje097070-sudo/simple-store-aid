@@ -6,6 +6,7 @@ const cp = require("node:child_process");
 const crypto = require("node:crypto");
 const assert = require("node:assert/strict");
 const c4 = require("../c4-sale/history.cjs");
+const profit = require("../c5-journey/profit-history.cjs");
 const BASE = "570ec47e4fe78ab25dc7e653a0a84cdc9a5d8644";
 const MANIFEST = "tests/c5-collection/source.json";
 const FILES = new Set([
@@ -28,6 +29,8 @@ function historicalCollectionSource(file, actual) {
     "Collection history accepts no caller-selected ref or override",
   );
   if (!FILES.has(file)) return actual;
+  // The later reviewed C5 profit delta is peeled first; it rejects any other bytes.
+  actual = profit.historicalProfitSource(file, actual);
   const raw = fs.readFileSync(MANIFEST, "utf8");
   assert.equal(raw, cp.execFileSync("git", ["show", "HEAD:" + MANIFEST], { encoding: "utf8" }));
   const m = JSON.parse(raw);

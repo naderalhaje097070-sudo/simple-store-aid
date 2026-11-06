@@ -59,7 +59,9 @@ def main():
                 'failure_type':type(error).__name__,'controls':p.controls,'journey_acceptance':False,'full_C5_acceptance':False,
                 'diagnostic':safe_diagnostic(getattr(p,'journey_diagnostic',{}))}
         (args.evidence_dir/'journey-failure.json').write_text(json.dumps(result,indent=2)+'\n')
-        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'diagnostic':result['diagnostic']}))
+        # Control names are fixed source literals; publish only the first failed one.
+        failed=next((c['name'] for c in p.controls if not c.get('passed')),None)
+        print('C5_JOURNEY_FAILED '+json.dumps({'source':p.source,'stage':p.stage,'failure_type':type(error).__name__,'controls_completed':len(p.controls),'first_failed_control':failed,'diagnostic':result['diagnostic']}))
         return 2
 
 

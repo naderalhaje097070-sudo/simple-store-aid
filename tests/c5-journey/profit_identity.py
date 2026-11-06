@@ -19,7 +19,8 @@ CHANGES={'src/lib/db.ts','src/features/shared/AppContext.ts','src/routes/_authen
          'src/integrations/supabase/types.ts','tests/g01-acceptance/capture.py',
          'tests/c5-journey/native.py','tests/c5-journey/browser.py','.github/workflows/c5-journey.yml',
          'tests/c5-collection/history.cjs','tests/app-financial-read/build.mjs',
-         'tests/app-financial-read/replay.mjs','tests/day-close-clock/replay.mjs'}
+         'tests/app-financial-read/replay.mjs','tests/day-close-clock/replay.mjs',
+         'tests/c5-journey/build.mjs'}
 ADDITIONS={MIGRATION,'src/lib/day-close-report.ts','tests/c5-journey/profit_identity.py',
            'tests/c5-journey/test_profit_identity.py','tests/c5-journey/profit-report.test.ts',
            'tests/c5-journey/profit_contract.py','tests/c5-journey/profit-types.cjs',

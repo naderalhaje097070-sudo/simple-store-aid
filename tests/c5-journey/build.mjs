@@ -16,7 +16,9 @@ await build({
         if (id === "@/lib/invoice-pdf") return "\0journey-pdf";
       },
       load(id) {
-        if (id === "\0journey-pdf")
+        // The "@" alias resolves "@/lib/invoice-pdf" before resolveId above can
+        // see it, so also stub the resolved module file itself.
+        if (id === "\0journey-pdf" || id === path.join(cwd, "src/lib/invoice-pdf.ts"))
           return 'export const ensureFont=async()=>{};export const downloadInvoicePdf=()=>{throw Error("PDF excluded")};export const printInvoice=()=>{throw Error("PDF excluded")};';
       },
     },

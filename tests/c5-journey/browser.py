@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import re
 import threading
+import urllib.parse
 import uuid
 from playwright.sync_api import sync_playwright
 
@@ -58,7 +59,11 @@ def run(p, state, private):
                 page.on('pageerror',lambda e:errors.append(type(e).__name__))
                 def route(r):
                     if r.request.url.startswith((origin+'/',p.base+'/')):r.continue_()
-                    else:external.append('rejected');r.abort()
+                    else:
+                        # Record only scheme://host and resource type: no path, query or body.
+                        u=urllib.parse.urlsplit(r.request.url)
+                        external.append(f'{u.scheme}://{u.hostname or "?"} {r.request.resource_type}');r.abort()
+                    p.journey_blocked=sorted(set(external))
                 page.route('**/*',route)
                 page.goto(origin);page.wait_for_function('window.journeyReady===true')
 

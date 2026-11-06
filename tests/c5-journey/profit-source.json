@@ -34,11 +34,11 @@
     },
     "tests/c5-journey/native.py": {
       "before": "af59a1f04eddccc7afe8812c2f7a3d8850cce4f8",
-      "after": "97739c7641fe6eb1a62698a72ccdc743abc3997b"
+      "after": "b20a4f7fb719dd2b12ab83a2d1ee0b4654121f20"
     },
     "tests/c5-journey/browser.py": {
       "before": "a301cb78973a4453ec6a3669b1aae91b78b8d431",
-      "after": "18cd1712ed751a34791854c7e726fa28d849000b"
+      "after": "523beefac5dfc74fac188f90433f15dafc595303"
     },
     ".github/workflows/c5-journey.yml": {
       "before": "f6052eacb0cc983f92590b6b704392eec636144d",
@@ -59,12 +59,16 @@
     "tests/day-close-clock/replay.mjs": {
       "before": "b45ffbdf5f8b35d79cf1f9e087b17bef6c85f86d",
       "after": "e6379f3a65548cfa32dada6313d2f54370d2e9f3"
+    },
+    "tests/c5-journey/build.mjs": {
+      "before": "828ce631c1bdc1fa26ceaf8f6ca12003c8083b8f",
+      "after": "e7800069a842789604e39e1e12d8efeb2e456c08"
     }
   },
   "additions": {
     "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
     "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
-    "tests/c5-journey/profit_identity.py": "bbeffedf5d2ff450f6139fcede8e1bd892cdfb63",
+    "tests/c5-journey/profit_identity.py": "4f50f63fd125d93dd30166eaa4fc1394d836de4a",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
     "tests/c5-journey/profit_contract.py": "6ee00f3e5e859c9a7aa8a4431dd84f51278c38e8",

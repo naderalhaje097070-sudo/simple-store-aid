@@ -104,6 +104,8 @@ def run(p,state,private):
     p.control('profit_inactive_old_token_API_no_rows',(code==200 and rows==[]) or (code in (401,403) and isinstance(rows,dict) and rows.get('code') in ('42501','PGRST301','PGRST302')))
     # Same two safe outcomes as the API control above: no rows, or an explicit
     # 42501 account_inactive denial raised by current_tenant_id() under RLS.
-    p.control('profit_inactive_SQL_no_rows',role_read_or_denied(p,owner,f'select to_jsonb(count(*)) from public.{VIEW};') in (('rows',0),('denied',)))
+    inactive=role_read_or_denied(p,owner,f'select to_jsonb(count(*)) from public.{VIEW};')
+    # Record which acceptable path was taken: zero rows, or the account_inactive guard.
+    p.control('profit_inactive_SQL_no_rows',inactive in (('rows',0),('denied',)),observed={'denied_by_account_inactive':inactive==('denied',)})
     p.control('profit_unaffected_staff_still_allowed',role_query(p,staff,f'select to_jsonb(count(*)) from public.{VIEW};')==4)
     return {'controls':'recorded in progress.json','runtime_SQL_API':True,'historical_rows_rewritten_by_migration':False}

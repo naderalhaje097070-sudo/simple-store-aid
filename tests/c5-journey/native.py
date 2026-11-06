@@ -11,7 +11,18 @@ ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('frozen_collection_probe',ROOT/'tests/c5-collection/native.py')
 prior=importlib.util.module_from_spec(spec);spec.loader.exec_module(prior)
 sys.path.insert(0,str(Path(__file__).parent))
-from profit_identity import verify, verify_migrations, verify_history
+if os.environ.get('MONJEZ_RELEASE_TARGET')=='1':
+    # Release workflow: commit, checkout and migrations come from the release
+    # gate (not the stage byte pins), so later PRs are judged by the same rules.
+    _rt=importlib.util.spec_from_file_location('monjez_release_target',ROOT/'tests/release/target.py')
+    _release=importlib.util.module_from_spec(_rt);_rt.loader.exec_module(_release)
+    def verify(root):_release.verify_source(root)
+    def verify_migrations(root):return _release.verify_source(root)[0]
+    def verify_history(versions,observed,seed55=False):
+        if seed55:raise _release.GateFailure('seed55 is a stage phase, not part of the release workflow')
+        _release.verify_history(versions,observed)
+else:
+    from profit_identity import verify, verify_migrations, verify_history
 import profit_contract
 
 

@@ -7,6 +7,9 @@ verify runs after `migration up --include-all` to the candidate. It checks the
        same facts by value (types may legitimately widen, e.g. integer stock to
        numeric), that the saved close reads correctly through the new report view,
        and that the remaining debt can be settled exactly once with the keyed RPC.
+       Before acting it also checks that the database history is exactly the
+       candidate's migrations (seed checks it is exactly main's) and that every
+       row of every pre-upgrade table is unchanged on its pre-upgrade columns.
 
 Seed tenant is separate from the suites' tenants so their oracles are unaffected.
 """
@@ -14,12 +17,19 @@ import argparse
 import importlib.util
 import json
 from pathlib import Path
+import re
+import sys
 import uuid
 
 ROOT = Path(__file__).resolve().parents[2]
 spec = importlib.util.spec_from_file_location('release_collection_probe', ROOT / 'tests/c5-collection/native.py')
 prior = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(prior)
+sys.path.insert(0, str(ROOT / 'tests/release'))
+import gate  # noqa: E402
+
+SCHEMAS = "('public','monjez_private')"
+IDENT = re.compile(r'[a-z_][a-z0-9_]{0,62}')
 
 # price 100, cost 40, qty 2 -> total 200, margin 120. Paid 100 at sale, 40 later.
 EXPECTED = {
@@ -38,8 +48,42 @@ def facts(p, seed):
     return {'order': order, 'payments': payments, 'stock': stock, 'close': close}
 
 
+def history(p):
+    return p.query('select coalesce(jsonb_agg(version order by version),\'[]\'::jsonb) from supabase_migrations.schema_migrations;')
+
+
+def relation_columns(p):
+    """{schema.table: sorted column names} for every base table of the app schemas."""
+    data = p.query("select coalesce(jsonb_object_agg(name, cols),'{}'::jsonb) from (select c.table_schema||'.'||c.table_name name,"
+                   " jsonb_agg(c.column_name::text order by c.column_name) cols from information_schema.columns c"
+                   " join information_schema.tables t on t.table_schema=c.table_schema and t.table_name=c.table_name"
+                   f" where t.table_type='BASE TABLE' and c.table_schema in {SCHEMAS} group by 1) s;")
+    for name, cols in data.items():
+        if not (all(IDENT.fullmatch(x) for x in name.split('.', 1)) and all(IDENT.fullmatch(c) for c in cols)):
+            raise ValueError('unexpected relation or column name')
+    return data
+
+
+def relation_digest(p, name, cols):
+    """Row count and digest of the table projected onto cols; by value, so a
+    widened type (integer -> numeric) with the same values keeps its digest."""
+    schema, table = name.split('.', 1)
+    keys = ','.join("'" + c + "'" for c in cols)
+    return p.query(f"select jsonb_build_object('count',count(*),'digest',md5(coalesce(string_agg(x::text,'' order by x::text),'')))"
+                   f" from (select (select coalesce(jsonb_object_agg(k,v),'{{}}'::jsonb) from jsonb_each(to_jsonb(t)) e(k,v)"
+                   f" where k = any(array[{keys}]::text[])) x from \"{schema}\".\"{table}\" t) s;")
+
+
+def relations(p):
+    return {name: {'columns': cols, **relation_digest(p, name, cols)} for name, cols in sorted(relation_columns(p).items())}
+
+
 def seed(p, private):
     p.stage = 'upgrade_seed_main'
+    main_versions = gate.verify_migrations(ROOT, 'origin/main', 'origin/main')
+    observed_history = history(p)
+    p.control('upgrade_starts_exactly_at_main_history', observed_history == main_versions,
+              observed={'applied': len(observed_history), 'main': len(main_versions)})
     state = p.actors_state(private)  # suite actors, created now so later phases reuse them
     owner = p.fixture('Upgrade_owner')
     state['actors']['upgrade_owner'] = owner
@@ -59,6 +103,10 @@ def seed(p, private):
     state['upgrade_seed'] = {'tenant': owner['tenant'], 'order': order, 'product': pid}
     observed = facts(p, state['upgrade_seed'])
     p.control('main_seed_matches_independent_oracle', observed == EXPECTED, observed=observed, expected=EXPECTED)
+    state['upgrade_relations'] = relations(p)
+    p.control('main_seed_relations_recorded', len(state['upgrade_relations']) > 0
+              and any(v['count'] > 0 for v in state['upgrade_relations'].values()),
+              observed={'relations': len(state['upgrade_relations'])})
     state['upgrade_checks'] = p.controls
     p.save(private, state)
     return {'source_sha': p.source, 'phase': 'seed_main', 'controls': p.controls}
@@ -69,6 +117,17 @@ def verify_upgrade(p, private):
     state = json.loads(private.read_text())
     s, owner = state['upgrade_seed'], state['actors']['upgrade_owner']
     p.controls = state['upgrade_checks'] + p.controls
+    candidate = gate.verify_migrations(ROOT, 'HEAD', 'origin/main')
+    observed_history = history(p)
+    p.control('upgraded_history_is_exactly_candidate', observed_history == candidate,
+              observed={'applied': len(observed_history), 'candidate': len(candidate)})
+    # Before any new action: nothing the upgrade touched may alter an existing row.
+    before, columns = state['upgrade_relations'], relation_columns(p)
+    changed = sorted(name for name, old in before.items()
+                     if name not in columns or not set(old['columns']) <= set(columns[name])
+                     or relation_digest(p, name, old['columns']) != {'count': old['count'], 'digest': old['digest']})
+    p.control('upgraded_all_base_relations_preserved', not changed,
+              observed={'relations': len(before), 'changed': len(changed)}, changed_relations=changed)
     p.control('upgraded_financial_facts_preserved', facts(p, s) == EXPECTED, observed=facts(p, s), expected=EXPECTED)
     report = p.query(f"select jsonb_build_object('margin',realized_margin_before_expenses,'net',realized_net_profit) from public.day_close_profit_report where tenant_id='{s['tenant']}';")
     p.control('upgraded_saved_close_reads_margin84_net79', report == {'margin': 84, 'net': 79}, observed=report)

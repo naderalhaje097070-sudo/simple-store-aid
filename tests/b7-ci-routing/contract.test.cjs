@@ -14,6 +14,11 @@ const CURRENT = [
   "b-dep-verify.yml",
   "b50-natural-expiry.yml",
 ];
+// Release acceptance: required checks for PRs into main.
+const RELEASE = ["release-finance.yml", "release-gate-trusted.yml"];
+// Required check names (docs/RELEASE_GATE_SETTINGS.md): each must be produced by
+// exactly one job across all workflows, so no PR-added job can satisfy it.
+const REQUIRED_CHECK_NAMES = ["trusted-release-gate", "integrated-quality"];
 const HISTORICAL = [
   "account-lifecycle-baseline.yml",
   "account-lifecycle-correction.yml",
@@ -45,7 +50,7 @@ const IMPACT = [
 ];
 function documents() {
   return Object.fromEntries(
-    [...CURRENT, ...HISTORICAL, ...GENERAL].map((name) => [
+    [...CURRENT, ...RELEASE, ...HISTORICAL, ...GENERAL].map((name) => [
       name,
       yaml.load(readFileSync(path.join(ROOT, ".github/workflows", name), "utf8")),
     ]),
@@ -61,9 +66,12 @@ function validate(docs) {
     // filter is allowed only if it still includes every impact path, and
     // paths-ignore is never allowed, since it silently narrows acceptance.
     assert.equal(doc.on.pull_request["paths-ignore"], undefined, name + " must not ignore paths");
-    if (doc.on.pull_request.paths !== undefined)
+    if (doc.on.pull_request.paths !== undefined) {
       for (const impact of IMPACT)
         assert.ok(doc.on.pull_request.paths.includes(impact), name + impact);
+      for (const entry of doc.on.pull_request.paths)
+        assert.ok(!String(entry).startsWith("!"), name + " must not negate paths: " + entry);
+    }
     for (const job of Object.values(doc.jobs)) {
       assert.equal(job["continue-on-error"], undefined, name);
       assert.equal(job.if, undefined, name + " must not skip current acceptance");
@@ -90,6 +98,7 @@ function validate(docs) {
       assert.equal(applicationCheckouts, 1, name);
     }
   }
+  validateRelease(docs);
   const natural = docs["b50-natural-expiry.yml"].jobs["natural-expiry-b50"];
   assert.ok(natural.steps.some((s) => s.run?.includes("python tests/b50-natural-expiry/probe.py")));
   assert.ok(natural.steps.some((s) => s.run?.includes("python tests/b5-lifecycle/inventory.py")));
@@ -125,6 +134,64 @@ function validate(docs) {
       Object.prototype.hasOwnProperty.call(docs[name].on, "pull_request"),
       name + " remains an automatic general gate",
     );
+}
+
+function noSkips(name, doc) {
+  for (const job of Object.values(doc.jobs)) {
+    assert.equal(job["continue-on-error"], undefined, name);
+    assert.equal(job.if, undefined, name + " must not skip release acceptance");
+    if (job.strategy && "fail-fast" in job.strategy)
+      assert.equal(typeof job.strategy["fail-fast"], "boolean", name);
+    for (const step of job.steps) assert.equal(step["continue-on-error"], undefined, name);
+  }
+}
+function validateRelease(docs) {
+  const finance = docs["release-finance.yml"];
+  assert.deepEqual(finance.permissions, { contents: "read" });
+  assert.deepEqual(finance.on.pull_request.branches, ["main"]);
+  for (const event of ["push", "pull_request"])
+    for (const filter of ["paths", "paths-ignore"])
+      assert.equal(finance.on[event][filter], undefined, "release-finance " + event + " " + filter);
+  noSkips("release-finance.yml", finance);
+  const suite = finance.jobs.suite;
+  assert.equal(suite.env.EXPECTED_SOURCE, "${{ github.sha }}");
+  assert.ok(suite.steps.some((s) => s.run?.includes("python tests/release/gate.py")));
+  assert.ok(suite.steps.some((s) => s.name === "Required controls actually executed and passed"));
+
+  const trusted = docs["release-gate-trusted.yml"];
+  assert.deepEqual(Object.keys(trusted.on), ["pull_request_target"]);
+  assert.deepEqual(trusted.on.pull_request_target.branches, ["main"]);
+  assert.deepEqual(trusted.permissions, {
+    contents: "read",
+    issues: "read",
+    "pull-requests": "read",
+  });
+  noSkips("release-gate-trusted.yml", trusted);
+  const gateJob = trusted.jobs.gate;
+  assert.equal(gateJob.name, "trusted-release-gate");
+  const checkouts = gateJob.steps.filter((s) => s.uses?.startsWith("actions/checkout@"));
+  assert.equal(checkouts.length, 1);
+  assert.equal(checkouts[0].with.ref, "${{ github.event.pull_request.base.sha }}");
+  assert.equal(checkouts[0].with["persist-credentials"], false);
+  for (const step of gateJob.steps) {
+    assert.ok(!JSON.stringify(step).includes("pull_request.head.ref"), "no PR branch checkout");
+    assert.ok(!/\b(npm|bun|pip|node)\b/.test(step.run ?? ""), "trusted gate runs no PR code");
+  }
+  assert.ok(gateJob.steps.some((s) => s.run?.includes("--mode objects --governance")));
+}
+function checkNames() {
+  const counts = {};
+  const dir = path.join(ROOT, ".github/workflows");
+  for (const file of require("node:fs")
+    .readdirSync(dir)
+    .filter((f) => /\.ya?ml$/.test(f))) {
+    const doc = yaml.load(readFileSync(path.join(dir, file), "utf8"));
+    for (const [id, job] of Object.entries(doc?.jobs ?? {})) {
+      const name = typeof job.name === "string" ? job.name : id;
+      counts[name] = (counts[name] ?? 0) + 1;
+    }
+  }
+  return counts;
 }
 
 test("actual current head routing and explicit historical source boundaries", () =>
@@ -233,4 +300,34 @@ test("current PR acceptance may run unfiltered but never narrowed", () => {
   const ignored = documents();
   ignored["integration-verification.yml"].on.pull_request["paths-ignore"] = ["supabase/**"];
   assert.throws(() => validate(ignored), /must not ignore paths/);
+});
+test("negated path filter cannot narrow current acceptance", () => {
+  const docs = documents();
+  docs["integration-verification.yml"].on.pull_request.paths = [
+    ...IMPACT,
+    "!supabase/migrations/**",
+  ];
+  assert.throws(() => validate(docs), /must not negate/);
+});
+test("release workflows cannot be filtered, skipped or given PR checkout", () => {
+  const mutations = [
+    (d) => (d["release-finance.yml"].on.pull_request.paths = ["src/**"]),
+    (d) => (d["release-finance.yml"].jobs.suite.if = "false"),
+    (d) => (d["release-finance.yml"].jobs.suite.steps[1]["continue-on-error"] = true),
+    (d) => (d["release-gate-trusted.yml"].permissions["contents"] = "write"),
+    (d) =>
+      (d["release-gate-trusted.yml"].jobs.gate.steps[0].with.ref =
+        "${{ github.event.pull_request.head.sha }}"),
+    (d) => (d["release-gate-trusted.yml"].jobs.gate.name = "gate"),
+    (d) => (d["release-gate-trusted.yml"].on.pull_request = {}),
+  ];
+  for (const mutate of mutations) {
+    const docs = documents();
+    mutate(docs);
+    assert.throws(() => validate(docs));
+  }
+});
+test("required check names are produced by exactly one job", () => {
+  const counts = checkNames();
+  for (const name of REQUIRED_CHECK_NAMES) assert.equal(counts[name], 1, name);
 });

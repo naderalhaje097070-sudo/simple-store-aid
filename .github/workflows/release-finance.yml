@@ -74,11 +74,13 @@ jobs:
           set -euo pipefail
           case "$SUITE" in
             collection)
+              python tests/c5-finance/test_verdict.py
               node tests/c5-collection/native-hook.cjs --preflight
-              node --test tests/c5-collection/contracts.test.cjs
+              node --test tests/c5-collection/contracts.test.cjs tests/c5-collection/history.test.cjs
               node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser ;;
             sale)
-              node --test tests/c4-sale/contracts.test.cjs ;;
+              node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs
+              node tests/c4-sale/build.mjs /tmp/monjez-c4-browser ;;
             journey)
               node --test tests/c5-journey/profit-report.test.ts
               node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser ;;
@@ -102,11 +104,23 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y postgresql-client iptables > "$RUNNER_TEMP/prerequisites.log" 2>&1
       - name: Pinned browser before credentials
-        if: matrix.suite != 'sale'
         run: |
           python -m pip install -r tests/gate4/sec-env/requirements.txt > "$RUNNER_TEMP/browser-install.log" 2>&1
           PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright python -m playwright install chromium --only-shell --with-deps >> "$RUNNER_TEMP/browser-install.log" 2>&1
           chmod -R a+rX /tmp/collection-playwright
+      - name: Database-free browser regressions before credentials
+        # Kept from the old c4-sale browser job and the c5-journey selector contract.
+        shell: bash
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: /tmp/collection-playwright
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set -euo pipefail
+          case "$SUITE" in
+            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser ;;
+            journey) python tests/c5-journey/browser.py ;;
+            collection) echo 'RELEASE_BROWSER_REGRESSION none for collection' ;;
+          esac
       - name: Restrict probe UID before credentials
         shell: bash
         run: |
@@ -211,10 +225,28 @@ jobs:
           data=json.loads((Path('/tmp/monjez-c5sale/evidence')/files[suite]).read_text())
           rows=data.get('controls') or data.get('checks') or []
           passed={r['name'] for r in rows if r.get('passed')}
-          required={('collection','populated'):{'nonempty_prior_tenant_seed','populated_prior_tenant_unchanged'},
-                    ('sale','populated'):{'nonempty_prior_quarter_sale'}}.get((suite,mode),set())
+          # Minimum per suite in every mode: a suite that silently skips its core
+          # money, stock, idempotency, concurrency or permission proofs fails here.
+          core={'collection':{'real_hook_single_stored_collection','parallel_fresh_key_exactly_one_effect',
+                              'keyed_only_acl_and_existing_ledger_rls','settlement_retry_no_second_cash',
+                              'concurrent_same_sale_key_exactly_one_effect','concurrent_collection_cannot_exceed_total',
+                              'lost_reply_first_commit_persisted_once','previously_authorized_staff_banned'},
+                'sale':{'lost_no_second_stored_effect','null_no_second_stored_effect','parallel_one_financial_effect',
+                        'exact_fractional_stock_after_three_logical_sales','actual_foreign_product_rejected_atomically'},
+                'journey':{f'{v}_{c}' for v in ('desktop','mobile') for c in
+                           ('quarter_first_committed_cash_stock','quarter_reload_same_key_payload_actor_one_effect',
+                            'partial_reload_same_key_payload_one_effect','settlement_cash_once',
+                            'return_exact_stock_no_cash_debt_custody','final_day_close_independent_oracle',
+                            'final_saved_gross135_net130','browser_no_external_or_script_error')}
+                          |{'profit_invoker_select_only_catalog','profit_anon_API_denied','profit_anon_SQL_no_privilege',
+                            'profit_denials_all_base_rows_unchanged','profit_inactive_SQL_no_rows',
+                            'profit_unaffected_staff_still_allowed','populated_foreign_financial_rows_unchanged'}}[suite]
+          required=core|{('collection','populated'):{'nonempty_prior_tenant_seed','populated_prior_tenant_unchanged'},
+                         ('sale','populated'):{'nonempty_prior_quarter_sale'}}.get((suite,mode),set())
           if mode=='upgrade':
-              required|={'main_seed_matches_independent_oracle','upgraded_financial_facts_preserved',
+              required|={'upgrade_starts_exactly_at_main_history','main_seed_matches_independent_oracle',
+                         'main_seed_relations_recorded','upgraded_history_is_exactly_candidate',
+                         'upgraded_all_base_relations_preserved','upgraded_financial_facts_preserved',
                          'upgraded_saved_close_reads_margin84_net79','upgraded_old_debt_settles_exactly_once'}
               upgrade=json.loads(Path('/tmp/monjez-c5sale/evidence/upgrade-verify.json').read_text())
               passed|={r['name'] for r in upgrade['controls'] if r.get('passed')}

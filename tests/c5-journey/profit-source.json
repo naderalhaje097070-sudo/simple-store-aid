@@ -34,7 +34,7 @@
     },
     "tests/c5-journey/native.py": {
       "before": "af59a1f04eddccc7afe8812c2f7a3d8850cce4f8",
-      "after": "c9bf12d7506b424acdef1f414663e12d61ed8b6f"
+      "after": "67f8c5015de63c207643ae1318abe02dca152368"
     },
     "tests/c5-journey/browser.py": {
       "before": "a301cb78973a4453ec6a3669b1aae91b78b8d431",
@@ -74,11 +74,11 @@
     },
     ".github/workflows/integration-verification.yml": {
       "before": "eb845cce3bf38326e1ebda9c36bb73a04e59c74d",
-      "after": "f9641381e790fdc9958e37d09bcb9b28eb6bad58"
+      "after": "c7f550523055a18352cf77a638bba8dbeeb3f7f5"
     },
     "tests/b7-ci-routing/contract.test.cjs": {
       "before": "c862edc8b24ab93851460c882352de2da862e86c",
-      "after": "ee1d5badd84363320068a693f89d926ac99ffb65"
+      "after": "9d7e2dec94a49fc5383b69418bbd179e308e3c64"
     }
   },
   "additions": {
@@ -87,14 +87,14 @@
     "tests/c5-journey/profit_identity.py": "89f4fee74d25cfd9f08cbbb15c5b72e5a4888e87",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
-    "tests/c5-journey/profit_contract.py": "6ee00f3e5e859c9a7aa8a4431dd84f51278c38e8",
+    "tests/c5-journey/profit_contract.py": "b6e16828f58fe4d1dfa80bdef32e22effeb177f9",
     "tests/c5-journey/profit-types.cjs": "def54b4192a90ee5f2e1df3027555ece63826874",
     "tests/c5-journey/profit-history.cjs": "6f88104cd2c204ee560b3b3b14c4d773e22d396f",
-    "tests/release/gate.py": "a49976e7f6bdc7460d3531b3ab82a166a734116c",
-    "tests/release/test_gate.py": "7b32a0c5367d0f2d09ff73b3a7cfc6c4495e7bd3",
+    "tests/release/gate.py": "500caf4e34129260d6913c59b2f0ba47a9c40c17",
+    "tests/release/test_gate.py": "9d8c07eae90a04c6a8e877fa5f6c4d2e09ef2ae1",
     "tests/release/target.py": "b3599f341429acf22463bee549109a69c5e75c57",
-    "tests/release/upgrade.py": "57748f4bd16ec702c8245ab2bbe74d691bc53810",
-    ".github/workflows/release-finance.yml": "d1ef8997124f9d3877ef6d0af0f15ddc68cdaa6b",
-    ".github/workflows/release-gate-trusted.yml": "056139e361ab106f1baf690e0ea5a7d68eb22a94"
+    "tests/release/upgrade.py": "8c34f336c7900c89ee246d60b7e42b596c372af5",
+    ".github/workflows/release-finance.yml": "552122ff565b456761f36adeda955600319aaf47",
+    ".github/workflows/release-gate-trusted.yml": "4e59b1f2e35c08cf209135ed3db1f538a06bea6d"
   }
 }

@@ -25,7 +25,7 @@
    - **Require status checks to pass**
      - فعّل **Require branches to be up to date before merging**.
      - أضف الفحوص التالية بأسمائها كما تظهر:
-       - `gate` (من Release gate (trusted))
+       - `trusted-release-gate` (من Release gate (trusted))
        - `suite (collection, fresh)`
        - `suite (collection, upgrade)`
        - `suite (collection, populated)`
@@ -34,19 +34,51 @@
        - `suite (sale, populated)`
        - `suite (journey, fresh)`
        - `suite (journey, upgrade)`
-       - `quality` (من Integrated G0 verification)
+       - `integrated-quality` (من Integrated G0 verification)
+     - اسما الفحصين الأول والأخير فريدان عمدًا: اختبار `tests/b7-ci-routing` يفشل إن عرّف أي
+       workflow آخر وظيفة بالاسم نفسه. لا تضف `quality` (من Quality) بدلًا منهما؛ الاسم مكرر.
 5. **Bypass list:** اتركها فارغة. لو أضفت نفسك، تستطيع تجاوز كل ما سبق بضغطة واحدة.
 6. اضغط **Create**.
 
+## اعتماد تغييرات الحوكمة (لكل commit)
+
+أي PR يغيّر ملفًا خارج المنتج نفسه يفشل فيه `trusted-release-gate` حتى تعتمده أنت.
+المنتج المسموح بتغييره دون اعتماد: `src/` و`public/` و`supabase/migrations/`
+(تحكمها قواعد الـMigrations) و`supabase/functions/` و`docs/` وملفات `*.md` في الجذر.
+كل ما عداها يحتاج اعتمادًا، ومنه الـworkflows والاختبارات والمساعدات المشتركة
+و`package.json` و`bun.lock` وإعدادات البناء وأي ملف جديد أو منقول.
+
+1. افتح سجل الفحص الفاشل. السطر `RELEASE_GATE_FAILED` يذكر الملفات واسم الوسم المطلوب
+   بالضبط: `gov-ok-<SHA الكامل لرأس الـPR>`.
+2. راجع تغييرات تلك الملفات في الـPR.
+3. أنشئ الوسم بهذا الاسم من **Issues ← Labels ← New label**، ثم أضفه إلى الـPR بنفسك من
+   واجهة GitHub.
+4. يعيد الفحص التشغيل تلقائيًا عند إضافة الوسم.
+
+الفحص لا يقبل الوسم إلا إذا كان آخر حدث له "إضافة" قمتَ بها أنت مباشرة. يرفضه إن أضافه
+تطبيق أو وكيل (ومنه Claude) أو حساب آخر. أي push جديد يغيّر الـSHA، فيلزم وسم جديد. لا
+يلزم حذف الوسوم القديمة، فهي لا تعتمد إلا commitها.
+
 ## حدود صريحة
+
+- **Lovable:** قاعدة "Require a pull request" تمنع أي push مباشر إلى `main`، ومنها
+  مزامنة Lovable إن كانت تكتب في `main` مباشرة. لم أتحقق من سلوك Lovable تحت هذه القاعدة.
+  إن توقفت المزامنة، فالخيار هو أن يعمل Lovable على فرع ويُدمج عبر PR. لا تضف Lovable إلى
+  قائمة التجاوز إلا بقرار واعٍ منك، لأن ذلك يفتح طريقًا إلى `main` بلا فحوص.
+- ربط الاعتماد بك يعتمد على الحقل `performed_via_github_app` في أحداث الوسوم. هذا
+  مأخوذ من توثيق GitHub، ولم يُختبر فعليًا في هذه الجلسة. إن غاب الحقل، يفشل الفحص مغلقًا
+  ("Approval event does not state whether an app made it"). خطوة التحقق أدناه تكشف ذلك.
 
 - أنت مالك المستودع، وتستطيع دائمًا تعديل هذه القواعد أو حذفها. هي تحمي من الأخطاء
   ومن انحراف أي وكيل عن الخطة، لا من المالك نفسه.
-- بوابة `gate` تعمل من نسخة `main` ولا تنفّذ كود الـPR، لذا لا يستطيع PR تعطيلها بتعديل
+- بوابة `trusted-release-gate` تعمل من نسخة `main` ولا تنفّذ كود الـPR، لذا لا يستطيع PR تعطيلها بتعديل
   ملف الـworkflow الخاص به.
 - اختبارات `suite (...)` تنفّذ كود الـPR (هذا هو الغرض منها) بصلاحية قراءة فقط ودون أسرار.
 
 ## التحقق بعد التطبيق
 
-افتح PR تجريبيًا يعدّل Migration قديمة موجودة في `main` (دون دمجه). يجب أن يفشل فحص
-`gate` برسالة `Base migration changed`، وأن يكون زر الدمج معطّلًا. ثم أغلق الـPR.
+1. افتح PR تجريبيًا يعدّل Migration قديمة موجودة في `main` (دون دمجه). يجب أن يفشل
+   `trusted-release-gate` برسالة `Base migration changed`، وأن يكون زر الدمج معطّلًا.
+2. في PR تجريبي آخر عدّل ملفًا تحت `tests/` فقط. يجب أن يفشل الفحص ويطلب `gov-ok-<sha>`.
+   أضف الوسم بنفسك فينجح الفحص. ادفع commit جديدًا فيفشل مجددًا.
+3. أغلق الـPRين دون دمج.

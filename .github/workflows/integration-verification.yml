@@ -23,6 +23,8 @@ permissions:
   contents: read
 jobs:
   quality:
+    # Distinct required-check name (quality.yml also has a job called quality).
+    name: integrated-quality
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

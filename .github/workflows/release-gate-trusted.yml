@@ -4,6 +4,11 @@ name: Release gate (trusted)
 # head is fetched as git objects only and read in objects mode: no PR code is
 # checked out, installed or executed, and the token is read-only.
 #
+# Governance approval is bound to the head commit and to the owner: the gate
+# reads the PR's label events and accepts only label gov-ok-<head sha> whose
+# latest event was added by the repository owner directly (not via an app).
+# A new push changes the head, so an earlier approval never carries over.
+#
 # Bootstrap: pull_request_target uses main's copy of this file, so it starts
 # protecting PRs only after it is merged into main. Until then the push-mode
 # gate in release-finance.yml and review cover the first merge.
@@ -14,11 +19,15 @@ on:
     types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
 permissions:
   contents: read
+  issues: read
+  pull-requests: read
 concurrency:
   group: release-gate-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 jobs:
   gate:
+    # Distinct required-check name: no other workflow may define a job with it.
+    name: trusted-release-gate
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -31,15 +40,31 @@ jobs:
       - name: Fetch pull request head as data
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: git fetch --no-tags origin "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
+          TOKEN: ${{ github.token }}
+        # Credentials only for this one fetch (works for a private repository too);
+        # nothing is persisted in .git/config.
+        run: |
+          set -euo pipefail
+          auth="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=$auth" fetch --no-tags origin "+refs/pull/${PR_NUMBER}/head:refs/remotes/pr/head"
+      - name: Read label events of this pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          gh api --paginate "repos/${REPO}/issues/${PR_NUMBER}/events?per_page=100" \
+            --jq '.[] | select(.event == "labeled" or .event == "unlabeled")' > "$RUNNER_TEMP/label-events.jsonl"
+          echo "RELEASE_GATE_LABEL_EVENTS $(wc -l < "$RUNNER_TEMP/label-events.jsonl")"
       - name: Gate the PR head against main (objects mode)
         env:
           EXPECTED_SOURCE: ${{ github.event.pull_request.head.sha }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          # Labels come from the event payload, set by a maintainer, not by PR code.
-          GATE_GOVERNANCE_APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'governance-change-approved') }}
+          OWNER: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
           test "$(git rev-parse refs/remotes/pr/head)" = "$EXPECTED_SOURCE"
           python3 tests/release/test_gate.py
-          python3 tests/release/gate.py --mode objects --governance --head "$EXPECTED_SOURCE" --base "$BASE_SHA"
+          python3 tests/release/gate.py --mode objects --governance --head "$EXPECTED_SOURCE" --base "$BASE_SHA" \
+            --approval-events "$RUNNER_TEMP/label-events.jsonl" --owner "$OWNER"

@@ -11,6 +11,10 @@ on:
   # Every push: no path filter, so no change (app config included) skips acceptance.
   push:
     branches: ["integration/g0-g1-reconcile-2026-10-18"]
+  # Required status check for PRs into main. pull_request (not _target): PR code
+  # runs with a read-only token and no secrets; this workflow uses none.
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
@@ -215,8 +219,13 @@ jobs:
               upgrade=json.loads(Path('/tmp/monjez-c5sale/evidence/upgrade-verify.json').read_text())
               passed|={r['name'] for r in upgrade['controls'] if r.get('passed')}
           missing=sorted(required-passed)
-          print('RELEASE_REQUIRED_CONTROLS '+json.dumps({'suite':suite,'mode':mode,'controls':len(rows),'required':sorted(required),'missing':missing}))
-          assert rows and not missing
+          # Defensive: every recorded row must have passed, not only the named ones,
+          # independently of the suite stopping at its first failure.
+          failed=sorted({r.get('name','?') for r in rows if not r.get('passed')})
+          if mode=='upgrade':
+              failed+=sorted({r.get('name','?') for r in upgrade['controls'] if not r.get('passed')})
+          print('RELEASE_REQUIRED_CONTROLS '+json.dumps({'suite':suite,'mode':mode,'controls':len(rows),'required':sorted(required),'missing':missing,'failed':failed}))
+          assert rows and not missing and not failed
           PY
       - name: Migration history and database advisors
         shell: bash

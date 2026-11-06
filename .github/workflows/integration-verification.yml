@@ -11,6 +11,7 @@ name: Integrated G0 verification
       - package.json
       - bun.lock
       - .github/workflows/integration-verification.yml
+  # No path filter: a required check must report on every PR into main.
   pull_request:
     branches:
       - main
@@ -18,17 +19,6 @@ name: Integrated G0 verification
       - opened
       - synchronize
       - reopened
-    paths:
-      - src/**
-      - config/**
-      - scripts/**
-      - tests/**
-      - supabase/migrations/**
-      - package.json
-      - bun.lock
-      - vite.config.ts
-      - tsconfig.json
-      - .github/workflows/**
 permissions:
   contents: read
 jobs:

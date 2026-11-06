@@ -20,12 +20,14 @@ CHANGES={'src/lib/db.ts','src/features/shared/AppContext.ts','src/routes/_authen
          'tests/c5-journey/native.py','tests/c5-journey/browser.py','.github/workflows/c5-journey.yml',
          'tests/c5-collection/history.cjs','tests/app-financial-read/build.mjs',
          'tests/app-financial-read/replay.mjs','tests/day-close-clock/replay.mjs',
-         'tests/c5-journey/build.mjs','tests/c5-collection/native.py','tests/c4-sale/native.py'}
+         'tests/c5-journey/build.mjs','tests/c5-collection/native.py','tests/c4-sale/native.py',
+         '.github/workflows/integration-verification.yml'}
 ADDITIONS={MIGRATION,'src/lib/day-close-report.ts','tests/c5-journey/profit_identity.py',
            'tests/c5-journey/test_profit_identity.py','tests/c5-journey/profit-report.test.ts',
            'tests/c5-journey/profit_contract.py','tests/c5-journey/profit-types.cjs',
            'tests/c5-journey/profit-history.cjs','tests/release/gate.py','tests/release/test_gate.py',
-           'tests/release/target.py','tests/release/upgrade.py','.github/workflows/release-finance.yml'}
+           'tests/release/target.py','tests/release/upgrade.py','.github/workflows/release-finance.yml',
+           '.github/workflows/release-gate-trusted.yml'}
 FROZEN={'tests/g01-acceptance/integrated-source.json','tests/g01-acceptance/integrated-b-source.json'}
 
 def blob(data):return hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()

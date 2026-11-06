@@ -30,11 +30,15 @@ def role_query(p,actor,expression,role='authenticated'):
     return p.query(f'begin; set local role {role}; {subject} {expression} rollback;')
 
 def role_read_or_denied(p,actor,expression):
-    """Return ('rows', value) or ('denied',) for an explicit 42501; any other error raises."""
+    """Return ('rows', value), or ('denied',) only for the live-account guard.
+
+    42501 alone is not enough: a missing grant also raises 42501 ("permission
+    denied for view ..."). Require the guard's own message, account_inactive.
+    """
     sql=f"begin; set local role authenticated; set local request.jwt.claim.sub='{actor['uid']}'; {expression} rollback;"
-    r=subprocess.run(_psql_command(p.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),input=sql,capture_output=True,text=True,env=_psql_env(p.config))
+    r=subprocess.run(_psql_command(p.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'),input=sql,capture_output=True,text=True,env=_psql_env(p.config))
     if r.returncode==0:return ('rows',json.loads(r.stdout.strip()))
-    if '42501' in r.stderr:return ('denied',)
+    if 'ERROR:  42501: account_inactive' in r.stderr:return ('denied',)
     raise RuntimeError('unexpected role read failure')
 
 def sql_write_denied(p,actor,statement):

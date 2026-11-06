@@ -79,12 +79,16 @@
     "tests/b7-ci-routing/contract.test.cjs": {
       "before": "c862edc8b24ab93851460c882352de2da862e86c",
       "after": "9d7e2dec94a49fc5383b69418bbd179e308e3c64"
+    },
+    "tests/c2-quantity/probe.py": {
+      "before": "5082f80b38dc23f597ad2bb52df6278d145e1ab0",
+      "after": "07abd929b0a6972d16157ce938b28a8a0a15f253"
     }
   },
   "additions": {
     "supabase/migrations/20261106145346_c5_day_close_profit_report.sql": "fe40c28b022fd60cf1367d8abf20a1b850d5cc1f",
     "src/lib/day-close-report.ts": "41b36b2cc78bb4bfae992307531fed9dbb137d9f",
-    "tests/c5-journey/profit_identity.py": "89f4fee74d25cfd9f08cbbb15c5b72e5a4888e87",
+    "tests/c5-journey/profit_identity.py": "4d4ac738960a960420f0fd8e5c736c90134c71d6",
     "tests/c5-journey/test_profit_identity.py": "c03a0bdc65954b5ec168b84c420a3b752d20fd87",
     "tests/c5-journey/profit-report.test.ts": "9196ffdfb63836fd71bf0e3413d5db039264f115",
     "tests/c5-journey/profit_contract.py": "b6e16828f58fe4d1dfa80bdef32e22effeb177f9",
@@ -94,7 +98,7 @@
     "tests/release/test_gate.py": "9d8c07eae90a04c6a8e877fa5f6c4d2e09ef2ae1",
     "tests/release/target.py": "b3599f341429acf22463bee549109a69c5e75c57",
     "tests/release/upgrade.py": "8c34f336c7900c89ee246d60b7e42b596c372af5",
-    ".github/workflows/release-finance.yml": "552122ff565b456761f36adeda955600319aaf47",
+    ".github/workflows/release-finance.yml": "2a4eed629d7411cfe793f37ad51b2eeb7118ea08",
     ".github/workflows/release-gate-trusted.yml": "4e59b1f2e35c08cf209135ed3db1f538a06bea6d"
   }
 }

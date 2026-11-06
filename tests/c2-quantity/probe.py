@@ -65,7 +65,15 @@ class QuantityProbe(Probe):
             private.write_text(json.dumps({'actors': actors}))
             private.chmod(0o600)
         a, b = actors['a'], actors['b']
-        self.control('51_migrations_applied', self.query('select count(*) from supabase_migrations.schema_migrations;') == 51)
+        if os.environ.get('MONJEZ_RELEASE_TARGET') == '1':
+            # Release workflow: history must equal the gate-verified candidate set.
+            sys.path.insert(0, str(ROOT / 'tests/release'))
+            import target
+            versions, _ = target.verify_source(ROOT)
+            observed = self.query('select coalesce(jsonb_agg(version order by version),\'[]\'::jsonb) from supabase_migrations.schema_migrations;')
+            self.control('release_history_matches_gate', observed == versions, observed={'applied': len(observed), 'candidate': len(versions)})
+        else:
+            self.control('51_migrations_applied', self.query('select count(*) from supabase_migrations.schema_migrations;') == 51)
         types = self.query("select jsonb_object_agg(table_name||'.'||column_name,format_type(a.atttypid,a.atttypmod)) from information_schema.columns c join pg_namespace n on n.nspname=c.table_schema join pg_class t on t.relnamespace=n.oid and t.relname=c.table_name join pg_attribute a on a.attrelid=t.oid and a.attname=c.column_name where table_schema='public' and (table_name,column_name) in (('products','stock'),('order_items','qty'));")
         self.control('uncoerced_decimal_quantity_columns', types == {'products.stock': 'numeric', 'order_items.qty': 'numeric'})
         pid = self.seed_product(a)

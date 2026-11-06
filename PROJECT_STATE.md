@@ -1,3 +1,19 @@
+## Current — Phase 1: independent review findings dispositioned, 2026-11-06
+
+Independent review of b2c9dc7 verdict: "Phase 1 cannot close as-is". Dispositions (commits 58d84cd and the one after it):
+
+- F1 blocker, governance bypass: fixed. Governance is now an allow-list (only src/, public/, supabase/migrations, supabase/functions, docs, top-level *.md are free). Helpers, shadowing packages, deps, configs and new files all need approval. `--no-renames` exposes both sides of a rename. Tests for each bypass in tests/release/test_gate.py (45 tests).
+- F2 label not bound: fixed. Label `gov-ok-<head sha>`; the latest label event must be a direct add by the repository owner (actor type User, performed_via_github_app null). The field's presence is per GitHub docs and NOT verified in this session; it fails closed if absent.
+- F3 journey byte pins: fixed via the MONJEZ_RELEASE_TARGET switch in tests/c5-journey/native.py. `integrated-quality` still runs the old identity chain: kept by rule, documented.
+- F4 lost coverage: c4 browser, journey selector contract, test_verdict, history tests, and a whole-DB relation comparison across upgrade (start=main history, end=candidate history) are restored in release-finance; c2-quantity added as suite (quantity, fresh). Remaining gaps (c3 durable idempotency-table controls, b2-b4, restore) recorded in docs/RELEASE_COVERAGE.md.
+- F5 empty fresh required controls: fixed with a named minimum per suite in every mode.
+- Minor: missing migration directory, impossible and far-future timestamps; the inactive-SQL path is recorded; b7 contract rejects negated paths, covers the release workflows, and requires unique check names. The check is renamed to `trusted-release-gate`, and the integration-verification job to `integrated-quality` (it collided with quality.yml).
+- PR #73 (draft) mirrors the gate files byte-identically at 2b610dd.
+
+**ONE NEXT:** all release-finance jobs (now 9), B1, G0 and C5 green on one SHA; then the Arabic close-out report. No merge/deploy without owner approval. Phase 2 not started.
+
+---
+
 ## Current — Phase 1: C5 journey green, release gate and unified acceptance workflow, 2026-11-06
 
 Branch `integration/g0-g1-reconcile-2026-10-18` (contains main 220fc206). Sole implementer: this session (Issue #55 claim 6696734740).

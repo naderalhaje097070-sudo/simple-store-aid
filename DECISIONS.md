@@ -1,3 +1,9 @@
+## 2026-11-06 — Governance as allow-list, approval bound to commit and owner
+
+After independent review: required checks on pull_request run the PR's own harness, so any non-product file can make them pass vacuously. Only the product (src/, public/, supabase/migrations under migration rules, supabase/functions, docs, top-level *.md) changes without approval. Approval is the label gov-ok-<head sha> added directly by the repository owner (not via an app), so neither an agent token nor an earlier approval carries to a new commit. The old identity chain stays in integrated-quality until the gate is proven on main.
+
+---
+
 ## 2026-11-06 — Release gate replaces chained stage manifests (owner-authorized lead decision)
 
 Per-stage byte manifests forced every reviewed change to break all earlier workflows (measured: 36 identity/manifest files, cascading pins). Replaced, gradually, by one gate that keeps: tested SHA, clean checkout, base-branch migration immutability (compared with origin/main, not a mutable in-branch file), forward-only new migrations with a two-file pinned legacy exception. Per-file provenance moves to PR review plus independent review. Behavioural, financial and security suites are unchanged. Restore of real financial data is a mandatory Pilot condition (Phase 5).

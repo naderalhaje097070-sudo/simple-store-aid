@@ -3,7 +3,11 @@
 1. [In progress] release-finance.yml: 8 jobs green on one SHA (collection, sale x fresh/upgrade/populated; journey x fresh/upgrade).
 1a. [Done] release-finance.yml 8/8 green on 76273d4 (run 42306255829).
 2. [Implemented, effective after merge] Trusted gate release-gate-trusted.yml (pull_request_target, base code, objects mode). Owner settings: docs/RELEASE_GATE_SETTINGS.md.
-3. [Planned] Independent review of gate + workflow; then retire stage identity manifests and old stage workflows.
+3. [Done] Independent review of gate + workflow (verdict on b2c9dc7: not closable). Findings F1-F5 and minor items fixed; see PROJECT_STATE.md and docs/RELEASE_COVERAGE.md.
+3a. [In progress] release-finance (9 jobs incl. quantity), B1, G0, C5 green on one SHA after the fixes.
+3b. [Planned, before the first Phase 2 PR] Port the durable c3 controls (idempotency table RLS deny, direct table denial, same-key replay without writes) into release-finance; review b2-b4 coverage.
+3c. [Planned, after the gate is proven on main] Retire the stage identity chain from integrated-quality and the old stage workflows (separate owner-visible decision).
+3d. [Owner] Apply docs/RELEASE_GATE_SETTINGS.md after merging PR #73; check Lovable sync under the PR-required rule; run the two verification PRs.
 4. [Planned, Pilot condition] Restore of real financial data (backup -> restore -> balances match) in the Phase 5 rehearsal. Restore suites are kept, not deleted; Pilot is blocked until this passes. Use realistic synthetic or de-identified financial data, never real customer data.
 5. [Backlog, low] Self-host the Cairo invoice font (production InvoiceDetailScreen calls fonts.googleapis.com).
 

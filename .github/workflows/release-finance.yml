@@ -29,12 +29,19 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: [collection, sale, journey]
+        suite: [collection, sale, journey, quantity]
         mode: [fresh, upgrade, populated]
         # populated keeps the prior-tenant controls the old c4-sale and
         # stored-finance workflows ran; the journey suite has no such branch.
+        # quantity (old c2 stage): its durable fractional-stock, rejection and
+        # denial controls on the candidate; its upgrade phase reproduced a
+        # pre-fix bug on a 50-migration state and is not a release property.
         exclude:
           - suite: journey
+            mode: populated
+          - suite: quantity
+            mode: upgrade
+          - suite: quantity
             mode: populated
     env:
       EXPECTED_SOURCE: ${{ github.sha }}
@@ -84,6 +91,8 @@ jobs:
             journey)
               node --test tests/c5-journey/profit-report.test.ts
               node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser ;;
+            quantity)
+              node tests/c2-quantity/quantity.test.mjs ;;
           esac
       - name: Discover pinned CLI operations
         run: |
@@ -119,7 +128,7 @@ jobs:
           case "$SUITE" in
             sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser ;;
             journey) python tests/c5-journey/browser.py ;;
-            collection) echo 'RELEASE_BROWSER_REGRESSION none for collection' ;;
+            collection|quantity) echo "RELEASE_BROWSER_REGRESSION none for $SUITE" ;;
           esac
       - name: Restrict probe UID before credentials
         shell: bash
@@ -199,10 +208,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          extra=()
           case "$SUITE" in
             collection) script=tests/c5-collection/native.py ;;
             sale)       script=tests/c4-sale/native.py ;;
             journey)    script=tests/c5-journey/native.py ;;
+            quantity)   script=tests/c2-quantity/probe.py; extra=(--phase after) ;;
           esac
           cd /tmp/monjez-c5sale/repo
           sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright \
@@ -212,7 +223,7 @@ jobs:
             PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
             python "$script" --expected-source "$EXPECTED_SOURCE" \
               --status-file /tmp/monjez-c5sale/status.json --evidence-dir /tmp/monjez-c5sale/evidence \
-              --private-state /tmp/monjez-c5sale/private-state.json
+              --private-state /tmp/monjez-c5sale/private-state.json "${extra[@]}"
       - name: Required controls actually executed and passed
         shell: bash
         run: |
@@ -221,7 +232,8 @@ jobs:
           import json,os
           from pathlib import Path
           suite,mode=os.environ['SUITE'],os.environ['CONTRACT_MODE']
-          files={'collection':'financial-result.json','sale':'client.json','journey':'journey-result.json'}
+          files={'collection':'financial-result.json','sale':'client.json','journey':'journey-result.json',
+                 'quantity':'quantity-after.json'}
           data=json.loads((Path('/tmp/monjez-c5sale/evidence')/files[suite]).read_text())
           rows=data.get('controls') or data.get('checks') or []
           passed={r['name'] for r in rows if r.get('passed')}
@@ -240,7 +252,12 @@ jobs:
                             'final_saved_gross135_net130','browser_no_external_or_script_error')}
                           |{'profit_invoker_select_only_catalog','profit_anon_API_denied','profit_anon_SQL_no_privilege',
                             'profit_denials_all_base_rows_unchanged','profit_inactive_SQL_no_rows',
-                            'profit_unaffected_staff_still_allowed','populated_foreign_financial_rows_unchanged'}}[suite]
+                            'profit_unaffected_staff_still_allowed','populated_foreign_financial_rows_unchanged'},
+                'quantity':{'release_history_matches_gate','uncoerced_decimal_quantity_columns',
+                            'stored_four_quarters_equal_one_unit_and_100_cash','rejection_atomic_0.001',
+                            'reject_invalid_quantity_NaN','reject_invalid_stock_-0.25','foreign_denial_atomic',
+                            'concurrent_fractional_stock_exact','delete_restores_exact_quarter',
+                            'return_restores_exact_quarter','old_banned_token_rejected','banned_denial_atomic'}}[suite]
           required=core|{('collection','populated'):{'nonempty_prior_tenant_seed','populated_prior_tenant_unchanged'},
                          ('sale','populated'):{'nonempty_prior_quarter_sale'}}.get((suite,mode),set())
           if mode=='upgrade':

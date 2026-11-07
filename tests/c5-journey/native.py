@@ -29,7 +29,8 @@ import profit_contract
 def safe_diagnostic(raw):
     fields={'quantity_inputs','quick_checkout_buttons','advanced_checkout_buttons',
             'sale_recovery_buttons','sale_rpc_calls','sale_rpc_completed',
-            'sale_rpc_http200','page_errors','blocked_external'}
+            'sale_rpc_http200','page_errors','blocked_external',
+            'home_back_buttons','quick_actions_markers','new_invoice_buttons'}
     if not isinstance(raw,dict):return {}
     return {key:value for key,value in raw.items()
             if key in fields and type(value) is int and 0<=value<=10000}

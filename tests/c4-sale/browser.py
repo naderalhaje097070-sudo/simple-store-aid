@@ -5,7 +5,7 @@ from pathlib import Path
 import re
 import sys
 import threading
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import expect, sync_playwright
 
 out = Path(sys.argv[1]).resolve()
 class Quiet(http.server.SimpleHTTPRequestHandler):
@@ -25,7 +25,12 @@ with sync_playwright() as playwright:
             page.goto(origin+'/#'+screen)
             page.get_by_text('صنف تجريبي',exact=True).first.click()
             quantity=page.get_by_role('textbox',name='الكمية',exact=True)
+            # Precondition a person sees before typing: the added line shows its
+            # initial quantity. Then confirm the typed value was kept before
+            # checkout. The wire assertions below are unchanged.
+            expect(quantity).to_have_value('1')
             quantity.fill('0.25');quantity.press('Tab')
+            expect(quantity).to_have_value('0.25')
             if screen=='sale':
                 page.get_by_role('button',name='إتمام البيع',exact=True).click()
                 page.get_by_role('button',name='حفظ الفاتورة',exact=True).click()

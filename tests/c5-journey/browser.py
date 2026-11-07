@@ -78,7 +78,10 @@ def run(p, state, private):
                         'sale_recovery_buttons':page.get_by_role('button',name='استعادة البيع المحفوظ',exact=True).count(),
                         'sale_rpc_calls':len(sale_calls),'sale_rpc_completed':sum(c['complete'] for c in sale_calls),
                         'sale_rpc_http200':sum(c['status']==200 for c in sale_calls),
-                        'page_errors':len(errors),'blocked_external':len(external)}
+                        'page_errors':len(errors),'blocked_external':len(external),
+                        'home_back_buttons':page.get_by_role('button',name='عودة للرئيسية',exact=True).count(),
+                        'quick_actions_markers':page.get_by_text('إجراءات سريعة',exact=True).count(),
+                        'new_invoice_buttons':page.get_by_role('button',name=re.compile('فاتورة جديدة')).count()}
                 def click(name,exact=True):
                     matches=page.get_by_role('button',name=name,exact=exact)
                     for i in range(matches.count()):
@@ -110,6 +113,9 @@ def run(p, state, private):
                     checkpoint('sale_home')
                     if page.get_by_role('button',name='عودة للرئيسية',exact=True).count():home()
                     elif not page.get_by_text('إجراءات سريعة',exact=True).count():home()
+                    # Home must be settled (quick actions visible) before opening a new
+                    # invoice; a previous sale's result screen can still be leaving.
+                    page.get_by_text('إجراءات سريعة',exact=True).wait_for()
                     checkpoint('sale_open');click(re.compile('فاتورة جديدة'))
                     checkpoint('sale_product_wait')
                     page.get_by_text('C2 dummy',exact=True).first.wait_for()

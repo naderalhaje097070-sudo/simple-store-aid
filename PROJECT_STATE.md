@@ -1,3 +1,14 @@
+## Current — Phase 1: owner approved Public + GitHub Free; reference 4d3614a, 2026-11-07
+
+- Reference: 4d3614a — release-finance 9/9 (run 42359764556), G0, B1, C5 green. Later commits on the branch are docs-only.
+- Owner decision: repository Public on GitHub Free to enable branch protection (instead of GitHub Pro). Secrets scan over 1432 commits: only the anon JWT and browser payment client tokens; server keys only as the placeholder `oc-app-dummy`. The `live_` token is the Paddle client-side token passed to Paddle.Initialize in the browser (src/lib/paddle.ts) and already shipped as VITE_; server keys are runtime env only (src/lib/paddle.server.ts). Paddle's docs could not be fetched from this session (host not allowed). No real risk found.
+- Old c4-sale.yml failure is legacy (55-migration stage target since da67e3c); identical scripts run in release-finance (docs/RELEASE_COVERAGE.md).
+- Pending owner actions (agent has no repository-settings tool): make the repo Public; create ruleset Stage A (trusted-release-gate required); add label gov-ok-4e36fbf... on PR #76.
+
+**ONE NEXT:** verify Stage A on PR #75 (merge blocked) and PR #76 (owner label), close both test PRs unmerged, then prepare the integration PR. No integration merge or deploy without owner approval.
+
+---
+
 ## Current — Phase 1: gate live on main, enforcement blocked by GitHub plan, 2026-11-07
 
 - Integration batch accepted on c8a8348 (release-finance run 42315487798: 9/9; G0/B1/C5 green on 2e68cc4; c8a8348 differs by docs only).

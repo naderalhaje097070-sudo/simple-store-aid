@@ -30,6 +30,26 @@
 | `c2-quantity.yml` (fresh) | `suite (quantity, fresh)`. البيع يمر عبر العقد المعتمد `create_sale_with_items_idempotent`، لأن Migration `20261029044024` تسحب الدالة القديمة من `authenticated` عمدًا (FIN-IDEM). الشروط نفسها لم تتغير |
 | بصمات البايت لكل مرحلة | `trusted-release-gate` في `release-finance`، و`tests/release/target.py` |
 
+### C4 القديم (`c4-sale.yml`): فحص موروث، والتغطية مثبتة
+
+يفشل `c4-sale.yml` في خطوة `Actual current hook and persisted financial effects` على كل تشغيل منذ
+`da67e3c` (2026-11-06)، أي منذ إضافة الـMigration رقم 56. سبب الفشل أنه يشغّل `tests/c4-sale/native.py`
+بالهدف المرحلي المثبّت على 55 Migration. التشغيلات الفاشلة: `da67e3c` و`e2a3203` و`4d3614a`.
+
+التغطية في `release-finance.yml` هي **السكربتات نفسها**، لا بديل عنها:
+
+| القديم (`c4-sale.yml`) | الجديد (`release-finance.yml`) |
+|---|---|
+| `python tests/c4-sale/native.py` (composition: fresh, populated) | السكربت نفسه في `suite (sale, fresh/upgrade/populated)`، مع `MONJEZ_RELEASE_TARGET=1`، أي الهدف من البوابة بدل الـ55 المثبّت. ويضيف mode `upgrade` |
+| `node tests/c4-sale/build.mjs` و`python tests/c4-sale/browser.py` | السكربتان نفساهما في خطوتي "Suite source checks" و"Database-free browser regressions" |
+| `node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs` | الأمر نفسه في "Suite source checks" |
+| `capture.py identity` (البصمات المرحلية) | `trusted-release-gate` و`gate.py`، وما زال يعمل أيضًا في `integrated-quality` |
+
+المرجع: `4d3614a`، run 42359764556، 9/9 ناجحة. والحد الأدنى المسمى للبيع في كل mode هو:
+`lost_no_second_stored_effect` و`null_no_second_stored_effect` و`parallel_one_financial_effect`
+و`exact_fractional_stock_after_three_logical_sales` و`actual_foreign_product_rejected_atomically`.
+لم يُعدَّل `c4-sale.yml` ولم يُضعَف.
+
 ## ما لم يُستبدل (فجوات معروفة)
 
 | الفحص | السبب | القرار |

@@ -1,3 +1,15 @@
+## Current — Phase 1: gate live on main, enforcement blocked by GitHub plan, 2026-11-07
+
+- Integration batch accepted on c8a8348 (release-finance run 42315487798: 9/9; G0/B1/C5 green on 2e68cc4; c8a8348 differs by docs only).
+- PR #74 (dependency advisories) merged as 5798962 after 18/18. PR #73 (trusted gate) updated by merge of main (9d1c057, 17/17) and merged as 866ea50.
+- Gate verified on GitHub with test PR #75: RELEASE_GATE_FAILED "Base migration changed"; credentialed head fetch and label-event read work.
+- BLOCKER: repository is private on GitHub Free; rulesets/branch protection unavailable, so no check is enforced and direct pushes to main are possible. Owner decision: GitHub Pro (recommended) vs. advisory-only. Repo must not be made public for this.
+- PR #76 (test only) waits for the owner's label to verify commit-bound owner approval.
+
+**ONE NEXT:** owner decides on the GitHub plan; owner labels PR #76. No integration merge, no deploy, Phase 2 not started.
+
+---
+
 ## Current — Phase 1: independent review findings dispositioned, 2026-11-06
 
 Independent review of b2c9dc7 verdict: "Phase 1 cannot close as-is". Dispositions (commits 58d84cd and the one after it):

@@ -122,3 +122,4 @@ FOR DELETE TO authenticated USING (owner_user_id = auth.uid());
 -- user_roles: members can see roles within their tenant
 CREATE POLICY "members read roles in own tenant" ON public.user_roles
 FOR SELECT TO authenticated USING (tenant_id = public.current_tenant_id());
+-- gate verification: this edit must be rejected; PR must never be merged

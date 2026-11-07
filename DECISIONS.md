@@ -1,3 +1,11 @@
+## 2026-11-07 — Production email-queue hotfix before the October migrations (owner full delegation)
+
+The vulnerability is live and severe: auth-email disclosure enables account takeover. The fix is grants-only, has a one-line rollback and touches no rows. It was tested in the rehearsal (user denied, service_role and enqueue trigger still work) and matches the original Lovable design ("restrict queue RPC wrappers to service_role only"). Applied first and separately.
+
+The 9 October migrations go to production only after their rollback is proven in the rehearsal against the production pre-state snapshot. Their change is DDL-only (no top-level DML), so data is not at risk; the risk is application behaviour.
+
+---
+
 ## 2026-11-06 — Governance as allow-list, approval bound to commit and owner
 
 After independent review: required checks on pull_request run the PR's own harness, so any non-product file can make them pass vacuously. Only the product (src/, public/, supabase/migrations under migration rules, supabase/functions, docs, top-level *.md) changes without approval. Approval is the label gov-ok-<head sha> added directly by the repository owner (not via an app), so neither an agent token nor an earlier approval carries to a new commit. The old identity chain stays in integrated-quality until the gate is proven on main.

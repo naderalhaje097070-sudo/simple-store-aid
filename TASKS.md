@@ -1,3 +1,15 @@
+## Current — RECOVERY-02, 2026-11-07
+
+1. [Done] Production hotfix `20261107214500_sec_email_queue_service_only` (verified ACLs after apply).
+2. [Next] Rollback test of the October migrations in the rehearsal (restore -> 42/42 production fingerprints).
+3. [Next] Apply the 9 October migrations to production in order, verifying after each (lock_timeout, stop on first error).
+4. [Open] Independent financial/security review (not this agent); CI/browser tests blocked by the suspended GitHub account.
+5. [Open] True concurrency test (two connections) for sale, collection and webhook.
+6. [Owner decision] Day close counts returned courier orders in `sales` (pre-existing behaviour).
+7. [Open] Supabase default privileges still grant EXECUTE on new public functions to `authenticated`; every new SECURITY DEFINER function must revoke explicitly. Consider changing the default.
+
+---
+
 ## Current — Phase 1 remaining, 2026-11-06
 
 1. [In progress] release-finance.yml: 8 jobs green on one SHA (collection, sale x fresh/upgrade/populated; journey x fresh/upgrade).

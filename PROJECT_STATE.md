@@ -1,3 +1,19 @@
+## Current — RECOVERY-02: production email hotfix applied; October migrations rehearsed, 2026-11-07
+
+- Owner granted full authority ("موافق على كل شيء ... لك كامل الصلاحيات").
+- Production (Lovable 1c38f21a…, PG 17.6) **changed once**: `20261107214500_sec_email_queue_service_only` (grants only).
+  - Before: `authenticated` could EXECUTE `enqueue_email`, `read_email_batch`, `delete_email`, `move_to_dlq` and `email_queue_dispatch` (all SECURITY DEFINER). Any signed-in user could read other users' auth emails (password reset and confirmation links), send arbitrary mail, and delete or move queue messages. Demonstrated in the rehearsal with a synthetic message.
+  - Root cause: `20260715145141` revoked FROM PUBLIC only, but Supabase default privileges grant `authenticated` directly.
+  - After: ACL `{postgres, service_role}` on all five. Recorded in the production ledger with a rollback statement.
+  - Pre-checks: no runtime calls by any role in `pg_stat_statements`; `email_send_log` = 0; the processor (`src/routes/lovable/email/queue/process.ts`) uses the service role key.
+- Rehearsal `tlmoytnyslmhwdkmpsup`: 9 October migrations applied (ChatGPT) and independently verified (37/37 function bodies, objects, grants). T1–T10 pass with limits (evidence key `r02_verification_claude_20261107`).
+- Production still lacks the 9 October migrations. The deployed webhook route calls `apply_subscription_webhook`, which is missing, so Paddle events fail there today (subscriptions = 0).
+- Production pre-state snapshot (33 function definitions, grants) and rollback script: scratchpad `r02/prod_snapshot/`. The rollback test is not yet run (Supabase confirmation unanswered).
+
+**ONE NEXT:** run the rollback test in the rehearsal, then apply the 9 October migrations to production one at a time, verifying after each.
+
+---
+
 ## Current — Phase 1: owner approved Public + GitHub Free; reference 4d3614a, 2026-11-07
 
 - Reference: 4d3614a — release-finance 9/9 (run 42359764556), G0, B1, C5 green. Later commits on the branch are docs-only.

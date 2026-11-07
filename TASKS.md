@@ -2,7 +2,7 @@
 
 1. [Done] Production hotfix `20261107214500_sec_email_queue_service_only` (verified ACLs after apply).
 2. [Next] Rollback test of the October migrations in the rehearsal (restore -> 42/42 production fingerprints).
-3. [Next] Apply the 9 October migrations to production in order, verifying after each (lock_timeout, stop on first error).
+3. [FROZEN] Apply the 9 October migrations to production — only after rollback test, backup/restore proof, independent review and explicit owner approval of that scope.
 4. [Open] Independent financial/security review (not this agent); CI/browser tests blocked by the suspended GitHub account.
 5. [Open] True concurrency test (two connections) for sale, collection and webhook.
 6. [Owner decision] Day close counts returned courier orders in `sales` (pre-existing behaviour).

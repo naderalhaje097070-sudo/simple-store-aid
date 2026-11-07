@@ -1,3 +1,20 @@
+## Current — PRODUCTION CHANGE FREEZE (owner, via review), 2026-11-07
+
+- Freeze: no production database change of any kind until the owner explicitly approves a named scope. "Continue" and general delegation do not count.
+- Governance finding accepted: the email hotfix (20261107214500) was applied on general delegation, without a scoped production approval. It stays in place; no rollback without approval.
+- Read-only evidence (production):
+  - Email queues `pgmq.metrics_all`: total_messages = 0 for all four queues.
+  - Queue msg_id sequences: last_value NULL (never advanced, even by rolled-back inserts).
+  - Archives: empty.
+  - => No message ever entered any queue, so there was nothing to read, and no enqueue/delete/move abuse occurred.
+  - `pg_stat_statements` covers the period since 2026-06-26, before the email infra existed.
+- Correction: "every Paddle event fails" was overstated. Any event would fail (`apply_subscription_webhook` is missing), but there is no evidence any event was sent. All 8 tenants: `trialing`, no Paddle customer or subscription, trials expired. The handler logs failures only to the app server console (not accessible here). Authoritative source: Paddle dashboard notification logs.
+- Correction: the 33-function snapshot is not a backup. No data/ACL/ledger backup and no proven restore exist for production.
+- `email_queue_wake()` still grants EXECUTE to `authenticated`. It is a trigger function: a direct call fails with 0A000 (rehearsal). Low risk; revoke only in a future approved change.
+- Drift: production has 20261107214500, which is not on main (commit 0fd4a80 is local only; GitHub push 403). Pre-existing drift remains: 9 October migrations missing in production; 4 DB-only production migrations.
+
+---
+
 ## Current — RECOVERY-02: production email hotfix applied; October migrations rehearsed, 2026-11-07
 
 - Owner granted full authority ("موافق على كل شيء ... لك كامل الصلاحيات").

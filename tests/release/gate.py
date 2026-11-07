@@ -50,6 +50,37 @@ LEGACY_ORDER = {
 # the label approval_label(head) whose latest labeled event was made by the
 # repository owner directly (not through an app or bot token).
 UNGOVERNED_PREFIXES = ('src/', 'public/', 'supabase/migrations/', 'supabase/functions/', 'docs/')
+# Financial core inside the product: a change here can alter money, stock,
+# exactly-once behaviour, permissions or payment entitlement, so it needs the
+# same commit-bound owner approval. Chosen from the code, not by directory name:
+#   supabase/migrations/          schema, RLS, grants and every financial RPC
+#   src/lib/db.ts                 the only client module calling financial RPCs
+#   src/lib/sale-operation.ts,    idempotency keys and retry of sales and
+#   src/lib/collection-operation.ts  collections (exactly-once)
+#   src/domain/finance/           quantity parsing and invoice money rules
+#   src/lib/account-state.server.ts  server-side active-account gate
+#   src/integrations/supabase/{auth-middleware,auth-attacher,client.server}.ts
+#                                 server auth enforcement and the service-role client
+#   src/lib/paddle.server.ts, src/lib/subscription-webhook.server.ts,
+#   src/routes/api/public/payments/, src/utils/payments.functions.ts
+#                                 payment signature verification and entitlement
+# Not listed (reason): src/integrations/supabase/client.ts and types.ts (anon
+# client / generated types; the database enforces RLS), src/lib/paddle.ts
+# (browser checkout; price and entitlement are checked server-side),
+# src/lib/day-close-report.ts (read-only display; covered by the journey suite).
+FINANCIAL_CORE = (
+    'supabase/migrations/',
+    'src/lib/db.ts', 'src/lib/sale-operation.ts', 'src/lib/collection-operation.ts',
+    'src/domain/finance/',
+    'src/lib/account-state.server.ts',
+    'src/integrations/supabase/auth-middleware.ts', 'src/integrations/supabase/auth-attacher.ts',
+    'src/integrations/supabase/client.server.ts',
+    'src/lib/paddle.server.ts', 'src/lib/subscription-webhook.server.ts',
+    'src/routes/api/public/payments/', 'src/utils/payments.functions.ts',
+)
+# Any product file that reaches the service-role key bypasses RLS, wherever it
+# lives; a path list alone would miss a new file doing so.
+PRIVILEGED_MARKERS = (b'SUPABASE_SERVICE_ROLE_KEY', b'service_role')
 APPROVAL_PREFIX = 'gov-ok-'
 # Kept for the receipt and error messages.
 GOVERNANCE_LABEL = APPROVAL_PREFIX + '<head sha>'
@@ -147,8 +178,22 @@ def changed_paths(root, base, head):
     return sorted({p.decode() for p in out if p})
 
 
+def financial_core(path):
+    return path.startswith(FINANCIAL_CORE)
+
+
+def privileged_content(root, head, path):
+    """True if head's version of a product file reaches the service-role key."""
+    if not path.startswith(('src/', 'supabase/functions/')):
+        return False
+    r = subprocess.run(['git', '-C', str(root), 'cat-file', '-p', head + ':' + path],
+                       capture_output=True, timeout=60)
+    return r.returncode == 0 and any(m in r.stdout for m in PRIVILEGED_MARKERS)
+
+
 def governance_changes(root, base, head):
-    return [p for p in changed_paths(root, base, head) if governed(p)]
+    return [p for p in changed_paths(root, base, head)
+            if governed(p) or financial_core(p) or privileged_content(root, head, p)]
 
 
 def owner_approved(events, label, owner):
@@ -187,7 +232,7 @@ def verify(root, head='HEAD', base='origin/main', mode='checkout', expected=None
     versions = verify_migrations(root, head_sha, base)
     base_sha = git(root, 'rev-parse', '--verify', base + '^{commit}').decode().strip()
     changed = changed_paths(root, base_sha, head_sha)
-    sensitive = [p for p in changed if governed(p) or p.startswith(MIGRATIONS)]
+    sensitive = [p for p in changed if governed(p) or financial_core(p)]
     return {'scope': 'release_gate_v1', 'source_sha': head_sha, 'base_sha': base_sha, 'mode': mode,
             'migration_count': len(versions), 'base_migrations_preserved': True,
             'changed_file_count': len(changed), 'review_sensitive_paths': sensitive}

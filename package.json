@@ -93,7 +93,7 @@
     "globals": "^15.15.0",
     "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
-    "seroval": "1.6.7",
+    "seroval": "1.6.11",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "8.1.6",
@@ -111,19 +111,21 @@
     "nanoid": "3.3.19",
     "postcss": "8.5.29",
     "source-map-js": "1.2.2",
-    "seroval": "1.6.7",
+    "seroval": "1.6.11",
     "seroval-plugins": "^1.5.6",
     "hono": "4.13.11",
     "qs": "6.16.1",
     "dompurify": "3.4.17",
     "@babel/core": "7.29.7",
-    "@hono/node-server": "1.19.15",
+    "@hono/node-server": "2.1.3",
     "esbuild": "0.28.1",
     "launch-editor": "2.14.2",
     "body-parser": "2.4.0",
     "zod": "4.6.6",
     "serialize-javascript": "7.1.3",
-    "@rollup/plugin-node-resolve": "file:vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz"
+    "@rollup/plugin-node-resolve": "file:vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz",
+    "glob": "14.0.2",
+    "minimatch": "11.0.1"
   },
   "resolutions": {
     "@modelcontextprotocol/sdk": "1.32.0",
@@ -136,18 +138,23 @@
     "nanoid": "3.3.19",
     "postcss": "8.5.29",
     "source-map-js": "1.2.2",
-    "seroval": "1.6.7",
+    "seroval": "1.6.11",
     "seroval-plugins": "^1.5.6",
     "hono": "4.13.11",
     "qs": "6.16.1",
     "dompurify": "3.4.17",
     "@babel/core": "7.29.7",
-    "@hono/node-server": "1.19.15",
+    "@hono/node-server": "2.1.3",
     "esbuild": "0.28.1",
     "launch-editor": "2.14.2",
     "body-parser": "2.4.0",
     "zod": "4.6.6",
     "serialize-javascript": "7.1.3",
-    "@rollup/plugin-node-resolve": "file:vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz"
+    "@rollup/plugin-node-resolve": "file:vendor/rollup-plugin-node-resolve-16.0.3-b7.tgz",
+    "glob": "14.0.2",
+    "minimatch": "11.0.1"
+  },
+  "patchedDependencies": {
+    "minimatch@11.0.1": "patches/minimatch@11.0.1.patch"
   }
 }

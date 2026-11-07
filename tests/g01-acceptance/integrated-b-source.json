@@ -205,6 +205,11 @@
       "mode": "100644"
     },
     {
+      "path": ".github/workflows/release-gate-trusted.yml",
+      "sha": "4e59b1f2e35c08cf209135ed3db1f538a06bea6d",
+      "mode": "100644"
+    },
+    {
       "path": ".github/workflows/sec-ci-gate4-probe.yml",
       "sha": "a9b792109d47ce28cb9eaa1c8ded51862aea68b4",
       "mode": "100644"
@@ -1867,6 +1872,16 @@
     {
       "path": "tests/gate4/sec-env/visual-runtime-contract.py",
       "sha": "67b661c44fe9b9e195035f6fc7d5519feb4f732e",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/release/gate.py",
+      "sha": "500caf4e34129260d6913c59b2f0ba47a9c40c17",
+      "mode": "100644"
+    },
+    {
+      "path": "tests/release/test_gate.py",
+      "sha": "9d8c07eae90a04c6a8e877fa5f6c4d2e09ef2ae1",
       "mode": "100644"
     },
     {

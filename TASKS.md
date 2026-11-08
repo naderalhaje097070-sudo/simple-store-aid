@@ -1,7 +1,7 @@
 ## Current — RECOVERY-02, 2026-11-07
 
 1. [Done] Production hotfix `20261107214500_sec_email_queue_service_only` (verified ACLs after apply).
-2. [Next] Rollback test of the October migrations in the rehearsal (restore -> 42/42 production fingerprints).
+2. [Done 2026-11-08] Rollback test (full script, rolled-back txn) vs CURRENT production (43, email fix kept): md5 33/33, ACL 35/35, policies 59, lab unchanged after (evidence r02_rollback_test_20261108). Not a backup/restore proof.
 3. [FROZEN] Apply the 9 October migrations to production — only after rollback test, backup/restore proof, independent review and explicit owner approval of that scope.
 4. [Open] Independent financial/security review (not this agent); CI/browser tests blocked by the suspended GitHub account.
 5. [Open] True concurrency test (two connections) for sale, collection and webhook.

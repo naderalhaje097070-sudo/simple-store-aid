@@ -1,0 +1,20 @@
+restore_errors=38 (expected 38, platform extensions only)
+F0 {"ledger" : 43, "fn_public" : "e645101e13654541173f940c051dc9bd", "fn_private" : "d41d8cd98f00b204e9800998ecf8427e", "fn_acl" : "7465ddcd7dbd5f71a048d678cf2547e6", "functions_public" : 42, "policies" : "1f68f9216e75deea92880b3e9426af0e", "policies_n" : 59, "table_acl" : "5fecc5730b7515ff739af0aa25bc7477", "col_acl" : "d41d8cd98f00b204e9800998ecf8427e", "default_acl" : "25cf9b025ae3658270b531a6ebb6d309", "email_service_only" : 5, "private_tables" : 0, "data_hash" : "6ad46ea7e2a90db8360c78b6b5a756ea"}
+S1 inject: INJECTED_FAILURE_AT_END_OF_STAGE S1 state=UNCHANGED
+S1 apply rc=0 {'ledger': 45, 'functions_public': 42, 'policies_n': 81, 'email_service_only': 5, 'private_tables': 0} data_same= True
+S2 inject: INJECTED_FAILURE_AT_END_OF_STAGE S2 state=UNCHANGED
+S2 apply rc=0 {'ledger': 46, 'functions_public': 42, 'policies_n': 81, 'email_service_only': 5, 'private_tables': 0} data_same= True
+S3 inject: INJECTED_FAILURE_AT_END_OF_STAGE S3 state=UNCHANGED
+S3 apply rc=0 {'ledger': 47, 'functions_public': 43, 'policies_n': 81, 'email_service_only': 5, 'private_tables': 1} data_same= True
+S4 inject: INJECTED_FAILURE_AT_END_OF_STAGE S4 state=UNCHANGED
+S4 apply rc=0 {'ledger': 49, 'functions_public': 43, 'policies_n': 81, 'email_service_only': 5, 'private_tables': 1} data_same= True
+S5 inject: INJECTED_FAILURE_AT_END_OF_STAGE S5 state=UNCHANGED
+S5 apply rc=0 {'ledger': 52, 'functions_public': 44, 'policies_n': 81, 'email_service_only': 5, 'private_tables': 3} data_same= True
+bodies_vs_files=37/37
+R1_out_of_order: ROLLBACK_ORDER_VIOLATION state=UNCHANGED
+R5_webhook_7_8_9 rc=0 vs state after stage 4: MATCH; private kept: tables=3 (stage state 1), fn_private_same=True, fn_acl_same=True
+R4_scanner_entitlement_5_6 rc=0 vs state after stage 3: MATCH; private kept: tables=3 (stage state 1), fn_private_same=True, fn_acl_same=True
+R3_owner_closure_4 rc=0 vs state after stage 2: MATCH; private kept: tables=3 (stage state 0), fn_private_same=True, fn_acl_same=True
+R2_truncate_3 rc=0 vs state after stage 1: MATCH; private kept: tables=3 (stage state 0), fn_private_same=True, fn_acl_same=True
+R1_live_actor_1_2 rc=0 vs state after stage 0: MATCH; private kept: tables=3 (stage state 0), fn_private_same=False, fn_acl_same=False
+R1_twice: STAGE_NOT_APPLIED state=UNCHANGED

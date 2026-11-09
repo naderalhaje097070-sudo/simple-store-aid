@@ -4,7 +4,10 @@
 2. [Done 2026-11-08] Rollback test (full script, rolled-back txn) vs CURRENT production (43, email fix kept): md5 33/33, ACL 35/35, policies 59, lab unchanged after (evidence r02_rollback_test_20261108). Not a backup/restore proof.
 3. [FROZEN] Apply the 9 October migrations to production — only after rollback test, backup/restore proof, independent review and explicit owner approval of that scope.
 4. [Open] Independent financial/security review (not this agent); CI/browser tests blocked by the suspended GitHub account.
-5. [Open] True concurrency test (two connections) for sale, collection and webhook.
+5. [Done 2026-11-09] True concurrency in the lab via parallel pg_cron sessions (evidence r02_concurrency_20261109).
+   - C1 last-unit sale, C2 double collection, C3 duplicate webhook, C4 double settlement: all PASS (no double financial effect).
+   - Findings: (a) settle_courier_orders accepts an already-settled order (courier_id NULL bypasses the custody check), 0 collected, no money effect, low severity; (b) the webhook's SELECT tenants FOR UPDATE with lock_timeout 2s times out (retryable) while a long transaction on the same tenant holds FK KEY SHARE; consider FOR NO KEY UPDATE.
+   - [Pending owner confirmation] Lab cleanup of synthetic tenant d1000001 and helper recovery_evidence.r02_run (the DELETE confirmation was unanswered).
 6. [Owner decision] Day close counts returned courier orders in `sales` (pre-existing behaviour).
 7. [Open] Supabase default privileges still grant EXECUTE on new public functions to `authenticated`; every new SECURITY DEFINER function must revoke explicitly. Consider changing the default.
 

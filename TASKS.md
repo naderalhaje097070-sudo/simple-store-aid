@@ -12,6 +12,8 @@
 8. [Open] Frontend: hide inactive products on the sale screen (DB already rejects `product_inactive`).
 9. [Open] Frontend: detect sign-up with an existing email (`identities: []`) and show the correct message.
 10. [Owner decision] Unconfirmed Auth account created 2026-11-09 20:29:58 UTC (different email, no tenant): keep or delete.
+11. [Open, R] PR #78 adds the production email hotfix file to main (md5 1dd79d44 = production ledger). Do not merge before item 12 and owner approval.
+12. [Open, R, owner action] Lovable <-> GitHub sync is broken: Lovable HEAD 6c18fcf (2026-11-09 09:10) is not on GitHub; main is 866ea50. Lovable-only commits since main: d52e83d and 6c18fcf. They contain .lovable/plan doc, evidence/*.json, @lovable.dev/vite-tanstack-config 2.9.1->2.26.5, auto-generated supabase client.ts + previewAuthStorage.ts, types.ts formatting. Owner must check Lovable > Settings > Git status before any merge to main.
 7. [Open] Supabase default privileges still grant EXECUTE on new public functions to `authenticated`; every new SECURITY DEFINER function must revoke explicitly. Consider changing the default.
 
 ---

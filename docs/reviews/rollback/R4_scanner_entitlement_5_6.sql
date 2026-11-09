@@ -1,6 +1,11 @@
 BEGIN;
 SET LOCAL lock_timeout = '5s';
 DO $g$ BEGIN IF current_user <> 'postgres' THEN RAISE EXCEPTION 'ROLLBACK_REQUIRES_POSTGRES'; END IF; END $g$;
+DO $pre$ BEGIN
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version IN ('20261021132651','20261021134621','20261021140746')) THEN RAISE EXCEPTION 'ROLLBACK_ORDER_VIOLATION: undo later stages first'; END IF;
+  IF (SELECT count(*) FROM supabase_migrations.schema_migrations WHERE version IN ('20261020210549','20261021080927')) <> 2 THEN RAISE EXCEPTION 'STAGE_NOT_APPLIED: nothing to undo'; END IF;
+  IF NOT EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20261107214500') THEN RAISE EXCEPTION 'EMAIL_HOTFIX_MISSING'; END IF;
+END $pre$;
 -- Undo 20261020210549 (scanner auth) -> scanner as left by 20261010223557; undo 20261021080927 (tenants grants).
 CREATE OR REPLACE FUNCTION public.run_security_scan(p_triggered_by text DEFAULT 'manual'::text)
  RETURNS jsonb
@@ -132,5 +137,8 @@ END;
 $function$;
 REVOKE INSERT (id, name, owner_user_id, created_at, updated_at, timezone, business_type), UPDATE (id, name, owner_user_id, created_at, updated_at, timezone, business_type) ON public.tenants FROM authenticated;
 GRANT INSERT, UPDATE ON TABLE public.tenants TO authenticated;
-DELETE FROM supabase_migrations.schema_migrations WHERE version IN ('20261020210549','20261021080927');
+DO $led$ DECLARE n int; BEGIN
+  DELETE FROM supabase_migrations.schema_migrations WHERE version IN ('20261020210549','20261021080927');
+  GET DIAGNOSTICS n = ROW_COUNT; IF n <> 2 THEN RAISE EXCEPTION 'LEDGER_DELETE_COUNT % <> 2', n; END IF;
+END $led$;
 COMMIT;

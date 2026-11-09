@@ -1,6 +1,11 @@
 BEGIN;
 SET LOCAL lock_timeout = '5s';
 DO $g$ BEGIN IF current_user <> 'postgres' THEN RAISE EXCEPTION 'ROLLBACK_REQUIRES_POSTGRES'; END IF; END $g$;
+DO $pre$ BEGIN
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version IN ('20261013120223','20261013221918','20261020210549','20261021080927','20261021132651','20261021134621','20261021140746')) THEN RAISE EXCEPTION 'ROLLBACK_ORDER_VIOLATION: undo later stages first'; END IF;
+  IF (SELECT count(*) FROM supabase_migrations.schema_migrations WHERE version IN ('20261010223557','20261010225012')) <> 2 THEN RAISE EXCEPTION 'STAGE_NOT_APPLIED: nothing to undo'; END IF;
+  IF NOT EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20261107214500') THEN RAISE EXCEPTION 'EMAIL_HOTFIX_MISSING'; END IF;
+END $pre$;
 -- Undo 20261010223557 + 20261010225012: 33 functions restored to the exact production definitions captured before the change;
 -- the 22 RESTRICTIVE policies dropped. Schema monjez_private, its functions and tables are KEPT (unused, no data loss).
 CREATE OR REPLACE FUNCTION public._assert_owner(_tid uuid)
@@ -1071,5 +1076,8 @@ DROP POLICY IF EXISTS monjez_live_actor ON public.suppressed_emails;
 DROP POLICY IF EXISTS monjez_live_actor ON public.tenant_counters;
 DROP POLICY IF EXISTS monjez_live_actor ON public.tenants;
 DROP POLICY IF EXISTS monjez_live_actor ON public.user_roles;
-DELETE FROM supabase_migrations.schema_migrations WHERE version IN ('20261010223557','20261010225012');
+DO $led$ DECLARE n int; BEGIN
+  DELETE FROM supabase_migrations.schema_migrations WHERE version IN ('20261010223557','20261010225012');
+  GET DIAGNOSTICS n = ROW_COUNT; IF n <> 2 THEN RAISE EXCEPTION 'LEDGER_DELETE_COUNT % <> 2', n; END IF;
+END $led$;
 COMMIT;

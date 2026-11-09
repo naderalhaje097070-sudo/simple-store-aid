@@ -1,3 +1,12 @@
+## Current — production backups verified by owner screenshot, 2026-11-09
+
+- Lovable Cloud > Database > Backups (project 1c38f21a…): daily backups at about 05:39 UTC, 10 consecutive visible (2026-10-31 .. 2026-11-09), latest 2026-11-09 05:39:37 UTC.
+- The Nov 8 and Nov 9 backups include SEC-EMAIL-QUEUE-01 (applied 2026-11-07 ~21:40 UTC).
+- Restore exists only as in-place "Restore to this backup" on production. It cannot be rehearsed without replacing production, so restore is relied on as a platform feature, NOT proven. Accepted residual risk, stated explicitly.
+- Production window rule (for any approved change): apply shortly after the daily backup (~05:40 UTC) to minimise the data-loss window.
+
+---
+
 ## Current — PRODUCTION CHANGE FREEZE (owner, via review), 2026-11-07
 
 - Freeze: no production database change of any kind until the owner explicitly approves a named scope. "Continue" and general delegation do not count.

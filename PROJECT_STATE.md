@@ -1,3 +1,17 @@
+## Current — RECOVERY-02 APPLIED TO PRODUCTION, phase R production work closed, 2026-11-09
+
+- Stages S1..S5 applied directly (postgres, md5-guarded, one atomic block each, owner approval per stage). Each gate matched the simulated state F1..F5 exactly. Ledger 43 -> 52; data hash unchanged (6ad46ea7).
+- B checks 6/6 Go inside a forced-rollback block (`docs/reviews/apply/B_checks.sql`); nothing persisted (verified by read).
+- C (owner app check, via two browser agents on fin-biz.shop): login, orders, products, /billing work; a real sale succeeded (#46, tenant d7b86b73, 100, paid, 20:23:26 UTC). Owner confirmed the store name "Blue diamond" is the original.
+- No regression attributable to the migrations. Pre-existing frontend defects found (phase C backlog):
+  1. Sale screen lists inactive products; the DB correctly rejects them with `product_inactive` (check exists since 2026-06-26/27; main 866ea50 filters `is_active` only in inventory/pilot).
+  2. Sign-up with an already-registered email shows "account created" (Supabase returns 200 with `identities: []`; the UI does not detect it).
+- Open owner items: an unconfirmed Auth account created 20:29:58 UTC with a different email, no tenant (not deleted; needs owner decision); owner advised to change the password shared with the test agent.
+- Freeze still applies to any NEW production change: explicit owner approval of a named scope.
+- Full record: `docs/reviews/RECOVERY-02_EXECUTION_LOG.md`.
+
+---
+
 ## Current — production backup RESTORE PROVEN (owner export), 2026-11-09
 
 - Owner states all production data is synthetic (test data). Recorded as the owner's statement, not independently verified.

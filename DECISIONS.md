@@ -1,3 +1,16 @@
+## 2026-11-09 — Production migrations go through Lovable's migration tool (owner-approved, one by one)
+
+Lovable's agent answered in plan mode (no DB change; it wrote .lovable/plan.md, Lovable commit d52e83d):
+- GitHub sync never applies migrations. Migrations reach the database only through Lovable's chat migration tool, with owner approval per migration. This explains why the 9 October migrations on main never reached production.
+- Restore replaces the whole database in place (data, schema, grants, Auth users, migration history). It is irreversible; Storage is excluded; downtime is a few minutes.
+- While GitHub is suspended, Lovable work is kept and only sync stops. After reinstatement, check Settings > Git (a possible lovable-sync branch) before pushing.
+
+Decision:
+- Any approved production apply of the 9 migrations uses Lovable's migration tool, so its tracking stays consistent. No direct SQL plus a hand-written ledger row, as was done for 20261107214500. That hotfix's ledger row was inserted manually and must be reconciled with Lovable's migration-history check once GitHub returns.
+- Owner takes a manual data export (contains real customer data: keep offline, never share in chat).
+
+---
+
 ## 2026-11-07 — Production email-queue hotfix before the October migrations (owner full delegation)
 
 The vulnerability is live and severe: auth-email disclosure enables account takeover. The fix is grants-only, has a one-line rollback and touches no rows. It was tested in the rehearsal (user denied, service_role and enqueue trigger still work) and matches the original Lovable design ("restrict queue RPC wrappers to service_role only"). Applied first and separately.

@@ -1,0 +1,872 @@
+-- stage S5
+DO $stage$
+DECLARE src text; body text;
+BEGIN
+  IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
+  PERFORM set_config('lock_timeout','5s', true);
+  src := $src21a697c9$-- APP-02: required billing state and its receipt commit in one transaction.
+BEGIN;
+CREATE TABLE monjez_private.billing_webhook_receipts (
+  environment text NOT NULL CHECK (environment IN ('sandbox','live')),
+  event_id text NOT NULL,
+  event_type text NOT NULL,
+  occurred_at timestamptz NOT NULL,
+  paddle_subscription_id text NOT NULL,
+  subscription_created_at timestamptz NOT NULL,
+  tenant_id uuid NOT NULL,
+  request jsonb NOT NULL,
+  resolved_state jsonb NOT NULL,
+  outcome text NOT NULL CHECK (outcome IN ('applied','stale','unchanged','legacy_repaired','non_current')),
+  tenant_projected boolean NOT NULL,
+  legacy_floor timestamptz,
+  committed_at timestamptz NOT NULL DEFAULT now(),
+  PRIMARY KEY (environment,event_id)
+);
+ALTER TABLE monjez_private.billing_webhook_receipts ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON monjez_private.billing_webhook_receipts FROM PUBLIC, anon, authenticated, service_role;
+GRANT SELECT, INSERT ON monjez_private.billing_webhook_receipts TO service_role;
+CREATE POLICY billing_receipts_service ON monjez_private.billing_webhook_receipts
+  TO service_role USING (true) WITH CHECK (true);
+CREATE INDEX billing_receipts_subscription_order
+  ON monjez_private.billing_webhook_receipts(environment,paddle_subscription_id,occurred_at DESC);
+CREATE TABLE monjez_private.billing_tenant_bindings (
+  tenant_id uuid PRIMARY KEY,
+  paddle_subscription_id text NOT NULL,
+  subscription_created_at timestamptz,
+  legacy_floor timestamptz,
+  CHECK (subscription_created_at IS NOT NULL OR legacy_floor IS NOT NULL)
+);
+ALTER TABLE monjez_private.billing_tenant_bindings ENABLE ROW LEVEL SECURITY;
+REVOKE ALL ON monjez_private.billing_tenant_bindings FROM PUBLIC, anon, authenticated, service_role;
+GRANT SELECT, INSERT, UPDATE ON monjez_private.billing_tenant_bindings TO service_role;
+CREATE POLICY billing_bindings_service ON monjez_private.billing_tenant_bindings
+  TO service_role USING (true) WITH CHECK (true);
+
+CREATE FUNCTION public.apply_subscription_webhook(
+  p_environment text, p_event_id text, p_event_type text,
+  p_occurred_at timestamptz, p_subscription jsonb
+) RETURNS jsonb
+LANGUAGE plpgsql SECURITY INVOKER
+SET search_path = pg_catalog, pg_temp
+SET lock_timeout = '2s'
+SET timezone = 'UTC'
+AS $function$
+DECLARE
+  v_subscription_id text := p_subscription->>'id';
+  v_request jsonb;
+  v_receipt monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_previous monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_history monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_binding monjez_private.billing_tenant_bindings%ROWTYPE;
+  v_old public.subscriptions%ROWTYPE;
+  v_tenant public.tenants%ROWTYPE;
+  v_tenant_id uuid;
+  v_user_id uuid;
+  v_floor timestamptz;
+  v_state jsonb;
+  v_old_state jsonb;
+  v_created_at timestamptz;
+  v_known_created_at timestamptz;
+  v_binding_floor timestamptz;
+  v_project boolean := false;
+  v_outcome text := 'applied';
+  v_rows integer;
+BEGIN
+  IF current_user <> 'service_role' OR current_setting('role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION USING ERRCODE='42501', MESSAGE='billing_service_required';
+  END IF;
+  IF p_environment IS NULL OR p_environment NOT IN ('sandbox','live')
+    OR p_event_id IS NULL OR p_event_id !~ '^evt_[a-z0-9]{26}$'
+    OR p_event_type IS NULL OR p_event_type NOT IN ('subscription.created','subscription.updated','subscription.canceled')
+    OR p_occurred_at IS NULL OR NOT isfinite(p_occurred_at)
+    OR jsonb_typeof(p_subscription) IS DISTINCT FROM 'object'
+    OR octet_length(p_subscription::text)>8192
+    OR v_subscription_id IS NULL OR v_subscription_id !~ '^sub_[a-z0-9]{26}$'
+    OR p_subscription->>'status' IS NULL OR p_subscription->>'status' NOT IN ('active','trialing','past_due','paused','canceled')
+    OR (p_event_type='subscription.canceled' AND p_subscription->>'status'<>'canceled')
+    OR p_subscription->>'customer_id' IS NULL OR p_subscription->>'customer_id' !~ '^ctm_[a-z0-9]{26}$'
+  THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_invalid';
+  END IF;
+  IF EXISTS (SELECT 1 FROM jsonb_object_keys(p_subscription) k
+    WHERE k NOT IN ('id','created_at','customer_id','tenant_id','user_id','product_id','price_id','status','period_start','period_end','cancel_at_period_end'))
+    OR p_subscription->>'created_at' IS NULL
+    OR p_subscription->>'created_at' !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?(Z|[+-]\d{2}:\d{2})$' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_shape_invalid';
+  END IF;
+  v_created_at := (p_subscription->>'created_at')::timestamptz;
+  IF NOT isfinite(v_created_at) OR v_created_at>p_occurred_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_invalid';
+  END IF;
+  v_request := jsonb_build_object('type',p_event_type,'occurred_epoch',extract(epoch FROM p_occurred_at),'subscription',p_subscription);
+  -- Global provider-ID serialization also protects the existing global unique key across environments.
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:subscription:'||v_subscription_id,0));
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:event:'||p_environment||':'||p_event_id,0));
+  SELECT * INTO v_receipt FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND event_id=p_event_id;
+  IF FOUND THEN
+    IF v_receipt.request IS DISTINCT FROM v_request THEN
+      RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_id_conflict';
+    END IF;
+    RETURN jsonb_build_object('status','duplicate');
+  END IF;
+  SELECT * INTO v_old FROM public.subscriptions WHERE paddle_subscription_id=v_subscription_id FOR UPDATE;
+  SELECT * INTO v_history FROM monjez_private.billing_webhook_receipts
+    WHERE environment IN ('sandbox','live') AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND (v_history.environment IS DISTINCT FROM p_environment OR v_old.id IS NULL) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_historical_identity_requires_reconciliation';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.environment IS DISTINCT FROM p_environment THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_environment_conflict';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.paddle_customer_id IS DISTINCT FROM p_subscription->>'customer_id' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_customer_conflict';
+  END IF;
+  SELECT subscription_created_at INTO v_known_created_at FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND v_known_created_at IS DISTINCT FROM v_created_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_conflict';
+  END IF;
+  v_tenant_id := coalesce((p_subscription->>'tenant_id')::uuid,v_old.tenant_id);
+  v_user_id := coalesce((p_subscription->>'user_id')::uuid,v_old.user_id);
+  IF v_tenant_id IS NULL OR v_user_id IS NULL OR
+    (v_old.id IS NOT NULL AND (v_old.tenant_id IS DISTINCT FROM v_tenant_id OR v_old.user_id IS DISTINCT FROM v_user_id)) THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_mapping_invalid';
+  END IF;
+  SELECT * INTO v_tenant FROM public.tenants WHERE id=v_tenant_id FOR UPDATE;
+  IF NOT FOUND OR v_tenant.owner_user_id IS DISTINCT FROM v_user_id THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_owner_invalid';
+  END IF;
+  IF v_old.id IS NULL AND EXISTS (SELECT 1 FROM public.subscriptions
+    WHERE tenant_id=v_tenant_id AND environment=p_environment AND created_at=v_created_at
+      AND paddle_subscription_id<>v_subscription_id) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_creation_order_ambiguous';
+  END IF;
+  -- Both environments use the existing public created_at ordering in billing.
+  -- A legacy arrival timestamp cannot silently outrank a new provider creation.
+  IF p_event_type='subscription.created' AND EXISTS (SELECT 1 FROM public.subscriptions s
+    WHERE s.tenant_id=v_tenant_id AND s.environment=p_environment AND s.paddle_subscription_id<>v_subscription_id
+      AND s.created_at>=coalesce(v_old.created_at,v_created_at)
+      AND NOT EXISTS (SELECT 1 FROM monjez_private.billing_webhook_receipts r
+        WHERE r.environment=p_environment AND r.paddle_subscription_id=s.paddle_subscription_id
+          AND r.subscription_created_at=s.created_at)) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_display_order_unknown';
+  END IF;
+  -- Preserve the prior handler's existing plan/customer and canceled-period semantics.
+  v_state := jsonb_build_object(
+    'tenant_id',v_tenant_id,'user_id',v_user_id,'id',v_subscription_id,
+    'customer_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.paddle_customer_id ELSE p_subscription->>'customer_id' END,
+    'product_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.product_id ELSE p_subscription->>'product_id' END,
+    'price_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.price_id ELSE p_subscription->>'price_id' END,
+    'status',p_subscription->>'status',
+    'period_start',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_start
+      ELSE coalesce((p_subscription->>'period_start')::timestamptz,v_old.current_period_start) END,
+    'period_end',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_end
+      ELSE coalesce((p_subscription->>'period_end')::timestamptz,v_old.current_period_end) END,
+    'cancel_at_period_end',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.updated' THEN coalesce(v_old.cancel_at_period_end,false)
+      ELSE coalesce((p_subscription->>'cancel_at_period_end')::boolean,false) END);
+  IF coalesce(length(v_state->>'product_id'),0) NOT BETWEEN 1 AND 256
+    OR coalesce(length(v_state->>'price_id'),0) NOT BETWEEN 1 AND 256 THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_product_mapping_missing';
+  END IF;
+  SELECT * INTO v_previous FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id AND outcome<>'stale'
+    ORDER BY occurred_at DESC,event_id DESC LIMIT 1;
+  SELECT max(legacy_floor) INTO v_floor FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id;
+  IF v_previous.event_id IS NULL AND v_old.id IS NOT NULL THEN
+    v_floor := v_old.updated_at;
+  END IF;
+  v_old_state := jsonb_build_object(
+    'tenant_id',v_old.tenant_id,'user_id',v_old.user_id,'id',v_old.paddle_subscription_id,
+    'customer_id',v_old.paddle_customer_id,'product_id',v_old.product_id,'price_id',v_old.price_id,'status',v_old.status,
+    'period_start',v_old.current_period_start,'period_end',v_old.current_period_end,'cancel_at_period_end',coalesce(v_old.cancel_at_period_end,false));
+  IF v_previous.event_id IS NOT NULL AND p_occurred_at<v_previous.occurred_at THEN
+    v_outcome := 'stale';
+  ELSIF v_previous.event_id IS NOT NULL AND p_occurred_at=v_previous.occurred_at THEN
+    IF v_state IS DISTINCT FROM v_previous.resolved_state THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_event_order_ambiguous';
+    END IF;
+    v_outcome := 'unchanged';
+  ELSIF v_floor IS NOT NULL AND p_occurred_at<=v_floor
+    AND (v_previous.event_id IS NULL OR v_previous.occurred_at<v_floor) THEN
+    IF v_state IS DISTINCT FROM v_old_state THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_order_unknown';
+    END IF;
+    v_outcome := 'legacy_repaired';
+  END IF;
+  -- Only a created event may replace a known non-null binding. Other streams remain durable/non-current.
+  IF p_environment='live' THEN
+    SELECT * INTO v_binding FROM monjez_private.billing_tenant_bindings WHERE tenant_id=v_tenant_id FOR UPDATE;
+    IF v_binding.tenant_id IS NOT NULL AND v_tenant.paddle_subscription_id IS DISTINCT FROM v_binding.paddle_subscription_id THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_binding_cache_conflict';
+    END IF;
+    IF v_binding.tenant_id IS NULL AND v_tenant.paddle_subscription_id IS NOT NULL THEN
+      IF v_tenant.paddle_subscription_id=v_subscription_id THEN
+        v_binding.subscription_created_at:=v_created_at;
+      ELSE
+        SELECT created_at INTO v_binding_floor FROM public.subscriptions
+          WHERE paddle_subscription_id=v_tenant.paddle_subscription_id AND environment='live'
+            AND tenant_id=v_tenant_id AND user_id=v_user_id;
+        v_binding.legacy_floor:=coalesce(v_binding_floor,v_tenant.updated_at);
+      END IF;
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_tenant.paddle_subscription_id;
+    END IF;
+    IF v_binding.tenant_id IS NULL THEN
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_subscription_id;
+      v_binding.subscription_created_at:=v_created_at;
+      v_project:=true;
+    ELSIF v_binding.paddle_subscription_id=v_subscription_id THEN
+      IF v_binding.subscription_created_at IS NOT NULL AND v_binding.subscription_created_at<>v_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_binding_creation_conflict';
+      END IF;
+      v_binding.subscription_created_at:=v_created_at;
+      v_binding.legacy_floor:=NULL;
+      v_project:=true;
+    ELSIF p_event_type='subscription.created' THEN
+      IF v_binding.subscription_created_at IS NULL THEN
+        IF v_created_at<=v_binding.legacy_floor THEN
+          RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_binding_order_unknown';
+        END IF;
+        v_project:=true;
+      ELSIF v_created_at=v_binding.subscription_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_binding_order_ambiguous';
+      ELSE
+        v_project:=v_created_at>v_binding.subscription_created_at;
+      END IF;
+      IF v_project THEN
+        v_binding.paddle_subscription_id:=v_subscription_id;
+        v_binding.subscription_created_at:=v_created_at;
+        v_binding.legacy_floor:=NULL;
+      END IF;
+    END IF;
+    -- Existing billing reads order public created_at. Legacy arrival clocks must never
+    -- silently make a newly projected binding disagree with that existing consumer.
+    IF v_project AND EXISTS (SELECT 1 FROM public.subscriptions
+      WHERE tenant_id=v_tenant_id AND environment='live' AND paddle_subscription_id<>v_subscription_id
+        AND created_at>=coalesce(v_old.created_at,v_created_at)) THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_display_order_unknown';
+    END IF;
+    INSERT INTO monjez_private.billing_tenant_bindings AS b(tenant_id,paddle_subscription_id,subscription_created_at,legacy_floor)
+      VALUES(v_tenant_id,v_binding.paddle_subscription_id,v_binding.subscription_created_at,v_binding.legacy_floor)
+      ON CONFLICT(tenant_id) DO UPDATE SET paddle_subscription_id=excluded.paddle_subscription_id,
+        subscription_created_at=excluded.subscription_created_at,legacy_floor=excluded.legacy_floor;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_binding_missing';
+    END IF;
+  END IF;
+  IF v_outcome='applied' THEN
+    IF v_old.id IS NULL THEN
+      INSERT INTO public.subscriptions(tenant_id,user_id,paddle_subscription_id,paddle_customer_id,product_id,price_id,
+        status,current_period_start,current_period_end,cancel_at_period_end,environment,created_at)
+      VALUES(v_tenant_id,v_user_id,v_subscription_id,v_state->>'customer_id',v_state->>'product_id',v_state->>'price_id',
+        v_state->>'status',(v_state->>'period_start')::timestamptz,(v_state->>'period_end')::timestamptz,
+        (v_state->>'cancel_at_period_end')::boolean,p_environment,v_created_at);
+    ELSE
+      UPDATE public.subscriptions SET paddle_customer_id=v_state->>'customer_id',product_id=v_state->>'product_id',
+        price_id=v_state->>'price_id',status=v_state->>'status',current_period_start=(v_state->>'period_start')::timestamptz,
+        current_period_end=(v_state->>'period_end')::timestamptz,cancel_at_period_end=(v_state->>'cancel_at_period_end')::boolean,
+        updated_at=now()
+      WHERE id=v_old.id AND tenant_id=v_tenant_id AND user_id=v_user_id AND environment=p_environment;
+    END IF;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_row_missing';
+    END IF;
+  END IF;
+  IF v_project THEN
+    -- A late created notification may repair binding, but must project the newest stored stream state.
+    IF v_outcome='stale' THEN
+      v_state:=v_old_state;
+    END IF;
+    IF (v_tenant.subscription_status,v_tenant.subscription_plan,v_tenant.paddle_customer_id,v_tenant.paddle_subscription_id)
+      IS DISTINCT FROM (v_state->>'status',v_state->>'product_id',v_state->>'customer_id',v_subscription_id) THEN
+    UPDATE public.tenants SET subscription_status=v_state->>'status',subscription_plan=v_state->>'product_id',
+      paddle_customer_id=v_state->>'customer_id',paddle_subscription_id=v_subscription_id
+      WHERE id=v_tenant_id AND owner_user_id=v_user_id;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_tenant_missing';
+    END IF;
+    END IF;
+  ELSIF p_environment='live' AND v_outcome='applied' THEN
+    v_outcome:='non_current';
+  END IF;
+  INSERT INTO monjez_private.billing_webhook_receipts(environment,event_id,event_type,occurred_at,
+    paddle_subscription_id,subscription_created_at,tenant_id,request,resolved_state,outcome,tenant_projected,legacy_floor)
+  VALUES(p_environment,p_event_id,p_event_type,p_occurred_at,v_subscription_id,v_created_at,v_tenant_id,v_request,v_state,v_outcome,v_project,v_floor);
+  GET DIAGNOSTICS v_rows=ROW_COUNT;
+  IF v_rows<>1 THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_receipt_missing';
+  END IF;
+  RETURN jsonb_build_object('status',v_outcome);
+END;
+$function$;
+REVOKE ALL ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) FROM PUBLIC, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) TO service_role;
+COMMIT;
+$src21a697c9$;
+  IF md5(src) <> 'b399608f9b2d0f4ff4c6475e0406a271' THEN RAISE EXCEPTION 'SOURCE_MD5_MISMATCH 20261021132651_webhook_persistence_01'; END IF;
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20261021132651') THEN RAISE EXCEPTION 'ALREADY_APPLIED 20261021132651'; END IF;
+  body := regexp_replace(regexp_replace(src, E'(^|\n)BEGIN;\n', E'\\1'), E'\nCOMMIT;\n$', E'\n');
+  EXECUTE body;
+  INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261021132651', 'webhook_persistence_01', ARRAY[src], 'claude-recovery-02');
+  src := $src07183e17$-- APP-02 follow-up: preserve original created fields; require the creation snapshot before updates/cancellation.
+BEGIN;
+CREATE OR REPLACE FUNCTION public.apply_subscription_webhook(
+  p_environment text, p_event_id text, p_event_type text,
+  p_occurred_at timestamptz, p_subscription jsonb
+) RETURNS jsonb
+LANGUAGE plpgsql SECURITY INVOKER
+SET search_path = pg_catalog, pg_temp
+SET lock_timeout = '2s'
+SET timezone = 'UTC'
+AS $function$
+DECLARE
+  v_subscription_id text := p_subscription->>'id';
+  v_request jsonb;
+  v_receipt monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_previous monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_history monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_binding monjez_private.billing_tenant_bindings%ROWTYPE;
+  v_old public.subscriptions%ROWTYPE;
+  v_tenant public.tenants%ROWTYPE;
+  v_tenant_id uuid;
+  v_user_id uuid;
+  v_floor timestamptz;
+  v_state jsonb;
+  v_old_state jsonb;
+  v_created_at timestamptz;
+  v_known_created_at timestamptz;
+  v_binding_floor timestamptz;
+  v_project boolean := false;
+  v_outcome text := 'applied';
+  v_rows integer;
+BEGIN
+  IF current_user <> 'service_role' OR current_setting('role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION USING ERRCODE='42501', MESSAGE='billing_service_required';
+  END IF;
+  IF p_environment IS NULL OR p_environment NOT IN ('sandbox','live')
+    OR p_event_id IS NULL OR p_event_id !~ '^evt_[a-z0-9]{26}$'
+    OR p_event_type IS NULL OR p_event_type NOT IN ('subscription.created','subscription.updated','subscription.canceled')
+    OR p_occurred_at IS NULL OR NOT isfinite(p_occurred_at)
+    OR jsonb_typeof(p_subscription) IS DISTINCT FROM 'object'
+    OR octet_length(p_subscription::text)>8192
+    OR v_subscription_id IS NULL OR v_subscription_id !~ '^sub_[a-z0-9]{26}$'
+    OR p_subscription->>'status' IS NULL OR p_subscription->>'status' NOT IN ('active','trialing','past_due','paused','canceled')
+    OR (p_event_type='subscription.canceled' AND p_subscription->>'status'<>'canceled')
+    OR p_subscription->>'customer_id' IS NULL OR p_subscription->>'customer_id' !~ '^ctm_[a-z0-9]{26}$'
+  THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_invalid';
+  END IF;
+  IF EXISTS (SELECT 1 FROM jsonb_object_keys(p_subscription) k
+    WHERE k NOT IN ('id','created_at','customer_id','tenant_id','user_id','product_id','price_id','status','period_start','period_end','cancel_at_period_end'))
+    OR p_subscription->>'created_at' IS NULL
+    OR p_subscription->>'created_at' !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?(Z|[+-]\d{2}:\d{2})$' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_shape_invalid';
+  END IF;
+  v_created_at := (p_subscription->>'created_at')::timestamptz;
+  IF NOT isfinite(v_created_at) OR v_created_at>p_occurred_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_invalid';
+  END IF;
+  v_request := jsonb_build_object('type',p_event_type,'occurred_epoch',extract(epoch FROM p_occurred_at),'subscription',p_subscription);
+  -- Global provider-ID serialization also protects the existing global unique key across environments.
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:subscription:'||v_subscription_id,0));
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:event:'||p_environment||':'||p_event_id,0));
+  SELECT * INTO v_receipt FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND event_id=p_event_id;
+  IF FOUND THEN
+    IF v_receipt.request IS DISTINCT FROM v_request THEN
+      RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_id_conflict';
+    END IF;
+    RETURN jsonb_build_object('status','duplicate');
+  END IF;
+  SELECT * INTO v_old FROM public.subscriptions WHERE paddle_subscription_id=v_subscription_id FOR UPDATE;
+  IF v_old.id IS NULL AND p_event_type<>'subscription.created' THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_creation_snapshot_required';
+  END IF;
+  SELECT * INTO v_history FROM monjez_private.billing_webhook_receipts
+    WHERE environment IN ('sandbox','live') AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND (v_history.environment IS DISTINCT FROM p_environment OR v_old.id IS NULL) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_historical_identity_requires_reconciliation';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.environment IS DISTINCT FROM p_environment THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_environment_conflict';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.paddle_customer_id IS DISTINCT FROM p_subscription->>'customer_id' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_customer_conflict';
+  END IF;
+  SELECT subscription_created_at INTO v_known_created_at FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND v_known_created_at IS DISTINCT FROM v_created_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_conflict';
+  END IF;
+  v_tenant_id := coalesce((p_subscription->>'tenant_id')::uuid,v_old.tenant_id);
+  v_user_id := coalesce((p_subscription->>'user_id')::uuid,v_old.user_id);
+  IF v_tenant_id IS NULL OR v_user_id IS NULL OR
+    (v_old.id IS NOT NULL AND (v_old.tenant_id IS DISTINCT FROM v_tenant_id OR v_old.user_id IS DISTINCT FROM v_user_id)) THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_mapping_invalid';
+  END IF;
+  SELECT * INTO v_tenant FROM public.tenants WHERE id=v_tenant_id FOR UPDATE;
+  IF NOT FOUND OR v_tenant.owner_user_id IS DISTINCT FROM v_user_id THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_owner_invalid';
+  END IF;
+  IF v_old.id IS NULL AND EXISTS (SELECT 1 FROM public.subscriptions
+    WHERE tenant_id=v_tenant_id AND environment=p_environment AND created_at=v_created_at
+      AND paddle_subscription_id<>v_subscription_id) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_creation_order_ambiguous';
+  END IF;
+  -- Both environments use the existing public created_at ordering in billing.
+  -- A legacy arrival timestamp cannot silently outrank a new provider creation.
+  IF p_event_type='subscription.created' AND EXISTS (SELECT 1 FROM public.subscriptions s
+    WHERE s.tenant_id=v_tenant_id AND s.environment=p_environment AND s.paddle_subscription_id<>v_subscription_id
+      AND s.created_at>=coalesce(v_old.created_at,v_created_at)
+      AND NOT EXISTS (SELECT 1 FROM monjez_private.billing_webhook_receipts r
+        WHERE r.environment=p_environment AND r.paddle_subscription_id=s.paddle_subscription_id
+          AND r.subscription_created_at=s.created_at)) THEN
+    RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_display_order_unknown';
+  END IF;
+  -- Preserve the prior handler's existing plan/customer and canceled-period semantics.
+  v_state := jsonb_build_object(
+    'tenant_id',v_tenant_id,'user_id',v_user_id,'id',v_subscription_id,
+    'customer_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.paddle_customer_id ELSE p_subscription->>'customer_id' END,
+    'product_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.product_id ELSE p_subscription->>'product_id' END,
+    'price_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.price_id ELSE p_subscription->>'price_id' END,
+    'status',p_subscription->>'status',
+    'period_start',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_start
+      ELSE coalesce((p_subscription->>'period_start')::timestamptz,v_old.current_period_start) END,
+    'period_end',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_end
+      ELSE coalesce((p_subscription->>'period_end')::timestamptz,v_old.current_period_end) END,
+    'cancel_at_period_end',CASE WHEN p_event_type='subscription.created' OR (v_old.id IS NOT NULL AND p_event_type<>'subscription.updated') THEN coalesce(v_old.cancel_at_period_end,false)
+      ELSE coalesce((p_subscription->>'cancel_at_period_end')::boolean,false) END);
+  IF coalesce(length(v_state->>'product_id'),0) NOT BETWEEN 1 AND 256
+    OR coalesce(length(v_state->>'price_id'),0) NOT BETWEEN 1 AND 256 THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_product_mapping_missing';
+  END IF;
+  SELECT * INTO v_previous FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id AND outcome<>'stale'
+    ORDER BY occurred_at DESC,event_id DESC LIMIT 1;
+  SELECT max(legacy_floor) INTO v_floor FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id;
+  IF v_previous.event_id IS NULL AND v_old.id IS NOT NULL THEN
+    v_floor := v_old.updated_at;
+  END IF;
+  v_old_state := jsonb_build_object(
+    'tenant_id',v_old.tenant_id,'user_id',v_old.user_id,'id',v_old.paddle_subscription_id,
+    'customer_id',v_old.paddle_customer_id,'product_id',v_old.product_id,'price_id',v_old.price_id,'status',v_old.status,
+    'period_start',v_old.current_period_start,'period_end',v_old.current_period_end,'cancel_at_period_end',coalesce(v_old.cancel_at_period_end,false));
+  IF v_previous.event_id IS NOT NULL AND p_occurred_at<v_previous.occurred_at THEN
+    v_outcome := 'stale';
+  ELSIF v_previous.event_id IS NOT NULL AND p_occurred_at=v_previous.occurred_at THEN
+    IF v_state IS DISTINCT FROM v_previous.resolved_state THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_event_order_ambiguous';
+    END IF;
+    v_outcome := 'unchanged';
+  ELSIF v_floor IS NOT NULL AND p_occurred_at<=v_floor
+    AND (v_previous.event_id IS NULL OR v_previous.occurred_at<v_floor) THEN
+    IF v_state IS DISTINCT FROM v_old_state THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_order_unknown';
+    END IF;
+    v_outcome := 'legacy_repaired';
+  END IF;
+  -- Only a created event may replace a known non-null binding. Other streams remain durable/non-current.
+  IF p_environment='live' THEN
+    SELECT * INTO v_binding FROM monjez_private.billing_tenant_bindings WHERE tenant_id=v_tenant_id FOR UPDATE;
+    IF v_binding.tenant_id IS NOT NULL AND v_tenant.paddle_subscription_id IS DISTINCT FROM v_binding.paddle_subscription_id THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_binding_cache_conflict';
+    END IF;
+    IF v_binding.tenant_id IS NULL AND v_tenant.paddle_subscription_id IS NOT NULL THEN
+      IF v_tenant.paddle_subscription_id=v_subscription_id THEN
+        v_binding.subscription_created_at:=v_created_at;
+      ELSE
+        SELECT created_at INTO v_binding_floor FROM public.subscriptions
+          WHERE paddle_subscription_id=v_tenant.paddle_subscription_id AND environment='live'
+            AND tenant_id=v_tenant_id AND user_id=v_user_id;
+        v_binding.legacy_floor:=coalesce(v_binding_floor,v_tenant.updated_at);
+      END IF;
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_tenant.paddle_subscription_id;
+    END IF;
+    IF v_binding.tenant_id IS NULL THEN
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_subscription_id;
+      v_binding.subscription_created_at:=v_created_at;
+      v_project:=true;
+    ELSIF v_binding.paddle_subscription_id=v_subscription_id THEN
+      IF v_binding.subscription_created_at IS NOT NULL AND v_binding.subscription_created_at<>v_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_binding_creation_conflict';
+      END IF;
+      v_binding.subscription_created_at:=v_created_at;
+      v_binding.legacy_floor:=NULL;
+      v_project:=true;
+    ELSIF p_event_type='subscription.created' THEN
+      IF v_binding.subscription_created_at IS NULL THEN
+        IF v_created_at<=v_binding.legacy_floor THEN
+          RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_binding_order_unknown';
+        END IF;
+        v_project:=true;
+      ELSIF v_created_at=v_binding.subscription_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_binding_order_ambiguous';
+      ELSE
+        v_project:=v_created_at>v_binding.subscription_created_at;
+      END IF;
+      IF v_project THEN
+        v_binding.paddle_subscription_id:=v_subscription_id;
+        v_binding.subscription_created_at:=v_created_at;
+        v_binding.legacy_floor:=NULL;
+      END IF;
+    END IF;
+    -- Existing billing reads order public created_at. Legacy arrival clocks must never
+    -- silently make a newly projected binding disagree with that existing consumer.
+    IF v_project AND EXISTS (SELECT 1 FROM public.subscriptions
+      WHERE tenant_id=v_tenant_id AND environment='live' AND paddle_subscription_id<>v_subscription_id
+        AND created_at>=coalesce(v_old.created_at,v_created_at)) THEN
+      RAISE EXCEPTION USING ERRCODE='40001', MESSAGE='billing_legacy_display_order_unknown';
+    END IF;
+    INSERT INTO monjez_private.billing_tenant_bindings AS b(tenant_id,paddle_subscription_id,subscription_created_at,legacy_floor)
+      VALUES(v_tenant_id,v_binding.paddle_subscription_id,v_binding.subscription_created_at,v_binding.legacy_floor)
+      ON CONFLICT(tenant_id) DO UPDATE SET paddle_subscription_id=excluded.paddle_subscription_id,
+        subscription_created_at=excluded.subscription_created_at,legacy_floor=excluded.legacy_floor;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_binding_missing';
+    END IF;
+  END IF;
+  IF v_outcome='applied' THEN
+    IF v_old.id IS NULL THEN
+      INSERT INTO public.subscriptions(tenant_id,user_id,paddle_subscription_id,paddle_customer_id,product_id,price_id,
+        status,current_period_start,current_period_end,cancel_at_period_end,environment,created_at)
+      VALUES(v_tenant_id,v_user_id,v_subscription_id,v_state->>'customer_id',v_state->>'product_id',v_state->>'price_id',
+        v_state->>'status',(v_state->>'period_start')::timestamptz,(v_state->>'period_end')::timestamptz,
+        (v_state->>'cancel_at_period_end')::boolean,p_environment,v_created_at);
+    ELSE
+      UPDATE public.subscriptions SET paddle_customer_id=v_state->>'customer_id',product_id=v_state->>'product_id',
+        price_id=v_state->>'price_id',status=v_state->>'status',current_period_start=(v_state->>'period_start')::timestamptz,
+        current_period_end=(v_state->>'period_end')::timestamptz,cancel_at_period_end=(v_state->>'cancel_at_period_end')::boolean,
+        updated_at=now()
+      WHERE id=v_old.id AND tenant_id=v_tenant_id AND user_id=v_user_id AND environment=p_environment;
+    END IF;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_row_missing';
+    END IF;
+  END IF;
+  IF v_project THEN
+    -- A late created notification may repair binding, but must project the newest stored stream state.
+    IF v_outcome='stale' THEN
+      v_state:=v_old_state;
+    END IF;
+    IF (v_tenant.subscription_status,v_tenant.subscription_plan,v_tenant.paddle_customer_id,v_tenant.paddle_subscription_id)
+      IS DISTINCT FROM (v_state->>'status',v_state->>'product_id',v_state->>'customer_id',v_subscription_id) THEN
+    UPDATE public.tenants SET subscription_status=v_state->>'status',subscription_plan=v_state->>'product_id',
+      paddle_customer_id=v_state->>'customer_id',paddle_subscription_id=v_subscription_id
+      WHERE id=v_tenant_id AND owner_user_id=v_user_id;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_tenant_missing';
+    END IF;
+    END IF;
+  ELSIF p_environment='live' AND v_outcome='applied' THEN
+    v_outcome:='non_current';
+  END IF;
+  INSERT INTO monjez_private.billing_webhook_receipts(environment,event_id,event_type,occurred_at,
+    paddle_subscription_id,subscription_created_at,tenant_id,request,resolved_state,outcome,tenant_projected,legacy_floor)
+  VALUES(p_environment,p_event_id,p_event_type,p_occurred_at,v_subscription_id,v_created_at,v_tenant_id,v_request,v_state,v_outcome,v_project,v_floor);
+  GET DIAGNOSTICS v_rows=ROW_COUNT;
+  IF v_rows<>1 THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_receipt_missing';
+  END IF;
+  RETURN jsonb_build_object('status',v_outcome);
+END;
+$function$;
+REVOKE ALL ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) FROM PUBLIC, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) TO service_role;
+COMMIT;
+$src07183e17$;
+  IF md5(src) <> '9027a95a19d639eb216f435d137d2575' THEN RAISE EXCEPTION 'SOURCE_MD5_MISMATCH 20261021134621_webhook_bootstrap_01'; END IF;
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20261021134621') THEN RAISE EXCEPTION 'ALREADY_APPLIED 20261021134621'; END IF;
+  body := regexp_replace(regexp_replace(src, E'(^|\n)BEGIN;\n', E'\\1'), E'\nCOMMIT;\n$', E'\n');
+  EXECUTE body;
+  INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261021134621', 'webhook_bootstrap_01', ARRAY[src], 'claude-recovery-02');
+  src := $src78fb647d$-- APP-02: application refusals must not enter PostgREST/Hasql serialization retry loops.
+BEGIN;
+CREATE OR REPLACE FUNCTION public.apply_subscription_webhook(
+  p_environment text, p_event_id text, p_event_type text,
+  p_occurred_at timestamptz, p_subscription jsonb
+) RETURNS jsonb
+LANGUAGE plpgsql SECURITY INVOKER
+SET search_path = pg_catalog, pg_temp
+SET lock_timeout = '2s'
+SET timezone = 'UTC'
+AS $function$
+DECLARE
+  v_subscription_id text := p_subscription->>'id';
+  v_request jsonb;
+  v_receipt monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_previous monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_history monjez_private.billing_webhook_receipts%ROWTYPE;
+  v_binding monjez_private.billing_tenant_bindings%ROWTYPE;
+  v_old public.subscriptions%ROWTYPE;
+  v_tenant public.tenants%ROWTYPE;
+  v_tenant_id uuid;
+  v_user_id uuid;
+  v_floor timestamptz;
+  v_state jsonb;
+  v_old_state jsonb;
+  v_created_at timestamptz;
+  v_known_created_at timestamptz;
+  v_binding_floor timestamptz;
+  v_project boolean := false;
+  v_outcome text := 'applied';
+  v_rows integer;
+BEGIN
+  IF current_user <> 'service_role' OR current_setting('role',true) IS DISTINCT FROM 'service_role' THEN
+    RAISE EXCEPTION USING ERRCODE='42501', MESSAGE='billing_service_required';
+  END IF;
+  IF p_environment IS NULL OR p_environment NOT IN ('sandbox','live')
+    OR p_event_id IS NULL OR p_event_id !~ '^evt_[a-z0-9]{26}$'
+    OR p_event_type IS NULL OR p_event_type NOT IN ('subscription.created','subscription.updated','subscription.canceled')
+    OR p_occurred_at IS NULL OR NOT isfinite(p_occurred_at)
+    OR jsonb_typeof(p_subscription) IS DISTINCT FROM 'object'
+    OR octet_length(p_subscription::text)>8192
+    OR v_subscription_id IS NULL OR v_subscription_id !~ '^sub_[a-z0-9]{26}$'
+    OR p_subscription->>'status' IS NULL OR p_subscription->>'status' NOT IN ('active','trialing','past_due','paused','canceled')
+    OR (p_event_type='subscription.canceled' AND p_subscription->>'status'<>'canceled')
+    OR p_subscription->>'customer_id' IS NULL OR p_subscription->>'customer_id' !~ '^ctm_[a-z0-9]{26}$'
+  THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_invalid';
+  END IF;
+  IF EXISTS (SELECT 1 FROM jsonb_object_keys(p_subscription) k
+    WHERE k NOT IN ('id','created_at','customer_id','tenant_id','user_id','product_id','price_id','status','period_start','period_end','cancel_at_period_end'))
+    OR p_subscription->>'created_at' IS NULL
+    OR p_subscription->>'created_at' !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?(Z|[+-]\d{2}:\d{2})$' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_shape_invalid';
+  END IF;
+  v_created_at := (p_subscription->>'created_at')::timestamptz;
+  IF NOT isfinite(v_created_at) OR v_created_at>p_occurred_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_invalid';
+  END IF;
+  v_request := jsonb_build_object('type',p_event_type,'occurred_epoch',extract(epoch FROM p_occurred_at),'subscription',p_subscription);
+  -- Global provider-ID serialization also protects the existing global unique key across environments.
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:subscription:'||v_subscription_id,0));
+  PERFORM pg_advisory_xact_lock(hashtextextended('monjez:billing:event:'||p_environment||':'||p_event_id,0));
+  SELECT * INTO v_receipt FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND event_id=p_event_id;
+  IF FOUND THEN
+    IF v_receipt.request IS DISTINCT FROM v_request THEN
+      RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_event_id_conflict';
+    END IF;
+    RETURN jsonb_build_object('status','duplicate');
+  END IF;
+  SELECT * INTO v_old FROM public.subscriptions WHERE paddle_subscription_id=v_subscription_id FOR UPDATE;
+  IF v_old.id IS NULL AND p_event_type<>'subscription.created' THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_creation_snapshot_required';
+  END IF;
+  SELECT * INTO v_history FROM monjez_private.billing_webhook_receipts
+    WHERE environment IN ('sandbox','live') AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND (v_history.environment IS DISTINCT FROM p_environment OR v_old.id IS NULL) THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_historical_identity_requires_reconciliation';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.environment IS DISTINCT FROM p_environment THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_environment_conflict';
+  END IF;
+  IF v_old.id IS NOT NULL AND v_old.paddle_customer_id IS DISTINCT FROM p_subscription->>'customer_id' THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_customer_conflict';
+  END IF;
+  SELECT subscription_created_at INTO v_known_created_at FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id LIMIT 1;
+  IF FOUND AND v_known_created_at IS DISTINCT FROM v_created_at THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_creation_time_conflict';
+  END IF;
+  v_tenant_id := coalesce((p_subscription->>'tenant_id')::uuid,v_old.tenant_id);
+  v_user_id := coalesce((p_subscription->>'user_id')::uuid,v_old.user_id);
+  IF v_tenant_id IS NULL OR v_user_id IS NULL OR
+    (v_old.id IS NOT NULL AND (v_old.tenant_id IS DISTINCT FROM v_tenant_id OR v_old.user_id IS DISTINCT FROM v_user_id)) THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_mapping_invalid';
+  END IF;
+  SELECT * INTO v_tenant FROM public.tenants WHERE id=v_tenant_id FOR UPDATE;
+  IF NOT FOUND OR v_tenant.owner_user_id IS DISTINCT FROM v_user_id THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_owner_invalid';
+  END IF;
+  IF v_old.id IS NULL AND EXISTS (SELECT 1 FROM public.subscriptions
+    WHERE tenant_id=v_tenant_id AND environment=p_environment AND created_at=v_created_at
+      AND paddle_subscription_id<>v_subscription_id) THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_creation_order_ambiguous';
+  END IF;
+  -- Both environments use the existing public created_at ordering in billing.
+  -- A legacy arrival timestamp cannot silently outrank a new provider creation.
+  IF p_event_type='subscription.created' AND EXISTS (SELECT 1 FROM public.subscriptions s
+    WHERE s.tenant_id=v_tenant_id AND s.environment=p_environment AND s.paddle_subscription_id<>v_subscription_id
+      AND s.created_at>=coalesce(v_old.created_at,v_created_at)
+      AND NOT EXISTS (SELECT 1 FROM monjez_private.billing_webhook_receipts r
+        WHERE r.environment=p_environment AND r.paddle_subscription_id=s.paddle_subscription_id
+          AND r.subscription_created_at=s.created_at)) THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_legacy_display_order_unknown';
+  END IF;
+  -- Preserve the prior handler's existing plan/customer and canceled-period semantics.
+  v_state := jsonb_build_object(
+    'tenant_id',v_tenant_id,'user_id',v_user_id,'id',v_subscription_id,
+    'customer_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.paddle_customer_id ELSE p_subscription->>'customer_id' END,
+    'product_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.product_id ELSE p_subscription->>'product_id' END,
+    'price_id',CASE WHEN v_old.id IS NOT NULL AND p_event_type<>'subscription.created' THEN v_old.price_id ELSE p_subscription->>'price_id' END,
+    'status',p_subscription->>'status',
+    'period_start',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_start
+      ELSE coalesce((p_subscription->>'period_start')::timestamptz,v_old.current_period_start) END,
+    'period_end',CASE WHEN v_old.id IS NOT NULL AND p_event_type='subscription.canceled' THEN v_old.current_period_end
+      ELSE coalesce((p_subscription->>'period_end')::timestamptz,v_old.current_period_end) END,
+    'cancel_at_period_end',CASE WHEN p_event_type='subscription.created' OR (v_old.id IS NOT NULL AND p_event_type<>'subscription.updated') THEN coalesce(v_old.cancel_at_period_end,false)
+      ELSE coalesce((p_subscription->>'cancel_at_period_end')::boolean,false) END);
+  IF coalesce(length(v_state->>'product_id'),0) NOT BETWEEN 1 AND 256
+    OR coalesce(length(v_state->>'price_id'),0) NOT BETWEEN 1 AND 256 THEN
+    RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_product_mapping_missing';
+  END IF;
+  SELECT * INTO v_previous FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id AND outcome<>'stale'
+    ORDER BY occurred_at DESC,event_id DESC LIMIT 1;
+  SELECT max(legacy_floor) INTO v_floor FROM monjez_private.billing_webhook_receipts
+    WHERE environment=p_environment AND paddle_subscription_id=v_subscription_id;
+  IF v_previous.event_id IS NULL AND v_old.id IS NOT NULL THEN
+    v_floor := v_old.updated_at;
+  END IF;
+  v_old_state := jsonb_build_object(
+    'tenant_id',v_old.tenant_id,'user_id',v_old.user_id,'id',v_old.paddle_subscription_id,
+    'customer_id',v_old.paddle_customer_id,'product_id',v_old.product_id,'price_id',v_old.price_id,'status',v_old.status,
+    'period_start',v_old.current_period_start,'period_end',v_old.current_period_end,'cancel_at_period_end',coalesce(v_old.cancel_at_period_end,false));
+  IF v_previous.event_id IS NOT NULL AND p_occurred_at<v_previous.occurred_at THEN
+    v_outcome := 'stale';
+  ELSIF v_previous.event_id IS NOT NULL AND p_occurred_at=v_previous.occurred_at THEN
+    IF v_state IS DISTINCT FROM v_previous.resolved_state THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_event_order_ambiguous';
+    END IF;
+    v_outcome := 'unchanged';
+  ELSIF v_floor IS NOT NULL AND p_occurred_at<=v_floor
+    AND (v_previous.event_id IS NULL OR v_previous.occurred_at<v_floor) THEN
+    IF v_state IS DISTINCT FROM v_old_state THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_legacy_order_unknown';
+    END IF;
+    v_outcome := 'legacy_repaired';
+  END IF;
+  -- Only a created event may replace a known non-null binding. Other streams remain durable/non-current.
+  IF p_environment='live' THEN
+    SELECT * INTO v_binding FROM monjez_private.billing_tenant_bindings WHERE tenant_id=v_tenant_id FOR UPDATE;
+    IF v_binding.tenant_id IS NOT NULL AND v_tenant.paddle_subscription_id IS DISTINCT FROM v_binding.paddle_subscription_id THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_binding_cache_conflict';
+    END IF;
+    IF v_binding.tenant_id IS NULL AND v_tenant.paddle_subscription_id IS NOT NULL THEN
+      IF v_tenant.paddle_subscription_id=v_subscription_id THEN
+        v_binding.subscription_created_at:=v_created_at;
+      ELSE
+        SELECT created_at INTO v_binding_floor FROM public.subscriptions
+          WHERE paddle_subscription_id=v_tenant.paddle_subscription_id AND environment='live'
+            AND tenant_id=v_tenant_id AND user_id=v_user_id;
+        v_binding.legacy_floor:=coalesce(v_binding_floor,v_tenant.updated_at);
+      END IF;
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_tenant.paddle_subscription_id;
+    END IF;
+    IF v_binding.tenant_id IS NULL THEN
+      v_binding.tenant_id:=v_tenant_id;
+      v_binding.paddle_subscription_id:=v_subscription_id;
+      v_binding.subscription_created_at:=v_created_at;
+      v_project:=true;
+    ELSIF v_binding.paddle_subscription_id=v_subscription_id THEN
+      IF v_binding.subscription_created_at IS NOT NULL AND v_binding.subscription_created_at<>v_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='22023', MESSAGE='billing_binding_creation_conflict';
+      END IF;
+      v_binding.subscription_created_at:=v_created_at;
+      v_binding.legacy_floor:=NULL;
+      v_project:=true;
+    ELSIF p_event_type='subscription.created' THEN
+      IF v_binding.subscription_created_at IS NULL THEN
+        IF v_created_at<=v_binding.legacy_floor THEN
+          RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_legacy_binding_order_unknown';
+        END IF;
+        v_project:=true;
+      ELSIF v_created_at=v_binding.subscription_created_at THEN
+        RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_binding_order_ambiguous';
+      ELSE
+        v_project:=v_created_at>v_binding.subscription_created_at;
+      END IF;
+      IF v_project THEN
+        v_binding.paddle_subscription_id:=v_subscription_id;
+        v_binding.subscription_created_at:=v_created_at;
+        v_binding.legacy_floor:=NULL;
+      END IF;
+    END IF;
+    -- Existing billing reads order public created_at. Legacy arrival clocks must never
+    -- silently make a newly projected binding disagree with that existing consumer.
+    IF v_project AND EXISTS (SELECT 1 FROM public.subscriptions
+      WHERE tenant_id=v_tenant_id AND environment='live' AND paddle_subscription_id<>v_subscription_id
+        AND created_at>=coalesce(v_old.created_at,v_created_at)) THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_legacy_display_order_unknown';
+    END IF;
+    INSERT INTO monjez_private.billing_tenant_bindings AS b(tenant_id,paddle_subscription_id,subscription_created_at,legacy_floor)
+      VALUES(v_tenant_id,v_binding.paddle_subscription_id,v_binding.subscription_created_at,v_binding.legacy_floor)
+      ON CONFLICT(tenant_id) DO UPDATE SET paddle_subscription_id=excluded.paddle_subscription_id,
+        subscription_created_at=excluded.subscription_created_at,legacy_floor=excluded.legacy_floor;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_binding_missing';
+    END IF;
+  END IF;
+  IF v_outcome='applied' THEN
+    IF v_old.id IS NULL THEN
+      INSERT INTO public.subscriptions(tenant_id,user_id,paddle_subscription_id,paddle_customer_id,product_id,price_id,
+        status,current_period_start,current_period_end,cancel_at_period_end,environment,created_at)
+      VALUES(v_tenant_id,v_user_id,v_subscription_id,v_state->>'customer_id',v_state->>'product_id',v_state->>'price_id',
+        v_state->>'status',(v_state->>'period_start')::timestamptz,(v_state->>'period_end')::timestamptz,
+        (v_state->>'cancel_at_period_end')::boolean,p_environment,v_created_at);
+    ELSE
+      UPDATE public.subscriptions SET paddle_customer_id=v_state->>'customer_id',product_id=v_state->>'product_id',
+        price_id=v_state->>'price_id',status=v_state->>'status',current_period_start=(v_state->>'period_start')::timestamptz,
+        current_period_end=(v_state->>'period_end')::timestamptz,cancel_at_period_end=(v_state->>'cancel_at_period_end')::boolean,
+        updated_at=now()
+      WHERE id=v_old.id AND tenant_id=v_tenant_id AND user_id=v_user_id AND environment=p_environment;
+    END IF;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_row_missing';
+    END IF;
+  END IF;
+  IF v_project THEN
+    -- A late created notification may repair binding, but must project the newest stored stream state.
+    IF v_outcome='stale' THEN
+      v_state:=v_old_state;
+    END IF;
+    IF (v_tenant.subscription_status,v_tenant.subscription_plan,v_tenant.paddle_customer_id,v_tenant.paddle_subscription_id)
+      IS DISTINCT FROM (v_state->>'status',v_state->>'product_id',v_state->>'customer_id',v_subscription_id) THEN
+    UPDATE public.tenants SET subscription_status=v_state->>'status',subscription_plan=v_state->>'product_id',
+      paddle_customer_id=v_state->>'customer_id',paddle_subscription_id=v_subscription_id
+      WHERE id=v_tenant_id AND owner_user_id=v_user_id;
+    GET DIAGNOSTICS v_rows=ROW_COUNT;
+    IF v_rows<>1 THEN
+      RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_required_tenant_missing';
+    END IF;
+    END IF;
+  ELSIF p_environment='live' AND v_outcome='applied' THEN
+    v_outcome:='non_current';
+  END IF;
+  INSERT INTO monjez_private.billing_webhook_receipts(environment,event_id,event_type,occurred_at,
+    paddle_subscription_id,subscription_created_at,tenant_id,request,resolved_state,outcome,tenant_projected,legacy_floor)
+  VALUES(p_environment,p_event_id,p_event_type,p_occurred_at,v_subscription_id,v_created_at,v_tenant_id,v_request,v_state,v_outcome,v_project,v_floor);
+  GET DIAGNOSTICS v_rows=ROW_COUNT;
+  IF v_rows<>1 THEN
+    RAISE EXCEPTION USING ERRCODE='P0001', MESSAGE='billing_receipt_missing';
+  END IF;
+  RETURN jsonb_build_object('status',v_outcome);
+END;
+$function$;
+REVOKE ALL ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) FROM PUBLIC, anon, authenticated, service_role;
+GRANT EXECUTE ON FUNCTION public.apply_subscription_webhook(text,text,text,timestamptz,jsonb) TO service_role;
+COMMIT;
+$src78fb647d$;
+  IF md5(src) <> '2fc9db1fe3661b4a1fa1ef4494c860a5' THEN RAISE EXCEPTION 'SOURCE_MD5_MISMATCH 20261021140746_webhook_errors_01'; END IF;
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20261021140746') THEN RAISE EXCEPTION 'ALREADY_APPLIED 20261021140746'; END IF;
+  body := regexp_replace(regexp_replace(src, E'(^|\n)BEGIN;\n', E'\\1'), E'\nCOMMIT;\n$', E'\n');
+  EXECUTE body;
+  INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261021140746', 'webhook_errors_01', ARRAY[src], 'claude-recovery-02');
+END
+$stage$;

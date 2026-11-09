@@ -1,3 +1,20 @@
+## Current — production backup RESTORE PROVEN (owner export), 2026-11-09
+
+- Owner states all production data is synthetic (test data). Recorded as the owner's statement, not independently verified.
+- Owner export (Lovable): pg_dump custom format, dumped from PG 17.6 by pg_dump 18.6 at 2026-11-09 09:14 UTC; 1015 TOC entries, 73 data entries.
+- Restored with official PostgreSQL 17.11 tools (conda-forge, via micromamba) into an isolated local instance in the agent container. No contact with production or the lab.
+- 38 restore errors, all Supabase platform components absent from vanilla PostgreSQL: pg_cron, pg_net, pgmq and supabase_vault extensions with their grants/data, and 6 event-trigger owner changes. None touched public, auth or supabase_migrations.
+- Restored vs production (production side read-only, hashes only):
+  - ledger 43 incl. 20261107214500;
+  - 42 public functions; 33/33 md5 equal to the production snapshot; email_queue_* md5 equal to production originals;
+  - 59 policies; email RPC ACLs service_role-only;
+  - 8 auth users;
+  - data: 22/22 public tables IDENTICAL (row count + md5 of rows ordered by text, collate "C").
+- After the test, the dump, the restored cluster and the uploaded file were deleted from the container. Kept: table hashes and the error list (scratchpad r02/restore_proof_*).
+- Limits: this proves the export file is a complete, restorable copy of application data and schema. It does not exercise Lovable's in-place "Restore to this backup" button, and it does not restore the platform extensions' internal state (cron jobs, vault secrets), which Lovable's own restore handles.
+
+---
+
 ## Current — production backups verified by owner screenshot, 2026-11-09
 
 - Lovable Cloud > Database > Backups (project 1c38f21a…): daily backups at about 05:39 UTC, 10 consecutive visible (2026-10-31 .. 2026-11-09), latest 2026-11-09 05:39:37 UTC.

@@ -4,10 +4,10 @@ import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import {
-  EXISTING_ACCOUNT_MESSAGE,
+  RESEND_NEUTRAL_MESSAGE,
   SIGNUP_FAILED_MESSAGE,
+  SIGNUP_NEUTRAL_MESSAGE,
   isExistingAccountError,
-  isExistingAccountReply,
 } from "@/lib/auth-signup";
 
 type AuthFailure = {
@@ -89,21 +89,13 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        if (isExistingAccountReply(data)) {
-          setMode("signin");
-          setPassword("");
-          setInfo(EXISTING_ACCOUNT_MESSAGE);
-          setNeedsConfirm(true);
-          return;
-        }
         // No session => email confirmation required. Do NOT navigate (the
         // protected gate would bounce the user back silently).
         if (!data.session) {
           setMode("signin");
           setPassword("");
-          setInfo(
-            "تم إنشاء حسابك ✅ — تحقّق من بريدك (وصندوق الـ Spam) واضغط رابط التفعيل، ثم ارجع للدخول من هنا.",
-          );
+          // Same message whether the email is new or already has an account.
+          setInfo(SIGNUP_NEUTRAL_MESSAGE);
           setNeedsConfirm(true);
           return;
         }
@@ -125,7 +117,7 @@ function AuthPage() {
       } else if (mode === "signup" && isExistingAccountError(code, msg)) {
         setMode("signin");
         setPassword("");
-        setInfo(EXISTING_ACCOUNT_MESSAGE);
+        setInfo(SIGNUP_NEUTRAL_MESSAGE);
         setNeedsConfirm(true);
       } else if (mode === "signup") {
         setError(SIGNUP_FAILED_MESSAGE);
@@ -156,7 +148,7 @@ function AuthPage() {
         options: { emailRedirectTo: window.location.origin },
       });
       if (error) throw error;
-      setInfo("أرسلنا رسالة التفعيل من جديد، تحقّق من بريدك.");
+      setInfo(RESEND_NEUTRAL_MESSAGE);
     } catch (caught: unknown) {
       const { message: msg, code } = parseAuthFailure(caught);
       if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {

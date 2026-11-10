@@ -251,7 +251,7 @@
     },
     {
       "path": "bun.lock",
-      "sha": "b6d95a16bdc877db76595fb6f7ce9b33c3fbe80a",
+      "sha": "b5aa3b7645c80e80b64ada92ea0c39c95a83f5c8",
       "mode": "100644"
     },
     {
@@ -316,7 +316,7 @@
     },
     {
       "path": "package.json",
-      "sha": "7be7ed4e44e9f0bf1467f3de69951a89daa88974",
+      "sha": "5af207153da9176f31ae1de1baa0b642d44c0fbc",
       "mode": "100644"
     },
     {
@@ -391,7 +391,7 @@
     },
     {
       "path": "scripts/generated-format-manifest.json",
-      "sha": "36d4443fabeda1170407a27fc164d1edf9821347",
+      "sha": "11752e0c9b2581f3c47591fdecfb19827981204d",
       "mode": "100644"
     },
     {
@@ -816,12 +816,12 @@
     },
     {
       "path": "src/integrations/supabase/client.ts",
-      "sha": "63809f2aaf351d70a6fe57a827afdcee72b25663",
+      "sha": "3d892cfb4e51330a89ccee3c2f98b49a868c4935",
       "mode": "100644"
     },
     {
       "path": "src/integrations/supabase/types.ts",
-      "sha": "7216cdaf91f4d49b3b5ae49fb40fe886e10a727b",
+      "sha": "b5b6764eb00094ca0c15462c3fae16206864f0b1",
       "mode": "100644"
     },
     {
@@ -1962,6 +1962,26 @@
     {
       "path": "vite.config.ts",
       "sha": "9f86f07d89e56d33ad93cc0ec38b2731a0e158f2",
+      "mode": "100644"
+    },
+    {
+      "path": "evidence/g0-babel/map-observations.json",
+      "sha": "7426ceff3b96b37f36e7325fe5e77b55f0c29053",
+      "mode": "100644"
+    },
+    {
+      "path": "evidence/g0-esbuild/security-observations.json",
+      "sha": "ba943c76a7ca865998e2b8a30c16f713c028115c",
+      "mode": "100644"
+    },
+    {
+      "path": "evidence/g0-node-server/http-observations.json",
+      "sha": "14debe2558fb868d163d7e25e7120d3be4fa1daa",
+      "mode": "100644"
+    },
+    {
+      "path": "src/integrations/supabase/previewAuthStorage.ts",
+      "sha": "5f007b8b30c4507698a5400fd5af1b75e69b1eeb",
       "mode": "100644"
     }
   ],

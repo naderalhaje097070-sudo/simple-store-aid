@@ -1,32 +1,10 @@
 name: G1 Bounded Acceptance Repair
 'on':
-  push:
-    branches:
-    - integration/g0-g1-reconcile-2026-10-18
-    paths:
-    - tests/c5-collection/**
-    - tests/c5-acceptance/**
-    - supabase/migrations/**
-    - tests/g01-acceptance/integrated-source.json
-    - tests/g01-acceptance/integrated_identity.py
-    - tests/g01-acceptance/test_integrated_identity.py
-    - tests/g01-acceptance/cleanup.py
-    - tests/g01-acceptance/test_cleanup.py
-    - tests/g01-acceptance/diagnose_cli.py
-    - tests/g01-acceptance/egress_trace.py
-    - tests/g01-acceptance/dns_trace.c
-    - tests/g01-acceptance/dns_trace.cjs
-    - tests/g01-acceptance/test_egress_trace.py
-    - tests/g01-acceptance/test_process_map.py
-    - tests/g01-acceptance/test_cf_fetch.cjs
-    - tests/g01-acceptance/runtime.py
-    - .github/workflows/g01-runtime-retry.yml
-    - tests/g01-acceptance/guard_receipt.py
-    - tests/g01-acceptance/test_g1_contracts.py
-    - tests/g01-acceptance/capture.py
-    - tests/g01-acceptance/g1-source-overrides.json
-    - tests/gate4/sec-env/visual-runtime-contract.py
-    - .github/workflows/sec-env-gate4-probe.yml
+  # Retired from automatic runs (owner decision 2026-11-10): this stage workflow pins a
+  # historical migration state (seed54/55/56). Release financial acceptance
+  # (release-finance.yml) runs these suites under the release gate instead.
+  # Restore coverage is tracked as an open task before the main merge (C6/C7).
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

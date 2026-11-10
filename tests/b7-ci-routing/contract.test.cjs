@@ -7,6 +7,8 @@ const yaml = require("js-yaml");
 
 const ROOT = path.resolve(__dirname, "../..");
 const HEAD = "${{ github.event.pull_request.head.sha || github.sha }}";
+const INTEGRATION = "integration/g0-g1-reconcile-2026-10-18";
+const INTEGRATION_PR_CHECKS = ["b1-composition.yml", "integration-verification.yml", "release-finance.yml"];
 const CURRENT = [
   "b5-lifecycle.yml",
   "b1-composition.yml",
@@ -60,7 +62,10 @@ function validate(docs) {
   for (const name of CURRENT) {
     const doc = docs[name];
     assert.deepEqual(doc.permissions, { contents: "read" }, name);
-    assert.deepEqual(doc.on.pull_request.branches, ["main"], name);
+    assert.deepEqual(doc.on.pull_request.branches,
+      INTEGRATION_PR_CHECKS.includes(name) ? ["main", INTEGRATION] : ["main"], name);
+    if (INTEGRATION_PR_CHECKS.includes(name))
+      assert.equal(doc.on.pull_request.paths, undefined, name + " must not filter required PR checks");
     assert.deepEqual(doc.on.pull_request.types, ["opened", "synchronize", "reopened"], name);
     // Coverage rule: no path filter means every PR runs (full coverage). A path
     // filter is allowed only if it still includes every impact path, and
@@ -148,7 +153,7 @@ function noSkips(name, doc) {
 function validateRelease(docs) {
   const finance = docs["release-finance.yml"];
   assert.deepEqual(finance.permissions, { contents: "read" });
-  assert.deepEqual(finance.on.pull_request.branches, ["main"]);
+  assert.deepEqual(finance.on.pull_request.branches, ["main", INTEGRATION]);
   for (const event of ["push", "pull_request"])
     for (const filter of ["paths", "paths-ignore"])
       assert.equal(finance.on[event][filter], undefined, "release-finance " + event + " " + filter);
@@ -290,20 +295,20 @@ test("historical manual jobs cannot retain a current check-context name", () => 
 });
 test("current PR acceptance may run unfiltered but never narrowed", () => {
   const unfiltered = documents();
-  delete unfiltered["integration-verification.yml"].on.pull_request.paths;
+  delete unfiltered["b5-lifecycle.yml"].on.pull_request.paths;
   validate(unfiltered);
   const narrowed = documents();
-  narrowed["integration-verification.yml"].on.pull_request.paths = IMPACT.filter(
+  narrowed["b5-lifecycle.yml"].on.pull_request.paths = IMPACT.filter(
     (impact) => impact !== "supabase/migrations/**",
   );
   assert.throws(() => validate(narrowed), /supabase\/migrations/);
   const ignored = documents();
-  ignored["integration-verification.yml"].on.pull_request["paths-ignore"] = ["supabase/**"];
+  ignored["b5-lifecycle.yml"].on.pull_request["paths-ignore"] = ["supabase/**"];
   assert.throws(() => validate(ignored), /must not ignore paths/);
 });
 test("negated path filter cannot narrow current acceptance", () => {
   const docs = documents();
-  docs["integration-verification.yml"].on.pull_request.paths = [
+  docs["b5-lifecycle.yml"].on.pull_request.paths = [
     ...IMPACT,
     "!supabase/migrations/**",
   ];
@@ -330,4 +335,20 @@ test("release workflows cannot be filtered, skipped or given PR checkout", () =>
 test("required check names are produced by exactly one job", () => {
   const counts = checkNames();
   for (const name of REQUIRED_CHECK_NAMES) assert.equal(counts[name], 1, name);
+});
+
+// Integration branch-protection preparation: required checks must exist on every PR.
+test("integration PR target cannot be removed from the three required workflows", () => {
+  for (const name of INTEGRATION_PR_CHECKS) {
+    const docs = documents();
+    docs[name].on.pull_request.branches = ["main"];
+    assert.throws(() => validate(docs), name);
+  }
+});
+test("required integration PR workflows cannot introduce path filters", () => {
+  for (const name of INTEGRATION_PR_CHECKS) {
+    const docs = documents();
+    docs[name].on.pull_request.paths = ["src/**"];
+    assert.throws(() => validate(docs), name);
+  }
 });

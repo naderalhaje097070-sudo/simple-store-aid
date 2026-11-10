@@ -1,4 +1,12 @@
 
+## Current — controlled batch after owner review, 2026-11-10 (evening)
+- Nothing merged; no production SQL; no publish.
+- #88 head ce2a85a: B3 change reverted (owner decision: B3 stays historical, pinned to 47 migrations, original expectations); tree equals cccec6d. Release-finance 42878659487: 9/9, first attempt. New gov-ok label needed for ce2a85a.
+- #90 (draft) C-DEFPRIV-01, head bacda16: migration 20261110150000 (ALTER DEFAULT PRIVILEGES FOR ROLE postgres REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC) + tests/catalog-guard (rules R1-R7, 14 negative + 2 compatibility controls). Local fresh stack: old default 14/18, migrated 18/18 x2. Release-finance 42879558332: attempt 1 failed in journey/upgrade at supabase/setup-cli download (before any repo code); re-run of that job passed → 9/9; catalog guard step passed in collection fresh/upgrade/populated. Needs gov-ok label (migration).
+- PR #77: gate.py and test_gate.py byte-identical to integration (b7b3b5c, 294b961). Local merge of main into it: clean; capture.py identity, test_integrated_identity, test_gate all OK. Not pushed. Plan: merge main into the branch (no force), re-run, then owner label + separate merge approval.
+- Independent review: "@codex review" requested on #87, #88, #89, #90. Codex reply on #90: "usage limits reached", review FAILED. Not counted as a review.
+- Open risk: GoTrue 422 user_already_exists reveals accounts at the API level; auth settings / rate-limit review before Pilot (no production change now).
+
 ## Current — Phase C items 5-8 open as separate PRs; read-only privilege audit, 2026-11-10
 - Nothing merged in this block; production untouched. Owner instruction 2026-11-10: continue safely, no batch merge approval.
 - #86 retire c4-sale.yml auto runs (head 2d117a3): cause traced: history.test.cjs pins app.tsx to the C4 base blob; earlier run failed on the capture.py identity migration-set pin. Quality green. Awaiting owner merge approval.

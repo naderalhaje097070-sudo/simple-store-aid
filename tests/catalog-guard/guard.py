@@ -116,6 +116,14 @@ NEGATIVE = {
                                            " CREATE FUNCTION public._guard_out8b() RETURNS boolean LANGUAGE sql STABLE"
                                            " AS 'select _guard_in8b()';",
                                            'R8_sql_function_calls_function_caller_cannot_execute', 'public._guard_out8b()'),
+    # Static only: the caller is created, never called. One overload granted, the one
+    # the body names (text) not: the name-only check missed this (773af30).
+    'R8_overload_ungranted': ("CREATE FUNCTION monjez_private._guard_ov(int) RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+                              " GRANT EXECUTE ON FUNCTION monjez_private._guard_ov(int) TO authenticated, anon;"
+                              " CREATE FUNCTION monjez_private._guard_ov(text) RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+                              " CREATE FUNCTION public._guard_ov_caller() RETURNS boolean LANGUAGE sql STABLE"
+                              " AS $f$select monjez_private._guard_ov('x'::text)$f$;",
+                              'R8_sql_function_calls_function_caller_cannot_execute', 'public._guard_ov_caller()'),
     'R6_default_public_execute': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT EXECUTE ON FUNCTIONS TO PUBLIC;",
                                   'R6_postgres_function_default_public_execute', 'pg_default_acl'),
     'R6_default_truncate': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT TRUNCATE ON TABLES TO authenticated;",
@@ -251,7 +259,7 @@ def main():
     control('R7_operational_policy_expressions_as_authenticated', total > 0 and done == total and not errs,
             evaluated=done, total=total, errors=errs[:5])
     nested = ("CREATE FUNCTION monjez_private._guard_inner() RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
-              # plpgsql outer: an SQL-language outer crashes this server image (see R8).
+              # plpgsql outer, so the negative raises a clean 42501 (see R8).
               " CREATE FUNCTION monjez_private._guard_outer() RETURNS boolean LANGUAGE plpgsql STABLE"
               " AS 'begin return monjez_private._guard_inner(); end';"
               " GRANT EXECUTE ON FUNCTION monjez_private._guard_outer() TO authenticated;"

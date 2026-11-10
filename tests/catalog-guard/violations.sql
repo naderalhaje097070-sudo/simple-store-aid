@@ -148,12 +148,14 @@ SELECT DISTINCT 'R7_policy_function_not_executable', pr.oid::regprocedure::text,
   WHERE (rl.role = 0 AND NOT has_function_privilege('authenticated', pr.oid, 'EXECUTE'))
      OR (rl.role <> 0 AND NOT has_function_privilege(rl.role, pr.oid, 'EXECUTE'))
 UNION ALL
--- R8 crash guard (observed 2026-11-10, local Supabase PostgreSQL 17.6 image): calling a
--- non-definer SQL-language function that itself calls a function the caller may not
--- EXECUTE terminated the backend with signal 11 instead of raising 42501 (8 reproductions,
--- volatile/stable/BEGIN ATOMIC alike; plpgsql raises 42501 cleanly). Static text scan of the
--- body: any name( ... ) that resolves to an application/auth/extensions function the
--- client role cannot execute. Heuristic by design: it can over-report, never execute.
+-- R8 server-stability guard (reported privately; details in the private review notes):
+-- a client-executable, non-definer SQL-language function must not call a function the
+-- client role cannot EXECUTE. Static text scan of the body; nothing is executed. The text
+-- does not tell which overload a call resolves to, so a name is flagged if ANY overload
+-- with that name (in the schema named, or in public/monjez_private/auth/extensions when
+-- unqualified) is not executable by the role. It can over-report; it does not under-report
+-- on overloads. Known limits: dynamic SQL (EXECUTE ...), calls through operators/casts,
+-- quoted identifiers and names outside the listed schemas are not seen.
 SELECT DISTINCT 'R8_sql_function_calls_function_caller_cannot_execute', f.sig,
        cr.r||' -> '||m[1]||coalesce('.'||m[2],'')
   FROM funcs f
@@ -164,9 +166,6 @@ SELECT DISTINCT 'R8_sql_function_calls_function_caller_cannot_execute', f.sig,
     AND EXISTS (SELECT 1 FROM pg_proc q JOIN pg_namespace qn ON qn.oid = q.pronamespace
                 WHERE (CASE WHEN m[2] IS NULL THEN q.proname = lower(m[1])
                             AND qn.nspname IN ('public','monjez_private','auth','extensions')
-                            ELSE qn.nspname = lower(m[1]) AND q.proname = lower(m[2]) END))
-    AND NOT EXISTS (SELECT 1 FROM pg_proc q JOIN pg_namespace qn ON qn.oid = q.pronamespace
-                WHERE (CASE WHEN m[2] IS NULL THEN q.proname = lower(m[1])
                             ELSE qn.nspname = lower(m[1]) AND q.proname = lower(m[2]) END)
-                  AND has_function_privilege(cr.r, q.oid, 'EXECUTE'))
+                  AND NOT has_function_privilege(cr.r, q.oid, 'EXECUTE'))
 ORDER BY 1, 2;

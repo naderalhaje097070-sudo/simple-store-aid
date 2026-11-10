@@ -225,7 +225,7 @@ jobs:
                'R2c_open_permissive_on_real_table','R2c_open_permissive_public_role','R2b_definer_view',
                'R3_anon_function','R3_allowlisted_name_other_args','R3_public_grant','R4_truncate',
                'R5_definer_no_search_path','R5b_client_writable_schema','R5b_pg_temp_first','R5b_dollar_user',
-               'R5b_missing_schema','R8_sql_calls_ungranted','R8_sql_calls_ungranted_unqualified',
+               'R5b_missing_schema','R8_sql_calls_ungranted','R8_sql_calls_ungranted_unqualified','R8_overload_ungranted',
                'R6_default_public_execute','R6_default_truncate','R6_default_anon','R7_policy_helper_without_grant']
           required={'baseline_no_violations','nothing_persisted',
                     'compat_new_public_function_not_anon_but_authenticated_and_service',
@@ -236,7 +236,7 @@ jobs:
           passed={r['name'] for r in rows if r.get('passed')}
           print('RELEASE_CATALOG_GUARD '+json.dumps({'controls':len(rows),'missing':sorted(required-passed),
                 'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
-          assert len(required)==35 and required<=passed and all(r.get('passed') for r in rows)
+          assert len(required)==36 and required<=passed and all(r.get('passed') for r in rows)
           PY
       - name: Behavioural suite against the real stack
         shell: bash

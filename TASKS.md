@@ -2,6 +2,18 @@
 ## Open task — C-DEFPRIV-02: search_path of 45 SECURITY DEFINER functions (separate scope)
 - Source: tests/catalog-guard/known_implicit_pg_temp.txt (ratchet in PR #90; list may only shrink).
 - Issue: their search_path does not list pg_temp last, so pg_temp is searched first for relations.
+- Read-only analysis 2026-11-10 (local catalog, heuristic text scan, no function called):
+  - pg_temp is never searched for functions/operators, only relations; schema-qualified names are not affected.
+  - P1 (client-executable AND unqualified relation names): 1 function, public.get_platform_system_health()
+    (authenticated EXECUTE; reads pg_class/pg_namespace/pg_proc unqualified; gated by _assert_platform_admin).
+  - P2 (client-executable, all relation names qualified): 32. P3: 0. P4 (internal/trigger, qualified): 12.
+  - Heuristic limits: dynamic SQL strings (e.g. EXECUTE format) and quoted identifiers are not parsed.
+  - Side note: enqueue_email/read_email_batch/delete_email/move_to_dlq are authenticated-executable on
+    integration; the service-only hotfix lives on branch ccr-0192bba1-email-hotfix-to-main (C6/C7 item).
+  - Proposed batches (for approval): B1 = the P1 function; B2 = the 32 P2 in groups by feature
+    (account guard, sale/collection/courier, platform-admin, email); B3 = the 12 P4. Each batch: one
+    forward-only migration (ALTER FUNCTION ... SET search_path = <same>, pg_temp), ratchet list shrinks,
+    release-finance all modes.
 - Not started; needs owner approval of scope. Before any change:
   1) priority = client-executable functions first (anon/authenticated EXECUTE), then internal/trigger;
   2) dependency analysis per function (unqualified names in the body, callers, RLS use);

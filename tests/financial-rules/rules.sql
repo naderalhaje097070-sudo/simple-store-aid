@@ -478,13 +478,13 @@ BEGIN
 END $t16$;
 
 -- =====================================================================
--- T17. An already settled courier order cannot be settled again
+-- T17. Settlement retry on an already settled order: success, no second cash
+--      (accepted exactly-once retry contract, also enforced by the C5 suites)
 -- =====================================================================
 DO $t17$
 DECLARE
-  v_res jsonb; v_oid uuid;
-  v_blocked bool := false; v_err text;
-  v_settle_count int; v_settle_amount numeric; v_paid numeric;
+  v_res jsonb; v_oid uuid; v_retry jsonb;
+  v_settle_count int; v_settle_amount numeric; v_paid numeric; v_status text;
 BEGIN
   v_res := create_sale_with_items(
     'bbbb2222-0000-0000-0000-000000000001'::uuid,
@@ -495,24 +495,17 @@ BEGIN
   );
   v_oid := (v_res->>'order_id')::uuid;
   PERFORM settle_courier_orders('cccc3333-0000-0000-0000-000000000001'::uuid, ARRAY[v_oid]::uuid[]);
+  v_retry := settle_courier_orders('cccc3333-0000-0000-0000-000000000001'::uuid, ARRAY[v_oid]::uuid[]);
 
-  BEGIN
-    PERFORM settle_courier_orders('cccc3333-0000-0000-0000-000000000001'::uuid, ARRAY[v_oid]::uuid[]);
-  EXCEPTION WHEN OTHERS THEN
-    v_err := SQLERRM;
-    IF v_err LIKE '%order_not_in_courier_custody%' THEN v_blocked := true; END IF;
-  END;
-  IF NOT v_blocked THEN
-    RAISE EXCEPTION 'T17 FAIL: second settlement was allowed (error=%)', v_err;
-  END IF;
-
-  SELECT paid INTO v_paid FROM orders WHERE id = v_oid;
+  SELECT paid, status::text INTO v_paid, v_status FROM orders WHERE id = v_oid;
   SELECT COUNT(*), COALESCE(SUM(amount),0) INTO v_settle_count, v_settle_amount
     FROM payments WHERE order_id = v_oid AND kind = 'courier_settlement';
-  IF v_paid <> 50 OR v_settle_count <> 1 OR v_settle_amount <> 50 THEN
-    RAISE EXCEPTION 'T17 FAIL: paid=% settlements=% amount=%', v_paid, v_settle_count, v_settle_amount;
+  IF (v_retry->>'total_collected')::numeric <> 0 OR v_paid <> 50 OR v_status <> 'partial'
+     OR v_settle_count <> 1 OR v_settle_amount <> 50 THEN
+    RAISE EXCEPTION 'T17 FAIL: retry=% paid=% status=% settlements=% amount=%',
+      v_retry, v_paid, v_status, v_settle_count, v_settle_amount;
   END IF;
-  RAISE NOTICE 'T17 OK: settled order cannot be settled twice';
+  RAISE NOTICE 'T17 OK: settlement retry adds no second cash';
 END $t17$;
 
 -- =====================================================================

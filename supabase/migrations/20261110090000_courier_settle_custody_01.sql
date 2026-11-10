@@ -33,12 +33,21 @@ BEGIN
     SELECT * INTO v_order FROM public.orders WHERE id = v_oid FOR UPDATE;
     IF NOT FOUND THEN RAISE EXCEPTION 'order_not_found: %', v_oid; END IF;
     -- NULL-safe: return_courier_order and a prior settlement both clear courier_id.
-    -- With "<>", a NULL courier_id made the check NULL (not true) and let a returned
-    -- or already settled order through, erasing the returned mark.
+    -- With "<>", a NULL courier_id made the check NULL (not true), so a returned
+    -- order passed and settlement erased its returned mark (it became debt again).
     IF v_order.tenant_id IS DISTINCT FROM v_tenant
-       OR v_order.courier_id IS DISTINCT FROM p_courier_id
-       OR v_order.delivery IS DISTINCT FROM 'courier'::delivery_kind
        OR v_order.courier_state IS NOT DISTINCT FROM 'returned'::courier_state THEN
+      RAISE EXCEPTION 'order_not_in_courier_custody';
+    END IF;
+    -- Accepted retry contract: a repeated settlement of an order already settled
+    -- (custody cleared, not returned) succeeds with no second cash and no change.
+    IF v_order.courier_id IS NULL AND v_order.courier_state IS NULL
+       AND v_order.delivery = 'direct'::delivery_kind
+       AND COALESCE(v_order.collected_by_courier, 0) = 0 THEN
+      CONTINUE;
+    END IF;
+    IF v_order.courier_id IS DISTINCT FROM p_courier_id
+       OR v_order.delivery IS DISTINCT FROM 'courier'::delivery_kind THEN
       RAISE EXCEPTION 'order_not_in_courier_custody';
     END IF;
 

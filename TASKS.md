@@ -1,3 +1,12 @@
+
+## Current — Phase C step 1: integration CI on c1fb0f5, 2026-11-10
+
+- G0 (42384691162) SUCCESS, B1 (42384691186) SUCCESS (both 2026-11-07, same head).
+- C5 full financial journey rerun (42384691176 attempt 2): 2/2 SUCCESS (fresh, upgrade).
+- Release financial acceptance rerun (42384691152 attempt 2): 8/9 SUCCESS. `suite (sale, populated)` FAILED in the database-free browser step `tests/c4-sale/browser.py:33`: after `fill('0.25')` + Tab the quantity field shows `1` with aria-invalid=false. The same test passed in (sale, fresh) and (sale, upgrade) in the same run. Second CI occurrence (first: run 42357978388 on 2a540f8); 0/30 locally then.
+  - Finding (real UI race, not harness): QuantityInput.commit() parses the `draft` captured by the render closure; if blur runs before the re-render with the typed text, it commits the old value silently. User impact: a typed fractional quantity can silently revert to 1 (visible on screen, but easy to miss). Candidate fix: commit from `event.currentTarget.value`, plus a regression test. Not yet verified.
+  - Failed job re-run once (attempt 3) to measure intermittency.
+
 ## Current — RECOVERY-02, 2026-11-07
 
 1. [Done] Production hotfix `20261107214500_sec_email_queue_service_only` (verified ACLs after apply).

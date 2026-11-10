@@ -1,4 +1,13 @@
 
+## Current — Phase C items 5-8 open as separate PRs; read-only privilege audit, 2026-11-10
+- Nothing merged in this block; production untouched. Owner instruction 2026-11-10: continue safely, no batch merge approval.
+- #86 retire c4-sale.yml auto runs (head 2d117a3): cause traced: history.test.cjs pins app.tsx to the C4 base blob; earlier run failed on the capture.py identity migration-set pin. Quality green. Awaiting owner merge approval.
+- #87 Paddle webhook FOR NO KEY UPDATE (head a2913df, migration 20261110130000): tests/billing-lock/probe.py RED on old function (55P03 after 2.05s) / GREEN 7/7 x3; release-finance run 42829361389 9/9. Needs gov-ok-a2913df… label and merge approval.
+- #88 tenants client grants narrowed (migration 20261110140000; head 3d3930b): tests/tenant-grants/probe.py 10/18 → 18/18 x3; release-finance 42844400544 9/9 on cccec6d (journey/upgrade failed once at mobile_report_read_failure_503 TimeoutError, passed on re-run: intermittent, to harden). 3d3930b updates B3 expectations to the new contract (exact insert/update rights, upsert on id denied, 7 new denials); verified through real PostgREST locally (201/200 allowed, 403 42501 denied). B3 still pins exact47_source_migrations (integration has 57): cannot pass on current source with or without #88; lifting that pin = owner decision. Release-finance re-dispatched on 3d3930b. Needs new gov-ok label for the new head.
+- #89 sign-up/resend non-enumerating (head 58ec37a): owner review rejected 6770b0d ("already registered" message). Measured local GoTrue 2.188.1 (confirmations on): new and existing-unconfirmed sign-up identical 200; confirmed 422 user_already_exists; resend 200 {} for all. One neutral message and identical screen state for every account state; tests/auth-signup/browser.py 48/48 (6770b0d 34/48, original 26/48). The 422 remains visible at the API itself (server behaviour). Release-finance dispatched on 58ec37a.
+- C-DEFPRIV-01 read-only audit: docs/reviews/C-DEFPRIV-01_AUDIT.md (local catalog only). Proposed scope awaiting owner approval: (A) one migration REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC as postgres default (+ optional sequence UPDATE revoke); (B) catalog guard in release-finance. supabase_admin defaults in public cannot be changed by postgres (not a member). Production confirmation queries listed, need approval.
+- PR #77 (draft, base main @866ea50, behind): its gate rule is already on integration as c1fb0f5. Decide before the main merge: close as superseded by the integration merge, or rebase and merge first.
+
 ## Current — Phase C step 1: integration CI on c1fb0f5, 2026-11-10
 
 - G0 (42384691162) SUCCESS, B1 (42384691186) SUCCESS (both 2026-11-07, same head).

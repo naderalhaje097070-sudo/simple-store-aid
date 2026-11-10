@@ -430,6 +430,92 @@ BEGIN
 END $t15$;
 
 -- =====================================================================
+-- T16. A returned courier order cannot be settled
+--      (return clears courier_id; a NULL-unsafe custody check let settlement
+--       erase the returned mark and turn the order back into customer debt)
+-- =====================================================================
+DO $t16$
+DECLARE
+  v_res jsonb; v_oid uuid;
+  v_blocked bool := false; v_err text;
+  v_state text; v_status text; v_paid numeric; v_settle_count int; v_order_debt numeric;
+BEGIN
+  v_res := create_sale_with_items(
+    'bbbb2222-0000-0000-0000-000000000001'::uuid,
+    'courier'::delivery_kind,
+    'cccc3333-0000-0000-0000-000000000001'::uuid,
+    0, 'cash'::payment_method,
+    '[{"productId":"aaaa1111-0000-0000-0000-000000000003","qty":1}]'::jsonb
+  );
+  v_oid := (v_res->>'order_id')::uuid;
+  PERFORM return_courier_order(v_oid);
+
+  BEGIN
+    PERFORM settle_courier_orders(
+      'cccc3333-0000-0000-0000-000000000001'::uuid,
+      ARRAY[v_oid]::uuid[]
+    );
+  EXCEPTION WHEN OTHERS THEN
+    v_err := SQLERRM;
+    IF v_err LIKE '%order_not_in_courier_custody%' THEN v_blocked := true; END IF;
+  END;
+  IF NOT v_blocked THEN
+    RAISE EXCEPTION 'T16 FAIL: settlement of a returned order was allowed (error=%)', v_err;
+  END IF;
+
+  SELECT courier_state::text, status::text, paid INTO v_state, v_status, v_paid FROM orders WHERE id = v_oid;
+  SELECT COUNT(*) INTO v_settle_count FROM payments WHERE order_id = v_oid AND kind = 'courier_settlement';
+  SELECT CASE
+      WHEN courier_state = 'returned' THEN 0
+      WHEN delivery = 'direct' OR courier_id IS NULL THEN GREATEST(total - paid, 0)
+      ELSE 0
+    END INTO v_order_debt FROM orders WHERE id = v_oid;
+  IF v_state IS DISTINCT FROM 'returned' OR v_paid <> 0 OR v_settle_count <> 0 OR v_order_debt <> 0 THEN
+    RAISE EXCEPTION 'T16 FAIL: returned order changed (state=% status=% paid=% settlements=% debt=%)',
+      v_state, v_status, v_paid, v_settle_count, v_order_debt;
+  END IF;
+  RAISE NOTICE 'T16 OK: returned order cannot be settled and stays returned';
+END $t16$;
+
+-- =====================================================================
+-- T17. An already settled courier order cannot be settled again
+-- =====================================================================
+DO $t17$
+DECLARE
+  v_res jsonb; v_oid uuid;
+  v_blocked bool := false; v_err text;
+  v_settle_count int; v_settle_amount numeric; v_paid numeric;
+BEGIN
+  v_res := create_sale_with_items(
+    'bbbb2222-0000-0000-0000-000000000001'::uuid,
+    'courier'::delivery_kind,
+    'cccc3333-0000-0000-0000-000000000001'::uuid,
+    50, 'cash'::payment_method,
+    '[{"productId":"aaaa1111-0000-0000-0000-000000000002","qty":1}]'::jsonb -- total 200
+  );
+  v_oid := (v_res->>'order_id')::uuid;
+  PERFORM settle_courier_orders('cccc3333-0000-0000-0000-000000000001'::uuid, ARRAY[v_oid]::uuid[]);
+
+  BEGIN
+    PERFORM settle_courier_orders('cccc3333-0000-0000-0000-000000000001'::uuid, ARRAY[v_oid]::uuid[]);
+  EXCEPTION WHEN OTHERS THEN
+    v_err := SQLERRM;
+    IF v_err LIKE '%order_not_in_courier_custody%' THEN v_blocked := true; END IF;
+  END;
+  IF NOT v_blocked THEN
+    RAISE EXCEPTION 'T17 FAIL: second settlement was allowed (error=%)', v_err;
+  END IF;
+
+  SELECT paid INTO v_paid FROM orders WHERE id = v_oid;
+  SELECT COUNT(*), COALESCE(SUM(amount),0) INTO v_settle_count, v_settle_amount
+    FROM payments WHERE order_id = v_oid AND kind = 'courier_settlement';
+  IF v_paid <> 50 OR v_settle_count <> 1 OR v_settle_amount <> 50 THEN
+    RAISE EXCEPTION 'T17 FAIL: paid=% settlements=% amount=%', v_paid, v_settle_count, v_settle_amount;
+  END IF;
+  RAISE NOTICE 'T17 OK: settled order cannot be settled twice';
+END $t17$;
+
+-- =====================================================================
 -- All assertions passed
 -- =====================================================================
 DO $done$ BEGIN RAISE NOTICE '====== ALL FINANCIAL RULES TESTS PASSED ======'; END $done$;

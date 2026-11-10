@@ -2211,7 +2211,12 @@ function SaleQuickScreen(p: AppScreenContext) {
   const pressFired = useRef(false);
 
   useEffect(() => {
-    const t = setTimeout(() => inputRef.current?.focus(), 60);
+    // Focus search only if the person has not already moved into another field:
+    // a late autofocus stole focus from the quantity field (CI trace, run 42807331130).
+    const t = setTimeout(() => {
+      const active = document.activeElement;
+      if (!active || active === document.body) inputRef.current?.focus();
+    }, 60);
     return () => clearTimeout(t);
   }, []);
 

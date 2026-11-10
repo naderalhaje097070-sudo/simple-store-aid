@@ -14,6 +14,23 @@ server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Qui
 threading.Thread(target=server.serve_forever,daemon=True).start()
 origin = 'http://127.0.0.1:' + str(server.server_port)
 results = []
+TRACE = """() => {
+  if (window.__qtraceInstalled) return; window.__qtraceInstalled = true; window.__qtrace = [];
+  const t0 = performance.now(); const log = (kind, extra) => window.__qtrace.push(
+    {t: Math.round(performance.now() - t0), kind, ...extra});
+  const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+  Object.defineProperty(HTMLInputElement.prototype, 'value', {configurable: true,
+    get() { return desc.get.call(this); },
+    set(v) { if (this.getAttribute('aria-label') === 'الكمية') log('set', {v: String(v),
+      stack: (new Error().stack || '').split('\\n').slice(2, 7).map(s => s.trim())});
+      return desc.set.call(this, v); }});
+  for (const type of ['focusin', 'focusout', 'input', 'change', 'keydown', 'pointerdown', 'pointerup', 'click'])
+    document.addEventListener(type, (e) => log(type, {target: (e.target.getAttribute && e.target.getAttribute('aria-label')) || e.target.tagName,
+      value: e.target.value, key: e.key}), true);
+  new MutationObserver((ms) => ms.forEach((m) => { for (const n of [...m.addedNodes, ...m.removedNodes])
+    if (n.querySelector && n.querySelector('input[aria-label="الكمية"]')) log(m.addedNodes.length ? 'mount' : 'unmount', {}); }))
+    .observe(document.body, {childList: true, subtree: true});
+}"""
 with sync_playwright() as playwright:
     browser = playwright.chromium.launch(headless=True)
     for label,width in [('desktop',1280),('mobile',390)]:
@@ -23,6 +40,7 @@ with sync_playwright() as playwright:
             page.on('pageerror',lambda error:errors.append(str(error)))
             page.route('**/*',lambda route:route.continue_() if route.request.url.startswith(origin+'/') else (external.append(route.request.url),route.abort()))
             page.goto(origin+'/#'+screen)
+            page.evaluate(TRACE)
             page.get_by_text('صنف تجريبي',exact=True).first.click()
             quantity=page.get_by_role('textbox',name='الكمية',exact=True)
             # Precondition a person sees before typing: the added line shows its
@@ -30,7 +48,11 @@ with sync_playwright() as playwright:
             # checkout. The wire assertions below are unchanged.
             expect(quantity).to_have_value('1')
             quantity.fill('0.25');quantity.press('Tab')
-            expect(quantity).to_have_value('0.25')
+            try:
+                expect(quantity).to_have_value('0.25')
+            except AssertionError:
+                print('C4_QUANTITY_TRACE '+json.dumps({'label':label,'screen':screen,'trace':page.evaluate('window.__qtrace')},ensure_ascii=False))
+                raise
             if screen=='sale':
                 page.get_by_role('button',name='إتمام البيع',exact=True).click()
                 page.get_by_role('button',name='حفظ الفاتورة',exact=True).click()

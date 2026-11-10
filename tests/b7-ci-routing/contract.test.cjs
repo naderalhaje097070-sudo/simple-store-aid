@@ -8,7 +8,11 @@ const yaml = require("js-yaml");
 const ROOT = path.resolve(__dirname, "../..");
 const HEAD = "${{ github.event.pull_request.head.sha || github.sha }}";
 const INTEGRATION = "integration/g0-g1-reconcile-2026-10-18";
-const INTEGRATION_PR_CHECKS = ["b1-composition.yml", "integration-verification.yml", "release-finance.yml"];
+const INTEGRATION_PR_CHECKS = [
+  "b1-composition.yml",
+  "integration-verification.yml",
+  "release-finance.yml",
+];
 const CURRENT = [
   "b5-lifecycle.yml",
   "b1-composition.yml",
@@ -62,10 +66,17 @@ function validate(docs) {
   for (const name of CURRENT) {
     const doc = docs[name];
     assert.deepEqual(doc.permissions, { contents: "read" }, name);
-    assert.deepEqual(doc.on.pull_request.branches,
-      INTEGRATION_PR_CHECKS.includes(name) ? ["main", INTEGRATION] : ["main"], name);
+    assert.deepEqual(
+      doc.on.pull_request.branches,
+      INTEGRATION_PR_CHECKS.includes(name) ? ["main", INTEGRATION] : ["main"],
+      name,
+    );
     if (INTEGRATION_PR_CHECKS.includes(name))
-      assert.equal(doc.on.pull_request.paths, undefined, name + " must not filter required PR checks");
+      assert.equal(
+        doc.on.pull_request.paths,
+        undefined,
+        name + " must not filter required PR checks",
+      );
     assert.deepEqual(doc.on.pull_request.types, ["opened", "synchronize", "reopened"], name);
     // Coverage rule: no path filter means every PR runs (full coverage). A path
     // filter is allowed only if it still includes every impact path, and
@@ -308,10 +319,7 @@ test("current PR acceptance may run unfiltered but never narrowed", () => {
 });
 test("negated path filter cannot narrow current acceptance", () => {
   const docs = documents();
-  docs["b5-lifecycle.yml"].on.pull_request.paths = [
-    ...IMPACT,
-    "!supabase/migrations/**",
-  ];
+  docs["b5-lifecycle.yml"].on.pull_request.paths = [...IMPACT, "!supabase/migrations/**"];
   assert.throws(() => validate(docs), /must not negate/);
 });
 test("release workflows cannot be filtered, skipped or given PR checkout", () => {

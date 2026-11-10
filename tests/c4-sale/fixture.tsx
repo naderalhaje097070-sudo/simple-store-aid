@@ -13,6 +13,17 @@ const product = {
   lowAt: 1,
   is_active: true,
 };
+// Inactive product: the database rejects it (product_inactive), so the sale
+// screens must not offer it.
+const inactive = {
+  id: "44444444-4444-4444-8444-444444444444",
+  name: "صنف موقوف",
+  price: 9,
+  cost: 1,
+  stock: 5,
+  lowAt: 1,
+  is_active: false,
+};
 function Fixture() {
   const mutation = useCreateSale(tenant);
   const start = location.hash === "#sale" ? "sale" : "sale_quick";
@@ -20,7 +31,7 @@ function Fixture() {
     [opened, setOpened] = useState(""),
     [toast, setToast] = useState("");
   const context = {
-    products: [product],
+    products: [product, inactive],
     customers: [],
     couriers: [],
     invoices: [],

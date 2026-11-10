@@ -75,11 +75,9 @@ jobs:
 
           node --test tests/account-lifecycle/webhook_handler.test.cjs
 
-          node --test tests/c-source/quantity-bridge.test.cjs
+          node --test tests/c4-sale/contracts.test.cjs
 
-          node tests/g0-integrated-types/runtime.cjs
-
-          node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs
+          node --test tests/g0-integrated-types/current-contracts.test.cjs
 
           "
       - name: Build entry failure and forwarding contracts

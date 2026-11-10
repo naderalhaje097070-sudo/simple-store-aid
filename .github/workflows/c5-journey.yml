@@ -1,11 +1,10 @@
 name: C5 full financial journey
 on:
-  push:
-    branches: ["integration/g0-g1-reconcile-2026-10-18"]
-    paths:
-      - "tests/c5-journey/**"
-      - ".github/workflows/c5-journey.yml"
-      - "tests/g01-acceptance/capture.py"
+  # Retired from automatic runs (owner decision 2026-11-10): this stage workflow pins a
+  # historical migration state (seed54/55/56). Release financial acceptance
+  # (release-finance.yml) runs these suites under the release gate instead.
+  # Restore coverage is tracked as an open task before the main merge (C6/C7).
+  workflow_dispatch:
 permissions:
   contents: read
 env:

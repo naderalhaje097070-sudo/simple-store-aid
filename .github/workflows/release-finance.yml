@@ -276,6 +276,30 @@ jobs:
           print('RELEASE_REQUIRED_CONTROLS '+json.dumps({'suite':suite,'mode':mode,'controls':len(rows),'required':sorted(required),'missing':missing,'failed':failed}))
           assert rows and not missing and not failed
           PY
+      - name: Paddle webhook does not wait on a concurrent sale's tenant lock
+        # C-PADDLE-01: two real sessions on the candidate stack; synthetic rows only,
+        # removed by the probe. Runs once per mode on the collection job.
+        if: matrix.suite == 'collection'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python -I tests/billing-lock/probe.py /tmp/monjez-c5sale/evidence
+          sudo python3 - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('/tmp/monjez-c5sale/evidence/billing-lock.json').read_text())['controls']
+          required={'catalog_tenant_lock_is_no_key_update','webhook_not_blocked_by_concurrent_sale_key_share',
+                    'webhook_effect_visible_inside_its_txn','live_webhook_projects_tenant_while_sale_holds_key_share',
+                    'webhook_still_excludes_concurrent_tenant_writer','no_billing_or_customer_rows_persisted',
+                    'synthetic_tenant_and_user_removed'}
+          passed={r['name'] for r in rows if r.get('passed')}
+          print('RELEASE_BILLING_LOCK '+json.dumps({'missing':sorted(required-passed),
+                'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
+          assert required<=passed and all(r.get('passed') for r in rows)
+          PY
       - name: Migration history and database advisors
         shell: bash
         run: |

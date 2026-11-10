@@ -1,4 +1,10 @@
 
+## Status — PR #86 merged into integration (1be98a4), 2026-11-11
+- Owner approval in own words ("ادمج") after a plain-language summary. Merge commit 1be98a4 (head 2d117a3, merge method).
+- Integration push release-finance 42918884115: attempt 1 journey/upgrade TimeoutError at desktop_expense (91 controls done); re-run of that job passed → 9/9. Third intermittent journey failure (stages: mobile_report_read_failure_503, desktop_expense) → task: harden tests/c5-journey/browser.py waits (open).
+- PR #91 updated onto 1be98a4 (merge, no force): head 23e2953, 13/13 checks. Awaiting owner merge approval.
+- Owner-only items still open: F11 report to Supabase; repository visibility decision.
+
 ## Open task — C-DEFPRIV-02: search_path of 45 SECURITY DEFINER functions (separate scope)
 - Source: tests/catalog-guard/known_implicit_pg_temp.txt (ratchet in PR #90; list may only shrink).
 - Issue: their search_path does not list pg_temp last, so pg_temp is searched first for relations.

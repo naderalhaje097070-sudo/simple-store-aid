@@ -5,7 +5,8 @@
 - C5 full financial journey rerun (42384691176 attempt 2): 2/2 SUCCESS (fresh, upgrade).
 - Release financial acceptance rerun (42384691152 attempt 2): 8/9 SUCCESS. `suite (sale, populated)` FAILED in the database-free browser step `tests/c4-sale/browser.py:33`: after `fill('0.25')` + Tab the quantity field shows `1` with aria-invalid=false. The same test passed in (sale, fresh) and (sale, upgrade) in the same run. Second CI occurrence (first: run 42357978388 on 2a540f8); 0/30 locally then.
   - Finding (real UI race, not harness): QuantityInput.commit() parses the `draft` captured by the render closure; if blur runs before the re-render with the typed text, it commits the old value silently. User impact: a typed fractional quantity can silently revert to 1 (visible on screen, but easy to miss). Candidate fix: commit from `event.currentTarget.value`, plus a regression test. Not yet verified.
-  - Failed job re-run once (attempt 3) to measure intermittency.
+  - Failed job re-run once (attempt 3, 2026-11-10 08:16-08:19 UTC): SUCCESS. Run 42384691152 now 9/9 green on c1fb0f5. Intermittency confirmed (2 failures across CI history); fix stays on the Phase C list.
+- Phase C step 1 result: integration c1fb0f5 has G0, B1, C5 journey 2/2 and release-finance 9/9 green.
 
 ## Current — RECOVERY-02, 2026-11-07
 

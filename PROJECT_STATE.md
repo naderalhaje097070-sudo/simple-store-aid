@@ -1,3 +1,14 @@
+## Current — Phase R closed: production repaired, GitHub and Lovable in sync, 2026-11-10
+
+- Production DB: RECOVERY-02 applied (ledger 52), B 6/6, C passed (see entry below).
+- GitHub main = 1c5276f (merge of PR #80, merge commit, owner-approved): Lovable's lovable-sync commits plus reviewed re-pins. All 19 checks green; owner governance label applied by naderalhaje097070-sudo.
+- Lovable Settings > Git: Connected to naderalhaje097070-sudo/simple-store-aid@main, "In sync with GitHub" (owner screenshot).
+- Known differences, documented: production has 20261107214500 (email hotfix) and the 9 October migrations, which are not on main. They reach main through the integration merge (C6/C7), when the fixed-count identity verifiers are re-baselined. Hotfix file kept on branch ccr-0192bba1-email-hotfix-to-main.
+- Not done: Publish of the frontend; it is not required by any of this work.
+- Next: Phase C (integration branch CI, courier settlement returned-order fix, frontend fixes for inactive products on the sale screen and the existing-email sign-up message).
+
+---
+
 ## Current — RECOVERY-02 APPLIED TO PRODUCTION, phase R production work closed, 2026-11-09
 
 - Stages S1..S5 applied directly (postgres, md5-guarded, one atomic block each, owner approval per stage). Each gate matched the simulated state F1..F5 exactly. Ledger 43 -> 52; data hash unchanged (6ad46ea7).

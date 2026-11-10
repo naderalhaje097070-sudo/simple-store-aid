@@ -13,7 +13,7 @@
   - Release gate (checkout mode) PASS with 57 migrations. Blocker: integration's chained identity tests/c5-journey/profit_identity.py hard-codes 56 migrations with the C5 migration last, so G0/B1/B7 identity would fail. Owner decision requested: patch the chain per fix, or consolidate identity onto the release gate once.
   - Owner chose consolidation (2026-11-10). b76f601: capture.py identity -> tests/release/gate.py verify (local PASS, 57 migrations).
   - CI release-finance dispatch on b76f601 (run 42785401402): collection suite x3 FAILED control settlement_retry_no_second_cash (this PR's fault: first fix rejected an accepted idempotent retry). Fixed in 107e1cc: reject only tenant mismatch and returned orders; already-settled order is a no-op. T17 asserts the retry contract.
-  - CI release-finance dispatch on 107e1cc (run 42786121650): SUCCESS 9/9. PR #81 (draft, base integration) awaiting owner merge approval.
+  - CI release-finance dispatch on 107e1cc (run 42786121650): SUCCESS 9/9. PR #81 merged into integration as merge commit 75604bf (expectedHeadSha 107e1cc) at the owner's explicit approval, 2026-11-10 ~09:05 UTC. Push-triggered integration CI pending. Production not affected (reaches production only via C6/C7).
 - Phase C step 1 result: integration c1fb0f5 has G0, B1, C5 journey 2/2 and release-finance 9/9 green.
 
 ## Current — RECOVERY-02, 2026-11-07

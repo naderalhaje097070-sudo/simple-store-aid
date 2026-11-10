@@ -1588,7 +1588,11 @@ function SaleScreen(p: AppScreenContext) {
     return true;
   };
 
-  const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
+  // An inactive ("موقوف") product cannot be sold: the database rejects it with
+  // product_inactive, so it is not offered on the sale screens.
+  const filtered = p.products.filter(
+    (pr: Product) => pr.is_active !== false && (!q || pr.name.includes(q)),
+  );
 
   return (
     <div className="min-h-[100dvh] bg-background flex flex-col">
@@ -2220,7 +2224,7 @@ function SaleQuickScreen(p: AppScreenContext) {
         if (seen.has(it.productId)) continue;
         seen.add(it.productId);
         const pr = p.products.find((x: Product) => x.id === it.productId);
-        if (pr && pr.stock > 0) out.push(pr);
+        if (pr && pr.stock > 0 && pr.is_active !== false) out.push(pr);
         if (out.length >= 6) break;
       }
     }
@@ -2306,7 +2310,11 @@ function SaleQuickScreen(p: AppScreenContext) {
     if (pressTimer.current) clearTimeout(pressTimer.current);
   };
 
-  const filtered = p.products.filter((pr: Product) => !q || pr.name.includes(q));
+  // An inactive ("موقوف") product cannot be sold: the database rejects it with
+  // product_inactive, so it is not offered on the sale screens.
+  const filtered = p.products.filter(
+    (pr: Product) => pr.is_active !== false && (!q || pr.name.includes(q)),
+  );
 
   const save = async () => {
     if (!quantitiesValid) {

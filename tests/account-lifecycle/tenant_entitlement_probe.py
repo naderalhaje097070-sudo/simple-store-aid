@@ -15,6 +15,10 @@ from write_harness_guard import _psql_command, _psql_env
 ROOT = Path(__file__).resolve().parents[2]
 PROTECTED = ('trial_ends_at', 'subscription_status', 'subscription_plan', 'paddle_customer_id', 'paddle_subscription_id')
 ALLOWED = ('id', 'name', 'owner_user_id', 'created_at', 'updated_at', 'timezone', 'business_type')
+# C-TENANT-01 (20261110140000_tenants_narrow_client_grants_01): of the seven non-entitlement
+# columns, a signed-in client may insert only these and update only these.
+CLIENT_INSERT = ('name', 'owner_user_id', 'timezone', 'business_type')
+CLIENT_UPDATE = ('name', 'timezone', 'business_type')
 VALUES = dict(zip(PROTECTED, ('2299-01-01T00:00:00+00:00', 'active', 'forged-plan', 'fake-customer', 'fake-subscription')))
 
 
@@ -150,7 +154,9 @@ class EntitlementProbe(ScannerProbe):
         else:
             catalog=self.catalog()
             self.control('effective_protected_write_rights_absent',all(catalog['effective']['authenticated'][c][p] is False for c in PROTECTED for p in ('insert','update')))
-            self.control('effective_other_seven_write_rights_preserved',all(catalog['effective']['authenticated'][c][p] is True for c in ALLOWED for p in ('insert','update')))
+            eff=catalog['effective']['authenticated']
+            self.control('effective_client_insert_rights_exact',all(eff[c]['insert'] is (c in CLIENT_INSERT) for c in ALLOWED))
+            self.control('effective_client_update_rights_exact',all(eff[c]['update'] is (c in CLIENT_UPDATE) for c in ALLOWED))
             self.control('service_all_column_rights_retained',all(catalog['effective']['service_role'][c][p] is True for c in ALLOWED+PROTECTED for p in ('insert','update','select')))
             onboard=actors['onboard']
             code,rows=self.request('POST','/rest/v1/tenants?select=id',{'name':'Real client onboarding','owner_user_id':onboard['uid']},token=onboard['token'])
@@ -182,9 +188,16 @@ class EntitlementProbe(ScannerProbe):
                     r=subprocess.run(_psql_command(self.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=verbose'),input=sql,capture_output=True,text=True,env=_psql_env(self.config),timeout=30)
                     self.control(operation+'_explicit_DEFAULT_'+col,r.returncode!=0 and '42501' in r.stderr)
                     self.control(operation+'_DEFAULT_'+col+'_unchanged',before==self.snapshot())
-            old=self.stored(a['tenant']);code,rows=self.upsert(a,{'id':a['tenant'],'name':'Safe upsert','owner_user_id':a['uid']})
-            self.control('safe_metadata_upsert_supported',code in (200,201) and len(rows)==1,status=code)
-            self.control('safe_upsert_does_not_reset_entitlement_defaults',all(old[c]==self.stored(a['tenant'])[c] for c in PROTECTED))
+            # A client upsert names id, which a client may no longer write: denied, nothing changes.
+            old=self.stored(a['tenant']);before=self.snapshot()
+            code,body=self.upsert(a,{'id':a['tenant'],'name':'Metadata upsert','owner_user_id':a['uid']})
+            self.control('metadata_upsert_on_id_denied',explicit_denial(code,body),status=code)
+            self.control('metadata_upsert_on_id_unchanged',before==self.snapshot())
+            self.control('denied_upsert_does_not_reset_entitlement_defaults',all(old[c]==self.stored(a['tenant'])[c] for c in PROTECTED))
+            for col,value in (('id',str(uuid.uuid4())),('created_at','2000-01-01T00:00:00+00:00'),('updated_at','2000-01-01T00:00:00+00:00')):
+                self.denied('owner_insert_fixed_'+col,'POST','/rest/v1/tenants',{'name':'Forbidden fixed','owner_user_id':a['uid'],col:value},a)
+            for col,value in (('id',str(uuid.uuid4())),('owner_user_id',a['uid']),('created_at','2000-01-01T00:00:00+00:00'),('updated_at','2000-01-01T00:00:00+00:00')):
+                self.denied('owner_patch_fixed_'+col,'PATCH','/rest/v1/tenants?id=eq.'+a['tenant'],{col:value},a)
             self.denied('multirow_protected_update_atomic','PATCH','/rest/v1/tenants?id=in.('+a['tenant']+','+b['tenant']+')',VALUES,a)
             self.denied('homogeneous_bulk_insert_atomic','POST','/rest/v1/tenants',[
                 {'name':'Bulk1','owner_user_id':a['uid'],'trial_ends_at':None},

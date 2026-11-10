@@ -204,6 +204,33 @@ jobs:
         run: |
           supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" gen types --local --lang typescript --schema public > "$RUNNER_TEMP/generated-types.ts"
           node tests/c5-journey/profit-types.cjs "$RUNNER_TEMP/generated-types.ts" "$RUNNER_TEMP/profit-types.json"
+      - name: Catalog guard on the candidate database (C-DEFPRIV-01)
+        # Read-only rules plus negative and compatibility controls, each inside a rolled-back
+        # transaction. Runs once per mode on the collection job (fresh, upgrade, populated).
+        if: matrix.suite == 'collection'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python -I tests/catalog-guard/guard.py /tmp/monjez-c5sale/evidence
+          sudo python3 - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('/tmp/monjez-c5sale/evidence/catalog-guard.json').read_text())['controls']
+          neg=['R1_owner','R2_no_rls','R2_rls_without_live_actor','R2_permissive_live_actor','R2b_definer_view',
+               'R3_anon_function','R3_allowlisted_name_other_args','R3_public_grant','R4_truncate',
+               'R5_definer_no_search_path','R6_default_public_execute','R6_default_truncate','R6_default_anon',
+               'R7_policy_helper_without_grant']
+          required={'baseline_no_violations','nothing_persisted',
+                    'compat_new_public_function_not_anon_but_authenticated_and_service',
+                    'compat_new_private_function_needs_explicit_grant'}|{'negative_'+n+'_detected' for n in neg}
+          passed={r['name'] for r in rows if r.get('passed')}
+          print('RELEASE_CATALOG_GUARD '+json.dumps({'controls':len(rows),'missing':sorted(required-passed),
+                'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
+          assert len(required)==18 and required<=passed and all(r.get('passed') for r in rows)
+          PY
       - name: Behavioural suite against the real stack
         shell: bash
         run: |

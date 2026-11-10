@@ -65,6 +65,57 @@ NEGATIVE = {
     'R4_truncate': ("GRANT TRUNCATE ON public.orders TO authenticated;", 'R4_client_truncate', 'public.orders'),
     'R5_definer_no_search_path': ("CREATE FUNCTION public._guard_d() RETURNS int LANGUAGE sql SECURITY DEFINER AS 'select 1';",
                                   'R5_definer_without_search_path', 'public._guard_d()'),
+    'R2_live_actor_wrong_role': ("CREATE TABLE public._guard_l1(id int); ALTER TABLE public._guard_l1 ENABLE ROW LEVEL SECURITY;"
+                                 " CREATE POLICY monjez_live_actor ON public._guard_l1 AS RESTRICTIVE TO service_role"
+                                 " USING ((SELECT monjez_private.actor_is_active())) WITH CHECK ((SELECT monjez_private.actor_is_active()));"
+                                 " GRANT SELECT ON public._guard_l1 TO authenticated;",
+                                 'R2_client_table_without_rls_or_live_actor', 'public._guard_l1'),
+    'R2_live_actor_select_only': ("CREATE TABLE public._guard_l2(id int); ALTER TABLE public._guard_l2 ENABLE ROW LEVEL SECURITY;"
+                                  " CREATE POLICY monjez_live_actor ON public._guard_l2 AS RESTRICTIVE FOR SELECT TO authenticated"
+                                  " USING ((SELECT monjez_private.actor_is_active()));"
+                                  " GRANT SELECT, INSERT ON public._guard_l2 TO authenticated;",
+                                  'R2_client_table_without_rls_or_live_actor', 'public._guard_l2'),
+    'R2_live_actor_or_true': ("CREATE TABLE public._guard_l3(id int); ALTER TABLE public._guard_l3 ENABLE ROW LEVEL SECURITY;"
+                              " CREATE POLICY monjez_live_actor ON public._guard_l3 AS RESTRICTIVE TO authenticated"
+                              " USING ((SELECT monjez_private.actor_is_active()) OR true) WITH CHECK ((SELECT monjez_private.actor_is_active()) OR true);"
+                              " GRANT SELECT ON public._guard_l3 TO authenticated;",
+                              'R2_client_table_without_rls_or_live_actor', 'public._guard_l3'),
+    'R2_live_actor_other_function': ("CREATE TABLE public._guard_l4(id int); ALTER TABLE public._guard_l4 ENABLE ROW LEVEL SECURITY;"
+                                     " CREATE POLICY monjez_live_actor ON public._guard_l4 AS RESTRICTIVE TO authenticated"
+                                     " USING (public.is_platform_admin() OR true) WITH CHECK (true);"
+                                     " GRANT SELECT ON public._guard_l4 TO authenticated;",
+                                     'R2_client_table_without_rls_or_live_actor', 'public._guard_l4'),
+    'R2_live_actor_without_check': ("CREATE TABLE public._guard_l5(id int); ALTER TABLE public._guard_l5 ENABLE ROW LEVEL SECURITY;"
+                                    " CREATE POLICY monjez_live_actor ON public._guard_l5 AS RESTRICTIVE FOR ALL TO authenticated"
+                                    " USING ((SELECT monjez_private.actor_is_active()));"
+                                    " GRANT SELECT ON public._guard_l5 TO authenticated;",
+                                    'R2_client_table_without_rls_or_live_actor', 'public._guard_l5'),
+    'R2c_open_permissive_on_real_table': ("CREATE POLICY _guard_open ON public.orders FOR SELECT TO authenticated USING (true);",
+                                          'R2c_open_permissive_policy', 'public.orders / _guard_open'),
+    'R2c_open_permissive_public_role': ("CREATE POLICY _guard_open2 ON public.customers AS PERMISSIVE FOR ALL USING (1 = 1) WITH CHECK (1 = 1);",
+                                        'R2c_open_permissive_policy', 'public.customers / _guard_open2'),
+    'R5b_client_writable_schema': ("CREATE SCHEMA _guard_open; GRANT CREATE ON SCHEMA _guard_open TO authenticated;"
+                                   " CREATE FUNCTION public._guard_sp1() RETURNS int LANGUAGE sql SECURITY DEFINER"
+                                   " SET search_path = _guard_open, pg_temp AS 'select 1';",
+                                   'R5b_definer_untrusted_search_path', 'public._guard_sp1()'),
+    'R5b_pg_temp_first': ("CREATE FUNCTION public._guard_sp2() RETURNS int LANGUAGE sql SECURITY DEFINER"
+                          " SET search_path = pg_temp, public AS 'select 1';",
+                          'R5b_definer_untrusted_search_path', 'public._guard_sp2()'),
+    'R5b_dollar_user': ("CREATE FUNCTION public._guard_sp3() RETURNS int LANGUAGE sql SECURITY DEFINER"
+                        " SET search_path = \"$user\", public, pg_temp AS 'select 1';",
+                        'R5b_definer_untrusted_search_path', 'public._guard_sp3()'),
+    'R5b_missing_schema': ("CREATE FUNCTION public._guard_sp4() RETURNS int LANGUAGE sql SECURITY DEFINER"
+                           " SET search_path = _guard_absent, pg_temp AS 'select 1';",
+                           'R5b_definer_untrusted_search_path', 'public._guard_sp4()'),
+    'R8_sql_calls_ungranted': ("CREATE FUNCTION monjez_private._guard_in8() RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+                               " CREATE FUNCTION public._guard_out8() RETURNS boolean LANGUAGE sql STABLE"
+                               " AS 'select monjez_private._guard_in8()';",
+                               'R8_sql_function_calls_function_caller_cannot_execute', 'public._guard_out8()'),
+    'R8_sql_calls_ungranted_unqualified': ("CREATE FUNCTION public._guard_in8b() RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+                                           " REVOKE EXECUTE ON FUNCTION public._guard_in8b() FROM PUBLIC, authenticated, anon;"
+                                           " CREATE FUNCTION public._guard_out8b() RETURNS boolean LANGUAGE sql STABLE"
+                                           " AS 'select _guard_in8b()';",
+                                           'R8_sql_function_calls_function_caller_cannot_execute', 'public._guard_out8b()'),
     'R6_default_public_execute': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT EXECUTE ON FUNCTIONS TO PUBLIC;",
                                   'R6_postgres_function_default_public_execute', 'pg_default_acl'),
     'R6_default_truncate': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT TRUNCATE ON TABLES TO authenticated;",
@@ -79,6 +130,71 @@ NEGATIVE = {
         " GRANT SELECT ON public._guard_r7 TO authenticated;",
         'R7_policy_function_not_executable', '_guard_helper()'),
 }
+
+IMPLICIT_PG_TEMP = """
+SELECT n.nspname||'.'||p.proname||'('||pg_get_function_identity_arguments(p.oid)||')'
+FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+WHERE p.prosecdef AND n.nspname IN ('public','monjez_private')
+  AND NOT EXISTS (SELECT 1 FROM unnest(coalesce(p.proconfig,'{}')) c
+                  WHERE c LIKE 'search_path=%' AND (c LIKE '%, pg_temp' OR c LIKE '%,pg_temp' OR c = 'search_path=pg_temp'))
+ORDER BY 1;
+"""
+
+CLIENT_TABLES = """
+SELECT n.nspname||'.'||c.relname FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+WHERE n.nspname IN ('public','monjez_private') AND c.relkind IN ('r','p','v','m')
+  AND has_table_privilege('authenticated', c.oid, 'SELECT') ORDER BY 1;
+"""
+
+GU = '00000000-0000-4000-8000-0000000c0e01'
+GT = '00000000-0000-4000-8000-0000000c0e02'
+
+
+def rls_eval(extra_setup):
+    """One rolled-back transaction with a synthetic active owner and tenant. Every USING and
+    WITH CHECK expression of every policy that applies to authenticated (or PUBLIC) on an
+    application table is evaluated as authenticated against a row of the table's own type
+    (all columns NULL), so the functions it calls, and the functions those call, really run
+    even when the table is empty. Returns (expressions evaluated, total, error lines)."""
+    script = f"""\\set VERBOSITY terse
+BEGIN;
+INSERT INTO auth.users(id, instance_id, aud, role, email, created_at, updated_at)
+  VALUES ('{GU}','00000000-0000-0000-0000-000000000000','authenticated','authenticated','c-defpriv@mongezz.test',now(),now());
+INSERT INTO public.tenants(id, name, owner_user_id) VALUES ('{GT}','C-DEFPRIV synthetic','{GU}');
+UPDATE public.profiles SET tenant_id='{GT}' WHERE id='{GU}';
+{extra_setup}
+CREATE TEMP TABLE _guard_eval(label text, stmt text) ON COMMIT DROP;
+INSERT INTO _guard_eval
+SELECT n.nspname||'.'||c.relname||' / '||p.polname||' / '||v.kind,
+       format('SELECT (%s) FROM (SELECT (NULL::%s).*) AS %I', v.expr, c.oid::regclass, c.relname)
+FROM pg_policy p JOIN pg_class c ON c.oid = p.polrelid JOIN pg_namespace n ON n.oid = c.relnamespace
+CROSS JOIN LATERAL (VALUES ('using', pg_get_expr(p.polqual, p.polrelid)),
+                           ('check', pg_get_expr(p.polwithcheck, p.polrelid))) AS v(kind, expr)
+WHERE n.nspname IN ('public','monjez_private') AND v.expr IS NOT NULL
+  AND ('authenticated'::regrole::oid = ANY (p.polroles) OR 0 = ANY (p.polroles));
+GRANT SELECT ON _guard_eval TO authenticated;
+SELECT 'TOTAL', count(*) FROM _guard_eval;
+SELECT set_config('request.jwt.claims','{{"sub":"{GU}","role":"authenticated"}}',true);
+SELECT set_config('request.jwt.claim.sub','{GU}',true);
+SET LOCAL ROLE authenticated;
+DO $g$ DECLARE r record; k int := 0; BEGIN
+  FOR r IN SELECT * FROM _guard_eval ORDER BY label LOOP
+    BEGIN EXECUTE r.stmt; k := k + 1;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE 'GUARD_EVAL_ERROR|%|%|%', r.label, SQLSTATE, SQLERRM; END;
+  END LOOP;
+  RAISE NOTICE 'GUARD_EVAL_DONE|%', k;
+END $g$;
+ROLLBACK;
+"""
+    r = subprocess.run(['psql', '-X', '-q', '-At', '-F', '|', '-v', 'ON_ERROR_STOP=1'], input=script,
+                       capture_output=True, text=True, timeout=120)
+    total = next((int(l.split('|')[1]) for l in r.stdout.splitlines() if l.startswith('TOTAL|')), -1)
+    done = next((int(l.split('GUARD_EVAL_DONE|')[1]) for l in r.stderr.splitlines() if 'GUARD_EVAL_DONE|' in l), -1)
+    errors = [l.split('NOTICE:', 1)[-1].strip() for l in r.stderr.splitlines() if 'GUARD_EVAL_ERROR|' in l]
+    if r.returncode != 0:
+        errors.append('SCRIPT_FAILED ' + r.stderr.strip()[-300:])
+    return done, total, errors
+
 
 COMPAT_SQL = """
 CREATE FUNCTION public._guard_new_pub() RETURNS int LANGUAGE sql AS 'select 1';
@@ -115,6 +231,37 @@ def main():
             ok and got.get('pub') == ('f', 't', 't'), observed=got.get('pub'), error=err[:300])
     control('compat_new_private_function_needs_explicit_grant',
             ok and got.get('priv') == ('f', 'f') and got.get('priv_granted') == ('t',), observed=[got.get('priv'), got.get('priv_granted')])
+
+    # R5c ratchet: SECURITY DEFINER functions without an explicit trailing pg_temp.
+    known = {l.strip() for l in (HERE / 'known_implicit_pg_temp.txt').read_text().splitlines()
+             if l.strip() and not l.startswith('#')}
+    ok, rows, err = run('', IMPLICIT_PG_TEMP)
+    current = {r[0] for r in rows}
+    control('R5c_no_new_definer_with_implicit_pg_temp', ok and current <= known,
+            new=sorted(current - known), known=len(known), current=len(current), error=err[:300])
+    ok, rows, err = run("CREATE FUNCTION public._guard_r5c() RETURNS int LANGUAGE sql SECURITY DEFINER"
+                        " SET search_path = public AS 'select 1';", IMPLICIT_PG_TEMP)
+    control('negative_R5c_new_implicit_pg_temp_detected',
+            ok and 'public._guard_r5c()' in ({r[0] for r in rows} - known), error=err[:300])
+
+    # R7 operational: pg_depend records only functions a policy calls directly. Evaluate
+    # every policy expression as a real signed-in owner so a nested helper's missing grant
+    # surfaces as 42501 (see rls_eval).
+    done, total, errs = rls_eval('')
+    control('R7_operational_policy_expressions_as_authenticated', total > 0 and done == total and not errs,
+            evaluated=done, total=total, errors=errs[:5])
+    nested = ("CREATE FUNCTION monjez_private._guard_inner() RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+              # plpgsql outer: an SQL-language outer crashes this server image (see R8).
+              " CREATE FUNCTION monjez_private._guard_outer() RETURNS boolean LANGUAGE plpgsql STABLE"
+              " AS 'begin return monjez_private._guard_inner(); end';"
+              " GRANT EXECUTE ON FUNCTION monjez_private._guard_outer() TO authenticated;"
+              " CREATE POLICY _guard_nested ON public.orders AS RESTRICTIVE FOR SELECT TO authenticated"
+              " USING (monjez_private._guard_outer());")
+    ok7, rows7, _ = run(nested, VIOLATIONS)
+    done, total, errs = rls_eval(nested)
+    control('negative_R7_nested_helper_static_miss_operational_hit',
+            ok7 and not any(r[0] == 'R7_policy_function_not_executable' for r in rows7)
+            and any('_guard_nested' in e and '42501' in e for e in errs), errors=errs[:3])
 
     left = subprocess.run(PSQL, input="SELECT count(*) FROM pg_class WHERE relname LIKE '\\_guard\\_%' "
                           "UNION ALL SELECT count(*) FROM pg_proc WHERE proname LIKE '\\_guard\\_%';",

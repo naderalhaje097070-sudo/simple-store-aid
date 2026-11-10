@@ -219,17 +219,24 @@ jobs:
           import json
           from pathlib import Path
           rows=json.loads(Path('/tmp/monjez-c5sale/evidence/catalog-guard.json').read_text())['controls']
-          neg=['R1_owner','R2_no_rls','R2_rls_without_live_actor','R2_permissive_live_actor','R2b_definer_view',
+          neg=['R1_owner','R2_no_rls','R2_rls_without_live_actor','R2_permissive_live_actor',
+               'R2_live_actor_wrong_role','R2_live_actor_select_only','R2_live_actor_or_true',
+               'R2_live_actor_other_function','R2_live_actor_without_check',
+               'R2c_open_permissive_on_real_table','R2c_open_permissive_public_role','R2b_definer_view',
                'R3_anon_function','R3_allowlisted_name_other_args','R3_public_grant','R4_truncate',
-               'R5_definer_no_search_path','R6_default_public_execute','R6_default_truncate','R6_default_anon',
-               'R7_policy_helper_without_grant']
+               'R5_definer_no_search_path','R5b_client_writable_schema','R5b_pg_temp_first','R5b_dollar_user',
+               'R5b_missing_schema','R8_sql_calls_ungranted','R8_sql_calls_ungranted_unqualified',
+               'R6_default_public_execute','R6_default_truncate','R6_default_anon','R7_policy_helper_without_grant']
           required={'baseline_no_violations','nothing_persisted',
                     'compat_new_public_function_not_anon_but_authenticated_and_service',
-                    'compat_new_private_function_needs_explicit_grant'}|{'negative_'+n+'_detected' for n in neg}
+                    'compat_new_private_function_needs_explicit_grant',
+                    'R5c_no_new_definer_with_implicit_pg_temp','negative_R5c_new_implicit_pg_temp_detected',
+                    'R7_operational_policy_expressions_as_authenticated',
+                    'negative_R7_nested_helper_static_miss_operational_hit'}|{'negative_'+n+'_detected' for n in neg}
           passed={r['name'] for r in rows if r.get('passed')}
           print('RELEASE_CATALOG_GUARD '+json.dumps({'controls':len(rows),'missing':sorted(required-passed),
                 'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
-          assert len(required)==18 and required<=passed and all(r.get('passed') for r in rows)
+          assert len(required)==35 and required<=passed and all(r.get('passed') for r in rows)
           PY
       - name: Behavioural suite against the real stack
         shell: bash

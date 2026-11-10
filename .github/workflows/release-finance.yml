@@ -283,6 +283,32 @@ jobs:
           supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" migration list --local > "$RUNNER_TEMP/migrations.txt"
           echo "RELEASE_APPLIED_MIGRATIONS $(grep -cE '^ *[0-9]{14} ' "$RUNNER_TEMP/migrations.txt")"
           supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" db advisors --local --fail-on error > "$RUNNER_TEMP/advisors-private.txt" 2>&1
+      - name: Signed-in owner writes only the tenant columns the app writes
+        # C-TENANT-01: as the role PostgREST uses, every case rolled back; synthetic
+        # rows only, removed by the probe. Runs once per mode on the collection job.
+        if: matrix.suite == 'collection'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python -I tests/tenant-grants/probe.py /tmp/monjez-c5sale/evidence
+          sudo python3 - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('/tmp/monjez-c5sale/evidence/tenant-grants.json').read_text())['controls']
+          required={'app_onboarding_insert_allowed_and_owner_role_linked','insert_with_timezone_and_business_type_allowed',
+                    'stored_tenant_unchanged_and_no_extra_rows','synthetic_tenant_and_user_removed'}
+          required|={f'app_update_{c}_allowed_and_touch_trigger_sets_updated_at' for c in ('name','business_type','timezone')}
+          required|={f'owner_{n}_denied_42501' for n in ('insert_id','insert_created_at','insert_updated_at','update_id',
+                     'update_owner_user_id','update_created_at','update_updated_at','update_trial_ends_at',
+                     'update_subscription_status','insert_subscription_status','upsert_on_id')}
+          passed={r['name'] for r in rows if r.get('passed')}
+          print('RELEASE_TENANT_GRANTS '+json.dumps({'controls':len(rows),'missing':sorted(required-passed),
+                'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
+          assert len(required)==18 and required<=passed and all(r.get('passed') for r in rows)
+          PY
       - name: Cleanup and safe final receipts
         id: publication
         if: always()

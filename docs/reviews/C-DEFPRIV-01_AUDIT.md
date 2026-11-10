@@ -77,3 +77,28 @@ select current_setting('pgrst.db_schemas', true);  -- may be NULL; the exposed-s
 ```
 
 These read catalog metadata only: no business rows, no secrets.
+
+## 6. Review round 2 (PR #90 at 773af30), 2026-11-10
+
+The independent review of bacda16 found gaps in R2, R5 and R7. Each is closed with negative controls. The new controls fail on the bacda16 rules (22/35) and pass on the new rules (35/35, twice, local fresh stack).
+
+- **R2:** the live-actor policy is now judged by substance:
+  - RESTRICTIVE, for ALL commands;
+  - it applies to every client role that holds a privilege on the table;
+  - both USING and WITH CHECK are present;
+  - each is one of PostgreSQL's own deparsed forms of `monjez_private.actor_is_active()`;
+  - its dependencies are that function only.
+  New R2c flags a constant open PERMISSIVE policy.
+- **R5:** new R5b requires every `search_path` entry to be trusted.
+  - New R5c ratchet: 45 SECURITY DEFINER functions do not list `pg_temp` last, so `pg_temp` is searched first for relations, and `anon` and `authenticated` hold TEMP. The exposure needs a client SQL session; PostgREST offers none. The list may only shrink. Rewriting the 45 functions is a separate scope.
+- **R7 limits:**
+  - `pg_depend` records only functions a policy calls directly.
+  - New operational control: every policy expression that applies to `authenticated` (117) is evaluated as a real signed-in owner inside a rolled-back transaction, so nested helpers run even on empty tables.
+  - Remaining limit: AND/OR short-circuiting with an all-NULL row can skip a branch, so a helper reached only through a skipped branch is not executed. The release suites' real data paths cover the sensitive tables.
+- **New finding F11 (local, reproducible):**
+  - **What crashes:** on the local Supabase PostgreSQL 17.6 image (`shared_preload_libraries` includes pgaudit, auto_explain, plan_filter, plpgsql_check, pg_tle, supabase_vault; supautils as a session library), calling a non-definer SQL-language function that calls a function the caller may not EXECUTE terminates the backend with **signal 11**. The postmaster then restarts all connections.
+  - **Reproduced 8 times:** with volatile, stable, `SET search_path` and BEGIN ATOMIC bodies, for both `anon` and `authenticated`. With a plpgsql outer function, it raises 42501 cleanly. With the inner function granted, nothing happens.
+  - **Current exposure:** a text scan of the 30 client-executable SQL functions found no such call.
+  - **Unknown:** the root-cause component, and whether production's image behaves the same. Production was not tested.
+  - **Guard:** R8 (static, never executes) flags the pattern. C-DEFPRIV-01 makes it more likely for new non-public helpers, which is why the rule exists.
+  - **Action proposed:** report upstream after a minimal reproduction on a vanilla PostgreSQL 17.6, and confirm on production only with the owner's approval.

@@ -87,7 +87,8 @@ jobs:
               node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser ;;
             sale)
               node --test tests/c4-sale/contracts.test.cjs
-              node tests/c4-sale/build.mjs /tmp/monjez-c4-browser ;;
+              node tests/c4-sale/build.mjs /tmp/monjez-c4-browser
+              node tests/auth-signup/build.mjs /tmp/monjez-auth-signup-browser ;;
             journey)
               node --test tests/c5-journey/profit-report.test.ts
               node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser ;;
@@ -126,7 +127,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$SUITE" in
-            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser && python tests/c4-sale/autofocus_race.py /tmp/monjez-c4-browser ;;
+            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser && python tests/c4-sale/autofocus_race.py /tmp/monjez-c4-browser && python tests/auth-signup/browser.py /tmp/monjez-auth-signup-browser ;;
             journey) python tests/c5-journey/browser.py ;;
             collection|quantity) echo "RELEASE_BROWSER_REGRESSION none for $SUITE" ;;
           esac

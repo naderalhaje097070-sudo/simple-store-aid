@@ -3,6 +3,12 @@ import { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
+import {
+  EXISTING_ACCOUNT_MESSAGE,
+  SIGNUP_FAILED_MESSAGE,
+  isExistingAccountError,
+  isExistingAccountReply,
+} from "@/lib/auth-signup";
 
 type AuthFailure = {
   message?: unknown;
@@ -83,6 +89,13 @@ function AuthPage() {
           },
         });
         if (error) throw error;
+        if (isExistingAccountReply(data)) {
+          setMode("signin");
+          setPassword("");
+          setInfo(EXISTING_ACCOUNT_MESSAGE);
+          setNeedsConfirm(true);
+          return;
+        }
         // No session => email confirmation required. Do NOT navigate (the
         // protected gate would bounce the user back silently).
         if (!data.session) {
@@ -109,8 +122,13 @@ function AuthPage() {
         setError("تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة مرة أخرى.");
       } else if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
         setError("كلمة المرور ضعيفة جداً، استخدم كلمة أقوى (٨ أحرف+ مع أرقام ورموز).");
+      } else if (mode === "signup" && isExistingAccountError(code, msg)) {
+        setMode("signin");
+        setPassword("");
+        setInfo(EXISTING_ACCOUNT_MESSAGE);
+        setNeedsConfirm(true);
       } else if (mode === "signup") {
-        setError("إذا كان البريد جديداً فقد تم إنشاء حسابك، تحقق من بريدك الإلكتروني.");
+        setError(SIGNUP_FAILED_MESSAGE);
       } else if (msg.includes("Invalid login")) {
         setError("بيانات الدخول غير صحيحة");
       } else if (msg.includes("Password should")) {

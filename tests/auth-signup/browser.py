@@ -33,7 +33,8 @@ origin = 'http://127.0.0.1:' + str(server.server_port)
 NEUTRAL = 'إذا كان هذا البريد غير مسجّل، فقد طلبنا إرسال رابط التفعيل إليه'
 RESEND_NEUTRAL = 'إذا كان لهذا البريد حساب لم يُفعَّل بعد'
 FAILED = 'تعذّر إنشاء الحساب الآن'
-LEAKS = ('مسجّل مسبقًا', 'تم إنشاء حسابك', 'فقد تم إنشاء حسابك', 'أرسلنا رسالة التفعيل')
+LEAKS = ('مسجّل مسبقًا', 'تم إنشاء حسابك', 'فقد تم إنشاء حسابك', 'أرسلنا رسالة التفعيل',
+         'تم إرسال الرابط مؤخراً', 'تم الإرسال مؤخراً')
 V2024 = {'X-Supabase-Api-Version': '2024-01-01'}
 USER = {'id': '00000000-0000-4000-8000-0000000c0d01', 'aud': 'authenticated', 'role': 'authenticated',
         'email': 'owner@example.test', 'created_at': '2026-11-10T12:00:00Z', 'updated_at': '2026-11-10T12:00:00Z',
@@ -46,6 +47,10 @@ ACCOUNT_STATES = {
     'existing_confirmed_422': (422, {'code': 'user_already_exists', 'message': 'User already registered'}, V2024),
     'existing_422_legacy': (422, {'code': 422, 'error_code': 'user_already_exists', 'msg': 'User already registered'}, {}),
     'existing_fake': (200, {**USER, 'identities': []}, V2024),
+    # Measured with the default 60s send interval: sign-up again within 60s for an existing
+    # unconfirmed email (a new email gets 200). Verbatim body.
+    'existing_pending_429': (429, {'code': 'over_email_send_rate_limit',
+                                   'message': 'For security purposes, you can only request this after 59 seconds.'}, V2024),
 }
 FAILURES = {
     'network_down': None,
@@ -53,8 +58,10 @@ FAILURES = {
 }
 RESENDS = {
     'resend_any_email': ((200, {}, V2024), RESEND_NEUTRAL),
-    'resend_rate_limited': ((429, {'code': 'over_email_send_rate_limit', 'message': 'email rate limit exceeded'}, V2024),
-                            'تم الإرسال مؤخراً'),
+    # Measured: resend within 60s for a pending account gets 429 (unknown/confirmed: 200).
+    'resend_rate_limited': ((429, {'code': 'over_email_send_rate_limit',
+                                   'message': 'For security purposes, you can only request this after 59 seconds.'}, V2024),
+                            RESEND_NEUTRAL),
 }
 controls = []
 
@@ -139,16 +146,20 @@ with sync_playwright() as pw:
             control(f'{label}_{case}_no_script_or_external_error', not errors and not external, errors=errors[:2])
             ctx.close()
 
+        resend_states = {}
         for case, (reply, expected) in RESENDS.items():
             ctx, page, errors, external, calls = sign_up(browser, width, ACCOUNT_STATES['new'], reply)
             page.get_by_role('button', name='إعادة إرسال رسالة التفعيل', exact=True).click()
             page.wait_for_function('%s.some(t=>document.body.innerText.includes(t))'
                                    % json.dumps([expected, *LEAKS], ensure_ascii=False), timeout=15000)
             body = page.inner_text('body')
+            resend_states[case] = screen_state(page)
             control(f'{label}_{case}_message', expected in body and not any(x in body for x in LEAKS)
                     and calls == ['signup', 'resend'])
             control(f'{label}_{case}_no_script_or_external_error', not errors and not external, errors=errors[:2])
             ctx.close()
+        control(f'{label}_resend_states_render_identically',
+                resend_states['resend_any_email'] == resend_states['resend_rate_limited'])
     browser.close()
 server.shutdown()
 

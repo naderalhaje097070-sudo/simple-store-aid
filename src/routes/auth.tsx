@@ -8,6 +8,7 @@ import {
   SIGNUP_FAILED_MESSAGE,
   SIGNUP_NEUTRAL_MESSAGE,
   isExistingAccountError,
+  isRateLimitError,
 } from "@/lib/auth-signup";
 
 type AuthFailure = {
@@ -110,15 +111,20 @@ function AuthPage() {
       if (code === "email_not_confirmed" || msg.includes("Email not confirmed")) {
         setNeedsConfirm(true);
         setError("بريدك لم يُؤكَّد بعد — افتح رسالة التفعيل ثم حاول الدخول.");
-      } else if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
-        setError("تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة مرة أخرى.");
-      } else if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
-        setError("كلمة المرور ضعيفة جداً، استخدم كلمة أقوى (٨ أحرف+ مع أرقام ورموز).");
-      } else if (mode === "signup" && isExistingAccountError(code, msg)) {
+      } else if (
+        mode === "signup" &&
+        (isExistingAccountError(code, msg) || isRateLimitError(code, msg))
+      ) {
+        // Same message and state as a successful sign-up: a 422 or a per-email 429
+        // would otherwise tell whether this email already has an account.
         setMode("signin");
         setPassword("");
         setInfo(SIGNUP_NEUTRAL_MESSAGE);
         setNeedsConfirm(true);
+      } else if (isRateLimitError(code, msg)) {
+        setError("تم إرسال الرابط مؤخراً، انتظر دقيقة قبل المحاولة مرة أخرى.");
+      } else if (code === "weak_password" || msg.includes("weak") || msg.includes("pwned")) {
+        setError("كلمة المرور ضعيفة جداً، استخدم كلمة أقوى (٨ أحرف+ مع أرقام ورموز).");
       } else if (mode === "signup") {
         setError(SIGNUP_FAILED_MESSAGE);
       } else if (msg.includes("Invalid login")) {
@@ -151,8 +157,9 @@ function AuthPage() {
       setInfo(RESEND_NEUTRAL_MESSAGE);
     } catch (caught: unknown) {
       const { message: msg, code } = parseAuthFailure(caught);
-      if (code === "over_email_send_rate_limit" || msg.includes("rate limit")) {
-        setError("تم الإرسال مؤخراً، انتظر دقيقة قبل المحاولة.");
+      if (isRateLimitError(code, msg)) {
+        // A per-email 429 only happens for a pending account: same message as success.
+        setInfo(RESEND_NEUTRAL_MESSAGE);
       } else {
         setError("تعذّر إعادة الإرسال، حاول لاحقاً.");
       }

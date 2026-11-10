@@ -1,4 +1,16 @@
 
+## Open task — C-DEFPRIV-02: search_path of 45 SECURITY DEFINER functions (separate scope)
+- Source: tests/catalog-guard/known_implicit_pg_temp.txt (ratchet in PR #90; list may only shrink).
+- Issue: their search_path does not list pg_temp last, so pg_temp is searched first for relations.
+- Not started; needs owner approval of scope. Before any change:
+  1) priority = client-executable functions first (anon/authenticated EXECUTE), then internal/trigger;
+  2) dependency analysis per function (unqualified names in the body, callers, RLS use);
+  3) forward-only migration with ALTER FUNCTION ... SET search_path = <same>, pg_temp; release-finance in all modes.
+
+## Status — PR #90 R8 overload follow-up, 2026-11-10
+- Head 0f60d56: R8 flags a call if any same-name overload is not executable (false negative on overloads closed). Static negative control R8_overload_ungranted. Old rules (773af30) 35/36, new 36/36 x2, baseline clean. Release-finance dispatched.
+- F11: no further reproduction. Repository is PUBLIC; earlier commits/docs already contain F11 text (773af30 message, violations.sql comment at 773af30, docs d36a7fc). History not rewritten. Vendor report to be filed by the owner through Supabase's private disclosure channel.
+
 ## Current — controlled batch after owner review, 2026-11-10 (evening)
 - Nothing merged; no production SQL; no publish.
 - #88 head ce2a85a: B3 change reverted (owner decision: B3 stays historical, pinned to 47 migrations, original expectations); tree equals cccec6d. Release-finance 42878659487: 9/9, first attempt. New gov-ok label needed for ce2a85a.

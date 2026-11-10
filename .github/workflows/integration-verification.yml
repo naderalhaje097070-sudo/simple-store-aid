@@ -77,6 +77,8 @@ jobs:
 
           node --test tests/c4-sale/contracts.test.cjs
 
+          node --test tests/g0-integrated-types/current-contracts.test.cjs
+
           "
       - name: Build entry failure and forwarding contracts
         run: python tests/g0-integrated-types/test_build_entry.py

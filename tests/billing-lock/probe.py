@@ -38,6 +38,18 @@ def sql(text, timeout=30):
     return subprocess.run(PSQL, input=text, capture_output=True, text=True, timeout=timeout)
 
 
+def webhook_call(env='sandbox', sub_id=SUB, event_id=EVENT):
+    """The webhook call itself, as service_role (inside a caller-provided transaction)."""
+    sub = json.dumps({'id': sub_id, 'created_at': '2026-11-10T12:00:00Z', 'customer_id': 'ctm_' + 'c' * 26,
+                      'tenant_id': TENANT, 'user_id': USER, 'product_id': 'pro_c_paddle_01',
+                      'price_id': 'pri_c_paddle_01', 'status': 'active'})
+    return f"""SELECT set_config('request.jwt.claims','{{"role":"service_role"}}',true);
+SET LOCAL ROLE service_role;
+SELECT public.apply_subscription_webhook('{env}','{event_id}','subscription.created',
+  '2026-11-10T12:00:01Z'::timestamptz,'{sub}'::jsonb)->>'status';
+RESET ROLE;"""
+
+
 def webhook_txn(env='sandbox'):
     """Session B: one event as service_role, always rolled back."""
     sub = json.dumps({'id': SUB, 'created_at': '2026-11-10T12:00:00Z', 'customer_id': 'ctm_' + 'c' * 26,
@@ -57,14 +69,19 @@ ROLLBACK;
 """
 
 
-def with_holder(hold_sql, env='sandbox'):
+def with_holder(hold_sql, env='sandbox', b_script=None):
     """Session A takes a lock and keeps its transaction open while B runs."""
     a = subprocess.Popen(PSQL, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     a.stdin.write('BEGIN;\n' + hold_sql + "\n\\echo HOLDER_READY\n"); a.stdin.flush()
-    line = a.stdout.readline().strip()
-    if line != 'HOLDER_READY':
-        a.kill(); raise SystemExit('BILLING_LOCK_HOLDER_FAILED ' + line + ' ' + a.stderr.read()[:300])
-    t0 = time.monotonic(); b = sql(webhook_txn(env)); elapsed = time.monotonic() - t0
+    seen = []
+    while True:  # the holder's own statements may print rows before the marker
+        line = a.stdout.readline()
+        if not line or line.strip() == 'HOLDER_READY':
+            break
+        seen.append(line.strip())
+    if line.strip() != 'HOLDER_READY':
+        a.kill(); raise SystemExit('BILLING_LOCK_HOLDER_FAILED ' + ' '.join(seen)[:200] + ' ' + a.stderr.read()[:300])
+    t0 = time.monotonic(); b = sql(b_script or webhook_txn(env)); elapsed = time.monotonic() - t0
     a.stdin.write('ROLLBACK;\n\\q\n'); a.stdin.flush(); a.wait(timeout=30)
     return b, elapsed
 
@@ -114,6 +131,28 @@ COMMIT;""")
         control('webhook_still_excludes_concurrent_tenant_writer',
                 b.returncode != 0 and '55P03' in b.stderr and elapsed >= 1.9,
                 {'rc': b.returncode, 'elapsed_s': round(elapsed, 2)})
+
+        # Review of #87 (concurrency invariants FOR UPDATE gave, which NO KEY UPDATE must keep):
+        sub2, evt2 = 'sub_' + 'd' * 26, 'evt_' + 'd' * 26
+        timed = "\\set VERBOSITY verbose\nBEGIN;\nSET LOCAL lock_timeout = '2s';\n"
+        # (a) two events for different subscriptions of the same tenant are serialized.
+        b, elapsed = with_holder(webhook_call(), b_script=timed + webhook_call(sub_id=sub2, event_id=evt2) + "\nROLLBACK;\n")
+        control('concurrent_webhooks_same_tenant_serialized',
+                b.returncode != 0 and '55P03' in b.stderr and elapsed >= 1.9, {'rc': b.returncode, 'elapsed_s': round(elapsed, 2)})
+        # (b) an owner's tenant write waits while a webhook holds the tenant row.
+        b, elapsed = with_holder(webhook_call(), b_script=timed + f"UPDATE public.tenants SET name='x' WHERE id='{TENANT}';\nROLLBACK;\n")
+        control('tenant_writer_waits_for_inflight_webhook',
+                b.returncode != 0 and '55P03' in b.stderr and elapsed >= 1.9, {'rc': b.returncode, 'elapsed_s': round(elapsed, 2)})
+        # (c) the same event cannot be applied concurrently (event advisory lock).
+        b, elapsed = with_holder(webhook_call(), b_script=timed + webhook_call() + "\nROLLBACK;\n")
+        control('same_event_concurrent_second_waits',
+                b.returncode != 0 and '55P03' in b.stderr and elapsed >= 1.9, {'rc': b.returncode, 'elapsed_s': round(elapsed, 2)})
+        # (d) the same event twice in sequence: applied, then duplicate, one subscription row.
+        r = sql("\\set VERBOSITY verbose\nBEGIN;\n" + webhook_call() + "\n" + webhook_call() +
+                f"\nSELECT 'subs', count(*) FROM public.subscriptions WHERE tenant_id='{TENANT}';\nROLLBACK;\n")
+        outs = [x for x in r.stdout.split() if not x.startswith('{')]  # drop set_config echoes
+        control('same_event_sequential_applied_then_duplicate_one_row',
+                r.returncode == 0 and outs[:2] == ['applied', 'duplicate'] and 'subs|1' in outs, outs[:4])
 
         left = sql(f"SELECT (SELECT count(*) FROM public.subscriptions WHERE tenant_id='{TENANT}'),"
                    f"(SELECT count(*) FROM monjez_private.billing_webhook_receipts WHERE tenant_id='{TENANT}'),"

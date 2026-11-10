@@ -294,11 +294,13 @@ jobs:
           required={'catalog_tenant_lock_is_no_key_update','webhook_not_blocked_by_concurrent_sale_key_share',
                     'webhook_effect_visible_inside_its_txn','live_webhook_projects_tenant_while_sale_holds_key_share',
                     'webhook_still_excludes_concurrent_tenant_writer','no_billing_or_customer_rows_persisted',
-                    'synthetic_tenant_and_user_removed'}
+                    'synthetic_tenant_and_user_removed',
+                    'concurrent_webhooks_same_tenant_serialized','tenant_writer_waits_for_inflight_webhook',
+                    'same_event_concurrent_second_waits','same_event_sequential_applied_then_duplicate_one_row'}
           passed={r['name'] for r in rows if r.get('passed')}
           print('RELEASE_BILLING_LOCK '+json.dumps({'missing':sorted(required-passed),
                 'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
-          assert required<=passed and all(r.get('passed') for r in rows)
+          assert len(required)==11 and required<=passed and all(r.get('passed') for r in rows)
           PY
       - name: Migration history and database advisors
         shell: bash

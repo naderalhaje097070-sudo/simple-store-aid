@@ -11,6 +11,9 @@
   - Fix: migration 20261110090000_courier_settle_custody_01.sql (NULL-safe tenant/courier/delivery/not-returned check; body otherwise identical; ACL unchanged: postgres, authenticated, service_role).
   - Tests T16/T17 in tests/financial-rules/rules.sql. Local isolated Supabase CLI 2.101.0 (edge-runtime etc. excluded: sandbox rlimit): before fix T16 FAIL; after fix T1-T17 PASS (57 migrations).
   - Release gate (checkout mode) PASS with 57 migrations. Blocker: integration's chained identity tests/c5-journey/profit_identity.py hard-codes 56 migrations with the C5 migration last, so G0/B1/B7 identity would fail. Owner decision requested: patch the chain per fix, or consolidate identity onto the release gate once.
+  - Owner chose consolidation (2026-11-10). b76f601: capture.py identity -> tests/release/gate.py verify (local PASS, 57 migrations).
+  - CI release-finance dispatch on b76f601 (run 42785401402): collection suite x3 FAILED control settlement_retry_no_second_cash (this PR's fault: first fix rejected an accepted idempotent retry). Fixed in 107e1cc: reject only tenant mismatch and returned orders; already-settled order is a no-op. T17 asserts the retry contract.
+  - CI release-finance dispatch on 107e1cc (run 42786121650): SUCCESS 9/9. PR #81 (draft, base integration) awaiting owner merge approval.
 - Phase C step 1 result: integration c1fb0f5 has G0, B1, C5 journey 2/2 and release-finance 9/9 green.
 
 ## Current — RECOVERY-02, 2026-11-07

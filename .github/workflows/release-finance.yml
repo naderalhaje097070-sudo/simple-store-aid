@@ -11,10 +11,10 @@ on:
   # Every push: no path filter, so no change (app config included) skips acceptance.
   push:
     branches: ["integration/g0-g1-reconcile-2026-10-18"]
-  # Required status check for PRs into main. pull_request (not _target): PR code
-  # runs with a read-only token and no secrets; this workflow uses none.
+  # Required financial acceptance on PRs into main OR integration. No path filter:
+  # all PRs produce each matrix check; PR code runs with read-only permissions.
   pull_request:
-    branches: [main]
+    branches: [main, integration/g0-g1-reconcile-2026-10-18]
   workflow_dispatch:
 permissions:
   contents: read

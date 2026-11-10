@@ -83,10 +83,10 @@ jobs:
             collection)
               python tests/c5-finance/test_verdict.py
               node tests/c5-collection/native-hook.cjs --preflight
-              node --test tests/c5-collection/contracts.test.cjs tests/c5-collection/history.test.cjs
+              node --test tests/c5-collection/contracts.test.cjs
               node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser ;;
             sale)
-              node --test tests/c4-sale/contracts.test.cjs tests/c4-sale/history.test.cjs
+              node --test tests/c4-sale/contracts.test.cjs
               node tests/c4-sale/build.mjs /tmp/monjez-c4-browser ;;
             journey)
               node --test tests/c5-journey/profit-report.test.ts

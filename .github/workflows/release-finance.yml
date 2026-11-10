@@ -126,7 +126,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$SUITE" in
-            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser ;;
+            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser && python tests/c4-sale/autofocus_race.py /tmp/monjez-c4-browser ;;
             journey) python tests/c5-journey/browser.py ;;
             collection|quantity) echo "RELEASE_BROWSER_REGRESSION none for $SUITE" ;;
           esac

@@ -15,6 +15,17 @@ out = root/'g01-evidence'
 out.mkdir(exist_ok=True)
 receipt = {'source_sha': os.environ['EXPECTED_SOURCE'], 'kind': args.kind}
 if args.kind == 'identity':
+    # Release gate (tests/release/gate.py) replaces the chained per-stage byte
+    # manifests: exact tested commit, clean checkout, every origin/main migration
+    # byte-identical, new migrations ordered after it. Owner approval for
+    # acceptance-defining and financial-core paths is enforced on PRs into main.
+    if Path('tests/release/gate.py').exists():
+        import sys
+        sys.path.insert(0, str(Path('tests/release').resolve()))
+        from gate import verify
+        receipt.update(verify(Path.cwd()))
+        (out/'identity.json').write_text(json.dumps(receipt,indent=2)+'\n')
+        print(json.dumps(receipt));raise SystemExit(0)
     if Path('tests/c5-journey/profit-source.json').exists():
         import sys
         sys.path.insert(0, str(Path('tests/c5-journey').resolve()))

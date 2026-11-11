@@ -200,7 +200,6 @@ class GovernanceTests(unittest.TestCase):
         self.repo.write('docs/note.md', 'x\n')
         self.repo.write('README.md', 'x\n')
         self.repo.write('public/logo.svg', 'x\n')
-        self.repo.write(M + '20261101000000_c.sql', 'select 3;\n')
         self.repo.commit('product')
         self.assertEqual(gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False), [])
 
@@ -228,6 +227,34 @@ class GovernanceTests(unittest.TestCase):
                      'supabase/config.toml', 'supabase/seed.sql', '.github/actions/x/action.yml'):
             with self.subTest(path=path):
                 self.assertTrue(gate.governed(path))
+
+    # financial core inside the product
+    def test_new_migration_needs_approval(self):
+        self.blocked(M + '20261101000000_c.sql', 'select 3;\n')
+
+    def test_financial_core_files_need_approval(self):
+        for path in ('src/lib/db.ts', 'src/lib/sale-operation.ts', 'src/lib/collection-operation.ts',
+                     'src/domain/finance/quantity.ts', 'src/lib/account-state.server.ts',
+                     'src/integrations/supabase/auth-middleware.ts', 'src/integrations/supabase/client.server.ts',
+                     'src/lib/paddle.server.ts', 'src/lib/subscription-webhook.server.ts',
+                     'src/routes/api/public/payments/webhook.ts', 'src/utils/payments.functions.ts'):
+            with self.subTest(path=path):
+                self.assertTrue(gate.financial_core(path))
+
+    def test_ordinary_ui_and_display_stay_free(self):
+        for path in ('src/features/reports/ProfitScreen.tsx', 'src/lib/day-close-report.ts', 'src/lib/paddle.ts',
+                     'src/integrations/supabase/client.ts', 'src/integrations/supabase/types.ts',
+                     'src/routes/index.tsx'):
+            with self.subTest(path=path):
+                self.assertFalse(gate.financial_core(path) or gate.governed(path))
+
+    def test_new_file_reaching_service_role_needs_approval(self):
+        self.blocked('src/routes/api/admin/new.ts', 'createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY)\n')
+
+    def test_ordinary_src_change_still_free_with_core_rules(self):
+        self.repo.write('src/features/reports/ProfitScreen.tsx', 'export {}\n')
+        self.repo.commit('ui')
+        self.assertEqual(gate.verify_governance(self.repo.root, 'origin/main', 'HEAD', False), [])
 
     def test_rename_of_governed_file_out_of_scope_is_seen(self):
         self.repo.write('tests/release/helper.py', 'x = 1\n')

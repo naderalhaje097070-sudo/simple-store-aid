@@ -1,0 +1,12 @@
+-- C-DEFPRIV-01: functions that postgres creates from now on are not executable by PUBLIC
+-- (and therefore not by anon) unless a migration grants it explicitly.
+-- Before: no global default ACL for postgres, so acldefault('f') = {=X/postgres,...}:
+-- every new function, in any schema, was callable by anon until its migration
+-- remembered REVOKE ... FROM PUBLIC.
+-- Unchanged: existing functions keep their ACLs; the per-schema default for postgres in
+-- public still grants EXECUTE on new public functions to authenticated and service_role.
+-- Consequence: a new function outside public (e.g. a monjez_private helper used by an RLS
+-- policy) needs an explicit GRANT EXECUTE to the roles that call it.
+-- Not attempted: supabase_admin's defaults (postgres is not a member of supabase_admin).
+-- Rollback: ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT EXECUTE ON FUNCTIONS TO PUBLIC;
+ALTER DEFAULT PRIVILEGES FOR ROLE postgres REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;

@@ -134,6 +134,11 @@ SELECT 'R6_postgres_default_grants_client', CASE WHEN d.defaclnamespace=0 THEN '
     AND (d.defaclnamespace=0 OR d.defaclnamespace IN (SELECT oid FROM app_ns))
     AND (a.grantee = 'anon'::regrole OR (a.grantee='authenticated'::regrole AND a.privilege_type='TRUNCATE'))
 UNION ALL
+-- R7 limits (documented): pg_depend records only functions a policy calls directly; the
+-- operational evaluation in guard.py runs each expression on one all-NULL row, so AND/OR
+-- short-circuits and branches can skip calls. Neither proves every path. guard.py R7b
+-- therefore requires every policy helper to be listed in reviewed_policy_functions.tsv
+-- with the functional test that exercises it.
 -- R7 compatibility: every function an RLS policy on an application table depends on is
 -- executable by the roles the policy applies to (authenticated, or PUBLIC = 0). After
 -- C-DEFPRIV-01 a new helper outside public needs an explicit grant; this catches a miss.

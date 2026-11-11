@@ -204,6 +204,37 @@ ROLLBACK;
     return done, total, errors
 
 
+# R2d: every PERMISSIVE policy that applies to a client role, in PostgreSQL's own deparsed
+# form. PERMISSIVE policies are OR-ed, so one effectively-open policy that still references
+# a column (e.g. tenant_id IS NOT NULL) defeats store isolation while passing R2/R2c.
+# Whether an expression is truly tenant-scoped is not decidable from the catalog, so any
+# new, changed or removed policy fails until reviewed_permissive_policies.jsonl is updated
+# in the same PR (the diff is the review; store-isolation suites must cover it).
+PERMISSIVE_SQL = """
+SELECT json_build_object('table', n.nspname||'.'||c.relname, 'policy', p.polname, 'cmd', p.polcmd,
+  'roles', (SELECT array_agg(CASE WHEN r=0 THEN 'PUBLIC' ELSE pg_get_userbyid(r) END ORDER BY 1) FROM unnest(p.polroles) r),
+  'using', pg_get_expr(p.polqual, p.polrelid), 'check', pg_get_expr(p.polwithcheck, p.polrelid))::text
+FROM pg_policy p JOIN pg_class c ON c.oid=p.polrelid JOIN pg_namespace n ON n.oid=c.relnamespace
+WHERE n.nspname IN ('public','monjez_private') AND p.polpermissive
+  AND (0 = ANY (p.polroles) OR 'anon'::regrole::oid = ANY (p.polroles) OR 'authenticated'::regrole::oid = ANY (p.polroles))
+ORDER BY 1;
+"""
+
+# R7b: functions any policy on an application table depends on. R7 (static) and the R7
+# operational evaluation cannot prove every branch or nested call runs; a new helper must
+# be listed in reviewed_policy_functions.tsv with the functional test that covers it.
+POLICY_FUNCTIONS_SQL = """
+SELECT DISTINCT d.refobjid::regprocedure::text
+FROM pg_policy pol JOIN pg_class c ON c.oid=pol.polrelid JOIN pg_namespace n ON n.oid=c.relnamespace
+JOIN pg_depend d ON d.classid='pg_policy'::regclass AND d.objid=pol.oid AND d.refclassid='pg_proc'::regclass
+WHERE n.nspname IN ('public','monjez_private') ORDER BY 1;
+"""
+
+
+def json_rows(rows):
+    return {'|'.join(r) for r in rows}
+
+
 COMPAT_SQL = """
 CREATE FUNCTION public._guard_new_pub() RETURNS int LANGUAGE sql AS 'select 1';
 CREATE FUNCTION monjez_private._guard_new_priv() RETURNS int LANGUAGE sql AS 'select 1';
@@ -239,6 +270,45 @@ def main():
             ok and got.get('pub') == ('f', 't', 't'), observed=got.get('pub'), error=err[:300])
     control('compat_new_private_function_needs_explicit_grant',
             ok and got.get('priv') == ('f', 'f') and got.get('priv_granted') == ('t',), observed=[got.get('priv'), got.get('priv_granted')])
+
+    # R2d reviewed permissive-policy manifest (exact match).
+    reviewed = {l.strip() for l in (HERE / 'reviewed_permissive_policies.jsonl').read_text().splitlines() if l.strip()}
+    ok, rows, err = run('', PERMISSIVE_SQL)
+    current = json_rows(rows)
+    control('R2d_permissive_policies_match_reviewed_manifest', ok and current == reviewed,
+            added=sorted(current - reviewed)[:5], removed=sorted(reviewed - current)[:5],
+            reviewed=len(reviewed), current=len(current), error=err[:300])
+    # Negative: references a column, so R2/R2c accept it, yet opens every store's orders.
+    open_setup = "CREATE POLICY _guard_tenant_open ON public.orders FOR SELECT TO authenticated USING (tenant_id IS NOT NULL);"
+    ok, vrows, _ = run(open_setup, VIOLATIONS)
+    ok2, prow, err = run(open_setup, PERMISSIVE_SQL)
+    added = json_rows(prow) - reviewed
+    control('negative_R2d_effectively_open_policy_detected',
+            ok and ok2 and not any(r[0].startswith('R2') and '_guard_tenant_open' in '|'.join(r) for r in vrows)
+            and any('_guard_tenant_open' in a for a in added), r2_rules_missed=True, error=err[:300])
+    # Negative: an existing reviewed policy widened in place.
+    widen = ("ALTER POLICY \"tenant members read orders\" ON public.orders"
+             " USING ((tenant_id = current_tenant_id()) OR (tenant_id IS NOT NULL));")
+    ok, prow, err = run(widen, PERMISSIVE_SQL)
+    cur = json_rows(prow)
+    control('negative_R2d_widened_existing_policy_detected',
+            ok and any('tenant members read orders' in a for a in cur - reviewed)
+            and any('tenant members read orders' in r for r in reviewed - cur), error=err[:300])
+
+    # R7b reviewed list of policy helper functions (exact match).
+    listed = {l.split('\t')[0].strip() for l in (HERE / 'reviewed_policy_functions.tsv').read_text().splitlines()
+              if l.strip() and not l.startswith('#')}
+    ok, rows, err = run('', POLICY_FUNCTIONS_SQL)
+    fns = {r[0] for r in rows}
+    control('R7b_policy_functions_match_reviewed_list', ok and fns == listed,
+            unlisted=sorted(fns - listed), stale=sorted(listed - fns), error=err[:300])
+    helper = ("CREATE FUNCTION monjez_private._guard_helper7b() RETURNS boolean LANGUAGE sql STABLE AS 'select true';"
+              " GRANT EXECUTE ON FUNCTION monjez_private._guard_helper7b() TO authenticated;"
+              " CREATE POLICY _guard_r7b ON public.orders AS RESTRICTIVE FOR SELECT TO authenticated"
+              " USING (monjez_private._guard_helper7b());")
+    ok, rows, err = run(helper, POLICY_FUNCTIONS_SQL)
+    control('negative_R7b_new_policy_helper_detected',
+            ok and 'monjez_private._guard_helper7b()' in ({r[0] for r in rows} - listed), error=err[:300])
 
     # R5c ratchet: SECURITY DEFINER functions without an explicit trailing pg_temp.
     known = {l.strip() for l in (HERE / 'known_implicit_pg_temp.txt').read_text().splitlines()

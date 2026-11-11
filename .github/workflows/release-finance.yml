@@ -221,7 +221,8 @@ jobs:
           from pathlib import Path
           rows=json.loads(Path('/tmp/monjez-c5sale/evidence/catalog-guard.json').read_text())['controls']
           neg=['R1_owner','R2_no_rls','R2_rls_without_live_actor','R2_permissive_live_actor',
-               'R2_live_actor_wrong_role','R2_live_actor_select_only','R2_live_actor_or_true',
+               'R2_column_only_authenticated','R2_column_only_anon_insert','R2_live_actor_misses_column_role',
+               'R2b_column_readable_view','R2_live_actor_wrong_role','R2_live_actor_select_only','R2_live_actor_or_true',
                'R2_live_actor_other_function','R2_live_actor_without_check',
                'R2c_open_permissive_on_real_table','R2c_open_permissive_public_role','R2b_definer_view',
                'R3_anon_function','R3_allowlisted_name_other_args','R3_public_grant','R4_truncate',
@@ -236,11 +237,16 @@ jobs:
                     'negative_R7_nested_helper_static_miss_operational_hit',
                     'R2d_permissive_policies_match_reviewed_manifest','negative_R2d_effectively_open_policy_detected',
                     'negative_R2d_widened_existing_policy_detected','R7b_policy_functions_match_reviewed_list',
-                    'negative_R7b_new_policy_helper_detected'}|{'negative_'+n+'_detected' for n in neg}
+                    'negative_R7b_new_policy_helper_detected',
+                    'positive_R2_column_only_protected_table_accepted','R7c_policy_expressions_representative_rows',
+                    'negative_R7c_strict_nested_helper_null_miss_representative_hit',
+                    'positive_R7c_strict_nested_helper_granted_passes',
+                    'R7b_every_listed_helper_names_passing_guard_controls','negative_R7b_missing_coverage_rejected',
+                    'negative_R7b_unknown_control_rejected'}|{'negative_'+n+'_detected' for n in neg}
           passed={r['name'] for r in rows if r.get('passed')}
           print('RELEASE_CATALOG_GUARD '+json.dumps({'controls':len(rows),'missing':sorted(required-passed),
                 'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
-          assert len(required)==41 and required<=passed and all(r.get('passed') for r in rows)
+          assert len(required)==52 and required<=passed and all(r.get('passed') for r in rows)
           PY
       - name: Behavioural suite against the real stack
         shell: bash

@@ -1,11 +1,12 @@
 # C-DEFPRIV-01 R7b: every function an RLS policy on an application table depends on.
 # A new helper fails the guard until it is listed here with the functional test that
 # exercises it through a real RLS path (owner review; see guard.py R7b). Columns:
-# signature<TAB>functional coverage (recorded 2026-11-11 from 60 migrations).
-auth.role()	R7 operational (every policy expression, as authenticated); service-role policies only
-auth.uid()	R7 operational; release-finance native suites (collection, sale, journey) as real owners/staff
-current_tenant_id()	R7 operational; release-finance native suites (tenant-scoped reads and writes)
-has_owner_role(uuid,uuid)	R7 operational; release-finance native suites (owner paths)
-has_staff_or_owner_role(uuid,uuid)	R7 operational; release-finance native suites (staff paths)
-is_platform_admin()	R7 operational only. GAP: no release-finance functional test of the platform-admin path
-monjez_private.actor_is_active()	R7 operational; release-finance native suites (banned/closed actor denials)
+# signature<TAB>functional coverage; it must name at least one guard:<control> that runs and
+# passes in the same guard run (checked), plus any suite reference (recorded 2026-11-11, 60 migrations).
+auth.role()	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; service-role policies only
+auth.uid()	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; release-finance native suites (collection, sale, journey) as real owners/staff
+current_tenant_id()	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; release-finance native suites (tenant-scoped reads and writes)
+has_owner_role(uuid,uuid)	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; release-finance native suites (owner paths)
+has_staff_or_owner_role(uuid,uuid)	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; release-finance native suites (staff paths)
+is_platform_admin()	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; GAP: no release-finance functional test of the platform-admin path
+monjez_private.actor_is_active()	guard:R7_operational_policy_expressions_as_authenticated guard:R7c_policy_expressions_representative_rows; release-finance native suites (banned/closed actor denials)

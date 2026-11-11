@@ -51,6 +51,26 @@ NEGATIVE = {
                                  " CREATE POLICY monjez_live_actor ON public._guard_r2c AS PERMISSIVE TO authenticated USING (true);"
                                  " GRANT SELECT ON public._guard_r2c TO authenticated;",
                                  'R2_client_table_without_rls_or_live_actor', 'public._guard_r2c'),
+    # DEFPRIV-R2-COLUMN: column-only grants are client access too (table defaults revoked).
+    'R2_column_only_authenticated': ("CREATE TABLE public._guard_c1(id int, secret text);"
+                                     " REVOKE ALL ON public._guard_c1 FROM PUBLIC, anon, authenticated;"
+                                     " GRANT SELECT (secret) ON public._guard_c1 TO authenticated;",
+                                     'R2_client_table_without_rls_or_live_actor', 'public._guard_c1'),
+    'R2_column_only_anon_insert': ("CREATE TABLE public._guard_c2(id int, secret text);"
+                                   " REVOKE ALL ON public._guard_c2 FROM PUBLIC, anon, authenticated;"
+                                   " GRANT INSERT (secret) ON public._guard_c2 TO anon;",
+                                   'R2_client_table_without_rls_or_live_actor', 'public._guard_c2'),
+    'R2_live_actor_misses_column_role': ("CREATE TABLE public._guard_c3(id int, secret text);"
+                                         " ALTER TABLE public._guard_c3 ENABLE ROW LEVEL SECURITY;"
+                                         " CREATE POLICY monjez_live_actor ON public._guard_c3 AS RESTRICTIVE TO authenticated"
+                                         " USING ((SELECT monjez_private.actor_is_active())) WITH CHECK ((SELECT monjez_private.actor_is_active()));"
+                                         " REVOKE ALL ON public._guard_c3 FROM PUBLIC, anon, authenticated;"
+                                         " GRANT SELECT (secret) ON public._guard_c3 TO anon;",
+                                         'R2_client_table_without_rls_or_live_actor', 'public._guard_c3'),
+    'R2b_column_readable_view': ("CREATE VIEW public._guard_cv AS SELECT 1 AS x;"
+                                 " REVOKE ALL ON public._guard_cv FROM PUBLIC, anon, authenticated;"
+                                 " GRANT SELECT (x) ON public._guard_cv TO authenticated;",
+                                 'R2b_client_view_not_security_invoker', 'public._guard_cv'),
     'R2b_definer_view': ("CREATE VIEW public._guard_v AS SELECT 1 AS x; GRANT SELECT ON public._guard_v TO authenticated;",
                          'R2b_client_view_not_security_invoker', 'public._guard_v'),
     'R3_anon_function': ("CREATE FUNCTION public._guard_f() RETURNS int LANGUAGE sql AS 'select 1';"
@@ -158,12 +178,31 @@ GU = '00000000-0000-4000-8000-0000000c0e01'
 GT = '00000000-0000-4000-8000-0000000c0e02'
 
 
-def rls_eval(extra_setup):
+# Representative non-NULL row per table for the second R7 evaluation: uuid columns get the
+# synthetic tenant (tenant_id), the synthetic owner (owner_user_id, user_id, profiles.id) or a
+# fixed uuid; numeric 1, text 'x', boolean true, date/time now(); other types stay NULL.
+REPRESENTATIVE_ROW = """(SELECT coalesce(jsonb_object_agg(a.attname, CASE
+    WHEN a.atttypid = 'uuid'::regtype AND a.attname = 'tenant_id' THEN to_jsonb('{GT}'::text)
+    WHEN a.atttypid = 'uuid'::regtype AND (a.attname IN ('owner_user_id','user_id')
+         OR (c.relname = 'profiles' AND a.attname = 'id')) THEN to_jsonb('{GU}'::text)
+    WHEN a.atttypid = 'uuid'::regtype THEN to_jsonb('00000000-0000-4000-8000-0000000c0e09'::text)
+    WHEN t.typcategory = 'N' THEN to_jsonb(1)
+    WHEN t.typcategory = 'S' THEN to_jsonb('x'::text)
+    WHEN t.typcategory = 'B' THEN to_jsonb(true)
+    WHEN t.typcategory = 'D' THEN to_jsonb(now()) END) FILTER (WHERE a.atttypid = 'uuid'::regtype
+         OR t.typcategory IN ('N','S','B','D')), '{{}}'::jsonb)
+  FROM pg_attribute a JOIN pg_type t ON t.oid = a.atttypid
+  WHERE a.attrelid = c.oid AND a.attnum > 0 AND NOT a.attisdropped)"""
+
+
+def rls_eval(extra_setup, mode='null'):
     """One rolled-back transaction with a synthetic active owner and tenant. Every USING and
     WITH CHECK expression of every policy that applies to authenticated (or PUBLIC) on an
     application table is evaluated as authenticated against a row of the table's own type
-    (all columns NULL), so the functions it calls, and the functions those call, really run
-    even when the table is empty. Returns (expressions evaluated, total, error lines)."""
+    (mode 'null': all columns NULL; mode 'representative': REPRESENTATIVE_ROW, so STRICT or
+    NULL-guarded helpers called with column values really run). The functions it calls, and
+    the functions those call, run even when the table is empty.
+    Returns (expressions evaluated, total, error lines)."""
     script = f"""\\set VERBOSITY terse
 BEGIN;
 INSERT INTO auth.users(id, instance_id, aud, role, email, created_at, updated_at)
@@ -174,7 +213,10 @@ UPDATE public.profiles SET tenant_id='{GT}' WHERE id='{GU}';
 CREATE TEMP TABLE _guard_eval(label text, stmt text) ON COMMIT DROP;
 INSERT INTO _guard_eval
 SELECT n.nspname||'.'||c.relname||' / '||p.polname||' / '||v.kind,
-       format('SELECT (%s) FROM (SELECT (NULL::%s).*) AS %I', v.expr, c.oid::regclass, c.relname)
+       CASE WHEN '{mode}' = 'null'
+            THEN format('SELECT (%s) FROM (SELECT (NULL::%s).*) AS %I', v.expr, c.oid::regclass, c.relname)
+            ELSE format('SELECT (%s) FROM jsonb_populate_record(NULL::%s, %L::jsonb) AS %I',
+                        v.expr, c.oid::regclass, {REPRESENTATIVE_ROW.format(GT=GT, GU=GU)}, c.relname) END
 FROM pg_policy p JOIN pg_class c ON c.oid = p.polrelid JOIN pg_namespace n ON n.oid = c.relnamespace
 CROSS JOIN LATERAL (VALUES ('using', pg_get_expr(p.polqual, p.polrelid)),
                            ('check', pg_get_expr(p.polwithcheck, p.polrelid))) AS v(kind, expr)
@@ -229,6 +271,21 @@ FROM pg_policy pol JOIN pg_class c ON c.oid=pol.polrelid JOIN pg_namespace n ON 
 JOIN pg_depend d ON d.classid='pg_policy'::regclass AND d.objid=pol.oid AND d.refclassid='pg_proc'::regclass
 WHERE n.nspname IN ('public','monjez_private') ORDER BY 1;
 """
+
+
+def coverage_errors(lines, passed):
+    """Each line: signature<TAB>coverage text containing guard:<control_name> tokens. Every
+    line must name at least one control, and every named control must have run and passed."""
+    import re
+    errs = []
+    for line in lines:
+        sig, _, cov = line.partition('\t')
+        names = re.findall(r'guard:([A-Za-z0-9_]+)', cov)
+        if not names:
+            errs.append(sig.strip() + ': no guard:<control> coverage')
+        elif any(n not in passed for n in names):
+            errs.append(sig.strip() + ': named control missing or failed: ' + ','.join(n for n in names if n not in passed))
+    return errs
 
 
 def json_rows(rows):
@@ -310,6 +367,39 @@ def main():
     control('negative_R7b_new_policy_helper_detected',
             ok and 'monjez_private._guard_helper7b()' in ({r[0] for r in rows} - listed), error=err[:300])
 
+    # Positive: a column-only grant on a properly protected table is accepted (no R2/R2b row).
+    protected = ("CREATE TABLE public._guard_c5(id int, secret text);"
+                 " ALTER TABLE public._guard_c5 ENABLE ROW LEVEL SECURITY;"
+                 " CREATE POLICY monjez_live_actor ON public._guard_c5 AS RESTRICTIVE TO authenticated"
+                 " USING ((SELECT monjez_private.actor_is_active())) WITH CHECK ((SELECT monjez_private.actor_is_active()));"
+                 " REVOKE ALL ON public._guard_c5 FROM PUBLIC, anon, authenticated;"
+                 " GRANT SELECT (secret) ON public._guard_c5 TO authenticated;")
+    ok, rows, err = run(protected, VIOLATIONS)
+    control('positive_R2_column_only_protected_table_accepted',
+            ok and not any('_guard_c5' in '|'.join(r) for r in rows), rows=[list(r) for r in rows][:3], error=err[:300])
+
+    # DEFPRIV-R7-NULL: evaluate every policy expression again on a representative non-NULL row.
+    done, total, errs = rls_eval('', 'representative')
+    control('R7c_policy_expressions_representative_rows', total > 0 and done == total and not errs,
+            evaluated=done, total=total, errors=errs[:5])
+    # Negative: a granted STRICT plpgsql helper that reaches an ungranted helper only for a
+    # non-NULL argument. All-NULL evaluation skips it; the representative row reaches it.
+    strict = ("CREATE FUNCTION monjez_private._guard_in7c(p uuid) RETURNS boolean LANGUAGE sql STABLE AS 'select p is not null';"
+              " CREATE FUNCTION monjez_private._guard_out7c(p uuid) RETURNS boolean LANGUAGE plpgsql STABLE STRICT"
+              " AS 'begin return monjez_private._guard_in7c(p); end';"
+              " GRANT EXECUTE ON FUNCTION monjez_private._guard_out7c(uuid) TO authenticated;"
+              " CREATE POLICY _guard_strict7c ON public.orders AS RESTRICTIVE FOR SELECT TO authenticated"
+              " USING (monjez_private._guard_out7c(tenant_id));")
+    _, _, errs_null = rls_eval(strict, 'null')
+    _, _, errs_rep = rls_eval(strict, 'representative')
+    control('negative_R7c_strict_nested_helper_null_miss_representative_hit',
+            not any('_guard_strict7c' in e for e in errs_null)
+            and any('_guard_strict7c' in e and '42501' in e for e in errs_rep),
+            null_errors=[e for e in errs_null if '_guard' in e][:2], representative_errors=errs_rep[:2])
+    _, _, errs_ok = rls_eval(strict + " GRANT EXECUTE ON FUNCTION monjez_private._guard_in7c(uuid) TO authenticated;",
+                             'representative')
+    control('positive_R7c_strict_nested_helper_granted_passes', not errs_ok, errors=errs_ok[:2])
+
     # R5c ratchet: SECURITY DEFINER functions without an explicit trailing pg_temp.
     known = {l.strip() for l in (HERE / 'known_implicit_pg_temp.txt').read_text().splitlines()
              if l.strip() and not l.startswith('#')}
@@ -340,6 +430,16 @@ def main():
     control('negative_R7_nested_helper_static_miss_operational_hit',
             ok7 and not any(r[0] == 'R7_policy_function_not_executable' for r in rows7)
             and any('_guard_nested' in e and '42501' in e for e in errs), errors=errs[:3])
+
+    # R7b coverage: every listed helper names at least one guard:<control> that ran and passed.
+    passed_now = {c['name'] for c in controls if c['passed']}
+    tsv = [l for l in (HERE / 'reviewed_policy_functions.tsv').read_text().splitlines() if l.strip() and not l.startswith('#')]
+    cov_errors = coverage_errors(tsv, passed_now)
+    control('R7b_every_listed_helper_names_passing_guard_controls', not cov_errors, errors=cov_errors[:5])
+    stripped = [l.split('\t')[0] + '\t' for l in tsv]
+    control('negative_R7b_missing_coverage_rejected', len(coverage_errors(stripped, passed_now)) == len(tsv))
+    bogus = [l.split('\t')[0] + '\tguard:R7z_no_such_control' for l in tsv]
+    control('negative_R7b_unknown_control_rejected', len(coverage_errors(bogus, passed_now)) == len(tsv))
 
     left = subprocess.run(PSQL, input="SELECT count(*) FROM pg_class WHERE relname LIKE '\\_guard\\_%' "
                           "UNION ALL SELECT count(*) FROM pg_proc WHERE proname LIKE '\\_guard\\_%';",

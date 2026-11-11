@@ -33,7 +33,8 @@ good_live AS (
     AND pg_get_expr(p.polqual, p.polrelid) IN (SELECT expr FROM live_forms)
     AND pg_get_expr(p.polwithcheck, p.polrelid) IN (SELECT expr FROM live_forms)
     AND NOT EXISTS (SELECT 1 FROM client
-                    WHERE has_table_privilege(client.r, p.polrelid, 'SELECT,INSERT,UPDATE,DELETE')
+                    WHERE (has_table_privilege(client.r, p.polrelid, 'SELECT,INSERT,UPDATE,DELETE')
+                           OR has_any_column_privilege(client.r, p.polrelid, 'SELECT,INSERT,UPDATE'))
                       AND NOT (client.r::regrole::oid = ANY (p.polroles) OR 0 = ANY (p.polroles)))
     AND (SELECT array_agg(DISTINCT d.refobjid::regprocedure::text) FROM pg_depend d
          WHERE d.classid='pg_policy'::regclass AND d.objid=p.oid AND d.refclassid='pg_proc'::regclass)
@@ -66,7 +67,10 @@ SELECT 'R2_client_table_without_rls_or_live_actor', r.nspname||'.'||r.relname,
        'rls='||r.relrowsecurity||' live_actor_valid='||(r.oid IN (SELECT polrelid FROM good_live))
   FROM rels r
   WHERE r.relkind IN ('r','p','f')
-    AND EXISTS (SELECT 1 FROM client WHERE has_table_privilege(client.r, r.oid, 'SELECT,INSERT,UPDATE,DELETE'))
+    -- Effective client access: table privileges, or SELECT/INSERT/UPDATE on any single
+    -- column (a column-only grant is still access; has_table_privilege alone misses it).
+    AND EXISTS (SELECT 1 FROM client WHERE has_table_privilege(client.r, r.oid, 'SELECT,INSERT,UPDATE,DELETE')
+                                       OR has_any_column_privilege(client.r, r.oid, 'SELECT,INSERT,UPDATE'))
     AND (NOT r.relrowsecurity OR r.oid NOT IN (SELECT polrelid FROM good_live))
 UNION ALL
 -- R2c a PERMISSIVE policy that applies to a client role and depends on nothing but its own
@@ -85,7 +89,8 @@ UNION ALL
 SELECT 'R2b_client_view_not_security_invoker', r.nspname||'.'||r.relname, coalesce(array_to_string(r.reloptions,','),'')
   FROM rels r
   WHERE r.relkind IN ('v','m')
-    AND EXISTS (SELECT 1 FROM client WHERE has_table_privilege(client.r, r.oid, 'SELECT'))
+    AND EXISTS (SELECT 1 FROM client WHERE has_table_privilege(client.r, r.oid, 'SELECT')
+                                       OR has_any_column_privilege(client.r, r.oid, 'SELECT'))
     AND NOT coalesce('security_invoker=true' = ANY (r.reloptions) OR 'security_invoker=on' = ANY (r.reloptions), false)
 UNION ALL
 -- R3 anon (directly or through PUBLIC) may execute no application function, except named triggers.

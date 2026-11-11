@@ -1,4 +1,14 @@
 
+## Status — Phase C batch merged into integration (2e4c8cc), 2026-11-11
+- Merged one by one, each at the owner's own-word approval, merge commits, exact heads:
+  #86 1be98a4, #91 a0c1f9a, #89 65e0058, #87 582426b (label gov-ok-6a6161e), #88 9c9d261 (label gov-ok-19bbdd0),
+  #90 2e4c8cc (label gov-ok-432f554; independent review "approved for human merge", R2-COLUMN and R7-NULL closed).
+- Integration 2e4c8cc: release-finance 9/9, G0, B1 green. main unchanged (1c5276f). Production unchanged.
+- Integration now carries migrations 20261110090000, -130000, -140000, -150000 not yet in production (C6/C7, with simulation, stages, rollback, owner approval).
+- Open: C6/C7 (main merge incl. email-queue hotfix, re-baseline main identity, Stage B/integration protection); journey test flake hardening;
+  auth API enumeration (422/429) before Pilot; C-DEFPRIV-02 (planned); is_platform_admin functional test gap; PR #77 decision;
+  owner-only: F11 report to Supabase, repository visibility.
+
 ## Status — PR #86 merged into integration (1be98a4), 2026-11-11
 - Owner approval in own words ("ادمج") after a plain-language summary. Merge commit 1be98a4 (head 2d117a3, merge method).
 - Integration push release-finance 42918884115: attempt 1 journey/upgrade TimeoutError at desktop_expense (91 controls done); re-run of that job passed → 9/9. Third intermittent journey failure (stages: mobile_report_read_failure_503, desktop_expense) → task: harden tests/c5-journey/browser.py waits (open).

@@ -11,10 +11,10 @@ on:
   # Every push: no path filter, so no change (app config included) skips acceptance.
   push:
     branches: ["integration/g0-g1-reconcile-2026-10-18"]
-  # Required status check for PRs into main. pull_request (not _target): PR code
-  # runs with a read-only token and no secrets; this workflow uses none.
+  # Required financial acceptance on PRs into main OR integration. No path filter:
+  # all PRs produce each matrix check; PR code runs with read-only permissions.
   pull_request:
-    branches: [main]
+    branches: [main, integration/g0-g1-reconcile-2026-10-18]
   workflow_dispatch:
 permissions:
   contents: read
@@ -87,7 +87,8 @@ jobs:
               node tests/c5-collection/browser-build.mjs /tmp/monjez-c5sale-browser ;;
             sale)
               node --test tests/c4-sale/contracts.test.cjs
-              node tests/c4-sale/build.mjs /tmp/monjez-c4-browser ;;
+              node tests/c4-sale/build.mjs /tmp/monjez-c4-browser
+              node tests/auth-signup/build.mjs /tmp/monjez-auth-signup-browser ;;
             journey)
               node --test tests/c5-journey/profit-report.test.ts
               node tests/c5-journey/build.mjs /tmp/monjez-c5sale-browser ;;
@@ -126,7 +127,7 @@ jobs:
         run: |
           set -euo pipefail
           case "$SUITE" in
-            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser && python tests/c4-sale/autofocus_race.py /tmp/monjez-c4-browser ;;
+            sale)    python tests/c4-sale/browser.py /tmp/monjez-c4-browser && python tests/c4-sale/quantity_input.py /tmp/monjez-c4-browser && python tests/c4-sale/inactive_product.py /tmp/monjez-c4-browser && python tests/c4-sale/autofocus_race.py /tmp/monjez-c4-browser && python tests/auth-signup/browser.py /tmp/monjez-auth-signup-browser ;;
             journey) python tests/c5-journey/browser.py ;;
             collection|quantity) echo "RELEASE_BROWSER_REGRESSION none for $SUITE" ;;
           esac
@@ -275,6 +276,32 @@ jobs:
               failed+=sorted({r.get('name','?') for r in upgrade['controls'] if not r.get('passed')})
           print('RELEASE_REQUIRED_CONTROLS '+json.dumps({'suite':suite,'mode':mode,'controls':len(rows),'required':sorted(required),'missing':missing,'failed':failed}))
           assert rows and not missing and not failed
+          PY
+      - name: Paddle webhook does not wait on a concurrent sale's tenant lock
+        # C-PADDLE-01: two real sessions on the candidate stack; synthetic rows only,
+        # removed by the probe. Runs once per mode on the collection job.
+        if: matrix.suite == 'collection'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/monjez-c5sale/repo
+          sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python -I tests/billing-lock/probe.py /tmp/monjez-c5sale/evidence
+          sudo python3 - <<'PY'
+          import json
+          from pathlib import Path
+          rows=json.loads(Path('/tmp/monjez-c5sale/evidence/billing-lock.json').read_text())['controls']
+          required={'catalog_tenant_lock_is_no_key_update','webhook_not_blocked_by_concurrent_sale_key_share',
+                    'webhook_effect_visible_inside_its_txn','live_webhook_projects_tenant_while_sale_holds_key_share',
+                    'webhook_still_excludes_concurrent_tenant_writer','no_billing_or_customer_rows_persisted',
+                    'synthetic_tenant_and_user_removed',
+                    'concurrent_webhooks_same_tenant_serialized','tenant_writer_waits_for_inflight_webhook',
+                    'same_event_concurrent_second_waits','same_event_sequential_applied_then_duplicate_one_row'}
+          passed={r['name'] for r in rows if r.get('passed')}
+          print('RELEASE_BILLING_LOCK '+json.dumps({'missing':sorted(required-passed),
+                'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
+          assert len(required)==11 and required<=passed and all(r.get('passed') for r in rows)
           PY
       - name: Migration history and database advisors
         shell: bash

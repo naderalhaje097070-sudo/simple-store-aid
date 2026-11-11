@@ -11,24 +11,15 @@ name: B1 composition compatibility
     - vite.config.ts
     - package.json
     - bun.lock
+  # Unfiltered PRs ensure required checks never stay Pending for docs-only changes.
   pull_request:
     branches:
     - main
+    - integration/g0-g1-reconcile-2026-10-18
     types:
     - opened
     - synchronize
     - reopened
-    paths:
-    - src/**
-    - config/**
-    - scripts/**
-    - tests/**
-    - supabase/migrations/**
-    - package.json
-    - bun.lock
-    - vite.config.ts
-    - tsconfig.json
-    - .github/workflows/**
 permissions:
   contents: read
 jobs:

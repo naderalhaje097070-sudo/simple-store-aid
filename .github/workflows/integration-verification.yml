@@ -11,10 +11,11 @@ name: Integrated G0 verification
       - package.json
       - bun.lock
       - .github/workflows/integration-verification.yml
-  # No path filter: a required check must report on every PR into main.
+  # No path filter: every PR into main or integration reports the required checks.
   pull_request:
     branches:
       - main
+      - integration/g0-g1-reconcile-2026-10-18
     types:
       - opened
       - synchronize

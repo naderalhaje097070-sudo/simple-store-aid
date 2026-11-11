@@ -1,9 +1,10 @@
 name: C4 durable sale identity stored and browser contracts
 on:
-  push:
-    branches: ["integration/g0-g1-reconcile-2026-10-18"]
-    paths:
-      ["src/lib/db.ts", "src/lib/sale-operation.ts", "src/features/sales/**", "src/routes/_authenticated/app.tsx", "tests/c4-sale/**", ".github/workflows/c4-sale.yml"]
+  # Retired from automatic runs (owner decision 2026-11-10): this stage workflow pins
+  # historical states (tests/c4-sale/history.test.cjs pins app.tsx to the C4 base blob;
+  # capture.py identity pins the stage migration set). Release financial acceptance
+  # (release-finance.yml) runs the C4 contracts, browser and native suites instead.
+  workflow_dispatch:
 permissions:
   contents: read
 env:

@@ -30,7 +30,8 @@ const patchedPackageMajors = new Map([
   ["glob", new Map([[14, [14, 0, 2]]])],
   ["minimatch", new Map([[11, [11, 0, 1]]])],
   // SEC-DEP-20261029: old1.x is affected; SDK1.32 explicitly permits patched2.x.
-  ["@hono/node-server", new Map([[2, [2, 1, 3]]])],
+  // SEC-DEP-HONO-01: GHSA-qv5m-9pm6-hqp3 and GHSA-jpvv-r467-5p4w are fixed in 2.1.6.
+  ["@hono/node-server", new Map([[2, [2, 1, 6]]])],
   // G0-BABEL-01: all copies must stay on the stable patched Babel 7.x line.
   ["@babel/core", new Map([[7, [7, 29, 6]]])],
   // G0-DOMPURIFY-01: cover every optional or nested stable 3.x sanitizer copy.
@@ -38,7 +39,8 @@ const patchedPackageMajors = new Map([
   // G0-QS-01: preserve the reviewed stable 6.x parser/serializer security floor.
   ["qs", new Map([[6, [6, 16, 0]]])],
   // G0-HONO-01: all copies must stay on the reviewed, patched stable 4.x line.
-  ["hono", new Map([[4, [4, 13, 11]]])],
+  // SEC-DEP-HONO-01: five 4.x advisories (GHSA-4m76-xfj5-7975 and others) are fixed in 4.13.16.
+  ["hono", new Map([[4, [4, 13, 16]]])],
   [
     "brace-expansion",
     new Map([

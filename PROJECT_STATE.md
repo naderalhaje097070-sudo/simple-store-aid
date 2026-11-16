@@ -1,8 +1,12 @@
-## Current — integration 9b9d360: #92 merged under the merge delegation, 2026-11-16
-- Integration = 9b9d360 (#93 fc6b39b, then #92). main = 1c5276f, unchanged. Production unchanged.
-- The owner delegated routine integration merges, 2026-11-16 (docs/governance/MERGE_DELEGATION.md, PR #95). Excluded: main merges (C6/C7), production, deployment, destructive actions, security exceptions, weakening controls, changes to the delegation.
-- Open: #94 (e911f7f) waits for Strix. #95 (9ca0e17) waits for Strix on that head.
-- Not done yet: production apply of 20261107214500 (owner-gated, C6/C7); ledger reconciliation; merge of main into integration.
+## Current — integration b32d591: #92, #94, #95 merged under the merge delegation, 2026-11-16
+- Integration = b32d591. Merge order: #93 fc6b39b, #92 9b9d360, #94 eb6fcfd, #95 b32d591.
+- main = 1c5276f, unchanged. Production unchanged.
+- docs/governance/MERGE_DELEGATION.md is now on integration. Delegated: routine integration merges. Owner-only: main merges (C6/C7), production, deployment, destructive actions, security exceptions, weakening controls, changes to the delegation.
+- Not done yet, owner-gated:
+  - production apply of 20261107214500;
+  - ledger reconciliation;
+  - merging main into integration;
+  - the integration/main rulesets.
 
 ## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16
 

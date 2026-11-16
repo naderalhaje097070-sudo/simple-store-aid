@@ -8,8 +8,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import graph  # noqa: E402
 
 root = Path(__file__).resolve().parents[2]
+# Optional prepared directory (as in the 20261102 harness): after a later admitted delta,
+# CI proves this delta from fixed inputs, i.e. the package.json and bun.lock of the head it reviewed.
+prepared = Path(sys.argv.pop(1)) if len(sys.argv) > 1 else None
 before_package, before_lock = graph.show(graph.BASE, 'package.json'), graph.show(graph.BASE, 'bun.lock')
-after_package, after_lock = graph.read(root / 'package.json'), graph.read(root / 'bun.lock')
+after_package, after_lock = graph.read((prepared or root) / 'package.json'), graph.read((prepared or root) / 'bun.lock')
 
 
 class Graph(unittest.TestCase):

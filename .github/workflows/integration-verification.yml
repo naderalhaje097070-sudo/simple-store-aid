@@ -61,9 +61,15 @@ jobs:
           git show 2e4c8cce6b0c01bc4a99b81412cb43f1c641b24d:package.json > "$hist/package.json"
           git show 2e4c8cce6b0c01bc4a99b81412cb43f1c641b24d:bun.lock > "$hist/bun.lock"
           python tests/sec-dep-20261102/test_graph.py "$hist"
-          # SEC-DEP-HONO-01: exact two-package delta 2e4c8cc -> head, installed versions, controls.
-          python tests/sec-dep-20261116/graph.py --installed
-          python tests/sec-dep-20261116/test_graph.py
+          # SEC-DEP-HONO-01 contract: unchanged verifier and all 24 controls, on the exact
+          # 2e4c8cc -> b32d591 delta it reviewed (the later main sync is admitted below).
+          h16="$RUNNER_TEMP/sec-20261116-history"; mkdir -p "$h16"
+          git show b32d59165941f8b09555fa646c206dc41a6fc192:package.json > "$h16/package.json"
+          git show b32d59165941f8b09555fa646c206dc41a6fc192:bun.lock > "$h16/bun.lock"
+          python tests/sec-dep-20261116/test_graph.py "$h16"
+          # SEC-DEP-C6-MAIN: main's reviewed Lovable sync, b32d591 -> head, installed versions, controls.
+          python tests/sec-dep-c6-main/graph.py --installed
+          python tests/sec-dep-c6-main/test_graph.py
           python tests/sec-dep-20261102/installed.py
           python tests/sec-dep-20261102/test_installed.py
           node --test tests/sec-dep-20261102/contracts.cjs

@@ -19,7 +19,18 @@ In English: the owner removed the manual approval condition in GitHub, enabled a
 
 ## Conditions for a delegated merge (all of them, on the exact head SHA)
 1. **Head binding:** the merge uses `expectedHeadSha` equal to the head that was verified. A newer push restarts verification.
-2. **CI:** every check run on that head has `conclusion=success`. Nothing is pending, queued, failed, cancelled or `startup_failure`, and only the latest attempt counts. The base must not have moved since the checks ran, or the PR is updated and re-verified.
+2. **CI: the complete inventory, then success.** Success on "whatever checks exist" is not enough: a workflow that never started must block the merge.
+   - **Required check runs on the head SHA for a PR into integration.** These are the workflows with no path filter, verified on 2026-11-16 from `.github/workflows/*.yml`:
+     - `quality` (quality.yml);
+     - `compatibility` (b1-composition.yml);
+     - `integrated-quality` and `audit` (integration-verification.yml);
+     - the 9 release-finance suites `suite (sale, fresh)`, `suite (sale, populated)`, `suite (sale, upgrade)`, `suite (collection, fresh)`, `suite (collection, populated)`, `suite (collection, upgrade)`, `suite (journey, fresh)`, `suite (journey, upgrade)` and `suite (quantity, fresh)`;
+     - `Strix Security Review`.
+     That is 14 in total.
+   - **Path-filtered workflows** that target the integration branch, today only `mcp-issuer-contract`, are also required whenever the diff touches their paths.
+   - **The inventory is re-derived from the base's workflow files on every merge.** A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner.
+   - **Every required name must be present** with `conclusion=success`, on the latest attempt only. A missing name, any pending, queued, failed, cancelled or `startup_failure` run, or an incomplete or failed retrieval of the check-run list blocks the merge (fail closed).
+   - **The base must not have moved** since the checks ran; if it did, the PR is updated and re-verified.
 3. **Financial and security changes** (migrations, `FINANCIAL_CORE`, `service_role`):
    - release-finance 9/9, with catalog-guard `missing == []` and `failed == []`;
    - migrations preserved: no applied migration edited, and production-applied files byte-identical (md5);

@@ -1,16 +1,28 @@
 name: SEC 20261102 matching engines and source contracts
+# Retired from automatic push runs (2026-11-16), like the stage workflows retired on
+# 2026-11-10: its step `node --test tests/c4-sale/history.test.cjs` pins
+# src/routes/_authenticated/app.tsx to the historical C4 base blob and fails on every
+# current integration head independently of the change pushed (verified identical on
+# 2e4c8cc before #93 and on fc6b39b after it). Coverage map of what this workflow ran:
+#   capture.py identity ................ integrated-quality (every PR) + this workflow (manual)
+#   20261102 graph (historical) + 16 ... integrated-quality SEC step (every PR)
+#   test_identity.py ................... integrated-quality SEC step (every PR)
+#   20261116 graph + 24 tests .......... integrated-quality SEC step (every PR)
+#   frozen install / installed.py ...... integrated-quality (every PR)
+#   dependency-security.test.ts ........ integrated-quality unit tests + sec-dep-20261029.yml
+#   sec-dep-20261102/contracts.cjs ..... integrated-quality SEC step (every PR)
+#   c4-sale/contracts.test.cjs ......... integrated-quality + release-finance (every PR)
+#   c4-sale/history.test.cjs ........... historical only: last green run 41492623491 at
+#                                        552ce47 (2026-11-02); reproducible by checking out
+#                                        that commit; not a current-state control
+#   g0-node-server/contracts.test.cjs .. integrated-quality (added with this change) +
+#                                        sec-dep-20261029.yml (push)
+#   sec-dep-20261029/regressions.cjs ... integrated-quality (added with this change) +
+#                                        sec-dep-20261029.yml (push)
+#   git diff --exit-code ............... integrated-quality "Verify generation leaves
+#                                        tracked application files intact"
 "on":
-  push:
-    branches: [integration/g0-g1-reconcile-2026-10-18]
-    paths:
-      [
-        package.json,
-        bun.lock,
-        patches/**,
-        tests/sec-dep-20261102/**,
-        tests/sec-dep-20261116/**,
-        .github/workflows/sec-dep-20261102.yml,
-      ]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

@@ -87,6 +87,10 @@ jobs:
 
           node --test tests/c4-sale/contracts.test.cjs
 
+          node --test tests/g0-node-server/contracts.test.cjs
+
+          node tests/sec-dep-20261029/regressions.cjs
+
           node --test tests/g0-integrated-types/current-contracts.test.cjs
 
           "

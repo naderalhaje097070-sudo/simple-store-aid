@@ -27,6 +27,16 @@
   - Reproduce locally under CPU throttling.
   - Do not raise timeouts or relax assertions without a demonstrated cause.
 
+## Proposal — GOV-AUTOMERGE-01 v2 (after independent review on #77, comment 6924366221), 2026-11-16
+- v2 addresses the review:
+  - P1.1: evidence bound to tested tree, head and base, latest attempt; trusted publisher on an allowlisted `workflow_run`.
+  - P1.2: narrow G class; T (additive tests) and D (admitted dependency delta) are automatic; the legacy label applies to G only.
+  - P1.3: append-only migration policy on integration vs canonical order on main; report-only trial.
+  - P1.4: authenticated reviewer receipts plus independent review for F.
+  - P2: rollback procedure.
+- Still not active. Bootstrap is blocked by the Actions incident on #77 and needs the owner's rulesets.
+- Related: PR #94 retires push runs of sec-dep-20261102.yml with a verified coverage map, and corrects my earlier claim of identical coverage.
+
 ## Proposal — GOV-AUTOMERGE-01 (conditional automatic merge), 2026-11-16
 - docs/reviews/GOV-AUTOMERGE-01_PROPOSAL.md: trusted `trusted-acceptance` check from the base copy, per-class evidence, independent-review predicate and negative cases.
 - Class G (acceptance-defining) keeps the exact-head owner label. Rulesets on main and integration need the owner's admin action.

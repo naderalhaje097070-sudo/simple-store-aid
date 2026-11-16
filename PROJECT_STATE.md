@@ -1,3 +1,11 @@
+## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16
+
+- Integration = fc6b39b (#93 merged); main = 1c5276f, unchanged; production unchanged.
+- #92 (email-queue migration with R9) is updated to d9d86f3 and waits for CI plus the owner's approval and label.
+- Owner-only, still open: read-only production check of email_queue_dispatch(); GOV-AUTOMERGE-01 review and rulesets; #77 Actions incident; F11 report; repository visibility.
+
+---
+
 ## Current — C6 preparation: email-queue hotfix and hono advisories as PRs into integration, 2026-11-16
 
 - Integration = 2e4c8cc, main = 1c5276f, production unchanged (no production query or change in this step).

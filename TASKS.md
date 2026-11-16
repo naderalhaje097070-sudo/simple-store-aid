@@ -1,4 +1,18 @@
 
+## Status — PR #93 merged into integration (fc6b39b), 2026-11-16
+- SEC-DEP-HONO-01: hono 4.13.16 and @hono/node-server 2.1.6, with the layered dependency admission in tests/sec-dep-20261116.
+  - The unchanged 20261102 verifier runs on its historical delta; the new verifier admits only the reviewed delta, byte-exact.
+  - Security floors raised to the patched versions.
+- Merged at the owner's instruction ("قم باللازم") on exact head 47dd3d1. No migration; production untouched.
+- Evidence on 47dd3d1:
+  - CI 14/14 green: integrated-quality, audit, release-finance 9/9, quality, compatibility, Strix.
+  - Strix review 5: no findings. Codex: no issues.
+- Known after merge: the push-triggered sec-dep-20261102.yml will be red at `tests/c4-sale/history.test.cjs`.
+  - The same failure is on base 2e4c8cc: it pins app.tsx to the C4 blob, the reason c4-sale.yml was retired on 2026-11-10.
+  - Retirement is proposed for the owner's decision.
+- #92 updated to d9d86f3, a merge of integration fc6b39b. Its 4-file diff is unchanged and the migration md5 is still 1dd79d44. CI rerunning.
+  - Merging #92 needs the owner's own words plus the label gov-ok-<exact head>, because it carries a migration.
+
 ## Open task — JOURNEY-FLAKE-01: intermittent desktop_sale_open timeout (root cause NOT established), 2026-11-16
 - Observed on #92 head dbe9125: `suite (journey, upgrade)` attempt 1 ended in a TimeoutError at stage `desktop_sale_open` after 63 controls.
   - The sale RPC was called once and returned HTTP 200.

@@ -1,4 +1,31 @@
 
+## Status — SEC-EMAIL-QUEUE-01 (#92) and SEC-DEP-HONO-01 (#93), 2026-11-16
+- #92 (head dbe9125, into integration):
+  - Migration 20261107214500 byte-identical to production (md5 1dd79d44).
+  - Catalog-guard R9 plus 2 negatives; release-finance requires 54 controls.
+  - Local red test: 4 R9 rows, authenticated can execute. Green test: 0 violations, 54/54 on two runs.
+  - test_gate 50/50; b7-ci-routing 17/17.
+  - Strix: no open findings. Graphify: no blocking issues (graph at main 1c5276f, approximate).
+  - Codex P1 on migration ordering: not reproduced against main. CI shows RELEASE_GATE_PASSED with migration_count 61.
+  - Release-order constraint recorded in C6C7_PLAN section 2; no change to LEGACY_ORDER.
+  - CI: `audit` red because of hono advisories, same on base 2e4c8cc, fix in #93.
+  - CI: `suite (journey, upgrade)` failed with a TimeoutError at desktop_sale_open after 63 controls (sale RPC returned 200). Re-run once (attempt 2). If it fails again: root-cause investigation, no further re-runs, no weakened assertions.
+  - Not merged. Needs owner's own-word approval plus label gov-ok-dbe9125643fa8483abed719fda28be40ce7c1711.
+- #93 (head d8af24d, into integration):
+  - hono 4.13.11 → 4.13.16 and @hono/node-server 2.1.3 → 2.1.6, the minimum patched versions, both older than minimumReleaseAge.
+  - Only 4 lines change in bun.lock.
+  - Frozen install OK on bun 1.2.14 and 1.4.4; bun audit clean.
+  - Typecheck, unit 97/0, server-boundary, b7 dependency regressions and build all OK.
+  - Not merged.
+- Open task — SEC-R9-COVERAGE-01 (coverage improvement, not a confirmed vulnerability):
+  - Gap: R9 lists the 4 wrappers by name. A future SECURITY DEFINER function callable by authenticated that calls them, or pgmq directly, would not be caught by R9. R8 checks only that the caller can execute the callee.
+  - Proposal: a rule that flags any function executable by anon/authenticated whose body references the R9 wrappers or the pgmq schema, with a negative control.
+  - No such wrapper exists today (Strix, verified).
+- Pending owner (own words):
+  - Read-only production check of email_queue_dispatch(): existence plus has_function_privilege for anon, authenticated and service_role. No other queries.
+  - Approval and merge of #92 and #93.
+- Local note: the container's port 54322 was held by an outbound connection. Mitigated locally by reserving ip_local_reserved_ports 54320-54329 and a temporary NAT redirect; nothing committed.
+
 ## Status — Phase C batch merged into integration (2e4c8cc), 2026-11-11
 - Merged one by one, each at the owner's own-word approval, merge commits, exact heads:
   #86 1be98a4, #91 a0c1f9a, #89 65e0058, #87 582426b (label gov-ok-6a6161e), #88 9c9d261 (label gov-ok-19bbdd0),

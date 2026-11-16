@@ -1,3 +1,13 @@
+## Current — C6 preparation: email-queue hotfix and hono advisories as PRs into integration, 2026-11-16
+
+- Integration = 2e4c8cc, main = 1c5276f, production unchanged (no production query or change in this step).
+- PR #92 (dbe9125) carries 20261107214500 into integration with catalog-guard R9. Release-order constraint: it must reach main with, or before, the 20261110* migrations. The gate's out-of-order check already rejects the opposite order; details in docs/reviews/C6C7_PLAN.md section 2.
+- PR #93 (d8af24d) fixes the 7 hono and @hono/node-server advisories that turn `audit` red on every integration PR.
+- Neither PR is merged. Open blockers on #92: one re-run of the journey/upgrade job (TimeoutError at desktop_sale_open), the `audit` check (fixed by #93), and the owner's approval and label.
+- Owner-only: read-only production check of email_queue_dispatch(); #77 gate stall (GitHub Support); F11 report; repository visibility.
+
+---
+
 ## Current — Phase R closed: production repaired, GitHub and Lovable in sync, 2026-11-10
 
 - Production DB: RECOVERY-02 applied (ledger 52), B 6/6, C passed (see entry below).

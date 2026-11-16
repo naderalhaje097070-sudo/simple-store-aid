@@ -14,9 +14,10 @@ Required references:
 - `docs/governance/DATABASE_CHANGE_POLICY.md`
 - `docs/governance/TESTING_POLICY.md`
 - `docs/governance/REVIEW_PROTOCOL.md`
+- `docs/governance/MERGE_DELEGATION.md`
 
 Before changing an existing project, complete the applicable NAADF-CMF gate. Do not begin implementation before the intake gate is approved.
 
-Do not access production data or secrets, perform destructive production actions, merge, deploy, rewrite published Lovable-linked Git history, edit an applied migration, weaken tests, or treat hidden UI as authorization.
+Do not access production data or secrets, perform destructive production actions, merge outside `docs/governance/MERGE_DELEGATION.md`, deploy, rewrite published Lovable-linked Git history, edit an applied migration, weaken tests, or treat hidden UI as authorization.
 
 Keep `PROJECT_STATE.md`, `DECISIONS.md`, and `TASKS.md` current. Record actual commands, actual test results, remaining risks, unverified items, and rollback steps before claiming completion.

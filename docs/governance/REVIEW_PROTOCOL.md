@@ -63,11 +63,11 @@ Critical and High findings block merge. Medium findings require an explicit deci
 
 Use one outcome:
 
-- Approved for human merge.
+- Approved for merge (by an agent under `docs/governance/MERGE_DELEGATION.md`, or by the owner where that delegation does not apply).
 - Changes required.
 - Blocked pending missing evidence.
 
-Review approval does not perform merge or deployment. Those actions remain explicit human decisions.
+Review approval does not itself perform merge or deployment. Merge follows `docs/governance/MERGE_DELEGATION.md`; deployment remains an explicit human decision.
 
 ## Coverage, evidence and coordinated review
 

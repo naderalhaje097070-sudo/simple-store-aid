@@ -22,9 +22,11 @@ Check status, run attempt and actual steps, then scope new checks to the current
 
 One implementer owns each task; inspect the task's issue/PR claims before writing.
 Routine isolated development, verification, documentation and draft PR preparation
-are authorized. Protected merge, production deployment, destructive action, new cost,
-core financial-contract change or security/governance bypass still requires owner approval.
-No automatic merge/deployment and no published-history rewriting.
+are authorized. Routine merges into the integration branch are delegated under
+`docs/governance/MERGE_DELEGATION.md` (owner decision 2026-11-16) and its conditions.
+Merges into `main`, production deployment, destructive action, new cost, core
+financial-contract change, weakening an acceptance control or security/governance
+bypass still require owner approval. No deployment and no published-history rewriting.
 
 The original Lovable notice and accepted architecture/governance rules below remain
 binding. Older active-repository/scheduling statements are superseded by this notice.
@@ -69,7 +71,7 @@ Follow:
 - `docs/governance/TESTING_POLICY.md`
 - `docs/governance/REVIEW_PROTOCOL.md`
 
-Do not access production data or secrets, perform destructive production actions, merge, deploy, rewrite published history, edit applied migrations, weaken tests, or rely on UI visibility as authorization. Record actual verification results, remaining risks, unverified items, and rollback steps before claiming completion.
+Do not access production data or secrets, perform destructive production actions, merge outside `docs/governance/MERGE_DELEGATION.md`, deploy, rewrite published history, edit applied migrations, weaken tests, or rely on UI visibility as authorization. Record actual verification results, remaining risks, unverified items, and rollback steps before claiming completion.
 
 ## Primary project execution — 2026-10-09
 

@@ -35,6 +35,12 @@
 - The single permitted re-run (attempt 2, 03:42Z) passed. The same suite passed on #93 head d8af24d.
 - Second data point: on #95 head 62e350c, a journey suite timed out at stage desktop_expense after 91 controls.
 - Third data point: on #95 head 872ccd3, `suite (journey, upgrade)` (job 133520270181) failed with C5_JOURNEY_FAILED, stage desktop_expense, TimeoutError, controls_completed 91. Same stage and count again, which suggests a deterministic slow path rather than noise; NOT confirmed. The same suite passed on 8a8be39. Cause not established.
+- Fourth data point, on #96 head 9ffbe99, job 133554156926: `suite (journey, upgrade)`, stage mobile_expense, TimeoutError, 155 controls. The desktop pass completed.
+- Localization, from the failure artifacts; this is a fact, not a cause:
+  - All four failures stop in the `home()` helper (tests/c5-journey/browser.py:92), at the start of the expense block. That is immediately after the courier "returned" confirmation; the last passing control is `*_return_exact_stock_no_cash_debt_custody`.
+  - At timeout, the diagnostic shows home_back_buttons=0 and quick_actions_markers=0: neither home-navigation target is on screen.
+  - Two of the four failures were on documentation-only heads.
+- Next step: capture a screenshot and the DOM at timeout (test diagnostics only, no assertion relaxed) to see what screen covers the navigation after the courier return.
 - Earlier entry: "C5 inventory repair tested; actual desktop sale timeout blocks" (2026-11-05).
 - One failure and one pass does not establish a cause. It is not established whether this is a test-wait problem or a product rendering or timing problem.
 - Plan:

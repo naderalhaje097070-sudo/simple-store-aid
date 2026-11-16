@@ -6,6 +6,10 @@
   - (b) 4 files on main are not present in the production ledger by content.
   - (c) 21 migrations match in content but carry versions 1–2 s apart, so any version-matching apply would re-run them.
 - The 5 email functions are service-only in production. email_queue_dispatch() exists there without a repository file.
+- Follow-up read (owner: «قم بذلك», "go ahead"): statement text of the 5 entries, compared as text (§7 of the result doc).
+  - Conflict (b) is explained: email_infra differs only by comments; security_fix_e and returned_order_not_debt are already applied under other versions; platform_admin_audit_prerequisite is a deliberate fresh-database substitute.
+  - The 3 test entries have zero net effect, by inference from the repository.
+  - Remaining: a definitional drift on platform_admin_audit_log (user_id NOT NULL/no FK in prod vs nullable+FK in a repository replay; possibly two read policies in prod). Not verified against the production catalog.
 - **Resume point:** the owner decides the next scope. For example, a read of the statement text for the 5 entries and for email_infra, to explain conflicts (a) and (b). No simulation, apply or main merge until the conflicts are resolved and approved.
 
 ## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16

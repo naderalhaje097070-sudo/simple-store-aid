@@ -8,7 +8,8 @@
   - 5 production entries have no repository content;
   - 4 files on main are not in production;
   - 10 new candidate files are not yet applied.
-- Open, owner decision: the scope of any further read (statement text) to resolve the conflicts. No fix applied.
+- Follow-up text read done (1 read-only call, md5-verified). Result: §7 of the result doc.
+- Open, owner decision: a catalog-only read of platform_admin_audit_log (columns, constraints, policies, grants; no rows) to confirm the drift in §7.3. Then decide how to reconcile the ledger before any simulation. No fix applied.
 
 ## Status — C6 item 1.1 done: #96 merged into integration (183dc50), 2026-11-16
 - #96 at head 9ffbe99:

@@ -193,4 +193,20 @@ SELECT 'R9_service_only_function_access', so.sig,
   WHERE has_function_privilege('anon', p.oid, 'EXECUTE')
      OR has_function_privilege('authenticated', p.oid, 'EXECUTE')
      OR NOT has_function_privilege('service_role', p.oid, 'EXECUTE')
+UNION ALL
+-- R9b: the same names under any other signature or schema (a redefined or added overload),
+-- so R9 cannot be sidestepped by signature drift. Client roles may execute none of them.
+SELECT 'R9_service_only_function_access', p.oid::regprocedure::text,
+       CASE WHEN has_function_privilege('anon', p.oid, 'EXECUTE') THEN 'unlisted overload: anon can execute'
+            ELSE 'unlisted overload: authenticated can execute' END
+  FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+  WHERE p.proname IN ('enqueue_email', 'read_email_batch', 'delete_email', 'move_to_dlq', 'email_queue_dispatch')
+    AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    AND p.oid NOT IN (SELECT o FROM (VALUES (to_regprocedure('public.enqueue_email(text,jsonb)')),
+                                            (to_regprocedure('public.read_email_batch(text,integer,integer)')),
+                                            (to_regprocedure('public.delete_email(text,bigint)')),
+                                            (to_regprocedure('public.move_to_dlq(text,text,bigint,jsonb)')),
+                                            (to_regprocedure('public.email_queue_dispatch()'))) AS l(o)
+                      WHERE o IS NOT NULL)
+    AND (has_function_privilege('anon', p.oid, 'EXECUTE') OR has_function_privilege('authenticated', p.oid, 'EXECUTE'))
 ORDER BY 1, 2;

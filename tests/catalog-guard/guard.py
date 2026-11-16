@@ -148,6 +148,10 @@ NEGATIVE = {
                                                    'R9_service_only_function_access', 'public.enqueue_email(text,jsonb)'),
     'R9_queue_function_revoked_from_service': ("REVOKE EXECUTE ON FUNCTION public.read_email_batch(text, integer, integer) FROM service_role;",
                                                'R9_service_only_function_access', 'public.read_email_batch(text,integer,integer)'),
+    'R9_queue_function_drifted_overload': ("CREATE FUNCTION public.enqueue_email(queue_name text) RETURNS bigint LANGUAGE sql"
+                                           " SECURITY DEFINER SET search_path = '' AS $f$select 1::bigint$f$;"
+                                           " GRANT EXECUTE ON FUNCTION public.enqueue_email(text) TO authenticated;",
+                                           'R9_service_only_function_access', 'enqueue_email(text)'),
     'R6_default_public_execute': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT EXECUTE ON FUNCTIONS TO PUBLIC;",
                                   'R6_postgres_function_default_public_execute', 'pg_default_acl'),
     'R6_default_truncate': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT TRUNCATE ON TABLES TO authenticated;",

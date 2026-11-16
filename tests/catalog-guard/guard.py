@@ -144,6 +144,10 @@ NEGATIVE = {
                               " CREATE FUNCTION public._guard_ov_caller() RETURNS boolean LANGUAGE sql STABLE"
                               " AS $f$select monjez_private._guard_ov('x'::text)$f$;",
                               'R8_sql_function_calls_function_caller_cannot_execute', 'public._guard_ov_caller()'),
+    'R9_queue_function_granted_to_authenticated': ("GRANT EXECUTE ON FUNCTION public.enqueue_email(text, jsonb) TO authenticated;",
+                                                   'R9_service_only_function_access', 'public.enqueue_email(text,jsonb)'),
+    'R9_queue_function_revoked_from_service': ("REVOKE EXECUTE ON FUNCTION public.read_email_batch(text, integer, integer) FROM service_role;",
+                                               'R9_service_only_function_access', 'public.read_email_batch(text,integer,integer)'),
     'R6_default_public_execute': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT EXECUTE ON FUNCTIONS TO PUBLIC;",
                                   'R6_postgres_function_default_public_execute', 'pg_default_acl'),
     'R6_default_truncate': ("ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT TRUNCATE ON TABLES TO authenticated;",

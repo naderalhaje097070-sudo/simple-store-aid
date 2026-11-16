@@ -25,8 +25,8 @@
     },
     {
       "path": "src/integrations/supabase/client.ts",
-      "beforeSha256": "b72ff69394b80cfc28a76820fd9bd9fa8311df83f99475c97242447b52843385",
-      "afterSha256": "1aefd6de51f1b3cfb570636f376a35da86ab21ade7c9cd7c1f67053622d27834"
+      "beforeSha256": "bd7395df82b78f08fde3572129eccd1fb7d40905094eb80fac2849590b65a14a",
+      "afterSha256": "bd7395df82b78f08fde3572129eccd1fb7d40905094eb80fac2849590b65a14a"
     },
     {
       "path": "src/routes/[.mcp]/invoke-tool/$tool.ts",

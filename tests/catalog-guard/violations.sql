@@ -194,6 +194,14 @@ SELECT 'R9_service_only_function_access', so.sig,
      OR has_function_privilege('authenticated', p.oid, 'EXECUTE')
      OR NOT has_function_privilege('service_role', p.oid, 'EXECUTE')
 UNION ALL
+-- R9c: the four repository-defined wrappers must exist at their reviewed signatures, so R9
+-- cannot go silent by a wrapper being dropped or renamed (email_queue_dispatch is
+-- provider-created and absent from repo-built stacks, so it stays conditional).
+SELECT 'R9_service_only_function_access', req.sig, 'reviewed signature missing'
+  FROM (VALUES ('public.enqueue_email(text,jsonb)'), ('public.read_email_batch(text,integer,integer)'),
+               ('public.delete_email(text,bigint)'), ('public.move_to_dlq(text,text,bigint,jsonb)')) AS req(sig)
+  WHERE to_regprocedure(req.sig) IS NULL
+UNION ALL
 -- R9b: the same names under any other signature or schema (a redefined or added overload),
 -- so R9 cannot be sidestepped by signature drift. Client roles may execute none of them.
 SELECT 'R9_service_only_function_access', p.oid::regprocedure::text,

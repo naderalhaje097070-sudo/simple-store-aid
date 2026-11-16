@@ -148,6 +148,8 @@ NEGATIVE = {
                                                    'R9_service_only_function_access', 'public.enqueue_email(text,jsonb)'),
     'R9_queue_function_revoked_from_service': ("REVOKE EXECUTE ON FUNCTION public.read_email_batch(text, integer, integer) FROM service_role;",
                                                'R9_service_only_function_access', 'public.read_email_batch(text,integer,integer)'),
+    'R9_queue_function_dropped': ("DROP FUNCTION public.move_to_dlq(text, text, bigint, jsonb);",
+                                  'R9_service_only_function_access', 'public.move_to_dlq(text,text,bigint,jsonb)'),
     'R9_queue_function_drifted_overload': ("CREATE FUNCTION public.enqueue_email(queue_name text) RETURNS bigint LANGUAGE sql"
                                            " SECURITY DEFINER SET search_path = '' AS $f$select 1::bigint$f$;"
                                            " GRANT EXECUTE ON FUNCTION public.enqueue_email(text) TO authenticated;",

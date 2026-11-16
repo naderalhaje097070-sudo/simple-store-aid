@@ -178,4 +178,43 @@ SELECT DISTINCT 'R8_sql_function_calls_function_caller_cannot_execute', f.sig,
                             AND qn.nspname IN ('public','monjez_private','auth','extensions')
                             ELSE qn.nspname = lower(m[1]) AND q.proname = lower(m[2]) END)
                   AND NOT has_function_privilege(cr.r, q.oid, 'EXECUTE'))
+UNION ALL
+-- R9 service-only functions (SEC-EMAIL-QUEUE-01, 20261107214500): the email-queue RPC
+-- wrappers are SECURITY DEFINER over pgmq and auth email payloads; only service_role (the
+-- queue processor, src/routes/lovable/email/queue/process.ts) may execute them.
+SELECT 'R9_service_only_function_access', so.sig,
+       CASE WHEN has_function_privilege('anon', p.oid, 'EXECUTE') THEN 'anon can execute'
+            WHEN has_function_privilege('authenticated', p.oid, 'EXECUTE') THEN 'authenticated can execute'
+            ELSE 'service_role cannot execute' END
+  FROM (VALUES ('public.enqueue_email(text,jsonb)'), ('public.read_email_batch(text,integer,integer)'),
+               ('public.delete_email(text,bigint)'), ('public.move_to_dlq(text,text,bigint,jsonb)'),
+               ('public.email_queue_dispatch()')) AS so(sig)
+  JOIN pg_proc p ON p.oid = to_regprocedure(so.sig)
+  WHERE has_function_privilege('anon', p.oid, 'EXECUTE')
+     OR has_function_privilege('authenticated', p.oid, 'EXECUTE')
+     OR NOT has_function_privilege('service_role', p.oid, 'EXECUTE')
+UNION ALL
+-- R9c: the four repository-defined wrappers must exist at their reviewed signatures, so R9
+-- cannot go silent by a wrapper being dropped or renamed (email_queue_dispatch is
+-- provider-created and absent from repo-built stacks, so it stays conditional).
+SELECT 'R9_service_only_function_access', req.sig, 'reviewed signature missing'
+  FROM (VALUES ('public.enqueue_email(text,jsonb)'), ('public.read_email_batch(text,integer,integer)'),
+               ('public.delete_email(text,bigint)'), ('public.move_to_dlq(text,text,bigint,jsonb)')) AS req(sig)
+  WHERE to_regprocedure(req.sig) IS NULL
+UNION ALL
+-- R9b: the same names under any other signature or schema (a redefined or added overload),
+-- so R9 cannot be sidestepped by signature drift. Client roles may execute none of them.
+SELECT 'R9_service_only_function_access', p.oid::regprocedure::text,
+       CASE WHEN has_function_privilege('anon', p.oid, 'EXECUTE') THEN 'unlisted overload: anon can execute'
+            ELSE 'unlisted overload: authenticated can execute' END
+  FROM pg_proc p JOIN pg_namespace n ON n.oid = p.pronamespace
+  WHERE p.proname IN ('enqueue_email', 'read_email_batch', 'delete_email', 'move_to_dlq', 'email_queue_dispatch')
+    AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+    AND p.oid NOT IN (SELECT o FROM (VALUES (to_regprocedure('public.enqueue_email(text,jsonb)')),
+                                            (to_regprocedure('public.read_email_batch(text,integer,integer)')),
+                                            (to_regprocedure('public.delete_email(text,bigint)')),
+                                            (to_regprocedure('public.move_to_dlq(text,text,bigint,jsonb)')),
+                                            (to_regprocedure('public.email_queue_dispatch()'))) AS l(o)
+                      WHERE o IS NOT NULL)
+    AND (has_function_privilege('anon', p.oid, 'EXECUTE') OR has_function_privilege('authenticated', p.oid, 'EXECUTE'))
 ORDER BY 1, 2;

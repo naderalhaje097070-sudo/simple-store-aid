@@ -1,3 +1,14 @@
+## Status — #92 merged under the merge delegation (9b9d360); #94 and #95 pending, 2026-11-16
+- Owner decision, 2026-11-16 (quoted verbatim in docs/governance/MERGE_DELEGATION.md, PR #95): manual GitHub approval removed and auto-merge enabled. The agent may merge routine PRs into integration after the required tests and reviews pass, without a gov-ok label.
+- #92 merged into integration as 9b9d360, under that delegation.
+  - Evidence: 14 of 14 required checks success on the exact head; Strix review 4 and Codex clean on the same head; 0 unresolved threads; base unchanged.
+  - Migration 20261107214500 md5 1dd79d44 preserved.
+  - Production unchanged.
+- #94 (retire push trigger of sec-dep-20261102), head e911f7f: 13 of 14 checks success, Codex clean; Strix review 3 running.
+- #95 (MERGE_DELEGATION.md plus governance pointers), head 9ca0e17: 13 of 14 checks success, Codex clean after one retry (the first attempt failed with "unknown error"); waiting for Strix on 9ca0e17.
+- Known gap: main and integration have no required status checks, so native auto-merge is not armed. Merges are done manually, pinned to the exact head (expectedHeadSha).
+  - Recommended owner action: an integration ruleset with the 14 required checks and the up-to-date rule, and restoring a required check on main.
+
 
 ## Status — PR #93 merged into integration (fc6b39b), 2026-11-16
 - SEC-DEP-HONO-01: hono 4.13.16 and @hono/node-server 2.1.6, with the layered dependency admission in tests/sec-dep-20261116.
@@ -19,6 +30,7 @@
   - There were no page errors and no blocked external requests.
   - The diagnostic showed 0 quantity inputs and 0 checkout buttons at timeout.
 - The single permitted re-run (attempt 2, 03:42Z) passed. The same suite passed on #93 head d8af24d.
+- Second data point: on #95 head 62e350c, a journey suite timed out at stage desktop_expense after 91 controls. The cause is still not established.
 - Earlier entry: "C5 inventory repair tested; actual desktop sale timeout blocks" (2026-11-05).
 - One failure and one pass does not establish a cause. It is not established whether this is a test-wait problem or a product rendering or timing problem.
 - Plan:

@@ -25,7 +25,7 @@ Only ask for information that blocks correct execution. Inspect the repository a
 - Do not modify generated files manually when a generator owns them.
 - Do not modify applied migrations.
 - Do not include production credentials, customer data, or secrets.
-- Do not enable automatic merge or deploy.
+- Do not deploy. Merge only under `docs/governance/MERGE_DELEGATION.md`; do not arm native auto-merge while the target branch has no required checks enforcing its conditions.
 
 ## Implementation discipline
 
@@ -109,4 +109,4 @@ Provide the actual rollback or compensation steps.
 ### Next Recommended Task
 Provide one logical next task only.
 
-Do not use “Done” as a substitute for this report. A branch or successful build is not a release; merge and deployment require human action.
+Do not use “Done” as a substitute for this report. A branch or successful build is not a release; deployment requires human action, and merge follows `docs/governance/MERGE_DELEGATION.md`.

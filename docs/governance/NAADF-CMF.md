@@ -142,9 +142,9 @@ Record each finding with:
 
 ## Merge and deployment boundary
 
-- Passing tests do not authorize merge or deployment.
-- Automated agents do not merge or deploy.
-- A human reviews the final evidence and performs the release action.
+- Passing tests alone do not authorize merge or deployment.
+- Automated agents merge routine work into the integration branch only under the owner's standing delegation and its conditions in `docs/governance/MERGE_DELEGATION.md` (2026-11-16). Agents do not deploy.
+- Merges into `main` (release) and all production actions remain owner decisions within the approved C6/C7 scope.
 - Destructive operations require explicit human approval.
 - Production data and secrets remain outside automated work.
 

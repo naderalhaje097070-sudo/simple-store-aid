@@ -123,8 +123,8 @@ dependencies, a concrete unresolved risk, or a required gate.
 Critical/High findings and Medium dispositions retain the existing merge rules.
 Policy text is not CI enforcement. Tests passed on a runnable SHA and a later
 documentation-only SHA must be distinguished. Skipped/pending is not green.
-No automatic merge, deployment, production access, financial-policy change or
-new cost is authorized by this method.
+No deployment, production access, financial-policy change or new cost is
+authorized by this method; merges follow `docs/governance/MERGE_DELEGATION.md`.
 
 Adoption is prospective and proportional: the current SEC-TRUNCATE-01 worker may
 reference its before/after privilege matrix as the coverage ledger and add missing

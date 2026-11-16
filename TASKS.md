@@ -1,3 +1,12 @@
+## Status — C6 item 1.1 done: #96 merged into integration (183dc50), 2026-11-16
+- #96 at head 9ffbe99:
+  - 14 of 14 checks passed. `suite (journey, upgrade)` passed on the single re-run after a JOURNEY-FLAKE-01 failure on attempt 1.
+  - Strix review 1 and Codex clean. 0 unresolved threads.
+- Open notes from Strix (informational):
+  - (a) previewAuthStorage.ts, which Lovable generates, reads localStorage outside its guard on some paths. Upstream; no local edit.
+  - (b) integrated-b-source.json carries main's blobs and is not evaluated on integration. Settle it in item 3.4.
+- Next: item 2b.1 waits for the owner's approval of the exact read-only scope.
+
 ## Status — #92, #94, #95 merged under the merge delegation; integration b32d591, 2026-11-16
 - Owner decision, 2026-11-16 (quoted verbatim in docs/governance/MERGE_DELEGATION.md): the agent may merge routine PRs into integration after the required tests and reviews pass, without a gov-ok label. Excluded: main merges, production, deployment, destructive actions, security exceptions, weakening controls, changes to the delegation.
 - Each merge below had 14 of 14 required checks success on the exact head, Strix and Codex clean on that same head, 0 unresolved threads, and an unchanged base. Each merge was pinned with expectedHeadSha.

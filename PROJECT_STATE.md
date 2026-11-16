@@ -1,12 +1,9 @@
-## Current — integration b32d591: #92, #94, #95 merged under the merge delegation, 2026-11-16
-- Integration = b32d591. Merge order: #93 fc6b39b, #92 9b9d360, #94 eb6fcfd, #95 b32d591.
-- main = 1c5276f, unchanged. Production unchanged.
-- docs/governance/MERGE_DELEGATION.md is now on integration. Delegated: routine integration merges. Owner-only: main merges (C6/C7), production, deployment, destructive actions, security exceptions, weakening controls, changes to the delegation.
-- Not done yet, owner-gated:
-  - production apply of 20261107214500;
-  - ledger reconciliation;
-  - merging main into integration;
-  - the integration/main rulesets.
+## Current — integration 183dc50: main merged into integration (C6 item 1.1, #96), 2026-11-16
+- Integration = 183dc50. It now contains main 1c5276f (Lovable sync #80, gate bootstrap #73/#74). main = 1c5276f, unchanged. Production unchanged.
+- Dependency admission is layered: 20261102, then 20261116 (fixed inputs), then SEC-DEP-C6-MAIN, which covers b32d591 to head.
+- Next C6/C7 items, each owner-gated by scope:
+  - 2b.1: production ledger read, read-only. Scope in docs/reviews/C6_PROD_LEDGER_READ_SCOPE.md, awaiting the owner's approval.
+  - Then the compatibility review, simulation, backup, staged apply and Publish.
 
 ## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16
 

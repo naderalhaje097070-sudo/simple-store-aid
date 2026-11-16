@@ -1,3 +1,15 @@
+## Status — C6 item 2b.1 (production ledger read): done read-only, STOPPED on conflicts, 2026-11-16
+- Owner approval: 2026-11-16, item 2b.1 only.
+- Commands: 3 Lovable `query_database` calls, each `begin transaction read only; …; rollback;`. Every row returned transaction_read_only=on.
+- Result: docs/reviews/C6_PROD_LEDGER_READ_RESULT.md. Evidence files are in docs/reviews/c6-ledger/.
+- Ledger compared with candidate 183dc50:
+  - 26 match exactly;
+  - 21 match in content but differ in version by 1–2 s;
+  - 5 production entries have no repository content;
+  - 4 files on main are not in production;
+  - 10 new candidate files are not yet applied.
+- Open, owner decision: the scope of any further read (statement text) to resolve the conflicts. No fix applied.
+
 ## Status — C6 item 1.1 done: #96 merged into integration (183dc50), 2026-11-16
 - #96 at head 9ffbe99:
   - 14 of 14 checks passed. `suite (journey, upgrade)` passed on the single re-run after a JOURNEY-FLAKE-01 failure on attempt 1.

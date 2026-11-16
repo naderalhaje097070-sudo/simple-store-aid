@@ -1,9 +1,12 @@
-## Current — integration 183dc50: main merged into integration (C6 item 1.1, #96), 2026-11-16
-- Integration = 183dc50. It now contains main 1c5276f (Lovable sync #80, gate bootstrap #73/#74). main = 1c5276f, unchanged. Production unchanged.
-- Dependency admission is layered: 20261102, then 20261116 (fixed inputs), then SEC-DEP-C6-MAIN, which covers b32d591 to head.
-- Next C6/C7 items, each owner-gated by scope:
-  - 2b.1: production ledger read, read-only. Scope in docs/reviews/C6_PROD_LEDGER_READ_SCOPE.md, awaiting the owner's approval.
-  - Then the compatibility review, simulation, backup, staged apply and Publish.
+## Current — C6 item 2b.1 done (read-only); STOPPED on ledger conflicts, 2026-11-16
+- Integration = 183dc50. main = 1c5276f. Production unchanged; the reads were read-only transactions.
+- Production ledger: 52 rows, read through Lovable Cloud project 1c38f21a (identity evidence in docs/reviews/C6_PROD_LEDGER_READ_RESULT.md §1).
+- Conflicts found and NOT fixed:
+  - (a) 5 production ledger entries have no repository file with the same content.
+  - (b) 4 files on main are not present in the production ledger by content.
+  - (c) 21 migrations match in content but carry versions 1–2 s apart, so any version-matching apply would re-run them.
+- The 5 email functions are service-only in production. email_queue_dispatch() exists there without a repository file.
+- **Resume point:** the owner decides the next scope. For example, a read of the statement text for the 5 entries and for email_infra, to explain conflicts (a) and (b). No simulation, apply or main merge until the conflicts are resolved and approved.
 
 ## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16
 

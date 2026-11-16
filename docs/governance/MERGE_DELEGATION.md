@@ -20,15 +20,15 @@ In English: the owner removed the manual approval condition in GitHub, enabled a
 ## Conditions for a delegated merge (all of them, on the exact head SHA)
 1. **Head binding:** the merge uses `expectedHeadSha` equal to the head that was verified. A newer push restarts verification.
 2. **CI: the complete inventory, then success.** Success on "whatever checks exist" is not enough: a workflow that never started must block the merge.
-   - **Required check runs on the head SHA for a PR into integration.** These are the workflows with no path filter, verified on 2026-11-16 from `.github/workflows/*.yml`:
+   - **Required check runs on the head SHA for a PR into integration.** These are the workflows whose `pull_request` trigger reaches the integration branch and that have no path filter, verified on 2026-11-16 from `.github/workflows/*.yml`. Workflows whose `pull_request` trigger targets only `main` are not in this list. Each entry is the reported check-run name, with its workflow file in brackets:
      - `quality` (quality.yml);
      - `compatibility` (b1-composition.yml);
      - `integrated-quality` and `audit` (integration-verification.yml);
      - the 9 release-finance suites `suite (sale, fresh)`, `suite (sale, populated)`, `suite (sale, upgrade)`, `suite (collection, fresh)`, `suite (collection, populated)`, `suite (collection, upgrade)`, `suite (journey, fresh)`, `suite (journey, upgrade)` and `suite (quantity, fresh)`;
      - `Strix Security Review`.
      That is 14 in total.
-   - **Path-filtered workflows** that target the integration branch, today only `mcp-issuer-contract`, are also required whenever the diff touches their paths.
-   - **The inventory is re-derived from the base's workflow files on every merge.** A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner.
+   - **Path-filtered workflows** that target the integration branch are also required whenever the diff touches their paths. Today that is only the check run `contract` (mcp-issuer-contract.yml).
+   - **The inventory is re-derived from the base's workflow files on every merge,** using the same rule: a `pull_request` trigger that reaches the integration branch, matched by reported check-run name. A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner. `Strix Security Review` is a GitHub App check, not a workflow file, and is required regardless.
    - **Every required name must be present** with `conclusion=success`, on the latest attempt only. A missing name, any pending, queued, failed, cancelled or `startup_failure` run, or an incomplete or failed retrieval of the check-run list blocks the merge (fail closed).
    - **The base must not have moved** since the checks ran; if it did, the PR is updated and re-verified.
    - **Residual gap: the base check is not atomic with the merge.** The GitHub merge API binds the head (`expectedHeadSha`), not the base, so the agent's check and the merge are two separate steps. The window is reduced as follows:

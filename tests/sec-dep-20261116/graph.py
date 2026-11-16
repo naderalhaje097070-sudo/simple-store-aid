@@ -91,7 +91,14 @@ def verify(before_package, before_lock, after_package, after_lock):
 
 
 def show(ref, name, binary=False):
-    return subprocess.check_output(['git', '-C', str(ROOT), 'show', f'{ref}:{name}'], text=not binary)
+    # Raw bytes, decoded without newline translation, so the comparison is truly byte-exact.
+    raw = subprocess.check_output(['git', '-C', str(ROOT), 'show', f'{ref}:{name}'])
+    return raw if binary else raw.decode('utf-8')
+
+
+def read(path):
+    """A working-tree file as text with its exact line endings (no universal-newline folding)."""
+    return Path(path).read_bytes().decode('utf-8')
 
 
 def installed(root=ROOT):
@@ -110,7 +117,14 @@ def main():
                                     show(BASE, 'package.json'), show(BASE, 'bun.lock'))
     # 2. This change: BASE -> working tree.
     receipt = verify(show(BASE, 'package.json'), show(BASE, 'bun.lock'),
-                     (ROOT / 'package.json').read_text(), (ROOT / 'bun.lock').read_text())
+                     read(ROOT / 'package.json'), read(ROOT / 'bun.lock'))
+    # package.json: semantic equality above, and byte equality with the two pins replaced.
+    pkg = show(BASE, 'package.json')
+    for name, (old_v, new_v) in PINS.items():
+        line = f'"{name}": "{old_v}"'
+        require(pkg.count(line) == 2, 'Baseline package pin not in both groups: ' + name)
+        pkg = pkg.replace(line, f'"{name}": "{new_v}"')
+    require(pkg == read(ROOT / 'package.json'), 'package.json differs from the reviewed two-pin delta')
     for name in UNCHANGED:
         require((ROOT / name).read_bytes() == show(BASE, name, binary=True), 'Reviewed file changed: ' + name)
     # The historical CLI's own file checks, still against its 50530716 baseline.

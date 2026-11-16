@@ -9,7 +9,7 @@ import graph  # noqa: E402
 
 root = Path(__file__).resolve().parents[2]
 before_package, before_lock = graph.show(graph.BASE, 'package.json'), graph.show(graph.BASE, 'bun.lock')
-after_package, after_lock = (root / 'package.json').read_text(), (root / 'bun.lock').read_text()
+after_package, after_lock = graph.read(root / 'package.json'), graph.read(root / 'bun.lock')
 
 
 class Graph(unittest.TestCase):
@@ -53,11 +53,20 @@ class Graph(unittest.TestCase):
         p = json.loads(after_package); p['overrides'].pop('esbuild'); self.deny(package=p)
     def test_removed_patch(self):
         p = json.loads(after_package); p.pop('patchedDependencies'); self.deny(package=p)
+    def test_crlf_lock_on_disk(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            f = Path(d) / 'bun.lock'; f.write_bytes(after_lock.replace('\n', '\r\n').encode())
+            self.assertIn('\r\n', graph.read(f)); self.deny(lock=graph.read(f))
+    def test_single_crlf_line_on_disk(self): self.deny(lock=after_lock.replace('\n', '\r\n', 1))
     def test_release_age_rule_and_reviewed_files_unchanged(self):
         for name in graph.UNCHANGED:
             self.assertEqual((root / name).read_bytes(), graph.show(graph.BASE, name, binary=True), name)
 
-    def test_published_older_than_release_age(self):
+    def test_recorded_publish_times_clear_release_age(self):
+        # Documentary: the publish times are recorded constants (npm registry "time" field), not
+        # fetched. The enforcing controls are the exact version+integrity pins above, which the
+        # frozen install re-verifies against the downloaded tarballs, and the unchanged bunfig.toml.
         import datetime
         for name, ts in graph.PUBLISHED.items():
             t = datetime.datetime.fromisoformat(ts.replace('Z', '+00:00'))

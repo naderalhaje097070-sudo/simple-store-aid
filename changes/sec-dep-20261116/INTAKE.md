@@ -26,10 +26,10 @@ Neither package is imported directly. Both arrive only through `@modelcontextpro
   - lockfileVersion and configVersion preserved;
   - the same 1086 physical paths;
   - only rows `hono` and `@hono/node-server` changed, with exact rows and integrity;
-  - a byte-exact rebuild of the lock from the base plus the 4 reviewed lines;
+  - a byte-exact rebuild of the lock from the base plus the 4 reviewed lines, and of `package.json` from the base plus its 2 pins (raw bytes, no newline folding);
   - `bunfig.toml`, the vendor archive and the minimatch patch byte-identical to the base;
   - with `--installed`, the installed versions must be exactly 4.13.16 and 2.1.6.
-- `tests/sec-dep-20261116/test_graph.py` has 22 tests: the real delta, the historical proof, release age, and 19 adversarial denials (other versions, integrity, locator, peer metadata, hidden copy, pin disagreement, whitespace drift, unrelated downgrade, removed security floor or patch, extra override).
+- `tests/sec-dep-20261116/test_graph.py` has 24 tests: the real delta, the historical proof, the unchanged reviewed files, a documentary release-age record (recorded constants, not fetched; enforcement is the exact version and integrity pins plus unchanged `bunfig.toml`), and 20 adversarial denials, including CRLF on disk (other versions, integrity, locator, peer metadata, hidden copy, pin disagreement, whitespace drift, unrelated downgrade, removed security floor or patch, extra override).
 
 ## Standalone workflow
 `.github/workflows/sec-dep-20261102.yml` triggers on pushes to integration that touch `package.json` or `bun.lock`, so it runs after this merge. The intake's first version wrongly said otherwise; Codex caught it. The workflow gets the same layered admission:

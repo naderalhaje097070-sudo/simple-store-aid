@@ -1,4 +1,24 @@
 
+## Open task — JOURNEY-FLAKE-01: intermittent desktop_sale_open timeout (root cause NOT established), 2026-11-16
+- Observed on #92 head dbe9125: `suite (journey, upgrade)` attempt 1 ended in a TimeoutError at stage `desktop_sale_open` after 63 controls.
+  - The sale RPC was called once and returned HTTP 200.
+  - There were no page errors and no blocked external requests.
+  - The diagnostic showed 0 quantity inputs and 0 checkout buttons at timeout.
+- The single permitted re-run (attempt 2, 03:42Z) passed. The same suite passed on #93 head d8af24d.
+- Earlier entry: "C5 inventory repair tested; actual desktop sale timeout blocks" (2026-11-05).
+- One failure and one pass does not establish a cause. It is not established whether this is a test-wait problem or a product rendering or timing problem.
+- Plan:
+  - Collect the failing attempt's artifacts (release-journey-upgrade-attempt1).
+  - Add the stage's DOM state, and the time from the sale RPC to the expected elements, to the diagnostics.
+  - Reproduce locally under CPU throttling.
+  - Do not raise timeouts or relax assertions without a demonstrated cause.
+
+## Proposal — GOV-AUTOMERGE-01 (conditional automatic merge), 2026-11-16
+- docs/reviews/GOV-AUTOMERGE-01_PROPOSAL.md: trusted `trusted-acceptance` check from the base copy, per-class evidence, independent-review predicate and negative cases.
+- Class G (acceptance-defining) keeps the exact-head owner label. Rulesets on main and integration need the owner's admin action.
+- Bootstrap is blocked by the Actions queued/no-jobs incident on #77.
+- For review by ChatGPT and the owner; nothing is enabled.
+
 ## Status — SEC-EMAIL-QUEUE-01 (#92) and SEC-DEP-HONO-01 (#93), 2026-11-16
 - #92 (head dbe9125, into integration):
   - Migration 20261107214500 byte-identical to production (md5 1dd79d44).

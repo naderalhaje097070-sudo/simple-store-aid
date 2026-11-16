@@ -31,8 +31,12 @@ Neither package is imported directly. Both arrive only through `@modelcontextpro
   - with `--installed`, the installed versions must be exactly 4.13.16 and 2.1.6.
 - `tests/sec-dep-20261116/test_graph.py` has 22 tests: the real delta, the historical proof, release age, and 19 adversarial denials (other versions, integrity, locator, peer metadata, hidden copy, pin disagreement, whitespace drift, unrelated downgrade, removed security floor or patch, extra override).
 
-## Not changed
-`.github/workflows/sec-dep-20261102.yml` triggers only on its own paths, which this PR doesn't touch. If those paths are edited later, it will need the same prepared-directory mode. This is recorded here rather than changed.
+## Standalone workflow
+`.github/workflows/sec-dep-20261102.yml` triggers on pushes to integration that touch `package.json` or `bun.lock`, so it runs after this merge. The intake's first version wrongly said otherwise; Codex caught it. The workflow gets the same layered admission:
+- the historical prepared run of the unchanged 20261102 verifier;
+- then the new verifier and its tests before install, and `--installed` after the frozen install.
+
+All of its downstream steps are unchanged: installed engine, dependency-security unit test, identity, contracts, C4 and node-server contracts, the 20261029 regressions, and `git diff --exit-code`.
 
 ## Rollback
 Revert the PR. The base lock and the historical contract are untouched.

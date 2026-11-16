@@ -31,6 +31,11 @@ In English: the owner removed the manual approval condition in GitHub, enabled a
    - **The inventory is re-derived from the base's workflow files on every merge.** A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner.
    - **Every required name must be present** with `conclusion=success`, on the latest attempt only. A missing name, any pending, queued, failed, cancelled or `startup_failure` run, or an incomplete or failed retrieval of the check-run list blocks the merge (fail closed).
    - **The base must not have moved** since the checks ran; if it did, the PR is updated and re-verified.
+   - **Residual gap: the base check is not atomic with the merge.** The GitHub merge API binds the head (`expectedHeadSha`), not the base, so the agent's check and the merge are two separate steps. The window is reduced as follows:
+     - merges are serialized: one agent merges one PR at a time;
+     - the base SHA is re-read immediately before the merge call;
+     - the post-merge push checks on the integration branch are verified after every merge.
+     A required "up to date" rule on the integration ruleset is the enforced fix (owner action).
 3. **Financial and security changes** (migrations, `FINANCIAL_CORE`, `service_role`):
    - release-finance 9/9, with catalog-guard `missing == []` and `failed == []`;
    - migrations preserved: no applied migration edited, and production-applied files byte-identical (md5);

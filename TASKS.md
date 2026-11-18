@@ -1,3 +1,13 @@
+## Status — C6 (a) live probe + (b) sandbox_exec read done, read only (2026-11-18); production unchanged
+- Commands:
+  - curl GET of /sw.js and / on fin-biz.shop, www.fin-biz.shop, simple-store-aid.lovable.app and shopkeepers-profit-path.lovable.app;
+  - Lovable get_project;
+  - 2 query_database calls, each begin read only … rollback with ro=on.
+- Results: the live address is unknown (the domain is parked; lovable.app returns 404). sandbox_exec can read auth session tokens.
+- Query fix before running: information_schema replaced by aclexplode(pg_class.relacl); negative control passed on the replica; SHA256SUMS updated.
+- Not done, owner only: Lovable-team message, backup, independent review, any production write, Publish, main merge.
+- Rollback: documentation only; no production change.
+
 ## Status — C6 local: C3 lock timing, restore rehearsal, PWA browser check (2026-11-18); production unchanged
 - Done, local only: C3 hold time up to 1M items (0.7 s); concurrency (wait, clean lock_timeout failure); backup/restore rehearsal with the ACL prelude fix (data 50/50, battery and facts identical); PWA build and browser check (no sw.js in deploy output; no service worker registered locally).
 - Supersedes the earlier "Next: check the PWA service-worker update behaviour" item: done in the repository (4a4e83f) and in a browser (this entry).

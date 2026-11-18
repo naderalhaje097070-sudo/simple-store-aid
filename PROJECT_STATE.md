@@ -1,3 +1,20 @@
+## Current — C6 items (a) live-site probe and (b) narrow sandbox_exec read DONE (read only); production unchanged, 2026-11-18
+- Owner words: «نفذ الذي تراه مناسب لك كامل الصلاحيات». Interpreted as approval of the two prepared read-only items only; no production write, Publish or main merge (reasons: report §9).
+- (a) Live site: fin-biz.shop and www.fin-biz.shop serve a registrar parking lander (openresty, /lander). simple-store-aid.lovable.app returns 404 «Project not found». Lovable says is_published=true but returns no URL. The live address is unknown, so the PWA question on the live site is still open.
+- (b) sandbox_exec, production (2 read-only calls, ro=on, ledger 52):
+  - LOGIN, BYPASSRLS, no connection limit, no expiry; postgres is a member; 0 sessions now;
+  - SELECT on auth.users, sessions, refresh_tokens, one_time_tokens, identities and mfa_*;
+  - INSERT/SELECT on storage.objects and buckets.
+  - Risk is higher than earlier assessed (session-token read). No evidence of use.
+  - The Lovable-team question is now a priority; updated text in the report §8.
+- Report: docs/reviews/C6_LOCK_RESTORE_PWA.md §7–§9. Evidence: docs/reviews/c6-evidence/sandbox_exec_prod_read_2026-11-18.json and pwa/live_probe_2026-11-18.txt.
+- **Resume point, owner:**
+  - (1) give the real live URL and check the fin-biz.shop domain with the registrar;
+  - (2) send the Lovable-team question (§8);
+  - (3) the backup method;
+  - (4) the independent reviewer;
+  - (5) window plus emergency unblock (recommended) and the apply date, as an explicit scope.
+
 ## Current — C6 local: C3 lock timing, backup/restore rehearsal, PWA browser check; production unchanged, 2026-11-18
 - Owner words: «افعل اللازم حسب الخطة». Not an approval of any production scope, so only local and repository work was done. No production read or write, no request to the live site, no Lovable message, no merge, no deploy.
 - Full report: docs/reviews/C6_LOCK_RESTORE_PWA.md.

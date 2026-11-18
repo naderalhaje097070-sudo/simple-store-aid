@@ -10,11 +10,11 @@ select json_build_object(
                 join pg_roles r on r.oid = m.roleid where m.member = 'sandbox_exec'::regrole),
   'members', (select coalesce(json_agg(r.rolname order by r.rolname), '[]') from pg_auth_members m
               join pg_roles r on r.oid = m.member where m.roleid = 'sandbox_exec'::regrole),
-  'table_privs_outside_public', (select coalesce(json_agg(json_build_object('t', table_schema||'.'||table_name, 'p', p) order by table_schema, table_name), '[]')
-     from (select table_schema, table_name, string_agg(privilege_type, ',' order by privilege_type) p
-           from information_schema.role_table_grants
-           where grantee = 'sandbox_exec' and table_schema not in ('public')
-           group by 1, 2) g),
+  'table_privs_outside_public', (select coalesce(json_agg(json_build_object('t', t, 'p', p) order by t), '[]')
+     from (select n.nspname||'.'||c.relname t, string_agg(distinct a.privilege_type, ',') p
+           from pg_class c join pg_namespace n on n.oid = c.relnamespace, aclexplode(c.relacl) a
+           where a.grantee = 'sandbox_exec'::regrole and n.nspname <> 'public' and c.relkind in ('r','p','v','m','S','f')
+           group by 1) g),
   'function_execute', (select count(*) from pg_proc p where has_function_privilege('sandbox_exec', p.oid, 'EXECUTE')
                        and p.pronamespace in ('public'::regnamespace, 'monjez_private'::regnamespace)
                        and not has_function_privilege('public', p.oid, 'EXECUTE')),

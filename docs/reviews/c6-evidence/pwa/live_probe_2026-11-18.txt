@@ -1,0 +1,30 @@
+2026-11-18T21:58:12Z
+== GET https://fin-biz.shop/sw.js
+HTTP/1.1 200 Connection Established
+HTTP/1.1 200 OK
+Content-Type: text/html
+body_bytes=114 body_has_workbox=0
+== GET https://fin-biz.shop/
+HTTP/1.1 200 Connection Established
+HTTP/1.1 200 OK
+Content-Type: text/html
+body_bytes=114 body_has_workbox=0
+
+# correct hosts (the apex above serves a registrar parking lander: openresty, /lander, 'parking-lander' assets)
+2026-11-18T21:59:01Z
+== GET https://www.fin-biz.shop/sw.js
+HTTP/1.1 200 OK
+Content-Type: text/html
+body_bytes=114 workbox=0 precache=0 registerSW_or_sw.js_in_html=0
+== GET https://www.fin-biz.shop/
+HTTP/1.1 200 OK
+Content-Type: text/html
+body_bytes=114 workbox=0 precache=0 registerSW_or_sw.js_in_html=0
+== GET https://simple-store-aid.lovable.app/sw.js
+content-type: text/html; charset=UTF-8
+server: cloudflare
+body_bytes=1240 workbox=0 precache=0 registerSW_or_sw.js_in_html=0
+== GET https://simple-store-aid.lovable.app/
+content-type: text/html; charset=UTF-8
+server: cloudflare
+body_bytes=1240 workbox=0 precache=0 registerSW_or_sw.js_in_html=0

@@ -129,3 +129,69 @@
 - `restore/rehearse.sh`، ثم `harness.py battery` و`facts` على الاثنين.
 - `bun install --frozen-lockfile` و`node scripts/build.mjs` للواجهتين، ثم `wrangler dev` و`pwa_probe.cjs`.
 - **الأدلة:** `docs/reviews/c6-evidence/restore/` و`docs/reviews/c6-evidence/pwa/`.
+
+## 7. تنفيذ البندين أ وب من §5 (2026-11-18، نحو 22:00 UTC)
+- **التكليف:** كلمات المالك «نفذ الذي تراه مناسب لك كامل الصلاحيات».
+- **ما فُسِّر به:** فسّرتُه موافقةً على البندين المحضّرين للقراءة فقط (أ وب)، **لا** على أي كتابة في الإنتاج أو نشر أو دمج في `main`. السبب في §9.
+
+### 7.1 البند أ: الموقع الحي (طلبات GET عامة، بلا تسجيل دخول)
+- **الأدلة:** `docs/reviews/c6-evidence/pwa/live_probe_2026-11-18.txt`.
+
+| العنوان | النتيجة |
+|---|---|
+| `https://fin-biz.shop/` و`/sw.js` | 200، صفحة 114 بايت تحوّل إلى `/lander`. صفحة `/lander` من `openresty` بأصول `parking-lander`، أي **صفحة ركن نطاق من المسجّل، لا التطبيق** |
+| `https://www.fin-biz.shop/` و`/sw.js` | الصفحة نفسها (114 بايت) |
+| `https://simple-store-aid.lovable.app/` و`/sw.js` | **404** «Project not found» من Lovable |
+| `https://shopkeepers-profit-path.lovable.app/` | 404 «Project not found». **محاولة تخمين واحدة من اسم المشروع، توقفتُ بعدها** |
+
+- **ما يقوله Lovable:** `get_project` يعطي `is_published=true` و`publish_audience=public` و`latest_commit_sha=1c5276f`، **دون عنوان النشر**.
+- **الاستنتاج:**
+  - العناوين الثلاثة المسجّلة في المستودع لا تخدم التطبيق الآن.
+  - النطاق `fin-biz.shop` يعرض صفحة ركن. **قد يكون انتهى أو لم يعد موجّهًا، وهذا غير مُتحقق** لأن `whois` لم يعطِ نتيجة هنا.
+  - **سؤال PWA على الموقع الحي لم يُحسم:** العنوان الصحيح مطلوب من المالك.
+- **تصحيح:** البند أ في §5 ذكر `fin-biz.shop` بلا `www`، والمستودع يستعمل `www.fin-biz.shop`. فُحص الاثنان.
+
+### 7.2 البند ب: قراءة الكتالوج المحصورة عن `sandbox_exec`
+- **تصحيح قبل التنفيذ:** النسخة الأولى من الاستعلام استعملت `information_schema.role_table_grants`، وهي تُظهر للدور `postgres` المنح التي هو طرف فيها فقط، فقد تخفي منح `auth` و`storage`.
+  - **البديل:** `aclexplode(pg_class.relacl)`.
+  - **التحقق السلبي على النسخة المطابقة:** جدول اختبار في `extensions` ظهر بـ`INSERT,SELECT`، ثم اختفى بعد حذفه. البصمة محدَّثة في `SHA256SUMS`.
+- **التنفيذ:** استدعاءان لـ`query_database`، كلاهما `begin transaction read only; … rollback;` وأعاد `ro=on`:
+  1. **الهوية:** `postgres` / `postgres` / 17.6 / السجل 52.
+  2. **الاستعلام نفسه:** sha256 ‏`de7f9b32…`.
+- **الأدلة:** `docs/reviews/c6-evidence/sandbox_exec_prod_read_2026-11-18.json`.
+
+| البند | الإنتاج |
+|---|---|
+| السمات | LOGIN، BYPASSRLS، ليس superuser، `connlimit=-1` (بلا حد)، `valid_until=null` (بلا تاريخ انتهاء) |
+| عضو في | لا شيء |
+| أعضاؤه | `postgres` |
+| جلسات الآن | 0 |
+| دوال public/monjez_private غير العامة التي ينفّذها | 0 |
+| **SELECT على `auth`** | `users`، `identities`، `sessions`، `refresh_tokens`، `one_time_tokens`، `mfa_factors`، `mfa_challenges`، `mfa_amr_claims`، `flow_state`، `audit_log_entries`، `saml_*`، `sso_*`، `instances`، `schema_migrations` |
+| INSERT,SELECT على `storage` | `buckets`، `objects` |
+| INSERT,SELECT على `extensions` | `pg_stat_statements`، `pg_stat_statements_info` |
+
+- **التقييم (تحليل، دون اختبار عليه):**
+  - **الخطر أعلى مما في `C6_SANDBOX_EXEC_ANALYSIS.md`.** إلى جانب تجاوز RLS في `public`، يستطيع من يملك جلسة بهذا الدور **قراءة رموز الجلسات** (`refresh_tokens`، `sessions`، `one_time_tokens`). هذا يكفي نظريًا لانتحال أي مستخدم.
+  - **لا دليل على استغلال:** 0 جلسات لحظة القراءة. ولا نعرف هل للدور كلمة مرور أو طريق شبكي من خارج Lovable، لأن `pg_authid` يحتاج superuser.
+  - **`postgres` عضو فيه:** المتسق مع ذلك أن `postgres` أنشأه. هذا استنتاج.
+- **التوصية:**
+  - لا يُعدَّل الدور الآن، لأن ذلك قد يعطّل أدوات Lovable، ولا يُعرف هل يُعاد منحه.
+  - **سؤال فريق Lovable صار أولوية.** النص المقترح محدَّث في §8.
+  - تقييد صلاحيات الدور قرار منفصل بعد الجواب، ولا يدخل في C6.
+
+## 8. نص محدَّث مقترح لفريق Lovable (يرسله المالك؛ لم يُرسل)
+> In our Lovable Cloud project 1c38f21a-8f36-4a0b-8350-ee4be6901b8d, the database role `sandbox_exec` has LOGIN and BYPASSRLS, no connection limit and no password expiry. postgres is a member of it. It has SELECT on auth.users, auth.sessions, auth.refresh_tokens, auth.one_time_tokens and auth.identities, plus SELECT/INSERT on all public tables, storage.objects and storage.buckets. It also has default privileges on new tables in public, auth, extensions and storage. Please confirm in writing:
+> (1) what uses this role;
+> (2) whether it has a password, or any network path reachable from outside Lovable's infrastructure;
+> (3) whether we may revoke its access to auth tokens and to our financial tables, and whether Lovable re-grants it;
+> (4) whether its sessions are logged, and whether any have connected to this project.
+
+## 9. لماذا لم أطبّق شيئًا على الإنتاج رغم «كامل الصلاحيات»
+1. **قاعدتك الثابتة:** الكتابة في الإنتاج «بموافقتي الصريحة على نطاق محدد». «نفذ ما تراه مناسبًا» ليست نطاقًا محددًا، وهذا الفرع من القرار عالي الخطورة جدًا في الخطة (القرار 8).
+2. **C2 يوقف البيع في الواجهة المنشورة فورًا.**
+   - يحتاج ذلك نافذة يحددها المالك وإعلام المتاجر، ولا أملك وسيلة لإعلامها.
+   - ويحتاج نشر الواجهة الجديدة، وهو يتطلب دمج التكامل في `main` ثم Publish. الدمج في `main` غير مفوَّض في `MERGE_DELEGATION.md`.
+3. **C3 لا يمكن التراجع عنه بعد أول بيع كسري،** والشرط المسبق في الخطة §4.2 غير متحقق: نسخة احتياطية **مأخوذة ومجرَّبة الاستعادة**. لا أستطيع أخذ نسخة من Lovable Cloud بأدواتي.
+4. **المراجعة المستقلة لـC1..C10 لم تحدث.**
+5. **عنوان الموقع الحي نفسه غير معروف الآن (§7.1)،** فلا يمكن التحقق بعد النشر كما تشترط الخطة §5.4.

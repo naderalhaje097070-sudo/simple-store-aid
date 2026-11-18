@@ -1,3 +1,23 @@
+## Status — C6 local tests done (2026-11-18); production unchanged
+- Done, local only:
+  - compat matrix C0..C10 for both frontends;
+  - deployment ordering: no zero-downtime path; window or expand/contract;
+  - partial failure at C7 and resume;
+  - emergency legacy-unblock script tested;
+  - per-stage rollback analysis;
+  - historical-data invariants and new RPCs on synthetic legacy data;
+  - 379 vs 382 explained;
+  - sandbox_exec analysis without new access;
+  - SHA-256 manifest;
+  - correction of the "CI evidence applies to production" overstatement.
+- Next, repository-only, no approval needed: check the PWA service-worker update behaviour in both frontends.
+- Owner decisions:
+  - window vs expand/contract;
+  - sandbox_exec (Lovable question / narrow catalog read);
+  - backup and restore test;
+  - independent review;
+  - apply scope.
+
 ## Status — C6 replica + simulation + ledger plan (2026-11-18), production unchanged
 - Done:
   - production catalog fingerprint (read-only);

@@ -1,3 +1,25 @@
+## Current — C6 local compat/recovery/data tests done; production unchanged; no production write or deploy approved, 2026-11-18
+- Owner decision 2026-11-18: continue local tests; no production write or deployment.
+- Full report: docs/reviews/C6_COMPAT_AND_RECOVERY.md.
+- Compat matrix C0..C10 (synthetic data seeded through main's RPCs, both frontends):
+  - the published frontend cannot sell from C2 and cannot collect from C5 (intentional revokes);
+  - the new frontend needs C2 for sales, C5 for collection and C6 for the profit report.
+  - Consequence: no zero-downtime order exists. Proposed: C1 ahead; then, in an owner-set window, C2..C10 followed immediately by Publish. PWA cache risk is unverified.
+- Partial failure (C1..C6 applied, C7 injected failure): the state equals C6 exactly. Resume to C10 equals a straight-through apply.
+- Emergency unblock of the legacy frontend: tested, and its revert restores the catalog exactly.
+- C3 (integer to numeric) is effectively irreversible after fractional sales.
+- Historical data (synthetic): 0 row changes on pre-upgrade columns at every stage; facts C0 == C10; the new RPCs behave correctly on legacy data.
+- Not proven: behaviour on real production data and volumes (C3 lock duration); backup and restore test.
+- Local image defect: supabase/postgres 17.6.1.106 segfaults on a call to a function without EXECUTE privilege. Production returns a clean permission error.
+- sandbox_exec analysis: docs/reviews/C6_SANDBOX_EXEC_ANALYSIS.md. Memberships, password and sessions are unverified; they need a new production read (owner) or Lovable's answer.
+- SHA-256 manifest: docs/reviews/c6-apply/SHA256SUMS.
+- **Resume point, owner decisions:**
+  - (1) the deployment approach: a window, or expand/contract (changing C2/C5 before any apply);
+  - (2) ask the Lovable team about sandbox_exec, and/or approve a narrow catalog read;
+  - (3) a backup plus a restore test;
+  - (4) the PWA update-mechanism check (repository-only; can be done next);
+  - (5) an independent review of C1..C10.
+
 ## Current — C6 replica, simulation and ledger plan done; production unchanged, 2026-11-18
 - Production: read-only catalog reads only (fingerprint plus details, no application rows). Ledger still 52 rows.
 - Replica: main 1c5276f replay + 20261107214500 + docs/reviews/c6-apply/replica_drift.sql. It equals production in every application object.

@@ -1,3 +1,16 @@
+## Current — C6 stays in preparation, date open; sandbox_exec on financial_idempotency checked locally, 2026-11-18
+- Pasted ChatGPT text (not an owner approval) asked to keep C6 in preparation and to check sandbox_exec on the new idempotency table. That agrees with the current plan; nothing in production changed.
+- Replica after C2: sandbox_exec=ar (SELECT, INSERT) on financial_idempotency through default privileges; C2 does not revoke it; RLS on with 0 policies.
+  - Tested as the role: SELECT ok, INSERT into a real tenant ok (BYPASSRLS); UPDATE/DELETE denied.
+  - Impact: reads sale payloads (it already reads orders); key-squatting needs the client UUID.
+  - C2 is not changed. Any revoke is a separate migration after Lovable's answer. Report §10.
+- **Resume point, owner actions:**
+  - (1) copy the live URL from Lovable Publish and check Settings → Domains;
+  - (2) send the §8 text to Lovable support;
+  - (3) a fresh production backup and a restore test in isolation;
+  - (4) the independent review of C1..C10 plus the emergency files, including §10.
+  - The apply date stays open until (1), (3) and (4) are done.
+
 ## Current — C6 items (a) live-site probe and (b) narrow sandbox_exec read DONE (read only); production unchanged, 2026-11-18
 - Owner words: «نفذ الذي تراه مناسب لك كامل الصلاحيات». Interpreted as approval of the two prepared read-only items only; no production write, Publish or main merge (reasons: report §9).
 - (a) Live site: fin-biz.shop and www.fin-biz.shop serve a registrar parking lander (openresty, /lander). simple-store-aid.lovable.app returns 404 «Project not found». Lovable says is_published=true but returns no URL. The live address is unknown, so the PWA question on the live site is still open.

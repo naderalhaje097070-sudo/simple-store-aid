@@ -1,3 +1,8 @@
+## Status — C6 in preparation, date open (2026-11-18)
+- Done locally: sandbox_exec privileges on financial_idempotency after C2 (SELECT/INSERT, tested; UPDATE/DELETE denied). Report §10; evidence docs/reviews/c6-evidence/sandbox_exec_idempotency_replica.txt.
+- Owner: live URL and domain status; Lovable support escalation (§8); fresh production backup plus isolated restore; independent review (including §10).
+- Blocked on the owner: production apply, Publish, main merge.
+
 ## Status — C6 (a) live probe + (b) sandbox_exec read done, read only (2026-11-18); production unchanged
 - Commands:
   - curl GET of /sw.js and / on fin-biz.shop, www.fin-biz.shop, simple-store-aid.lovable.app and shopkeepers-profit-path.lovable.app;

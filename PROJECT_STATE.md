@@ -10,7 +10,15 @@
   - Conflict (b) is explained: email_infra differs only by comments; security_fix_e and returned_order_not_debt are already applied under other versions; platform_admin_audit_prerequisite is a deliberate fresh-database substitute.
   - The 3 test entries have zero net effect, by inference from the repository.
   - Remaining: a definitional drift on platform_admin_audit_log (user_id NOT NULL/no FK in prod vs nullable+FK in a repository replay; possibly two read policies in prod). Not verified against the production catalog.
-- **Resume point:** the owner decides the next scope. For example, a read of the statement text for the 5 entries and for email_infra, to explain conflicts (a) and (b). No simulation, apply or main merge until the conflicts are resolved and approved.
+- Catalog read of platform_admin_audit_log (2026-11-18, one read-only call, no rows; result doc §8), compared with a real local replay of 183dc50:
+  - Confirmed differences, production vs repository: user_id NOT NULL vs nullable; no FK vs FK to auth.users ON DELETE SET NULL; an extra duplicate SELECT policy in production; an extra role sandbox_exec (SELECT, INSERT) in production, not in the repository.
+  - Identical: columns, types, indexes, RLS, and privileges for anon, authenticated and service_role.
+  - None of the 10 candidate migrations touch this table.
+  - Consequence: the production simulation must start from a production schema dump, not from a repository replay.
+- **Resume point:** the owner decides the next scopes. Each needs separate approval:
+  - (1) a ledger reconciliation plan for the 21 version mismatches;
+  - (2) a schema-only production dump for the simulation;
+  - (3) the origin of sandbox_exec. For example, a read of the statement text for the 5 entries and for email_infra, to explain conflicts (a) and (b). No simulation, apply or main merge until the conflicts are resolved and approved.
 
 ## Current — integration fc6b39b: hono advisories fixed (#93 merged), 2026-11-16
 

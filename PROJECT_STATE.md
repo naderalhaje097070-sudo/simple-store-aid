@@ -1,3 +1,27 @@
+## Current — C6 local: C3 lock timing, backup/restore rehearsal, PWA browser check; production unchanged, 2026-11-18
+- Owner words: «افعل اللازم حسب الخطة». Not an approval of any production scope, so only local and repository work was done. No production read or write, no request to the live site, no Lovable message, no merge, no deploy.
+- Full report: docs/reviews/C6_LOCK_RESTORE_PWA.md.
+- Correction: C3 does not rewrite order_items (already numeric(12,2); typmod removal only). It rewrites products and scans order_items twice.
+- C3 hold time (ACCESS EXCLUSIVE, synthetic rows, this machine): 0.010 s at 8 items; 0.071 s at 100k; 0.700 s at 1M items / 100k products.
+  - A concurrent authenticated reader waited 3.21 s behind a held C3 and then completed.
+  - An open transaction on products made C3 fail on lock_timeout 5 s with no change (stock integer, ledger 54).
+- Backup/restore rehearsal (local to local, tests/c6-upgrade/restore/rehearse.sh, run end to end):
+  - a whole-database pg_dump/pg_restore as postgres fails (163 errors);
+  - the CLI dump omits the migration ledger, so it is dumped separately;
+  - storage and supabase_functions rows are not restorable as postgres;
+  - SECURITY: a plain restore into a fresh Supabase instance re-grants anon ALL and authenticated TRUNCATE on every public table, and EXECUTE on every function. prelude.sql (mandatory) fixes it.
+  - After the fix: data identical in 50 tables, battery identical, financial facts identical.
+  - Remaining: sandbox_exec default privileges in auth, extensions and storage are not restored.
+- PWA: in both builds (main, 183dc50) sw.js is generated into dist/ but is absent from .output/public (cloudflare-module). Served with wrangler: /sw.js returns 404 and Chromium registers no service worker. Whether Lovable's deployed build is the same is unverified; it needs one public GET of fin-biz.shop/sw.js (owner scope).
+- Recommendation on decision 1: window plus emergency unblock, without changing C2/C5 (reasons in the report §4). Owner decides.
+- **Resume point:** owner approvals, prepared in the report §5:
+  - (a) public GET of fin-biz.shop/sw.js and /;
+  - (b) the narrow sandbox_exec catalog read (docs/reviews/c6-apply/sandbox_exec_narrow_read.sql, tested on the replica);
+  - (c) the owner sends the Lovable-team question;
+  - (d) the backup method;
+  - (e) the independent reviewer;
+  - (f) the apply scope and window.
+
 ## Current — C6 local compat/recovery/data tests done; production unchanged; no production write or deploy approved, 2026-11-18
 - Owner decision 2026-11-18: continue local tests; no production write or deployment.
 - Full report: docs/reviews/C6_COMPAT_AND_RECOVERY.md.

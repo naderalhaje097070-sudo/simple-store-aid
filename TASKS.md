@@ -1,3 +1,17 @@
+## Status — C6 local: C3 lock timing, restore rehearsal, PWA browser check (2026-11-18); production unchanged
+- Done, local only: C3 hold time up to 1M items (0.7 s); concurrency (wait, clean lock_timeout failure); backup/restore rehearsal with the ACL prelude fix (data 50/50, battery and facts identical); PWA build and browser check (no sw.js in deploy output; no service worker registered locally).
+- Supersedes the earlier "Next: check the PWA service-worker update behaviour" item: done in the repository (4a4e83f) and in a browser (this entry).
+- Commands and results: docs/reviews/C6_LOCK_RESTORE_PWA.md §6. Evidence: docs/reviews/c6-evidence/{c3,restore,pwa}/.
+- Owner decisions, each with its own scope (report §5):
+  - (a) public GET of the live sw.js;
+  - (b) the narrow sandbox_exec read;
+  - (c) the Lovable-team question;
+  - (d) backup;
+  - (e) the independent reviewer;
+  - (f) window vs expand/contract (recommendation: window + emergency unblock), apply scope and date.
+- Unverified: production row counts, role timeouts and disk speed; Lovable's deploy build; whether the owner can dump Lovable Cloud; production storage contents.
+- Rollback for this step: documentation and local test files only; revert the commit.
+
 ## Status — C6 local tests done (2026-11-18); production unchanged
 - Done, local only:
   - compat matrix C0..C10 for both frontends;

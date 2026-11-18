@@ -17,7 +17,7 @@
   - (1) the deployment approach: a window, or expand/contract (changing C2/C5 before any apply);
   - (2) ask the Lovable team about sandbox_exec, and/or approve a narrow catalog read;
   - (3) a backup plus a restore test;
-  - (4) the PWA update-mechanism check (repository-only; can be done next);
+  - (4) PWA check done in the repository (autoUpdate, skipWaiting, no periodic check; open tabs keep old code until reload). Proposed no-downtime order: C2..C10, then the emergency unblock, then Publish, then revert after N hours. Not browser-tested;
   - (5) an independent review of C1..C10.
 
 ## Current — C6 replica, simulation and ledger plan done; production unchanged, 2026-11-18

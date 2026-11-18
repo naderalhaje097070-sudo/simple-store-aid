@@ -1,3 +1,18 @@
+## Status — C6 replica + simulation + ledger plan (2026-11-18), production unchanged
+- Done:
+  - production catalog fingerprint (read-only);
+  - a replica equal to production;
+  - 10 migrations simulated cleanly;
+  - stage files C1..C10 generated and tested (atomic under injected failure, ALREADY_APPLIED guard, ledger 62, guard 0 violations);
+  - ledger version map;
+  - Lovable asked about sandbox_exec (undocumented).
+- Next, each needing separate owner approval:
+  - (1) analysis of compatibility between the published frontend and the upgraded database (item 2b.2, repository only);
+  - (2) sandbox_exec, whether to ask the Lovable team;
+  - (3) a backup plus a restore test;
+  - (4) an independent review of C1..C10;
+  - (5) the production apply scope and window.
+
 ## Status — C6 item 2b.1 (production ledger read): done read-only, STOPPED on conflicts, 2026-11-16
 - Owner approval: 2026-11-16, item 2b.1 only.
 - Commands: 3 Lovable `query_database` calls, each `begin transaction read only; …; rollback;`. Every row returned transaction_read_only=on.

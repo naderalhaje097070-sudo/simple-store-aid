@@ -1,3 +1,22 @@
+## Current — C6 replica, simulation and ledger plan done; production unchanged, 2026-11-18
+- Production: read-only catalog reads only (fingerprint plus details, no application rows). Ledger still 52 rows.
+- Replica: main 1c5276f replay + 20261107214500 + docs/reviews/c6-apply/replica_drift.sql. It equals production in every application object.
+- Simulation: the 10 candidate migrations apply cleanly. The upgraded replica equals a fresh replay of candidate 183dc50, except the known drift, so the CI evidence carries over.
+- Stage files docs/reviews/c6-apply/C1..C10.sql (RECOVERY-02 mechanism) were tested on a fresh replica:
+  - an injected failure left the state unchanged at every stage;
+  - all 10 applied;
+  - the ledger reached 62 rows; a rerun was refused with ALREADY_APPLIED;
+  - the catalog guard reported 0 violations.
+- Ledger plan: option A. Keep the production ledger as is, apply only through C1..C10, and never use version-matching tools on production. Full write-up: docs/reviews/C6_SIMULATION_AND_LEDGER_PLAN.md.
+- sandbox_exec: LOGIN plus BYPASSRLS, with SELECT/INSERT on all public tables and on new ones by default. Lovable's agent says it is undocumented; owner decision whether to ask the Lovable team.
+- **Resume point:** before any production apply, each with separate approval:
+  - the frontend/database compatibility analysis (item 2b.2);
+  - the sandbox_exec decision;
+  - a backup plus a restore test;
+  - an execution window;
+  - an independent review of C1..C10;
+  - the owner's approval of the apply scope.
+
 ## Current — C6 item 2b.1 done (read-only); STOPPED on ledger conflicts, 2026-11-16
 - Integration = 183dc50. main = 1c5276f. Production unchanged; the reads were read-only transactions.
 - Production ledger: 52 rows, read through Lovable Cloud project 1c38f21a (identity evidence in docs/reviews/C6_PROD_LEDGER_READ_RESULT.md §1).

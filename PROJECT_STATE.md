@@ -1,3 +1,18 @@
+## Current — C6: full-size COMMIT through query_database verified; plan 2.2 restore check implemented on its own branch; production unchanged; date open, 2026-11-19
+- Full-size COMMIT (isolated lab cac0a567, files at b8abb4b): Codex sent fullsize_ok.sql (owner approval in the Codex session). Claude independently ran check_after_ok.sql: ok true, 10 ledger rows, all ten blocks pass (qty 1.5–10.5, functions 1–10). Then cleanup.sql, then check_baseline.sql: all zero. Evidence: docs/reviews/c6-evidence/fullsize-commit/lab_verification.txt.
+- So query_database is proven for full-size synthetic writes in both directions: commit (fullsize_ok) and rollback (M2, M5). M1's own response is still unverified (not re-run).
+- Plan 2.2: branch claude/c6-plan22-restore-check at 8962b2b, off integration 183dc50. One new step in release-finance (collection job) with 9 required controls.
+  - Local: positive 9/9, exit 0; a real negative (emptied prelude) fails two controls, exit 1.
+  - The release gate passes on the branch. No PR or merge. Record: changes/c6-plan22-restore-check/INTAKE.md on that branch.
+- **Resume point, owner:**
+  - (1) the production apply method (query_database exception for the reviewed bundle is now evidenced at full size; the decision is the owner's);
+  - (2) whether to open a PR of the 2.2 branch into integration (delegated merge after CI and reviews; the main merge needs the owner's label);
+  - (3) a production backup plus restore;
+  - (4) the live URL;
+  - (5) sandbox_exec;
+  - (6) the legacy-path duration;
+  - (7) the main merge, Publish, and the apply scope and date.
+
 ## Current — C6: INVALID_ARGUMENT understood; full-size commit unproven; release-readiness review done; production unchanged; date open, 2026-11-19
 - Correction: INVALID_ARGUMENT is the structured code that accompanies ANY SQL error. M2, M4 and M5 (82,065 B, sent by Codex) returned it together with their PostgreSQL P0001 marker in the text channel, and left zero residue. My earlier "rejected without PostgreSQL / size with writes" reading was wrong.
 - M1's text response is not in any evidence: unverified, not re-run.

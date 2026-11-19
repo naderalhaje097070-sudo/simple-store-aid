@@ -382,10 +382,13 @@ jobs:
       - name: Logical backup and restore of the candidate database (C6/C7 plan 2.2)
         # Synthetic data only: the database the suite and probes above have just used. Backup = the Supabase
         # CLI split dump (roles, schema, data) plus the migration ledger; restore = a FRESH stack on the same
-        # loopback ports, so the c5finance firewall is unchanged. Repository SQL and Python run as c5finance;
-        # only CLI, docker and psql run as the runner, as in the stack steps above. Controls, all required:
+        # loopback ports, so the c5finance firewall is unchanged. ALL repository SQL and Python, the restore
+        # itself included, run as c5finance; only the CLI, docker and pg_isready run as the runner, as in the
+        # stack steps above. The dumps live only in a c5finance-owned 0700 directory outside the evidence, and
+        # are deleted at the end of the step. Controls, all required:
         #   restored data identical per table (public, monjez_private, auth, supabase_migrations)
-        #   restored catalog identical (normalized ACLs), and the catalog guard passes on the restored copy
+        #   restored catalog identical (normalized ACLs); the catalog guard passes on the restored copy
+        #   the candidate's collection behavioural suite runs on the restored copy and passes its core controls
         #   negative: a restore WITHOUT the ACL prelude must change the catalog and fail the guard
         #   negative: one tampered ledger row must change the data hash
         if: matrix.suite == 'collection'
@@ -393,21 +396,21 @@ jobs:
         run: |
           set -euo pipefail
           src="$RUNNER_TEMP/monjez-c5sale-stack"; tgt="$RUNNER_TEMP/monjez-restore-stack"; work="$RUNNER_TEMP/restore-work"
-          repo=/tmp/monjez-c5sale/repo; ev=/tmp/monjez-c5sale/evidence; url=postgresql://postgres:postgres@127.0.0.1:54322/postgres
+          base=/tmp/monjez-c5sale; repo="$base/repo"; ev="$base/evidence"; priv="$base/restore-private"
+          url=postgresql://postgres:postgres@127.0.0.1:54322/postgres
           umask 077; mkdir -p "$work"
-          asq() { sudo -u c5finance env -i PATH="$PATH" PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
-                    psql -X -v ON_ERROR_STOP=1 -At -q -f "$1"; }
+          trap 'supabase --workdir "$tgt" stop --no-backup > /dev/null 2>&1 || true; sudo rm -rf "$priv"' EXIT
+          sudo install -d -m 700 -o c5finance -g c5finance "$priv"
+          as5() { sudo -u c5finance env -i PATH="$PATH" PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres "$@"; }
+          asq() { as5 psql -X -v ON_ERROR_STOP=1 -At -q -f "$1"; }
           guard() { sudo install -d -m 700 -o c5finance -g c5finance "$1"
-                    (cd "$repo" && sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 \
-                      PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
-                      python -I tests/catalog-guard/guard.py "$1" > /dev/null 2>&1); }
+                    (cd "$repo" && as5 env PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 python -I tests/catalog-guard/guard.py "$1" > /dev/null 2>&1); }
           ready() { for i in $(seq 1 90); do pg_isready -q -h 127.0.0.1 -p 54322 && return 0; sleep 2; done; return 1; }
-          restore() { # $1 = with|without prelude
-            files=(-f "$work/roles.sql"); [[ "$1" == with ]] && files+=(-f "$GITHUB_WORKSPACE/tests/release/restore/prelude.sql")
-            PGPASSWORD=postgres psql -X -h 127.0.0.1 -p 54322 -U postgres -d postgres --single-transaction -v ON_ERROR_STOP=1 -q \
-              "${files[@]}" -f "$work/schema.sql" -c 'SET session_replication_role = replica' -f "$work/data_app.sql" -f "$work/ledger.sql" \
+          restore() { # $1 = with|without prelude; every file is read and executed by c5finance
+            files=(-f "$priv/roles.sql"); [[ "$1" == with ]] && files+=(-f "$repo/tests/release/restore/prelude.sql")
+            as5 psql -X --single-transaction -v ON_ERROR_STOP=1 -q \
+              "${files[@]}" -f "$priv/schema.sql" -c 'SET session_replication_role = replica' -f "$priv/data_app.sql" -f "$priv/ledger.sql" \
               > "$work/restore-$1-private.log" 2>&1; }
-          trap 'supabase --workdir "$tgt" stop --no-backup > /dev/null 2>&1 || true' EXIT
           asq "$repo/tests/release/restore/fingerprint.sql" > "$work/src.fp"
           asq "$repo/tests/release/restore/data_hash.sql" > "$work/src.data"
           supabase db dump --db-url "$url" -f "$work/roles.sql" --role-only > "$work/dump-private.log" 2>&1
@@ -417,6 +420,8 @@ jobs:
           docker exec "$db" pg_dump -U postgres -d postgres -n supabase_migrations --no-owner --no-privileges > "$work/ledger.sql"
           # platform-owned rows the postgres role cannot restore; application data is never in these schemas
           awk '/^COPY "(storage|supabase_functions)"\./{skip=1; next} skip && /^\\\.$/{skip=0; next} !skip' "$work/data.sql" > "$work/data_app.sql"
+          for f in roles schema data_app ledger; do sudo install -m 600 -o c5finance -g c5finance "$work/$f.sql" "$priv/$f.sql"; done
+          rm -f "$work/roles.sql" "$work/schema.sql" "$work/data.sql" "$work/data_app.sql" "$work/ledger.sql"
           supabase --workdir "$src" stop --no-backup > "$work/stop-src-private.log" 2>&1
           mkdir -p "$tgt" && (cd "$tgt" && supabase init > "$work/init-tgt-private.log" 2>&1)
           supabase --workdir "$tgt" start -x realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler \
@@ -431,13 +436,26 @@ jobs:
           asq "$repo/tests/release/restore/fingerprint.sql" > "$work/tgt.fp"
           asq "$repo/tests/release/restore/data_hash.sql" > "$work/tgt.data"
           ok_guard=0; guard "$ev/restore-guard" || ok_guard=$?
-          tamper=/tmp/monjez-c5sale/restore-tamper.sql
-          { head -n 1 "$GITHUB_WORKSPACE/tests/release/restore/data_hash.sql"
+          { head -n 1 "$repo/tests/release/restore/data_hash.sql"
             echo "update supabase_migrations.schema_migrations set name = coalesce(name, '') || '_tampered' where version = (select min(version) from supabase_migrations.schema_migrations);"
-            tail -n +2 "$GITHUB_WORKSPACE/tests/release/restore/data_hash.sql"; } | sudo tee "$tamper" > /dev/null
-          sudo chown c5finance:c5finance "$tamper"
-          asq "$tamper" > "$work/tamper.data"
-          sudo env WORK="$work" EV="$ev" N1_RESTORE="$n1_restore" N1_GUARD="$n1_guard" OK_RESTORE="$ok_restore" OK_GUARD="$ok_guard" python3 - <<'PY'
+            tail -n +2 "$repo/tests/release/restore/data_hash.sql"; } | sudo tee "$priv/tamper.sql" > /dev/null
+          sudo chown c5finance:c5finance "$priv/tamper.sql"
+          asq "$priv/tamper.sql" > "$work/tamper.data"
+          # the candidate's collection behavioural suite, on the restored copy (fresh contract: its own new actors)
+          supabase --workdir "$tgt" status -o json > "$work/status-tgt-private.json"
+          sudo install -m 600 -o c5finance -g c5finance "$work/status-tgt-private.json" "$base/restore-status.json"
+          rm -f "$work/status-tgt-private.json"
+          sudo install -d -m 700 -o c5finance -g c5finance "$ev/restore-suite"
+          suite_exit=0
+          (cd "$repo" && sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright \
+            MONJEZ_RELEASE_TARGET=1 EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE=fresh \
+            MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c5-collection/native.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file "$base/restore-status.json" --evidence-dir "$ev/restore-suite" \
+              --private-state "$base/restore-private-state.json" > "$work/restore-suite-private.log" 2>&1) || suite_exit=$?
+          sudo env WORK="$work" EV="$ev" N1_RESTORE="$n1_restore" N1_GUARD="$n1_guard" OK_RESTORE="$ok_restore" OK_GUARD="$ok_guard" SUITE_EXIT="$suite_exit" python3 - <<'PY'
           import json, os
           from pathlib import Path
           w, ev = Path(os.environ['WORK']), Path(os.environ['EV'])
@@ -450,6 +468,15 @@ jobs:
               rows = json.loads(p.read_text())['controls']
               return bool(rows) and all(r.get('passed') for r in rows) and any(r['name'] == 'baseline_no_violations' and r.get('passed') for r in rows)
           rows_in = lambda lines, prefix: sum(int(l.split('|')[1]) for l in lines if l.startswith(prefix))
+          # the same core collection controls the suite's own "Required controls" step demands in every mode
+          core = {'real_hook_single_stored_collection', 'parallel_fresh_key_exactly_one_effect',
+                  'keyed_only_acl_and_existing_ledger_rls', 'settlement_retry_no_second_cash',
+                  'concurrent_same_sale_key_exactly_one_effect', 'concurrent_collection_cannot_exceed_total',
+                  'lost_reply_first_commit_persisted_once', 'previously_authorized_staff_banned'}
+          fr = ev / 'restore-suite' / 'financial-result.json'
+          suite = json.loads(fr.read_text()) if fr.exists() else {}
+          srows = suite.get('controls') or suite.get('checks') or []
+          spassed = {r['name'] for r in srows if r.get('passed')}
           controls = [
             ('source_fingerprint_nonempty', len(src_fp) > 100),
             ('source_data_hash_nonempty', len(src_d) > 20 and rows_in(src_d, 'supabase_migrations.') > 0),
@@ -457,6 +484,8 @@ jobs:
             ('restored_data_identical_per_table', src_d == tgt_d),
             ('restored_catalog_identical', src_fp == tgt_fp),
             ('restored_catalog_guard_passes', os.environ['OK_GUARD'] == '0' and guard_ok(ev / 'restore-guard')),
+            ('restored_collection_suite_financial_acceptance', os.environ['SUITE_EXIT'] == '0' and suite.get('financial_acceptance') is True),
+            ('restored_collection_suite_core_controls', bool(srows) and core <= spassed and all(r.get('passed') for r in srows)),
             ('negative_without_prelude_catalog_differs', os.environ['N1_RESTORE'] == '0' and n1_fp != src_fp),
             ('negative_without_prelude_guard_fails', not (os.environ['N1_GUARD'] == '0' and guard_ok(ev / 'restore-n1-guard'))),
             ('negative_tampered_ledger_row_detected', tam_d != tgt_d and [l for l in tam_d if l not in tgt_d][0].startswith('supabase_migrations.schema_migrations|')),
@@ -465,10 +494,11 @@ jobs:
                  'source_rows': {'public': rows_in(src_d, 'public.'), 'auth': rows_in(src_d, 'auth.'),
                                  'ledger': rows_in(src_d, 'supabase_migrations.')},
                  'fingerprint_lines': len(src_fp), 'data_tables': len(src_d),
-                 'without_prelude_catalog_lines_changed': len(set(n1_fp) ^ set(src_fp))}
+                 'without_prelude_catalog_lines_changed': len(set(n1_fp) ^ set(src_fp)),
+                 'restored_suite_controls': len(srows), 'restored_suite_exit': int(os.environ['SUITE_EXIT'])}
           (ev / 'restore-check.json').write_text(json.dumps(out, indent=2) + '\n')
           print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': [n for n, p in controls if not p], **{k: v for k, v in out.items() if k != 'controls'}}))
-          assert len(controls) == 9 and all(p for _, p in controls)
+          assert len(controls) == 11 and all(p for _, p in controls)
           PY
       - name: Cleanup and safe final receipts
         id: publication

@@ -1,3 +1,15 @@
+## 2026-11-19 — Owner approves the INVALID_ARGUMENT diagnostics in the isolated lab (owner's own words, Claude session)
+
+Owner: «موافق», in reply to the proposed cloud diagnostics.
+
+Scope: tests/c6-upgrade/transport/diag/ at f9d4fd6 (hashes in its MANIFEST.txt), on cac0a567 only, through query_database.
+- Order: D1, D2, D3, then M3, then M2, M4 and M5. check_baseline_dx.sql after each file. Stop at the first unexpected response.
+- Senders: Claude sends the small files (D1–D3, M3); the 82,065-byte files (M2, M4, M5) need a disk-reading sender (Codex).
+- Synthetic c6_dx_* objects only; possible credit use accepted.
+- Not included: production, Publish, main, the real bundle.
+
+---
+
 ## 2026-11-19 — Owner approves the full-size write trial in the isolated lab (owner's own words, Claude session)
 
 Owner: «اوافق», in reply to: "the cloud write trial in the isolated lab: owner authorization, synthetic c6_fx_* objects only; the cost is unconfirmed".

@@ -11,7 +11,10 @@ rel as (
                                           || coalesce(pg_get_expr(d.adbin, d.adrelid), '') || ':' || coalesce(a.attacl::text, ''),
                                           ',' order by a.attnum)
                         from pg_attribute a left join pg_attrdef d on d.adrelid = a.attrelid and d.adnum = a.attnum
-                        where a.attrelid = c.oid and a.attnum > 0 and not a.attisdropped), '')) as line
+                        where a.attrelid = c.oid and a.attnum > 0 and not a.attisdropped), '') || '|'
+           -- review fix (#98, Graphify P2): a view or materialized view's defining query is part of the relation, so a
+           -- changed query with the same columns changes the line
+           || case when c.relkind in ('v', 'm') then coalesce(pg_get_viewdef(c.oid), '') else '' end) as line
   from pg_class c join ns n on n.oid = c.relnamespace
   where c.relkind in ('r', 'p', 'v', 'm', 'S', 'f')),
 fn as (

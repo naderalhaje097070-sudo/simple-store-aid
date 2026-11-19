@@ -392,7 +392,8 @@ jobs:
         #   passes on the restored copy
         #   the candidate's collection behavioural suite runs on the restored copy and passes its core controls
         #   negative: a restore WITHOUT the ACL prelude must change the catalog and fail the guard
-        #   negative: one tampered ledger row must change the data hash
+        #   negative: one tampered ledger row must change the data hash, inside a transaction that rolls back; the
+        #   per-table hashes must equal the restored ones again before the behavioural suite starts
         if: matrix.suite == 'collection'
         shell: bash
         run: |
@@ -440,11 +441,16 @@ jobs:
           asq "$repo/tests/release/restore/fingerprint.sql" > "$work/tgt.fp"
           asq "$repo/tests/release/restore/data_hash.sql" > "$work/tgt.data"
           ok_guard=0; guard "$ev/restore-guard" || ok_guard=$?
-          { head -n 1 "$repo/tests/release/restore/data_hash.sql"
-            echo "update supabase_migrations.schema_migrations set name = coalesce(name, '') || '_tampered' where version = (select min(version) from supabase_migrations.schema_migrations);"
-            tail -n +2 "$repo/tests/release/restore/data_hash.sql"; } | sudo tee "$priv/tamper.sql" > /dev/null
+          # negative probe: the ledger UPDATE goes right AFTER data_hash.sql's own "begin;" line, so the tamper and its
+          # hash share one transaction that the file rolls back (review fix: it was inserted before BEGIN and committed)
+          tam="update supabase_migrations.schema_migrations set name = coalesce(name, '') || '_tampered' where version = (select min(version) from supabase_migrations.schema_migrations);"
+          awk -v u="$tam" '{print} !done && /^begin;/{print u; done=1} END{exit done ? 0 : 3}' "$repo/tests/release/restore/data_hash.sql" \
+            | sudo tee "$priv/tamper.sql" > /dev/null
           sudo chown c5finance:c5finance "$priv/tamper.sql"
           asq "$priv/tamper.sql" > "$work/tamper.data"
+          # the restored copy must be exactly as restored again BEFORE the behavioural suite starts
+          asq "$repo/tests/release/restore/data_hash.sql" > "$work/after_tamper.data"
+          cmp -s "$work/after_tamper.data" "$work/tgt.data" || { echo 'RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK'; exit 1; }
           # the candidate's collection behavioural suite, on the restored copy (fresh contract: its own new actors)
           supabase --workdir "$tgt" status -o json > "$work/status-tgt-private.json"
           sudo install -m 600 -o c5finance -g c5finance "$work/status-tgt-private.json" "$base/restore-status.json"
@@ -466,6 +472,7 @@ jobs:
           rd = lambda n: (w / n).read_text().splitlines()
           src_fp, tgt_fp, n1_fp = rd('src.fp'), rd('tgt.fp'), rd('n1.fp')
           src_d, tgt_d, tam_d = rd('src.data'), rd('tgt.data'), rd('tamper.data')
+          after_tam_d = rd('after_tamper.data')
           identity = rd('identity.txt')
           def guard_ok(d):
               p = Path(d) / 'catalog-guard.json'
@@ -494,6 +501,7 @@ jobs:
             ('restored_collection_suite_core_controls', bool(srows) and core <= spassed and all(r.get('passed') for r in srows)),
             ('negative_without_prelude_catalog_differs', os.environ['N1_RESTORE'] == '0' and n1_fp != src_fp),
             ('negative_without_prelude_guard_fails', not (os.environ['N1_GUARD'] == '0' and guard_ok(ev / 'restore-n1-guard'))),
+            ('tamper_rolled_back_before_suite', after_tam_d == tgt_d == src_d),
             ('negative_tampered_ledger_row_detected', tam_d != tgt_d and [l for l in tam_d if l not in tgt_d][0].startswith('supabase_migrations.schema_migrations|')),
           ]
           out = {'controls': [{'name': n, 'passed': bool(p)} for n, p in controls],
@@ -504,7 +512,7 @@ jobs:
                  'restored_suite_controls': len(srows), 'restored_suite_exit': int(os.environ['SUITE_EXIT'])}
           (ev / 'restore-check.json').write_text(json.dumps(out, indent=2) + '\n')
           print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': [n for n, p in controls if not p], **{k: v for k, v in out.items() if k != 'controls'}}))
-          assert len(controls) == 12 and all(p for _, p in controls)
+          assert len(controls) == 13 and all(p for _, p in controls)
           PY
       - name: Cleanup and safe final receipts
         id: publication

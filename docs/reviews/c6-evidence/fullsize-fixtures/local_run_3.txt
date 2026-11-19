@@ -1,0 +1,14 @@
+# old = check_after_ok.sql at 65e0a91; new = current
+baseline: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+fail fixture: C6_FX_FINAL_BLOCK_FAILURE after block 10 writes; after: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+ok fixture applied
+A good state:              old ok= True failing_blocks= []  | new ok= True failing_blocks= [] agree=True
+B one row, wrong id (4):   old VERIFIER ERROR: ERROR:  could not parse XML document | new ok= False failing_blocks= [4] agree=True
+C function 8 returns NULL: old ok= True failing_blocks= [8]  | new ok= False failing_blocks= [8] agree=True
+D qty of block 3 wrong:    new ok= False failing_blocks= [3] agree=True
+E function 7 returns 0:    new ok= False failing_blocks= [7] agree=True
+F extra row in table 5:    new ok= False failing_blocks= [5] agree=True
+G function 9 missing:      new ok= False failing_blocks= [9] agree=True
+I table 6 empty:           new ok= False failing_blocks= [6] agree=True
+H restored:                new ok= True failing_blocks= [] agree=True
+cleanup then baseline: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}

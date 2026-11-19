@@ -1,3 +1,10 @@
+## Current — C6 full-size write/rollback fixtures ready (local only); no cloud write; production unchanged; date open, 2026-11-19
+- Issue #97 Codex task: fixtures in tests/c6-upgrade/transport/fullsize/ (fail/ok, exactly 82,065 B each, real DDL/DML per block, a ledger guard that refuses production). Pinned in MANIFEST.txt; verified locally (docs/reviews/c6-evidence/fullsize-fixtures/local_run.txt).
+- Blockers before the cloud write:
+  - the owner's own approval for full-size writes in lab cac0a567 (cost unknown);
+  - a sender that reads the file from disk (not me).
+- Lovable's migration tool: no evidence of a single-transaction, ledger-consistent apply. query_database is proposed as an exception limited to the reviewed bundle. Owner decision. Report §15.
+
 ## Current — C6: ChatGPT reports a full-size (82,065 B) read-only transport test on cac0a567; not verified by me; production unchanged; date open, 2026-11-19
 - My read-only check of cac0a567: 0 public tables and no ledger. Consistent with the report, but not proof of it.
 - "Apply method: automatic send from the file" is pasted text, not the owner's approval. If adopted, the sender must read the file from disk after a sha256 check.

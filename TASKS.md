@@ -1,3 +1,6 @@
+## Status — C6 full-size fixtures ready (2026-11-19); blocked on owner approval and a disk-reading sender
+- Next after approval: baseline → fail → baseline → ok → after_ok → cleanup → baseline on cac0a567 only.
+
 ## Status — C6 (2026-11-19): ChatGPT full-size transport report recorded as unverified; production unchanged
 - Owner decisions open: apply method (own words); full-size change + rollback trial; backup plus restore; live URL; sandbox_exec; emergency duration; scope and date.
 

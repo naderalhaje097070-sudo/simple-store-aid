@@ -1,0 +1,13 @@
+# C6 query_database transport trial, isolated Lovable project (owner approval in his own words, 2026-11-19:
+# "Approve remix" -> remix refused; then "Approve empty project"; then "Transport-only trial").
+remix of 1c38f21a -> 403 remix_not_allowed: Remixing projects with payments enabled is not supported (nothing created)
+create_project -> cac0a567-a268-4488-880b-961c76603cb3, unpublished, agent replied "ok", cost_credits 0.3
+enable_database -> enabled, stack supabase
+identity read (read only): db postgres, usr postgres, pg 17.12 (production 17.6), no supabase_migrations ledger, 0 public tables
+call 1 (BEGIN; CREATE TABLE; 2 self-checking DO blocks ~16 KB; injected RAISE; COMMIT) -> error C6_TRIAL_INJECTED_FAILURE
+  then: trial table exists = false, public tables = 0  => whole transaction rolled back, DDL included
+call 2 (BEGIN; CREATE TABLE; 1 self-checking DO block ~8 KB; COMMIT) -> ok; 1 row, pad md5 intact = true
+cleanup: DROP TABLE; public tables = 0
+NOT PROVEN: the ~82 KB size. Both calls were meant to carry the full files (tests/c6-upgrade/transport/, 81,872 and
+81,805 bytes) but I sent only 2 and then 1 of the 10 blocks. Sending ~82 KB verbatim inside one tool call is not
+reliable from this agent; the production bundle has the same size.

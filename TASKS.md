@@ -1,3 +1,7 @@
+## Status — C6 transport trial (2026-11-19); production unchanged
+- Done: rollback through query_database proven; the 82 KB size was NOT proven (my calls carried 16 KB and 8 KB).
+- Owner: apply method; isolated project cac0a567 cleanup; live URL; backup; sandbox_exec; emergency duration; scope.
+
 ## Status — C6 review round 3 (2026-11-19c); production unchanged; date open
 - Commands:
   - tests/c6-upgrade/gate_selftest.sh <repo> <new-dir> → 19/19, exit 0;

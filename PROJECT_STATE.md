@@ -1,3 +1,22 @@
+## Current — C6 query_database transport trial (owner-approved, isolated project); production unchanged; date open, 2026-11-19
+- Owner, in his own words: approved the remix (Lovable refused: payments enabled), then an empty project, then a transport-only trial.
+- Isolated project cac0a567-a268-4488-880b-961c76603cb3 (unpublished, 0.3 credits; PG 17.12; no ledger).
+- Proven:
+  - a BEGIN..COMMIT multi-statement call with an injected failure rolls back entirely, DDL included;
+  - text arrives intact up to ~16 KB;
+  - the target is distinguishable from production.
+- NOT proven: ~82 KB in one call. I sent 2 and then 1 of the 10 blocks instead of the full files. Pasting the 82 KB bundle through an agent tool call is not reliable; the guards would refuse a truncated text.
+- Recommendation: a person pastes BUNDLE_C1_C10_UNBLOCK.sql into the project's SQL editor after a sha256 check. Owner decision.
+- Report §13; evidence docs/reviews/c6-evidence/query-database-trial/.
+- **Resume point, owner:**
+  - (1) the apply method (SQL editor by a person, recommended);
+  - (2) delete the isolated project if wanted;
+  - (3) the live URL;
+  - (4) backup plus restore;
+  - (5) sandbox_exec;
+  - (6) the emergency duration;
+  - (7) the apply scope and date.
+
 ## Current — C6 review round 3: acceptance gate fixed; selftest 19/19 and gate 46/0 (exit 0); production unchanged; date open, 2026-11-19
 - Source: a third independent review of 2abde6d pasted by the owner (not an approval). The apply files were judged sound; the gate needed fixes. All findings verified and fixed:
   - pinned 9-cell fractional expectations per state (all-refused now fails);

@@ -109,3 +109,22 @@ Revert the commit: the step and the four files. No data or migration is involved
 - **Other suites:** only the collection behavioural suite runs on the restored copy. The sale, journey and quantity suites do not; they would need the same pattern in their jobs, or a decision that collection is sufficient.
 - **Platform rows:** `storage`/`supabase_functions` rows are not restored; application data has none.
 - **Timing:** the suite on the restored copy adds several minutes per collection job (30-minute timeout). This is not measured in CI.
+
+---
+
+# Review round 2 (Codex, #97 comment 7018331280, on a56248f): one isolation fix, done
+
+- **Finding (verified):** `data_hash.sql` begins with a comment line, so `head -n 1` put the tamper `UPDATE` **before** its `begin;`. psql ran it in autocommit, so the tampered ledger row **persisted** while the restored behavioural suite ran.
+- **Fix (`bbe1c49`):**
+  1. The `UPDATE` is inserted directly after the first `begin;` line. The awk insertion fails the step (exit 3) if no such line exists. Tamper and hash now share one transaction, which the file rolls back.
+  2. Right after the probe, `data_hash.sql` runs again, and its output must equal the restored hashes (`cmp`). Otherwise the step stops with `RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK` **before** the suite.
+  3. The new required control `tamper_rolled_back_before_suite` requires the post-probe hashes to equal both the restored and the source hashes. There are now 13 controls.
+- **Focused local runs (`local_runs_bbe1c49.txt`):** the source was filled by the collection suite before each run.
+
+| run | commit | result |
+|---|---|---|
+| positive | `bbe1c49` | 13/13, exit 0; the restored-copy suite passed 108 controls |
+| focused negative C: tamper before `BEGIN`, the reviewed defect (local-only commit, not pushed) | `760b4c2` | `RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK`, exit 1; **the suite did not start** (no suite log or evidence) |
+
+- **Not re-run:** negatives A and B, because the diff does not touch the prelude or trigger paths. Their results at `02638df` are kept in `local_runs_02638df.txt`.
+- **CI:** still not run (no PR opened). Plan 2.2 is not complete until CI passes on the reviewed head.

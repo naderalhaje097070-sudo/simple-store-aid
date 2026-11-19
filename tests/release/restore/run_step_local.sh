@@ -2,7 +2,8 @@
 # Local emulation of the release-finance restore step (C6/C7 plan 2.2): runs the step's own `run:` text from the
 # committed YAML of the tested commit, with the layout the job builds before it: a c5finance-owned clone at
 # /tmp/monjez-c5sale/repo, the evidence directory, the test browser build, EXPECTED_SOURCE = the tested commit.
-# Not reproduced locally: the iptables firewall and the GitHub runner image.
+# GITHUB_WORKSPACE = a separate runner-owned clone at $RT/workspace. Not reproduced locally: the iptables firewall
+# and the GitHub runner image; locally the runner identity is root.
 # Exit status (review fix #98, Graphify P2): any setup or step-extraction failure stops here with a nonzero status
 # before the step runs; otherwise the helper exits with the step's own status (also printed as STEP_EXIT=).
 # usage: run_step_local.sh REPO_WITH_COMMIT COMMIT SOURCE_STACK_WORKDIR NEW_RUNNER_TEMP [NODE_MODULES_DIR]
@@ -29,7 +30,13 @@ st = [x for x in d['jobs']['suite']['steps'] if x.get('name', '').startswith('Lo
 if len(st) != 1 or not str(st[0].get('run') or '').strip():
     sys.exit('STEP_EXTRACTION_FAILED: expected exactly one non-empty restore step, found %d' % len(st))
 open(sys.argv[1], 'w').write(st[0]['run'])" "$RT/step.sh"
+# optional local-only test hook, run after the layout is built and before the step (defensive self-tests plant
+# c5finance-owned links here); never used by CI
+if [ -n "${PRE_STEP_HOOK:-}" ]; then bash "$PRE_STEP_HOOK"; fi
 rc=0
-(cd /tmp/monjez-c5sale/repo && env RUNNER_TEMP="$RT" GITHUB_WORKSPACE=/tmp/monjez-c5sale/repo EXPECTED_SOURCE="$SHA" bash "$RT/step.sh") || rc=$?
+# the runner's own checkout, as in CI: not c5finance's copy (review fix #98, Strix HIGH: runner/root reads only from here)
+git clone -q --no-checkout "$REPO" "$RT/workspace"
+git -C "$RT/workspace" checkout -q "$SHA"
+(cd "$RT/workspace" && env RUNNER_TEMP="$RT" GITHUB_WORKSPACE="$RT/workspace" EXPECTED_SOURCE="$SHA" bash "$RT/step.sh") || rc=$?
 echo "STEP_EXIT=$rc"
 exit "$rc"

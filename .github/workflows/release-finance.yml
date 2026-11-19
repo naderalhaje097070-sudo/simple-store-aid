@@ -413,6 +413,7 @@ jobs:
             as5 psql -X --single-transaction -v ON_ERROR_STOP=1 -q \
               "${files[@]}" -f "$priv/schema.sql" -f "$priv/app_triggers.sql" -c 'SET session_replication_role = replica' -f "$priv/data_app.sql" -f "$priv/ledger.sql" \
               > "$work/restore-$1-private.log" 2>&1; }
+          as5 id -un > "$work/identity.txt"   # the OS identity every repository SQL/Python call below runs as
           asq "$repo/tests/release/restore/fingerprint.sql" > "$work/src.fp"
           asq "$repo/tests/release/restore/data_hash.sql" > "$work/src.data"
           asq "$repo/tests/release/restore/app_triggers_outside.sql" > "$work/app_triggers.sql"
@@ -465,6 +466,7 @@ jobs:
           rd = lambda n: (w / n).read_text().splitlines()
           src_fp, tgt_fp, n1_fp = rd('src.fp'), rd('tgt.fp'), rd('n1.fp')
           src_d, tgt_d, tam_d = rd('src.data'), rd('tgt.data'), rd('tamper.data')
+          identity = rd('identity.txt')
           def guard_ok(d):
               p = Path(d) / 'catalog-guard.json'
               if not p.exists(): return False
@@ -481,6 +483,7 @@ jobs:
           srows = suite.get('controls') or suite.get('checks') or []
           spassed = {r['name'] for r in srows if r.get('passed')}
           controls = [
+            ('repository_sql_runs_as_c5finance', identity == ['c5finance']),
             ('source_fingerprint_nonempty', len(src_fp) > 100),
             ('source_data_hash_nonempty', len(src_d) > 20 and rows_in(src_d, 'supabase_migrations.') > 0),
             ('restore_with_prelude_succeeded', os.environ['OK_RESTORE'] == '0'),
@@ -501,7 +504,7 @@ jobs:
                  'restored_suite_controls': len(srows), 'restored_suite_exit': int(os.environ['SUITE_EXIT'])}
           (ev / 'restore-check.json').write_text(json.dumps(out, indent=2) + '\n')
           print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': [n for n, p in controls if not p], **{k: v for k, v in out.items() if k != 'controls'}}))
-          assert len(controls) == 11 and all(p for _, p in controls)
+          assert len(controls) == 12 and all(p for _, p in controls)
           PY
       - name: Cleanup and safe final receipts
         id: publication

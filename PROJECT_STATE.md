@@ -1,3 +1,22 @@
+## Current — C6: INVALID_ARGUMENT understood; full-size commit unproven; release-readiness review done; production unchanged; date open, 2026-11-19
+- Correction: INVALID_ARGUMENT is the structured code that accompanies ANY SQL error. M2, M4 and M5 (82,065 B, sent by Codex) returned it together with their PostgreSQL P0001 marker in the text channel, and left zero residue. My earlier "rejected without PostgreSQL / size with writes" reading was wrong.
+- M1's text response is not in any evidence: unverified, not re-run.
+- Proven through query_database: full-size synthetic writes reach a deliberate failure and roll back. NOT proven: a full-size COMMIT.
+- Smallest next test (proposed, not run): baseline → fullsize_ok (disk sender, keep both channels) → check_after_ok (Claude) → cleanup → baseline. Needs the owner's words.
+- Release readiness: docs/reviews/C6_RELEASE_READINESS.md §3.
+  - Facts: main ⊂ integration (fast-forward); the work branch touched only docs/tests plus a byte-identical migration; merge-tree with integration is clean.
+  - Facts: release-finance has no backup-restore check (plan 2.2 open); integrated-b-source.json still pins 50 migrations against 61 (plan 3.4 open).
+  - Locally doable now (proposed, not started): a branch off integration carrying the C6 docs, apply files and tests; the 2.2 restore check; the 3.4 lock analysis.
+- **Resume point, owner:**
+  - (1) the full-size commit trial;
+  - (2) the apply method;
+  - (3) a production backup plus restore;
+  - (4) the live URL;
+  - (5) sandbox_exec;
+  - (6) the legacy-path duration;
+  - (7) branch protection;
+  - (8) the main merge, Publish, and the apply scope and date.
+
 ## Current — C6 full-size write/rollback fixtures ready (local only); no cloud write; production unchanged; date open, 2026-11-19
 - Issue #97 Codex task: fixtures in tests/c6-upgrade/transport/fullsize/ (fail/ok, exactly 82,065 B each, real DDL/DML per block, a ledger guard that refuses production). Pinned in MANIFEST.txt; verified locally (docs/reviews/c6-evidence/fullsize-fixtures/local_run.txt).
 - Blockers before the cloud write:

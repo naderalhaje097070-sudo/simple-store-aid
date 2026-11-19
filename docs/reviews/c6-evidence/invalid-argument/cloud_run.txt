@@ -6,3 +6,9 @@ D2, D3: not sent. They only localize a D1 failure; D1 passed, so they carry no i
 M3 (11428 B, sha256 91d76c65…): 400 query_error: ERROR:  P0001: C6_DX_INJECTED M3   (all ten blocks ran; no ALTERED)
 check_baseline_dx: {"c6_dx_functions":0,"c6_dx_tables":0,"ledger_exists":false,"public_functions_total":0,"public_tables_total":0,"ro":"on"}
 M2, M4, M5 (82,065 B each): not sent by Claude (needs a disk-reading sender).
+# M2, M4, M5: sent by Codex (82,065 B each, sha256 checked), copied from #97 comment 7016334327, not observed by Claude:
+M2 text: Lovable API error: 400 query_error: Failed to run sql query: ERROR:  P0001: C6_DX_INJECTED M2 | structured: {"error_code":"INVALID_ARGUMENT"} | baseline after: all zero
+M4 text: Lovable API error: 400 query_error: Failed to run sql query: ERROR:  P0001: C6_DX_INJECTED M4 | structured: {"error_code":"INVALID_ARGUMENT"} | baseline after: all zero
+M5 text: Lovable API error: 400 query_error: Failed to run sql query: ERROR:  P0001: C6_DX_INJECTED M5 (line 825) | structured: {"error_code":"INVALID_ARGUMENT"} | baseline after: all zero
+# M1 (fullsize_fail.sql, Codex, #97 7015396007): only the structured channel {"error_code":"INVALID_ARGUMENT"} was retained; its text is not in any evidence. Unverified; not re-run.
+# Note: in D1/M3 Claude's tool exposed only the text channel; the structured channel was not visible to Claude.

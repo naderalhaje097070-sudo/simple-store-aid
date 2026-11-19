@@ -1,3 +1,8 @@
+## Status — C6 (2026-11-19): INVALID_ARGUMENT corrected; readiness reviewed; production unchanged
+- Done: the structured-vs-text correction (C6_RELEASE_READINESS.md §1; C6_REVIEW_FIXES.md §18.2); M1 recorded as unverified; next-test spec (§2); plan status table (§3).
+- Next, local (proposed): C6 docs/tests branch off integration; plan 2.2 restore check in release-finance; plan 3.4 identity-lock analysis.
+- Owner: full-size commit trial; method; backup; live URL; sandbox_exec; legacy duration; protection; main/Publish/scope.
+
 ## Status — C6 full-size fixtures ready (2026-11-19); blocked on owner approval and a disk-reading sender
 - Next after approval: baseline → fail → baseline → ok → after_ok → cleanup → baseline on cac0a567 only.
 

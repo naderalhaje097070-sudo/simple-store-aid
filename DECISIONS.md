@@ -1,3 +1,19 @@
+## 2026-11-19 — Owner approves the full-size write trial in the isolated lab (owner's own words, Claude session)
+
+Owner: «اوافق», in reply to: "the cloud write trial in the isolated lab: owner authorization, synthetic c6_fx_* objects only; the cost is unconfirmed".
+
+Scope, exactly:
+- Target: the isolated Lovable project cac0a567-a268-4488-880b-961c76603cb3 only, through query_database.
+- Files: tests/c6-upgrade/transport/fullsize/ at b8abb4b, each checked against MANIFEST.txt (length and sha256) before sending.
+- Order: check_baseline → fullsize_fail → check_baseline → fullsize_ok → check_after_ok → cleanup → check_baseline.
+- Objects created: c6_fx_* only. The files refuse any database that has a migration ledger, so they cannot run on production.
+- Possible credit use is accepted by this approval.
+- Not included: production, Publish, main, the real C6 bundle, any other project.
+- Baseline before the trial, verified by Claude (read only): all zero, no ledger.
+- Sender of the two 82,065-byte files: Codex (bytes from the repository after a hash check), because Claude cannot deliver 82 KB in one call reliably (§13). Claude verifies independently with the small read-only checks.
+
+---
+
 ## 2026-11-19 — C6 review relay through Issue #97 (owner's own words, in the Claude session)
 
 Owner: «شات جي بي تي نبيه هو يتلقى ردودك ويراجع ويرد عليك بدلا مني الى ان تنتهو من المشروع». Also: «تابع #97» from the owner means: read the latest delivery or review on #97 and answer there.

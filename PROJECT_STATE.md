@@ -1,3 +1,6 @@
+## Current — plan 2.2 review round 2 fixed: tamper probe isolated (bbe1c49); CI not run; production unchanged, 2026-11-19
+- The tamper UPDATE had run before BEGIN and persisted during the restored suite. It now runs inside data_hash's own transaction, and the restored hashes must match again before the suite (control 13). Focused local runs: positive 13/13 exit 0; the reintroduced defect exits 1 before the suite.
+
 ## Current — C6 plan 2.2 review round 1 fixed on claude/c6-plan22-restore-check a56248f (step at 02638df); CI not run; production unchanged, 2026-11-19
 - Fixes:
   - all repository SQL/Python, prelude and restore included, run as c5finance (identity recorded and required);

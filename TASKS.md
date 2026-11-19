@@ -1,3 +1,5 @@
+## Status — plan 2.2 (2026-11-19): round 2 fixed (bbe1c49); waiting on the owner for a PR (the first CI run)
+
 ## Status — plan 2.2 (2026-11-19): review fixes done locally (a56248f); CI not run; not complete
 - Restore-procedure note for any production backup: include application triggers on auth.* (on_auth_user_created), and run prelude.sql.
 

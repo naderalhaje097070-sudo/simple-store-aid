@@ -1,0 +1,10 @@
+# local run of tests/c6-upgrade/transport/diag (psql, local image 17.6.1.106); lab = fresh empty database
+baseline: {"ro" : "on", "ledger_exists" : false, "c6_dx_tables" : 0, "c6_dx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+D1 (2955 B): marker='C6_DX_INJECTED D1' baseline_after=zero
+D2 (2869 B): marker='C6_DX_INJECTED D2' baseline_after=zero
+D3 (2762 B): marker='C6_DX_INJECTED D3' baseline_after=zero
+M2 (82065 B): marker='C6_DX_INJECTED M2' baseline_after=zero
+M3 (11428 B): marker='C6_DX_INJECTED M3' baseline_after=zero
+M4 (82065 B): marker='C6_DX_INJECTED M4' baseline_after=zero
+M5 (82065 B): marker='C6_DX_INJECTED M5' baseline_after=zero
+guard on the replica (has a ledger): D1 -> C6_DX_REFUSED; D3 (no guard) -> C6_DX_INJECTED D3; replica c6_dx tables: 0

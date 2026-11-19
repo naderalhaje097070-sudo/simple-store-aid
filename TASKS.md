@@ -1,3 +1,6 @@
+## Status — plan 2.2 (2026-11-19): review fixes done locally (a56248f); CI not run; not complete
+- Restore-procedure note for any production backup: include application triggers on auth.* (on_auth_user_created), and run prelude.sql.
+
 ## Status — C6 (2026-11-19): full-size commit verified in the lab; plan 2.2 branch ready; production unchanged
 - Done: independent lab verification and cleanup (baseline zero); the 2.2 restore check on claude/c6-plan22-restore-check 8962b2b (local positive and negative run; release gate passes).
 - Next (proposed): a PR of 2.2 into integration; CI is the first real run of the step under the firewall.

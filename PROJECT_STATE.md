@@ -1,3 +1,12 @@
+## Current — C6 plan 2.2 review round 1 fixed on claude/c6-plan22-restore-check a56248f (step at 02638df); CI not run; production unchanged, 2026-11-19
+- Fixes:
+  - all repository SQL/Python, prelude and restore included, run as c5finance (identity recorded and required);
+  - the candidate collection suite runs on the restored copy (108 controls, plus the same 8-control core set).
+- NEW finding: the Supabase CLI schema dump omits the application trigger auth.users on_auth_user_created (public.handle_new_user, migration 20260626142422). A restore from such a dump loses sign-up provisioning (no profile). This applies to any production backup taken this way; the step now regenerates and restores such triggers, and the fingerprint covers them.
+- Local, on 02638df: positive 12/12, exit 0; negative A (empty prelude) exit 1; negative B (no app triggers) exit 1.
+- CI: 0 runs for the branch (no PR opened, as instructed). Plan 2.2 is NOT complete until CI passes on the reviewed head.
+- Owner: whether to open the PR into integration (first real CI run); the other open decisions are unchanged.
+
 ## Current — C6: full-size COMMIT through query_database verified; plan 2.2 restore check implemented on its own branch; production unchanged; date open, 2026-11-19
 - Full-size COMMIT (isolated lab cac0a567, files at b8abb4b): Codex sent fullsize_ok.sql (owner approval in the Codex session). Claude independently ran check_after_ok.sql: ok true, 10 ledger rows, all ten blocks pass (qty 1.5–10.5, functions 1–10). Then cleanup.sql, then check_baseline.sql: all zero. Evidence: docs/reviews/c6-evidence/fullsize-commit/lab_verification.txt.
 - So query_database is proven for full-size synthetic writes in both directions: commit (fullsize_ok) and rollback (M2, M5). M1's own response is still unverified (not re-run).

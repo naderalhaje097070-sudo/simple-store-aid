@@ -387,7 +387,9 @@ jobs:
         # stack steps above. The dumps live only in a c5finance-owned 0700 directory outside the evidence, and
         # are deleted at the end of the step. Controls, all required:
         #   restored data identical per table (public, monjez_private, auth, supabase_migrations)
-        #   restored catalog identical (normalized ACLs); the catalog guard passes on the restored copy
+        #   restored catalog identical (normalized ACLs, and application triggers on platform tables such as
+        #   auth.users, which the CLI schema dump omits and the step restores from the source); the catalog guard
+        #   passes on the restored copy
         #   the candidate's collection behavioural suite runs on the restored copy and passes its core controls
         #   negative: a restore WITHOUT the ACL prelude must change the catalog and fail the guard
         #   negative: one tampered ledger row must change the data hash
@@ -409,10 +411,11 @@ jobs:
           restore() { # $1 = with|without prelude; every file is read and executed by c5finance
             files=(-f "$priv/roles.sql"); [[ "$1" == with ]] && files+=(-f "$repo/tests/release/restore/prelude.sql")
             as5 psql -X --single-transaction -v ON_ERROR_STOP=1 -q \
-              "${files[@]}" -f "$priv/schema.sql" -c 'SET session_replication_role = replica' -f "$priv/data_app.sql" -f "$priv/ledger.sql" \
+              "${files[@]}" -f "$priv/schema.sql" -f "$priv/app_triggers.sql" -c 'SET session_replication_role = replica' -f "$priv/data_app.sql" -f "$priv/ledger.sql" \
               > "$work/restore-$1-private.log" 2>&1; }
           asq "$repo/tests/release/restore/fingerprint.sql" > "$work/src.fp"
           asq "$repo/tests/release/restore/data_hash.sql" > "$work/src.data"
+          asq "$repo/tests/release/restore/app_triggers_outside.sql" > "$work/app_triggers.sql"
           supabase db dump --db-url "$url" -f "$work/roles.sql" --role-only > "$work/dump-private.log" 2>&1
           supabase db dump --db-url "$url" -f "$work/schema.sql" >> "$work/dump-private.log" 2>&1
           supabase db dump --db-url "$url" -f "$work/data.sql" --use-copy --data-only >> "$work/dump-private.log" 2>&1
@@ -420,8 +423,8 @@ jobs:
           docker exec "$db" pg_dump -U postgres -d postgres -n supabase_migrations --no-owner --no-privileges > "$work/ledger.sql"
           # platform-owned rows the postgres role cannot restore; application data is never in these schemas
           awk '/^COPY "(storage|supabase_functions)"\./{skip=1; next} skip && /^\\\.$/{skip=0; next} !skip' "$work/data.sql" > "$work/data_app.sql"
-          for f in roles schema data_app ledger; do sudo install -m 600 -o c5finance -g c5finance "$work/$f.sql" "$priv/$f.sql"; done
-          rm -f "$work/roles.sql" "$work/schema.sql" "$work/data.sql" "$work/data_app.sql" "$work/ledger.sql"
+          for f in roles schema app_triggers data_app ledger; do sudo install -m 600 -o c5finance -g c5finance "$work/$f.sql" "$priv/$f.sql"; done
+          rm -f "$work/roles.sql" "$work/schema.sql" "$work/app_triggers.sql" "$work/data.sql" "$work/data_app.sql" "$work/ledger.sql"
           supabase --workdir "$src" stop --no-backup > "$work/stop-src-private.log" 2>&1
           mkdir -p "$tgt" && (cd "$tgt" && supabase init > "$work/init-tgt-private.log" 2>&1)
           supabase --workdir "$tgt" start -x realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler \

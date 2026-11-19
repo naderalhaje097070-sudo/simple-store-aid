@@ -33,7 +33,9 @@ idx as (
   from pg_index x join pg_class i on i.oid = x.indexrelid join ns n on n.oid = i.relnamespace),
 trg as (
   select 'trigger|' || t.tgrelid::regclass::text || '.' || t.tgname || '|' || md5(pg_get_triggerdef(t.oid)) as line
-  from pg_trigger t join pg_class c on c.oid = t.tgrelid join ns n on n.oid = c.relnamespace where not t.tgisinternal),
+  -- any table: an application trigger may sit on a platform table (auth.users -> handle_new_user)
+  from pg_trigger t join pg_class c on c.oid = t.tgrelid join pg_proc f on f.oid = t.tgfoid
+  where not t.tgisinternal and (c.relnamespace in (select oid from ns) or f.pronamespace in (select oid from ns))),
 typ as (
   select 'type|' || n.nspname || '.' || t.typname || '|' || md5(t.typtype::text || '|'
            || coalesce((select string_agg(e.enumlabel, ',' order by e.enumsortorder) from pg_enum e where e.enumtypid = t.oid), '')) as line

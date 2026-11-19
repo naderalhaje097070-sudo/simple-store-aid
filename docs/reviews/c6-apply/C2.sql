@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '095f17473e27d695e797382431ede0ab' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20260815171000: expected exactly 53 known versions'; END IF;
   src := $src8096ca4e$-- FIN-IDEM-001 candidate implementation for canonical sale creation.
 -- Repository-only candidate. Do not deploy before FIN-COURIER PR-A, Gate-4 evidence,
 -- exact-head financial verification, independent review, and human approval.

@@ -172,7 +172,7 @@
 | INSERT,SELECT على `extensions` | `pg_stat_statements`، `pg_stat_statements_info` |
 
 - **التقييم (تحليل، دون اختبار عليه):**
-  - **الخطر أعلى مما في `C6_SANDBOX_EXEC_ANALYSIS.md`.** إلى جانب تجاوز RLS في `public`، يستطيع من يملك جلسة بهذا الدور **قراءة رموز الجلسات** (`refresh_tokens`، `sessions`، `one_time_tokens`). هذا يكفي نظريًا لانتحال أي مستخدم.
+  - **(صُحِّح 2026-11-19)** الأصل: «يستطيع … قراءة رموز الجلسات». **هذا تجاوز الدليل.** الثابت **منح مباشرة على الجداول** (`refresh_tokens` و`sessions` و`one_time_tokens` وغيرها). القراءة الفعلية تحتاج أيضًا USAGE على المخطط `auth`، وهذا لم يُقرأ في الإنتاج. وفي النسخة المطابقة لا يملكه. إن كان له USAGE في الإنتاج، فالقراءة ممكنة نظريًا لمن يملك جلسة بالدور. انظر `C6_REVIEW_FIXES.md` §1.
   - **لا دليل على استغلال:** 0 جلسات لحظة القراءة. ولا نعرف هل للدور كلمة مرور أو طريق شبكي من خارج Lovable، لأن `pg_authid` يحتاج superuser.
   - **`postgres` عضو فيه:** المتسق مع ذلك أن `postgres` أنشأه. هذا استنتاج.
 - **التوصية:**
@@ -180,8 +180,8 @@
   - **سؤال فريق Lovable صار أولوية.** النص المقترح محدَّث في §8.
   - تقييد صلاحيات الدور قرار منفصل بعد الجواب، ولا يدخل في C6.
 
-## 8. نص محدَّث مقترح لفريق Lovable (يرسله المالك؛ لم يُرسل)
-> In our Lovable Cloud project 1c38f21a-8f36-4a0b-8350-ee4be6901b8d, the database role `sandbox_exec` has LOGIN and BYPASSRLS, no connection limit and no password expiry. postgres is a member of it. It has SELECT on auth.users, auth.sessions, auth.refresh_tokens, auth.one_time_tokens and auth.identities, plus SELECT/INSERT on all public tables, storage.objects and storage.buckets. It also has default privileges on new tables in public, auth, extensions and storage. Please confirm in writing:
+## 8. نص محدَّث مقترح لفريق Lovable (يرسله المالك؛ لم يُرسل؛ صُحِّحت صياغة المنح في 2026-11-19)
+> In our Lovable Cloud project 1c38f21a-8f36-4a0b-8350-ee4be6901b8d, the database role `sandbox_exec` has LOGIN and BYPASSRLS, no connection limit and no password expiry. postgres is a member of it. Direct table grants: SELECT on auth.users, auth.sessions, auth.refresh_tokens, auth.one_time_tokens and auth.identities, and SELECT/INSERT on all public tables, storage.objects and storage.buckets. We have not verified whether it also has USAGE on the auth and storage schemas. It also has default privileges on new tables in public, auth, extensions and storage. Please confirm in writing:
 > (1) what uses this role;
 > (2) whether it has a password, or any network path reachable from outside Lovable's infrastructure;
 > (3) whether we may revoke its access to auth tokens and to our financial tables, and whether Lovable re-grants it;

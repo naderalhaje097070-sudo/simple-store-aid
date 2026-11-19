@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '51cfbefdfef5431f6b838a3f41014ef3' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261106145346: expected exactly 57 known versions'; END IF;
   src := $src5636a42b$-- C5-PROFIT-BASIS-01: additive reporting only; legacy snapshots stay unchanged.
 BEGIN;
 SET LOCAL lock_timeout = '5s';

@@ -1,3 +1,4 @@
+-- Review fix 2026-11-19: schema_usage added (table grants alone do not prove access; USAGE on the schema is also needed).
 -- PROPOSED production read for sandbox_exec (NOT RUN on production; needs the owner's approval of this exact scope).
 -- Catalog and counts only: no application rows, no query text, no client addresses, no secrets.
 begin transaction read only;
@@ -18,6 +19,8 @@ select json_build_object(
   'function_execute', (select count(*) from pg_proc p where has_function_privilege('sandbox_exec', p.oid, 'EXECUTE')
                        and p.pronamespace in ('public'::regnamespace, 'monjez_private'::regnamespace)
                        and not has_function_privilege('public', p.oid, 'EXECUTE')),
+  'schema_usage', (select json_object_agg(n, has_schema_privilege('sandbox_exec', n, 'USAGE'))
+                   from unnest(array['public','auth','storage','extensions','monjez_private']) n),
   'sessions_now', (select count(*) from pg_stat_activity where usename = 'sandbox_exec')
 ) as sandbox_exec_facts;
 rollback;

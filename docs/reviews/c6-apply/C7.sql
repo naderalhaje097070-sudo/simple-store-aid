@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '8b5d67ee766f61b071d71e3e2dc11f47' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110090000: expected exactly 58 known versions'; END IF;
   src := $srca5c95672$-- C-COURIER-SETTLE-01: settlement accepts only orders currently in this courier's custody.
 -- Forward-only replacement of settle_courier_orders; only the custody check changes.
 -- No data is modified. Grants are preserved by CREATE OR REPLACE.

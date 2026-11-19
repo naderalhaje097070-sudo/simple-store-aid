@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '593523ff3c517255c2415399c0bcf524' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261029044024: expected exactly 55 known versions'; END IF;
   src := $src5360da50$-- C3 FIN-02: final, order-independent financial adapters above A+B+C2.
 -- Original August migrations and all51 accepted SQL files remain byte-immutable.
 -- No row backfill or new money/state policy. Existing idempotency ACL stays closed.

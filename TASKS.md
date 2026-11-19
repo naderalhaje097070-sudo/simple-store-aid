@@ -1,3 +1,9 @@
+## Status — C6 review fixes (2026-11-19); production unchanged; date open
+- Done locally: findings 1–4 verified; atomic bundle, ledger preconditions and stage-aware revert implemented and tested (tests/c6-upgrade/review_fixes.sh, all PASS); 0.767 s bundle at 1M items.
+- Per-stage C2..C10 files are for review and testing only; production uses C1.sql, then BUNDLE_C2_C10_UNBLOCK.sql (or BUNDLE_C2_C10.sql).
+- Open, owner: live URL; Lovable support / schema_usage read; production backup plus restore; independent re-review of the regenerated files; apply scope.
+- Rollback: repository files only; revert the commit.
+
 ## Status — C6 in preparation, date open (2026-11-18)
 - Done locally: sandbox_exec privileges on financial_idempotency after C2 (SELECT/INSERT, tested; UPDATE/DELETE denied). Report §10; evidence docs/reviews/c6-evidence/sandbox_exec_idempotency_replica.txt.
 - Owner: live URL and domain status; Lovable support escalation (§8); fresh production backup plus isolated restore; independent review (including §10).

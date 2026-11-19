@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '1b94210e7c6bf663cba496d2421612ad' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110150000: expected exactly 61 known versions'; END IF;
   src := $src1b9ab46e$-- C-DEFPRIV-01: functions that postgres creates from now on are not executable by PUBLIC
 -- (and therefore not by anon) unless a migration grants it explicitly.
 -- Before: no global default ACL for postgres, so acldefault('f') = {=X/postgres,...}:

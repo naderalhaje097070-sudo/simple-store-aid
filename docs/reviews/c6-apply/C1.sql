@@ -4,6 +4,7 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '9235c3834be88ce50dba444bb15b5262' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20260815170000: expected exactly 52 known versions'; END IF;
   src := $src4581e59e$-- FIN-COURIER-001 / PR-A candidate implementation.
 -- Forward-only schema/RPC change. Repository-only candidate: do not deploy before Gate-4 evidence and human approval.
 

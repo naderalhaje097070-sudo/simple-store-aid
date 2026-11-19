@@ -128,3 +128,33 @@ Revert the commit: the step and the four files. No data or migration is involved
 
 - **Not re-run:** negatives A and B, because the diff does not touch the prelude or trigger paths. Their results at `02638df` are kept in `local_runs_02638df.txt`.
 - **CI:** still not run (no PR opened). Plan 2.2 is not complete until CI passes on the reviewed head.
+
+---
+
+# Review round 3 (Graphify review 5981314899 on dafb73a, both P2, confirmed by Codex): two fixes, done (`8f3b224`)
+
+- **Finding 1 (reproduced):** the `rel` line of `fingerprint.sql` left out the defining query of a view or materialized view. A restored view with a changed query but the same columns compared equal.
+  - **Step-level reproduction (local-only negative D-prefix):** the restored `public.day_close_profit_report` was replaced by `select * from (<its own definition>) s where false`, keeping the same columns and options. With the dafb73a fingerprint, **all 13 controls passed, including the 108-control restored suite**.
+- **Fix 1:** for `relkind` `v`/`m`, the `rel` line now includes `pg_get_viewdef`. The new self-test `selftest_view_fingerprint.sh` runs on a throwaway database and checks 4 cases, all passing; on the dafb73a file, 2 of the 4 fail.
+- **Finding 2 (reproduced):** `run_step_local.sh` ended with `echo "STEP_EXIT=$?"`, so the helper exited 0 even when the step failed. It also ran without `set -e`, so a failed setup (bad commit, missing restore step, failed fetch) still reached or skipped the step and returned 0.
+- **Fix 2:**
+  - `set -euo pipefail` for the setup;
+  - the commit is verified first;
+  - step extraction must find exactly one non-empty restore step;
+  - the step runs with its status captured, which is printed as `STEP_EXIT=` and returned as the helper's exit status.
+- **Self-test for fix 2:** the new `selftest_run_step_local.sh` checks 5 cases on stub repositories, all passing; on the dafb73a helper, 4 of the 5 fail.
+- **Restore runs through the fixed helper (`local_runs_8f3b224.txt`):**
+
+| run | commit | result | helper exit |
+|---|---|---|---|
+| positive | `8f3b224` | 13/13, restored suite 108 controls | 0 |
+| negative D: restored view query changed, same columns (local-only) | `646c059` | failed: `restored_catalog_identical` only | 1 |
+| negative D-prefix: D with the dafb73a fingerprint (local-only) | `70050a0` | failed: none (the finding) | 0 |
+| negative C: tamper before `BEGIN` (local-only) | `d00ddb4` | `RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK`, the suite did not start | 1 |
+
+- **Not re-run on `8f3b224`:** negatives A (empty prelude) and B (no app triggers). The added view text cannot make two differing fingerprint lines equal, but this was not proven by a run.
+- **Other limits:**
+  - the fingerprint still does not cover view `reloptions` such as `security_invoker`, or a trigger's enable state (Strix hardening note);
+  - nothing in this round changes the workflow YAML, migrations, product code, `main`, production or publishing;
+  - the local-only negative commits exist only as local branches and are not pushed.
+- **CI:** the new head needs CI and review, which Codex runs. Plan 2.2 is not complete until that passes.

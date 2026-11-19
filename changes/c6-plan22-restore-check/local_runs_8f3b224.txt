@@ -1,0 +1,59 @@
+# Local evidence for the PR #98 review fixes (Graphify review 5981314899, both P2). Commit under test: 8f3b2242fb72543c419ede8210369d78f343bfe6
+# Local container only: synthetic data and a disposable local Supabase stack; no Lovable, production, main or publish.
+
+## 1. View fingerprint self-test: tests/release/restore/selftest_view_fingerprint.sh (throwaway database fp_view_selftest)
+== fixed fingerprint.sql (8f3b224)
+view_query_change_same_columns_changes_fingerprint PASS
+matview_line_unaffected_by_view_change PASS
+matview_query_change_same_columns_changes_fingerprint PASS
+same_definitions_same_fingerprint PASS
+EXIT=0
+== pre-fix fingerprint.sql (dafb73a), same self-test: reproduces the finding
+view_query_change_same_columns_changes_fingerprint FAIL
+matview_line_unaffected_by_view_change PASS
+matview_query_change_same_columns_changes_fingerprint FAIL
+same_definitions_same_fingerprint PASS
+EXIT=1
+leftover fp_* databases: 0
+
+## 2. Helper exit-status self-test: tests/release/restore/selftest_run_step_local.sh (stub git repositories, no database)
+== fixed run_step_local.sh (8f3b224)
+step_failure_reaches_caller PASS (7|1|STEP_EXIT=7)
+step_success_exits_zero PASS (0|1|STEP_EXIT=0)
+bad_commit_fails_before_step PASS (2|0|)
+missing_restore_step_fails_before_run PASS (NZ|0|)
+repo_setup_failure_fails_before_step PASS (NZ|0|)
+EXIT=0
+== pre-fix run_step_local.sh (dafb73a), same self-test: reproduces the finding
+step_failure_reaches_caller FAIL (got 0|1|STEP_EXIT=7, want 7|1|STEP_EXIT=7)
+step_success_exits_zero PASS (0|1|STEP_EXIT=0)
+bad_commit_fails_before_step FAIL (got 0|0|STEP_EXIT=127, want 2|0|)
+missing_restore_step_fails_before_run FAIL (got 0|0|STEP_EXIT=127, want NZ|0|)
+repo_setup_failure_fails_before_step FAIL (got 0|1|STEP_EXIT=0, want NZ|0|)
+EXIT=1
+
+## 3. Restore step through the fixed helper (source stack filled by the collection suite at 8f3b224 before each run)
+# HELPER_EXIT is the helper's own process status as seen by the caller.
+== POSITIVE (commit 8f3b2242fb72543c419ede8210369d78f343bfe6)
+RELEASE_RESTORE_CHECK {"failed": [], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+HELPER_EXIT=0
+== NEGATIVE_D_view_query_changed (local-only commit 646c05933fa979b40b1511d3a5e20c054f0e1dbd: after the restore, the restored
+   public.day_close_profit_report is replaced by 'select * from (<its own definition>) s where false', same columns and options)
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical"], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=1
+HELPER_EXIT=1
+== NEGATIVE_D_prefix_fingerprint (local-only commit 70050a0e2e27aec45d987fa3ac2e7c313f435610: negative D with the dafb73a fingerprint.sql)
+RELEASE_RESTORE_CHECK {"failed": [], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+HELPER_EXIT=0   <- the finding: the changed view passed every control, including the restored suite
+== NEGATIVE_C_tamper_before_begin (local-only commit d00ddb4dcdd007ced9415fd0ed109ef07a280ca3 = 760b4c29 re-applied on 8f3b224)
+RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK
+STEP_EXIT=1
+HELPER_EXIT=1
+restored-suite evidence present after NEGATIVE_C: no
+== first attempt of NEGATIVE_D: commit not reachable from any ref, so the clone could not check it out
+fatal: reference is not a tree: 646c05933fa979b40b1511d3a5e20c054f0e1dbd
+HELPER_EXIT=128 (no STEP_EXIT line: stopped in setup, before the step)
+
+Not rerun on 8f3b224: NEGATIVE_A (empty prelude) and NEGATIVE_B (no app triggers); last run on bbe1c49/02638df (local_runs_*.txt).

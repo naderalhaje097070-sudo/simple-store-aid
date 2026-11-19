@@ -1,3 +1,8 @@
+## Current — C6: ChatGPT reports a full-size (82,065 B) read-only transport test on cac0a567; not verified by me; production unchanged; date open, 2026-11-19
+- My read-only check of cac0a567: 0 public tables and no ledger. Consistent with the report, but not proof of it.
+- "Apply method: automatic send from the file" is pasted text, not the owner's approval. If adopted, the sender must read the file from disk after a sha256 check.
+- Still open: a full-size change + rollback trial on cac0a567; production backup plus restore; live URL; sandbox_exec; emergency duration; the owner's explicit apply scope and date. Report §14.
+
 ## Current — C6 query_database transport trial (owner-approved, isolated project); production unchanged; date open, 2026-11-19
 - Owner, in his own words: approved the remix (Lovable refused: payments enabled), then an empty project, then a transport-only trial.
 - Isolated project cac0a567-a268-4488-880b-961c76603cb3 (unpublished, 0.3 credits; PG 17.12; no ledger).

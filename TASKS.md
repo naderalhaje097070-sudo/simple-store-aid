@@ -1,3 +1,6 @@
+## Status — C6 (2026-11-19): ChatGPT full-size transport report recorded as unverified; production unchanged
+- Owner decisions open: apply method (own words); full-size change + rollback trial; backup plus restore; live URL; sandbox_exec; emergency duration; scope and date.
+
 ## Status — C6 transport trial (2026-11-19); production unchanged
 - Done: rollback through query_database proven; the 82 KB size was NOT proven (my calls carried 16 KB and 8 KB).
 - Owner: apply method; isolated project cac0a567 cleanup; live URL; backup; sandbox_exec; emergency duration; scope.

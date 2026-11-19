@@ -1,0 +1,8 @@
+# INVALID_ARGUMENT diagnostics on the isolated lab cac0a567 via query_database (owner approval «موافق», DECISIONS 39e0f0a)
+# sender: Claude, files from tests/c6-upgrade/transport/diag at f9d4fd6, text copied verbatim; each padding self-checks (C6_DX_ALTERED on any change)
+D1 (2955 B, sha256 02fee54b…): 400 query_error: ERROR:  P0001: C6_DX_INJECTED D1   (marker reached; no ALTERED)
+check_baseline_dx: {"c6_dx_functions":0,"c6_dx_tables":0,"ledger_exists":false,"public_functions_total":0,"public_tables_total":0,"ro":"on"}
+D2, D3: not sent. They only localize a D1 failure; D1 passed, so they carry no information.
+M3 (11428 B, sha256 91d76c65…): 400 query_error: ERROR:  P0001: C6_DX_INJECTED M3   (all ten blocks ran; no ALTERED)
+check_baseline_dx: {"c6_dx_functions":0,"c6_dx_tables":0,"ledger_exists":false,"public_functions_total":0,"public_tables_total":0,"ro":"on"}
+M2, M4, M5 (82,065 B each): not sent by Claude (needs a disk-reading sender).

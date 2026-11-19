@@ -1,3 +1,10 @@
+## Status — C6 review round 3 (2026-11-19c); production unchanged; date open
+- Commands:
+  - tests/c6-upgrade/gate_selftest.sh <repo> <new-dir> → 19/19, exit 0;
+  - tests/c6-upgrade/review_fixes.sh <main-wt> <repo> <cli> <new-dir> → 46 PASS / 0 FAIL, exit 0.
+- Waiting on the owner: the isolated query_database trial (his own approval); live URL; backup plus restore; sandbox_exec; emergency duration; apply scope.
+- Rollback: test and documentation files only; apply files unchanged except the new read-only PRECHECK.
+
 ## Status — C6 review round 2 (2026-11-19b); gate exit 0; production unchanged; date open
 - Done locally: C1 folded into the atomic bundle; v2 covered; gate with pinned old revert and non-zero exit; content guard with negative controls; fractional history read prepared.
 - Command: tests/c6-upgrade/review_fixes.sh <main-worktree> <repo> <supabase-cli> <out> → RESULT: 0 failure(s), exit 0. The negative control exited 1.

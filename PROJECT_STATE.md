@@ -1,3 +1,21 @@
+## Current — C6 review round 3: acceptance gate fixed; selftest 19/19 and gate 46/0 (exit 0); production unchanged; date open, 2026-11-19
+- Source: a third independent review of 2abde6d pasted by the owner (not an approval). The apply files were judged sound; the gate needed fixes. All findings verified and fixed:
+  - pinned 9-cell fractional expectations per state (all-refused now fails);
+  - the invoice line is linked to the order_id returned by the sale;
+  - a failed fingerprint capture aborts (exit 2) and is never compared;
+  - a new output directory per run, and nothing is deleted;
+  - live negative controls (a real REFUSED and DENIED make the check fail).
+- Added docs/reviews/c6-apply/PRECHECK_target_ledger_read.sql (read only, same constants as the bundle). The 19 reviewed files are unchanged; SHA256SUMS has 20.
+- The isolated Lovable trial through query_database is NOT done: the "decision" sentence is pasted ChatGPT text; it needs the owner's own words (a new project may cost credits). The bundle is 82,065 bytes.
+- Report: docs/reviews/C6_REVIEW_FIXES.md §10–§12. Evidence: docs/reviews/c6-evidence/review-fixes-3/.
+- **Resume point, owner:**
+  - (1) approve or decline the isolated Lovable trial in his own words;
+  - (2) the live URL;
+  - (3) a fresh production backup plus restore;
+  - (4) sandbox_exec;
+  - (5) the emergency-path duration;
+  - (6) the apply scope and date.
+
 ## Current — C6 review round 2 fixed locally; acceptance gate passes (exit 0); production unchanged; date open, 2026-11-19
 - Source: a second independent review of 194db72 pasted by the owner (not an approval). 3 findings, all verified and fixed locally:
   - (1) C1 opened create_sale_with_items_v2 on integer stock outside the transaction. Now BUNDLE_C1_C10_UNBLOCK.sql runs C1..C10 + unblock in ONE transaction (any failure leaves C0), and the probe covers the v2, idempotent and legacy paths.

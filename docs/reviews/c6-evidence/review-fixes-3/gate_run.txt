@@ -1,0 +1,57 @@
+== S0 build: fresh replica with ledger content, test apply files
+matched_production_md5=47 placeholders=5 20260626191247,20260628095033,20260628100924,20260628101356,20260715145140
+PASS test files differ from production files only in content-guard constants
+PASS test pre-check on C0: versions_ok and content_ok true
+PASS production pre-check on the replica: versions_ok true, content_ok FALSE
+PASS C0 fingerprint captured (fa4254f95d646c2f598d21de569285dd ledger=52)
+PASS battery C0 == recorded bat_C0.json
+PASS fractional C0 == pinned 'pre' (9 cells)
+== S1 guards (production files must refuse this replica; test files check order and content)
+PASS production C1.sql refuses a database whose ledger content differs (LEDGER_CONTENT_MISMATCH)
+PASS production bundle refuses it too (LEDGER_CONTENT_MISMATCH)
+PASS C3 before C1/C2 refused (LEDGER_STATE_MISMATCH)
+PASS same versions, one ledger row's content changed: refused (LEDGER_CONTENT_MISMATCH)
+PASS one extra ledger version: refused (LEDGER_STATE_MISMATCH)
+PASS ledger back to 52
+PASS catalog == C0 after the guard tests (fa4254f95d646c2f598d21de569285dd ledger=52)
+PASS revert at C0 refused (REVERT_REFUSED)
+== S2 real failure inside the bundle at C3 (an open transaction holds products 9 s)
+PASS bundle fails on the C3 lock (lock timeout)
+PASS catalog == C0 exactly after the C3 failure (C1 rolled back too) (fa4254f95d646c2f598d21de569285dd ledger=52)
+PASS battery after_c3_fail == recorded bat_C0.json
+PASS fractional after_c3_fail == pinned 'pre' (9 cells)
+== S3 injected failure after stage B.1 (before C2)
+PASS one injection point before C2
+PASS bundle stops before C2 (INJECTED_BEFORE_C2)
+PASS catalog == C0 exactly after the stop before C2 (fa4254f95d646c2f598d21de569285dd ledger=52)
+PASS fractional stop_before_C2 == pinned 'pre' (9 cells)
+PASS battery stop_before_C2 == recorded bat_C0.json
+== S3 injected failure after stage B.4 (before C5)
+PASS one injection point before C5
+PASS bundle stops before C5 (INJECTED_BEFORE_C5)
+PASS catalog == C0 exactly after the stop before C5 (fa4254f95d646c2f598d21de569285dd ledger=52)
+PASS fractional stop_before_C5 == pinned 'pre' (9 cells)
+PASS battery stop_before_C5 == recorded bat_C0.json
+== S4 old revert (pinned e32f92b) if run while stuck after C2, versus the fixed revert
+PASS pinned old revert is the pre-fix file (no REVERT_REFUSED guard)
+   old revert at C2: legacy_collect=false new_collect_exists=false
+PASS old revert at C2 leaves no collection path (defect reproduced)
+PASS fixed revert at C2 refused
+PASS ledger 52 after the rolled-back S4
+== S5 full bundle with unblock, then revert
+PASS bundle C1..C10 + unblock committed
+PASS ledger 62
+PASS test pre-check after the bundle: false, 10 C6 versions present
+PASS catalog differs from C0 after the bundle (capture checked)
+PASS battery bundle_unblocked == recorded bat_unblocked.json
+PASS fractional bundle_unblocked == pinned 'after_unblock' (9 cells)
+PASS bundle rerun refused (LEDGER_STATE_MISMATCH)
+PASS revert at C10
+PASS battery C10_reverted == recorded bat_C10.json
+PASS fractional C10_reverted == pinned 'after_revert' (9 cells)
+== S6 live negative controls on the real database (the pinned check must FAIL, then pass again)
+PASS an expected sale really REFUSED (stock 0) makes the pinned check fail (exit 1)
+PASS an expected sale DENIED makes the pinned check fail (exit 1)
+PASS fractional live_restored == pinned 'after_revert' (9 cells)
+PASS battery live_restored == recorded bat_C10.json
+== RESULT: 0 failure(s)

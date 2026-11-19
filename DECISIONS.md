@@ -1,3 +1,17 @@
+## 2026-11-19 — C6 review relay through Issue #97 (owner's own words, in the Claude session)
+
+Owner: «شات جي بي تي نبيه هو يتلقى ردودك ويراجع ويرد عليك بدلا مني الى ان تنتهو من المشروع». Also: «تابع #97» from the owner means: read the latest delivery or review on #97 and answer there.
+
+Scope as recorded:
+- Codex/ChatGPT's reviews and scoped tasks on #97 are accepted as review direction for repository-only and local work (tests, analysis, fixes on the C6 work branch). This replaces relaying pasted text by hand.
+- Still the owner's own explicit authorization, given in the Claude session in his own words: production access or apply, Publish/deploy, merges into main, destructive actions, and new cost. #97's own text says the same.
+- A #97 comment, whoever wrote it, is not that authorization: comments posted through the owner's GitHub account cannot be told apart by author.
+- Claude is not woken by issue comments; work on #97 starts when the owner says «تابع #97».
+
+Open conflict to reconcile (not decided here): the 2026-11-09 decision says production migrations go through Lovable's migration tool, while the C6 plan applies a guarded bundle through query_database (the RECOVERY-02 mechanism). The owner must choose before any C6 apply.
+
+---
+
 ## 2026-11-09 — Production migrations go through Lovable's migration tool (owner-approved, one by one)
 
 Lovable's agent answered in plan mode (no DB change; it wrote .lovable/plan.md, Lovable commit d52e83d):

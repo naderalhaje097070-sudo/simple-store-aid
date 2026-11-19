@@ -1,3 +1,21 @@
+## Current — C6 review round 2 fixed locally; acceptance gate passes (exit 0); production unchanged; date open, 2026-11-19
+- Source: a second independent review of 194db72 pasted by the owner (not an approval). 3 findings, all verified and fixed locally:
+  - (1) C1 opened create_sale_with_items_v2 on integer stock outside the transaction. Now BUNDLE_C1_C10_UNBLOCK.sql runs C1..C10 + unblock in ONE transaction (any failure leaves C0), and the probe covers the v2, idempotent and legacy paths.
+  - (2) The acceptance script read the "old" revert from HEAD and could exit 0 on FAIL. It is now a gate: the old revert is pinned to e32f92b, FAIL exits 1, an environment error exits 2; a negative control was verified.
+  - (3) The ledger guard checked versions only. A content guard now compares md5(statements) per row against production's record. The production files refuse the replica (5 entries have no repository text); the test files differ only in those constants, which the gate verifies. This is not a Lovable project identity check (that is a runbook step).
+- Historical stock is not corrected by C3: fractional_history_read.sql (counts only) is prepared and tested locally, NOT run.
+- BUNDLE_C2_C10*.sql removed; SHA256SUMS has 19 files; build_apply_files.sh is reproducible.
+- Report: docs/reviews/C6_REVIEW_FIXES.md §7–§9. Evidence: docs/reviews/c6-evidence/review-fixes-2/.
+- **Resume point, owner:**
+  - (1) the live URL;
+  - (2) a fresh production backup plus an isolated restore;
+  - (3) sandbox_exec (Lovable support / schema_usage read);
+  - (4) how long the emergency paths stay open;
+  - (5) an isolated trial of the bundle through query_database (new Lovable project = possible cost);
+  - (6) an independent review of the current 19 files;
+  - (7) the fractional history read (optional);
+  - (8) the apply scope and date.
+
 ## Current — C6 review fixes done locally; production unchanged; date open, 2026-11-19
 - Source: an independent review of e32f92b pasted by the owner from ChatGPT ("needs changes before apply"). The paste is not an owner approval and asked for nothing in production.
 - All 4 findings verified locally and confirmed:

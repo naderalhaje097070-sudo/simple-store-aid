@@ -5,6 +5,7 @@ BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'f0ce5eb1d369d3dca6cb930a74e19f19' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110140000: expected exactly 60 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'b80939110cdcd881eb07c46b5d1c22d7' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110140000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src137a8ad6$-- C-TENANT-01: a signed-in client may write only the tenant columns the app writes.
 -- App writes: INSERT(name, owner_user_id) at onboarding; UPDATE(name | business_type | timezone).
 -- Before: authenticated held INSERT and UPDATE on (id, name, owner_user_id, created_at,

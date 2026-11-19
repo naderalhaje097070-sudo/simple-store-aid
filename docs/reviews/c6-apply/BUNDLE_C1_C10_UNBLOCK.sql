@@ -1,5 +1,5 @@
--- C6 bundle C2..C10 (unblock). ONE transaction: any failure leaves the database exactly at C1.
--- Requires C1 applied first (the first block checks the exact ledger). Run as postgres.
+-- C6 bundle C1..C10 (unblock). ONE transaction: any failure leaves the database exactly at C0.
+-- Each block checks the exact ledger versions and content. Run as postgres, after the runbook identity checks.
 BEGIN;
 -- stage B.1
 DO $stage$
@@ -7,7 +7,341 @@ DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
+  IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '9235c3834be88ce50dba444bb15b5262' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20260815170000: expected exactly 52 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'a3de2f506b1da505ae41c9fd553c87d7' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20260815170000: ledger statements differ from the recorded production ledger'; END IF;
+  src := $src4581e59e$-- FIN-COURIER-001 / PR-A candidate implementation.
+-- Forward-only schema/RPC change. Repository-only candidate: do not deploy before Gate-4 evidence and human approval.
+
+ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_customer_required_when_unpaid;
+ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_courier_requires_customer_id;
+ALTER TABLE public.orders DROP CONSTRAINT IF EXISTS orders_customer_required_when_debt;
+ALTER TABLE public.orders
+  ADD CONSTRAINT orders_customer_required_when_debt
+  CHECK (
+    customer_id IS NOT NULL
+    OR (courier_state IS NOT NULL AND courier_state = 'returned')
+    OR (delivery = 'direct' AND courier_state IS NULL AND paid >= total)
+    OR (
+      delivery = 'courier'
+      AND courier_state IS NOT NULL
+      AND courier_state IN ('pending', 'delivered_full')
+    )
+  ) NOT VALID;
+
+CREATE OR REPLACE FUNCTION public._create_sale_with_items_core(
+  p_customer_id uuid,
+  p_delivery public.delivery_kind,
+  p_courier_id uuid,
+  p_paid numeric,
+  p_method public.payment_method,
+  p_items jsonb,
+  p_courier_state public.courier_state,
+  p_infer_courier_state boolean
+)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_tenant uuid := public.current_tenant_id();
+  v_uid uuid := auth.uid();
+  v_total numeric(12,2) := 0;
+  v_status public.order_status;
+  v_order public.orders%ROWTYPE;
+  v_tnum int;
+  v_item jsonb;
+  v_pid uuid;
+  v_qty numeric(12,2);
+  v_prod public.products%ROWTYPE;
+  v_order_paid numeric(12,2);
+  v_order_collected numeric(12,2);
+  v_state public.courier_state := p_courier_state;
+BEGIN
+  PERFORM public._assert_staff(v_tenant);
+
+  IF p_items IS NULL OR jsonb_typeof(p_items) <> 'array' OR jsonb_array_length(p_items) = 0 THEN
+    RAISE EXCEPTION 'empty_items';
+  END IF;
+  IF p_paid IS NULL OR p_paid < 0 THEN RAISE EXCEPTION 'invalid_paid'; END IF;
+
+  IF p_customer_id IS NOT NULL AND NOT EXISTS (
+    SELECT 1 FROM public.customers WHERE id = p_customer_id AND tenant_id = v_tenant
+  ) THEN
+    RAISE EXCEPTION 'customer_not_found';
+  END IF;
+
+  IF p_delivery = 'direct' THEN
+    IF p_courier_id IS NOT NULL THEN RAISE EXCEPTION 'courier_id_must_be_null_for_direct'; END IF;
+    IF NOT p_infer_courier_state AND p_courier_state IS NOT NULL THEN
+      RAISE EXCEPTION 'courier_state_must_be_null_for_direct';
+    END IF;
+    v_state := NULL;
+  ELSE
+    IF p_courier_id IS NULL THEN RAISE EXCEPTION 'courier_requires_courier'; END IF;
+    IF NOT EXISTS (
+      SELECT 1 FROM public.couriers
+       WHERE id = p_courier_id AND tenant_id = v_tenant AND is_active = true
+    ) THEN
+      RAISE EXCEPTION 'courier_not_found';
+    END IF;
+    IF NOT p_infer_courier_state AND p_courier_state IS NULL THEN RAISE EXCEPTION 'courier_state_required'; END IF;
+    IF p_courier_state = 'returned' THEN RAISE EXCEPTION 'returned_not_allowed_at_creation'; END IF;
+  END IF;
+
+  FOR v_item IN SELECT * FROM jsonb_array_elements(p_items) LOOP
+    BEGIN
+      v_pid := (v_item->>'productId')::uuid;
+      v_qty := (v_item->>'qty')::numeric;
+    EXCEPTION WHEN OTHERS THEN
+      RAISE EXCEPTION 'invalid_item';
+    END;
+    IF v_pid IS NULL OR v_qty IS NULL OR v_qty <= 0 THEN RAISE EXCEPTION 'invalid_item'; END IF;
+    SELECT * INTO v_prod FROM public.products WHERE id = v_pid FOR UPDATE;
+    IF NOT FOUND OR v_prod.tenant_id <> v_tenant THEN RAISE EXCEPTION 'product_not_found'; END IF;
+    IF NOT v_prod.is_active THEN RAISE EXCEPTION 'product_inactive: %', v_prod.name; END IF;
+    IF v_prod.stock < v_qty THEN RAISE EXCEPTION 'insufficient_stock: %', v_prod.name; END IF;
+    v_total := v_total + (v_prod.price * v_qty);
+  END LOOP;
+
+  IF p_paid > v_total THEN RAISE EXCEPTION 'paid_exceeds_total'; END IF;
+
+  IF p_delivery = 'courier' AND p_infer_courier_state THEN
+    v_state := CASE
+      WHEN p_paid = 0 THEN 'pending'::public.courier_state
+      WHEN p_paid = v_total THEN 'delivered_full'::public.courier_state
+      ELSE 'delivered_partial'::public.courier_state
+    END;
+  END IF;
+
+  IF p_delivery = 'direct' THEN
+    IF p_paid < v_total AND p_customer_id IS NULL THEN RAISE EXCEPTION 'customer_required_for_debt'; END IF;
+    v_order_paid := p_paid;
+    v_order_collected := 0;
+    v_status := CASE
+      WHEN p_paid >= v_total THEN 'paid'::public.order_status
+      WHEN p_paid > 0 THEN 'partial'::public.order_status
+      ELSE 'debt'::public.order_status
+    END;
+  ELSE
+    IF v_state IS NULL OR v_state = 'returned' THEN RAISE EXCEPTION 'invalid_state'; END IF;
+    CASE v_state
+      WHEN 'pending' THEN
+        IF p_paid <> 0 THEN RAISE EXCEPTION 'invalid_paid_for_courier_state'; END IF;
+        v_order_collected := 0;
+      WHEN 'delivered_none' THEN
+        IF p_paid <> 0 THEN RAISE EXCEPTION 'invalid_paid_for_courier_state'; END IF;
+        IF p_customer_id IS NULL THEN RAISE EXCEPTION 'customer_required_for_debt'; END IF;
+        v_order_collected := 0;
+      WHEN 'delivered_partial' THEN
+        IF p_paid <= 0 OR p_paid >= v_total THEN RAISE EXCEPTION 'invalid_paid_for_courier_state'; END IF;
+        IF p_customer_id IS NULL THEN RAISE EXCEPTION 'customer_required_for_debt'; END IF;
+        v_order_collected := p_paid;
+      WHEN 'delivered_full' THEN
+        IF p_paid <> v_total THEN RAISE EXCEPTION 'invalid_paid_for_courier_state'; END IF;
+        v_order_collected := v_total;
+      ELSE
+        RAISE EXCEPTION 'invalid_state';
+    END CASE;
+    v_order_paid := 0;
+    v_status := 'debt'::public.order_status;
+  END IF;
+
+  v_tnum := public.next_order_number(v_tenant);
+  INSERT INTO public.orders(
+    tenant_id, customer_id, total, paid, status, delivery, courier_id,
+    courier_state, collected_by_courier, created_by, tenant_number
+  ) VALUES (
+    v_tenant, p_customer_id, v_total, v_order_paid, v_status, p_delivery,
+    p_courier_id, v_state, v_order_collected, v_uid, v_tnum
+  ) RETURNING * INTO v_order;
+
+  FOR v_item IN SELECT * FROM jsonb_array_elements(p_items) LOOP
+    v_pid := (v_item->>'productId')::uuid;
+    v_qty := (v_item->>'qty')::numeric;
+    SELECT * INTO v_prod FROM public.products WHERE id = v_pid;
+    INSERT INTO public.order_items(tenant_id, order_id, product_id, name, qty, unit_price, unit_cost)
+      VALUES (v_tenant, v_order.id, v_pid, v_prod.name, v_qty, v_prod.price, v_prod.cost);
+    UPDATE public.products SET stock = stock - v_qty WHERE id = v_pid;
+  END LOOP;
+
+  IF p_delivery = 'direct' AND p_paid > 0 THEN
+    INSERT INTO public.payments(tenant_id, kind, method, amount, order_id, customer_id, created_by)
+      VALUES (v_tenant, 'sale', p_method, p_paid, v_order.id, p_customer_id, v_uid);
+  END IF;
+
+  RETURN jsonb_build_object('success', true, 'order_id', v_order.id, 'number', v_tnum);
+END;
+$$;
+
+REVOKE ALL ON FUNCTION public._create_sale_with_items_core(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb,
+  public.courier_state, boolean
+) FROM PUBLIC, anon, authenticated;
+
+CREATE OR REPLACE FUNCTION public.create_sale_with_items_v2(
+  p_customer_id uuid,
+  p_delivery public.delivery_kind,
+  p_courier_id uuid,
+  p_paid numeric,
+  p_method public.payment_method,
+  p_items jsonb,
+  p_courier_state public.courier_state
+)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  RETURN public._create_sale_with_items_core(
+    p_customer_id, p_delivery, p_courier_id, p_paid, p_method, p_items,
+    p_courier_state, false
+  );
+END;
+$$;
+REVOKE ALL ON FUNCTION public.create_sale_with_items_v2(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb, public.courier_state
+) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.create_sale_with_items_v2(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb, public.courier_state
+) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.create_sale_with_items(
+  p_customer_id uuid,
+  p_delivery public.delivery_kind,
+  p_courier_id uuid,
+  p_paid numeric,
+  p_method public.payment_method,
+  p_items jsonb
+)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  RETURN public._create_sale_with_items_core(
+    p_customer_id, p_delivery, p_courier_id, p_paid, p_method, p_items,
+    NULL, true
+  );
+END;
+$$;
+REVOKE ALL ON FUNCTION public.create_sale_with_items(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb
+) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.create_sale_with_items(
+  uuid, public.delivery_kind, uuid, numeric, public.payment_method, jsonb
+) TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.update_courier_outcome_v2(
+  p_order_id uuid,
+  p_state public.courier_state,
+  p_collected numeric,
+  p_customer_id uuid
+)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_order public.orders%ROWTYPE;
+  v_target_collected numeric(12,2);
+  v_customer_id uuid;
+BEGIN
+  SELECT * INTO v_order FROM public.orders WHERE id = p_order_id FOR UPDATE;
+  IF NOT FOUND THEN RAISE EXCEPTION 'order_not_found'; END IF;
+  PERFORM public._assert_staff(v_order.tenant_id);
+
+  IF v_order.delivery <> 'courier' OR v_order.courier_state IS NULL THEN RAISE EXCEPTION 'not_a_courier_order'; END IF;
+  IF p_state IS NULL THEN RAISE EXCEPTION 'invalid_state'; END IF;
+
+  IF p_state = 'returned' THEN
+    IF v_order.courier_state NOT IN ('pending', 'delivered_none') THEN RAISE EXCEPTION 'invalid_transition'; END IF;
+    RETURN public.return_courier_order(p_order_id);
+  END IF;
+
+  IF p_state IN ('pending', 'delivered_none') THEN
+    v_target_collected := 0;
+  ELSIF p_state = 'delivered_partial' THEN
+    IF p_collected IS NULL OR p_collected <= 0 OR p_collected >= v_order.total THEN RAISE EXCEPTION 'invalid_collected'; END IF;
+    v_target_collected := p_collected;
+  ELSIF p_state = 'delivered_full' THEN
+    v_target_collected := v_order.total;
+  ELSE
+    RAISE EXCEPTION 'invalid_state';
+  END IF;
+
+  IF p_state = v_order.courier_state THEN
+    IF v_target_collected < COALESCE(v_order.collected_by_courier, 0) THEN RAISE EXCEPTION 'custody_cannot_decrease'; END IF;
+    IF v_target_collected <> COALESCE(v_order.collected_by_courier, 0) THEN RAISE EXCEPTION 'invalid_transition'; END IF;
+    RETURN jsonb_build_object(
+      'success', true, 'order_id', v_order.id, 'state', v_order.courier_state,
+      'collected', COALESCE(v_order.collected_by_courier, 0), 'idempotent', true
+    );
+  END IF;
+
+  IF NOT (
+    (v_order.courier_state = 'pending' AND p_state IN ('delivered_none','delivered_partial','delivered_full'))
+    OR (v_order.courier_state = 'delivered_none' AND p_state IN ('delivered_partial','delivered_full'))
+    OR (v_order.courier_state = 'delivered_partial' AND p_state = 'delivered_full')
+  ) THEN
+    RAISE EXCEPTION 'invalid_transition';
+  END IF;
+
+  IF v_target_collected < COALESCE(v_order.collected_by_courier, 0) THEN RAISE EXCEPTION 'custody_cannot_decrease'; END IF;
+
+  v_customer_id := v_order.customer_id;
+  IF p_state IN ('delivered_none', 'delivered_partial') THEN
+    IF v_customer_id IS NULL THEN
+      IF p_customer_id IS NULL THEN RAISE EXCEPTION 'customer_required_for_debt'; END IF;
+      IF NOT EXISTS (
+        SELECT 1 FROM public.customers WHERE id = p_customer_id AND tenant_id = v_order.tenant_id
+      ) THEN
+        RAISE EXCEPTION 'customer_not_found';
+      END IF;
+      v_customer_id := p_customer_id;
+    ELSIF p_customer_id IS NOT NULL AND p_customer_id <> v_customer_id THEN
+      RAISE EXCEPTION 'customer_mismatch';
+    END IF;
+  END IF;
+
+  UPDATE public.orders
+     SET courier_state = p_state,
+         collected_by_courier = v_target_collected,
+         customer_id = v_customer_id
+   WHERE id = p_order_id;
+
+  RETURN jsonb_build_object(
+    'success', true, 'order_id', p_order_id, 'state', p_state,
+    'collected', v_target_collected, 'customer_id', v_customer_id
+  );
+END;
+$$;
+REVOKE ALL ON FUNCTION public.update_courier_outcome_v2(uuid, public.courier_state, numeric, uuid)
+  FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.update_courier_outcome_v2(uuid, public.courier_state, numeric, uuid)
+  TO authenticated;
+
+CREATE OR REPLACE FUNCTION public.update_courier_order_state(
+  p_order_id uuid,
+  p_state text,
+  p_collected numeric DEFAULT NULL
+)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  v_state public.courier_state;
+BEGIN
+  IF p_state IS NULL OR p_state NOT IN ('pending','delivered_none','delivered_partial','delivered_full','returned') THEN
+    RAISE EXCEPTION 'invalid_state';
+  END IF;
+  v_state := p_state::public.courier_state;
+  RETURN public.update_courier_outcome_v2(p_order_id, v_state, p_collected, NULL);
+END;
+$$;
+REVOKE ALL ON FUNCTION public.update_courier_order_state(uuid, text, numeric) FROM PUBLIC, anon;
+GRANT EXECUTE ON FUNCTION public.update_courier_order_state(uuid, text, numeric) TO authenticated;
+$src4581e59e$;
+  IF md5(src) <> 'aaad5a46c941dc296810f522f6237a48' THEN RAISE EXCEPTION 'SOURCE_MD5_MISMATCH 20260815170000_fin_courier_pr_a'; END IF;
+  IF EXISTS (SELECT 1 FROM supabase_migrations.schema_migrations WHERE version = '20260815170000') THEN RAISE EXCEPTION 'ALREADY_APPLIED 20260815170000'; END IF;
+  body := src;
+  EXECUTE body;
+  INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20260815170000', 'fin_courier_pr_a', ARRAY[src], 'claude-c6');
+END
+$stage$;
+-- stage B.2
+DO $stage$
+DECLARE src text; body text;
+BEGIN
+  IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
+  PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '095f17473e27d695e797382431ede0ab' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20260815171000: expected exactly 53 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '19fd5f17ea8c3cc4ea10e77a404a6bdd' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20260815171000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src8096ca4e$-- FIN-IDEM-001 candidate implementation for canonical sale creation.
 -- Repository-only candidate. Do not deploy before FIN-COURIER PR-A, Gate-4 evidence,
 -- exact-head financial verification, independent review, and human approval.
@@ -184,13 +518,14 @@ $src8096ca4e$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20260815171000', 'fin_idem_sale_create', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.2
+-- stage B.3
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'f05259714b39f3a6eda55fdbf6c5ee77' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261028213608: expected exactly 54 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '46495017f081401715147fe2ef32ce89' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261028213608: ledger statements differ from the recorded production ledger'; END IF;
   src := $srcc3d6c60b$-- C2 owner-approved fractional quantities; original two-decimal item precision.
 BEGIN;
 SET LOCAL lock_timeout = '5s';
@@ -315,13 +650,14 @@ $srcc3d6c60b$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261028213608', 'fractional_quantity_01', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.3
+-- stage B.4
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '593523ff3c517255c2415399c0bcf524' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261029044024: expected exactly 55 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '2771e74c4161f1b68d61a50451880879' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261029044024: ledger statements differ from the recorded production ledger'; END IF;
   src := $src5360da50$-- C3 FIN-02: final, order-independent financial adapters above A+B+C2.
 -- Original August migrations and all51 accepted SQL files remain byte-immutable.
 -- No row backfill or new money/state policy. Existing idempotency ACL stays closed.
@@ -785,13 +1121,14 @@ $src5360da50$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261029044024', 'c3_reconcile_financial_adapters', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.4
+-- stage B.5
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'd92c3f6bcde14e89e86709cdb704fd19' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261103060658: expected exactly 56 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '4a164bf476878af908a2cbfbc6b9f180' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261103060658: ledger statements differ from the recorded production ledger'; END IF;
   src := $srce18e719a$-- C5-COLLECTION-RETRY-01. Forward-only, owner-authorized candidate.
 -- No financial formula, table data, rounding or existing function body changes.
 BEGIN;
@@ -857,13 +1194,14 @@ $srce18e719a$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261103060658', 'c5_keyed_debt_collection', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.5
+-- stage B.6
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '51cfbefdfef5431f6b838a3f41014ef3' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261106145346: expected exactly 57 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '6919a6c20e109b900a8534c3343f269a' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261106145346: ledger statements differ from the recorded production ledger'; END IF;
   src := $src5636a42b$-- C5-PROFIT-BASIS-01: additive reporting only; legacy snapshots stay unchanged.
 BEGIN;
 SET LOCAL lock_timeout = '5s';
@@ -901,13 +1239,14 @@ $src5636a42b$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261106145346', 'c5_day_close_profit_report', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.6
+-- stage B.7
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '8b5d67ee766f61b071d71e3e2dc11f47' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110090000: expected exactly 58 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'd390be75dc0ea79bfaa86dbd633f82db' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110090000: ledger statements differ from the recorded production ledger'; END IF;
   src := $srca5c95672$-- C-COURIER-SETTLE-01: settlement accepts only orders currently in this courier's custody.
 -- Forward-only replacement of settle_courier_orders; only the custody check changes.
 -- No data is modified. Grants are preserved by CREATE OR REPLACE.
@@ -998,13 +1337,14 @@ $srca5c95672$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261110090000', 'courier_settle_custody_01', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.7
+-- stage B.8
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'a2290bc69f202f533f608e9da705620e' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110130000: expected exactly 59 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'fe486e75744ff85b9cd172dcc09dbb15' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110130000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src8c783649$-- C-PADDLE-01: the webhook locks the tenant row FOR NO KEY UPDATE instead of FOR UPDATE.
 -- Body is 20261021140746_webhook_errors_01 with only the tenant lock changed.
 BEGIN;
@@ -1288,13 +1628,14 @@ $src8c783649$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261110130000', 'paddle_webhook_no_key_update_01', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.8
+-- stage B.9
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'f0ce5eb1d369d3dca6cb930a74e19f19' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110140000: expected exactly 60 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'b80939110cdcd881eb07c46b5d1c22d7' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110140000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src137a8ad6$-- C-TENANT-01: a signed-in client may write only the tenant columns the app writes.
 -- App writes: INSERT(name, owner_user_id) at onboarding; UPDATE(name | business_type | timezone).
 -- Before: authenticated held INSERT and UPDATE on (id, name, owner_user_id, created_at,
@@ -1314,13 +1655,14 @@ $src137a8ad6$;
   INSERT INTO supabase_migrations.schema_migrations(version, name, statements, created_by) VALUES ('20261110140000', 'tenants_narrow_client_grants_01', ARRAY[src], 'claude-c6');
 END
 $stage$;
--- stage B.9
+-- stage B.10
 DO $stage$
 DECLARE src text; body text;
 BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> '1b94210e7c6bf663cba496d2421612ad' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110150000: expected exactly 61 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '3bc3238516417d971fc5127f2bcfa513' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110150000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src1b9ab46e$-- C-DEFPRIV-01: functions that postgres creates from now on are not executable by PUBLIC
 -- (and therefore not by anon) unless a migration grants it explicitly.
 -- Before: no global default ACL for postgres, so acldefault('f') = {=X/postgres,...}:

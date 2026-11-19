@@ -5,6 +5,7 @@ BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'd92c3f6bcde14e89e86709cdb704fd19' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261103060658: expected exactly 56 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '4a164bf476878af908a2cbfbc6b9f180' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261103060658: ledger statements differ from the recorded production ledger'; END IF;
   src := $srce18e719a$-- C5-COLLECTION-RETRY-01. Forward-only, owner-authorized candidate.
 -- No financial formula, table data, rounding or existing function body changes.
 BEGIN;

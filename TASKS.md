@@ -1,3 +1,9 @@
+## Status — C6 review round 2 (2026-11-19b); gate exit 0; production unchanged; date open
+- Done locally: C1 folded into the atomic bundle; v2 covered; gate with pinned old revert and non-zero exit; content guard with negative controls; fractional history read prepared.
+- Command: tests/c6-upgrade/review_fixes.sh <main-worktree> <repo> <supabase-cli> <out> → RESULT: 0 failure(s), exit 0. The negative control exited 1.
+- Owner: live URL; backup plus restore; sandbox_exec; emergency-path duration; isolated query_database trial; re-review of the 19 files; apply scope.
+- Rollback: repository files only.
+
 ## Status — C6 review fixes (2026-11-19); production unchanged; date open
 - Done locally: findings 1–4 verified; atomic bundle, ledger preconditions and stage-aware revert implemented and tested (tests/c6-upgrade/review_fixes.sh, all PASS); 0.767 s bundle at 1M items.
 - Per-stage C2..C10 files are for review and testing only; production uses C1.sql, then BUNDLE_C2_C10_UNBLOCK.sql (or BUNDLE_C2_C10.sql).

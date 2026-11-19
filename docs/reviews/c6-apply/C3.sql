@@ -5,6 +5,7 @@ BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'f05259714b39f3a6eda55fdbf6c5ee77' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261028213608: expected exactly 54 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> '46495017f081401715147fe2ef32ce89' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261028213608: ledger statements differ from the recorded production ledger'; END IF;
   src := $srcc3d6c60b$-- C2 owner-approved fractional quantities; original two-decimal item precision.
 BEGIN;
 SET LOCAL lock_timeout = '5s';

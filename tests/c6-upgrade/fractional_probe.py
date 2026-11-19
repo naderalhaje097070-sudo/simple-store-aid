@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Local only. Fractional-quantity probe for an intermediate C6 state.
 
-For each sale path (new idempotent RPC, legacy RPC) and each quantity, run the sale as owner A in a
+For each sale path (new idempotent RPC, v2 RPC opened by C1, legacy RPC) and each quantity, run the sale as owner A in a
 transaction that is ROLLED BACK, and report: outcome, invoice qty, and the actual stock decrement.
 A path whose EXECUTE privilege is missing is reported as DENIED without calling it (the local image
 segfaults on calls without privilege, see C6_COMPAT_AND_RECOVERY.md section 7).
@@ -54,6 +54,9 @@ for qty in (0.5, 1.5, 0.25):
         'create_sale_with_items_idempotent(uuid,uuid,delivery_kind,uuid,numeric,payment_method,jsonb,courier_state)',
         f"select public.create_sale_with_items_idempotent(p_idempotency_key => '{uuid.uuid4()}', p_customer_id => null, "
         f"p_delivery => 'direct', p_courier_id => null, p_paid => {paid}, p_method => 'cash', p_items => {it}, p_courier_state => null);")
+    res[f'v2 qty={qty}'] = run(
+        'create_sale_with_items_v2(uuid,delivery_kind,uuid,numeric,payment_method,jsonb,courier_state)',
+        f"select public.create_sale_with_items_v2(null, 'direct', null, {paid}, 'cash', {it}, null);")
     res[f'legacy qty={qty}'] = run(
         'create_sale_with_items(uuid,delivery_kind,uuid,numeric,payment_method,jsonb)',
         f"select public.create_sale_with_items(null, 'direct', null, {paid}, 'cash', {it});")

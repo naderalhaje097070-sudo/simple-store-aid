@@ -5,6 +5,7 @@ BEGIN
   IF current_user <> 'postgres' THEN RAISE EXCEPTION 'APPLY_REQUIRES_POSTGRES'; END IF;
   PERFORM set_config('lock_timeout','5s', true);
   IF (SELECT md5(coalesce(string_agg(version, ',' ORDER BY version), '')) FROM supabase_migrations.schema_migrations) <> 'a2290bc69f202f533f608e9da705620e' THEN RAISE EXCEPTION 'LEDGER_STATE_MISMATCH before 20261110130000: expected exactly 59 known versions'; END IF;
+  IF (SELECT md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) FROM supabase_migrations.schema_migrations) <> 'fe486e75744ff85b9cd172dcc09dbb15' THEN RAISE EXCEPTION 'LEDGER_CONTENT_MISMATCH before 20261110130000: ledger statements differ from the recorded production ledger'; END IF;
   src := $src8c783649$-- C-PADDLE-01: the webhook locks the tenant row FOR NO KEY UPDATE instead of FOR UPDATE.
 -- Body is 20261021140746_webhook_errors_01 with only the tenant lock changed.
 BEGIN;

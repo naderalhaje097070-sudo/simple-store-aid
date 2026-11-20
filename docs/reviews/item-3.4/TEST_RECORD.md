@@ -56,14 +56,14 @@ The verifier therefore requires B50 as an exact ordered subsequence of the ledge
 
 | Check | Result |
 |---|---|
-| `test_candidate_identity.py`, synthetic repositories | 28/28 OK, including 25 rejection cases (details below) and a check that the real committed manifest equals a regeneration from the tree |
+| `test_candidate_identity.py`, synthetic repositories | 33/33 OK: 30 rejection cases, including 5 commit-binding cases (see the Codex review section), and a check that the real committed manifest equals a regeneration from the tree |
 | `real_negatives.sh`, 13 cases on a real-tree clone | the unchanged head is accepted (63), and all 12 mutations are refused (`real-negatives.log`) |
 | `inventory.py` on the real tree | accepted: 596 protected blobs, 63 migrations, B50 and original41 preserved, 13 new, 2 sorting before the B50 max |
 | B50 `test_integrated_identity.py` | OK (unchanged) |
 | `test_contract.py` | 6/6, including the new stage, sale-surface, keyed-body and idempotency negatives |
 | `account-lifecycle` unit suites (owner_closure, natural_expiry, mcp, tanstack_route) | OK |
 | `b7-ci-routing/contract.test.cjs` | 17/17 (run with a local `js-yaml` 4) |
-| `live_harness.py` on the local 63 stack | 22 real `ComposedProbe` checks passed (`live-result.json`), plus the results below |
+| `live_harness.py` on the local 63 stack, after the target guard | 25 real `ComposedProbe` checks passed (`live-result.json`), including 3 row-level replay checks, plus the results below |
 | `upgrade_check.py` on the local original41 stack, then a real `supabase migration up --local` | exit 0 (`upgrade-migration-up.log`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`; full list below) |
 
 The 25 synthetic rejection cases cover:
@@ -93,7 +93,10 @@ The 12 real-tree mutations are:
 `live_harness.py` on the local 63 stack also showed:
 
 - the legacy call is refused with `403/42501`, so `explicit_inactive` is false;
-- a keyed replay with the same key returns the same order, and a different body with that key gets `400 idempotency_conflict`;
+- the keyed sale's replay safety, asserted on the stored rows, not only on the response:
+  - the first call writes exactly 1 order, 1 item and 1 payment, moves stock by −2 (the quantity sold), and adds exactly one completed `financial_idempotency` row, whose key is the request key and whose stored result equals the response;
+  - the exact replay returns the same result and changes no order, item, payment, stock or ledger row;
+  - a different body with the same key gets `400 idempotency_conflict` and changes nothing;
 - a banned actor gets an explicit `account_inactive` from `current_tenant_id`, `get_tenant_today_estimate` and the keyed sale, and the state is unchanged;
 - the B50 snapshot has 23 tables;
 - the billing source check passes.
@@ -122,6 +125,44 @@ The 12 real-tree mutations are:
 ## Rollback
 
 Revert this PR's commits. `integrated_identity.py`, the A41 and B50 manifests, all migrations and the B50 tests are unchanged, so reverting restores the previous state exactly.
+
+## Codex review of `773805ab` — fixes
+
+**1. Commit binding (verifier).** At `773805ab`, the verifier compared the manifest with the index and the worktree, and the manifest file with `HEAD`. It did not check that `HEAD`'s tree carries the same protected files. It now also requires that `ls-tree -r --full-tree HEAD`, restricted to protected paths, equals the reviewed snapshot exactly: path set, blob and mode. A non-blob entry is refused. The three manifests must also be identical in `HEAD` and the index.
+
+Five new synthetic cases cover a commit that differs while the index and worktree still agree with the committed manifest:
+- `HEAD` blob differs, with the index and worktree matching the manifest;
+- `HEAD` lacks a file that the index, worktree and manifest all hold;
+- `HEAD` holds a file absent from the index, worktree and manifest;
+- `HEAD` mode differs;
+- the manifest in the index differs from the one in `HEAD`.
+
+The first four fail closed with `Protected HEAD tree differs from reviewed snapshot`. The fifth fails with the existing uncommitted-manifest check.
+
+The past checks are unchanged:
+- `integrated_identity.py` and its tests;
+- the A41/B50 manifests;
+- the release gate (`capture.py identity` / `tests/release/gate.py`).
+
+**What a regenerated manifest can and cannot admit:** `--print-manifest` rebuilds the snapshot from the committed tree.
+- **Non-migration files:** a regenerated manifest admits any change to them. Such a change is accepted only through review of the commit that carries it.
+- **Migrations:** a regenerated manifest cannot admit them. The full ordered ledger must equal the fixed reviewed `CANDIDATE_BASE_SHA` (`09089be`), and the B50 subsequence must equal the fixed B base (`59c8a0c`). Moving to a new ledger requires a reviewed change of `CANDIDATE_BASE_SHA` in `candidate_identity.py`.
+
+The same text is in the verifier's docstring.
+
+**2. Lab helpers: target guard before any write.** `lab/lab_guard.py` runs before the first request or SQL statement that can write, in both `live_harness.py` and `upgrade_check.py`. It applies the same target rules as `live_probe.Probe.__init__`:
+- `require_write_harness()`: explicit opt-in, no proxy routing, loopback PG on 54322, target local/ci;
+- `CI_ISOLATED_SUPABASE=1`;
+- the status `API_URL` equals `config.supabase_url`, which equals `http://127.0.0.1:54321`;
+- both disposable keys are present.
+
+It adds one check of its own: every existing `auth.users` identity on the target must be synthetic (`example.test`, `example.invalid` or `mongezz.test`).
+
+Negatives (`guard-negatives.log`): 8 refused and 2 accepted.
+- **Refused:** wrong API port, remote API URL, missing key, no isolation marker, config URL mismatch, proxy routing, and a non-synthetic identity present on the target.
+- **Accepted:** the valid local target, before the non-synthetic identity was inserted and after it was removed.
+
+**3. Replay evidence:** the row-level assertions listed above replace the earlier response-only claim.
 
 ## Heads tested
 

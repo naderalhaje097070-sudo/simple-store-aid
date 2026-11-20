@@ -237,6 +237,69 @@ class CandidateIdentity(unittest.TestCase):
         self.commit()
         self.deny("Reviewed base is not an ancestor")
 
+    # Commit binding: index and worktree agree with the committed manifest, the HEAD commit does not
+    def commit_index(self):
+        """Commit the index exactly as staged (no `git add`)."""
+        self.git("-c", "user.name=Identity Fixture", "-c", "user.email=fixture@example.invalid",
+                 "commit", "--allow-empty", "--no-gpg-sign", "-qm", "index-only")
+
+    def store(self, text):
+        return subprocess.run(["git", "-C", str(self.root), "hash-object", "-w", "--stdin"], input=text.encode(),
+                              capture_output=True, check=True).stdout.decode().strip()
+
+    def stage_manifest(self):
+        self.write(cand.CANDIDATE_MANIFEST, json.dumps(cand.build_manifest(self.root), indent=1) + "\n")
+        self.git("add", cand.CANDIDATE_MANIFEST)
+
+    def test_head_blob_differs_while_index_and_worktree_match_manifest(self):
+        path, committed = "src/server.ts", "export const x = 1;\n"
+        self.write(path, "export const x = 99;\n")
+        self.git("add", path)
+        staged = self.git("rev-parse", ":" + path).decode().strip()
+        self.stage_manifest()
+        self.git("update-index", "--cacheinfo", "100644," + self.store(committed) + "," + path)
+        self.commit_index()
+        self.git("update-index", "--cacheinfo", "100644," + staged + "," + path)
+        # Precondition: the old checks (manifest==HEAD manifest, index==worktree==manifest) all hold.
+        self.assertEqual(self.git("diff", "--cached", "--name-only").decode().split(), [path])
+        self.assertEqual(self.git("diff", "--name-only").decode().split(), [])
+        self.deny("Protected HEAD tree differs from reviewed snapshot")
+
+    def test_head_lacks_file_held_by_index_worktree_and_manifest(self):
+        path = "src/staged_only.ts"
+        self.write(path, "export const s = 1;\n")
+        self.git("add", path)
+        self.stage_manifest()
+        self.git("rm", "-q", "--cached", path)
+        self.commit_index()
+        self.git("add", path)
+        self.deny("Protected HEAD tree differs from reviewed snapshot")
+
+    def test_head_holds_file_absent_from_index_worktree_and_manifest(self):
+        path = "src/server.ts"
+        sha = self.git("rev-parse", "HEAD:" + path).decode().strip()
+        self.git("rm", "-q", path)
+        self.stage_manifest()
+        self.git("update-index", "--add", "--cacheinfo", "100644," + sha + "," + path)
+        self.commit_index()
+        self.git("update-index", "--force-remove", path)
+        self.assertFalse((self.root / path).exists())
+        self.deny("Protected HEAD tree differs from reviewed snapshot")
+
+    def test_head_mode_differs_while_index_and_worktree_match(self):
+        path = name(60)
+        sha = self.git("rev-parse", "HEAD:" + path).decode().strip()
+        self.git("update-index", "--cacheinfo", "100755," + sha + "," + path)
+        self.commit_index()
+        self.git("update-index", "--cacheinfo", "100644," + sha + "," + path)
+        self.deny("Protected HEAD tree differs from reviewed snapshot")
+
+    def test_head_manifest_differs_from_index_manifest(self):
+        m = self.manifest()
+        self.write(cand.CANDIDATE_MANIFEST, json.dumps(m) + "\n")
+        self.git("add", cand.CANDIDATE_MANIFEST)
+        self.deny("Uncommitted candidate manifest mutation|Manifest differs between HEAD and index")
+
     # Other protected source
     def test_protected_source_mutation(self):
         self.write("src/server.ts", "export const x = 2;\n")
@@ -245,7 +308,7 @@ class CandidateIdentity(unittest.TestCase):
     def test_protected_source_committed_without_review(self):
         self.write("src/server.ts", "export const x = 2;\n")
         self.commit()
-        self.deny("Unreviewed source mutation|Unreviewed tracked source mode/blob")
+        self.deny("Protected HEAD tree differs from reviewed snapshot")
 
     def test_real_repository_manifest_is_current(self):
         """The checked-in manifest equals a regeneration from the real committed tree (CI checkout)."""

@@ -9,6 +9,14 @@ verifier pins, for the checked-out candidate:
   * the frozen original41 as the ledger's first 41 entries;
   * the frozen A41 and B50 manifests by blob, and the B50 base ledger at its fixed commit.
 No per-path override and no fallback: any difference is a refusal.
+
+The protected snapshot is bound to the HEAD commit's tree, the index and the worktree together.
+
+Limit of regeneration (by design): `--print-manifest` regenerates the snapshot from the committed tree, so a
+regenerated manifest admits any NON-migration protected change; those changes are accepted only through review of
+the commit that carries them. Migrations are not admitted that way: the full ledger must equal the fixed reviewed
+candidate base (CANDIDATE_BASE_SHA) and the B50 subsequence the fixed B base, which a regenerated manifest cannot
+change. Moving to a new candidate ledger requires a reviewed change of CANDIDATE_BASE_SHA in this file.
 """
 import hashlib
 import json
@@ -50,6 +58,18 @@ def tree_migrations(root, commit):
         check(kind == "blob", "Nonblob migration entry at fixed commit")
         found.append({"path": path.decode(), "sha": sha, "mode": mode})
     return sorted(found, key=lambda x: x["path"])
+
+
+def head_tree(root):
+    """Every entry of the HEAD commit's tree: path -> (sha, mode). Nonblob entries are kept so they can be refused."""
+    tree = {}
+    for entry in git(root, "ls-tree", "-r", "-z", "--full-tree", "HEAD").split(b"\0"):
+        if not entry:
+            continue
+        metadata, path = entry.split(b"\t", 1)
+        mode, kind, sha = metadata.decode().split()
+        tree[path.decode()] = (sha, mode if kind == "blob" else kind + ":" + mode)
+    return tree
 
 
 def index_entries(root):
@@ -132,6 +152,13 @@ def verify(root):
     observed = {p.decode() for p in git(root, "ls-files", "--cached", "--others", "--exclude-standard", "-z").split(b"\0") if p}
     check({p for p in observed if protected(p)} == set(expected), "Protected source path set changed")
     check({p for p in index if protected(p)} == set(expected), "Protected index path set changed")
+    # Commit binding: the HEAD tree carries exactly the same protected paths, blobs and modes as the
+    # reviewed snapshot (and hence as the index and worktree checked below), and the frozen and candidate
+    # manifests as they are in the index. Index or worktree agreement alone is never accepted.
+    head = head_tree(root)
+    check({p: v for p, v in head.items() if protected(p)} == expected, "Protected HEAD tree differs from reviewed snapshot")
+    for path in (frozen.A_MANIFEST, frozen.MANIFEST, CANDIDATE_MANIFEST):
+        check(head.get(path) == index.get(path), "Manifest differs between HEAD and index")
     for path, (sha, mode) in expected.items():
         file = root / path
         check(file.exists() and stat.S_ISREG(file.lstat().st_mode), f"Nonregular or missing source: {path}")

@@ -10,16 +10,18 @@ from pathlib import Path
 repo, status_file, stack, sb, out = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3]), sys.argv[4], Path(sys.argv[5])
 for d in ('tests/account-lifecycle', 'tests/b5-lifecycle', 'tests/e2e'):
     sys.path.insert(0, str(repo / d))
-from write_harness_guard import require_write_harness
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lab_guard import guarded_target
+# Target identity (live_probe.Probe.__init__ rules) and synthetic-only check, before anything can write.
+CONFIG, STATUS, BASE, PRIOR_IDENTITIES = guarded_target(status_file)
 from live_probe import NoRedirect
 from owner_closure_probe import explicit_inactive
 from inventory import inventory
 import composed, candidate_surface as surface
 
 c = object.__new__(composed.ComposedProbe)
-c.config = require_write_harness()
-st = json.loads(status_file.read_text())
-c.status, c.base, c.anon, c.admin = st, st['API_URL'], st['ANON_KEY'], st['SERVICE_ROLE_KEY']
+c.config, st = CONFIG, STATUS
+c.status, c.base, c.anon, c.admin = st, BASE, st['ANON_KEY'], st['SERVICE_ROLE_KEY']
 c.opener = urllib.request.build_opener(urllib.request.ProxyHandler({}), NoRedirect())
 c.evidence_dir = out.parent / 'evidence' / 'upgrade'; c.evidence_dir.mkdir(parents=True, exist_ok=True)
 c.controls, c.targets, c.secrets, c.issued, c.source = [], [], [], {}, 'local-3.4-upgrade'

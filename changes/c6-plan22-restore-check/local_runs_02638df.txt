@@ -1,0 +1,9 @@
+== POSITIVE (commit 02638dfabea54817a57c2ec8263fdeb8340924ba; source filled by the collection suite first: source suite exit=0)
+RELEASE_RESTORE_CHECK {"failed": [], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+== NEGATIVE_A_empty_prelude (commit e4681b84fc71661073612068e157e2d89daff105; source filled by the collection suite first: source suite exit=0)
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical", "restored_catalog_guard_passes", "restored_collection_suite_financial_acceptance", "restored_collection_suite_core_controls"], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 0, "restored_suite_exit": 1}
+STEP_EXIT=1
+== NEGATIVE_B_no_app_triggers (commit c589319924b4469d63a4241430c4e4f78bd7c918; source filled by the collection suite first: source suite exit=0)
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical", "restored_collection_suite_financial_acceptance", "restored_collection_suite_core_controls"], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 151, "restored_suite_controls": 0, "restored_suite_exit": 1}
+STEP_EXIT=1

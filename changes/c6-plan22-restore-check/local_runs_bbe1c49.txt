@@ -1,0 +1,8 @@
+== POSITIVE (commit bbe1c495869ae01b0806685f1d9040b742d78bed; source filled by the collection suite first: source suite exit=0)
+RELEASE_RESTORE_CHECK {"failed": [], "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+restored-suite evidence present: yes; suite log present: yes
+== NEGATIVE_C_tamper_before_begin (commit 760b4c29b688a6bbb065c52d82cb16415970ca86; source filled by the collection suite first: source suite exit=0)
+RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK
+STEP_EXIT=1
+restored-suite evidence present: no; suite log present: no

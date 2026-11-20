@@ -64,7 +64,7 @@ The verifier therefore requires B50 as an exact ordered subsequence of the ledge
 | `account-lifecycle` unit suites (owner_closure, natural_expiry, mcp, tanstack_route) | OK |
 | `b7-ci-routing/contract.test.cjs` | 17/17 (run with a local `js-yaml` 4) |
 | `live_harness.py` on the local 63 stack (after the 41→63 upgrade), behind the target guard | 25 real `ComposedProbe` checks passed (`live-result.json`), including 3 row-level replay checks, plus the results below |
-| `upgrade_check.py` on the local original41 stack, then a real `supabase migration up --local` | exit 0 (`upgrade-migration-up.log`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`; full list below) |
+| Populated original41 → 63 upgrade, by a lab helper **removed from this PR** (see "Upgrade receipt" below) | exit 0 (`upgrade-migration-up.log`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`). This is Claude's local receipt; it cannot be rerun from this PR |
 
 The 25 synthetic rejection cases cover:
 
@@ -101,7 +101,7 @@ The 12 real-tree mutations are:
 - the B50 snapshot has 23 tables;
 - the billing source check passes.
 
-`upgrade_check.py` covered:
+The upgrade receipt covered:
 
 - the legacy seed on original41;
 - the 22 original tables and auth identities preserved;
@@ -150,7 +150,7 @@ The past checks are unchanged:
 
 The same text is in the verifier's docstring.
 
-**2. Lab helpers: target guard before any write.** `lab/lab_guard.py` runs before the first request or SQL statement that can write, in both `live_harness.py` and `upgrade_check.py`. It applies the same target rules as `live_probe.Probe.__init__`:
+**2. Lab helpers: target guard before any write.** `lab/lab_guard.py` runs before the first request or SQL statement that can write, in `live_harness.py`. It also ran in the removed upgrade helper; see "Upgrade receipt" below. It applies the same target rules as `live_probe.Probe.__init__`:
 - `require_write_harness()`: explicit opt-in, no proxy routing, loopback PG on 54322, target local/ci;
 - `CI_ISOLATED_SUPABASE=1`;
 - the status `API_URL` equals `config.supabase_url`, which equals `http://127.0.0.1:54321`;
@@ -162,11 +162,41 @@ Negatives (`guard-negatives.log`): 8 refused and 2 accepted.
 - **Refused:** wrong API port, remote API URL, missing key, no isolation marker, config URL mismatch, proxy routing, and a non-synthetic identity present on the target.
 - **Accepted:** the valid local target, before the non-synthetic identity was inserted and after it was removed.
 
-**3. Replay evidence:** the row-level assertions listed above replace the earlier response-only claim.
+**3. Replay evidence.** The row-level assertions replace the earlier response-only claim. The comparison covers exactly the fields read for the tenant of the sale. Equality is exact, as JSON, before and after each call:
+
+| Measured | Fields |
+|---|---|
+| `orders` | the list of `id`, `total`, `paid`, `status` |
+| `order_items` | row count only |
+| `payments` | the list of `id`, `amount`, `kind` |
+| `products` | `stock` of the sold product |
+| `financial_idempotency` | the list of `idempotency_key`, `operation`, completed flag (`completed_at is not null`), `result` |
+
+The comparison does not cover:
+- other columns of these tables, for example `payments.method` and `created_by`, the item price columns, and the timestamps;
+- other tables, for example `financial_audit_log` and `tenant_counters`.
+
+**4. Upgrade helper removed (independent review of `2c44ac5`).** `upgrade_check.py` checked the guarded local PostgreSQL target, then passed a separate `STACK_DIR` to the Supabase CLI. It did not prove that this workdir's `config.toml` belongs to the guarded stack, or that the CLI would connect to the same address and port. Binding the two is not simple, so I removed the helper from the PR. Its receipt is kept: `upgrade-result.json` and `upgrade-migration-up.log`.
+
+**Upgrade receipt (how it was run, for the record):**
+- A disposable stack, `project_id = "monjez-c34-stack41"`, was started with Supabase CLI 2.101.0 on 54321/54322, with only the 41 original migrations.
+- The helper then ran these steps in order:
+  1. the guard;
+  2. the exact 41 chain check;
+  3. the legacy sale surface check, the legacy-sale fixture for owner B, and two customers;
+  4. a snapshot;
+  5. a copy of the 63 ledger files into that stack's `supabase/migrations`;
+  6. `supabase --workdir <stack> migration up --local`;
+  7. preservation checks, the 63 chain and the 63 sale surface;
+  8. empty new tables, `client_truncate_denied_all23` and the idempotency lock;
+  9. the keyed fixture for a fresh owner C;
+  10. a provider ban of B, the named denials, and an unchanged state.
+- No other stack was running during the run.
+- The binding between the workdir and the target was **not** proven by the helper itself.
 
 ## Heads tested
 
-- All logs and results (`unit-tests.log`, `real-negatives.log`, `live-result.json`, `upgrade-result.json`, `guard-negatives.log`, `old-verifier-gap.log`): code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
+- `unit-tests.log`, `real-negatives.log` and `live-result.json`: code head after the upgrade helper was removed (see the commit that adds this line). `upgrade-result.json`, `guard-negatives.log` and `old-verifier-gap.log`: code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
 - `upgrade-migration-up.log`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
 
 ## What was tested, and what still needs CI on the acceptance path

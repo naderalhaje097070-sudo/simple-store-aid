@@ -2101,7 +2101,12 @@
   },
   {
    "path": "tests/b5-lifecycle/billing_probe.py",
-   "sha": "f5c84ff4f75d94858272031aa89a48cb96f1e247",
+   "sha": "8710f4a6f916418c05730349ffe12e03d1336ad6",
+   "mode": "100644"
+  },
+  {
+   "path": "tests/b5-lifecycle/candidate_evidence.py",
+   "sha": "004e9e10e61de0ae551120e7e49794436d84e4e2",
    "mode": "100644"
   },
   {
@@ -2111,7 +2116,7 @@
   },
   {
    "path": "tests/b5-lifecycle/composed.py",
-   "sha": "18b9b86fec86f7b4d56f8b38abeaba6c895bf498",
+   "sha": "c042de0b1ceaa626baf649992c4f83c1843f1608",
    "mode": "100644"
   },
   {
@@ -2121,12 +2126,12 @@
   },
   {
    "path": "tests/b5-lifecycle/ssr_runtime.py",
-   "sha": "62c69660e213a33544286e5de2ffde8d8c8693fc",
+   "sha": "ffe419b736979eac5f5272e4febb009a0f4b9419",
    "mode": "100644"
   },
   {
    "path": "tests/b5-lifecycle/test_contract.py",
-   "sha": "413b6c7e1d95d99aa5c2c8976c070cc23a8a38ce",
+   "sha": "5ac8e5f74008e638d546b039f5e3611edac5c81a",
    "mode": "100644"
   },
   {

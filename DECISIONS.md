@@ -1,3 +1,12 @@
+## 2026-11-20 — B5 billing reference bound to the final ledger definition
+
+Owner direction relayed in the Claude session: proceed with routine implementation and isolated verification of item 3.4.
+- **Billing adapter:** the expected `apply_subscription_webhook` body is now the last ledger definition (`20261110130000`, blob-pinned). It must differ from the historical B4 fixture by exactly the reviewed lock delta, and the B4 fixture must still equal the October definition. `webhook_persistence_probe.py` is unchanged.
+- **Upgrade and SSR:** evidence fields only; no predicate changes.
+- **Open:** whether the billing change is a non-weakening correction under `MERGE_DELEGATION.md` is for the reviewer, or for the owner if disputed.
+
+---
+
 ## 2026-11-20 — Item 3.4: verify the 63-migration candidate with an additive verifier, keeping A41/B50 frozen
 
 Source: the item 3.4 assignment message in this Claude session. It states that the owner (Nader) approved, in the current conversation, the 63-migration fingerprint-check path, keeping the 41 and 50 checks. Scope: item 3.4 only.

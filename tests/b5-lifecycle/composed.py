@@ -17,7 +17,7 @@ from owner_closure_probe import ClosureProbe, claims, explicit_inactive, RPC
 from oc_app_probe import PriceProbe
 from scanner_auth_probe import ScannerProbe
 from tenant_entitlement_probe import PROTECTED, VALUES, explicit_denial
-from mcp_probe import TOOLS, tool_success, account_tool_denial
+from mcp_probe import TOOLS, tool_success, account_tool_denial, tool_response_outline
 from tanstack_route_probe import publish_result
 from inventory import inventory, applied
 import candidate_surface as surface
@@ -152,7 +152,8 @@ class ComposedProbe(ClosureProbe, PriceProbe):
         self.initialize(actor, label)
         for name in TOOLS:
             code, body = self.invoke(name, actor)
-            self.record(label + '_MCP_' + name, account_tool_denial(code, body, name), status=code)
+            self.record(label + '_MCP_' + name, account_tool_denial(code, body, name), status=code,
+                        response=tool_response_outline(code, body, name))
         self.live_token(actor, label + '_price')
         self.check_price(label + '_price_gate', actor['token'], 'account_inactive', 0)
         self.record(label + '_all' + str(len(before['relations'])) + '_relations_and_identity_unchanged', self.state_snapshot() == before)

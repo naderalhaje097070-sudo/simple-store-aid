@@ -1,6 +1,6 @@
 import json
 import unittest
-from mcp_probe import tool_success, account_tool_denial, protocol_body, safe_authorization_id
+from mcp_probe import tool_success, account_tool_denial, protocol_body, safe_authorization_id, tool_response_outline, RESPONSE_CLASSES
 
 
 class McpBoundaryTest(unittest.TestCase):
@@ -41,6 +41,33 @@ class McpBoundaryTest(unittest.TestCase):
         for value in [None, '', 'a' * 31, 'a' * 33, '../' + 'a' * 29,
                       'a' * 31 + '?', 'a' * 31 + '/', 'ع' * 32]:
             self.assertFalse(safe_authorization_id(value))
+
+    def test_response_outline_is_allowlisted_and_textless(self):
+        secret = 'needle-' + 'x' * 24
+        cases = [
+            ((200, {'result': {'isError': True, 'content': [{'type': 'text', 'text': 'account_inactive'}]}}, 'list_products'),
+             {'class': 'tool_error_account_inactive', 'items': None}),
+            ((200, {'result': {'isError': True, 'content': [{'type': 'text', 'text': secret}]}}, 'list_products'),
+             {'class': 'tool_error_other', 'items': None}),
+            ((200, {'result': {'structuredContent': {'products': [{'name': secret}, {'name': secret}]}}}, 'list_products'),
+             {'class': 'tool_success', 'items': 2}),
+            ((200, {'result': {'structuredContent': {'summary': {'sales': 1}}}}, 'today_summary'),
+             {'class': 'tool_success', 'items': None}),
+            ((200, {'error': {'code': -32000, 'message': secret}}, 'list_products'), {'class': 'protocol_error', 'items': None}),
+            ((200, [secret], 'list_products'), {'class': 'unexpected_shape', 'items': None}),
+            ((401, {'error': secret}, 'list_products'), {'class': 'non_200', 'items': None}),
+        ]
+        for args, expected in cases:
+            with self.subTest(expected['class']):
+                outline = tool_response_outline(*args)
+                self.assertEqual(outline, expected)
+                self.assertIn(outline['class'], RESPONSE_CLASSES)
+                self.assertNotIn(secret, json.dumps(outline))
+
+    def test_response_outline_does_not_change_the_denial_predicate(self):
+        empty = {'result': {'structuredContent': {'products': []}}}
+        self.assertFalse(account_tool_denial(200, empty, 'list_products'))
+        self.assertEqual(tool_response_outline(200, empty, 'list_products'), {'class': 'tool_success', 'items': 0})
 
 
 if __name__ == '__main__': unittest.main()

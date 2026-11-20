@@ -11,7 +11,7 @@ import subprocess
 import time
 
 from live_probe import HarnessFailure, FINANCE_TABLES
-from mcp_probe import TOOLS, tool_success, account_tool_denial
+from mcp_probe import TOOLS, tool_success, account_tool_denial, tool_response_outline
 from tanstack_route_probe import TanStackRouteProbe, publish_result
 
 RPC = '/rest/v1/rpc/close_owner_account'
@@ -256,7 +256,8 @@ class ClosureProbe(TanStackRouteProbe):
             self.initialize(actor, 'closed_' + label)
             for name in TOOLS:
                 status, body = self.invoke(name, actor)
-                self.record(label + '_full_route_denial_' + name, account_tool_denial(status, body, name), status=status)
+                self.record(label + '_full_route_denial_' + name, account_tool_denial(status, body, name), status=status,
+                            response=tool_response_outline(status, body, name))
             status, body = self.request('POST', RPC, {}, token=actor['token'])
             self.record(label + '_narrow_idempotent_repeat', status == 200 and body == {'status': 'closed'})
             self.record(label + '_repeat_no_extra_event_or_history', self.marker() == marker

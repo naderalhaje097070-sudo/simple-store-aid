@@ -38,6 +38,30 @@ def tool_success(status, body, name):
     return (isinstance(value, dict) and 'sales' in value) if name == 'today_summary' else isinstance(value, list)
 
 
+RESPONSE_CLASSES = ('tool_error_account_inactive', 'tool_error_other', 'tool_success', 'protocol_error',
+                    'unexpected_shape', 'non_200')
+
+
+def tool_response_outline(status, body, name):
+    """Evidence only, never a predicate: an allowlisted class of an MCP tool response and, for a successful
+    list tool, the number of returned items. No response text, hash of text, identifier or row content."""
+    if status != 200:
+        return {'class': 'non_200', 'items': None}
+    if not isinstance(body, dict):
+        return {'class': 'unexpected_shape', 'items': None}
+    if body.get('error') is not None:
+        return {'class': 'protocol_error', 'items': None}
+    result = body.get('result')
+    if not isinstance(result, dict):
+        return {'class': 'unexpected_shape', 'items': None}
+    if result.get('isError') is True:
+        named = result.get('content') == [{'type': 'text', 'text': 'account_inactive'}]
+        return {'class': 'tool_error_account_inactive' if named else 'tool_error_other', 'items': None}
+    structured = result.get('structuredContent')
+    value = structured.get(TOOLS.get(name)) if isinstance(structured, dict) else None
+    return {'class': 'tool_success', 'items': len(value) if isinstance(value, list) else None}
+
+
 def account_tool_denial(status, body, name):
     # Empty fixtures make empty RLS results indistinguishable from successful reads.
     # Only an explicit expected account denial proves the requested tool rejection.

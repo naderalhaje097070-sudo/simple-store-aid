@@ -1,3 +1,10 @@
+## C6/C7 checkpoint — 2026-11-20
+
+- [Merged to integration] Plan 2.2, the synthetic backup/restore check and safe evidence publication, via [PR #98](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/98), merge `f9807b5543e273e1b6a5370c49f7af0845010c78`. All 14 required checks passed on the PR head `68a38093604545cda596db94687812ca89900612`, including Strix review 5 and all nine release-finance jobs. All eight review threads were resolved. Post-merge push checks are tracked separately in #97.
+- [Next] Continue from this C6 package-prep branch, transport the reviewed manifest, and reconcile the direct 50-migration identity check with the 61-migration candidate while preserving the acceptance controls. Confirm the production backup and isolated restore before any release.
+
+---
+
 ## Current — Phase 1 remaining, 2026-11-06
 
 1. [In progress] release-finance.yml: 8 jobs green on one SHA (collection, sale x fresh/upgrade/populated; journey x fresh/upgrade).

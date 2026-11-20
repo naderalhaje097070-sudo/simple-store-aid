@@ -238,3 +238,43 @@ Revert the commit: the step and the four files. No data or migration is involved
   - CI on the new head, which is the real cleanup step;
   - negatives A and B, and the view self-test, whose paths are unchanged;
   - no exploit testing.
+
+---
+
+# Review round 6 (Strix review 4 on bed1035: the attestation finding closed; one MEDIUM, CWE-59, threads r4639782590 / r4639782599 / r4639782605): fixed (`eeac73f`)
+
+- **Finding (accepted; it predates this PR but the PR's new code relied on it):** the cleanup step ran `[[ -d ]]` and `sudo cp -a` on `/tmp/monjez-c5sale/evidence`.
+  - Both follow a link that `c5finance` can plant, so root could copy a host directory into the published artifact.
+  - In the same section, root also read `status.json` and `private-state.json` (`sudo cat`) and deleted and listed private files (`sudo find`) in the candidate's tree.
+- **Fix:** all reads of candidate inputs happen as `c5finance`. Root reads nothing of the candidate's.
+  - **`tests/release/evidence_import.py`:**
+    - `export` runs as `c5finance`. It walks with directory file descriptors and `O_NOFOLLOW` at every level, the top included, and takes only real directories and regular files, within limits. Any link or other entry rejects the whole export.
+    - `readjson` runs as `c5finance`, with no link following.
+    - `import` runs as the runner, into a fresh 0700 directory. It accepts only normalized relative names: no `..`, `.`, absolute path, duplicate, orphan, or link member. Files are created exclusive and no-follow.
+  - **`tests/release/collect_evidence.sh`:** the single production path, used by the cleanup step in every matrix job and by the local emulation.
+    - The stack keys come from the runner's own `status-private.json`.
+    - The actor secrets come via `readjson`.
+    - A rejection empties the publication; the cleanup step asserts `evidence_import.ok`, so the step fails and nothing is uploaded.
+    - It then places the restore attestation as before.
+  - **Cleanup step:**
+    - the private-file delete and check run as `c5finance`;
+    - `verify_publication` (with the same forbidden-value rules), the attestation verification, and the firewall and stack receipts are unchanged.
+  - **Failure diagnosis is kept:** the `RELEASE_EVIDENCE_IMPORT` and `RELEASE_CLEANUP` log lines carry the exit codes and the rejected names.
+- **Evidence (`local_runs_eeac73f.txt`):**
+
+| run | result |
+|---|---|
+| `selftest_evidence_import.sh` (production script; synthetic `c5finance` trees and a synthetic root-only canary; hostile tar streams) | 20/20 PASS; the canary secret was never found |
+| `selftest_attestation.py` through the production export/import | 12/12 |
+| restore control block / helper | 7/7 / 5/5 |
+| a collection job's real suite evidence | imported 2 files, 22 forbidden values checked, publishable |
+| positive restore `eeac73f` + emulation | 15/15, 108 restored-suite controls; attestation `verified` |
+| same run, evidence directory replaced by a link to a synthetic root-only directory | export refused (exit 3), import refused (exit 4), nothing of it published, the step fails |
+
+- **Outside this section, reported only:** the suite job's "Required controls" steps run `sudo python3` that reads `/tmp/monjez-c5sale/evidence/*.json` as root.
+  - A planted link there makes root read another file.
+  - Only control names and pass/fail are printed, and nothing is published from it.
+- **Not run:**
+  - CI on the new head;
+  - the planted-links run, negatives A–D and the view self-test (the restore step is unchanged);
+  - the no-`c5finance`-user path, which was inspected only.

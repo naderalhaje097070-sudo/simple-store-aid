@@ -379,6 +379,204 @@ jobs:
                 'failed':sorted(r['name'] for r in rows if not r.get('passed'))}))
           assert len(required)==18 and required<=passed and all(r.get('passed') for r in rows)
           PY
+      - name: Logical backup and restore of the candidate database (C6/C7 plan 2.2)
+        # Synthetic data only: the database the suite and probes above have just used. Backup = the Supabase
+        # CLI split dump (roles, schema, data) plus the migration ledger; restore = a FRESH stack on the same
+        # loopback ports, so the c5finance firewall is unchanged. ALL repository SQL and Python, the restore
+        # itself included, run as c5finance; only the CLI, docker and pg_isready run as the runner, as in the
+        # stack steps above.
+        # File isolation (review fix, Strix HIGH on da33d39): no root or runner file operation targets a path
+        # c5finance can modify. Everything privileged lives in a fresh mktemp directory R under /tmp, owned by the
+        # runner, mode 0711, laid out before c5finance gets anything:
+        #   R/in  root:c5finance 0750, files 0640: the dumps, the target status and the restore SQL, copied from
+        #         the runner's own checkout ($GITHUB_WORKSPACE), never from c5finance's repository copy
+        #   R/c5  c5finance 0700: everything c5finance writes (guard and suite output, its private state); root
+        #         never writes, chowns or reads in it. The runner reads named result files back only THROUGH
+        #         c5finance (sudo -u c5finance cat), into runner-owned files
+        # Nothing is written into /tmp/monjez-c5sale or its evidence directory. The step's attestation (four named
+        # verification files, checked to hold none of the restore stack keys or restored-suite actor secrets, plus
+        # their sha256 digests and the tested source) is staged in the runner-only $RUNNER_TEMP/restore-attestation,
+        # NOT in the publication tree that the cleanup step later fills from c5finance's evidence (review fix, Strix
+        # MEDIUM on 6c13bc2); the cleanup step places it and re-verifies it after that merge. R and the private copies
+        # are deleted at the end.
+        # Controls, all required:
+        #   the privileged layout is runner/root-owned and not writable by c5finance (checked as c5finance)
+        #   restored data identical per table (public, monjez_private, auth, supabase_migrations)
+        #   restored catalog identical (normalized ACLs, view queries, and application triggers on platform tables
+        #   such as auth.users, which the CLI schema dump omits and the step restores from the source); the
+        #   catalog guard passes on the restored copy
+        #   the candidate's collection behavioural suite runs on the restored copy and passes its core controls
+        #   negative: a restore WITHOUT the ACL prelude must change the catalog and fail the guard
+        #   negative: one tampered ledger row must change the data hash, inside a transaction that rolls back; the
+        #   per-table hashes must equal the restored ones again before the behavioural suite starts
+        #   the published restore evidence is exactly the named files and holds no private value
+        if: matrix.suite == 'collection'
+        shell: bash
+        run: |
+          set -euo pipefail
+          src="$RUNNER_TEMP/monjez-c5sale-stack"; tgt="$RUNNER_TEMP/monjez-restore-stack"; work="$RUNNER_TEMP/restore-work"
+          base=/tmp/monjez-c5sale; repo="$base/repo"; ws="$GITHUB_WORKSPACE/tests/release/restore"
+          att="$RUNNER_TEMP/restore-attestation"   # runner-only; placed into the publication by the cleanup step
+          url=postgresql://postgres:postgres@127.0.0.1:54322/postgres
+          umask 077; mkdir -p "$work"; mkdir "$att"   # fails if it already exists
+          # the privileged layout, complete before any c5finance command in this step
+          R=$(mktemp -d /tmp/monjez-restore.XXXXXXXXXX); chmod 711 "$R"
+          in="$R/in"; c5="$R/c5"
+          sudo install -d -m 750 -o root -g c5finance "$in"
+          sudo install -d -m 700 -o c5finance -g c5finance "$c5"
+          trap 'supabase --workdir "$tgt" stop --no-backup > /dev/null 2>&1 || true
+                sudo -u c5finance rm -rf "${c5:?}" 2> /dev/null || true; sudo rm -rf "${R:?}"
+                rm -f "${work:?}/status-tgt-private.json" "${work:?}/restore-private-state.json" "${work:?}/tamper.sql"' EXIT
+          put() { sudo install -m 640 -o root -g c5finance "$1" "$in/$2"; }   # $1 is a runner-owned file
+          for f in fingerprint data_hash prelude app_triggers_outside; do put "$ws/$f.sql" "$f.sql"; done
+          as5() { sudo -u c5finance env -i PATH="$PATH" PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres "$@"; }
+          asq() { as5 psql -X -v ON_ERROR_STOP=1 -At -q -f "$1"; }
+          fetch() { as5 cat "$c5/$1" > "$work/$2" 2> /dev/null || rm -f "${work:?}/$2"; }   # c5finance reads its own file
+          guard() { as5 mkdir -m 700 "$c5/$1"
+                    (cd "$repo" && as5 env PYTHONDONTWRITEBYTECODE=1 CI_ISOLATED_SUPABASE=1 python -I tests/catalog-guard/guard.py "$c5/$1" > /dev/null 2>&1); }
+          ready() { for i in $(seq 1 90); do pg_isready -q -h 127.0.0.1 -p 54322 && return 0; sleep 2; done; return 1; }
+          restore() { # $1 = with|without prelude; every file is read and executed by c5finance, from R/in
+            files=(-f "$in/roles.sql"); [[ "$1" == with ]] && files+=(-f "$in/prelude.sql")
+            as5 psql -X --single-transaction -v ON_ERROR_STOP=1 -q \
+              "${files[@]}" -f "$in/schema.sql" -f "$in/app_triggers.sql" -c 'SET session_replication_role = replica' -f "$in/data_app.sql" -f "$in/ledger.sql" \
+              > "$work/restore-$1-private.log" 2>&1; }
+          as5 id -un > "$work/identity.txt"   # the OS identity every repository SQL/Python call below runs as
+          # layout control, observed as c5finance: neither R nor R/in may be writable by it
+          { stat -c '%U %a' "$R"; stat -c '%U %G %a' "$in"; stat -c '%U %G %a' "$c5"
+            if as5 test -w "$R"; then echo 'R_WRITABLE_BY_C5FINANCE'; fi
+            if as5 test -w "$in"; then echo 'IN_WRITABLE_BY_C5FINANCE'; fi; } > "$work/layout.txt"
+          asq "$in/fingerprint.sql" > "$work/src.fp"
+          asq "$in/data_hash.sql" > "$work/src.data"
+          asq "$in/app_triggers_outside.sql" > "$work/app_triggers.sql"
+          supabase db dump --db-url "$url" -f "$work/roles.sql" --role-only > "$work/dump-private.log" 2>&1
+          supabase db dump --db-url "$url" -f "$work/schema.sql" >> "$work/dump-private.log" 2>&1
+          supabase db dump --db-url "$url" -f "$work/data.sql" --use-copy --data-only >> "$work/dump-private.log" 2>&1
+          db="supabase_db_$(sed -n 's/^project_id = "\(.*\)"/\1/p' "$src/supabase/config.toml")"
+          docker exec "$db" pg_dump -U postgres -d postgres -n supabase_migrations --no-owner --no-privileges > "$work/ledger.sql"
+          # platform-owned rows the postgres role cannot restore; application data is never in these schemas
+          awk '/^COPY "(storage|supabase_functions)"\./{skip=1; next} skip && /^\\\.$/{skip=0; next} !skip' "$work/data.sql" > "$work/data_app.sql"
+          for f in roles schema app_triggers data_app ledger; do put "$work/$f.sql" "$f.sql"; done
+          rm -f "$work/roles.sql" "$work/schema.sql" "$work/app_triggers.sql" "$work/data.sql" "$work/data_app.sql" "$work/ledger.sql"
+          supabase --workdir "$src" stop --no-backup > "$work/stop-src-private.log" 2>&1
+          mkdir -p "$tgt" && (cd "$tgt" && supabase init > "$work/init-tgt-private.log" 2>&1)
+          supabase --workdir "$tgt" start -x realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler \
+            > "$work/start-tgt-private.log" 2>&1 || { echo 'RELEASE_RESTORE_TARGET_START_FAILED_PRIVATE_LOG_WITHHELD'; exit 1; }
+          ready
+          n1_restore=0; restore without || n1_restore=$?
+          asq "$in/fingerprint.sql" > "$work/n1.fp"
+          n1_guard=0; guard restore-n1-guard || n1_guard=$?
+          fetch restore-n1-guard/catalog-guard.json restore-n1-guard.json
+          supabase --workdir "$tgt" db reset --local > "$work/reset-tgt-private.log" 2>&1
+          ready
+          ok_restore=0; restore with || ok_restore=$?
+          asq "$in/fingerprint.sql" > "$work/tgt.fp"
+          asq "$in/data_hash.sql" > "$work/tgt.data"
+          ok_guard=0; guard restore-guard || ok_guard=$?
+          fetch restore-guard/catalog-guard.json restore-guard.json
+          # negative probe: the ledger UPDATE goes right AFTER data_hash.sql's own "begin;" line, so the tamper and its
+          # hash share one transaction that the file rolls back (review fix: it was inserted before BEGIN and committed).
+          # Built by the runner from its own checkout into a runner-owned file, then copied into R/in (review fix: no
+          # root tee or chown into a c5finance-writable directory).
+          tam="update supabase_migrations.schema_migrations set name = coalesce(name, '') || '_tampered' where version = (select min(version) from supabase_migrations.schema_migrations);"
+          awk -v u="$tam" '{print} !done && /^begin;/{print u; done=1} END{exit done ? 0 : 3}' "$ws/data_hash.sql" > "$work/tamper.sql"
+          put "$work/tamper.sql" tamper.sql
+          asq "$in/tamper.sql" > "$work/tamper.data"
+          # the restored copy must be exactly as restored again BEFORE the behavioural suite starts
+          asq "$in/data_hash.sql" > "$work/after_tamper.data"
+          cmp -s "$work/after_tamper.data" "$work/tgt.data" || { echo 'RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK'; exit 1; }
+          # the candidate's collection behavioural suite, on the restored copy (fresh contract: its own new actors)
+          supabase --workdir "$tgt" status -o json > "$work/status-tgt-private.json"
+          put "$work/status-tgt-private.json" status.json
+          as5 mkdir -m 700 "$c5/restore-suite"
+          suite_exit=0
+          (cd "$repo" && sudo -u c5finance env -i PATH="$PATH" PYTHONDONTWRITEBYTECODE=1 PLAYWRIGHT_BROWSERS_PATH=/tmp/collection-playwright \
+            MONJEZ_RELEASE_TARGET=1 EXPECTED_SOURCE="$EXPECTED_SOURCE" CONTRACT_MODE=fresh \
+            MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1 \
+            VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=c5finance-preflight-placeholder \
+            PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \
+            python tests/c5-collection/native.py --expected-source "$EXPECTED_SOURCE" \
+              --status-file "$in/status.json" --evidence-dir "$c5/restore-suite" \
+              --private-state "$c5/private-state.json" > "$work/restore-suite-private.log" 2>&1) || suite_exit=$?
+          fetch restore-suite/financial-result.json suite-result.json
+          fetch private-state.json restore-private-state.json
+          # runner only, no sudo: every input below is a runner-owned file in $work, every output is in $att
+          WORK="$work" ATT="$att" N1_RESTORE="$n1_restore" N1_GUARD="$n1_guard" OK_RESTORE="$ok_restore" OK_GUARD="$ok_guard" \
+            SUITE_EXIT="$suite_exit" RUNNER_USER="$(id -un)" EXPECTED_SOURCE="$EXPECTED_SOURCE" python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          w, att = Path(os.environ['WORK']), Path(os.environ['ATT'])
+          rd = lambda n: (w / n).read_text().splitlines()
+          src_fp, tgt_fp, n1_fp = rd('src.fp'), rd('tgt.fp'), rd('n1.fp')
+          src_d, tgt_d, tam_d = rd('src.data'), rd('tgt.data'), rd('tamper.data')
+          after_tam_d = rd('after_tamper.data')
+          identity, layout = rd('identity.txt'), rd('layout.txt')
+          def load(n):
+              p = w / n
+              try:
+                  return json.loads(p.read_text()) if p.exists() else {}
+              except ValueError:
+                  return {}
+          def guard_ok(d):
+              rows = d.get('controls') or []
+              return bool(rows) and all(r.get('passed') for r in rows) and any(r.get('name') == 'baseline_no_violations' and r.get('passed') for r in rows)
+          rows_in = lambda lines, prefix: sum(int(l.split('|')[1]) for l in lines if l.startswith(prefix))
+          # the same core collection controls the suite's own "Required controls" step demands in every mode
+          core = {'real_hook_single_stored_collection', 'parallel_fresh_key_exactly_one_effect',
+                  'keyed_only_acl_and_existing_ledger_rls', 'settlement_retry_no_second_cash',
+                  'concurrent_same_sale_key_exactly_one_effect', 'concurrent_collection_cannot_exceed_total',
+                  'lost_reply_first_commit_persisted_once', 'previously_authorized_staff_banned'}
+          suite = load('suite-result.json')
+          srows = suite.get('controls') or suite.get('checks') or []
+          spassed = {r.get('name') for r in srows if r.get('passed')}
+          ok_guard, n1_guard = load('restore-guard.json'), load('restore-n1-guard.json')
+          controls = [
+            ('repository_sql_runs_as_c5finance', identity == ['c5finance']),
+            ('private_layout_not_writable_by_c5finance',
+             layout == [os.environ['RUNNER_USER'] + ' 711', 'root c5finance 750', 'c5finance c5finance 700']),
+            ('source_fingerprint_nonempty', len(src_fp) > 100),
+            ('source_data_hash_nonempty', len(src_d) > 20 and rows_in(src_d, 'supabase_migrations.') > 0),
+            ('restore_with_prelude_succeeded', os.environ['OK_RESTORE'] == '0'),
+            ('restored_data_identical_per_table', src_d == tgt_d),
+            ('restored_catalog_identical', src_fp == tgt_fp),
+            ('restored_catalog_guard_passes', os.environ['OK_GUARD'] == '0' and guard_ok(ok_guard)),
+            ('restored_collection_suite_financial_acceptance', os.environ['SUITE_EXIT'] == '0' and suite.get('financial_acceptance') is True),
+            ('restored_collection_suite_core_controls', bool(srows) and core <= spassed and all(r.get('passed') for r in srows)),
+            ('negative_without_prelude_catalog_differs', os.environ['N1_RESTORE'] == '0' and n1_fp != src_fp),
+            ('negative_without_prelude_guard_fails', not (os.environ['N1_GUARD'] == '0' and guard_ok(n1_guard))),
+            ('tamper_rolled_back_before_suite', after_tam_d == tgt_d == src_d),
+            ('negative_tampered_ledger_row_detected', tam_d != tgt_d and [l for l in tam_d if l not in tgt_d][0].startswith('supabase_migrations.schema_migrations|')),
+          ]
+          summary = {'source': os.environ['EXPECTED_SOURCE'], 'source_rows': {'public': rows_in(src_d, 'public.'), 'auth': rows_in(src_d, 'auth.'),
+                                     'ledger': rows_in(src_d, 'supabase_migrations.')},
+                     'fingerprint_lines': len(src_fp), 'data_tables': len(src_d),
+                     'without_prelude_catalog_lines_changed': len(set(n1_fp) ^ set(src_fp)),
+                     'restored_suite_controls': len(srows), 'restored_suite_exit': int(os.environ['SUITE_EXIT'])}
+          # attestation: exactly these named verification files, each re-serialized to names and booleans, none
+          # holding a restore-stack key or a restored-suite actor secret, plus their digests for the cleanup step
+          status, state = load('status-tgt-private.json'), load('restore-private-state.json')
+          forbidden = [str(v) for k, v in status.items() if any(s in k.upper() for s in ('KEY', 'PASSWORD', 'SECRET')) and v]
+          forbidden += [str(v) for a in (state.get('actors') or {}).values() if isinstance(a, dict)
+                        for k, v in a.items() if k in ('token', 'refresh', 'password', 'email') and v]
+          verdict = lambda rows: [{'name': str(r.get('name')), 'passed': bool(r.get('passed'))} for r in rows]
+          texts = {'restore-guard.json': {'controls': verdict(ok_guard.get('controls') or [])},
+                   'restore-n1-guard.json': {'controls': verdict(n1_guard.get('controls') or [])},
+                   'restore-suite-controls.json': {'controls': verdict(srows)}}
+          check = {'controls': [{'name': n, 'passed': bool(p)} for n, p in controls], **summary}
+          texts['restore-check.json'] = check
+          texts = {n: json.dumps(v, indent=2) + '\n' for n, v in texts.items()}
+          clean = bool(status) and bool(forbidden) and not any(f in t for t in texts.values() for f in forbidden)
+          if clean:
+              for n, t in texts.items():
+                  (att / n).write_text(t)
+              (att / 'restore-attestation.sha256').write_text(''.join(
+                  hashlib.sha256(t.encode()).hexdigest() + '  ' + n + '\n' for n, t in sorted(texts.items())))
+          published = sorted(p.name for p in att.iterdir())
+          controls.append(('published_restore_evidence_named_and_secret_free',
+                           clean and published == sorted(list(texts) + ['restore-attestation.sha256'])))
+          failed = [n for n, p in controls if not p]
+          print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': failed, 'attested': published, 'forbidden_values_checked': len(forbidden), **summary}))
+          assert len(controls) == 15 and not failed
+          PY
       - name: Cleanup and safe final receipts
         id: publication
         if: always()
@@ -386,11 +584,14 @@ jobs:
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/release-evidence"
-          mkdir -p "$out"
-          if [[ -d /tmp/monjez-c5sale/evidence ]]; then
-            sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
-            sudo chown -R "$(id -un):$(id -gn)" "$out"
-          fi
+          # Evidence import boundary (review fix, Strix review 4 on bed1035, CWE-59). The candidate's tree
+          # /tmp/monjez-c5sale belongs to c5finance, so root never opens, walks or reads it: c5finance exports its
+          # evidence with no link following (only real directories and regular files), the runner imports the stream
+          # into a fresh runner-owned directory with strict names and no collisions, and the stack keys come from the
+          # runner's own status copy. A rejection empties the publication and fails this step (asserted below), in
+          # every matrix job. The restore attestation (Strix MEDIUM on 6c13bc2) is then placed as before. The same
+          # script runs in the local emulation (tests/release/restore/run_cleanup_attestation_local.sh).
+          tests/release/collect_evidence.sh "$out" "$RUNNER_TEMP/restore-attestation"
           rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log" "$RUNNER_TEMP/upgrade-private.log" "$RUNNER_TEMP/advisors-private.txt"
           if [[ -d "$RUNNER_TEMP/monjez-c5sale-stack/supabase" ]]; then
             supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1 || true
@@ -405,27 +606,30 @@ jobs:
           after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','C5F'],text=True)) if before else 0
           sys.path.insert(0,'tests/account-lifecycle')
           from scanner_evidence import verify_publication, PublicationBlocked
-          forbidden=[]
-          for filename in ['status.json','private-state.json']:
-              p=Path('/tmp/monjez-c5sale')/filename
-              if p.exists():
-                  data=json.loads(subprocess.check_output(['sudo','cat',str(p)],text=True))
-                  if filename=='status.json':
-                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
-                  else:
-                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
-                                    if k in ('token','refresh','password','email')]
+          # forbidden values, collected without root reading the candidate's tree (tests/release/collect_evidence.sh)
+          forbidden=json.loads((root/'publication-forbidden.json').read_text())
+          imported=json.loads((root/'evidence-import.json').read_text())
+          as_c5=['sudo','-u','c5finance','find','/tmp/monjez-c5sale','-maxdepth','1']   # c5finance acts in its own tree
           try:
               verify_publication(out,root/'release-private-quarantine',forbidden)
           finally:
-              subprocess.run(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-type','f','-name','*.json*','-delete'],check=False)
+              if imported['confined_identity_present']:
+                  subprocess.run(as_c5+['-type','f','-name','*.json*','-delete'],check=False)
           cleanup={'source':os.environ['EXPECTED_SOURCE'],'suite':os.environ['SUITE'],'mode':os.environ['CONTRACT_MODE'],
                    'unexpected_ipv4_rejects':after-before,
-                   'private_files_removed':not subprocess.check_output(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip(),
+                   'private_files_removed':not imported['confined_identity_present'] or not subprocess.run(as_c5+['-name','*.json*','-print'],capture_output=True,text=True).stdout.strip(),
                    'stack_removed':'monjez-c5sale-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
+          # restore attestation, re-verified AFTER the merge and the publication check: exact names, digests and source
+          sys.path.insert(0,'tests/release/restore')
+          from attestation import verify as verify_attestation
+          attestation,collisions=verify_attestation(out,root/'restore-attestation',os.environ['EXPECTED_SOURCE'])
+          cleanup['restore_attestation']=attestation; cleanup['restore_name_collisions']=collisions
+          cleanup['evidence_import']={k:imported[k] for k in ('ok','export_exit','import_exit','private_state_exit','rejections')}
           (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
           print('RELEASE_CLEANUP '+json.dumps(cleanup))
           assert after==before and cleanup['private_files_removed'] and cleanup['stack_removed']
+          assert not collisions and attestation in ('verified','absent'), 'RELEASE_RESTORE_ATTESTATION_'+attestation
+          assert imported['ok'], 'RELEASE_EVIDENCE_IMPORT_REJECTED'
           PY
           echo 'safe=true' >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4

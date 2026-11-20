@@ -1,0 +1,85 @@
+# Local evidence for the PR #98 Strix review 2 fix (HIGH, CWE-59: root file operations in c5finance's tree).
+# Commits: 195af5a59bd1a093af4c24155144ea70bbb546c6 (workflow + helper + self-tests), 0bfcbe929c1221e5977fd4ac5efee07c663bb4a8 (self-test FORGE split).
+# The restore step text is identical in both. Local container only, synthetic data, disposable local Supabase stacks.
+# No Lovable, production, main or publish. Locally the runner identity is root; in CI it is the runner user.
+
+## 1. Static: privileged commands left in the step (extracted from the committed YAML)
+  10:sudo install -d -m 750 -o root -g c5finance "$in"
+  11:sudo install -d -m 700 -o c5finance -g c5finance "$c5"
+  15:put() { sudo install -m 640 -o root -g c5finance "$1" "$in/$2"; }   # $1 is a runner-owned file
+  87:# runner only, no sudo: every input below is a runner-owned file in $work, every output is in $pub
+  13 (trap):     sudo -u c5finance rm -rf "${c5:?}" ...; sudo rm -rf "${R:?}"  (c5finance deletes its own tree first; root then
+                 removes R, runner-owned; rm -rf does not follow links, and R/c5 is reached only if c5finance's rm failed)
+  (every other sudo is 'sudo -u c5finance', i.e. c5finance acting in its own tree; no sudo tee/chown/cp/python remains)
+  writes into /tmp/monjez-c5sale or its evidence directory: 0
+
+## 2. Synthetic control-block self-test: tests/release/restore/selftest_restore_publication.py
+good PASS (exit=0 failed=[] published=['restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+layout_writable PASS (exit=1 failed=['private_layout_not_writable_by_c5finance'] published=['restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+layout_wrong_owner PASS (exit=1 failed=['private_layout_not_writable_by_c5finance'] published=['restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+secret_in_verdict PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+actor_email_in_verdict PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+extra_file_in_pub PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=['restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json', 'unexpected.json'] private_value_published=False)
+no_status PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+EXIT=0
+
+## 3. Helper exit-status self-test (helper changed): tests/release/restore/selftest_run_step_local.sh
+step_failure_reaches_caller PASS (7|1|STEP_EXIT=7)
+step_success_exits_zero PASS (0|1|STEP_EXIT=0)
+bad_commit_fails_before_step PASS (2|0|)
+missing_restore_step_fails_before_run PASS (NZ|0|)
+repo_setup_failure_fails_before_step PASS (NZ|0|)
+EXIT=0
+
+## 4. Full restore step through run_step_local.sh (source stack filled by the collection suite before each run)
+== POSITIVE_195af5a: positive, commit 195af5a
+RELEASE_RESTORE_CHECK {"failed": [], "published": ["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 23, "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+== DEFENSIVE_links: defensive: c5finance pre-planted 7 symlinks to a root-owned canary at every path the pre-fix step touched as root (commit 0bfcbe9, FORGE=0)
+PLANTED 7 links, forged repository SQL: 0, canary /var/tmp/monjez-restore-canary
+RELEASE_RESTORE_CHECK {"failed": [], "published": ["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 23, "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+== DEFENSIVE_forge: defensive: the same links + c5finance's repo copy of fingerprint.sql forged and data_hash.sql linked to the canary secret (commit 0bfcbe9, FORGE=1)
+PLANTED 7 links, forged repository SQL: 1, canary /var/tmp/monjez-restore-canary
+RELEASE_RESTORE_CHECK {"failed": ["restored_collection_suite_financial_acceptance", "restored_collection_suite_core_controls"], "published": ["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 7, "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 0, "restored_suite_exit": 1}
+STEP_EXIT=1
+== NEGATIVE_C2: negative C: tamper UPDATE before BEGIN (local-only commit 8b0ea22de3c9c9262ea3e8959f1328e83b9431c0)
+RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK
+STEP_EXIT=1
+== NEGATIVE_A2: negative A: empty prelude (local-only commit e57f32b0ea9614aea1095ff453f7dd494d9aafea)
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical", "restored_catalog_guard_passes", "restored_collection_suite_financial_acceptance", "restored_collection_suite_core_controls"], "published": ["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 23, "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 0, "restored_suite_exit": 1}
+STEP_EXIT=1
+== NEGATIVE_D2: negative D: restored view query changed, same columns (local-only commit e5f3ba94e53656cb01e7d1398a78c472ad55354a)
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical"], "published": ["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 23, "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=1
+
+## 5. Defensive verification, run once right after each defensive run (selftest_planted_links.sh verify; it removes the canary at the end)
+== DEFENSIVE_links (FORGE=0)
+canary_owner_mode_mtime_content_unchanged PASS
+planted_links_left_as_planted PASS
+forged_repository_sql_left_as_planted PASS
+no_root_owned_path_in_c5finance_tree PASS
+no_leftover_private_layout PASS
+canary_secret_absent_from_runner_temp PASS
+step_passed_with_real_fingerprint PASS
+published_exactly_named_files PASS
+VERIFY_EXIT=0
+== DEFENSIVE_forge (FORGE=1)
+canary_owner_mode_mtime_content_unchanged PASS
+planted_links_left_as_planted PASS
+forged_repository_sql_left_as_planted PASS
+no_root_owned_path_in_c5finance_tree PASS
+no_leftover_private_layout PASS
+canary_secret_absent_from_runner_temp PASS
+step_used_real_fingerprint_and_suite_refused_dirty_source PASS
+published_exactly_named_files PASS
+VERIFY_EXIT=0
+(restored-suite log of DEFENSIVE_forge ends: "live_probe.HarnessFailure: tracked source dirty before execution": the suite's own
+ integrity check refuses the forged repository copy; the restore SQL itself came from the runner's checkout: 344 fingerprint lines)
+
+## 6. Not run
+- In CI: the new step has not run under the real runner image and firewall yet (needs the push).
+- Negative B (no app triggers) was not rerun: the app-trigger path changed only in where the file is read from (R/in).
+- The view self-test (selftest_view_fingerprint.sh) was not rerun: fingerprint.sql is unchanged.
+- No offensive testing: the plants only check that the fixed step does not touch c5finance-planted links; the pre-fix
+  step was not run against them.

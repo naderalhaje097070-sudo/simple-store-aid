@@ -1,0 +1,88 @@
+# Local evidence for the PR #98 Strix review 4 fix (MEDIUM, CWE-59: the cleanup step read the candidate-owned evidence
+# tree as root). Commit under test: eeac73fd7db0fc0b5ea0ff78116ad7f0b27d2da9. Local container only; synthetic inputs and a
+# synthetic root-only canary created and removed by the tests; no real host file read or linked; no exploit replayed.
+
+## 1. Import boundary self-test: tests/release/selftest_evidence_import.sh (the production collect_evidence.sh on /tmp/monjez-c5sale)
+# receipt fields: ok|export_exit|import_exit|private_state_exit|imported files|forbidden values
+good_regular_tree PASS (True|0|0|0|financial-result.json,sub dir/deeper/notes é.txt|3)
+evidence_root_is_link_to_root_only_dir PASS (False|3|4|0||3)
+nested_link_to_root_only_file PASS (False|3|0|0||3)
+nested_link_to_candidate_file PASS (False|3|0|0||3)
+nested_dir_link PASS (False|3|0|0||3)
+fifo_in_evidence PASS (False|3|0|0||3)
+hardlink_to_root_only_file PASS (not creatable by c5finance: fs.protected_hardlinks=1)
+private_state_is_link PASS (False|0|0|3||1)
+evidence_absent PASS (True|0|0|0||3)
+no_private_state PASS (True|0|0|0|financial-result.json,sub dir/deeper/notes é.txt|1)
+import_rejects_absolute_name PASS (exit=4)
+import_rejects_parent_traversal PASS (exit=4)
+import_rejects_dot_component PASS (exit=4)
+import_rejects_symlink_member PASS (exit=4)
+import_rejects_hardlink_member PASS (exit=4)
+import_rejects_duplicate_name PASS (exit=4)
+import_rejects_orphan_file PASS (exit=4)
+import_rejects_file_then_dir_same_name PASS (exit=4)
+import_accepts_plain_tree PASS (exit=0)
+import_refuses_existing_destination PASS (exit=1)
+EXIT=0
+
+## 2. Attestation self-test (now through the production export/import): tests/release/restore/selftest_attestation.py
+good PASS (status=verified collisions=[] placed=True publication_allowed=True runner_files_never_replaced=True)
+planted_restore_dir PASS (status=MISMATCH collisions=['restore', 'restore/restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_top_level_name PASS (status=MISMATCH collisions=['restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_nested_name PASS (status=MISMATCH collisions=['a/b/restore-guard.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_restore_symlink PASS (status=verified collisions=[] placed=True publication_allowed=False runner_files_never_replaced=True)
+overwritten_after_placement PASS (status=MISMATCH collisions=[] placed=True publication_allowed=False runner_files_never_replaced=True)
+source_mismatch PASS (status=MISMATCH collisions=[] placed=True publication_allowed=False runner_files_never_replaced=True)
+staged_unexpected_name PASS (status=MISMATCH collisions=[] placed=False publication_allowed=False runner_files_never_replaced=True)
+staged_missing_file PASS (status=MISMATCH collisions=[] placed=False publication_allowed=False runner_files_never_replaced=True)
+no_restore_step_clean PASS (status=absent collisions=[] placed=False publication_allowed=True runner_files_never_replaced=True)
+restore_stopped_early PASS (status=absent collisions=[] placed=False publication_allowed=True runner_files_never_replaced=True)
+no_restore_step_planted PASS (status=MISMATCH collisions=['restore', 'restore/restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+EXIT=0
+
+## 3. Restore control block and helper self-tests
+good PASS
+layout_writable PASS
+layout_wrong_owner PASS
+secret_in_verdict PASS
+actor_email_in_verdict PASS
+extra_file_in_pub PASS
+no_status PASS
+EXIT=0
+step_failure_reaches_caller PASS (7|1|STEP_EXIT=7)
+step_success_exits_zero PASS (0|1|STEP_EXIT=0)
+bad_commit_fails_before_step PASS (2|0|)
+missing_restore_step_fails_before_run PASS (NZ|0|)
+repo_setup_failure_fails_before_step PASS (NZ|0|)
+EXIT=0
+
+## 4. Real local artifacts through tests/release/restore/run_cleanup_attestation_local.sh (calls the production collect_evidence.sh)
+== A. a collection job's real suite evidence (source stack filled by tests/c5-collection/native.py at eeac73f; runner status copy present)
+RELEASE_EVIDENCE_IMPORT {"ok": true, "confined_identity_present": true, "private_state_exit": 0, "export_exit": 0, "import_exit": 0, "imported": {"files": 2, "directories": 2, "bytes": 68899}, "rejections": [], "forbidden_values": 22}
+RELEASE_RESTORE_ATTESTATION_PLACE {"placed": false, "collisions": []}
+RELEASE_CLEANUP_ATTESTATION {"evidence_import_ok": true, "publication_blocked": null, "restore_attestation": "absent", "restore_name_collisions": [], "published": [...]}
+EXIT=0   (publication directory runner-owned 0700; 22 forbidden values checked, nothing blocked)
+== B. positive restore at eeac73f, then the cleanup emulation
+RELEASE_RESTORE_CHECK {"failed": [], "attested": [...5 names...], "forbidden_values_checked": 23, "source": "eeac73fd7db0fc0b5ea0ff78116ad7f0b27d2da9", "source_rows": {"public": 237, "auth": 138, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+RELEASE_EVIDENCE_IMPORT {"ok": true, ..., "imported": {"files": 0, "directories": 0, "bytes": 0}, "rejections": []}
+RELEASE_CLEANUP_ATTESTATION {"evidence_import_ok": true, "publication_blocked": null, "restore_attestation": "verified", "restore_name_collisions": [], "published": ["restore/restore-attestation.sha256", "restore/restore-check.json", "restore/restore-guard.json", "restore/restore-n1-guard.json", "restore/restore-suite-controls.json"]}
+EXIT=0
+(source_rows is higher than in earlier rounds because the same source stack was filled twice, by A and by B; source and restored copy are identical per table)
+== C. same staged attestation; c5finance then replaced /tmp/monjez-c5sale/evidence by a link to a synthetic root-only directory
+RELEASE_EVIDENCE_IMPORT {"ok": false, "confined_identity_present": true, "private_state_exit": 0, "export_exit": 3, "import_exit": 4, "imported": null, "rejections": [{"rejected": ["."], "reason": "evidence root is not a real directory: Not a directory"}, {"import_error": "empty file"}], "forbidden_values": 0}
+RELEASE_CLEANUP_ATTESTATION {"evidence_import_ok": false, ..., "published": [the 5 runner-authored restore files only]}
+EXIT=1   (the cleanup step asserts evidence_import ok, so safe is never set and nothing is uploaded)
+canary content anywhere under the runner temp: none
+
+## 5. Not run / outside this section
+- CI on the new head (the real cleanup step, with its firewall, docker and private-file receipts).
+- The full restore step is unchanged in this round; it ran once (B). The planted-links run, negatives A-D and the view
+  self-test were not rerun.
+- The case "no c5finance user yet" (a job failing before the confined identity is created) is covered by code inspection
+  only: collect_evidence.sh then imports nothing and records confined_identity_present false.
+- Outside the publication section (reported only, not changed): the "Required controls" steps of the suite job run
+  `sudo python3` that reads /tmp/monjez-c5sale/evidence/*.json as root (catalog-guard.json, billing-lock.json,
+  tenant-grants.json, the suite result files, upgrade-verify.json). A planted link there makes root read another file;
+  only control names and pass/fail are printed or asserted, and nothing from it is published.

@@ -122,3 +122,8 @@ The 12 real-tree mutations are:
 ## Rollback
 
 Revert this PR's commits. `integrated_identity.py`, the A41 and B50 manifests, all migrations and the B50 tests are unchanged, so reverting restores the previous state exactly.
+
+## Heads tested
+
+- `unit-tests.log`, `real-negatives.log` and `live-result.json`: final code head `c60da08`.
+- `upgrade-result.json` and `upgrade-migration-up.log`: `60b4411`. Between that commit and `c60da08`, only `docs/` and `candidate-63-source.json` changed (`git diff --stat 60b4411 c60da08`). No harness, workflow or verifier code changed.

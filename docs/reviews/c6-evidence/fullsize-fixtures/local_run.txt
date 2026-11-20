@@ -1,0 +1,11 @@
+# local verification of tests/c6-upgrade/transport/fullsize/* (2026-11-19), local Supabase image 17.6.1.106, psql
+T0 fullsize_ok.sql on the replica (has a ledger): C6_FX_REFUSED: a migration ledger exists, this is not the isolated lab; replica c6_fx tables: 0
+new empty local database c6_fx_lab:
+T1 baseline: {"ro":"on","ledger_exists":false,"c6_fx_tables":0,"c6_fx_functions":0,"public_tables_total":0,"public_functions_total":0}
+T2 fullsize_fail.sql: ERROR:  C6_FX_FINAL_BLOCK_FAILURE after block 10 writes
+T3 after fail: identical to T1 (zero residue)
+T4 fullsize_ok.sql: rc=0
+T5 check_after_ok.sql: {"ledger_rows":10,"ledger_md5_ok":10,"tables":10,"numeric_columns":10,"functions":10,"ok":true}
+T6 fullsize_ok.sql rerun: ERROR: relation "c6_fx_ledger" already exists (no change)
+T7 cleanup.sql then baseline: identical to T1
+generator rerun into a new directory: MANIFEST identical (reproducible)

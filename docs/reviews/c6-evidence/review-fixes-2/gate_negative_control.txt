@@ -1,0 +1,4 @@
+negative control (gate copy with cmpbat C0 bat_C10.json, stopped after S0):
+FAIL battery C0 != recorded bat_C10.json
+== RESULT: 1 failure(s)
+exit=1

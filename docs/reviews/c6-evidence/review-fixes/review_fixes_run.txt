@@ -1,0 +1,34 @@
+== T1 preconditions on a fresh replica (C0)
+fresh replica + seed: ledger 52
+PASS C3 before C1/C2 refused: LEDGER_STATE_MISMATCH before 20261028213608: expected exactly 54 known versions
+PASS bundle before C1 refused: LEDGER_STATE_MISMATCH before 20260815171000: expected exactly 53 known versions
+ledger after refusals: 52 (expect 52)
+C1 applied: ledger 53 (expect 53)
+PASS C1 rerun refused: LEDGER_STATE_MISMATCH before 20260815170000: expected exactly 52 known versions
+PASS battery C1 == recorded bat_C1.json 
+PASS revert at C1 refused: REVERT_REFUSED: C6 is not fully applied; withdrawing the legacy paths now would stop sales
+== T2 real failure inside the bundle at C3 (an open transaction holds products 9 s)
+PASS bundle fails on C3 lock: lock timeout
+PASS catalog == C1 exactly, ledger=53
+PASS battery after_c3_fail == recorded bat_C1.json 
+== T3 injected failure inside the bundle after C4, before C5 (stall before C5)
+injection points: 1
+PASS bundle stops before C5: INJECTED_BEFORE_C5
+PASS catalog == C1 exactly, ledger=53
+PASS battery after_c5_stall == recorded bat_C1.json 
+== T4 the old (pre-fix) revert, if run while stuck after C2: shows the defect
+old revert at C2: legacy collect EXECUTE=false, new collect exists=false
+new revert at C2: ERROR:  REVERT_REFUSED: C6 is not fully applied; withdrawing the legacy paths now would stop sales or collection
+ledger after T4 (rolled back): 53 (expect 53)
+== T5 full bundle with unblock
+bundle committed: ledger 62 (expect 62)
+PASS sanity: catalog after bundle differs from C1
+PASS battery bundle_unblocked == recorded bat_unblocked.json 
+PASS bundle rerun refused: LEDGER_STATE_MISMATCH before 20260815171000: expected exactly 53 known versions
+revert at C10 applied
+PASS battery C10_reverted == recorded bat_C10.json 
+C0 | new idempotent qty=0.5: ABSENT ; legacy qty=0.5: OK(inv 0.5, stock -0, MISMATCH, integer) ; new idempotent qty=1.5: ABSENT ; legacy qty=1.5: OK(inv 1.5, stock -1, MISMATCH, integer) ; new idempotent qty=0.25: ABSENT ; legacy qty=0.25: OK(inv 0.25, stock -0, MISMATCH, integer)
+C1 | new idempotent qty=0.5: ABSENT ; legacy qty=0.5: OK(inv 0.5, stock -0, MISMATCH, integer) ; new idempotent qty=1.5: ABSENT ; legacy qty=1.5: OK(inv 1.5, stock -1, MISMATCH, integer) ; new idempotent qty=0.25: ABSENT ; legacy qty=0.25: OK(inv 0.25, stock -0, MISMATCH, integer)
+C10_reverted | new idempotent qty=0.5: OK(inv 0.5, stock -0.5, MATCH, numeric) ; legacy qty=0.5: DENIED ; new idempotent qty=1.5: OK(inv 1.5, stock -1.5, MATCH, numeric) ; legacy qty=1.5: DENIED ; new idempotent qty=0.25: OK(inv 0.25, stock -0.25, MATCH, numeric) ; legacy qty=0.25: DENIED
+C10_unblocked | new idempotent qty=0.5: OK(inv 0.5, stock -0.5, MATCH, numeric) ; legacy qty=0.5: OK(inv 0.5, stock -0.5, MATCH, numeric) ; new idempotent qty=1.5: OK(inv 1.5, stock -1.5, MATCH, numeric) ; legacy qty=1.5: OK(inv 1.5, stock -1.5, MATCH, numeric) ; new idempotent qty=0.25: OK(inv 0.25, stock -0.25, MATCH, numeric) ; legacy qty=0.25: OK(inv 0.25, stock -0.25, MATCH, numeric)
+after_c3_fail | new idempotent qty=0.5: ABSENT ; legacy qty=0.5: OK(inv 0.5, stock -0, MISMATCH, integer) ; new idempotent qty=1.5: ABSENT ; legacy qty=1.5: OK(inv 1.5, stock -1, MISMATCH, integer) ; new idempotent qty=0.25: ABSENT ; legacy qty=0.25: OK(inv 0.25, stock -0, MISMATCH, integer)

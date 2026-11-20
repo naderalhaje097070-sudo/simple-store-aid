@@ -1,0 +1,11 @@
+# C3 hold time, local replica after C1+C2, synthetic rows, C3.sql inside begin..rollback (2026-11-18)
+products=4 order_items=8 held_s=0.010 products_rewritten=t order_items_rewritten=f
+products=1004 order_items=10008 held_s=0.017 products_rewritten=t order_items_rewritten=f
+products=10004 order_items=100008 held_s=0.071 products_rewritten=t order_items_rewritten=f
+products=100004 order_items=1000008 held_s=0.700 products_rewritten=t order_items_rewritten=f
+# concurrent authenticated reader (statement_timeout 8s, lock_timeout 8s) behind C3 held ~3.5s
+A: authenticated reader waited_s=3.21
+# open transaction holding FOR UPDATE on products 8s, then C3.sql
+psql:/tmp/C3.sql:130: ERROR:  canceling statement due to lock timeout
+after B: stock type=integer
+ledger=54

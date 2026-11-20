@@ -1,0 +1,14 @@
+T0 guard on the replica: C6_FX_REFUSED
+T1 baseline: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+T2 fail: C6_FX_FINAL_BLOCK_FAILURE after block 10 writes
+T3 after fail: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+T4 truncated ok file (81,000 of 82,065 bytes, cut inside block 10): ERROR:  unterminated dollar-quoted string at or near "$b10$ DECLAR
+T5 after truncated: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}
+T6 ok: rc=0
+T7 after ok: ok= True rows= 10 bad_blocks= []
+T8 negative: qty of block 3 changed -> ok= False rows= 10 bad_blocks= [3]
+T9 negative: function 7 returns 0 -> ok= False rows= 10 bad_blocks= [7]
+T10 negative: extra row in table 5 -> ok= False rows= 10 bad_blocks= [5]
+T11 restored: ok= True rows= 10 bad_blocks= []
+T12 rerun ok refused: ERROR:  relation "c6_fx_ledger" already exists
+T13 cleanup then baseline: {"ro" : "on", "ledger_exists" : false, "c6_fx_tables" : 0, "c6_fx_functions" : 0, "public_tables_total" : 0, "public_functions_total" : 0}

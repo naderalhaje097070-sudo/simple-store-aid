@@ -1,0 +1,51 @@
+== S0 build: fresh replica with ledger content, test apply files
+matched_production_md5=47 placeholders=5 20260626191247,20260628095033,20260628100924,20260628101356,20260715145140
+PASS test files differ from production files only in content-guard constants
+PASS C0 fingerprint captured
+PASS battery C0 == recorded bat_C0.json
+    new idempotent qty=0.5: ABSENT; v2 qty=0.5: ABSENT; legacy qty=0.5: OK inv 0.5 stock -0 integer; new idempotent qty=1.5: ABSENT; v2 qty=1.5: ABSENT; legacy qty=1.5: OK inv 1.5 stock -1 integer; new idempotent qty=0.25: ABSENT; v2 qty=0.25: ABSENT; legacy qty=0.25: OK inv 0.25 stock -0 integer
+PASS fractional C0: nofraction-paths
+== S1 guards (production files must refuse this replica; test files check order and content)
+PASS production C1.sql refuses a database whose ledger content differs (LEDGER_CONTENT_MISMATCH)
+PASS production bundle refuses it too (LEDGER_CONTENT_MISMATCH)
+PASS C3 before C1/C2 refused (LEDGER_STATE_MISMATCH)
+PASS same versions, one ledger row's content changed: refused (LEDGER_CONTENT_MISMATCH)
+PASS one extra ledger version: refused (LEDGER_STATE_MISMATCH)
+PASS ledger back to 52 and catalog == C0
+PASS revert at C0 refused (REVERT_REFUSED)
+== S2 real failure inside the bundle at C3 (an open transaction holds products 9 s)
+PASS bundle fails on the C3 lock (lock timeout)
+PASS catalog == C0 exactly after the C3 failure (C1 rolled back too)
+PASS battery after_c3_fail == recorded bat_C0.json
+    new idempotent qty=0.5: ABSENT; v2 qty=0.5: ABSENT; legacy qty=0.5: OK inv 0.5 stock -0 integer; new idempotent qty=1.5: ABSENT; v2 qty=1.5: ABSENT; legacy qty=1.5: OK inv 1.5 stock -1 integer; new idempotent qty=0.25: ABSENT; v2 qty=0.25: ABSENT; legacy qty=0.25: OK inv 0.25 stock -0 integer
+PASS fractional after_c3_fail: nofraction-paths
+== S3 injected failure after stage B.1 (before C2)
+PASS one injection point before C2
+PASS bundle stops before C2 (INJECTED_BEFORE_C2)
+PASS catalog == C0 exactly after the stop before C2
+PASS battery stop_before_C2 == recorded bat_C0.json
+== S3 injected failure after stage B.4 (before C5)
+PASS one injection point before C5
+PASS bundle stops before C5 (INJECTED_BEFORE_C5)
+PASS catalog == C0 exactly after the stop before C5
+PASS battery stop_before_C5 == recorded bat_C0.json
+== S4 old revert (pinned e32f92b) if run while stuck after C2, versus the fixed revert
+PASS pinned old revert is the pre-fix file (no REVERT_REFUSED guard)
+   old revert at C2: legacy_collect=false new_collect_exists=false
+PASS old revert at C2 leaves no collection path (defect reproduced)
+PASS fixed revert at C2 refused
+PASS ledger 52 after the rolled-back S4
+== S5 full bundle with unblock, then revert
+PASS bundle C1..C10 + unblock committed
+PASS ledger 62
+PASS sanity: catalog differs from C0
+PASS battery bundle_unblocked == recorded bat_unblocked.json
+    new idempotent qty=0.5: OK inv 0.5 stock -0.5 numeric; v2 qty=0.5: DENIED; legacy qty=0.5: OK inv 0.5 stock -0.5 numeric; new idempotent qty=1.5: OK inv 1.5 stock -1.5 numeric; v2 qty=1.5: DENIED; legacy qty=1.5: OK inv 1.5 stock -1.5 numeric; new idempotent qty=0.25: OK inv 0.25 stock -0.25 numeric; v2 qty=0.25: DENIED; legacy qty=0.25: OK inv 0.25 stock -0.25 numeric
+PASS fractional bundle_unblocked: match
+PASS bundle rerun refused (LEDGER_STATE_MISMATCH)
+PASS revert at C10
+PASS battery C10_reverted == recorded bat_C10.json
+    new idempotent qty=0.5: OK inv 0.5 stock -0.5 numeric; v2 qty=0.5: DENIED; legacy qty=0.5: DENIED; new idempotent qty=1.5: OK inv 1.5 stock -1.5 numeric; v2 qty=1.5: DENIED; legacy qty=1.5: DENIED; new idempotent qty=0.25: OK inv 0.25 stock -0.25 numeric; v2 qty=0.25: DENIED; legacy qty=0.25: DENIED
+PASS fractional C10_reverted: match
+PASS after revert the legacy sale path is denied
+== RESULT: 0 failure(s)

@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — item 3.4, 2026-11-20
+
+- [Draft PR into integration] Item 3.4: the candidate63 identity verifier, wired into B5 lifecycle/SSR/billing and B50 natural expiry. Local: 28/28 synthetic, 12/12 real-tree rejections, 22/22 live checks on the 63 stack, and the populated 41→63 upgrade passes (41/41 + 8/8). See `docs/reviews/item-3.4/TEST_RECORD.md`.
+- [Next] Codex review under `MERGE_DELEGATION.md`. After merge, verify the integration-push runs of B5 lifecycle (fresh and upgrade), SSR, billing and B50 natural expiry.
+- [Owner/production, not in 3.4] Production's ledger order for the two `20260815*` finance migrations is unverified. Before any release, read it under the read-only scope the owner approves.
+
+---
+
 ## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
 
 The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.

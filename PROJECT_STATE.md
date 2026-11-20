@@ -1,3 +1,22 @@
+## C6/C7 checkpoint — item 3.4: candidate63 identity verifier (Draft PR into integration), 2026-11-20
+
+Branch `claude/c6-item34-candidate63-identity`, from integration `09089be`. The record, with commands, results and limits, is in `docs/reviews/item-3.4/TEST_RECORD.md`.
+
+- **Done:** an additive verifier for the 63-migration candidate (`tests/g01-acceptance/candidate_identity.py` and `candidate-63-source.json`). It pins the protected paths, their blobs and modes, and the full ordered ledger at `09089be`. It also requires the B50 files to be byte- and mode-identical, as an ordered subsequence, and the original41 as the exact prefix.
+- **Wired into:** B5 lifecycle, SSR and billing, and B50 natural expiry.
+- **Stage-exact surface:** 23 public tables, including `financial_idempotency`. The keyed sale is used on the candidate and the legacy sale on the historical A41 seed. The idempotency table is checked to have RLS on, no policy and no client grant.
+- **Unchanged:** `integrated_identity.py`, the A41/B50 manifests, the migrations and the B50 tests.
+- **Measured:** `20260815170000` and `20260815171000` sort before nine B50 migrations.
+- **Local results:**
+  - synthetic tests: 28/28 OK;
+  - real-tree negatives: 12/12 refused, the unchanged head accepted;
+  - live checks on the local 63 stack: 22/22;
+  - populated original41 → 63 `migration up`: exit 0, 41/41 checks plus 8/8 keyed-fixture checks.
+- **Not verified:** CI. The app, OAuth, MCP, price, SSR browser and billing-webhook cases run only in CI. Production was not accessed.
+- **Rollback:** revert the PR.
+
+---
+
 ## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
 
 The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.

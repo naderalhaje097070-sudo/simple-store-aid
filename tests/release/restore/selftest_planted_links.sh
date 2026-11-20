@@ -49,6 +49,6 @@ if [ "${FORGE:-0}" = 1 ]; then  # only the dirty-source refusal of the restored 
 else
   r step_passed_with_real_fingerprint "$(grep -q '^RELEASE_RESTORE_CHECK {"failed": \[\]' "$LOG" && grep -q '"fingerprint_lines": 344' "$LOG" && echo 1)"
 fi
-r published_exactly_named_files "$(grep -q '"published": \["restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"\]' "$LOG" && echo 1)"
+r attestation_staged_exactly_named_files "$(grep -q '"attested": \["restore-attestation.sha256", "restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"\]' "$LOG" && echo 1)"
 rm -rf "${C:?}"
 [ "$ok" ]

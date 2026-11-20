@@ -393,9 +393,12 @@ jobs:
         #   R/c5  c5finance 0700: everything c5finance writes (guard and suite output, its private state); root
         #         never writes, chowns or reads in it. The runner reads named result files back only THROUGH
         #         c5finance (sudo -u c5finance cat), into runner-owned files
-        # Nothing is written into /tmp/monjez-c5sale or its evidence directory. Publication is limited to named
-        # verification files in $RUNNER_TEMP/release-evidence/restore, checked to hold none of the restore stack
-        # keys or restored-suite actor secrets. R and the private copies are deleted at the end.
+        # Nothing is written into /tmp/monjez-c5sale or its evidence directory. The step's attestation (four named
+        # verification files, checked to hold none of the restore stack keys or restored-suite actor secrets, plus
+        # their sha256 digests and the tested source) is staged in the runner-only $RUNNER_TEMP/restore-attestation,
+        # NOT in the publication tree that the cleanup step later fills from c5finance's evidence (review fix, Strix
+        # MEDIUM on 6c13bc2); the cleanup step places it and re-verifies it after that merge. R and the private copies
+        # are deleted at the end.
         # Controls, all required:
         #   the privileged layout is runner/root-owned and not writable by c5finance (checked as c5finance)
         #   restored data identical per table (public, monjez_private, auth, supabase_migrations)
@@ -413,9 +416,9 @@ jobs:
           set -euo pipefail
           src="$RUNNER_TEMP/monjez-c5sale-stack"; tgt="$RUNNER_TEMP/monjez-restore-stack"; work="$RUNNER_TEMP/restore-work"
           base=/tmp/monjez-c5sale; repo="$base/repo"; ws="$GITHUB_WORKSPACE/tests/release/restore"
-          pub="$RUNNER_TEMP/release-evidence/restore"
+          att="$RUNNER_TEMP/restore-attestation"   # runner-only; placed into the publication by the cleanup step
           url=postgresql://postgres:postgres@127.0.0.1:54322/postgres
-          umask 077; mkdir -p "$work" "$pub"
+          umask 077; mkdir -p "$work"; mkdir "$att"   # fails if it already exists
           # the privileged layout, complete before any c5finance command in this step
           R=$(mktemp -d /tmp/monjez-restore.XXXXXXXXXX); chmod 711 "$R"
           in="$R/in"; c5="$R/c5"
@@ -496,12 +499,12 @@ jobs:
               --private-state "$c5/private-state.json" > "$work/restore-suite-private.log" 2>&1) || suite_exit=$?
           fetch restore-suite/financial-result.json suite-result.json
           fetch private-state.json restore-private-state.json
-          # runner only, no sudo: every input below is a runner-owned file in $work, every output is in $pub
-          WORK="$work" PUB="$pub" N1_RESTORE="$n1_restore" N1_GUARD="$n1_guard" OK_RESTORE="$ok_restore" OK_GUARD="$ok_guard" \
-            SUITE_EXIT="$suite_exit" RUNNER_USER="$(id -un)" python3 - <<'PY'
-          import json, os
+          # runner only, no sudo: every input below is a runner-owned file in $work, every output is in $att
+          WORK="$work" ATT="$att" N1_RESTORE="$n1_restore" N1_GUARD="$n1_guard" OK_RESTORE="$ok_restore" OK_GUARD="$ok_guard" \
+            SUITE_EXIT="$suite_exit" RUNNER_USER="$(id -un)" EXPECTED_SOURCE="$EXPECTED_SOURCE" python3 - <<'PY'
+          import hashlib, json, os
           from pathlib import Path
-          w, pub = Path(os.environ['WORK']), Path(os.environ['PUB'])
+          w, att = Path(os.environ['WORK']), Path(os.environ['ATT'])
           rd = lambda n: (w / n).read_text().splitlines()
           src_fp, tgt_fp, n1_fp = rd('src.fp'), rd('tgt.fp'), rd('n1.fp')
           src_d, tgt_d, tam_d = rd('src.data'), rd('tgt.data'), rd('tamper.data')
@@ -543,13 +546,13 @@ jobs:
             ('tamper_rolled_back_before_suite', after_tam_d == tgt_d == src_d),
             ('negative_tampered_ledger_row_detected', tam_d != tgt_d and [l for l in tam_d if l not in tgt_d][0].startswith('supabase_migrations.schema_migrations|')),
           ]
-          summary = {'source_rows': {'public': rows_in(src_d, 'public.'), 'auth': rows_in(src_d, 'auth.'),
+          summary = {'source': os.environ['EXPECTED_SOURCE'], 'source_rows': {'public': rows_in(src_d, 'public.'), 'auth': rows_in(src_d, 'auth.'),
                                      'ledger': rows_in(src_d, 'supabase_migrations.')},
                      'fingerprint_lines': len(src_fp), 'data_tables': len(src_d),
                      'without_prelude_catalog_lines_changed': len(set(n1_fp) ^ set(src_fp)),
                      'restored_suite_controls': len(srows), 'restored_suite_exit': int(os.environ['SUITE_EXIT'])}
-          # publication: exactly these named verification files, each re-serialized to names and booleans, and none
-          # holding a restore-stack key or a restored-suite actor secret
+          # attestation: exactly these named verification files, each re-serialized to names and booleans, none
+          # holding a restore-stack key or a restored-suite actor secret, plus their digests for the cleanup step
           status, state = load('status-tgt-private.json'), load('restore-private-state.json')
           forbidden = [str(v) for k, v in status.items() if any(s in k.upper() for s in ('KEY', 'PASSWORD', 'SECRET')) and v]
           forbidden += [str(v) for a in (state.get('actors') or {}).values() if isinstance(a, dict)
@@ -564,11 +567,14 @@ jobs:
           clean = bool(status) and bool(forbidden) and not any(f in t for t in texts.values() for f in forbidden)
           if clean:
               for n, t in texts.items():
-                  (pub / n).write_text(t)
-          published = sorted(p.name for p in pub.iterdir())
-          controls.append(('published_restore_evidence_named_and_secret_free', clean and published == sorted(texts)))
+                  (att / n).write_text(t)
+              (att / 'restore-attestation.sha256').write_text(''.join(
+                  hashlib.sha256(t.encode()).hexdigest() + '  ' + n + '\n' for n, t in sorted(texts.items())))
+          published = sorted(p.name for p in att.iterdir())
+          controls.append(('published_restore_evidence_named_and_secret_free',
+                           clean and published == sorted(list(texts) + ['restore-attestation.sha256'])))
           failed = [n for n, p in controls if not p]
-          print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': failed, 'published': published, 'forbidden_values_checked': len(forbidden), **summary}))
+          print('RELEASE_RESTORE_CHECK ' + json.dumps({'failed': failed, 'attested': published, 'forbidden_values_checked': len(forbidden), **summary}))
           assert len(controls) == 15 and not failed
           PY
       - name: Cleanup and safe final receipts
@@ -583,6 +589,12 @@ jobs:
             sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
             sudo chown -R "$(id -un):$(id -gn)" "$out"
           fi
+          # Restore attestation (review fix, Strix MEDIUM on 6c13bc2). The restore step staged it in the runner-only
+          # $RUNNER_TEMP/restore-attestation. The candidate's evidence, just merged above, may not occupy its reserved
+          # names anywhere in the publication tree, in any job: a collision is recorded, never merged or overwritten,
+          # and blocks publication below. Otherwise the runner places it as release-evidence/restore (exclusive,
+          # no-follow) from its own checkout's tests/release/restore/attestation.py, and re-verifies it below.
+          python tests/release/restore/attestation.py place "$out" "$RUNNER_TEMP/restore-attestation"
           rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log" "$RUNNER_TEMP/upgrade-private.log" "$RUNNER_TEMP/advisors-private.txt"
           if [[ -d "$RUNNER_TEMP/monjez-c5sale-stack/supabase" ]]; then
             supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1 || true
@@ -615,9 +627,15 @@ jobs:
                    'unexpected_ipv4_rejects':after-before,
                    'private_files_removed':not subprocess.check_output(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip(),
                    'stack_removed':'monjez-c5sale-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
+          # restore attestation, re-verified AFTER the merge and the publication check: exact names, digests and source
+          sys.path.insert(0,'tests/release/restore')
+          from attestation import verify as verify_attestation
+          attestation,collisions=verify_attestation(out,root/'restore-attestation',os.environ['EXPECTED_SOURCE'])
+          cleanup['restore_attestation']=attestation; cleanup['restore_name_collisions']=collisions
           (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
           print('RELEASE_CLEANUP '+json.dumps(cleanup))
           assert after==before and cleanup['private_files_removed'] and cleanup['stack_removed']
+          assert not collisions and attestation in ('verified','absent'), 'RELEASE_RESTORE_ATTESTATION_'+attestation
           PY
           echo 'safe=true' >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4

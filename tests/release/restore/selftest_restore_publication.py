@@ -4,7 +4,7 @@
 Synthetic only: no database, no network, no privilege. It extracts the step's own Python control block from the
 committed workflow text, then runs it on synthetic runner-owned inputs in temporary directories, once per case:
 
-  good                     every input consistent      -> exit 0, exactly the 4 named files published
+  good                     every input consistent      -> exit 0, exactly the 4 named files + their sha256 list staged
   layout_writable          c5finance can write R        -> private_layout_not_writable_by_c5finance fails, exit != 0
   layout_wrong_owner       R/in not root-owned          -> same control fails
   secret_in_verdict        a restore stack key appears in a published verdict  -> publication control fails, nothing published
@@ -14,7 +14,7 @@ committed workflow text, then runs it on synthetic runner-owned inputs in tempor
 
 usage: python3 -I selftest_restore_publication.py [WORKFLOW_YML]
 """
-import json, os, subprocess, sys, tempfile
+import hashlib, json, os, subprocess, sys, tempfile
 from pathlib import Path
 
 import yaml
@@ -30,7 +30,7 @@ EMAIL = 'restored-actor-synthetic@example.invalid'
 CORE = ['real_hook_single_stored_collection', 'parallel_fresh_key_exactly_one_effect', 'keyed_only_acl_and_existing_ledger_rls',
         'settlement_retry_no_second_cash', 'concurrent_same_sale_key_exactly_one_effect', 'concurrent_collection_cannot_exceed_total',
         'lost_reply_first_commit_persisted_once', 'previously_authorized_staff_banned']
-NAMED = ['restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json']
+NAMED = ['restore-attestation.sha256', 'restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json']
 
 
 def inputs(w, case):
@@ -69,13 +69,19 @@ def run_case(case):
         inputs(w, case)
         if case == 'extra_file_in_pub':
             (pub / 'unexpected.json').write_text('{}\n')
-        env = dict(os.environ, WORK=str(w), PUB=str(pub), N1_RESTORE='0', N1_GUARD='1', OK_RESTORE='0', OK_GUARD='0',
+        env = dict(os.environ, WORK=str(w), ATT=str(pub), EXPECTED_SOURCE='c' * 40, N1_RESTORE='0', N1_GUARD='1', OK_RESTORE='0', OK_GUARD='0',
                    SUITE_EXIT='0', RUNNER_USER='runnerx')
         r = subprocess.run([sys.executable, '-I', '-c', code], env=env, capture_output=True, text=True)
         line = next((l for l in r.stdout.splitlines() if l.startswith('RELEASE_RESTORE_CHECK ')), '')
+        if r.returncode and not line:
+            print(r.stderr[-800:])
         result = json.loads(line.split(' ', 1)[1]) if line else {}
         published = sorted(p.name for p in pub.iterdir())
         texts = ''.join((pub / n).read_text() for n in published)
+        if case == 'good':   # the digest list matches the staged files, and the check carries the tested source
+            sums = dict(l.split('  ', 1)[::-1] for l in (pub / 'restore-attestation.sha256').read_text().splitlines())
+            assert sorted(sums) == NAMED[1:] and all(hashlib.sha256((pub / n).read_bytes()).hexdigest() == h for n, h in sums.items())
+            assert json.loads((pub / 'restore-check.json').read_text())['source'] == 'c' * 40
         return r.returncode, result.get('failed'), published, (KEY in texts or EMAIL in texts)
 
 

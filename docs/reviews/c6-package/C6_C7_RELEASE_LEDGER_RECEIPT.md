@@ -35,6 +35,22 @@ The saved ledger file has SHA-256 `277292ef2e84ed7c0a2d33c0f8217d2810526a27ee849
 
 ## Remaining release gates
 
-- On the exact integration commit, `release_gate_v1` passed with 63 migrations and preservation of main. The direct B5 identity verifier still refuses with `Protected source path set changed`. Its 29 historical unit tests passed. Existing B5 lifecycle, SSR, billing, and natural-expiry callers retain their historical identities. The [option record](C6_PACKAGE_PREP.md#24-الخلاصة) reserves selection of a source-bound current profile and any change to acceptance controls for the owner. Proposed scope preserves frozen A41 and B50 fixtures, checks all paths and modes, tests changed/missing base files and mismatched ledgers, and validates fresh and populated callers with the keyed sale route.
+- *As of `09089be`, before #103 (historical; superseded by the update below):* On the exact integration commit, `release_gate_v1` passed with 63 migrations and preservation of main. The direct B5 identity verifier still refuses with `Protected source path set changed`. Its 29 historical unit tests passed. Existing B5 lifecycle, SSR, billing, and natural-expiry callers retain their historical identities. The [option record](C6_PACKAGE_PREP.md#24-الخلاصة) reserves selection of a source-bound current profile and any change to acceptance controls for the owner. Proposed scope preserves frozen A41 and B50 fixtures, checks all paths and modes, tests changed/missing base files and mismatched ledgers, and validates fresh and populated callers with the keyed sale route.
 - The ten-stage C6 bundle contains the earlier custody repair and omits the two new forward C7 migrations. The C7 order is `20261120140000` then `20261120150000`. Review and rehearse an atomic combined apply, or hold financial writes and drain in-flight operations through both C6 and atomic C7 commits in a single approved window. Run the final ledger, function/ACL, and financial checks before reopening writes. Keep writes quiescent on failure until the reviewed recovery path is complete. No combined production payload was run or approved here.
 - Live platform identity and ledger recheck, actual production backup and isolated restore, apply method, duration of legacy grants, main merge, and deployment need their own approved steps. Synthetic acceptance does not attest to current production. Historical closes and disputed custody remain for explicit reconciliation.
+
+## Update after #103 (integration `d4616d06e7a3ccf6541c75af232780bb6011a3ed`, 2026-11-20)
+
+- **#103 merged into integration only.** The merge commit is `d4616d0`. The exact head `0a622ce43cb118da5c68c86c1afb87e44abc0dba` passed all 14 required checks, including release-finance 9/9, and both reviews: Codex found no findings, and Strix reported no open findings. No production access, no main merge and no deployment.
+- **Source is unchanged by #103.** #103 changed no migration. At `d4616d0` the migrations tree is still `08d0c94e060d3ea44b23759e41ed193adf979c0e`, with 63 source files. The 50 main paths, blobs and modes listed above still hold.
+- **The direct B5 identity path** now uses the additive verifier `tests/g01-acceptance/candidate_identity.py`, with its manifest `candidate-63-source.json`. It pins:
+  - the protected paths, blobs and modes against HEAD, the index and the worktree;
+  - the ordered 63-entry ledger against `09089be`;
+  - the B50 files as an exact ordered subsequence against the B base `59c8a0c`;
+  - the original41 as the exact prefix;
+  - the migrations directory read from the filesystem.
+
+  The frozen verifier `integrated_identity.py`, the A41/B50 manifests and their 29 tests are unchanged. The refusal recorded above (`Protected source path set changed`) is that frozen verifier's result. It is no longer on the B5/B50 path.
+- **Post-merge acceptance is still pending.** The first B5 composed run on `d4616d0` (run 44798187106: lifecycle fresh and upgrade, SSR, billing) and the first B50 natural-expiry run (44798187438) were still in progress when this update was written. Neither is accepted until it is green on that commit.
+- **The 41→63 upgrade evidence in #103 is archival and local.** It is `docs/reviews/item-3.4/upgrade-result.json` and `upgrade-migration-up.txt`, from runs at `60b4411` and `4ead923`. That helper was removed from #103 before merge. The current upgrade acceptance is the CI `lifecycle (upgrade)` job on `d4616d0`.
+- **The ledger expectation is unchanged and still conditional.** 52 → 62 → 64 remains an offline expectation. It holds only if the live ledger matches the recorded 52-row baseline and the indicated statement format is used. It is distinct from Git's 63 source files, and it has not been checked against production.

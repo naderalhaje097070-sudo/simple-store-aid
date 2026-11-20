@@ -32,20 +32,6 @@ class TracePrivacy(unittest.TestCase):
         v=sanitize_syscalls('unknown-new-format\n12<node> 1700000000.1 connect(21, 0x123 <unfinished ...>\n')
         self.assertEqual((v['unparsed_lines'],v['unfinished_calls']),(1,1))
 
-    def test_unfinished_call_names_and_exit_are_recorded_without_detail(self):
-        text=('12<node> 1700000000.1 connect(21, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr("192.0.2.7")}, 16 <unfinished ...>\n'
-              '13<node> 1700000000.2 recvfrom_like_unknown(5, 0x1 <unfinished ...>\n'
-              '12<node> 1700000000.3 +++ killed by SIGTERM +++\n')
-        v=sanitize_syscalls(text)
-        self.assertEqual(v['unfinished_calls'],2)
-        self.assertEqual(v['unfinished_call_names'],{'connect':1,'other':1})
-        self.assertEqual(v['unfinished_calls_then_thread_exited'],1)
-        self.assertNotIn('192.0.2.7',json.dumps({k:v[k] for k in ('unfinished_call_names','unfinished_calls_then_thread_exited')}))
-
-    def test_resumed_call_is_not_reported_unfinished(self):
-        v=sanitize_syscalls('12<node> 1700000000.1 connect(21, 0x1 <unfinished ...>\n12<node> 1700000000.2 <... connect resumed>) = -1 EINPROGRESS (x)\n')
-        self.assertEqual((v['unfinished_calls'],v['unfinished_call_names'],v['unfinished_calls_then_thread_exited']),(0,{},0))
-
     def test_syscall_payload_does_not_enter_receipt(self):
         v=sanitize_syscalls('12<node> 1700000000.1 sendto(21, "sensitive_fixture_needle", 25, 0, NULL, 0) = 25\n')
         self.assertNotIn('sensitive_fixture_needle',json.dumps(v))

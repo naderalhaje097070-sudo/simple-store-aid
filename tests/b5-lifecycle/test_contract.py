@@ -9,6 +9,9 @@ from mcp_probe import account_tool_denial
 import candidate_surface as surface
 import shutil,tempfile,json as _json
 import billing_probe
+import candidate_evidence as evidence
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'g01-acceptance'))
+import egress_trace
 from live_probe import HarnessFailure
 
 class StrictEvidence(unittest.TestCase):
@@ -106,5 +109,54 @@ class StrictEvidence(unittest.TestCase):
         last=root/m['migration_ledger'][-1]['path']
         last.write_text(last.read_text()+'\n-- CREATE OR REPLACE FUNCTION public.apply_subscription_webhook(\n')
         with self.assertRaises(HarnessFailure):billing_probe.reviewed_final_body(root)
+
+    def test_tool_response_outline_is_allowlisted_and_textless(self):
+        secret='needle-'+'x'*24
+        cases=[((200,{'result':{'isError':True,'content':[{'type':'text','text':'account_inactive'}]}},'list_products'),{'class':'tool_error_account_inactive','items':None}),
+               ((200,{'result':{'isError':True,'content':[{'type':'text','text':secret}]}},'list_products'),{'class':'tool_error_other','items':None}),
+               ((200,{'result':{'structuredContent':{'products':[{'name':secret},{'name':secret}]}}},'list_products'),{'class':'tool_success','items':2}),
+               ((200,{'result':{'structuredContent':{'summary':{'sales':1}}}},'today_summary'),{'class':'tool_success','items':None}),
+               ((200,{'error':{'code':-32000,'message':secret}},'list_products'),{'class':'protocol_error','items':None}),
+               ((200,[secret],'list_products'),{'class':'unexpected_shape','items':None}),
+               ((401,{'error':secret},'list_products'),{'class':'non_200','items':None})]
+        for args,expected in cases:
+            with self.subTest(expected['class']):
+                outline=evidence.tool_response_outline(*args)
+                self.assertEqual(outline,expected);self.assertIn(outline['class'],evidence.RESPONSE_CLASSES)
+                self.assertNotIn(secret,_json.dumps(outline))
+        empty={'result':{'structuredContent':{'products':[]}}}
+        self.assertFalse(account_tool_denial(200,empty,'list_products'))
+        self.assertEqual(evidence.tool_response_outline(200,empty,'list_products'),{'class':'tool_success','items':0})
+
+    def test_unfinished_outline_matches_historical_count_without_detail(self):
+        self.assertEqual(set(evidence.TRACED_CALLS),egress_trace.CALLS)
+        texts={'killed_mid_connect':('12<node> 1700000000.1 connect(21, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr("192.0.2.7")}, 16 <unfinished ...>\n'
+                                     '13<node> 1700000000.2 recvfrom_like(5, 0x1 <unfinished ...>\n12<node> 1700000000.3 +++ killed by SIGTERM +++\n'),
+               'resumed':'12<node> 1700000000.1 connect(21, 0x1 <unfinished ...>\n12<node> 1700000000.2 <... connect resumed>) = -1 EINPROGRESS (x)\n',
+               'none':'12<node> 1700000000.1 sendto(21, "x", 1, 0, NULL, 0) = 1\n'}
+        expected={'killed_mid_connect':{'unfinished_calls':2,'unfinished_call_names':{'connect':1,'other':1},'unfinished_calls_then_thread_exited':1},
+                  'resumed':{'unfinished_calls':0,'unfinished_call_names':{},'unfinished_calls_then_thread_exited':0},
+                  'none':{'unfinished_calls':0,'unfinished_call_names':{},'unfinished_calls_then_thread_exited':0}}
+        for name,text in texts.items():
+            with self.subTest(name):
+                outline=evidence.unfinished_outline(text)
+                self.assertEqual(outline,expected[name])
+                self.assertEqual(outline['unfinished_calls'],egress_trace.sanitize_syscalls(text)['unfinished_calls'])
+                self.assertNotIn('192.0.2.7',_json.dumps(outline))
+
+    def test_composed_attaches_outline_only_to_closure_denials(self):
+        import composed
+        probe=object.__new__(composed.ComposedProbe)
+        probe.controls=[];probe.source='x'*40
+        probe.evidence_dir=Path(tempfile.mkdtemp(prefix='b5-outline-'));self.addCleanup(shutil.rmtree,probe.evidence_dir)
+        outline={'class':'tool_success','items':0}
+        probe._last_tool_outline=dict(outline)
+        with self.assertRaises(HarnessFailure):probe.record('old_full_route_denial_list_products',False,status=200)
+        self.assertEqual(probe.controls[-1]['response'],outline)
+        self.assertFalse(probe.controls[-1]['passed'])
+        probe._last_tool_outline=dict(outline);probe.record('owner_ban_before_list_products',True,status=200)
+        self.assertNotIn('response',probe.controls[-1])
+        probe.record('old_full_route_denial_list_customers',True,status=200)
+        self.assertNotIn('response',probe.controls[-1])
 
 if __name__=='__main__':unittest.main()

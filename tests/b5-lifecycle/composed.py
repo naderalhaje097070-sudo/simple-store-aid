@@ -17,10 +17,11 @@ from owner_closure_probe import ClosureProbe, claims, explicit_inactive, RPC
 from oc_app_probe import PriceProbe
 from scanner_auth_probe import ScannerProbe
 from tenant_entitlement_probe import PROTECTED, VALUES, explicit_denial
-from mcp_probe import TOOLS, tool_success, account_tool_denial, tool_response_outline
+from mcp_probe import TOOLS, tool_success, account_tool_denial
 from tanstack_route_probe import publish_result
 from inventory import inventory, applied
 import candidate_surface as surface
+from candidate_evidence import tool_response_outline
 
 PRIVATE = ('owner_account_closures', 'billing_tenant_bindings', 'billing_webhook_receipts')
 
@@ -36,6 +37,11 @@ class ComposedProbe(ClosureProbe, PriceProbe):
     def record(self, name, passed, **details):
         if any(x['name'] == name for x in self.controls):
             raise HarnessFailure('duplicate B5 check: ' + name)
+        # Evidence only: the inherited closed_controls records each MCP denial right after invoke(); attach
+        # the allowlisted outline of that response (candidate_evidence). The predicate is never touched.
+        outline = self.__dict__.pop('_last_tool_outline', None)
+        if outline is not None and '_full_route_denial_' in name and 'response' not in details:
+            details['response'] = outline
         super().record(name, passed, **details)
 
     def fixture(self, *args, **kwargs):
@@ -56,7 +62,9 @@ class ComposedProbe(ClosureProbe, PriceProbe):
 
     def invoke(self, name, actor):
         self.live_token(actor, 'invocation_' + str(len(self.controls)) + '_' + name)
-        return super().invoke(name, actor)
+        code, body = super().invoke(name, actor)
+        self._last_tool_outline = tool_response_outline(code, body, name)
+        return code, body
 
     def snapshot(self):
         names = self.query("select jsonb_agg(tablename order by tablename) from pg_tables where schemaname='public';")

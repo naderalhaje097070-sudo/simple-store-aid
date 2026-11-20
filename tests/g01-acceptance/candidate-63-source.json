@@ -1826,7 +1826,7 @@
   },
   {
    "path": "tests/account-lifecycle/mcp_probe.py",
-   "sha": "1424a0d0166481c700e68a6f032d580f60aa0061",
+   "sha": "fafb0848e65fa729104187de770917df8ea3c4e6",
    "mode": "100644"
   },
   {
@@ -1881,7 +1881,7 @@
   },
   {
    "path": "tests/account-lifecycle/owner_closure_probe.py",
-   "sha": "0e7719d191c5489bc8bc86342f2c6249bb5916b1",
+   "sha": "1889d7944e4c403bd19856be393b0ff27f89966a",
    "mode": "100644"
   },
   {
@@ -1936,7 +1936,7 @@
   },
   {
    "path": "tests/account-lifecycle/test_mcp_probe.py",
-   "sha": "231030027c4db0d4a4d93afeb4e8843c5e304d82",
+   "sha": "9fee05d3cede7ea505adbccebebb1f3ad0e065a9",
    "mode": "100644"
   },
   {
@@ -2105,13 +2105,18 @@
    "mode": "100644"
   },
   {
+   "path": "tests/b5-lifecycle/candidate_evidence.py",
+   "sha": "004e9e10e61de0ae551120e7e49794436d84e4e2",
+   "mode": "100644"
+  },
+  {
    "path": "tests/b5-lifecycle/candidate_surface.py",
    "sha": "2e978d89736314920e68c46c46de0c40a065fecc",
    "mode": "100644"
   },
   {
    "path": "tests/b5-lifecycle/composed.py",
-   "sha": "af437ebb15cec52681215ac96c52830810a1aecc",
+   "sha": "c042de0b1ceaa626baf649992c4f83c1843f1608",
    "mode": "100644"
   },
   {
@@ -2121,12 +2126,12 @@
   },
   {
    "path": "tests/b5-lifecycle/ssr_runtime.py",
-   "sha": "62c69660e213a33544286e5de2ffde8d8c8693fc",
+   "sha": "ffe419b736979eac5f5272e4febb009a0f4b9419",
    "mode": "100644"
   },
   {
    "path": "tests/b5-lifecycle/test_contract.py",
-   "sha": "c0d6647638e17115624d2237a3a72a2931c0cf5b",
+   "sha": "5ac8e5f74008e638d546b039f5e3611edac5c81a",
    "mode": "100644"
   },
   {
@@ -2971,7 +2976,7 @@
   },
   {
    "path": "tests/g01-acceptance/egress_trace.py",
-   "sha": "83c91169c008ae71615a0535c706054263d54db5",
+   "sha": "80d164539a5fa57a052419cfb592c9676cfa5e54",
    "mode": "100644"
   },
   {
@@ -3016,7 +3021,7 @@
   },
   {
    "path": "tests/g01-acceptance/test_egress_trace.py",
-   "sha": "2b3336fbdc9183149d19cbc4b9e53f3ed2ef19df",
+   "sha": "60e44743a4d1c91d9f5d3af10b32a7138dca2881",
    "mode": "100644"
   },
   {

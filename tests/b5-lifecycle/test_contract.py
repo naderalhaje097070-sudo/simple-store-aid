@@ -7,6 +7,9 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'account-lifecycle'))
 from owner_closure_probe import explicit_inactive
 from mcp_probe import account_tool_denial
 import candidate_surface as surface
+import shutil,tempfile,json as _json
+import billing_probe
+from live_probe import HarnessFailure
 
 class StrictEvidence(unittest.TestCase):
     def test_exact_ordered_versions_required(self):
@@ -60,5 +63,48 @@ class StrictEvidence(unittest.TestCase):
                     {'rls':True,'policies':0,'client_rights':{**rights,'authenticated:SELECT':True}},
                     {'rls':True,'policies':0,'client_rights':{k:v for k,v in list(rights.items())[:13]}},None]:
             self.assertFalse(surface.idempotency_locked(bad))
+
+    def billing_root(self):
+        root=Path(tempfile.mkdtemp(prefix='b5-billing-ref-'));self.addCleanup(shutil.rmtree,root)
+        repo=Path(__file__).resolve().parents[2]
+        for rel in ('supabase/migrations','changes/b4-app02'):
+            shutil.copytree(repo/rel,root/rel)
+        (root/'tests/g01-acceptance').mkdir(parents=True)
+        shutil.copy2(repo/'tests/g01-acceptance/candidate-63-source.json',root/'tests/g01-acceptance/candidate-63-source.json')
+        return root
+
+    def test_billing_reference_is_pinned_final_definition(self):
+        body=billing_probe.reviewed_final_body(self.billing_root())
+        self.assertIn('FOR NO KEY UPDATE',body)
+        self.assertEqual(len(billing_probe.REVIEWED_DELTA),5)
+
+    def test_billing_reference_refuses_tampering(self):
+        final=billing_probe.FINAL_DEFINITION
+        cases={
+          'final_body_extra_change':(final,lambda t:t.replace("ERRCODE='P0001'","ERRCODE='P0002'",1)),
+          'final_bytes_unpinned':(final,lambda t:t+'\n-- trailing\n'),
+          'b4_reference_drift':(billing_probe.B4_REFERENCE,lambda t:t.replace('FOR UPDATE','FOR SHARE',1)),
+          'october_definition_drift':(billing_probe.OCTOBER_DEFINITION,lambda t:t.replace('FOR UPDATE','FOR SHARE',1)),
+        }
+        for name,(rel,mutate) in cases.items():
+            with self.subTest(name):
+                root=self.billing_root();f=root/rel;f.write_text(mutate(f.read_text()))
+                with self.assertRaises(HarnessFailure):billing_probe.reviewed_final_body(root)
+
+    def test_billing_delta_is_exact(self):
+        repo=Path(__file__).resolve().parents[2]
+        ref=billing_probe.function_body((repo/billing_probe.B4_REFERENCE).read_text())
+        final=billing_probe.function_body((repo/billing_probe.FINAL_DEFINITION).read_text())
+        self.assertEqual(billing_probe.body_delta(ref,final),billing_probe.REVIEWED_DELTA)
+        for changed in (final.replace("ERRCODE='P0001'","ERRCODE='P0002'",1),final.replace('FOR NO KEY UPDATE','FOR UPDATE'),
+                        final.replace('-- The UPDATE below','-- The update below'),final+'\nPERFORM 1;'):
+            self.assertNotEqual(billing_probe.body_delta(ref,changed),billing_probe.REVIEWED_DELTA)
+
+    def test_billing_reference_refuses_a_later_redefinition(self):
+        root=self.billing_root()
+        m=_json.loads((root/'tests/g01-acceptance/candidate-63-source.json').read_text())
+        last=root/m['migration_ledger'][-1]['path']
+        last.write_text(last.read_text()+'\n-- CREATE OR REPLACE FUNCTION public.apply_subscription_webhook(\n')
+        with self.assertRaises(HarnessFailure):billing_probe.reviewed_final_body(root)
 
 if __name__=='__main__':unittest.main()

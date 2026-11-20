@@ -39,7 +39,7 @@
 
 | file | manifest blob / sha256 | on this branch | why |
 |---|---|---|---|
-| `tests/c6-upgrade/restore/rehearse.sh` | 857d58b3 / 2dc9d59f81bf5a2c… | 43daa659 / 7998d4aeb9bbf7de… | read `prelude.sql` and `data_hash.sql` from its own directory; those rows are `NO` because the same bytes are already in `tests/release/restore/` (blobs `82a109fa`, `6117645c`). It now uses those documented helpers and refuses to run (exit 2) unless their sha256 equals the reviewed bytes |
+| `tests/c6-upgrade/restore/rehearse.sh` | 857d58b3 / 2dc9d59f81bf5a2c… | 40563c36 / c3e39093887cffda… (after `697df0b`) | read `prelude.sql` and `data_hash.sql` from its own directory; those rows are `NO` because the same bytes are already in `tests/release/restore/` (blobs `82a109fa`, `6117645c`). It now uses those documented helpers and refuses to run (exit 2) unless their sha256 equals the reviewed bytes |
 | `tests/c6-upgrade/review_fixes.sh` | 9059923d / 789de875d17dd718… | 60f4d396 / f795fe737a0f414f… | read the pre-fix emergency revert from commit `e32f92b`, which is not in the integration history. It now uses the fixture below after checking its sha256, and compares it with `e32f92b` only when that commit is reachable |
 
 **Added, a synthetic local-test fixture:**
@@ -48,6 +48,16 @@
 - **Digests:** blob `09c3ce918063e1fcf70c08a0f2930595dca26d94`, sha256 `f357c099a3a67b0f454ebe02188eabfd62d29fe6ec1d9f10f099a61867ab0aae`.
 - **Use:** `tests/c6-upgrade/fixtures/README.md` states it is local-test only. It runs only inside `BEGIN … ROLLBACK` against the gate's own replica container.
 - **Unchanged:** the current emergency revert file.
+
+**Platform COPY filter in `rehearse.sh` (commit `697df0b`, Graphify P2 on `2829ebc`):**
+- **The problem:** the filter dropped only the quoted form `COPY "storage".…` / `COPY "supabase_functions".…`.
+- **What the reviewed CLI emits:** 2.101.0, which release-finance pins with `setup-cli` `version: "2.101.0"`, writes only that quoted form. In the real dump, all 58 COPY headers were quoted and none unquoted.
+- **Why a fix was still needed:** `rehearse.sh` takes any CLI binary and has no version pin.
+- **The fix:** it now matches exactly those two schemas, quoted or unquoted. Look-alike names stay.
+- **Proof:**
+  - `selftest_copy_filter.py` runs the script's own filter on a synthetic dump: 11/11, while the pre-fix filter fails both unquoted forms;
+  - on the real CLI 2.101.0 dump, `data_app.sql` is byte-identical before and after: 48 of 58 COPY blocks kept.
+- **Not changed:** the same quoted-only filter in the release-finance restore step (`.github`). It runs only with the pinned 2.101.0, and an unquoted platform block would make the restore fail visibly, not silently.
 
 ## 2. Verification (actual results)
 

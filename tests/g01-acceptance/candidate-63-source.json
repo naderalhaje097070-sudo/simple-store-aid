@@ -695,8 +695,13 @@
    "mode": "100644"
   },
   {
+   "path": "docs/reviews/item-3.4/lab/lab_guard.py",
+   "sha": "369b0a465ecbbb93c37dc0946da78bc7bcc37770",
+   "mode": "100644"
+  },
+  {
    "path": "docs/reviews/item-3.4/lab/live_harness.py",
-   "sha": "fc1e01a2f39ec79acd7c8e6e773f0bf00de520aa",
+   "sha": "75749c3262eec4b8ea3a294c314480bbf9150f2d",
    "mode": "100644"
   },
   {
@@ -706,7 +711,7 @@
   },
   {
    "path": "docs/reviews/item-3.4/lab/upgrade_check.py",
-   "sha": "86375d843bee2afd78a535a0f52f70758ce8d2ca",
+   "sha": "ac82ddf7b10fd154a8fed2ac065c5f3e4d90cabb",
    "mode": "100644"
   },
   {
@@ -2941,7 +2946,7 @@
   },
   {
    "path": "tests/g01-acceptance/candidate_identity.py",
-   "sha": "25b5302bcdf47ebce246a66de6e8202aec6964d0",
+   "sha": "b6e48b7c96e3606053e23f099c1f21b3918d1084",
    "mode": "100644"
   },
   {
@@ -3001,7 +3006,7 @@
   },
   {
    "path": "tests/g01-acceptance/test_candidate_identity.py",
-   "sha": "1d97fd6c6d51712a4bc6500488e452cf6f634d55",
+   "sha": "31c12eb6fbcdd94238a26ce04f9fc8535a578663",
    "mode": "100644"
   },
   {

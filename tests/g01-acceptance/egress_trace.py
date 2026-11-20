@@ -122,7 +122,7 @@ def sanitize_dns(text):
 
 
 def sanitize_syscalls(text):
-    rows=[]; unparsed=0; pending={}
+    rows=[]; unparsed=0; pending={}; exited=set()
     for line in text.splitlines():
         # No raw line, request bytes, Unix path, comm string or arbitrary error text is emitted.
         m=re.match(r'^(\d+)(?:<([^>]+)>)?\s+(\d+\.\d+)\s+(.+)$',line)
@@ -130,6 +130,7 @@ def sanitize_syscalls(text):
             if line.strip(): unparsed+=1
             continue
         pid,comm,stamp,body=m.groups();pid=int(pid)
+        if body.startswith('+++ exited with ') or body.startswith('+++ killed by '): exited.add(pid)
         if body.startswith('--- ') or body.startswith('+++ '): continue
         if '<unfinished ...>' in body:
             pending[pid]=(comm,stamp,body.replace('<unfinished ...>',''));continue
@@ -158,7 +159,15 @@ def sanitize_syscalls(text):
         if so: row['sockopt_error']=so[1] if so[1] in {'0','ECONNREFUSED','ETIMEDOUT','EHOSTUNREACH','ENETUNREACH','EPERM','EACCES'} else 'other_error'
         if address is not None: row['loopback']=ipaddress.ip_address(address).is_loopback
         rows.append(row)
+    # Evidence only (B5 run 44798187106): which allowlisted call was left unfinished, and whether its thread
+    # then exited. Names from CALLS or 'other', and counts; no arguments, addresses or raw text.
+    names={}
+    for pid,(_comm,_stamp,prefix) in pending.items():
+        c=re.match(r'(\w+)\(',prefix);name=c[1] if c and c[1] in CALLS else 'other'
+        names[name]=names.get(name,0)+1
     return {'events':rows,'unparsed_lines':unparsed,'unfinished_calls':len(pending),
+            'unfinished_call_names':dict(sorted(names.items())),
+            'unfinished_calls_then_thread_exited':sum(1 for pid in pending if pid in exited),
             'syscall_count_is_not_packet_or_unique_connection_count':True,
             'success_return_is_not_external_delivery_proof':True}
 

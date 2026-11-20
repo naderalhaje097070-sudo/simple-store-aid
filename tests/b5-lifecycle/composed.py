@@ -1,4 +1,4 @@
-"""One B50 candidate: real local Auth/REST/RPC/Nitro MCP and price boundaries."""
+"""One candidate63 source (frozen B50 + original41 preserved): real local Auth/REST/RPC/Nitro MCP and price boundaries."""
 import argparse
 import hashlib
 import json
@@ -20,6 +20,7 @@ from tenant_entitlement_probe import PROTECTED, VALUES, explicit_denial
 from mcp_probe import TOOLS, tool_success, account_tool_denial
 from tanstack_route_probe import publish_result
 from inventory import inventory, applied
+import candidate_surface as surface
 
 PRIVATE = ('owner_account_closures', 'billing_tenant_bindings', 'billing_webhook_receipts')
 
@@ -59,8 +60,10 @@ class ComposedProbe(ClosureProbe, PriceProbe):
 
     def snapshot(self):
         names = self.query("select jsonb_agg(tablename order by tablename) from pg_tables where schemaname='public';")
-        if not isinstance(names, list) or len(names) != 22 or any(not re.fullmatch('[a-z_]+', n) for n in names):
-            raise HarnessFailure('exact public22 inventory')
+        count = self.query(surface.LEDGER_SQL)
+        if (not isinstance(names, list) or any(not re.fullmatch('[a-z_]+', n) for n in names)
+                or not surface.public_matches(count, names)):
+            raise HarnessFailure('exact public inventory for stage')
         private = self.query("select coalesce(jsonb_agg(tablename order by tablename),'[]'::jsonb) from pg_tables where schemaname='monjez_private';")
         if not set(private).issubset(PRIVATE):
             raise HarnessFailure('unexpected private table')
@@ -87,6 +90,27 @@ class ComposedProbe(ClosureProbe, PriceProbe):
             return super().closed_controls(a, b, sale, legacy_before)
         finally:
             self._closure_marker_checked_separately = False
+
+    def select_sale(self, label):
+        # The approved sale path is the one the live stage grants: legacy on the historical seed, keyed on candidate63.
+        count = self.query(surface.LEDGER_SQL)
+        rights = self.query(surface.SALE_SURFACE_SQL)
+        self.record(label + '_exact_sale_rpc_surface_' + str(count), surface.sale_surface_ok(count, rights), surface=rights)
+        self.sale_rpc = surface.sale_rpc(count)
+
+    def sale_body(self, payload):
+        return surface.sale_body(self.sale_rpc, payload)
+
+    def no_truncate(self):
+        count = self.query(surface.LEDGER_SQL)
+        n = surface.public_count(count)
+        result = self.query("""select jsonb_agg(jsonb_build_object('table',t.tablename,'role',r,
+          'allowed',has_table_privilege(r,format('public.%I',t.tablename),'TRUNCATE'))
+          order by t.tablename,r) from pg_tables t
+          cross join unnest(array['anon','authenticated']) r where t.schemaname='public';""")
+        self.record('client_truncate_denied_all' + str(n), len(result) == 2 * n
+                    and all(x['allowed'] is False for x in result))
+        return result
 
     def chain(self, expected, label):
         actual = self.query('select jsonb_agg(version order by version) from supabase_migrations.schema_migrations;')
@@ -117,9 +141,9 @@ class ComposedProbe(ClosureProbe, PriceProbe):
     def denied_state(self, actor, label, sale):
         digest = hashlib.sha256(actor['token'].encode()).hexdigest()
         before = self.state_snapshot()
-        for name in ('current_tenant_id', 'get_tenant_today_estimate', 'create_sale_with_items'):
+        for name in ('current_tenant_id', 'get_tenant_today_estimate', self.sale_rpc):
             self.live_token(actor, label + '_RPC_' + name)
-            code, body = self.request('POST', '/rest/v1/rpc/' + name, sale if name == 'create_sale_with_items' else {}, token=actor['token'])
+            code, body = self.request('POST', '/rest/v1/rpc/' + name, self.sale_body(sale) if name == self.sale_rpc else {}, token=actor['token'])
             self.record(label + '_named_RPC_' + name, explicit_inactive(code, body), status=code)
         for table in ('tenants', 'profiles', 'user_roles', 'products', 'customers', 'orders', 'order_items', 'payments', 'financial_audit_log'):
             code, body = self.request('GET', '/rest/v1/' + table + '?select=*', token=actor['token'])
@@ -131,7 +155,7 @@ class ComposedProbe(ClosureProbe, PriceProbe):
             self.record(label + '_MCP_' + name, account_tool_denial(code, body, name), status=code)
         self.live_token(actor, label + '_price')
         self.check_price(label + '_price_gate', actor['token'], 'account_inactive', 0)
-        self.record(label + '_all25_relations_and_identity_unchanged', self.state_snapshot() == before)
+        self.record(label + '_all' + str(len(before['relations'])) + '_relations_and_identity_unchanged', self.state_snapshot() == before)
         self.record(label + '_original_token_bytes_unchanged', hashlib.sha256(actor['token'].encode()).hexdigest() == digest)
 
     def ban(self, actor, label, sale, active):
@@ -163,6 +187,10 @@ class ComposedProbe(ClosureProbe, PriceProbe):
         ScannerProbe.deny(self, 'composed_scanner_trigger_spoof', b, a, trigger='cron')
         ScannerProbe.deny(self, 'composed_scanner_anonymous', None, a, message=None)
         rights = self.query("select jsonb_object_agg(attname,jsonb_build_object('insert',has_column_privilege('authenticated','public.tenants',attname,'INSERT'),'update',has_column_privilege('authenticated','public.tenants',attname,'UPDATE'))) from pg_attribute where attrelid='public.tenants'::regclass and attname in ('trial_ends_at','subscription_status','subscription_plan','paddle_customer_id','paddle_subscription_id');")
+        self.record('financial_idempotency_rls_no_policy_no_client_rights',
+                    surface.idempotency_locked(self.query(surface.IDEMPOTENCY_SQL)))
+        self.record('legacy_unkeyed_sales_not_client_executable_keyed_sale_authenticated_only',
+                    self.query(surface.SALE_SURFACE_SQL) == surface.EXPECTED_SALE_SURFACE[63])
         self.record('all_five_protected_columns_no_client_write_grant', set(rights) == set(PROTECTED) and all(not any(v.values()) for v in rights.values()))
         for col, value in VALUES.items():
             before = self.state_snapshot()
@@ -184,6 +212,7 @@ class ComposedProbe(ClosureProbe, PriceProbe):
         a, b = self.fixture('B5_A'), self.fixture('B5_B')
         staff = self.fixture('B5_staff_A', a['tenant'], True)
         banned = self.fixture('B5_future_banned')
+        self.select_sale('initial')
         sale, product, order = self.financial_fixture(b)
         customer_ids = {}
         for label, actor in [('A', a), ('B', b)]:
@@ -200,7 +229,7 @@ class ComposedProbe(ClosureProbe, PriceProbe):
                 shutil.copy2(ROOT / path, stack / 'supabase/migrations' / Path(path).name)
             with (Path(os.environ['RUNNER_TEMP']) / 'B5-upgrade-private.log').open('w') as log:
                 result = subprocess.run(['supabase', '--workdir', str(stack), 'migration', 'up', '--local'], stdout=log, stderr=log, timeout=180)
-            self.record('real_populated41_to50_migration', result.returncode == 0)
+            self.record('real_populated41_to' + str(inv['count']) + '_migration', result.returncode == 0)
             after_upgrade = self.state_snapshot()
             self.record('all_original22_public_and_auth_identity_preserved',
                         after_upgrade['auth_identity_state'] == before_upgrade['auth_identity_state']
@@ -210,9 +239,10 @@ class ComposedProbe(ClosureProbe, PriceProbe):
                 if code == 403 and body.get('message') == 'owner_required': break
                 if code != 404 or body.get('code') != 'PGRST202': raise HarnessFailure('unexpected schema readiness denial')
                 time.sleep(.25)
-            self.record('postgrest50_discovery_and_exact_staff_denial', code == 403 and body.get('message') == 'owner_required')
+            self.record('postgrest' + str(inv['count']) + '_discovery_and_exact_staff_denial', code == 403 and body.get('message') == 'owner_required')
             (self.evidence_dir / 'populated-upgrade.json').write_text(json.dumps({'source': self.source, 'before': before_upgrade, 'after': after_upgrade}, indent=2) + '\n')
-        self.chain(inv['full_versions'], 'exact_effective50_chain')
+        self.chain(inv['full_versions'], 'exact_effective' + str(inv['count']) + '_chain')
+        self.select_sale('effective')
         snapshot = self.snapshot()
         self.record('all_three_new_private_tables_empty', all(snapshot['private.' + n]['count'] == 0 for n in PRIVATE))
         self.index_inventory()
@@ -253,7 +283,7 @@ class ComposedProbe(ClosureProbe, PriceProbe):
                 self.check_price('closed_price_' + label, actor['token'], 'account_inactive', 0)
                 ScannerProbe.deny(self, 'closed_admin_' + label + '_scanner_explicit_inactive', actor, a, message='account_inactive')
             # Private B tables and prior financial history are all in this invariant.
-            self.record('closure_preserves_all25_relations_except_single_marker',
+            self.record('closure_preserves_all' + str(len(before_closure['relations'])) + '_relations_except_single_marker',
                 all(self.snapshot()[k] == v for k, v in before_closure['relations'].items() if k != 'private.owner_account_closures')
                 and self.snapshot()['private.owner_account_closures']['count'] == 1)
             self.check_price('active_peer_after_closure', a['token'], 'pri_oc_app_dummy', 1)
@@ -268,13 +298,14 @@ class ComposedProbe(ClosureProbe, PriceProbe):
             self.firewall_after('app')
             self.record('no_unstubbed_external_fetch', self.state()['external_blocked'] == 0)
             self.record('official_metrics_dummy_sink_exercised', self.state()['metrics_stub_calls'] > 0)
-            self.chain(inv['full_versions'], 'exact50_at_finish')
+            self.chain(inv['full_versions'], 'exact' + str(inv['count']) + '_at_finish')
             self.record('tracked_source_unchanged', subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0)
             report = {'source': self.source, 'mode': mode, 'checks': self.controls, 'passed': len(self.controls), 'failed': 0,
                       'before_closure': before_closure, 'after': self.state_snapshot(), 'closed_token_receipt': closed,
                       'process_containment': self.state(), 'firewall': self.firewall_observations,
-                      'migration_versions': inv['full_versions'], 'original41': inv['original_versions'],
-                      'scope': 'synthetic populated B50 real REST/RPC/OAuth/Nitro MCP+price; provider price response stubbed',
+                      'migration_versions': inv['full_versions'], 'b50': inv['b50_versions'], 'original41': inv['original_versions'],
+                      'sale_rpc': self.sale_rpc,
+                      'scope': 'synthetic populated candidate63 real REST/RPC/OAuth/Nitro MCP+price; provider price response stubbed',
                       'integration_accepted': False, 'merge_approved': False}
             result = publish_result(self.evidence_dir, report, self.secrets + self.oauth_refresh_tokens)
             (self.evidence_dir / 'route-result.json').rename(self.evidence_dir / 'B5-result.json')

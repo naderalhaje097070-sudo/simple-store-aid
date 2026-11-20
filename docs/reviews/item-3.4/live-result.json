@@ -1,0 +1,100 @@
+{
+ "target": {
+  "api": "http://127.0.0.1:54321",
+  "prior_identities_all_synthetic": 5
+ },
+ "ledger_count": 63,
+ "composed_snapshot_relations": [
+  "couriers",
+  "customers",
+  "day_closes",
+  "email_send_log",
+  "email_send_state",
+  "email_unsubscribe_tokens",
+  "expenses",
+  "financial_audit_log",
+  "financial_idempotency",
+  "order_items",
+  "orders",
+  "payments",
+  "platform_admin_audit_log",
+  "platform_admins",
+  "private.billing_tenant_bindings",
+  "private.billing_webhook_receipts",
+  "private.owner_account_closures",
+  "products",
+  "profiles",
+  "security_scan_findings",
+  "security_scan_runs",
+  "subscriptions",
+  "suppressed_emails",
+  "tenant_counters",
+  "tenants",
+  "user_roles"
+ ],
+ "legacy_call_on_candidate": {
+  "status": 403,
+  "code": "42501",
+  "explicit_inactive": false
+ },
+ "keyed_replay": {
+  "first_status": 200,
+  "replay_status": 200,
+  "conflict_status": 400,
+  "conflict_message": "idempotency_conflict",
+  "delta_first": {
+   "orders": 1,
+   "items": 1,
+   "payments": 1,
+   "stock": -2,
+   "ledger_rows": 1
+  },
+  "replay_rows_unchanged": true,
+  "conflict_rows_unchanged": true
+ },
+ "banned_rpc_denials": {
+  "current_tenant_id": {
+   "status": 403,
+   "explicit_inactive": true
+  },
+  "get_tenant_today_estimate": {
+   "status": 403,
+   "explicit_inactive": true
+  },
+  "create_sale_with_items_idempotent": {
+   "status": 403,
+   "explicit_inactive": true
+  }
+ },
+ "banned_denials_left_state_unchanged": true,
+ "composed_checks": [
+  "client_truncate_denied_all23",
+  "initial_exact_sale_rpc_surface_63",
+  "L34_A_created",
+  "L34_A_tenant_seeded",
+  "L34_A_profile_seeded",
+  "L34_A_exactly_one_role",
+  "L34_A_login",
+  "L34_B_created",
+  "L34_B_tenant_seeded",
+  "L34_B_profile_seeded",
+  "L34_B_exactly_one_role",
+  "L34_B_login",
+  "existing_owner_rest_product_created",
+  "approved_sale_rpc_succeeded",
+  "independent_product_values",
+  "independent_direct_cash_order",
+  "independent_item_values_and_links",
+  "independent_payment_values_and_links",
+  "nonempty_actor_linked_financial_audit",
+  "counter_present_at_real_baseline",
+  "financial_idempotency_rls_no_policy_no_client_rights",
+  "legacy_unkeyed_sales_not_client_executable_keyed_sale_authenticated_only",
+  "keyed_first_call_writes_exactly_one_sale_and_one_completed_ledger_row",
+  "keyed_exact_replay_same_result_and_no_row_change",
+  "keyed_conflicting_body_refused_and_no_row_change"
+ ],
+ "composed_all_passed": true,
+ "b50_snapshot_tables": 23,
+ "billing_candidate_source": true
+}

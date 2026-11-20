@@ -1,3 +1,13 @@
+## 2026-11-20 — Record: #103 merged into integration; post-merge B5/B50 is the acceptance gate
+
+The owner directed, in the Claude session: reconcile #102 with integration `d4616d0` by a normal merge, keep #103's checkpoints, and update #102's conditions historically.
+- **Facts recorded:** #103 is merged into integration only, at `d4616d0`. The 63 source files are unchanged. The post-merge B5/B50 runs are still running.
+- **Recorded as decided:** the earlier local 41→63 upgrade is archival evidence, and current acceptance requires the CI upgrade job on `d4616d0`.
+- **Expectation, not fact:** 52 → 62 → 64 stays a conditional expectation.
+- **Not changed:** no code, migration or control.
+
+---
+
 ## 2026-11-20 — Item 3.4: verify the 63-migration candidate with an additive verifier, keeping A41/B50 frozen
 
 Source: the item 3.4 assignment message in this Claude session. It states that the owner (Nader) approved, in the current conversation, the 63-migration fingerprint-check path, keeping the 41 and 50 checks. Scope: item 3.4 only.
@@ -8,6 +18,12 @@ Decision, as implemented:
 - **B50 order.** B50 is required as an exact ordered subsequence of the ledger, not as its prefix: `20260815170000` and `20260815171000` sort before nine B50 files. The original41 must be the exact prefix.
 - **Sale path.** The harness picks the sale RPC from the live stage's grants: the legacy sale for the historical A41 seed, and `create_sale_with_items_idempotent` with a fresh key on the candidate. The base probe's default remains the legacy sale.
 - **Public tables.** At 63 the set must be exactly the 23 named tables. At 41 and 50 the historical rule stays: 22 tables, without `financial_idempotency`.
+
+---
+
+## 2026-11-20 — Focus C6/C7 on a safe commercial pilot
+
+The owner direction captured in [#97](https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/97#issuecomment-7045374037) prioritizes C7 courier settlement and close-day correctness, item 3.4, and the verification required for a safe pilot. Defer non-essential work. Routine implementation, isolated verification, and integration merges follow the existing delegation. Preserve historical closes and disputed amounts pending reconciliation. Changes to protected acceptance rules, production access or writes, main merge, and deployment remain individually governed.
 
 ---
 

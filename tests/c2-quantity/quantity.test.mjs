@@ -59,12 +59,20 @@ for (const [courierState, paid, collectedByCourier, expected] of [
   assert.equal(finance.getCustomerDebtForInvoice(invoice), expected);
 }
 assert.equal(
-  finance.canCollectCustomerDebtForInvoice({ ...courier, courierState: "delivered_none", paid: 100 }),
+  finance.canCollectCustomerDebtForInvoice({
+    ...courier,
+    courierState: "delivered_none",
+    paid: 100,
+  }),
   false,
 );
 assert.equal(
   finance.getCustomerDebtForInvoice({
-    ...courier, total: 0.8, courierState: "delivered_partial", paid: 0.7, collectedByCourier: 0.1,
+    ...courier,
+    total: 0.8,
+    courierState: "delivered_partial",
+    paid: 0.7,
+    collectedByCourier: 0.1,
   }),
   0,
 );

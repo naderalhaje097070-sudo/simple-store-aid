@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — package merged to integration, 2026-11-20
+
+Plan 3.1–3.2 is merged into integration at `d8b4ab909d7472e2d4bb40861b41748e74b0478a` via [PR #99](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/99), reviewed head `bbe772df3ec11e891e30c882579edd83721ad662`. All 14 required PR checks passed, Strix review 3 had zero open findings, and both review threads were resolved. The apply manifest is 20/20; the migration tree is unchanged. The branch-only clone passed 46/46 package checks on `2829ebc`, and the final head passed all 11 COPY-filter cases. Integration push checks are tracked in #97.
+
+**Next:** item 3.4 needs a scoped owner decision for the 61-migration identity verifier and its direct consumers. Preserve A41/B50 and all 50 previously applied files. Review the separate C7 accounting cases in #97 and verify the production backup and isolated restore before release. No production rollout.
+
+---
+
 ## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
 
 The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.

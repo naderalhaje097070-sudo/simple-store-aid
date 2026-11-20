@@ -1,3 +1,16 @@
+## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
+
+The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.
+
+- **What moved:** 143 files, with blob, sha256 and size matching. `c6-apply` SHA256SUMS is 20/20, and the migrations tree is identical to integration.
+- **Exceptions:** 2 raw production/live outputs were withheld, and `pwa_probe.cjs` was formatted with prettier only, its AST and minified output unchanged.
+- **Untouched:** migrations, product code, workflows and existing tests.
+- **Item 3.4 (re-measured only):** the direct path (`inventory.py`) fails on integration with or without the package, and the release gate passes. The control is unchanged; the decision is the owner's, with `gov-ok-<sha>`.
+- **Next:** a Draft PR into integration, with CI and review under `MERGE_DELEGATION.md`.
+- **Still pending:** the production backup and isolated restore, the apply method and date, and the release.
+
+---
+
 ## C6/C7 checkpoint — 2026-11-20
 
 - [Merged to integration] Plan 2.2, the synthetic backup/restore check and safe evidence publication, via [PR #98](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/98), merge `f9807b5543e273e1b6a5370c49f7af0845010c78`. All 14 required checks passed on the PR head `68a38093604545cda596db94687812ca89900612`, including Strix review 5 and all nine release-finance jobs. All eight review threads were resolved. Post-merge push checks are tracked separately in #97.

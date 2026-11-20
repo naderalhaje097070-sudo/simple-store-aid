@@ -7,6 +7,11 @@ set -uo pipefail
 W=$1; R=$2; export SB=$3; O=$4
 P=$R/docs/reviews/c6-apply; H=$R/tests/c6-upgrade; A=$O/apply_test; C=supabase_db_dahzkekdirrngnkcxinv
 OLD_REVERT_REF=e32f92b   # the pre-fix revert, pinned (HEAD now holds the fixed one)
+# Transport fix (#99): e32f92b is not in the integration branch's history, so the pre-fix revert is carried as a
+# LOCAL TEST FIXTURE with its original bytes (git blob 09c3ce91, sha256 below), never as an apply file. It is only
+# ever executed inside the BEGIN ... ROLLBACK below, against this script's own local replica container ($C).
+OLD_REVERT_FIXTURE=$H/fixtures/old_emergency_revert_e32f92b.sql.fixture
+OLD_REVERT_SHA256=f357c099a3a67b0f454ebe02188eabfd62d29fe6ec1d9f10f099a61867ab0aae
 . "$H/gate_lib.sh"
 new_outdir "$O"           # review fix 2026-11-19c: a new directory per run; nothing is deleted
 
@@ -60,7 +65,11 @@ for point in B.1:C2 B.4:C5; do
 done
 
 echo "== S4 old revert (pinned $OLD_REVERT_REF) if run while stuck after C2, versus the fixed revert"
-git -C "$R" show "$OLD_REVERT_REF:docs/reviews/c6-apply/EMERGENCY_unblock_legacy_frontend_revert.sql" > "$O/old_revert.sql" || die old-revert
+[ "$(sha256sum < "$OLD_REVERT_FIXTURE" | cut -c1-64)" = "$OLD_REVERT_SHA256" ] || die "old-revert fixture digest"
+cp "$OLD_REVERT_FIXTURE" "$O/old_revert.sql" || die old-revert
+if git -C "$R" cat-file -e "$OLD_REVERT_REF:docs/reviews/c6-apply/EMERGENCY_unblock_legacy_frontend_revert.sql" 2> /dev/null; then
+  check "fixture bytes equal the pinned commit's file" 'git -C "$R" show "$OLD_REVERT_REF:docs/reviews/c6-apply/EMERGENCY_unblock_legacy_frontend_revert.sql" | cmp -s - "$O/old_revert.sql"'
+fi
 check "pinned old revert is the pre-fix file (no REVERT_REFUSED guard)" '! grep -q REVERT_REFUSED "$O/old_revert.sql"'
 out=$(docker exec -i "$C" psql -U postgres -At -q -v ON_ERROR_STOP=1 <<EOF 2>&1
 begin;

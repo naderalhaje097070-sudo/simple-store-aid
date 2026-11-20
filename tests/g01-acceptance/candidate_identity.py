@@ -10,7 +10,9 @@ verifier pins, for the checked-out candidate:
   * the frozen A41 and B50 manifests by blob, and the B50 base ledger at its fixed commit.
 No per-path override and no fallback: any difference is a refusal.
 
-The protected snapshot is bound to the HEAD commit's tree, the index and the worktree together.
+The protected snapshot is bound to the HEAD commit's tree, the index and the worktree together. The migrations
+directory is also read from the filesystem, so a file there cannot be hidden by any git ignore rule. Ignored files
+elsewhere (build and cache output) are out of this check's scope.
 
 Limit of regeneration (by design): `--print-manifest` regenerates the snapshot from the committed tree, so a
 regenerated manifest admits any NON-migration protected change; those changes are accepted only through review of
@@ -20,6 +22,7 @@ change. Moving to a new candidate ledger requires a reviewed change of CANDIDATE
 """
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import stat
@@ -70,6 +73,30 @@ def head_tree(root):
         mode, kind, sha = metadata.decode().split()
         tree[path.decode()] = (sha, mode if kind == "blob" else kind + ":" + mode)
     return tree
+
+
+def on_disk_migrations(root):
+    """Every entry under supabase/migrations as found on disk. A directory, symlink or special file is
+    returned with a marker so it can never equal a ledger path."""
+    found = set()
+    base = Path(root) / MIGRATION_DIR
+    if base.is_symlink() or not base.is_dir():
+        return {"<not a regular directory>"}
+    stack = [base]
+    while stack:
+        current = stack.pop()
+        for entry in os.scandir(current):
+            rel = Path(entry.path).relative_to(root).as_posix()
+            if entry.is_symlink():
+                found.add(rel + " <symlink>")
+            elif entry.is_dir(follow_symlinks=False):
+                found.add(rel + "/ <directory>")
+                stack.append(Path(entry.path))
+            elif entry.is_file(follow_symlinks=False):
+                found.add(rel)
+            else:
+                found.add(rel + " <special>")
+    return found
 
 
 def index_entries(root):
@@ -179,6 +206,10 @@ def verify(root):
     check(len(set(versions)) == len(versions), "Duplicate migration version")
     in_dir = {p for p in expected if p.startswith(MIGRATION_DIR)}
     check(in_dir == set(paths), "Migration directory differs from ledger")
+    # Strix review of 2c44ac5: git's listing omits ignored files, whatever the ignore source (.gitignore,
+    # .git/info/exclude, a global excludes file, an untracked nested .gitignore). Read the migrations directory
+    # from the filesystem instead: it must hold exactly the ledger's regular files, and nothing else.
+    check(on_disk_migrations(root) == set(paths), "Unexpected entry in the migrations directory")
     check(all(expected[x["path"]] == (x["sha"], x["mode"]) for x in ledger), "Ledger differs from protected snapshot")
     check(all(x["mode"] == "100644" for x in ledger), "Executable migration")
     # Fixed candidate base: the applied ledger is exactly the reviewed commit's, byte and mode.

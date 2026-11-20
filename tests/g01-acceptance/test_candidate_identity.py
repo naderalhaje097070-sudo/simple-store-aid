@@ -194,6 +194,54 @@ class CandidateIdentity(unittest.TestCase):
         self.regenerate()
         self.deny("Invalid migration ledger path")
 
+    # Ignored entries in the migrations directory (Strix review of 2c44ac5), whatever the ignore source
+    def exclude(self, pattern):
+        info = self.root / ".git/info/exclude"
+        info.parent.mkdir(parents=True, exist_ok=True)
+        with info.open("a") as f:
+            f.write(pattern + "\n")
+
+    def test_migration_hidden_by_info_exclude(self):
+        self.write("supabase/migrations/20991231100000_hidden.sql", "select 1;\n")
+        self.exclude("supabase/migrations/2099*")
+        self.deny("Unexpected entry in the migrations directory")
+
+    def test_migration_hidden_by_committed_gitignore(self):
+        self.write(".gitignore", "node_modules/\n__pycache__/\nsupabase/migrations/*_local.sql\n")
+        self.regenerate()
+        self.write("supabase/migrations/20991231100000_local.sql", "select 1;\n")
+        self.deny("Unexpected entry in the migrations directory")
+
+    def test_migration_hidden_by_untracked_nested_gitignore(self):
+        self.write("supabase/migrations/20991231100000_hidden.sql", "select 1;\n")
+        self.write("supabase/migrations/.gitignore", "*\n")
+        self.deny("Unexpected entry in the migrations directory")
+
+    def test_migration_hidden_by_global_excludes_file(self):
+        self.write("supabase/migrations/20991231100000_hidden.sql", "select 1;\n")
+        rules = self.root.parent / (self.root.name + "-global-excludes")
+        rules.write_text("supabase/migrations/2099*\n")
+        self.git("config", "core.excludesFile", str(rules))
+        try:
+            self.deny("Unexpected entry in the migrations directory")
+        finally:
+            rules.unlink()
+
+    def test_ignored_subdirectory_and_symlink_in_migrations(self):
+        self.write("supabase/migrations/__pycache__/x.pyc", "x\n")
+        self.deny("Unexpected entry in the migrations directory")
+        shutil.rmtree(self.root / "supabase/migrations/__pycache__")
+        os.symlink(self.root / name(0), self.root / "supabase/migrations/20991231100000_link.sql")
+        self.exclude("supabase/migrations/2099*")
+        self.deny("Unexpected entry in the migrations directory")
+
+    def test_normal_ignored_output_elsewhere_still_accepted(self):
+        self.write("node_modules/pkg/index.js", "module.exports = 1;\n")
+        self.write("src/__pycache__/server.cpython-312.pyc", "x\n")
+        self.write("tests/__pycache__/t.cpython-312.pyc", "x\n")
+        result = cand.verify(self.root)
+        self.assertEqual(result["migration_count"], 63)
+
     # Mode
     def test_old_migration_mode_in_worktree(self):
         os.chmod(self.root / name(20), 0o755)

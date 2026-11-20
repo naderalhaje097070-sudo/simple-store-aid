@@ -52,19 +52,19 @@ The verifier therefore requires B50 as an exact ordered subsequence of the ledge
    - In `owner_closure_probe.py`, the base default stays the legacy RPC. The candidate path is chosen by the adapter.
 4. **Billing.** `tests/b5-lifecycle/billing_probe.py` runs the inherited `WebhookProbe` cases. Only the source and chain expectation changed: the disk files must equal the candidate ledger by blob. It supports only the fresh full chain, which is this job's whole matrix; the populated `before` phase is refused. `webhook_persistence_probe.py` is unchanged, so the dormant B4 workflow is not triggered.
 
-## Results (commands and outputs in `unit-tests.log` and the files here)
+## Results (commands and outputs in `unit-tests.txt` and the files here)
 
 | Check | Result |
 |---|---|
 | `test_candidate_identity.py`, synthetic repositories | 33/33 OK: 30 rejection cases, including 5 commit-binding cases (see the Codex review section), and a check that the real committed manifest equals a regeneration from the tree |
-| `real_negatives.sh`, 13 cases on a real-tree clone | the unchanged head is accepted (63), and all 12 mutations are refused (`real-negatives.log`) |
+| `real_negatives.sh`, 13 cases on a real-tree clone | the unchanged head is accepted (63), and all 12 mutations are refused (`real-negatives.txt`) |
 | `inventory.py` on the real tree | accepted: 596 protected blobs, 63 migrations, B50 and original41 preserved, 13 new, 2 sorting before the B50 max |
 | B50 `test_integrated_identity.py` | OK (unchanged) |
 | `test_contract.py` | 6/6, including the new stage, sale-surface, keyed-body and idempotency negatives |
 | `account-lifecycle` unit suites (owner_closure, natural_expiry, mcp, tanstack_route) | OK |
 | `b7-ci-routing/contract.test.cjs` | 17/17 (run with a local `js-yaml` 4) |
 | `live_harness.py` on the local 63 stack (after the 41→63 upgrade), behind the target guard | 25 real `ComposedProbe` checks passed (`live-result.json`), including 3 row-level replay checks, plus the results below |
-| Populated original41 → 63 upgrade, by a lab helper **removed from this PR** (see "Upgrade receipt" below) | exit 0 (`upgrade-migration-up.log`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`). This is Claude's local receipt; it cannot be rerun from this PR |
+| Populated original41 → 63 upgrade, by a lab helper **removed from this PR** (see "Upgrade receipt" below) | exit 0 (`upgrade-migration-up.txt`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`). This is Claude's local receipt; it cannot be rerun from this PR |
 
 The 25 synthetic rejection cases cover:
 
@@ -158,7 +158,7 @@ The same text is in the verifier's docstring.
 
 It adds one check of its own: every existing `auth.users` identity on the target must be synthetic (`example.test`, `example.invalid` or `mongezz.test`).
 
-Negatives (`guard-negatives.log`): 8 refused and 2 accepted.
+Negatives (`guard-negatives.txt`): 8 refused and 2 accepted.
 - **Refused:** wrong API port, remote API URL, missing key, no isolation marker, config URL mismatch, proxy routing, and a non-synthetic identity present on the target.
 - **Accepted:** the valid local target, before the non-synthetic identity was inserted and after it was removed.
 
@@ -176,7 +176,7 @@ The comparison does not cover:
 - other columns of these tables, for example `payments.method` and `created_by`, the item price columns, and the timestamps;
 - other tables, for example `financial_audit_log` and `tenant_counters`.
 
-**4. Upgrade helper removed (independent review of `2c44ac5`).** `upgrade_check.py` checked the guarded local PostgreSQL target, then passed a separate `STACK_DIR` to the Supabase CLI. It did not prove that this workdir's `config.toml` belongs to the guarded stack, or that the CLI would connect to the same address and port. Binding the two is not simple, so I removed the helper from the PR. Its receipt is kept: `upgrade-result.json` and `upgrade-migration-up.log`.
+**4. Upgrade helper removed (independent review of `2c44ac5`).** `upgrade_check.py` checked the guarded local PostgreSQL target, then passed a separate `STACK_DIR` to the Supabase CLI. It did not prove that this workdir's `config.toml` belongs to the guarded stack, or that the CLI would connect to the same address and port. Binding the two is not simple, so I removed the helper from the PR. Its receipt is kept: `upgrade-result.json` and `upgrade-migration-up.txt`.
 
 **Upgrade receipt (how it was run, for the record):**
 - A disposable stack, `project_id = "monjez-c34-stack41"`, was started with Supabase CLI 2.101.0 on 54321/54322, with only the 41 original migrations.
@@ -194,10 +194,34 @@ The comparison does not cover:
 - No other stack was running during the run.
 - The binding between the workdir and the target was **not** proven by the helper itself.
 
+## Strix review of `2c44ac5` — ignored entries in the migrations directory (assignment 7047875215)
+
+**Finding (Strix, LOW, thread r4646392302).** The path-set check listed the worktree with `git ls-files --others --exclude-standard`. A file in `supabase/migrations/` hidden by an ignore rule was never seen. Before the fix, measured on a real-tree clone: a migration hidden through `.git/info/exclude` was accepted (63). `supabase migration up` reads that directory directly, so it would apply such a file.
+
+**Fix, narrow as assigned.** `verify()` now also reads `supabase/migrations/` from the filesystem with `os.scandir`, without git and without following links. That directory must contain exactly the ledger's regular files:
+- any extra file is refused, whatever ignores it: the committed `.gitignore`, `.git/info/exclude`, a global excludes file, or an untracked nested `.gitignore`;
+- a subdirectory, a symlink or a special file is also refused.
+
+Ignored output elsewhere, such as `node_modules/` or `__pycache__/`, is still accepted. That is out of this check's scope.
+
+Unchanged:
+- the HEAD/index/worktree blob and mode checks;
+- the frozen A41/B50 manifests and `integrated_identity.py`;
+- all migrations.
+
+**Tests.**
+- **Synthetic negatives (5), each refused with `Unexpected entry in the migrations directory`:** a migration hidden by `.git/info/exclude`; by the committed `.gitignore`; by an untracked nested `.gitignore`; by a global excludes file; and an ignored subdirectory or symlink.
+- **Synthetic control:** ignored `node_modules/` and `__pycache__/` output elsewhere, with the verifier still accepting 63.
+- **Real-tree clone (`real_negatives.sh`):** the same idea on the real tree, as three refusals plus one acceptance.
+
+**Known residual, outside this assignment, flagged for review and not changed:** an ignored or hidden file outside `supabase/migrations/` is still not inspected, for example a `sitecustomize.py` hidden through `.git/info/exclude`. I measured that on a clone; it was accepted. The frozen B50 verifier behaves the same way. CI relies on a fresh checkout.
+
+**Evidence files renamed.** The repository's `.gitignore` ignores `*.log`, so the five `.log` evidence files cited earlier in this record were never committed. That was my error. They are now committed as `.txt` files with the same content, and the references in this record are updated.
+
 ## Heads tested
 
-- `unit-tests.log`, `real-negatives.log` and `live-result.json`: code head `e74443e` (after the upgrade helper was removed). `upgrade-result.json`, `guard-negatives.log` and `old-verifier-gap.log`: code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
-- `upgrade-migration-up.log`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
+- `unit-tests.txt`, `real-negatives.txt` and `live-result.json`: code head `e74443e` (after the upgrade helper was removed). `upgrade-result.json`, `guard-negatives.txt` and `old-verifier-gap.txt`: code head `4ead923`. `guard-negatives.txt` and `old-verifier-gap.txt` were taken on the same code before the manifest was regenerated.
+- `upgrade-migration-up.txt`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
 
 ## What was tested, and what still needs CI on the acceptance path
 

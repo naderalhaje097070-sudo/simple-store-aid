@@ -1,0 +1,11 @@
+guard_good:            ACCEPTED ('http://127.0.0.1:54321', 5)
+guard_wrong_port:      REFUSED HarnessFailure CLI API target mismatch
+guard_remote_api:      REFUSED HarnessFailure CLI API target mismatch
+guard_missing_key:     REFUSED HarnessFailure missing disposable stack keys
+guard_no_isolation:    REFUSED HarnessFailure isolated runner marker missing
+guard_config_mismatch: SEC_ENV_WRITE_HARNESS_BLOCKED: VITE_SUPABASE_URL must target loopback port 54321
+REFUSED SystemExit 2
+guard_proxy_routing:   SEC_ENV_WRITE_HARNESS_BLOCKED: proxy routing variables are not allowed for destructive E2E: HTTPS_PROXY
+REFUSED SystemExit 2
+guard_nonsynthetic_id: REFUSED HarnessFailure target holds non-synthetic identities
+guard_after_cleanup:   ACCEPTED ('http://127.0.0.1:54321', 5)

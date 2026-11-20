@@ -1,7 +1,7 @@
 {
  "target": {
   "api": "http://127.0.0.1:54321",
-  "prior_identities_all_synthetic": 3
+  "prior_identities_all_synthetic": 5
  },
  "ledger_count": 63,
  "composed_snapshot_relations": [

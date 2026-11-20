@@ -196,7 +196,7 @@ The comparison does not cover:
 
 ## Heads tested
 
-- `unit-tests.log`, `real-negatives.log` and `live-result.json`: code head after the upgrade helper was removed (see the commit that adds this line). `upgrade-result.json`, `guard-negatives.log` and `old-verifier-gap.log`: code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
+- `unit-tests.log`, `real-negatives.log` and `live-result.json`: code head `e74443e` (after the upgrade helper was removed). `upgrade-result.json`, `guard-negatives.log` and `old-verifier-gap.log`: code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
 - `upgrade-migration-up.log`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
 
 ## What was tested, and what still needs CI on the acceptance path

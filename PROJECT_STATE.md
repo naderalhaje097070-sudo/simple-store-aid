@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — 2026-11-20
+
+Plan 2.2 is merged into the integration branch at `f9807b5543e273e1b6a5370c49f7af0845010c78` via [PR #98](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/98). The PR head `68a38093604545cda596db94687812ca89900612` passed 14/14 required checks, including [release-finance](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44698293589) with all three collection restore legs, and Strix check `136160513733`; no security findings or unresolved review threads remained. Codex exact-head review `5989254242`. The post-merge push is a separate verification tracked in #97.
+
+This is synthetic CI recovery evidence. Production backup and isolated recovery, the C6 package, and the direct 50-vs-61 migration identity discrepancy are still release preparation work.
+
+---
+
 ## Current — Phase 1: owner approved Public + GitHub Free; reference 4d3614a, 2026-11-07
 
 - Reference: 4d3614a — release-finance 9/9 (run 42359764556), G0, B1, C5 green. Later commits on the branch are docs-only.

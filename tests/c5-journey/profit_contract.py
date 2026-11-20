@@ -46,6 +46,39 @@ def sql_write_denied(p,actor,statement):
     r=subprocess.run(_psql_command(p.config,'-Atq','-v','ON_ERROR_STOP=1','-v','VERBOSITY=sqlstate'),input=sql,capture_output=True,text=True,env=_psql_env(p.config))
     return r.returncode!=0 and '42501' in r.stderr
 
+def check_courier_debt_close(p, state, private):
+    owner = p.fixture('courier_debt_close')
+    state['actors']['courier_debt_close'] = owner
+    p.save(private, state)
+    tenant = owner['tenant']
+    customer, courier = p.customer_courier(owner)
+    order = p.order(owner, p.seed_product(owner), customer=customer, courier=courier, state='pending')
+    code, _ = p.rpc(owner, 'update_courier_order_state', {
+        'p_order_id': order, 'p_state': 'delivered_none', 'p_collected': 0,
+    })
+    p.control('courier_debt_close_delivered_none', code == 200)
+    code, _ = p.collect(owner, order, 40)
+    p.control('courier_debt_close_collected_40', code == 200 and p.effect(order)['paid'] == 40)
+
+    def check_close(label, debt, custody, cash):
+        expected = {'customer_debts': debt, 'unsettled_custody': custody, 'collected': cash, 'sales': 100}
+        code, result = p.rpc(owner, 'close_day', {'p_note': 'courier debt balance'})
+        saved = raw_close(p, tenant)
+        status, report = p.request('GET', f'/rest/v1/{VIEW}?select=' + ','.join(expected), token=owner['token'])
+        p.control(label, code == 200 and status == 200 and report == [expected]
+                  and all(result.get(key) == saved.get(key) == amount for key, amount in expected.items()))
+
+    check_close('courier_debt_close_store_paid_40_leaves_60', 60, 0, 40)
+    code, _ = p.rpc(owner, 'update_courier_order_state', {
+        'p_order_id': order, 'p_state': 'delivered_partial', 'p_collected': 60,
+    })
+    p.control('courier_debt_close_new_custody_60', code == 200 and p.courier_effect(order)['custody'] == 60)
+    check_close('courier_debt_close_custody_60_leaves_zero', 0, 60, 40)
+    code, _ = p.settle(owner, courier, [order])
+    p.control('courier_debt_close_settled_total_100', code == 200 and p.effect(order)['paid'] == 100)
+    check_close('courier_debt_close_settlement_leaves_zero', 0, 0, 100)
+
+
 def run(p,state,private):
     p.stage='profit_contract'
     catalog=p.query(f"select jsonb_build_object('invoker',coalesce('security_invoker=true'=any(reloptions),false),'select',has_table_privilege('authenticated',oid,'SELECT'),'insert',has_table_privilege('authenticated',oid,'INSERT'),'update',has_table_privilege('authenticated',oid,'UPDATE'),'delete',has_table_privilege('authenticated',oid,'DELETE'),'anon',has_table_privilege('anon',oid,'SELECT')) from pg_class where oid='public.{VIEW}'::regclass;")
@@ -108,4 +141,5 @@ def run(p,state,private):
     # Record which acceptable path was taken: zero rows, or the account_inactive guard.
     p.control('profit_inactive_SQL_no_rows',inactive in (('rows',0),('denied',)),observed={'denied_by_account_inactive':inactive==('denied',)})
     p.control('profit_unaffected_staff_still_allowed',role_query(p,staff,f'select to_jsonb(count(*)) from public.{VIEW};')==4)
+    check_courier_debt_close(p, state, private)
     return {'controls':'recorded in progress.json','runtime_SQL_API':True,'historical_rows_rewritten_by_migration':False}

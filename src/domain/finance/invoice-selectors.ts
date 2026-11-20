@@ -50,9 +50,10 @@ export function getCustomerDebtForInvoice(invoice: FinanceInvoice): number {
   }
 
   const courierState = invoice.courierState ?? "pending";
-  if (courierState === "delivered_none") return invoice.total;
-  if (courierState === "delivered_partial")
-    return invoice.total - (invoice.collectedByCourier ?? 0);
+  if (courierState === "delivered_none" || courierState === "delivered_partial") {
+    const remaining = getInvoiceRemainingAmount(invoice) - getCourierCustodyForInvoice(invoice);
+    return Math.max(Math.round(remaining * 100), 0) / 100;
+  }
 
   return 0;
 }

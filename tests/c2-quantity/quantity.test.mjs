@@ -44,10 +44,36 @@ assert.equal(
 );
 assert.equal(finance.getSaleLineTotal({ price: 0.29, qty: 1 }), 0.29);
 assert.equal(finance.getSaleLineTotal({ price: 10.01, qty: 1.5 }), 15.02);
+const courier = { delivery: "courier", total: 100, items: [] };
+for (const [courierState, paid, collectedByCourier, expected] of [
+  ["delivered_none", 40, 0, 60],
+  ["delivered_none", 100, 0, 0],
+  ["delivered_partial", 40, 35, 25],
+  ["delivered_partial", 40, 60, 0],
+  ["delivered_partial", 40, 70, 0],
+  ["delivered_partial", 0, 60, 40],
+  ["pending", 0, 0, 0],
+  ["returned", 0, 0, 0],
+]) {
+  const invoice = { ...courier, courierState, paid, collectedByCourier };
+  assert.equal(finance.getCustomerDebtForInvoice(invoice), expected);
+}
+assert.equal(
+  finance.canCollectCustomerDebtForInvoice({ ...courier, courierState: "delivered_none", paid: 100 }),
+  false,
+);
+assert.equal(
+  finance.getCustomerDebtForInvoice({
+    ...courier, total: 0.8, courierState: "delivered_partial", paid: 0.7, collectedByCourier: 0.1,
+  }),
+  0,
+);
+assert.equal(finance.getCustomerDebtForInvoice({ ...courier, delivery: "direct", paid: 100 }), 0);
 console.log(
   JSON.stringify({
     quantity_cases: observations.length + 7,
     existing_cent_policy_cases: 5,
+    customer_debt_cases: 11,
     passed: true,
   }),
 );

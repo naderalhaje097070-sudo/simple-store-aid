@@ -584,17 +584,14 @@ jobs:
         run: |
           set -euo pipefail
           out="$RUNNER_TEMP/release-evidence"
-          mkdir -p "$out"
-          if [[ -d /tmp/monjez-c5sale/evidence ]]; then
-            sudo cp -a /tmp/monjez-c5sale/evidence/. "$out/"
-            sudo chown -R "$(id -un):$(id -gn)" "$out"
-          fi
-          # Restore attestation (review fix, Strix MEDIUM on 6c13bc2). The restore step staged it in the runner-only
-          # $RUNNER_TEMP/restore-attestation. The candidate's evidence, just merged above, may not occupy its reserved
-          # names anywhere in the publication tree, in any job: a collision is recorded, never merged or overwritten,
-          # and blocks publication below. Otherwise the runner places it as release-evidence/restore (exclusive,
-          # no-follow) from its own checkout's tests/release/restore/attestation.py, and re-verifies it below.
-          python tests/release/restore/attestation.py place "$out" "$RUNNER_TEMP/restore-attestation"
+          # Evidence import boundary (review fix, Strix review 4 on bed1035, CWE-59). The candidate's tree
+          # /tmp/monjez-c5sale belongs to c5finance, so root never opens, walks or reads it: c5finance exports its
+          # evidence with no link following (only real directories and regular files), the runner imports the stream
+          # into a fresh runner-owned directory with strict names and no collisions, and the stack keys come from the
+          # runner's own status copy. A rejection empties the publication and fails this step (asserted below), in
+          # every matrix job. The restore attestation (Strix MEDIUM on 6c13bc2) is then placed as before. The same
+          # script runs in the local emulation (tests/release/restore/run_cleanup_attestation_local.sh).
+          tests/release/collect_evidence.sh "$out" "$RUNNER_TEMP/restore-attestation"
           rm -f "$RUNNER_TEMP/status-private.json" "$RUNNER_TEMP/start-private.log" "$RUNNER_TEMP/upgrade-private.log" "$RUNNER_TEMP/advisors-private.txt"
           if [[ -d "$RUNNER_TEMP/monjez-c5sale-stack/supabase" ]]; then
             supabase --workdir "$RUNNER_TEMP/monjez-c5sale-stack" stop --no-backup > "$RUNNER_TEMP/stop-private.log" 2>&1 || true
@@ -609,33 +606,30 @@ jobs:
           after=rejects(subprocess.check_output(['sudo','iptables','-nvxL','C5F'],text=True)) if before else 0
           sys.path.insert(0,'tests/account-lifecycle')
           from scanner_evidence import verify_publication, PublicationBlocked
-          forbidden=[]
-          for filename in ['status.json','private-state.json']:
-              p=Path('/tmp/monjez-c5sale')/filename
-              if p.exists():
-                  data=json.loads(subprocess.check_output(['sudo','cat',str(p)],text=True))
-                  if filename=='status.json':
-                      forbidden += [v for k,v in data.items() if 'KEY' in k or 'PASSWORD' in k]
-                  else:
-                      forbidden += [v for actor in data.get('actors',{}).values() for k,v in actor.items()
-                                    if k in ('token','refresh','password','email')]
+          # forbidden values, collected without root reading the candidate's tree (tests/release/collect_evidence.sh)
+          forbidden=json.loads((root/'publication-forbidden.json').read_text())
+          imported=json.loads((root/'evidence-import.json').read_text())
+          as_c5=['sudo','-u','c5finance','find','/tmp/monjez-c5sale','-maxdepth','1']   # c5finance acts in its own tree
           try:
               verify_publication(out,root/'release-private-quarantine',forbidden)
           finally:
-              subprocess.run(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-type','f','-name','*.json*','-delete'],check=False)
+              if imported['confined_identity_present']:
+                  subprocess.run(as_c5+['-type','f','-name','*.json*','-delete'],check=False)
           cleanup={'source':os.environ['EXPECTED_SOURCE'],'suite':os.environ['SUITE'],'mode':os.environ['CONTRACT_MODE'],
                    'unexpected_ipv4_rejects':after-before,
-                   'private_files_removed':not subprocess.check_output(['sudo','find','/tmp/monjez-c5sale','-maxdepth','1','-name','*.json*','-print'],text=True).strip(),
+                   'private_files_removed':not imported['confined_identity_present'] or not subprocess.run(as_c5+['-name','*.json*','-print'],capture_output=True,text=True).stdout.strip(),
                    'stack_removed':'monjez-c5sale-stack' not in subprocess.check_output(['docker','ps','--format','{{.Names}}'],text=True)}
           # restore attestation, re-verified AFTER the merge and the publication check: exact names, digests and source
           sys.path.insert(0,'tests/release/restore')
           from attestation import verify as verify_attestation
           attestation,collisions=verify_attestation(out,root/'restore-attestation',os.environ['EXPECTED_SOURCE'])
           cleanup['restore_attestation']=attestation; cleanup['restore_name_collisions']=collisions
+          cleanup['evidence_import']={k:imported[k] for k in ('ok','export_exit','import_exit','private_state_exit','rejections')}
           (out/'cleanup.json').write_text(json.dumps(cleanup,indent=2)+'\n')
           print('RELEASE_CLEANUP '+json.dumps(cleanup))
           assert after==before and cleanup['private_files_removed'] and cleanup['stack_removed']
           assert not collisions and attestation in ('verified','absent'), 'RELEASE_RESTORE_ATTESTATION_'+attestation
+          assert imported['ok'], 'RELEASE_EVIDENCE_IMPORT_REJECTED'
           PY
           echo 'safe=true' >> "$GITHUB_OUTPUT"
       - uses: actions/upload-artifact@v4

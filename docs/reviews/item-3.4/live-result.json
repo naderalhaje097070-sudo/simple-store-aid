@@ -1,4 +1,8 @@
 {
+ "target": {
+  "api": "http://127.0.0.1:54321",
+  "prior_identities_all_synthetic": 3
+ },
  "ledger_count": 63,
  "composed_snapshot_relations": [
   "couriers",
@@ -34,10 +38,19 @@
   "explicit_inactive": false
  },
  "keyed_replay": {
-  "first": 200,
-  "same_order": true,
+  "first_status": 200,
+  "replay_status": 200,
   "conflict_status": 400,
-  "conflict": "idempotency_conflict"
+  "conflict_message": "idempotency_conflict",
+  "delta_first": {
+   "orders": 1,
+   "items": 1,
+   "payments": 1,
+   "stock": -2,
+   "ledger_rows": 1
+  },
+  "replay_rows_unchanged": true,
+  "conflict_rows_unchanged": true
  },
  "banned_rpc_denials": {
   "current_tenant_id": {
@@ -76,7 +89,10 @@
   "nonempty_actor_linked_financial_audit",
   "counter_present_at_real_baseline",
   "financial_idempotency_rls_no_policy_no_client_rights",
-  "legacy_unkeyed_sales_not_client_executable_keyed_sale_authenticated_only"
+  "legacy_unkeyed_sales_not_client_executable_keyed_sale_authenticated_only",
+  "keyed_first_call_writes_exactly_one_sale_and_one_completed_ledger_row",
+  "keyed_exact_replay_same_result_and_no_row_change",
+  "keyed_conflicting_body_refused_and_no_row_change"
  ],
  "composed_all_passed": true,
  "b50_snapshot_tables": 23,

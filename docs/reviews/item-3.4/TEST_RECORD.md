@@ -63,7 +63,7 @@ The verifier therefore requires B50 as an exact ordered subsequence of the ledge
 | `test_contract.py` | 6/6, including the new stage, sale-surface, keyed-body and idempotency negatives |
 | `account-lifecycle` unit suites (owner_closure, natural_expiry, mcp, tanstack_route) | OK |
 | `b7-ci-routing/contract.test.cjs` | 17/17 (run with a local `js-yaml` 4) |
-| `live_harness.py` on the local 63 stack, after the target guard | 25 real `ComposedProbe` checks passed (`live-result.json`), including 3 row-level replay checks, plus the results below |
+| `live_harness.py` on the local 63 stack (after the 41→63 upgrade), behind the target guard | 25 real `ComposedProbe` checks passed (`live-result.json`), including 3 row-level replay checks, plus the results below |
 | `upgrade_check.py` on the local original41 stack, then a real `supabase migration up --local` | exit 0 (`upgrade-migration-up.log`), with all 41 checks and the 8 keyed-fixture checks passed (`upgrade-result.json`; full list below) |
 
 The 25 synthetic rejection cases cover:
@@ -166,8 +166,8 @@ Negatives (`guard-negatives.log`): 8 refused and 2 accepted.
 
 ## Heads tested
 
-- `unit-tests.log`, `real-negatives.log` and `live-result.json`: final code head `c60da08`.
-- `upgrade-result.json` and `upgrade-migration-up.log`: `60b4411`. Between that commit and `c60da08`, only `docs/` and `candidate-63-source.json` changed (`git diff --stat 60b4411 c60da08`). No harness, workflow or verifier code changed.
+- All logs and results (`unit-tests.log`, `real-negatives.log`, `live-result.json`, `upgrade-result.json`, `guard-negatives.log`, `old-verifier-gap.log`): code head `4ead923`. `guard-negatives.log` and `old-verifier-gap.log` were taken on the same code before the manifest was regenerated.
+- `upgrade-migration-up.log`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
 
 ## What was tested, and what still needs CI on the acceptance path
 

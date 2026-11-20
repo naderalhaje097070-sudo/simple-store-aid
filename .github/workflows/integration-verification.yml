@@ -48,6 +48,13 @@ jobs:
           python tests/g01-acceptance/test_integrated_identity.py
 
           python tests/c-source/test_identity.py"
+      - name: Candidate63 identity with frozen B50/original41 and B5 stage contracts
+        # Item 3.4: B5 lifecycle and B50 natural expiry do not run on PRs into integration;
+        # this runs their identity layer and stage contracts on every PR. Additive only.
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python tests/b5-lifecycle/inventory.py > "$RUNNER_TEMP/candidate63-inventory.json"
+          PYTHONDONTWRITEBYTECODE=1 python tests/g01-acceptance/test_candidate_identity.py -v
+          PYTHONDONTWRITEBYTECODE=1 python tests/b5-lifecycle/test_contract.py -v
       - name: C4 source admission mutation contracts
         run: python tests/c4-sale/test_identity.py
       - name: SEC 20261102 exact graph installed engine and negative controls

@@ -127,3 +127,30 @@ Revert this PR's commits. `integrated_identity.py`, the A41 and B50 manifests, a
 
 - `unit-tests.log`, `real-negatives.log` and `live-result.json`: final code head `c60da08`.
 - `upgrade-result.json` and `upgrade-migration-up.log`: `60b4411`. Between that commit and `c60da08`, only `docs/` and `candidate-63-source.json` changed (`git diff --stat 60b4411 c60da08`). No harness, workflow or verifier code changed.
+
+## What was tested, and what still needs CI on the acceptance path
+
+The code I changed, and the place each part is verified:
+
+| Part | Verified here (local, synthetic) | CI on PR into integration (#103) | Still needs CI on the acceptance path |
+|---|---|---|---|
+| Candidate verifier and manifest | 28 synthetic tests, 12 real-tree rejections, accepted on the real tree | Yes: the new step in `integration-verification.yml` (`integrated-quality`) runs `inventory.py`, `test_candidate_identity.py` and `test_contract.py` | — |
+| B50/A41 frozen identity | `test_integrated_identity` unchanged and passing | Yes (existing step) | — |
+| Stage rules: tables, TRUNCATE, sale RPC, idempotency lock | unit tests; live on a 63 stack; live 41→63 upgrade | unit tests only | Live B5 lifecycle `fresh` and `upgrade` |
+| Composed flow: app, OAuth/PKCE, Nitro MCP, price route, ban, closure through the app | not run (needs the containment preflight) | No (B5 lifecycle does not trigger on PRs into integration) | B5 lifecycle `fresh` + `upgrade` |
+| SSR browser/runtime | count check only, via inventory | No | B5 `ssr` job |
+| Billing webhook cases | the source/ledger check only | No | B5 `billing` job |
+| Natural token expiry | snapshot override only (23 tables) | No | `B50 Real Token Expiry` |
+
+**When the CI-only rows run:** B5 lifecycle runs on a push to integration that touches `tests/b5-lifecycle/**`, its workflow file or the candidate files. `B50 Real Token Expiry` runs on a push to integration that touches its paths, which now include the candidate files. Both also run on PRs into main. So the merge of #103 into integration is the first run of these four jobs. Until those runs are green on the merge commit, the B5/B50 rows are **not accepted**. No PR into main was opened, and no check was relaxed or skipped.
+
+## Opinion on the rest of 3.4 and the Pilot (Claude, not a decision)
+
+Recommended order, from what blocks the most:
+
+1. **Merge #103 into integration, then read the four post-merge runs on the merge SHA.** This is the only route to the CI rows above without a PR into main. If a run fails, fix it on a new branch; never fix it by relaxing a control.
+2. **Read the production migration ledger, read-only, under the scope the owner approves (count, ordered versions).** This is now a release blocker: two August-dated migrations sort before nine October B50 migrations. If production has already applied the October ones without the August ones, an ordinary `migration up` will refuse or skip them. Nothing about apply method, backup or date should be decided before this is known. The query can be added to the existing `C7_PROD_READ_SCOPE.sql` approval, so the owner approves one read, not two.
+3. **Production backup and isolated restore.** Then the C6/C7 apply under the owner's approval, then the main PR with the full acceptance suite (which also re-runs B5/B50 on the main PR).
+4. **Owner-only Pilot**, after all of the above.
+
+**Alternative I consider better than re-pinning by hand at every step:** make the candidate manifest the only thing that changes per candidate. Generate it in review; the verifier pins the base commit and the frozen B50/A41, and refuses anything else. That is what #103 does. The verifier then needs no code change for the next candidate; only the reviewed base SHA and counts move. A single "latest" verifier that reads the counts from the tree would be simpler, but weaker, because nothing would pin the ledger to a reviewed commit. I do not recommend it.

@@ -1,3 +1,13 @@
+## 2026-11-20 — Item 3.4: verify the 63-migration candidate with an additive verifier, keeping A41/B50 frozen
+
+Source: the item 3.4 assignment message in this Claude session. It states that the owner (Nader) approved, in the current conversation, the 63-migration fingerprint-check path, keeping the 41 and 50 checks. Scope: item 3.4 only.
+
+Decision, as implemented:
+- **New verifier, frozen ones untouched.** A separate candidate verifier and manifest are added. `integrated_identity.py`, `integrated-b-source.json`, `integrated-source.json` and their tests are unchanged; nothing is overridden or relaxed per path.
+- **What is pinned.** The candidate ledger is pinned to commit `09089be`, B50 to `59c8a0c` and A41 to its frozen map.
+- **B50 order.** B50 is required as an exact ordered subsequence of the ledger, not as its prefix: `20260815170000` and `20260815171000` sort before nine B50 files. The original41 must be the exact prefix.
+- **Sale path.** The harness picks the sale RPC from the live stage's grants: the legacy sale for the historical A41 seed, and `create_sale_with_items_idempotent` with a fresh key on the candidate. The base probe's default remains the legacy sale.
+- **Public tables.** At 63 the set must be exactly the 23 named tables. At 41 and 50 the historical rule stays: 22 tables, without `financial_idempotency`.
 ## 2026-11-20 — Focus C6/C7 on a safe commercial pilot
 
 The owner direction captured in [#97](https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/97#issuecomment-7045374037) prioritizes C7 courier settlement and close-day correctness, item 3.4, and the verification required for a safe pilot. Defer non-essential work. Routine implementation, isolated verification, and integration merges follow the existing delegation. Preserve historical closes and disputed amounts pending reconciliation. Changes to protected acceptance rules, production access or writes, main merge, and deployment remain individually governed.

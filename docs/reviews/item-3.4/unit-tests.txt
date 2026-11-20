@@ -1,0 +1,91 @@
+# item 3.4 unit/contract log — head 385d488882ce12f52a028dac0ae3bd7ff5646ae7, 2026-11-20T18:50:57Z, python 3.13.18, node v22.23.5
+$ python tests/b5-lifecycle/inventory.py  (identity)
+{"scope": "reviewed_candidate63_source", "base_source": "09089be291a56fd2a76ba8c0943564c30e5a4eb8", "b50_base_source": "59c8a0c7920e58a02cb885b382f6ac5f1cb168f1", "head_sha": "385d488882ce12f52a028dac0ae3bd7ff5646ae7", "protected_blob_count": 599, "all_protected_blobs_match": true, "migration_count": 63, "b50_migrations_preserved": true, "original41_migrations_preserved": true, "new_migration_count": 13, "new_migrations_sorting_before_b50_max": ["supabase/migrations/20260815170000_fin_courier_pr_a.sql", "supabase/migrations/20260815171000_fin_idem_sale_create.sql"]}
+$ python tests/g01-acceptance/test_candidate_identity.py -v
+test_a41_manifest_changed (__main__.CandidateIdentity.test_a41_manifest_changed) ... ok
+test_b50_manifest_changed (__main__.CandidateIdentity.test_b50_manifest_changed) ... ok
+test_candidate_base_not_ancestor (__main__.CandidateIdentity.test_candidate_base_not_ancestor) ... ok
+test_extra_committed_migration_with_regenerated_manifest (__main__.CandidateIdentity.test_extra_committed_migration_with_regenerated_manifest) ... ok
+test_extra_nonsql_file_in_migration_directory (__main__.CandidateIdentity.test_extra_nonsql_file_in_migration_directory) ... ok
+test_extra_untracked_migration (__main__.CandidateIdentity.test_extra_untracked_migration) ... ok
+test_extra_untracked_path (__main__.CandidateIdentity.test_extra_untracked_path) ... ok
+test_head_blob_differs_while_index_and_worktree_match_manifest (__main__.CandidateIdentity.test_head_blob_differs_while_index_and_worktree_match_manifest) ... ok
+test_head_holds_file_absent_from_index_worktree_and_manifest (__main__.CandidateIdentity.test_head_holds_file_absent_from_index_worktree_and_manifest) ... ok
+test_head_lacks_file_held_by_index_worktree_and_manifest (__main__.CandidateIdentity.test_head_lacks_file_held_by_index_worktree_and_manifest) ... ok
+test_head_manifest_differs_from_index_manifest (__main__.CandidateIdentity.test_head_manifest_differs_from_index_manifest) ... ok
+test_head_mode_differs_while_index_and_worktree_match (__main__.CandidateIdentity.test_head_mode_differs_while_index_and_worktree_match) ... ok
+test_ignored_subdirectory_and_symlink_in_migrations (__main__.CandidateIdentity.test_ignored_subdirectory_and_symlink_in_migrations) ... ok
+test_ledger_blob_forged_in_manifest_only (__main__.CandidateIdentity.test_ledger_blob_forged_in_manifest_only) ... ok
+test_ledger_reordered_in_manifest (__main__.CandidateIdentity.test_ledger_reordered_in_manifest) ... ok
+test_migration_hidden_by_committed_gitignore (__main__.CandidateIdentity.test_migration_hidden_by_committed_gitignore) ... ok
+test_migration_hidden_by_global_excludes_file (__main__.CandidateIdentity.test_migration_hidden_by_global_excludes_file) ... ok
+test_migration_hidden_by_info_exclude (__main__.CandidateIdentity.test_migration_hidden_by_info_exclude) ... ok
+test_migration_hidden_by_untracked_nested_gitignore (__main__.CandidateIdentity.test_migration_hidden_by_untracked_nested_gitignore) ... ok
+test_new_migration_sorting_inside_original41 (__main__.CandidateIdentity.test_new_migration_sorting_inside_original41) ... ok
+test_normal_ignored_output_elsewhere_still_accepted (__main__.CandidateIdentity.test_normal_ignored_output_elsewhere_still_accepted) ... ok
+test_old_migration_corrupted_committed_with_regenerated_manifest (__main__.CandidateIdentity.test_old_migration_corrupted_committed_with_regenerated_manifest) ... ok
+test_old_migration_corrupted_in_worktree (__main__.CandidateIdentity.test_old_migration_corrupted_in_worktree) ... ok
+test_old_migration_deleted_committed_with_regenerated_manifest (__main__.CandidateIdentity.test_old_migration_deleted_committed_with_regenerated_manifest) ... ok
+test_old_migration_deleted_in_worktree (__main__.CandidateIdentity.test_old_migration_deleted_in_worktree) ... ok
+test_old_migration_mode_committed_with_regenerated_manifest (__main__.CandidateIdentity.test_old_migration_mode_committed_with_regenerated_manifest) ... ok
+test_old_migration_mode_in_worktree (__main__.CandidateIdentity.test_old_migration_mode_in_worktree) ... ok
+test_old_migration_whitespace_only_change (__main__.CandidateIdentity.test_old_migration_whitespace_only_change) ... ok
+test_original41_migration_corrupted_committed_with_regenerated_manifest (__main__.CandidateIdentity.test_original41_migration_corrupted_committed_with_regenerated_manifest) ... ok
+test_protected_source_committed_without_review (__main__.CandidateIdentity.test_protected_source_committed_without_review) ... ok
+test_protected_source_mutation (__main__.CandidateIdentity.test_protected_source_mutation) ... ok
+test_real_repository_manifest_is_current (__main__.CandidateIdentity.test_real_repository_manifest_is_current)
+The checked-in manifest equals a regeneration from the real committed tree (CI checkout). ... ok
+test_reviewed_candidate_accepted (__main__.CandidateIdentity.test_reviewed_candidate_accepted) ... ok
+test_same_count_nonsql_file_replaces_migration (__main__.CandidateIdentity.test_same_count_nonsql_file_replaces_migration) ... ok
+test_same_count_old_file_renamed (__main__.CandidateIdentity.test_same_count_old_file_renamed) ... ok
+test_same_count_old_file_replaced_by_new_file (__main__.CandidateIdentity.test_same_count_old_file_replaced_by_new_file) ... ok
+test_source_mode_in_index_only (__main__.CandidateIdentity.test_source_mode_in_index_only) ... ok
+test_uncommitted_candidate_manifest (__main__.CandidateIdentity.test_uncommitted_candidate_manifest) ... ok
+test_wrong_base_in_manifest (__main__.CandidateIdentity.test_wrong_base_in_manifest) ... ok
+
+----------------------------------------------------------------------
+Ran 39 tests in 5.804s
+
+OK
+exit=0
+$ (cd tests/g01-acceptance && python test_integrated_identity.py)
+Ran 29 tests in 6.677s
+
+OK
+$ python tests/b5-lifecycle/test_contract.py -v
+test_exact_ordered_versions_required (__main__.StrictEvidence.test_exact_ordered_versions_required) ... ok
+test_generic_errors_expiry_and_empty_are_not_named_account_denial (__main__.StrictEvidence.test_generic_errors_expiry_and_empty_are_not_named_account_denial) ... ok
+test_idempotency_ledger_locked (__main__.StrictEvidence.test_idempotency_ledger_locked) ... ok
+test_mcp_denial_requires_explicit_protocol_account_error (__main__.StrictEvidence.test_mcp_denial_requires_explicit_protocol_account_error) ... ok
+test_sale_surface_and_keyed_body (__main__.StrictEvidence.test_sale_surface_and_keyed_body) ... ok
+test_stage_exact_public_surface (__main__.StrictEvidence.test_stage_exact_public_surface) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
+exit=0
+$ python -m unittest discover -s tests/account-lifecycle -p test_owner_closure_probe.py
+Ran 2 tests in 0.000s
+
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_natural_expiry_probe.py
+Ran 12 tests in 0.001s
+
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py
+Ran 6 tests in 0.001s
+
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_tanstack_route_probe.py
+Ran 9 tests in 0.006s
+
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_oauth_consent_fixture.py
+Ran 4 tests in 0.001s
+
+OK
+$ NODE_PATH=<local js-yaml 4> node --test tests/b7-ci-routing/contract.test.cjs
+# tests 17
+# pass 17
+# fail 0

@@ -1,3 +1,8 @@
+## C6/C7 checkpoint — item 3.4, 2026-11-20
+
+- [Draft PR into integration] Item 3.4: the candidate63 identity verifier, wired into B5 lifecycle/SSR/billing and B50 natural expiry. Local: 28/28 synthetic, 12/12 real-tree rejections, 22/22 live checks on the 63 stack, and the populated 41→63 upgrade passes (41/41 + 8/8). See `docs/reviews/item-3.4/TEST_RECORD.md`.
+- [Next] Codex review under `MERGE_DELEGATION.md`. After merge, verify the integration-push runs of B5 lifecycle (fresh and upgrade), SSR, billing and B50 natural expiry.
+- [Owner/production, not in 3.4] Production's ledger order for the two `20260815*` finance migrations is unverified. Before any release, read it under the read-only scope the owner approves.
 ## C6/C7 checkpoint — integration verification and item 3.4 source receipt, 2026-11-20
 
 PR #100 (courier settlement) and PR #101 (customer debt and day close) are merged to integration at `09089be291a56fd2a76ba8c0943564c30e5a4eb8`. The exact merged financial run 44784220945 passed 9/9, including three synthetic backup/restore legs. The [release and ledger receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) binds the 63 migration files to the saved historical ledger, verifies the ten C6 inputs, and lists both separate C7 migrations. The expected production ledger would contain 64 rows after C6 and C7, conditional on matching the recorded baseline and using the indicated statement format.

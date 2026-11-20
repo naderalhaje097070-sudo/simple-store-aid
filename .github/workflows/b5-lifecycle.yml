@@ -6,6 +6,8 @@ name: B5 composed fixed-source lifecycle acceptance
     paths:
     - tests/b5-lifecycle/**
     - .github/workflows/b5-lifecycle.yml
+    - tests/g01-acceptance/candidate_identity.py
+    - tests/g01-acceptance/candidate-63-source.json
   pull_request:
     branches:
     - main
@@ -68,6 +70,8 @@ jobs:
     - name: Exact source, B50/original41 identity and negative evidence controls
       run: 'python tests/b5-lifecycle/inventory.py
 
+        PYTHONDONTWRITEBYTECODE=1 python tests/g01-acceptance/test_candidate_identity.py
+
         PYTHONDONTWRITEBYTECODE=1 python tests/b5-lifecycle/test_contract.py
 
         bun install --frozen-lockfile'
@@ -117,9 +121,9 @@ jobs:
         \ python - <<'PYCONFIG'\nimport os\nfrom pathlib import Path\np=Path(os.environ['STACK_CONFIG']);s=p.read_text()\n\
         old='[auth.oauth_server]\\n# Enable OAuth server functionality\\nenabled = false'\nassert old in s\np.write_text(s.replace(old,old.replace('enabled\
         \ = false','enabled = true'),1))\nPYCONFIG\nB5_STACK=\"$stack\" python - <<'PYMIGRATIONS'\nimport json,os,shutil\n\
-        from pathlib import Path\nm=json.loads(Path('tests/g01-acceptance/integrated-b-source.json').read_text())\n\
-        paths=sorted(m['original54_migrations'] if os.environ['CONTRACT_MODE']=='upgrade' else m['integrated_migrations'])\n\
-        assert len(paths)==(41 if os.environ['CONTRACT_MODE']=='upgrade' else 50)\nout=Path(os.environ['B5_STACK'])/'supabase/migrations';out.mkdir(parents=True,exist_ok=True)\n\
+        from pathlib import Path\nimport sys\nsys.path.insert(0,'tests/b5-lifecycle')\nfrom inventory import inventory\n\
+        inv=inventory();up=os.environ['CONTRACT_MODE']=='upgrade'\npaths=inv['original_paths'] if up else inv['all_paths']\n\
+        assert len(paths)==(41 if up else 63)\nout=Path(os.environ['B5_STACK'])/'supabase/migrations';out.mkdir(parents=True,exist_ok=True)\n\
         for path in paths:shutil.copy2(path,out/Path(path).name)\nPYMIGRATIONS\nif ! supabase --workdir \"$stack\"\
         \ start > \"$RUNNER_TEMP/b5-start-private.log\" 2>&1; then\n  echo 'B5_DISPOSABLE_STACK_FAILED_PRIVATE_LOG_WITHHELD'\n\
         \  exit 1\nfi\nsupabase --workdir \"$stack\" status -o json > \"$RUNNER_TEMP/route-status.json\"\nchmod\
@@ -197,6 +201,8 @@ jobs:
       run: 'python tests/g01-acceptance/capture.py identity
 
         python tests/g01-acceptance/test_integrated_identity.py
+
+        python tests/g01-acceptance/test_candidate_identity.py
 
         python tests/g01-acceptance/test_g1_contracts.py
 
@@ -446,7 +452,7 @@ jobs:
         \ \\\n  EXPECTED_SOURCE=\"$EXPECTED_SOURCE\" MONGEZZ_DEPLOY_TARGET=ci MONGEZZ_E2E_WRITE_TEST=1 CI_ISOLATED_SUPABASE=1\
         \ \\\n  VITE_SUPABASE_URL=http://127.0.0.1:54321 VITE_SUPABASE_PUBLISHABLE_KEY=app02-preflight-placeholder\
         \ \\\n  PGHOST=127.0.0.1 PGPORT=54322 PGUSER=postgres PGDATABASE=postgres PGPASSWORD=postgres \\\n  python\
-        \ tests/account-lifecycle/webhook_persistence_probe.py --expected-source \"$EXPECTED_SOURCE\" \\\n    --status-file\
+        \ tests/b5-lifecycle/billing_probe.py --expected-source \"$EXPECTED_SOURCE\" \\\n    --status-file\
         \ /tmp/monjez-app02/status.json --evidence-dir /tmp/monjez-app02/evidence \\\n    --private-state /tmp/monjez-app02/private-state.json\
         \ --phase after\n"
     - name: Runtime image identity

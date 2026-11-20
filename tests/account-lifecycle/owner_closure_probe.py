@@ -34,6 +34,12 @@ def expected_fixture():
 
 
 class ClosureProbe(TanStackRouteProbe):
+    # Historical approved sale path; a candidate adapter may select the keyed sale instead.
+    sale_rpc = 'create_sale_with_items'
+
+    def sale_body(self, payload):
+        return payload
+
     def record(self, name, passed, **details):
         self.controls.append({'name': name, 'passed': bool(passed), **details})
         self.save_progress()
@@ -99,7 +105,7 @@ class ClosureProbe(TanStackRouteProbe):
         payload = {'p_customer_id': None, 'p_delivery': 'direct', 'p_courier_id': None,
                    'p_paid': e['paid'], 'p_method': 'cash',
                    'p_items': [{'productId': product, 'qty': e['quantity']}]}
-        status, result = self.request('POST', '/rest/v1/rpc/create_sale_with_items', payload,
+        status, result = self.request('POST', '/rest/v1/rpc/' + self.sale_rpc, self.sale_body(payload),
                                       token=b['token'])
         self.record('approved_sale_rpc_succeeded', status == 200 and isinstance(result, dict)
                     and result.get('success') is True and isinstance(result.get('order_id'), str), status=status)
@@ -133,7 +139,7 @@ class ClosureProbe(TanStackRouteProbe):
                     and stored['counter']['tenant_id'] == b['tenant'])
         (self.evidence_dir / 'financial-fixture.json').write_text(json.dumps(
             {'expected_independent': e, 'stored': stored, 'creation_surfaces':
-             ['existing owner REST/RLS product insert', 'create_sale_with_items', 'existing payment audit trigger']},
+             ['existing owner REST/RLS product insert', self.sale_rpc, 'existing payment audit trigger']},
             indent=2) + '\n')
         return payload, product, order
 
@@ -235,9 +241,9 @@ class ClosureProbe(TanStackRouteProbe):
                         and token_claims['exp'] > time.time() and token_claims['iss'] == self.base + '/auth/v1')
             status, user = self.request('GET', '/auth/v1/user', token=actor['token'])
             self.record(label + '_retained_provider_identity_valid', status == 200 and user.get('id') == b['uid'])
-            for name in ('current_tenant_id', 'get_tenant_today_estimate', 'create_sale_with_items'):
+            for name in ('current_tenant_id', 'get_tenant_today_estimate', self.sale_rpc):
                 status, body = self.request('POST', '/rest/v1/rpc/' + name,
-                    sale_payload if name == 'create_sale_with_items' else {}, token=actor['token'])
+                    self.sale_body(sale_payload) if name == self.sale_rpc else {}, token=actor['token'])
                 self.record(label + '_explicit_rpc_denial_' + name, explicit_inactive(status, body), status=status)
             for table in ('tenants', 'profiles', 'user_roles', 'products', 'orders', 'order_items',
                           'payments', 'financial_audit_log'):

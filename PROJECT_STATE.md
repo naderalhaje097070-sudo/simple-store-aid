@@ -1,3 +1,19 @@
+## C6/C7 checkpoint — item 3.4: candidate63 identity verifier (Draft PR into integration), 2026-11-20
+
+Branch `claude/c6-item34-candidate63-identity`, from integration `09089be`. The record, with commands, results and limits, is in `docs/reviews/item-3.4/TEST_RECORD.md`.
+
+- **Done:** an additive verifier for the 63-migration candidate (`tests/g01-acceptance/candidate_identity.py` and `candidate-63-source.json`). It pins the protected paths, their blobs and modes, and the full ordered ledger at `09089be`. It also requires the B50 files to be byte- and mode-identical, as an ordered subsequence, and the original41 as the exact prefix.
+- **Wired into:** B5 lifecycle, SSR and billing, and B50 natural expiry.
+- **Stage-exact surface:** 23 public tables, including `financial_idempotency`. The keyed sale is used on the candidate and the legacy sale on the historical A41 seed. The idempotency table is checked to have RLS on, no policy and no client grant.
+- **Unchanged:** `integrated_identity.py`, the A41/B50 manifests, the migrations and the B50 tests.
+- **Measured:** `20260815170000` and `20260815171000` sort before nine B50 migrations.
+- **Local results:**
+  - synthetic tests: 28/28 OK;
+  - real-tree negatives: 12/12 refused, the unchanged head accepted;
+  - live checks on the local 63 stack: 22/22;
+  - populated original41 → 63 `migration up`: exit 0, 41/41 checks plus 8/8 keyed-fixture checks.
+- **Not verified:** CI. The app, OAuth, MCP, price, SSR browser and billing-webhook cases run only in CI. Production was not accessed.
+- **Rollback:** revert the PR.
 ## C6/C7 checkpoint — integration verification and item 3.4 source receipt, 2026-11-20
 
 PR #100 (courier settlement) and PR #101 (customer debt and day close) are merged to integration at `09089be291a56fd2a76ba8c0943564c30e5a4eb8`. The exact merged financial run 44784220945 passed 9/9, including three synthetic backup/restore legs. The [release and ledger receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) binds the 63 migration files to the saved historical ledger, verifies the ten C6 inputs, and lists both separate C7 migrations. The expected production ledger would contain 64 rows after C6 and C7, conditional on matching the recorded baseline and using the indicated statement format.

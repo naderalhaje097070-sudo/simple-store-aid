@@ -1,0 +1,17 @@
+unchanged_head => ACCEPTED 63
+b50_file_corrupted_worktree => integrated_identity.IdentityError: Unreviewed source mutation: supabase/migrations/20261013120223_sec_truncate_01.sql
+b50_file_corrupted_committed_regenerated => integrated_identity.IdentityError: Candidate63 ledger differs from fixed candidate base
+a41_file_corrupted_committed_regenerated => integrated_identity.IdentityError: Candidate63 ledger differs from fixed candidate base
+b50_file_deleted_worktree => integrated_identity.IdentityError: Nonregular or missing source: supabase/migrations/20261013120223_sec_truncate_01.sql
+b50_file_deleted_committed_regenerated => integrated_identity.IdentityError: Candidate63 ledger size changed
+same_count_b50_swapped_for_new_regenerated => integrated_identity.IdentityError: Candidate63 ledger differs from fixed candidate base
+extra_untracked_path => integrated_identity.IdentityError: Protected source path set changed
+extra_migration_committed_regenerated => integrated_identity.IdentityError: Candidate63 ledger size changed
+b50_mode_worktree => integrated_identity.IdentityError: Unreviewed worktree source mode: supabase/migrations/20261013120223_sec_truncate_01.sql
+b50_mode_committed_regenerated => integrated_identity.IdentityError: Executable migration
+frozen_b50_manifest_edited => integrated_identity.IdentityError: Frozen manifest identity changed
+verifier_source_edited_unreviewed => integrated_identity.IdentityError: Protected HEAD tree differs from reviewed snapshot
+migration_hidden_by_info_exclude => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+migration_hidden_by_untracked_nested_gitignore => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+committed_pattern_log_in_migrations => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+normal_ignored_output_elsewhere_accepted => ACCEPTED 63

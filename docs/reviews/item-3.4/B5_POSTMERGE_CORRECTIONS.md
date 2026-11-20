@@ -52,17 +52,17 @@ This change is limited to test harness code: no product code, migration, workflo
 1. An empty successful tool result.
 2. A tool error with other text.
 
-**Evidence improvement, in commit `782a5b7` (no predicate change).**
-- `tool_response_outline()` in `mcp_probe.py` returns one of six fixed classes:
+**Evidence improvement, candidate-only (commit `9e04458`, which supersedes `782a5b7`); no predicate change.**
+- `tests/b5-lifecycle/candidate_evidence.tool_response_outline()` returns one of six fixed classes:
   - `tool_error_account_inactive`
   - `tool_error_other`
   - `tool_success`
   - `protocol_error`
   - `unexpected_shape`
   - `non_200`
-- For a successful list tool, it also returns the item count. It never returns text, a hash of text, identifiers or row content.
-- It is stored with the two MCP denial records: `owner_closure_probe.closed_controls` and `composed.denied_state`.
-- `account_tool_denial` is unchanged.
+- For a successful list tool it also returns the item count. It never returns text, a hash of text, identifiers or row content.
+- `composed.py` attaches the outline to its own `denied_state` records. Through its `invoke`/`record` overrides it also attaches it to the inherited `closed_controls` denial records (`*_full_route_denial_*`).
+- `account_tool_denial`, `mcp_probe.py` and `owner_closure_probe.py` are unchanged.
 
 ## 3. SSR: deferred `bounded_egress_trace_collected`
 
@@ -74,19 +74,42 @@ This change is limited to test harness code: no product code, migration, workflo
 
 **Hypothesis, unproven:** the conflict-mode process was stopped (`pkill -TERM`) while a traced call was blocked.
 
-**Evidence improvement, in commit `fa69c48` (no predicate change).** `sanitize_syscalls` also returns:
-- `unfinished_call_names`: allowlisted `CALLS` names or `other`, with counts;
-- `unfinished_calls_then_thread_exited`: how many of those threads later show an exit or kill marker.
+**Evidence improvement, candidate-only (commit `9e04458`, which supersedes `fa69c48`); no predicate change.**
+- `candidate_evidence.unfinished_outline()` mirrors the line grammar of `egress_trace`. It returns:
+  - the number of unfinished calls;
+  - their allowlisted names (`TRACED_CALLS`, a copy of `egress_trace.CALLS`, else `other`), with counts;
+  - how many of those threads later show an exit or kill marker.
+- `ssr_runtime.stop()` adds it to the egress evidence as `unfinished_outline`, reading the same private trace file. No arguments, addresses or raw text are recorded.
+- `egress_trace.py` and `trace_complete` are unchanged.
+- There is no teardown change: one is not justified until this evidence names the call.
 
-No arguments, addresses or raw text are recorded, and `trace_complete` is unchanged. There is no teardown change: one is not justified until this evidence names the call.
+## Historical blob preservation (independent review, rework `9e04458`)
+
+**This PR leaves every A41- and B50-pinned shared file byte-identical to `d4616d0`.** `mcp_probe.py`, `test_mcp_probe.py`, `owner_closure_probe.py`, `egress_trace.py` and `test_egress_trace.py` are restored. Measured on the head:
+
+| | Result |
+|---|---|
+| A41 | 288 pinned; 0 changed by this PR |
+| B50 | 396 pinned; changed by this PR: only the B5 candidate files `composed.py`, `ssr_runtime.py`, `test_contract.py`, which #103 had already made differ |
+| Both frozen manifests | blobs unchanged |
+| Migrations tree | `08d0c94e`, unchanged |
+| Candidate ledger | unchanged |
+| Candidate manifest | re-pins only `billing_probe.py`, `candidate_evidence.py` (new), `composed.py`, `ssr_runtime.py`, `test_contract.py` |
+
+**Finding about the merged #103, flagged for review and not changed here.** #103 first made 8 B50-pinned files differ:
+- the B5 and B50 workflows;
+- `composed.py`, `inventory.py`, `ssr_runtime.py`, `test_contract.py` and `b50-natural-expiry/probe.py`;
+- **`tests/account-lifecycle/owner_closure_probe.py`**, a shared historical module. #103 added the `sale_rpc`/`sale_body` hook there; its default stays the legacy sale.
+
+The first seven are the approved candidate wiring. Restoring the B50 bytes of `owner_closure_probe.py` would need a separate candidate-only patch: `ComposedProbe` would supply the keyed sale for `financial_fixture` and `closed_controls` without the base hook. That patch is for the reviewer or the owner to decide, and is not done here.
 
 ## Verification (local, synthetic; see the PR for exact commands)
 
 | Check | Result |
 |---|---|
-| `test_contract.py` | passed, including the 4 new billing tests |
-| `test_mcp_probe` and the other account-lifecycle unit suites | passed |
-| `test_egress_trace.py` | passed, including 2 new tests |
+| `test_contract.py` | passed, including the 4 billing tests and the 3 candidate-evidence tests |
+| account-lifecycle unit suites | passed (files byte-identical to `d4616d0`) |
+| `test_egress_trace.py` | passed (file byte-identical to `d4616d0`) |
 | `test_candidate_identity.py` | passed (real-tree manifest current) |
 | `test_integrated_identity.py` | passed (unchanged) |
 | `b7` routing contract | passed |

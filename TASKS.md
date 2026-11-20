@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — B5 post-merge corrections, 2026-11-20
+
+- [Draft PR into integration] `claude/c6-item34-b5-harness-corrections`: the billing reference fix plus evidence for the upgrade and SSR failures.
+- [Next] Codex review. After merge, read B5 billing, lifecycle upgrade and SSR on the merge commit, and use the new evidence to choose the upgrade and SSR fixes. Never relax a check.
+- [Gate] Into main: `gov-ok-<sha>` for the `tests/**` changes.
+
+---
+
 ## C6/C7 checkpoint — item 3.4, 2026-11-20
 
 - [Draft PR into integration] Item 3.4: the candidate63 identity verifier, wired into B5 lifecycle/SSR/billing and B50 natural expiry. Local: 28/28 synthetic, 12/12 real-tree rejections, 22/22 live checks on the 63 stack, and the populated 41→63 upgrade passes (41/41 + 8/8). See `docs/reviews/item-3.4/TEST_RECORD.md`.

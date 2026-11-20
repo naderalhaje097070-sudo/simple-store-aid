@@ -1,4 +1,4 @@
-"""B50 adapter preserving historical Cloudflare SSR/Auth UI and tracing assertions."""
+"""Candidate63 (frozen B50 + original41) adapter preserving historical Cloudflare SSR/Auth UI and tracing assertions."""
 import hashlib
 import json
 import os
@@ -197,8 +197,8 @@ try:
     files=sorted(Path('supabase/migrations').glob('*.sql'))
     versions=json.loads(query('select json_agg(version order by version) from supabase_migrations.schema_migrations;'))
     inv=inventory()
-    check('original41_and_fixedB50_source_identity',inv['identity']['migration_count']==50)
-    check('exact_effective50_migrations',applied(inv['full_versions'],versions))
+    check('original41_fixedB50_and_candidate63_source_identity',inv['identity']['migration_count']==63 and inv['identity']['b50_migrations_preserved'] and inv['identity']['original41_migrations_preserved'])
+    check('exact_effective63_migrations',applied(inv['full_versions'],versions))
     check('initial_empty_finance_auth',all(int(query('select count(*) from public.'+t+';'))==0 for t in ['orders','products','payments','customers']) and query('select count(*) from auth.users;')=='0')
     actors=[]
     for label in ['A','B']:

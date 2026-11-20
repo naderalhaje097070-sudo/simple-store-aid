@@ -19,11 +19,19 @@ from live_probe import HarnessFailure, FINANCE_TABLES
 from tanstack_route_probe import APP, contains_credentials, publish_result
 sys.path.insert(0, str(ROOT / 'tests/b5-lifecycle'))
 from inventory import inventory, applied
+import candidate_surface as surface
 
 PRIVATE = ('owner_account_closures', 'billing_tenant_bindings', 'billing_webhook_receipts')
 
 
 class B50NaturalExpiryProbe(NaturalExpiryProbe):
+    def snapshot(self):
+        # Same per-table fingerprints as the inherited McpProbe snapshot; the public set is exact for the live stage.
+        tables = self.query("select jsonb_agg(tablename order by tablename) from pg_tables where schemaname='public';")
+        if not isinstance(tables, list) or not surface.public_matches(self.query(surface.LEDGER_SQL), tables):
+            raise HarnessFailure('MCP public surface mismatch')
+        return {t: self.query("select to_jsonb(md5(coalesce(jsonb_agg(to_jsonb(t) order by to_jsonb(t)::text)::text,'[]'))) from public." + t + ' t;') for t in tables}
+
     def extra_snapshot(self):
         rows = {}
         for name in PRIVATE:
@@ -37,8 +45,9 @@ class B50NaturalExpiryProbe(NaturalExpiryProbe):
         self.control('fresh_empty_stack', all(v == 0 for v in initial.values()))
         versions = self.query("select coalesce(jsonb_agg(version order by version),'[]'::jsonb) from supabase_migrations.schema_migrations;")
         inv = inventory()
-        self.control('fixedB50_and_original41_source', inv['identity']['migration_count'] == 50)
-        self.control('exact_effective50_migrations', applied(inv['full_versions'], versions))
+        self.control('candidate63_fixedB50_and_original41_source', inv['identity']['migration_count'] == 63
+                     and inv['identity']['b50_migrations_preserved'] and inv['identity']['original41_migrations_preserved'])
+        self.control('exact_effective63_migrations', applied(inv['full_versions'], versions))
         build = json.loads((self.evidence_dir / 'build.json').read_text())
         self.control('actual_built_app', build['source_sha'] == self.source and build['exit_code'] == 0
                      and all(build['compiled_contract_markers'].values()) and build['tracked_source_unchanged']
@@ -115,7 +124,7 @@ class B50NaturalExpiryProbe(NaturalExpiryProbe):
             after, final = self.snapshot(), self.counts()
             extra_after = self.extra_snapshot()
             invariants = {'private3_and_auth_identity_links_unchanged': extra_before is not None and extra_before == extra_after,
-                          'public_22_fingerprints_unchanged': before is not None and before == after,
+                          'public_' + str(len(before or {})) + '_fingerprints_unchanged': before is not None and before == after,
                           'financial_7_empty': all(final[t] == 0 for t in FINANCE_TABLES),
                           'tracked_source_unchanged': subprocess.run(['git', 'diff', '--quiet', 'HEAD', '--']).returncode == 0}
             self.controls.extend({'name': k, 'passed': v} for k, v in invariants.items())
@@ -129,7 +138,7 @@ class B50NaturalExpiryProbe(NaturalExpiryProbe):
             result = {'source_sha': self.source, 'natural_expiry_accepted': accepted and no_log_leak,
                 'integration_accepted': False, 'failure_stage': failure,
                 'actual_path': 'HTTP -> Nitro node-server -> src/server.ts -> generated TanStack /mcp -> mcp-js0.20.1 wrapper -> local Supabase',
-                'schema_scope': 'fixedB50_original41_anchor', 'private_auth_before': extra_before, 'private_auth_after': extra_after,
+                'schema_scope': 'candidate63_fixedB50_original41_anchor', 'private_auth_before': extra_before, 'private_auth_after': extra_after,
                 'ttl_seconds': TTL, 'timing': self.timing, 'continuity': self.continuity,
                 'crypto_receipts': self.crypto_receipts, 'observations': self.observations, 'checks': self.controls,
                 'flow_counts': self.flow_counts, 'history_before': before, 'history_after': after,

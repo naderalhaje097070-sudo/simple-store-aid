@@ -27,7 +27,7 @@ def inventory(root=ROOT):
     b50 = sorted(b["integrated_migrations"])
     original = sorted(b["original54_migrations"])
     if (len(all_paths) != 63 or all_paths != sorted(all_paths) or len(b50) != 50 or len(original) != 41
-            or all_paths[:50] != b50 or all_paths[:41] != original):
+            or [p for p in all_paths if p in set(b50)] != b50 or all_paths[:41] != original):
         raise RuntimeError("candidate63_B50_original41_inventory")
     return {"identity": identity, "all_paths": all_paths, "b50_paths": b50, "original_paths": original,
             "full_versions": versions(all_paths), "b50_versions": versions(b50),

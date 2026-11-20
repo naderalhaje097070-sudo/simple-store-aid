@@ -25,13 +25,13 @@ def blob(data):
 
 
 def candidate_source(root=ROOT):
-    """Disk migrations equal the reviewed candidate ledger by name and blob; B50 is its prefix."""
+    """Disk migrations equal the reviewed candidate ledger by name and blob; B50 is an exact ordered subsequence of it."""
     ledger = json.loads((root / 'tests/g01-acceptance/candidate-63-source.json').read_text())['migration_ledger']
     b50 = sorted(json.loads((root / 'tests/g01-acceptance/integrated-b-source.json').read_text())['integrated_migrations'])
     disk = sorted((root / 'supabase/migrations').glob('*.sql'))
     exact = (len(ledger) == 63 and [x['path'] for x in ledger] == ['supabase/migrations/' + p.name for p in disk]
              and all(blob(p.read_bytes()) == x['sha'] for p, x in zip(disk, ledger))
-             and [x['path'] for x in ledger[:50]] == b50
+             and [x['path'] for x in ledger if x['path'] in set(b50)] == b50
              and all(b50[47 + i].endswith(s) for i, s in enumerate(WEBHOOK)))
     return exact, [p.name.split('_')[0] for p in disk]
 

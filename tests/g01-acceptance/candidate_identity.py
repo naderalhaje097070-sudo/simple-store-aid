@@ -5,7 +5,7 @@ identities, which stay byte-identical and keep their own verifier and tests. Thi
 verifier pins, for the checked-out candidate:
   * every protected path with its blob and mode (index and worktree), and the exact path set;
   * the full ordered 63-migration ledger (path, blob, mode), equal to the fixed candidate base;
-  * the 50 B50 migrations preserved byte- and mode-identical, as the ledger's first 50 entries;
+  * the 50 B50 migrations preserved byte- and mode-identical, as an exact ordered subsequence of the ledger;
   * the frozen original41 as the ledger's first 41 entries;
   * the frozen A41 and B50 manifests by blob, and the B50 base ledger at its fixed commit.
 No per-path override and no fallback: any difference is a refusal.
@@ -157,20 +157,28 @@ def verify(root):
     # Fixed candidate base: the applied ledger is exactly the reviewed commit's, byte and mode.
     check(tree_migrations(root, CANDIDATE_BASE_SHA) == ledger, "Candidate63 ledger differs from fixed candidate base")
 
-    # B50 and original41 preserved, as the ordered prefix; new migrations sort after B50.
-    prefix = ledger[:B50_COUNT]
-    check([x["path"] for x in prefix] == sorted(b50_migrations)
-          and all(b50_migrations[x["path"]] == x["sha"] for x in prefix), "B50 migration identity changed")
-    check(tree_migrations(root, frozen.B_BASE_SHA) == prefix, "B50 migration identity/mode changed from fixed B base")
+    # B50 preserved byte- and mode-identical, in its own order, as an exact subsequence of the ledger (two
+    # reviewed finance migrations, 20260815*, sort between original41 and the later B50 files); original41 is
+    # the exact ordered prefix; every non-B50 migration sorts after original41.
+    b50_in_ledger = [x for x in ledger if x["path"] in b50_migrations]
+    check(len(b50_in_ledger) == B50_COUNT and [x["path"] for x in b50_in_ledger] == sorted(b50_migrations)
+          and all(b50_migrations[x["path"]] == x["sha"] for x in b50_in_ledger), "B50 migration identity changed")
+    check(tree_migrations(root, frozen.B_BASE_SHA) == b50_in_ledger, "B50 migration identity/mode changed from fixed B base")
     check([x["path"] for x in ledger[:ORIGINAL_COUNT]] == sorted(original)
           and all(original[x["path"]] == x["sha"] for x in ledger[:ORIGINAL_COUNT]), "Original41 migration identity changed")
-    check(versions[B50_COUNT] > versions[B50_COUNT - 1], "New migrations do not sort after B50")
+    new = [x for x in ledger if x["path"] not in b50_migrations]
+    check(len(new) == CANDIDATE_COUNT - B50_COUNT, "Candidate63 new migration count changed")
+    check(all(MIGRATION_NAME.fullmatch(x["path"]).group(1) > versions[ORIGINAL_COUNT - 1] for x in new),
+          "New migration sorts inside original41")
+    b50_max = MIGRATION_NAME.fullmatch(max(b50_migrations)).group(1)
+    interleaved = [x["path"] for x in new if MIGRATION_NAME.fullmatch(x["path"]).group(1) < b50_max]
     return {"scope": "reviewed_candidate63_source", "base_source": CANDIDATE_BASE_SHA,
             "b50_base_source": frozen.B_BASE_SHA,
             "head_sha": git(root, "rev-parse", "HEAD").decode().strip(),
             "protected_blob_count": len(expected), "all_protected_blobs_match": True,
             "migration_count": len(ledger), "b50_migrations_preserved": True,
-            "original41_migrations_preserved": True, "new_migration_count": CANDIDATE_COUNT - B50_COUNT}
+            "original41_migrations_preserved": True, "new_migration_count": len(new),
+            "new_migrations_sorting_before_b50_max": interleaved}
 
 
 if __name__ == "__main__":

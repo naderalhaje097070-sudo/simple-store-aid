@@ -25,7 +25,16 @@ def blob(data):
 
 
 def name(i):
-    return f"supabase/migrations/2026{i // 28 + 1:02}{i % 28 + 1:02}100000_m{i:02}.sql"
+    """Mirrors the real interleaving: original41 (Jan-Feb), B50-only 9 (Oct), new 13 = 2 in Aug + 11 in Nov."""
+    if i < 41:
+        stamp = f"2026{i // 28 + 1:02}{i % 28 + 1:02}"
+    elif i < 50:
+        stamp = f"202610{i - 40:02}"
+    elif i < 52:
+        stamp = f"202608{i - 49:02}"
+    else:
+        stamp = f"202611{i - 51:02}"
+    return f"supabase/migrations/{stamp}100000_m{i:02}.sql"
 
 
 class CandidateIdentity(unittest.TestCase):
@@ -99,6 +108,7 @@ class CandidateIdentity(unittest.TestCase):
         self.assertEqual(result["migration_count"], 63)
         self.assertEqual(result["new_migration_count"], 13)
         self.assertTrue(result["b50_migrations_preserved"] and result["original41_migrations_preserved"])
+        self.assertEqual(result["new_migrations_sorting_before_b50_max"], [name(50), name(51)])
 
     # Old (B50) file corrupted
     def test_old_migration_corrupted_in_worktree(self):
@@ -150,11 +160,11 @@ class CandidateIdentity(unittest.TestCase):
 
     def test_ledger_reordered_in_manifest(self):
         m = self.manifest()
-        m["migration_ledger"][50], m["migration_ledger"][51] = m["migration_ledger"][51], m["migration_ledger"][50]
+        m["migration_ledger"][41], m["migration_ledger"][42] = m["migration_ledger"][42], m["migration_ledger"][41]
         self.save(m)
         self.deny("Migration ledger order changed")
 
-    def test_new_migration_sorting_before_b50_max(self):
+    def test_new_migration_sorting_inside_original41(self):
         os.rename(self.root / name(55), self.root / "supabase/migrations/20260101000000_early.sql")
         self.regenerate()
         self.deny("ledger differs from fixed candidate base")

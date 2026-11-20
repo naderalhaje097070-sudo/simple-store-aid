@@ -7,6 +7,7 @@ The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged wi
 - **Untouched:** migrations, product code, workflows and existing tests.
 - **Item 3.4 (re-measured only):** the direct path (`inventory.py`) fails on integration with or without the package, and the release gate passes. The control is unchanged; the decision is the owner's, with `gov-ok-<sha>`.
 - **Next:** a Draft PR into integration, with CI and review under `MERGE_DELEGATION.md`.
+- **Draft PR #99 (2026-11-20):** two transport fixes after Codex's review of `69f6795`, in commit `d48a97a`. `rehearse.sh` now uses `tests/release/restore`, and `review_fixes.sh` now uses a synthetic fixture of the pre-fix revert. On a clone limited to the branch, the full gate passed 46/0 and the rehearsal reported `DATA identical: 50 tables`.
 - **Still pending:** the production backup and isolated restore, the apply method and date, and the release.
 
 ---

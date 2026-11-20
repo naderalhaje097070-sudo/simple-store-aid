@@ -35,6 +35,20 @@
 | in the manifest | `a189a1bcae8f8909d49c7f9507e7d2dc720e97a2` | `61713f5b56039cdcd6dbd1d6180866295b8ae23c9e5e45f027a3abf3476414ce` | 1,013 |
 | on this branch | `a37906ab00f541e9b767bf6811f6ae7ecc28c6bd` | `348f9e4791ae51cf6dd7feb0f23dacde3f0e263a7cac37cedfa14f1dfb2108cd` | 1,145 |
 
+**Two transport fixes after Codex's review of `69f6795` (commit `d48a97a`).** Both files are moved files, so their blobs now differ from the manifest:
+
+| file | manifest blob / sha256 | on this branch | why |
+|---|---|---|---|
+| `tests/c6-upgrade/restore/rehearse.sh` | 857d58b3 / 2dc9d59f81bf5a2c… | 43daa659 / 7998d4aeb9bbf7de… | read `prelude.sql` and `data_hash.sql` from its own directory; those rows are `NO` because the same bytes are already in `tests/release/restore/` (blobs `82a109fa`, `6117645c`). It now uses those documented helpers and refuses to run (exit 2) unless their sha256 equals the reviewed bytes |
+| `tests/c6-upgrade/review_fixes.sh` | 9059923d / 789de875d17dd718… | 60f4d396 / f795fe737a0f414f… | read the pre-fix emergency revert from commit `e32f92b`, which is not in the integration history. It now uses the fixture below after checking its sha256, and compares it with `e32f92b` only when that commit is reachable |
+
+**Added, a synthetic local-test fixture:**
+- **File:** `tests/c6-upgrade/fixtures/old_emergency_revert_e32f92b.sql.fixture`.
+- **Content:** the original 276 bytes of the pre-fix `EMERGENCY_unblock_legacy_frontend_revert.sql` at `e32f92b`.
+- **Digests:** blob `09c3ce918063e1fcf70c08a0f2930595dca26d94`, sha256 `f357c099a3a67b0f454ebe02188eabfd62d29fe6ec1d9f10f099a61867ab0aae`.
+- **Use:** `tests/c6-upgrade/fixtures/README.md` states it is local-test only. It runs only inside `BEGIN … ROLLBACK` against the gate's own replica container.
+- **Unchanged:** the current emergency revert file.
+
 ## 2. Verification (actual results)
 
 | check | result |
@@ -49,9 +63,23 @@
 | `tests/release/test_gate.py` | exit 0, `OK` |
 | scan of the moved files for keys or tokens (`eyJ…`, `sk_…`, `BEGIN`, passwords, emails) | 1 hit: the name of a vault secret inside an SQL function body (`replica_drift.sql`), with no value |
 
+**After the transport fixes (`d48a97a`), on a clone limited to this branch** (`git clone --single-branch`; `e32f92b` is **not** reachable there):
+
+| check | result |
+|---|---|
+| `rehearse.sh` helper guard | `tests/release/restore` reached, digests OK |
+| `review_fixes.sh` fixture guard | fixture reached, digest OK; it is the pre-fix file (no `REVERT_REFUSED`) |
+| `tests/c6-upgrade/gate_selftest.sh` | exit 0, 19 PASS, `0 failure(s)` |
+| `tests/c6-upgrade/review_fixes.sh` (full gate, local replica from the `1c5276f` worktree) | exit 0, **46 PASS, `0 failure(s)`**. S4 now runs from the fixture: `old revert at C2 leaves no collection path (defect reproduced)` |
+| `tests/c6-upgrade/restore/rehearse.sh` (local replica → fresh local `restoretarget`) | exit 0, `DATA identical: 50 tables` |
+| negative: a synthetic change to `tests/release/restore/prelude.sql` in a copy | `REHEARSE_HELPER_MISMATCH`, exit 2, before any dump; no work directory created |
+| negative: a synthetic change to the fixture in a copy | `die: old-revert fixture digest`, exit 1 |
+
+- **Check count:** where `e32f92b` is reachable, `review_fixes.sh` adds one more check (the fixture bytes equal the commit's file). The blobs are equal (`09c3ce91`). That variant was **not run**.
+
 **Not run:**
-- `tests/c6-upgrade/review_fixes.sh`: it needs a local replica database. It passed 46/0 at its source.
-- The rest of the CI suites.
+- the rest of the CI suites, which run on #99;
+- any offensive testing, which none of this is.
 
 ## 3. State files
 

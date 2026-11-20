@@ -1,3 +1,9 @@
+## 2026-11-20 — Focus C6/C7 on a safe commercial pilot
+
+The owner direction captured in [#97](https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/97#issuecomment-7045374037) prioritizes C7 courier settlement and close-day correctness, item 3.4, and the verification required for a safe pilot. Defer non-essential work. Routine implementation, isolated verification, and integration merges follow the existing delegation. Preserve historical closes and disputed amounts pending reconciliation. Changes to protected acceptance rules, production access or writes, main merge, and deployment remain individually governed.
+
+---
+
 ## 2026-11-19 — Owner approves the INVALID_ARGUMENT diagnostics in the isolated lab (owner's own words, Claude session)
 
 Owner: «موافق», in reply to the proposed cloud diagnostics.

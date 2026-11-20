@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — integration verification and item 3.4 source receipt, 2026-11-20
+
+PR #100 (courier settlement) and PR #101 (customer debt and day close) are merged to integration at `09089be291a56fd2a76ba8c0943564c30e5a4eb8`. The exact merged financial run 44784220945 passed 9/9, including three synthetic backup/restore legs. The [release and ledger receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) binds the 63 migration files to the saved historical ledger, verifies the ten C6 inputs, and lists both separate C7 migrations. The expected production ledger would contain 64 rows after C6 and C7, conditional on matching the recorded baseline and using the indicated statement format.
+
+Item 3.4 remains open for the scoped acceptance-control decision and testing of the exact lifecycle and expiry consumers. The direct historical inventory still rejects the current source. Next, select the source-bound candidate verification approach while preserving A41 and B50 evidence. No main merge, production query, or production apply in this checkpoint.
+
+---
+
 ## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
 
 The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.

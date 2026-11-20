@@ -1,3 +1,299 @@
+## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
+
+The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.
+
+- **What moved:** 143 files, with blob, sha256 and size matching. `c6-apply` SHA256SUMS is 20/20, and the migrations tree is identical to integration.
+- **Exceptions:** 2 raw production/live outputs were withheld, and `pwa_probe.cjs` was formatted with prettier only, its AST and minified output unchanged.
+- **Untouched:** migrations, product code, workflows and existing tests.
+- **Item 3.4 (re-measured only):** the direct path (`inventory.py`) fails on integration with or without the package, and the release gate passes. The control is unchanged; the decision is the owner's, with `gov-ok-<sha>`.
+- **Next:** a Draft PR into integration, with CI and review under `MERGE_DELEGATION.md`.
+- **Draft PR #99 (2026-11-20):** two transport fixes after Codex's review of `69f6795`, in commit `d48a97a`. `rehearse.sh` now uses `tests/release/restore`, and `review_fixes.sh` now uses a synthetic fixture of the pre-fix revert. On a clone limited to the branch, the full gate passed 46/0 and the rehearsal reported `DATA identical: 50 tables`.
+- **Still pending:** the production backup and isolated restore, the apply method and date, and the release.
+
+---
+
+## C6/C7 checkpoint — 2026-11-20
+
+Plan 2.2 is merged into the integration branch at `f9807b5543e273e1b6a5370c49f7af0845010c78` via [PR #98](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/98). The PR head `68a38093604545cda596db94687812ca89900612` passed 14/14 required checks, including [release-finance](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44698293589) with all three collection restore legs, and Strix check `136160513733`; no security findings or unresolved review threads remained. Codex exact-head review `5989254242`. The post-merge push is a separate verification tracked in #97.
+
+This is synthetic CI recovery evidence. Production backup and isolated recovery, the C6 package, and the direct 50-vs-61 migration identity discrepancy are still release preparation work.
+
+---
+
+## C6 history imported from the work branch, 2026-11-16 to 2026-11-19 (superseded by the checkpoints above)
+
+Imported verbatim from `claude/monjez-c6-upgrade-39hf77` at `deaff17da566bde7ff20d08e71bc56c396d4e170` with the C6 package (C6 3.1–3.2); headings demoted one level. Every "Current"/"Status" below is historical: the resume point is the newest checkpoint at the top of this file. Blocks outside C6 on that branch were not imported.
+
+### Current — plan 2.2 review round 2 fixed: tamper probe isolated (bbe1c49); CI not run; production unchanged, 2026-11-19
+- The tamper UPDATE had run before BEGIN and persisted during the restored suite. It now runs inside data_hash's own transaction, and the restored hashes must match again before the suite (control 13). Focused local runs: positive 13/13 exit 0; the reintroduced defect exits 1 before the suite.
+
+### Current — C6 plan 2.2 review round 1 fixed on claude/c6-plan22-restore-check a56248f (step at 02638df); CI not run; production unchanged, 2026-11-19
+- Fixes:
+  - all repository SQL/Python, prelude and restore included, run as c5finance (identity recorded and required);
+  - the candidate collection suite runs on the restored copy (108 controls, plus the same 8-control core set).
+- NEW finding: the Supabase CLI schema dump omits the application trigger auth.users on_auth_user_created (public.handle_new_user, migration 20260626142422). A restore from such a dump loses sign-up provisioning (no profile). This applies to any production backup taken this way; the step now regenerates and restores such triggers, and the fingerprint covers them.
+- Local, on 02638df: positive 12/12, exit 0; negative A (empty prelude) exit 1; negative B (no app triggers) exit 1.
+- CI: 0 runs for the branch (no PR opened, as instructed). Plan 2.2 is NOT complete until CI passes on the reviewed head.
+- Owner: whether to open the PR into integration (first real CI run); the other open decisions are unchanged.
+
+### Current — C6: full-size COMMIT through query_database verified; plan 2.2 restore check implemented on its own branch; production unchanged; date open, 2026-11-19
+- Full-size COMMIT (isolated lab cac0a567, files at b8abb4b): Codex sent fullsize_ok.sql (owner approval in the Codex session). Claude independently ran check_after_ok.sql: ok true, 10 ledger rows, all ten blocks pass (qty 1.5–10.5, functions 1–10). Then cleanup.sql, then check_baseline.sql: all zero. Evidence: docs/reviews/c6-evidence/fullsize-commit/lab_verification.txt.
+- So query_database is proven for full-size synthetic writes in both directions: commit (fullsize_ok) and rollback (M2, M5). M1's own response is still unverified (not re-run).
+- Plan 2.2: branch claude/c6-plan22-restore-check at 8962b2b, off integration 183dc50. One new step in release-finance (collection job) with 9 required controls.
+  - Local: positive 9/9, exit 0; a real negative (emptied prelude) fails two controls, exit 1.
+  - The release gate passes on the branch. No PR or merge. Record: changes/c6-plan22-restore-check/INTAKE.md on that branch.
+- **Resume point, owner:**
+  - (1) the production apply method (query_database exception for the reviewed bundle is now evidenced at full size; the decision is the owner's);
+  - (2) whether to open a PR of the 2.2 branch into integration (delegated merge after CI and reviews; the main merge needs the owner's label);
+  - (3) a production backup plus restore;
+  - (4) the live URL;
+  - (5) sandbox_exec;
+  - (6) the legacy-path duration;
+  - (7) the main merge, Publish, and the apply scope and date.
+
+### Current — C6: INVALID_ARGUMENT understood; full-size commit unproven; release-readiness review done; production unchanged; date open, 2026-11-19
+- Correction: INVALID_ARGUMENT is the structured code that accompanies ANY SQL error. M2, M4 and M5 (82,065 B, sent by Codex) returned it together with their PostgreSQL P0001 marker in the text channel, and left zero residue. My earlier "rejected without PostgreSQL / size with writes" reading was wrong.
+- M1's text response is not in any evidence: unverified, not re-run.
+- Proven through query_database: full-size synthetic writes reach a deliberate failure and roll back. NOT proven: a full-size COMMIT.
+- Smallest next test (proposed, not run): baseline → fullsize_ok (disk sender, keep both channels) → check_after_ok (Claude) → cleanup → baseline. Needs the owner's words.
+- Release readiness: docs/reviews/C6_RELEASE_READINESS.md §3.
+  - Facts: main ⊂ integration (fast-forward); the work branch touched only docs/tests plus a byte-identical migration; merge-tree with integration is clean.
+  - Facts: release-finance has no backup-restore check (plan 2.2 open); integrated-b-source.json still pins 50 migrations against 61 (plan 3.4 open).
+  - Locally doable now (proposed, not started): a branch off integration carrying the C6 docs, apply files and tests; the 2.2 restore check; the 3.4 lock analysis.
+- **Resume point, owner:**
+  - (1) the full-size commit trial;
+  - (2) the apply method;
+  - (3) a production backup plus restore;
+  - (4) the live URL;
+  - (5) sandbox_exec;
+  - (6) the legacy-path duration;
+  - (7) branch protection;
+  - (8) the main merge, Publish, and the apply scope and date.
+
+### Current — C6 full-size write/rollback fixtures ready (local only); no cloud write; production unchanged; date open, 2026-11-19
+- Issue #97 Codex task: fixtures in tests/c6-upgrade/transport/fullsize/ (fail/ok, exactly 82,065 B each, real DDL/DML per block, a ledger guard that refuses production). Pinned in MANIFEST.txt; verified locally (docs/reviews/c6-evidence/fullsize-fixtures/local_run.txt).
+- Blockers before the cloud write:
+  - the owner's own approval for full-size writes in lab cac0a567 (cost unknown);
+  - a sender that reads the file from disk (not me).
+- Lovable's migration tool: no evidence of a single-transaction, ledger-consistent apply. query_database is proposed as an exception limited to the reviewed bundle. Owner decision. Report §15.
+
+### Current — C6: ChatGPT reports a full-size (82,065 B) read-only transport test on cac0a567; not verified by me; production unchanged; date open, 2026-11-19
+- My read-only check of cac0a567: 0 public tables and no ledger. Consistent with the report, but not proof of it.
+- "Apply method: automatic send from the file" is pasted text, not the owner's approval. If adopted, the sender must read the file from disk after a sha256 check.
+- Still open: a full-size change + rollback trial on cac0a567; production backup plus restore; live URL; sandbox_exec; emergency duration; the owner's explicit apply scope and date. Report §14.
+
+### Current — C6 query_database transport trial (owner-approved, isolated project); production unchanged; date open, 2026-11-19
+- Owner, in his own words: approved the remix (Lovable refused: payments enabled), then an empty project, then a transport-only trial.
+- Isolated project cac0a567-a268-4488-880b-961c76603cb3 (unpublished, 0.3 credits; PG 17.12; no ledger).
+- Proven:
+  - a BEGIN..COMMIT multi-statement call with an injected failure rolls back entirely, DDL included;
+  - text arrives intact up to ~16 KB;
+  - the target is distinguishable from production.
+- NOT proven: ~82 KB in one call. I sent 2 and then 1 of the 10 blocks instead of the full files. Pasting the 82 KB bundle through an agent tool call is not reliable; the guards would refuse a truncated text.
+- Recommendation: a person pastes BUNDLE_C1_C10_UNBLOCK.sql into the project's SQL editor after a sha256 check. Owner decision.
+- Report §13; evidence docs/reviews/c6-evidence/query-database-trial/.
+- **Resume point, owner:**
+  - (1) the apply method (SQL editor by a person, recommended);
+  - (2) delete the isolated project if wanted;
+  - (3) the live URL;
+  - (4) backup plus restore;
+  - (5) sandbox_exec;
+  - (6) the emergency duration;
+  - (7) the apply scope and date.
+
+### Current — C6 review round 3: acceptance gate fixed; selftest 19/19 and gate 46/0 (exit 0); production unchanged; date open, 2026-11-19
+- Source: a third independent review of 2abde6d pasted by the owner (not an approval). The apply files were judged sound; the gate needed fixes. All findings verified and fixed:
+  - pinned 9-cell fractional expectations per state (all-refused now fails);
+  - the invoice line is linked to the order_id returned by the sale;
+  - a failed fingerprint capture aborts (exit 2) and is never compared;
+  - a new output directory per run, and nothing is deleted;
+  - live negative controls (a real REFUSED and DENIED make the check fail).
+- Added docs/reviews/c6-apply/PRECHECK_target_ledger_read.sql (read only, same constants as the bundle). The 19 reviewed files are unchanged; SHA256SUMS has 20.
+- The isolated Lovable trial through query_database is NOT done: the "decision" sentence is pasted ChatGPT text; it needs the owner's own words (a new project may cost credits). The bundle is 82,065 bytes.
+- Report: docs/reviews/C6_REVIEW_FIXES.md §10–§12. Evidence: docs/reviews/c6-evidence/review-fixes-3/.
+- **Resume point, owner:**
+  - (1) approve or decline the isolated Lovable trial in his own words;
+  - (2) the live URL;
+  - (3) a fresh production backup plus restore;
+  - (4) sandbox_exec;
+  - (5) the emergency-path duration;
+  - (6) the apply scope and date.
+
+### Current — C6 review round 2 fixed locally; acceptance gate passes (exit 0); production unchanged; date open, 2026-11-19
+- Source: a second independent review of 194db72 pasted by the owner (not an approval). 3 findings, all verified and fixed locally:
+  - (1) C1 opened create_sale_with_items_v2 on integer stock outside the transaction. Now BUNDLE_C1_C10_UNBLOCK.sql runs C1..C10 + unblock in ONE transaction (any failure leaves C0), and the probe covers the v2, idempotent and legacy paths.
+  - (2) The acceptance script read the "old" revert from HEAD and could exit 0 on FAIL. It is now a gate: the old revert is pinned to e32f92b, FAIL exits 1, an environment error exits 2; a negative control was verified.
+  - (3) The ledger guard checked versions only. A content guard now compares md5(statements) per row against production's record. The production files refuse the replica (5 entries have no repository text); the test files differ only in those constants, which the gate verifies. This is not a Lovable project identity check (that is a runbook step).
+- Historical stock is not corrected by C3: fractional_history_read.sql (counts only) is prepared and tested locally, NOT run.
+- BUNDLE_C2_C10*.sql removed; SHA256SUMS has 19 files; build_apply_files.sh is reproducible.
+- Report: docs/reviews/C6_REVIEW_FIXES.md §7–§9. Evidence: docs/reviews/c6-evidence/review-fixes-2/.
+- **Resume point, owner:**
+  - (1) the live URL;
+  - (2) a fresh production backup plus an isolated restore;
+  - (3) sandbox_exec (Lovable support / schema_usage read);
+  - (4) how long the emergency paths stay open;
+  - (5) an isolated trial of the bundle through query_database (new Lovable project = possible cost);
+  - (6) an independent review of the current 19 files;
+  - (7) the fractional history read (optional);
+  - (8) the apply scope and date.
+
+### Current — C6 review fixes done locally; production unchanged; date open, 2026-11-19
+- Source: an independent review of e32f92b pasted by the owner from ChatGPT ("needs changes before apply"). The paste is not an owner approval and asked for nothing in production.
+- All 4 findings verified locally and confirmed:
+  - (1) a fractional sale at C2 on integer stock: invoice 0.5/1.5/0.25 vs decrement 0/1/0;
+  - (2) the old revert while stuck after C2 leaves no collection path;
+  - (3) no predecessor or identity check in the stage files;
+  - (4) sandbox_exec auth/storage access is direct grants only; schema USAGE is unverified (on the replica it has none). My earlier "can read session tokens" was overstated and is corrected.
+- New, not from C6: production today (C0) accepts fractional qty on the legacy RPC and rounds stock. The published UI only allows whole steps, so it is reachable only through direct API calls within the caller's own tenant. C6 fixes it.
+- Fixes (no migration edited; files regenerated by docs/reviews/c6-apply/build_apply_files.sh, reproducible; SHA256SUMS has 18 files):
+  - exact-ledger precondition in every block;
+  - BUNDLE_C2_C10_UNBLOCK.sql (C2..C10 + unblock in ONE transaction) and BUNDLE_C2_C10.sql;
+  - stage-aware revert (REVERT_REFUSED unless all 10 versions are present);
+  - sandbox query gains schema_usage (local only).
+- Tests on a fresh replica (tests/c6-upgrade/review_fixes.sh), all PASS:
+  - a real C3 lock failure and an injected stall before C5 both leave the catalog exactly at C1, with legacy sale and collection working;
+  - the full bundle gives ledger 62 and behaviour equal to the recorded unblocked matrix;
+  - after the revert, behaviour equals the recorded C10 matrix;
+  - after the bundle, the fractional decrement equals the invoice;
+  - bundle time at 1M items is 0.767 s.
+- My own test bug (an empty fingerprint compare) was found and fixed; the results are from the corrected rerun.
+- Report: docs/reviews/C6_REVIEW_FIXES.md.
+- **Resume point, owner:**
+  - (1) the live URL and domain;
+  - (2) Lovable support (§8, corrected wording) and/or a one-line schema_usage read;
+  - (3) a fresh production backup plus an isolated restore;
+  - (4) the independent review of the NEW files (all hashes changed);
+  - (5) the apply scope and date.
+
+### Current — C6 stays in preparation, date open; sandbox_exec on financial_idempotency checked locally, 2026-11-18
+- Pasted ChatGPT text (not an owner approval) asked to keep C6 in preparation and to check sandbox_exec on the new idempotency table. That agrees with the current plan; nothing in production changed.
+- Replica after C2: sandbox_exec=ar (SELECT, INSERT) on financial_idempotency through default privileges; C2 does not revoke it; RLS on with 0 policies.
+  - Tested as the role: SELECT ok, INSERT into a real tenant ok (BYPASSRLS); UPDATE/DELETE denied.
+  - Impact: reads sale payloads (it already reads orders); key-squatting needs the client UUID.
+  - C2 is not changed. Any revoke is a separate migration after Lovable's answer. Report §10.
+- **Resume point, owner actions:**
+  - (1) copy the live URL from Lovable Publish and check Settings → Domains;
+  - (2) send the §8 text to Lovable support;
+  - (3) a fresh production backup and a restore test in isolation;
+  - (4) the independent review of C1..C10 plus the emergency files, including §10.
+  - The apply date stays open until (1), (3) and (4) are done.
+
+### Current — C6 items (a) live-site probe and (b) narrow sandbox_exec read DONE (read only); production unchanged, 2026-11-18
+- Owner words: «نفذ الذي تراه مناسب لك كامل الصلاحيات». Interpreted as approval of the two prepared read-only items only; no production write, Publish or main merge (reasons: report §9).
+- (a) Live site: fin-biz.shop and www.fin-biz.shop serve a registrar parking lander (openresty, /lander). simple-store-aid.lovable.app returns 404 «Project not found». Lovable says is_published=true but returns no URL. The live address is unknown, so the PWA question on the live site is still open.
+- (b) sandbox_exec, production (2 read-only calls, ro=on, ledger 52):
+  - LOGIN, BYPASSRLS, no connection limit, no expiry; postgres is a member; 0 sessions now;
+  - SELECT on auth.users, sessions, refresh_tokens, one_time_tokens, identities and mfa_*;
+  - INSERT/SELECT on storage.objects and buckets.
+  - Risk is higher than earlier assessed (session-token read). No evidence of use.
+  - The Lovable-team question is now a priority; updated text in the report §8.
+- Report: docs/reviews/C6_LOCK_RESTORE_PWA.md §7–§9. Evidence: docs/reviews/c6-evidence/sandbox_exec_prod_read_2026-11-18.json and pwa/live_probe_2026-11-18.txt.
+- **Resume point, owner:**
+  - (1) give the real live URL and check the fin-biz.shop domain with the registrar;
+  - (2) send the Lovable-team question (§8);
+  - (3) the backup method;
+  - (4) the independent reviewer;
+  - (5) window plus emergency unblock (recommended) and the apply date, as an explicit scope.
+
+### Current — C6 local: C3 lock timing, backup/restore rehearsal, PWA browser check; production unchanged, 2026-11-18
+- Owner words: «افعل اللازم حسب الخطة». Not an approval of any production scope, so only local and repository work was done. No production read or write, no request to the live site, no Lovable message, no merge, no deploy.
+- Full report: docs/reviews/C6_LOCK_RESTORE_PWA.md.
+- Correction: C3 does not rewrite order_items (already numeric(12,2); typmod removal only). It rewrites products and scans order_items twice.
+- C3 hold time (ACCESS EXCLUSIVE, synthetic rows, this machine): 0.010 s at 8 items; 0.071 s at 100k; 0.700 s at 1M items / 100k products.
+  - A concurrent authenticated reader waited 3.21 s behind a held C3 and then completed.
+  - An open transaction on products made C3 fail on lock_timeout 5 s with no change (stock integer, ledger 54).
+- Backup/restore rehearsal (local to local, tests/c6-upgrade/restore/rehearse.sh, run end to end):
+  - a whole-database pg_dump/pg_restore as postgres fails (163 errors);
+  - the CLI dump omits the migration ledger, so it is dumped separately;
+  - storage and supabase_functions rows are not restorable as postgres;
+  - SECURITY: a plain restore into a fresh Supabase instance re-grants anon ALL and authenticated TRUNCATE on every public table, and EXECUTE on every function. prelude.sql (mandatory) fixes it.
+  - After the fix: data identical in 50 tables, battery identical, financial facts identical.
+  - Remaining: sandbox_exec default privileges in auth, extensions and storage are not restored.
+- PWA: in both builds (main, 183dc50) sw.js is generated into dist/ but is absent from .output/public (cloudflare-module). Served with wrangler: /sw.js returns 404 and Chromium registers no service worker. Whether Lovable's deployed build is the same is unverified; it needs one public GET of fin-biz.shop/sw.js (owner scope).
+- Recommendation on decision 1: window plus emergency unblock, without changing C2/C5 (reasons in the report §4). Owner decides.
+- **Resume point:** owner approvals, prepared in the report §5:
+  - (a) public GET of fin-biz.shop/sw.js and /;
+  - (b) the narrow sandbox_exec catalog read (docs/reviews/c6-apply/sandbox_exec_narrow_read.sql, tested on the replica);
+  - (c) the owner sends the Lovable-team question;
+  - (d) the backup method;
+  - (e) the independent reviewer;
+  - (f) the apply scope and window.
+
+### Current — C6 local compat/recovery/data tests done; production unchanged; no production write or deploy approved, 2026-11-18
+- Owner decision 2026-11-18: continue local tests; no production write or deployment.
+- Full report: docs/reviews/C6_COMPAT_AND_RECOVERY.md.
+- Compat matrix C0..C10 (synthetic data seeded through main's RPCs, both frontends):
+  - the published frontend cannot sell from C2 and cannot collect from C5 (intentional revokes);
+  - the new frontend needs C2 for sales, C5 for collection and C6 for the profit report.
+  - Consequence: no zero-downtime order exists. Proposed: C1 ahead; then, in an owner-set window, C2..C10 followed immediately by Publish. PWA cache risk is unverified.
+- Partial failure (C1..C6 applied, C7 injected failure): the state equals C6 exactly. Resume to C10 equals a straight-through apply.
+- Emergency unblock of the legacy frontend: tested, and its revert restores the catalog exactly.
+- C3 (integer to numeric) is effectively irreversible after fractional sales.
+- Historical data (synthetic): 0 row changes on pre-upgrade columns at every stage; facts C0 == C10; the new RPCs behave correctly on legacy data.
+- Not proven: behaviour on real production data and volumes (C3 lock duration); backup and restore test.
+- Local image defect: supabase/postgres 17.6.1.106 segfaults on a call to a function without EXECUTE privilege. Production returns a clean permission error.
+- sandbox_exec analysis: docs/reviews/C6_SANDBOX_EXEC_ANALYSIS.md. Memberships, password and sessions are unverified; they need a new production read (owner) or Lovable's answer.
+- SHA-256 manifest: docs/reviews/c6-apply/SHA256SUMS.
+- **Resume point, owner decisions:**
+  - (1) the deployment approach: a window, or expand/contract (changing C2/C5 before any apply);
+  - (2) ask the Lovable team about sandbox_exec, and/or approve a narrow catalog read;
+  - (3) a backup plus a restore test;
+  - (4) PWA check done in the repository (autoUpdate, skipWaiting, no periodic check; open tabs keep old code until reload). Proposed no-downtime order: C2..C10, then the emergency unblock, then Publish, then revert after N hours. Not browser-tested;
+  - (5) an independent review of C1..C10.
+
+### Current — C6 replica, simulation and ledger plan done; production unchanged, 2026-11-18
+- Production: read-only catalog reads only (fingerprint plus details, no application rows). Ledger still 52 rows.
+- Replica: main 1c5276f replay + 20261107214500 + docs/reviews/c6-apply/replica_drift.sql. It equals production in every application object.
+- Simulation: the 10 candidate migrations apply cleanly. The upgraded replica equals a fresh replay of candidate 183dc50, except the known drift, so the CI evidence carries over.
+- Stage files docs/reviews/c6-apply/C1..C10.sql (RECOVERY-02 mechanism) were tested on a fresh replica:
+  - an injected failure left the state unchanged at every stage;
+  - all 10 applied;
+  - the ledger reached 62 rows; a rerun was refused with ALREADY_APPLIED;
+  - the catalog guard reported 0 violations.
+- Ledger plan: option A. Keep the production ledger as is, apply only through C1..C10, and never use version-matching tools on production. Full write-up: docs/reviews/C6_SIMULATION_AND_LEDGER_PLAN.md.
+- sandbox_exec: LOGIN plus BYPASSRLS, with SELECT/INSERT on all public tables and on new ones by default. Lovable's agent says it is undocumented; owner decision whether to ask the Lovable team.
+- **Resume point:** before any production apply, each with separate approval:
+  - the frontend/database compatibility analysis (item 2b.2);
+  - the sandbox_exec decision;
+  - a backup plus a restore test;
+  - an execution window;
+  - an independent review of C1..C10;
+  - the owner's approval of the apply scope.
+
+### Current — C6 item 2b.1 done (read-only); STOPPED on ledger conflicts, 2026-11-16
+- Integration = 183dc50. main = 1c5276f. Production unchanged; the reads were read-only transactions.
+- Production ledger: 52 rows, read through Lovable Cloud project 1c38f21a (identity evidence in docs/reviews/C6_PROD_LEDGER_READ_RESULT.md §1).
+- Conflicts found and NOT fixed:
+  - (a) 5 production ledger entries have no repository file with the same content.
+  - (b) 4 files on main are not present in the production ledger by content.
+  - (c) 21 migrations match in content but carry versions 1–2 s apart, so any version-matching apply would re-run them.
+- The 5 email functions are service-only in production. email_queue_dispatch() exists there without a repository file.
+- Follow-up read (owner: «قم بذلك», "go ahead"): statement text of the 5 entries, compared as text (§7 of the result doc).
+  - Conflict (b) is explained: email_infra differs only by comments; security_fix_e and returned_order_not_debt are already applied under other versions; platform_admin_audit_prerequisite is a deliberate fresh-database substitute.
+  - The 3 test entries have zero net effect, by inference from the repository.
+  - Remaining: a definitional drift on platform_admin_audit_log (user_id NOT NULL/no FK in prod vs nullable+FK in a repository replay; possibly two read policies in prod). Not verified against the production catalog.
+- Catalog read of platform_admin_audit_log (2026-11-18, one read-only call, no rows; result doc §8), compared with a real local replay of 183dc50:
+  - Confirmed differences, production vs repository: user_id NOT NULL vs nullable; no FK vs FK to auth.users ON DELETE SET NULL; an extra duplicate SELECT policy in production; an extra role sandbox_exec (SELECT, INSERT) in production, not in the repository.
+  - Identical: columns, types, indexes, RLS, and privileges for anon, authenticated and service_role.
+  - None of the 10 candidate migrations touch this table.
+  - Consequence: the production simulation must start from a production schema dump, not from a repository replay.
+- **Resume point:** the owner decides the next scopes. Each needs separate approval:
+  - (1) a ledger reconciliation plan for the 21 version mismatches;
+  - (2) a schema-only production dump for the simulation;
+  - (3) the origin of sandbox_exec. For example, a read of the statement text for the 5 entries and for email_infra, to explain conflicts (a) and (b). No simulation, apply or main merge until the conflicts are resolved and approved.
+
+### Current — C6 preparation: email-queue hotfix and hono advisories as PRs into integration, 2026-11-16
+
+- Integration = 2e4c8cc, main = 1c5276f, production unchanged (no production query or change in this step).
+- PR #92 (dbe9125) carries 20261107214500 into integration with catalog-guard R9. Release-order constraint: it must reach main with, or before, the 20261110* migrations. The gate's out-of-order check already rejects the opposite order; details in docs/reviews/C6C7_PLAN.md section 2.
+- PR #93 (d8af24d) fixes the 7 hono and @hono/node-server advisories that turn `audit` red on every integration PR.
+- Neither PR is merged. Open blockers on #92: one re-run of the journey/upgrade job (TimeoutError at desktop_sale_open), the `audit` check (fixed by #93), and the owner's approval and label.
+- Owner-only: read-only production check of email_queue_dispatch(); #77 gate stall (GitHub Support); F11 report; repository visibility.
+
+---
+
+---
+
 ## Current — Phase 1: owner approved Public + GitHub Free; reference 4d3614a, 2026-11-07
 
 - Reference: 4d3614a — release-finance 9/9 (run 42359764556), G0, B1, C5 green. Later commits on the branch are docs-only.

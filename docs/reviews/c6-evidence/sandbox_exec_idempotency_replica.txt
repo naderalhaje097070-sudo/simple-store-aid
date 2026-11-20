@@ -1,0 +1,12 @@
+BEGIN
+SET
+as=sandbox_exec select_rows=0
+INSERT_OK (BYPASSRLS, 0 policies)
+INSERT 0 1
+SAVEPOINT
+ERROR:  permission denied for table financial_idempotency
+ROLLBACK
+SAVEPOINT
+ROLLBACK
+ERROR:  permission denied for table financial_idempotency
+ROLLBACK

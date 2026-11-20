@@ -1,0 +1,20 @@
+SELFTEST PASS positive control: correct results pass
+SELFTEST PASS negative control 'all_refused' fails (exit 1)
+SELFTEST PASS negative control 'wrong_decrement' fails (exit 1)
+SELFTEST PASS negative control 'missing_cell' fails (exit 1)
+SELFTEST PASS negative control 'other_tenant_order' fails (exit 1)
+SELFTEST PASS negative control 'two_lines' fails (exit 1)
+SELFTEST PASS negative control 'no_order' fails (exit 1)
+SELFTEST PASS negative control 'wrong_invoice' fails (exit 1)
+SELFTEST PASS negative control 'v2_open' fails (exit 1)
+SELFTEST PASS all nine refused, class pre: fails
+SELFTEST PASS all nine refused, class after_revert: fails
+SELFTEST PASS gate probe_assert counts the nine refusals as a FAIL
+SELFTEST PASS fp_same with an uncapturable fingerprint aborts (exit 2)
+SELFTEST PASS fp_differs with an uncapturable fingerprint aborts (exit 2)
+SELFTEST PASS fp_capture with an uncapturable fingerprint aborts (exit 2)
+SELFTEST PASS missing fingerprint SQL file aborts (exit 2)
+SELFTEST PASS expect_fail without the expected error is a FAIL
+SELFTEST PASS existing output directory refused and not deleted
+SELFTEST PASS review_fixes.sh refuses an existing output directory (exit 2, marker kept)
+== SELFTEST RESULT: 0 failure(s)

@@ -1,3 +1,58 @@
+## 2026-11-19 — Owner approves the INVALID_ARGUMENT diagnostics in the isolated lab (owner's own words, Claude session)
+
+Owner: «موافق», in reply to the proposed cloud diagnostics.
+
+Scope: tests/c6-upgrade/transport/diag/ at f9d4fd6 (hashes in its MANIFEST.txt), on cac0a567 only, through query_database.
+- Order: D1, D2, D3, then M3, then M2, M4 and M5. check_baseline_dx.sql after each file. Stop at the first unexpected response.
+- Senders: Claude sends the small files (D1–D3, M3); the 82,065-byte files (M2, M4, M5) need a disk-reading sender (Codex).
+- Synthetic c6_dx_* objects only; possible credit use accepted.
+- Not included: production, Publish, main, the real bundle.
+
+---
+
+## 2026-11-19 — Owner approves the full-size write trial in the isolated lab (owner's own words, Claude session)
+
+Owner: «اوافق», in reply to: "the cloud write trial in the isolated lab: owner authorization, synthetic c6_fx_* objects only; the cost is unconfirmed".
+
+Scope, exactly:
+- Target: the isolated Lovable project cac0a567-a268-4488-880b-961c76603cb3 only, through query_database.
+- Files: tests/c6-upgrade/transport/fullsize/ at b8abb4b, each checked against MANIFEST.txt (length and sha256) before sending.
+- Order: check_baseline → fullsize_fail → check_baseline → fullsize_ok → check_after_ok → cleanup → check_baseline.
+- Objects created: c6_fx_* only. The files refuse any database that has a migration ledger, so they cannot run on production.
+- Possible credit use is accepted by this approval.
+- Not included: production, Publish, main, the real C6 bundle, any other project.
+- Baseline before the trial, verified by Claude (read only): all zero, no ledger.
+- Sender of the two 82,065-byte files: Codex (bytes from the repository after a hash check), because Claude cannot deliver 82 KB in one call reliably (§13). Claude verifies independently with the small read-only checks.
+
+---
+
+## 2026-11-19 — C6 review relay through Issue #97 (owner's own words, in the Claude session)
+
+Owner: «شات جي بي تي نبيه هو يتلقى ردودك ويراجع ويرد عليك بدلا مني الى ان تنتهو من المشروع». Also: «تابع #97» from the owner means: read the latest delivery or review on #97 and answer there.
+
+Scope as recorded:
+- Codex/ChatGPT's reviews and scoped tasks on #97 are accepted as review direction for repository-only and local work (tests, analysis, fixes on the C6 work branch). This replaces relaying pasted text by hand.
+- Still the owner's own explicit authorization, given in the Claude session in his own words: production access or apply, Publish/deploy, merges into main, destructive actions, and new cost. #97's own text says the same.
+- A #97 comment, whoever wrote it, is not that authorization: comments posted through the owner's GitHub account cannot be told apart by author.
+- Claude is not woken by issue comments; work on #97 starts when the owner says «تابع #97».
+
+Open conflict to reconcile (not decided here): the 2026-11-09 decision says production migrations go through Lovable's migration tool, while the C6 plan applies a guarded bundle through query_database (the RECOVERY-02 mechanism). The owner must choose before any C6 apply.
+
+---
+
+## 2026-11-09 — Production migrations go through Lovable's migration tool (owner-approved, one by one)
+
+Lovable's agent answered in plan mode (no DB change; it wrote .lovable/plan.md, Lovable commit d52e83d):
+- GitHub sync never applies migrations. Migrations reach the database only through Lovable's chat migration tool, with owner approval per migration. This explains why the 9 October migrations on main never reached production.
+- Restore replaces the whole database in place (data, schema, grants, Auth users, migration history). It is irreversible; Storage is excluded; downtime is a few minutes.
+- While GitHub is suspended, Lovable work is kept and only sync stops. After reinstatement, check Settings > Git (a possible lovable-sync branch) before pushing.
+
+Decision:
+- Any approved production apply of the 9 migrations uses Lovable's migration tool, so its tracking stays consistent. No direct SQL plus a hand-written ledger row, as was done for 20261107214500. That hotfix's ledger row was inserted manually and must be reconciled with Lovable's migration-history check once GitHub returns.
+- Owner takes a manual data export (contains real customer data: keep offline, never share in chat).
+
+---
+
 ## 2026-11-06 — Governance as allow-list, approval bound to commit and owner
 
 After independent review: required checks on pull_request run the PR's own harness, so any non-product file can make them pass vacuously. Only the product (src/, public/, supabase/migrations under migration rules, supabase/functions, docs, top-level *.md) changes without approval. Approval is the label gov-ok-<head sha> added directly by the repository owner (not via an app), so neither an agent token nor an earlier approval carries to a new commit. The old identity chain stays in integrated-quality until the gate is proven on main.

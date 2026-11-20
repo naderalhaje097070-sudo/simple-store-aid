@@ -1,3 +1,166 @@
+## C6/C7 checkpoint — C6 package transported to the integration candidate (3.1–3.2), 2026-11-20
+
+The reviewed C6 package from `deaff17` is on `claude/c6-package-prep`, merged with integration `f9807b5`, per `docs/reviews/c6-package/MANIFEST_deaff17.tsv`. The record, with every check, is in `docs/reviews/c6-package/TRANSPORT_RECORD.md`.
+
+- **What moved:** 143 files, with blob, sha256 and size matching. `c6-apply` SHA256SUMS is 20/20, and the migrations tree is identical to integration.
+- **Exceptions:** 2 raw production/live outputs were withheld, and `pwa_probe.cjs` was formatted with prettier only, its AST and minified output unchanged.
+- **Untouched:** migrations, product code, workflows and existing tests.
+- **Item 3.4 (re-measured only):** the direct path (`inventory.py`) fails on integration with or without the package, and the release gate passes. The control is unchanged; the decision is the owner's, with `gov-ok-<sha>`.
+- **Next:** a Draft PR into integration, with CI and review under `MERGE_DELEGATION.md`.
+- **Draft PR #99 (2026-11-20):** two transport fixes after Codex's review of `69f6795`, in commit `d48a97a`. `rehearse.sh` now uses `tests/release/restore`, and `review_fixes.sh` now uses a synthetic fixture of the pre-fix revert. On a clone limited to the branch, the full gate passed 46/0 and the rehearsal reported `DATA identical: 50 tables`.
+- **Still pending:** the production backup and isolated restore, the apply method and date, and the release.
+
+---
+
+## C6/C7 checkpoint — 2026-11-20
+
+- [Merged to integration] Plan 2.2, the synthetic backup/restore check and safe evidence publication, via [PR #98](https://github.com/naderalhaje097070-sudo/simple-store-aid/pull/98), merge `f9807b5543e273e1b6a5370c49f7af0845010c78`. All 14 required checks passed on the PR head `68a38093604545cda596db94687812ca89900612`, including Strix review 5 and all nine release-finance jobs. All eight review threads were resolved. Post-merge push checks are tracked separately in #97.
+- [Next] Continue from this C6 package-prep branch, transport the reviewed manifest, and reconcile the direct 50-migration identity check with the 61-migration candidate while preserving the acceptance controls. Confirm the production backup and isolated restore before any release.
+
+---
+
+## C6 history imported from the work branch, 2026-11-16 to 2026-11-19 (superseded by the checkpoints above)
+
+Imported verbatim from `claude/monjez-c6-upgrade-39hf77` at `deaff17da566bde7ff20d08e71bc56c396d4e170` with the C6 package (C6 3.1–3.2); headings demoted one level. Every "Current"/"Status" below is historical: the resume point is the newest checkpoint at the top of this file. Blocks outside C6 on that branch were not imported.
+
+### Status — plan 2.2 (2026-11-19): round 2 fixed (bbe1c49); waiting on the owner for a PR (the first CI run)
+
+### Status — plan 2.2 (2026-11-19): review fixes done locally (a56248f); CI not run; not complete
+- Restore-procedure note for any production backup: include application triggers on auth.* (on_auth_user_created), and run prelude.sql.
+
+### Status — C6 (2026-11-19): full-size commit verified in the lab; plan 2.2 branch ready; production unchanged
+- Done: independent lab verification and cleanup (baseline zero); the 2.2 restore check on claude/c6-plan22-restore-check 8962b2b (local positive and negative run; release gate passes).
+- Next (proposed): a PR of 2.2 into integration; CI is the first real run of the step under the firewall.
+- Owner: apply method; backup; live URL; sandbox_exec; legacy duration; main/Publish/scope.
+
+### Status — C6 (2026-11-19): INVALID_ARGUMENT corrected; readiness reviewed; production unchanged
+- Done: the structured-vs-text correction (C6_RELEASE_READINESS.md §1; C6_REVIEW_FIXES.md §18.2); M1 recorded as unverified; next-test spec (§2); plan status table (§3).
+- Next, local (proposed): C6 docs/tests branch off integration; plan 2.2 restore check in release-finance; plan 3.4 identity-lock analysis.
+- Owner: full-size commit trial; method; backup; live URL; sandbox_exec; legacy duration; protection; main/Publish/scope.
+
+### Status — C6 full-size fixtures ready (2026-11-19); blocked on owner approval and a disk-reading sender
+- Next after approval: baseline → fail → baseline → ok → after_ok → cleanup → baseline on cac0a567 only.
+
+### Status — C6 (2026-11-19): ChatGPT full-size transport report recorded as unverified; production unchanged
+- Owner decisions open: apply method (own words); full-size change + rollback trial; backup plus restore; live URL; sandbox_exec; emergency duration; scope and date.
+
+### Status — C6 transport trial (2026-11-19); production unchanged
+- Done: rollback through query_database proven; the 82 KB size was NOT proven (my calls carried 16 KB and 8 KB).
+- Owner: apply method; isolated project cac0a567 cleanup; live URL; backup; sandbox_exec; emergency duration; scope.
+
+### Status — C6 review round 3 (2026-11-19c); production unchanged; date open
+- Commands:
+  - tests/c6-upgrade/gate_selftest.sh <repo> <new-dir> → 19/19, exit 0;
+  - tests/c6-upgrade/review_fixes.sh <main-wt> <repo> <cli> <new-dir> → 46 PASS / 0 FAIL, exit 0.
+- Waiting on the owner: the isolated query_database trial (his own approval); live URL; backup plus restore; sandbox_exec; emergency duration; apply scope.
+- Rollback: test and documentation files only; apply files unchanged except the new read-only PRECHECK.
+
+### Status — C6 review round 2 (2026-11-19b); gate exit 0; production unchanged; date open
+- Done locally: C1 folded into the atomic bundle; v2 covered; gate with pinned old revert and non-zero exit; content guard with negative controls; fractional history read prepared.
+- Command: tests/c6-upgrade/review_fixes.sh <main-worktree> <repo> <supabase-cli> <out> → RESULT: 0 failure(s), exit 0. The negative control exited 1.
+- Owner: live URL; backup plus restore; sandbox_exec; emergency-path duration; isolated query_database trial; re-review of the 19 files; apply scope.
+- Rollback: repository files only.
+
+### Status — C6 review fixes (2026-11-19); production unchanged; date open
+- Done locally: findings 1–4 verified; atomic bundle, ledger preconditions and stage-aware revert implemented and tested (tests/c6-upgrade/review_fixes.sh, all PASS); 0.767 s bundle at 1M items.
+- Per-stage C2..C10 files are for review and testing only; production uses C1.sql, then BUNDLE_C2_C10_UNBLOCK.sql (or BUNDLE_C2_C10.sql).
+- Open, owner: live URL; Lovable support / schema_usage read; production backup plus restore; independent re-review of the regenerated files; apply scope.
+- Rollback: repository files only; revert the commit.
+
+### Status — C6 in preparation, date open (2026-11-18)
+- Done locally: sandbox_exec privileges on financial_idempotency after C2 (SELECT/INSERT, tested; UPDATE/DELETE denied). Report §10; evidence docs/reviews/c6-evidence/sandbox_exec_idempotency_replica.txt.
+- Owner: live URL and domain status; Lovable support escalation (§8); fresh production backup plus isolated restore; independent review (including §10).
+- Blocked on the owner: production apply, Publish, main merge.
+
+### Status — C6 (a) live probe + (b) sandbox_exec read done, read only (2026-11-18); production unchanged
+- Commands:
+  - curl GET of /sw.js and / on fin-biz.shop, www.fin-biz.shop, simple-store-aid.lovable.app and shopkeepers-profit-path.lovable.app;
+  - Lovable get_project;
+  - 2 query_database calls, each begin read only … rollback with ro=on.
+- Results: the live address is unknown (the domain is parked; lovable.app returns 404). sandbox_exec can read auth session tokens.
+- Query fix before running: information_schema replaced by aclexplode(pg_class.relacl); negative control passed on the replica; SHA256SUMS updated.
+- Not done, owner only: Lovable-team message, backup, independent review, any production write, Publish, main merge.
+- Rollback: documentation only; no production change.
+
+### Status — C6 local: C3 lock timing, restore rehearsal, PWA browser check (2026-11-18); production unchanged
+- Done, local only: C3 hold time up to 1M items (0.7 s); concurrency (wait, clean lock_timeout failure); backup/restore rehearsal with the ACL prelude fix (data 50/50, battery and facts identical); PWA build and browser check (no sw.js in deploy output; no service worker registered locally).
+- Supersedes the earlier "Next: check the PWA service-worker update behaviour" item: done in the repository (4a4e83f) and in a browser (this entry).
+- Commands and results: docs/reviews/C6_LOCK_RESTORE_PWA.md §6. Evidence: docs/reviews/c6-evidence/{c3,restore,pwa}/.
+- Owner decisions, each with its own scope (report §5):
+  - (a) public GET of the live sw.js;
+  - (b) the narrow sandbox_exec read;
+  - (c) the Lovable-team question;
+  - (d) backup;
+  - (e) the independent reviewer;
+  - (f) window vs expand/contract (recommendation: window + emergency unblock), apply scope and date.
+- Unverified: production row counts, role timeouts and disk speed; Lovable's deploy build; whether the owner can dump Lovable Cloud; production storage contents.
+- Rollback for this step: documentation and local test files only; revert the commit.
+
+### Status — C6 local tests done (2026-11-18); production unchanged
+- Done, local only:
+  - compat matrix C0..C10 for both frontends;
+  - deployment ordering: no zero-downtime path; window or expand/contract;
+  - partial failure at C7 and resume;
+  - emergency legacy-unblock script tested;
+  - per-stage rollback analysis;
+  - historical-data invariants and new RPCs on synthetic legacy data;
+  - 379 vs 382 explained;
+  - sandbox_exec analysis without new access;
+  - SHA-256 manifest;
+  - correction of the "CI evidence applies to production" overstatement.
+- Next, repository-only, no approval needed: check the PWA service-worker update behaviour in both frontends.
+- Owner decisions:
+  - window vs expand/contract;
+  - sandbox_exec (Lovable question / narrow catalog read);
+  - backup and restore test;
+  - independent review;
+  - apply scope.
+
+### Status — C6 replica + simulation + ledger plan (2026-11-18), production unchanged
+- Done:
+  - production catalog fingerprint (read-only);
+  - a replica equal to production;
+  - 10 migrations simulated cleanly;
+  - stage files C1..C10 generated and tested (atomic under injected failure, ALREADY_APPLIED guard, ledger 62, guard 0 violations);
+  - ledger version map;
+  - Lovable asked about sandbox_exec (undocumented).
+- Next, each needing separate owner approval:
+  - (1) analysis of compatibility between the published frontend and the upgraded database (item 2b.2, repository only);
+  - (2) sandbox_exec, whether to ask the Lovable team;
+  - (3) a backup plus a restore test;
+  - (4) an independent review of C1..C10;
+  - (5) the production apply scope and window.
+
+### Status — C6 item 2b.1 (production ledger read): done read-only, STOPPED on conflicts, 2026-11-16
+- Owner approval: 2026-11-16, item 2b.1 only.
+- Commands: 3 Lovable `query_database` calls, each `begin transaction read only; …; rollback;`. Every row returned transaction_read_only=on.
+- Result: docs/reviews/C6_PROD_LEDGER_READ_RESULT.md. Evidence files are in docs/reviews/c6-ledger/.
+- Ledger compared with candidate 183dc50:
+  - 26 match exactly;
+  - 21 match in content but differ in version by 1–2 s;
+  - 5 production entries have no repository content;
+  - 4 files on main are not in production;
+  - 10 new candidate files are not yet applied.
+- Follow-up text read done (1 read-only call, md5-verified). Result: §7 of the result doc.
+- Catalog read of platform_admin_audit_log done (result doc §8). Drift confirmed: user_id NOT NULL with no FK; an extra policy; an extra role sandbox_exec. No candidate migration touches the table.
+- Open, owner decisions, each with separate scope approval:
+  - (1) a ledger reconciliation plan for the 21 version mismatches (required before any production apply);
+  - (2) a schema-only production dump to base the simulation on;
+  - (3) the origin of the sandbox_exec role.
+- Observation, same in both environments: authenticated has INSERT and UPDATE grants on platform_admin_audit_log, and RLS alone blocks them. Separate hardening decision.
+- No fix applied.
+
+### Status — C6 item 1.1 done: #96 merged into integration (183dc50), 2026-11-16
+- #96 at head 9ffbe99:
+  - 14 of 14 checks passed. `suite (journey, upgrade)` passed on the single re-run after a JOURNEY-FLAKE-01 failure on attempt 1.
+  - Strix review 1 and Codex clean. 0 unresolved threads.
+- Open notes from Strix (informational):
+  - (a) previewAuthStorage.ts, which Lovable generates, reads localStorage outside its guard on some paths. Upstream; no local edit.
+  - (b) integrated-b-source.json carries main's blobs and is not evaluated on integration. Settle it in item 3.4.
+- Next: item 2b.1 waits for the owner's approval of the exact read-only scope.
+
+---
+
 ## Current — Phase 1 remaining, 2026-11-06
 
 1. [In progress] release-finance.yml: 8 jobs green on one SHA (collection, sale x fresh/upgrade/populated; journey x fresh/upgrade).

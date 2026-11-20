@@ -158,3 +158,46 @@ Revert the commit: the step and the four files. No data or migration is involved
   - nothing in this round changes the workflow YAML, migrations, product code, `main`, production or publishing;
   - the local-only negative commits exist only as local branches and are not pushed.
 - **CI:** the new head needs CI and review, which Codex runs. Plan 2.2 is not complete until that passes.
+
+---
+
+# Review round 4 (Strix review 2 on da33d39: HIGH, CWE-59, threads r4636676688 / r4636676719 / r4636676730): fixed (`195af5a`, `0bfcbe9`)
+
+- **Finding (accepted, one root cause):** the restore step ran root `install -d -o c5finance`, `tee` and `chown` on paths inside `/tmp/monjez-c5sale`. The job hands that tree to `c5finance`, so a planted link could redirect a root write or ownership change.
+  - The same applied to the root control block: it read `c5finance` files and wrote `restore-check.json` into `c5finance`'s evidence directory.
+- **Fix:**
+  - **Private layout:** one fresh `mktemp -d /tmp/monjez-restore.XXXXXXXXXX` directory `R`, owned by the runner, mode 0711. It is laid out before any `c5finance` command:
+    - `R/in`: root:c5finance 0750, files 0640, installed from runner-owned sources. It holds the dumps, the target status, the restore SQL and the tamper file.
+    - `R/c5`: c5finance 0700. Everything `c5finance` writes goes here.
+  - **Root's role:** root never writes, chowns or reads inside `c5finance`'s tree.
+    - `c5finance`'s result files are read back through `c5finance` (`sudo -u c5finance cat`) into runner-owned files.
+    - The control block runs as the runner, with no `sudo`.
+  - **Where the SQL comes from:** the restore SQL and the tamper source are read from the runner's checkout (`$GITHUB_WORKSPACE`), not from `c5finance`'s repository copy.
+  - **Publication:**
+    - nothing is written into `/tmp/monjez-c5sale` or its evidence directory;
+    - publication is limited to 4 named files in `$RUNNER_TEMP/release-evidence/restore`, re-serialized to names and booleans;
+    - it is refused if any restore-stack key or restored-suite actor secret appears, and it also fails closed when there is no status to check.
+  - **Two new required controls (13 → 15):** `private_layout_not_writable_by_c5finance` (observed as `c5finance`) and `published_restore_evidence_named_and_secret_free`. No control was removed or relaxed, and the role gained no new permission.
+- **Evidence (`local_runs_0bfcbe9.txt`):**
+
+| run | result |
+|---|---|
+| synthetic control block, 7 cases (`selftest_restore_publication.py`) | 7/7 PASS |
+| helper exit status, 5 cases | 5/5 PASS |
+| positive `195af5a` | 15/15, restored suite 108 controls, 4 named files published, 23 private values checked |
+| defensive: 7 links planted by `c5finance` to a root-owned canary at every pre-fix root path | step 15/15; canary, links unchanged; no root-owned path in the `c5finance` tree; no leftover `R`; canary secret nowhere |
+| defensive + forged `c5finance` repo SQL | real fingerprint (344 lines) from the runner's checkout; restored suite refuses its dirty source (`tracked source dirty`), the only 2 failures; all isolation checks PASS |
+| negative C: tamper before `BEGIN` | `RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK`, exit 1 |
+| negative A: empty prelude | catalog, guard and suite fail (as at `02638df`), exit 1 |
+| negative D: view query changed | `restored_catalog_identical` only, exit 1 |
+
+- **Residual, outside this block and unchanged:**
+  - **Wholesale evidence copy:** the existing `Cleanup and safe final receipts` step copies `c5finance`'s whole evidence tree into the same publication directory (`sudo cp -a … && sudo chown -R`).
+    - A `c5finance`-created `evidence/restore/` would be merged over the named restore files **in the published artifact**.
+    - It would not affect the in-job verdict, which is asserted earlier in this step and printed as `RELEASE_RESTORE_CHECK`.
+  - **Decision for Codex or the owner:** whether to restrict that step too.
+- **Not run:**
+  - CI on the new head;
+  - negative B;
+  - the view self-test (`fingerprint.sql` unchanged);
+  - no offensive testing: the pre-fix step was not run against the plants.

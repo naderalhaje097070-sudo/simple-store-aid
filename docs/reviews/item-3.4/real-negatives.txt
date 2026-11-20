@@ -11,3 +11,7 @@ b50_mode_worktree => integrated_identity.IdentityError: Unreviewed worktree sour
 b50_mode_committed_regenerated => integrated_identity.IdentityError: Executable migration
 frozen_b50_manifest_edited => integrated_identity.IdentityError: Frozen manifest identity changed
 verifier_source_edited_unreviewed => integrated_identity.IdentityError: Protected HEAD tree differs from reviewed snapshot
+migration_hidden_by_info_exclude => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+migration_hidden_by_untracked_nested_gitignore => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+committed_pattern_log_in_migrations => integrated_identity.IdentityError: Unexpected entry in the migrations directory
+normal_ignored_output_elsewhere_accepted => ACCEPTED 63

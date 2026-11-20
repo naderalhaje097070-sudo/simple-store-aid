@@ -220,7 +220,7 @@ Unchanged:
 
 ## Heads tested
 
-- `unit-tests.txt`, `real-negatives.txt` and `live-result.json`: code head `e74443e` (after the upgrade helper was removed). `upgrade-result.json`, `guard-negatives.txt` and `old-verifier-gap.txt`: code head `4ead923`. `guard-negatives.txt` and `old-verifier-gap.txt` were taken on the same code before the manifest was regenerated.
+- `unit-tests.txt` and `real-negatives.txt`: code head `385d488` (migrations-directory check). `live-result.json`: `e74443e`; the harness code is unchanged since. `upgrade-result.json`, `guard-negatives.txt` and `old-verifier-gap.txt`: code head `4ead923`. `guard-negatives.txt` and `old-verifier-gap.txt` were taken on the same code before the manifest was regenerated.
 - `upgrade-migration-up.txt`: the first upgrade run, at `60b4411`. It was rerun at `4ead923` with the guard in place, and the result is the same (exit 0, 41/41 + 8/8).
 
 ## What was tested, and what still needs CI on the acceptance path

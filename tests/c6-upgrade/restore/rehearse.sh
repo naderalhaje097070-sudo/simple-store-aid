@@ -23,8 +23,9 @@ python3 - "$W/data.sql" "$W/data_app.sql" <<'EOF'
 import re, sys
 out, skip = [], False
 for l in open(sys.argv[1]).read().split('\n'):
-    m = re.match(r'^COPY "(\w+)"\."(\w+)"', l)
-    if m and m.group(1) in ('storage', 'supabase_functions'):
+    # exactly these two schemas, quoted (CLI 2.101.0 output) or unquoted; similar names such as storage_x stay
+    m = re.match(r'^COPY (?:"(?:storage|supabase_functions)"|(?:storage|supabase_functions))\.', l)
+    if m:
         skip = True; continue
     if skip:
         skip = l != '\\.'; continue

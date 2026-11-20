@@ -1,0 +1,92 @@
+# Local evidence for the PR #98 Strix review 3 fix (MEDIUM, CWE-345: the cleanup step's merge of c5finance's evidence
+# could replace the published restore attestation). Commit under test: 08e9daad82f59685aeea30318bad02a737ad7924.
+# Local container only, synthetic data, disposable local Supabase stacks. No Lovable, production, main or publish.
+# The cleanup step itself needs the runner image (iptables, docker receipts); its attestation lines are emulated by
+# tests/release/restore/run_cleanup_attestation_local.sh in the same order (cp -a merge, place, verify_publication, verify).
+
+## 1. Synthetic attestation self-test: tests/release/restore/selftest_attestation.py (cleanup order, real verify_publication)
+good PASS (status=verified collisions=[] placed=True publication_allowed=True runner_files_never_replaced=True)
+planted_restore_dir PASS (status=MISMATCH collisions=['restore', 'restore/restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_top_level_name PASS (status=MISMATCH collisions=['restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_nested_name PASS (status=MISMATCH collisions=['a/b/restore-guard.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+planted_restore_symlink PASS (status=MISMATCH collisions=['restore'] placed=False publication_allowed=False runner_files_never_replaced=True)
+overwritten_after_placement PASS (status=MISMATCH collisions=[] placed=True publication_allowed=False runner_files_never_replaced=True)
+source_mismatch PASS (status=MISMATCH collisions=[] placed=True publication_allowed=False runner_files_never_replaced=True)
+staged_unexpected_name PASS (status=MISMATCH collisions=[] placed=False publication_allowed=False runner_files_never_replaced=True)
+staged_missing_file PASS (status=MISMATCH collisions=[] placed=False publication_allowed=False runner_files_never_replaced=True)
+no_restore_step_clean PASS (status=absent collisions=[] placed=False publication_allowed=True runner_files_never_replaced=True)
+restore_stopped_early PASS (status=absent collisions=[] placed=False publication_allowed=True runner_files_never_replaced=True)
+no_restore_step_planted PASS (status=MISMATCH collisions=['restore', 'restore/restore-check.json'] placed=False publication_allowed=False runner_files_never_replaced=True)
+EXIT=0
+
+## 2. Synthetic restore control block self-test: tests/release/restore/selftest_restore_publication.py
+good PASS (exit=0 failed=[] published=['restore-attestation.sha256', 'restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+layout_writable PASS (exit=1 failed=['private_layout_not_writable_by_c5finance'] published=['restore-attestation.sha256', 'restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+layout_wrong_owner PASS (exit=1 failed=['private_layout_not_writable_by_c5finance'] published=['restore-attestation.sha256', 'restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json'] private_value_published=False)
+secret_in_verdict PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+actor_email_in_verdict PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+extra_file_in_pub PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=['restore-attestation.sha256', 'restore-check.json', 'restore-guard.json', 'restore-n1-guard.json', 'restore-suite-controls.json', 'unexpected.json'] private_value_published=False)
+no_status PASS (exit=1 failed=['published_restore_evidence_named_and_secret_free'] published=[] private_value_published=False)
+EXIT=0
+
+## 3. Helper exit-status self-test: tests/release/restore/selftest_run_step_local.sh
+step_failure_reaches_caller PASS (7|1|STEP_EXIT=7)
+step_success_exits_zero PASS (0|1|STEP_EXIT=0)
+bad_commit_fails_before_step PASS (2|0|)
+missing_restore_step_fails_before_run PASS (NZ|0|)
+repo_setup_failure_fails_before_step PASS (NZ|0|)
+EXIT=0
+
+## 4. Full restore step (run_step_local.sh; source filled by the collection suite before each run), then the cleanup attestation emulation
+== POSITIVE (commit 08e9daa)
+RELEASE_RESTORE_CHECK {"failed": [], "attested": ["restore-attestation.sha256", "restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"], "forbidden_values_checked": 23, "source": "08e9daad82f59685aeea30318bad02a737ad7924", "source_rows": {"public": 119, "auth": 107, "ledger": 61}, "fingerprint_lines": 344, "data_tables": 50, "without_prelude_catalog_lines_changed": 150, "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+-- cleanup emulation, as produced
+RELEASE_RESTORE_ATTESTATION_PLACE {"placed": true, "collisions": []}
+RELEASE_CLEANUP_ATTESTATION {"publication_blocked": null, "restore_attestation": "verified", "restore_name_collisions": [], "published_restore": ["restore-attestation.sha256", "restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"]}
+EXIT=0
+-- cleanup emulation, same staged attestation, after c5finance planted evidence/restore/restore-check.json (forged "passed")
+RELEASE_RESTORE_ATTESTATION_PLACE {"placed": false, "collisions": ["restore", "restore/restore-check.json"]}
+RELEASE_CLEANUP_ATTESTATION {"publication_blocked": null, "restore_attestation": "MISMATCH", "restore_name_collisions": ["restore", "restore/restore-check.json"], "published_restore": ["restore-check.json"]}
+EXIT=1   (the cleanup step fails here, so steps.publication.outputs.safe is never set and nothing is uploaded)
+staged attestation unchanged (sha256 -c): yes; runner files merged into the candidate's restore/: none (only the planted file is there)
+
+== NEGATIVE D (local-only commit b74312e26a0b4cb6f0de7660afb0dbfcec5ff8b1: restored view query changed) -- a failing restore keeps its evidence
+RELEASE_RESTORE_CHECK {"failed": ["restored_catalog_identical"], "attested": [...5 names...], "forbidden_values_checked": 23, "source": "b74312e26a0b4cb6f0de7660afb0dbfcec5ff8b1", ...}
+STEP_EXIT=1
+-- cleanup emulation
+RELEASE_CLEANUP_ATTESTATION {"publication_blocked": null, "restore_attestation": "verified", "restore_name_collisions": [], "published_restore": ["restore-attestation.sha256", "restore-check.json", "restore-guard.json", "restore-n1-guard.json", "restore-suite-controls.json"]}
+EXIT=0   (the failing attestation is published, verified)
+
+== NEGATIVE C (local-only commit 050b91a5dac66bcb977c3c9f4bd9a604620c71b4: tamper before BEGIN) -- a restore step that stops early
+RELEASE_RESTORE_TAMPER_NOT_ROLLED_BACK
+STEP_EXIT=1
+-- cleanup emulation
+RELEASE_RESTORE_ATTESTATION_PLACE {"placed": false, "collisions": []}
+RELEASE_CLEANUP_ATTESTATION {"publication_blocked": null, "restore_attestation": "absent", "restore_name_collisions": [], "published_restore": null}
+EXIT=0   (the other allowed evidence stays publishable; no attestation is shown for a restore that did not finish)
+
+== DEFENSIVE links (commit 08e9daa; c5finance planted 7 links to a root-owned canary, HIGH regression check)
+PLANTED 7 links, forged repository SQL: 0, canary /var/tmp/monjez-restore-canary
+RELEASE_RESTORE_CHECK {"failed": [], "attested": [...5 names...], "forbidden_values_checked": 23, "source": "08e9daad82f59685aeea30318bad02a737ad7924", ..., "restored_suite_controls": 108, "restored_suite_exit": 0}
+STEP_EXIT=0
+canary_owner_mode_mtime_content_unchanged PASS
+planted_links_left_as_planted PASS
+forged_repository_sql_left_as_planted PASS
+no_root_owned_path_in_c5finance_tree PASS
+no_leftover_private_layout PASS
+canary_secret_absent_from_runner_temp PASS
+step_passed_with_real_fingerprint PASS
+attestation_staged_exactly_named_files PASS
+VERIFY_EXIT=0
+-- cleanup emulation (the planted evidence/restore-check.json link is still in c5finance's evidence)
+RELEASE_RESTORE_ATTESTATION_PLACE {"placed": false, "collisions": ["restore-check.json"]}
+RELEASE_CLEANUP_ATTESTATION {"publication_blocked": "AC01_EVIDENCE_QUARANTINED", "restore_attestation": "MISMATCH", "restore_name_collisions": ["restore-check.json"], "published_restore": null}
+EXIT=1
+
+## 5. Not run
+- CI on the new head (the real cleanup step, with its firewall, docker and private-file receipts).
+- Negatives A and B, and the view self-test: the prelude, app-trigger and fingerprint paths are unchanged in this round.
+- In the local emulation the c5finance evidence tree holds only what the restore step and the plants leave (run_step_local.sh
+  recreates /tmp/monjez-c5sale); in CI it also holds the suite's own evidence, which the same rules apply to.
+- No exploit testing: plants are synthetic files and links in c5finance's own tree; the pre-fix cleanup was not run against them.

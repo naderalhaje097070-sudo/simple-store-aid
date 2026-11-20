@@ -201,3 +201,40 @@ Revert the commit: the step and the four files. No data or migration is involved
   - negative B;
   - the view self-test (`fingerprint.sql` unchanged);
   - no offensive testing: the pre-fix step was not run against the plants.
+
+---
+
+# Review round 5 (Strix review 3 on 6c13bc2: HIGH confirmed fixed and its 3 threads closed; one MEDIUM, CWE-345, threads r4639558161 / r4639558173): fixed (`08e9daa`)
+
+- **Finding (accepted):** the restore step wrote its four verified files into `release-evidence/restore`. The existing cleanup step then merges `c5finance`'s whole evidence tree into the same directory (`sudo cp -a`), so planted JSON could replace or add to the published attestation.
+  - Nothing re-verified the result after that merge.
+  - The same applied in jobs where the restore step does not run.
+- **Fix:**
+  - **Restore step:** stages the four files and `restore-attestation.sha256` in the runner-only `$RUNNER_TEMP/restore-attestation`. Its `mkdir` fails if the folder already exists.
+    - `restore-check.json` now carries the tested source.
+    - The step no longer writes into the publication tree at all.
+  - **Cleanup step:** keeps its existing merge, then calls `tests/release/restore/attestation.py` from the runner's checkout.
+    - It records every candidate entry that occupies a reserved name, in every job: `release-evidence/restore`, or any attestation file name anywhere.
+    - Only when there is none, it places the attestation with exclusive, no-follow creation.
+    - After `verify_publication`, it re-verifies the names, the sha256 digests and the source.
+  - **Outcomes:**
+    - any collision or mismatch fails the cleanup step, so `safe` is not set and nothing is uploaded (fail closed, like a blocked credential);
+    - `absent` covers jobs without the restore step, and a restore step that stopped early, and keeps today's publication of the allowed evidence;
+    - a restore that fails its controls but finishes is published, verified.
+- **Evidence (`local_runs_08e9daa.txt`):**
+
+| run | result |
+|---|---|
+| `selftest_attestation.py`, 12 synthetic cases in the cleanup order with the real `verify_publication` | 12/12 PASS; runner files never replaced |
+| `selftest_restore_publication.py`, 7 cases | 7/7 PASS |
+| helper exit status, 5 cases | 5/5 PASS |
+| positive `08e9daa` + cleanup emulation | 15/15, 108 restored-suite controls; attestation `verified`, 5 files |
+| same staged attestation, with a forged `evidence/restore/restore-check.json` planted by `c5finance` | collision recorded, not placed, `MISMATCH`, step fails (no upload); staged files unchanged, nothing merged |
+| negative D (view query changed) | restore fails `restored_catalog_identical`; its attestation is published, `verified` |
+| negative C (tamper before `BEGIN`) | restore stops early; attestation `absent`, other evidence stays publishable |
+| defensive planted links (HIGH regression check) | restore 15/15, all 8 isolation checks PASS; cleanup refuses the planted `restore-check.json` link |
+
+- **Not run:**
+  - CI on the new head, which is the real cleanup step;
+  - negatives A and B, and the view self-test, whose paths are unchanged;
+  - no exploit testing.

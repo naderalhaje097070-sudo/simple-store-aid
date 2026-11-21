@@ -85,7 +85,7 @@ This change is limited to test harness code: no product code, migration, workflo
 
 ## Historical blob preservation (independent review, rework `9e04458`)
 
-**This PR leaves every A41- and B50-pinned shared file byte-identical to `d4616d0`.** `mcp_probe.py`, `test_mcp_probe.py`, `owner_closure_probe.py`, `egress_trace.py` and `test_egress_trace.py` are restored. Measured on the head:
+**This PR leaves the shared historical modules byte-identical to integration `d4616d0`.** These are `mcp_probe.py`, `test_mcp_probe.py`, `owner_closure_probe.py`, `egress_trace.py`, `test_egress_trace.py` and `webhook_persistence_probe.py`; the five touched in `782a5b7`/`fa69c48` are restored. That is identity with `d4616d0`, not with the frozen snapshots: at `d4616d0`, `owner_closure_probe.py` already differs from its B50 blob (see below). The PR does change three B50-pinned B5 candidate files. Measured on the head:
 
 | | Result |
 |---|---|
@@ -96,12 +96,12 @@ This change is limited to test harness code: no product code, migration, workflo
 | Candidate ledger | unchanged |
 | Candidate manifest | re-pins only `billing_probe.py`, `candidate_evidence.py` (new), `composed.py`, `ssr_runtime.py`, `test_contract.py` |
 
-**Finding about the merged #103, flagged for review and not changed here.** #103 first made 8 B50-pinned files differ:
+**Inherited from the merged #103, left for separate work so it does not delay these diagnostics.** #103 first made 8 B50-pinned files differ:
 - the B5 and B50 workflows;
 - `composed.py`, `inventory.py`, `ssr_runtime.py`, `test_contract.py` and `b50-natural-expiry/probe.py`;
 - **`tests/account-lifecycle/owner_closure_probe.py`**, a shared historical module. #103 added the `sale_rpc`/`sale_body` hook there; its default stays the legacy sale.
 
-The first seven are the approved candidate wiring. Restoring the B50 bytes of `owner_closure_probe.py` would need a separate candidate-only patch: `ComposedProbe` would supply the keyed sale for `financial_fixture` and `closed_controls` without the base hook. That patch is for the reviewer or the owner to decide, and is not done here.
+The first seven are the approved candidate wiring. Restoring the B50 bytes of `owner_closure_probe.py` would need a separate candidate-only patch: `ComposedProbe` would supply the keyed sale for `financial_fixture` and `closed_controls` without the base hook. That patch is separate work, and is not part of this PR.
 
 ## Verification (local, synthetic; see the PR for exact commands)
 
@@ -125,3 +125,20 @@ The first seven are the approved candidate wiring. Restoring the B50 bytes of `o
 ## Rollback
 
 Revert the commits. They are test-only, and no migration or product file changed.
+
+## Review correction (`tool_response_outline` shape)
+
+Engineering review of `fa6a2a2` found that a malformed HTTP 200 result was classed `tool_success`. A successful class now requires the historical `mcp_probe.tool_success` to accept the response:
+- a result object;
+- `isError` not set (absent or false);
+- `structuredContent` holding the tool's expected key, with the expected type.
+
+Any other HTTP 200 shape is `unexpected_shape`, and the error classes require `isError` to be exactly `true`. The test `test_tool_response_outline_malformed_success_is_unexpected_shape` covers 14 fabricated malformed shapes and three well-formed successes:
+- a missing, null, list or string result;
+- missing, null or list `structuredContent`;
+- a wrong key or wrong type;
+- a summary without `sales`;
+- a non-boolean `isError`;
+- an unknown tool.
+
+`account_tool_denial` and every predicate are unchanged. The billing SQL and assertions passed independent source review.

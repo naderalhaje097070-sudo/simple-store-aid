@@ -128,6 +128,36 @@ class StrictEvidence(unittest.TestCase):
         self.assertFalse(account_tool_denial(200,empty,'list_products'))
         self.assertEqual(evidence.tool_response_outline(200,empty,'list_products'),{'class':'tool_success','items':0})
 
+    def test_tool_response_outline_malformed_success_is_unexpected_shape(self):
+        secret='needle-'+'y'*24
+        malformed=[
+            ('result_missing',{'jsonrpc':'2.0','id':1},'list_products'),
+            ('result_null',{'result':None},'list_products'),
+            ('result_list',{'result':[{'products':[]}]},'list_products'),
+            ('result_string',{'result':secret},'list_products'),
+            ('structured_missing',{'result':{'content':[{'type':'text','text':secret}]}},'list_products'),
+            ('structured_null',{'result':{'structuredContent':None}},'list_products'),
+            ('structured_list',{'result':{'structuredContent':[{'name':secret}]}},'list_products'),
+            ('structured_wrong_key',{'result':{'structuredContent':{'customers':[]}}},'list_products'),
+            ('structured_wrong_type',{'result':{'structuredContent':{'products':{'name':secret}}}},'list_products'),
+            ('summary_without_sales',{'result':{'structuredContent':{'summary':{'total':1}}}},'today_summary'),
+            ('summary_list',{'result':{'structuredContent':{'summary':[1]}}},'today_summary'),
+            ('isError_truthy_non_bool',{'result':{'isError':'true','structuredContent':{'products':[]}}},'list_products'),
+            ('isError_one',{'result':{'isError':1,'content':[{'type':'text','text':'account_inactive'}]}},'list_products'),
+            ('unknown_tool',{'result':{'structuredContent':{'products':[]}}},'drop_tables'),
+        ]
+        for label,body,name in malformed:
+            with self.subTest(label):
+                outline=evidence.tool_response_outline(200,body,name)
+                self.assertEqual(outline,{'class':'unexpected_shape','items':None})
+                self.assertNotIn(secret,_json.dumps(outline))
+                self.assertFalse(account_tool_denial(200,body,name))
+        # Well-formed successes still classify, with isError absent or explicitly false.
+        for body,name,items in [({'result':{'structuredContent':{'products':[{},{}]}}},'list_products',2),
+                                ({'result':{'isError':False,'structuredContent':{'orders':[]}}},'list_recent_orders',0),
+                                ({'result':{'structuredContent':{'summary':{'sales':0}}}},'today_summary',None)]:
+            self.assertEqual(evidence.tool_response_outline(200,body,name),{'class':'tool_success','items':items})
+
     def test_unfinished_outline_matches_historical_count_without_detail(self):
         self.assertEqual(set(evidence.TRACED_CALLS),egress_trace.CALLS)
         texts={'killed_mid_connect':('12<node> 1700000000.1 connect(21, {sa_family=AF_INET, sin_port=htons(443), sin_addr=inet_addr("192.0.2.7")}, 16 <unfinished ...>\n'

@@ -1,8 +1,9 @@
 """Candidate63-only, evidence-only outlines for the B5 harness (item 3.4, post-merge run 44798187106).
 
-Nothing here is a predicate. The historical shared modules (mcp_probe.py, owner_closure_probe.py,
-egress_trace.py) stay byte-identical to the frozen A41/B50 snapshots; these helpers are used only by the
-candidate adapters in tests/b5-lifecycle. Outputs are fixed class names, allowlisted syscall names and
+Nothing here is a predicate. This change leaves the shared historical modules (mcp_probe.py,
+owner_closure_probe.py, egress_trace.py) byte-identical to integration d4616d0; these helpers are used only by
+the candidate adapters in tests/b5-lifecycle. (owner_closure_probe.py at d4616d0 already differs from its
+frozen B50 blob because of #103's sale hook; that drift is tracked as separate work.) Outputs are fixed class names, allowlisted syscall names and
 counts: never response text, a hash of text, arguments, addresses, identifiers or row content.
 """
 import re
@@ -15,8 +16,13 @@ TRACED_CALLS = ('connect', 'getsockopt', 'sendmmsg', 'sendmsg', 'sendto')
 
 
 def tool_response_outline(status, body, name):
-    """Class of an MCP tool response and, for a successful list tool, its item count."""
-    from mcp_probe import TOOLS  # lazy: ssr_runtime imports this module without tests/account-lifecycle on its path
+    """Class of an MCP tool response and, for a successful list tool, its item count.
+
+    'tool_success' only for a response the historical mcp_probe.tool_success accepts (a result object, isError
+    not set, structuredContent holding the tool's expected key and type); any other HTTP 200 shape is
+    'unexpected_shape'. Error classes need result.isError to be exactly True."""
+    # lazy: ssr_runtime imports this module without tests/account-lifecycle on its path
+    from mcp_probe import TOOLS, tool_success
     if status != 200:
         return {'class': 'non_200', 'items': None}
     if not isinstance(body, dict):
@@ -29,8 +35,9 @@ def tool_response_outline(status, body, name):
     if result.get('isError') is True:
         named = result.get('content') == [{'type': 'text', 'text': 'account_inactive'}]
         return {'class': 'tool_error_account_inactive' if named else 'tool_error_other', 'items': None}
-    structured = result.get('structuredContent')
-    value = structured.get(TOOLS.get(name)) if isinstance(structured, dict) else None
+    if not tool_success(status, body, name):
+        return {'class': 'unexpected_shape', 'items': None}
+    value = result['structuredContent'][TOOLS[name]]
     return {'class': 'tool_success', 'items': len(value) if isinstance(value, list) else None}
 
 

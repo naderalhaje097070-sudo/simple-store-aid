@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "g01-acceptance"))
 from inventory import inventory, applied
 from guard_receipt import receipt as guard_receipt
 from egress_trace import collect as collect_trace, ProcessMap
+from candidate_evidence import unfinished_outline
 
 root=Path(os.environ['RUNNER_TEMP']);out=root/'g01-evidence';out.mkdir(exist_ok=True)
 record={'source_sha':os.environ['EXPECTED_SOURCE'],'verification_batch':'B5-COMPOSED-SSR-01','checks':[],'integration_accepted':False}
@@ -85,6 +86,13 @@ def stop():
             evidence['unmapped_nonloopback_tids']=sorted({e['tid'] for e in evidence['syscalls']['events']
                 if e.get('loopback') is False and e['tid'] not in mapped})
             evidence['trace_complete']=evidence['trace_complete'] and not evidence['unmapped_nonloopback_tids']
+            # Evidence only (candidate_evidence): which allowlisted call was left unfinished and whether its
+            # thread exited. Names and counts only; trace_complete above is unchanged.
+            try:
+                private=subprocess.run(['sudo','cat',str(Path('/tmp/g01-runtime')/(label+'-strace.log'))],capture_output=True,text=True,check=True,timeout=10).stdout
+                evidence['unfinished_outline']=unfinished_outline(private)
+            except Exception as error:
+                evidence['unfinished_outline']={'outline_failed':type(error).__name__}
         except Exception as error:
             evidence={'phase':label,'trace_failed':type(error).__name__,'lineage':lineage}
         (out/('egress-'+label+'.json')).write_text(json.dumps(evidence,indent=2)+'\n')

@@ -3,7 +3,7 @@
 - **Failing run:** the first B5 run on integration (44798187106 on `d4616d0`) failed billing, lifecycle upgrade and SSR. Lifecycle fresh, B50 expiry, release-finance 9/9, G0 and B1 passed.
 - **Branch:** `claude/c6-item34-b5-harness-corrections`, test harness only. Record: `docs/reviews/item-3.4/B5_POSTMERGE_CORRECTIONS.md`.
   - **Billing (confirmed):** the reference is bound to the manifest-pinned final definition, `20261110130000`, with the exact reviewed delta from B4.
-  - **Upgrade and SSR (cause unproven):** evidence-only additions, in candidate-only code (`tests/b5-lifecycle/candidate_evidence.py`): an allowlisted MCP response class and count, and the unfinished-call name and exit. No predicate changed. The A41/B50-pinned shared files stay byte-identical.
+  - **Upgrade and SSR (cause unproven):** evidence-only additions, in candidate-only code (`tests/b5-lifecycle/candidate_evidence.py`): an allowlisted MCP response class and count, and the unfinished-call name and exit. No predicate changed. The shared historical modules are byte-identical to integration `d4616d0` (not to the frozen snapshots; see below). Review correction: a `tool_success` class requires `mcp_probe.tool_success` to accept the response, with `isError` omitted or literally `false`; any other HTTP 200 shape, including a supplied non-boolean `isError`, is `unexpected_shape`.
   - **Separate work:** the merged #103 changed the B50-pinned `owner_closure_probe.py` (the sale hook). This PR leaves that file at its `d4616d0` bytes.
 - **Pending:** acceptance needs the B5 run on the merge commit. Reviewer judgment is needed on whether the billing reference change is a non-weakening correction.
 - **Not done:** no main merge, production access or deployment.

@@ -144,6 +144,11 @@ class StrictEvidence(unittest.TestCase):
             ('summary_list',{'result':{'structuredContent':{'summary':[1]}}},'today_summary'),
             ('isError_truthy_non_bool',{'result':{'isError':'true','structuredContent':{'products':[]}}},'list_products'),
             ('isError_one',{'result':{'isError':1,'content':[{'type':'text','text':'account_inactive'}]}},'list_products'),
+            ('isError_zero',{'result':{'isError':0,'structuredContent':{'products':[]}}},'list_products'),
+            ('isError_null',{'result':{'isError':None,'structuredContent':{'products':[]}}},'list_products'),
+            ('isError_empty_string',{'result':{'isError':'','structuredContent':{'products':[]}}},'list_products'),
+            ('isError_false_string',{'result':{'isError':'false','structuredContent':{'products':[]}}},'list_products'),
+            ('isError_empty_list',{'result':{'isError':[],'structuredContent':{'products':[]}}},'list_products'),
             ('unknown_tool',{'result':{'structuredContent':{'products':[]}}},'drop_tables'),
         ]
         for label,body,name in malformed:

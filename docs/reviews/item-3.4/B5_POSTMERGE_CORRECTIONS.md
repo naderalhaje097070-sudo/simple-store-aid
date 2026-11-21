@@ -130,15 +130,15 @@ Revert the commits. They are test-only, and no migration or product file changed
 
 Engineering review of `fa6a2a2` found that a malformed HTTP 200 result was classed `tool_success`. A successful class now requires the historical `mcp_probe.tool_success` to accept the response:
 - a result object;
-- `isError` not set (absent or false);
+- `isError` omitted or literally `false` (the established helper and fixtures permit omission); a supplied non-boolean `isError` (`0`, `null`, `""`, `"false"`, `[]`, ...) is `unexpected_shape`;
 - `structuredContent` holding the tool's expected key, with the expected type.
 
-Any other HTTP 200 shape is `unexpected_shape`, and the error classes require `isError` to be exactly `true`. The test `test_tool_response_outline_malformed_success_is_unexpected_shape` covers 14 fabricated malformed shapes and three well-formed successes:
+Any other HTTP 200 shape is `unexpected_shape`, and the error classes require `isError` to be exactly `true`. The test `test_tool_response_outline_malformed_success_is_unexpected_shape` covers 19 fabricated malformed shapes and three well-formed successes (one with `isError` omitted, kept; one with literal `false`). Against the previous code, the `0`, `null`, `""` and `[]` cases failed (classed `tool_success`); with this change they pass:
 - a missing, null, list or string result;
 - missing, null or list `structuredContent`;
 - a wrong key or wrong type;
 - a summary without `sales`;
-- a non-boolean `isError`;
+- a non-boolean `isError`, truthy or falsy;
 - an unknown tool.
 
 `account_tool_denial` and every predicate are unchanged. The billing SQL and assertions passed independent source review.

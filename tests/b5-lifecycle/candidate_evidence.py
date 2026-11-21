@@ -18,9 +18,10 @@ TRACED_CALLS = ('connect', 'getsockopt', 'sendmmsg', 'sendmsg', 'sendto')
 def tool_response_outline(status, body, name):
     """Class of an MCP tool response and, for a successful list tool, its item count.
 
-    'tool_success' only for a response the historical mcp_probe.tool_success accepts (a result object, isError
-    not set, structuredContent holding the tool's expected key and type); any other HTTP 200 shape is
-    'unexpected_shape'. Error classes need result.isError to be exactly True."""
+    'tool_success' only for a response the historical mcp_probe.tool_success accepts (a result object,
+    structuredContent holding the tool's expected key and type) whose isError is omitted or literally False; a
+    supplied non-boolean isError, or any other HTTP 200 shape, is 'unexpected_shape'. Error classes need
+    result.isError to be exactly True."""
     # lazy: ssr_runtime imports this module without tests/account-lifecycle on its path
     from mcp_probe import TOOLS, tool_success
     if status != 200:
@@ -31,6 +32,9 @@ def tool_response_outline(status, body, name):
         return {'class': 'protocol_error', 'items': None}
     result = body.get('result')
     if not isinstance(result, dict):
+        return {'class': 'unexpected_shape', 'items': None}
+    # isError may be omitted or a literal boolean; any other supplied value (0, None, '', 'false', ...) is malformed
+    if 'isError' in result and not isinstance(result['isError'], bool):
         return {'class': 'unexpected_shape', 'items': None}
     if result.get('isError') is True:
         named = result.get('content') == [{'type': 'text', 'text': 'account_inactive'}]

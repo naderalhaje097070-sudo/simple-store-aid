@@ -1,11 +1,10 @@
-# B5 post-merge corrections — local test log, head eb4874cffedf2f4e8e6262e299d5d0ebea6ec7c5, 2026-11-20T19:32:31Z, python 3.13.18, node v22.23.5
-$ historical blob preservation vs d4616d0 (A41/B50 pins, frozen manifests, migrations, candidate ledger)
+# B5 post-merge corrections — local test log, head 09303bd2c4fea33280ddbb2c2755c1240d56c915, 2026-11-21T18:24:41Z, python 3.13.18, node v22.23.5
+$ historical blob preservation vs d4616d0
 A41 288 pinned; changed by this PR: []
 B50 396 pinned; changed by this PR: ['tests/b5-lifecycle/composed.py', 'tests/b5-lifecycle/ssr_runtime.py', 'tests/b5-lifecycle/test_contract.py']
-shared historical files byte-identical to d4616d0: True
+shared historical modules byte-identical to d4616d0: True
 frozen manifests unchanged: True
 migrations unchanged: True
-candidate ledger unchanged: True | repinned: ['tests/b5-lifecycle/billing_probe.py', 'tests/b5-lifecycle/candidate_evidence.py', 'tests/b5-lifecycle/composed.py', 'tests/b5-lifecycle/ssr_runtime.py', 'tests/b5-lifecycle/test_contract.py']
 $ python tests/b5-lifecycle/inventory.py (identity)
 {'migration_count': 63, 'protected_blob_count': 600, 'b50_migrations_preserved': True, 'original41_migrations_preserved': True}
 $ python tests/b5-lifecycle/test_contract.py -v
@@ -21,22 +20,23 @@ test_mcp_denial_requires_explicit_protocol_account_error ... ok
 test_sale_surface_and_keyed_body ... ok
 test_stage_exact_public_surface ... ok
 test_tool_response_outline_is_allowlisted_and_textless ... ok
+test_tool_response_outline_malformed_success_is_unexpected_shape ... ok
 test_unfinished_outline_matches_historical_count_without_detail ... ok
 
 ----------------------------------------------------------------------
-Ran 13 tests in 0.236s
+Ran 14 tests in 0.141s
 
 OK
 $ python tests/g01-acceptance/test_egress_trace.py
-Ran 9 tests in 0.197s
+Ran 9 tests in 0.536s
 
 OK
 $ python tests/g01-acceptance/test_candidate_identity.py
-Ran 39 tests in 6.035s
+Ran 39 tests in 4.569s
 
 OK
 $ (cd tests/g01-acceptance && python test_integrated_identity.py)
-Ran 29 tests in 7.111s
+Ran 29 tests in 6.506s
 
 OK
 $ python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py
@@ -52,11 +52,11 @@ Ran 9 tests in 0.005s
 
 OK
 $ python -m unittest discover -s tests/account-lifecycle -p test_natural_expiry_probe.py
-Ran 12 tests in 0.002s
+Ran 12 tests in 0.001s
 
 OK
 $ python -m unittest discover -s tests/account-lifecycle -p test_oauth_consent_fixture.py
-Ran 4 tests in 0.002s
+Ran 4 tests in 0.001s
 
 OK
 $ NODE_PATH=<local js-yaml 4> node --test tests/b7-ci-routing/contract.test.cjs
@@ -65,7 +65,5 @@ $ NODE_PATH=<local js-yaml 4> node --test tests/b7-ci-routing/contract.test.cjs
 # fail 0
 $ py_compile + SSR import path
 compiled_and_importable_without_account_lifecycle
-$ catalog query identity (historical WebhookProbe vs adapter)
-identical: True chars 1506
 $ git diff --check
 clean

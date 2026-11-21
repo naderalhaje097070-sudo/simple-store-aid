@@ -1305,6 +1305,11 @@
    "mode": "100644"
   },
   {
+   "path": "src/lib/mcp/account-client.server.ts",
+   "sha": "4ca26b971bdd1e5553e22c3d20655a7c46068638",
+   "mode": "100644"
+  },
+  {
    "path": "src/lib/mcp/index.ts",
    "sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
    "mode": "100644"
@@ -1316,17 +1321,17 @@
   },
   {
    "path": "src/lib/mcp/tools/list-customers.ts",
-   "sha": "aefb9e1ee5d3ea08570b1da7f02f8c0af953bd29",
+   "sha": "a701883fc69bb0edea37b2d2a8878f38a1dc73e9",
    "mode": "100644"
   },
   {
    "path": "src/lib/mcp/tools/list-products.ts",
-   "sha": "8835e58960be140ab5a301d4527ad526f291eac8",
+   "sha": "b5a8d7e02686f23d1418d7d03a8508b37ee57a83",
    "mode": "100644"
   },
   {
    "path": "src/lib/mcp/tools/list-recent-orders.ts",
-   "sha": "0439a6a23aec4f165965b19a54e1e1473510516f",
+   "sha": "51425847d2618c60dd280105f914591fb0a8866a",
    "mode": "100644"
   },
   {
@@ -3272,6 +3277,11 @@
   {
    "path": "tests/unit/ip-address-security.test.ts",
    "sha": "ec3f702cfbafa6efa9f1cde03dfba75863a62c49",
+   "mode": "100644"
+  },
+  {
+   "path": "tests/unit/mcp-account-state.test.ts",
+   "sha": "db1fd51170838051d3205d3b314ce9ce01dbe005",
    "mode": "100644"
   },
   {

@@ -1,3 +1,13 @@
+## C6/C7 checkpoint — Item 3.4 MCP account-state correction, 2026-11-21
+
+The post-#104 integration baseline is `f8bfdf6`. Its B5 billing job passed 207/207; B50 expiry and release-finance passed, with the fresh journey succeeding on a targeted retry. B5 lifecycle upgrade and SSR trace completeness remain open.
+
+Branch `codex/c6-b5-mcp-account-state` reuses the bounded live-account assertion before MCP table reads for products, customers and recent orders. It keeps the existing user-scoped RLS queries and the financial summary RPC. Local verification: 12 mocked handler cases, 109 total unit tests, typecheck, scoped lint and build passed. On the unmodified base the same mocked handler suite passed 3 and failed 9. Native PR checks and post-merge B5 runtime acceptance are separate.
+
+The SSR trace issue and the inherited B50 shared-probe drift remain separate items. Main and production are outside this change.
+
+---
+
 ## C6/C7 checkpoint — item 3.4: B5 post-merge corrections (Draft PR into integration), 2026-11-20
 
 - **Failing run:** the first B5 run on integration (44798187106 on `d4616d0`) failed billing, lifecycle upgrade and SSR. Lifecycle fresh, B50 expiry, release-finance 9/9, G0 and B1 passed.

@@ -82,25 +82,43 @@ ledger() {
     psql_db "$1" -c "select version, md5(array_to_string(statements, E'\\n')) from supabase_migrations.schema_migrations order by version" \
         | tr '|' ' '
 }
+sequence_state() {
+    psql_db "$1" -c "select last_value, is_called from public.orders_number_seq"
+}
 backup_c6() {
     local url=postgresql://postgres:postgres@127.0.0.1:54322/postgres
     supabase db dump --db-url "$url" -f "$work/roles.sql" --role-only
     supabase db dump --db-url "$url" -f "$work/schema.sql"
-    supabase db dump --db-url "$url" -f "$work/data.sql" --use-copy --data-only
-    docker exec "$source" pg_dump -U postgres -d postgres -n supabase_migrations --no-owner --no-privileges >"$work/ledger.sql"
     src -f - <"$restore/app_triggers_outside.sql" >"$work/triggers.sql"
-    # Same platform-owned COPY exclusions as the reviewed release restore.
-    awk '/^COPY ("(storage|supabase_functions)"|(storage|supabase_functions))\./{skip=1; next} skip && /^\\\.$/{skip=0; next} !skip; END{if(skip) exit 1}' \
-        "$work/data.sql" >"$work/data_app.sql"
+    docker exec "$source" pg_dump -U postgres -d postgres --schema-only \
+        -n supabase_migrations --no-owner --no-privileges >"$work/ledger-schema.sql"
+
+    # Synthetic only. Match the documented export format and cover all schemas
+    # checked by data_hash.sql. Keep the archive and its inventory on this runner.
+    docker exec "$source" pg_dump -U postgres -d postgres --format=custom --compress=zstd \
+        --strict-names -n auth -n public -n monjez_private -n supabase_migrations >"$work/rehearsal.backup"
+    docker exec -i "$source" pg_restore --list <"$work/rehearsal.backup" >"$work/archive.toc"
+    for item in "TABLE DATA auth users" "TABLE DATA public orders" "TABLE DATA public payments" \
+        "TABLE DATA supabase_migrations schema_migrations" "SEQUENCE SET public orders_number_seq"; do
+        grep -Fq "$item " "$work/archive.toc"
+    done
+    sha256sum "$work/rehearsal.backup" | awk '{print "Synthetic archive SHA-256 " $1}'
+    sequence_state "$source" >"$work/source.sequence"
 }
 restore_c6() {
     start "$target_dir" "$target"
     test "$(psql_db "$target" -c "select to_regclass('public.orders') is null")" = t
+    # Restore the reviewed schema and the archived rows together. The explicit
+    # data-only restore preserves sequence values and leaves platform DDL intact.
+    docker exec -i "$target" pg_restore --data-only --no-owner --no-privileges --file=- \
+        <"$work/rehearsal.backup" >"$work/archived-data.sql"
     {
-        cat "$work/roles.sql" "$restore/prelude.sql" "$work/schema.sql" "$work/triggers.sql"
+        cat "$work/roles.sql" "$restore/prelude.sql" "$work/schema.sql" "$work/triggers.sql" "$work/ledger-schema.sql"
         printf '\nSET session_replication_role = replica;\n'
-        cat "$work/data_app.sql" "$work/ledger.sql"
+        cat "$work/archived-data.sql"
     } | psql_db "$target" --single-transaction -f -
+    sequence_state "$target" >"$work/target.sequence"
+    cmp "$work/source.sequence" "$work/target.sequence"
 }
 start "$source_dir" "$source"
 test "$(src -c 'select count(*) from supabase_migrations.schema_migrations')" = 50
@@ -127,7 +145,7 @@ test "$(wc -l <"$work/c6.ledger")" -eq 62
 test "$(cut -d ' ' -f 1 "$work/c6.ledger" | paste -sd, | tr -d '\n' | md5sum | cut -d' ' -f1)" = 8eec91642011d297ca5504cebda430ef
 capture "$source" c6
 backup_c6
-echo 'PASS C6 split logical backup with migration ledger'
+echo 'PASS C6 zstd custom-format archive contains Auth, orders, payments, migration ledger and order sequence'
 
 c7a=supabase/migrations/20261120140000_guard_courier_custody_settlement.sql
 c7b=supabase/migrations/20261120150000_close_day_courier_debt_balance.sql
@@ -149,7 +167,7 @@ supabase --workdir "$source_dir" stop --no-backup >/dev/null
 restore_c6
 capture "$target" c6-restored
 compare c6 c6-restored
-echo 'PASS C6 separate Supabase logical restore across application catalog and hashed tables'
+echo 'PASS C6 separate Supabase archive restore matches application catalog, hashed tables and order sequence'
 fail_as ISOLATED_C7_FAILURE psql_db "$target" -f - <"$work/c7-fail.sql"
 capture "$target" c7-aborted
 compare c6 c7-aborted

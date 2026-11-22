@@ -1,9 +1,27 @@
+## 2026-11-22 — Item 3.4 disposition of the shared B50 test probe
+
+Retain the already reviewed Candidate63 sale-selection hook in the composed lifecycle test. On integration `a31e207` the candidate probe blob is `1889d7944e4c403bd19856be393b0ff27f89966a`. The frozen B50 snapshot retains blob `7e42521ffcbe47adab56941f216980d95b803f1f` at `59c8a0c`. Specializing the candidate hook to the base legacy RPC and its identity payload mapping reproduces the frozen file exactly. Historical verification applies to its fixed tree. Candidate63 verifies the current test code and the historical manifests under separate pins.
+
+Independent engineering and finance source review supports this technical disposition. The integrated B5 and B50 runtime runs provide candidate evidence. The [receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) records the limits and the remaining release decisions. This documentation update is subject to review on #102.
+
+---
+
 ## 2026-11-20 — B5 billing reference bound to the final ledger definition
 
 Owner direction relayed in the Claude session: proceed with routine implementation and isolated verification of item 3.4.
 - **Billing adapter:** the expected `apply_subscription_webhook` body is now the last ledger definition (`20261110130000`, blob-pinned). It must differ from the historical B4 fixture by exactly the reviewed lock delta, and the B4 fixture must still equal the October definition. `webhook_persistence_probe.py` is unchanged.
 - **Upgrade and SSR:** evidence fields only; no predicate changes.
 - **Open:** whether the billing change is a non-weakening correction under `MERGE_DELEGATION.md` is for the reviewer, or for the owner if disputed.
+
+---
+
+## 2026-11-20 — Record: #103 merged into integration; post-merge B5/B50 is the acceptance gate
+
+The owner directed, in the Claude session: reconcile #102 with integration `d4616d0` by a normal merge, keep #103's checkpoints, and update #102's conditions historically.
+- **Facts recorded:** #103 is merged into integration only, at `d4616d0`. The 63 source files are unchanged. The post-merge B5/B50 runs are still running.
+- **Recorded as decided:** the earlier local 41→63 upgrade is archival evidence, and current acceptance requires the CI upgrade job on `d4616d0`.
+- **Expectation, not fact:** 52 → 62 → 64 stays a conditional expectation.
+- **Not changed:** no code, migration or control.
 
 ---
 
@@ -17,6 +35,12 @@ Decision, as implemented:
 - **B50 order.** B50 is required as an exact ordered subsequence of the ledger, not as its prefix: `20260815170000` and `20260815171000` sort before nine B50 files. The original41 must be the exact prefix.
 - **Sale path.** The harness picks the sale RPC from the live stage's grants: the legacy sale for the historical A41 seed, and `create_sale_with_items_idempotent` with a fresh key on the candidate. The base probe's default remains the legacy sale.
 - **Public tables.** At 63 the set must be exactly the 23 named tables. At 41 and 50 the historical rule stays: 22 tables, without `financial_idempotency`.
+
+---
+
+## 2026-11-20 — Focus C6/C7 on a safe commercial pilot
+
+The owner direction captured in [#97](https://github.com/naderalhaje097070-sudo/simple-store-aid/issues/97#issuecomment-7045374037) prioritizes C7 courier settlement and close-day correctness, item 3.4, and the verification required for a safe pilot. Defer non-essential work. Routine implementation, isolated verification, and integration merges follow the existing delegation. Preserve historical closes and disputed amounts pending reconciliation. Changes to protected acceptance rules, production access or writes, main merge, and deployment remain individually governed.
 
 ---
 

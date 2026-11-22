@@ -1,3 +1,13 @@
+## C6/C7 checkpoint — Item 3.4 follow-through, 2026-11-22
+
+- [Verified on integration `a31e207`] B5 4/4, B50 expiry, release-finance 9/9, integrated G0 and B1.
+- [Disposition recorded for review] Preserve the frozen A41/B50 verification and retain the reviewed candidate test adapter. The historical probe blob and candidate probe blob remain separately identified in the [receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md).
+- [Draft #102] Reconcile the receipt against `a31e207` and verify the final documentation tree.
+- [Next] Prepare the exact C6→C7 apply order, rollback or forward recovery plan, and evidence from a production-shaped isolated rehearsal. Confirm the scope and release dependencies before advancing.
+- [Owner decisions] Fresh live baseline and publish behavior scope, production backup and recovery readiness, apply method and window, main merge, production apply, and Publish.
+
+---
+
 ## C6/C7 checkpoint — Item 3.4 next acceptance, 2026-11-21
 
 - [Implemented locally] MCP read handlers use the current account guard before table reads. Check the draft's exact head and then the B5 upgrade run on integration.
@@ -15,11 +25,28 @@
 
 ---
 
+## C6/C7 checkpoint — after #103 merge, 2026-11-20
+
+- [Merged to integration] #103 at `d4616d0`.
+- [Pending, CI] Post-merge B5 composed (44798187106: lifecycle fresh/upgrade, SSR, billing) and B50 natural expiry (44798187438) on `d4616d0`. Accept only when green on that exact commit. A failure is fixed on a new branch, never by relaxing a check.
+- [Draft #102] The receipt is updated for #103; still Draft.
+- [Owner] The production read-only ledger recheck against the 52-row baseline, the production backup and isolated restore, the apply method and window, the main PR, and Publish.
+
+---
+
 ## C6/C7 checkpoint — item 3.4, 2026-11-20
 
 - [Draft PR into integration] Item 3.4: the candidate63 identity verifier, wired into B5 lifecycle/SSR/billing and B50 natural expiry. Local: 28/28 synthetic, 12/12 real-tree rejections, 22/22 live checks on the 63 stack, and the populated 41→63 upgrade passes (41/41 + 8/8). See `docs/reviews/item-3.4/TEST_RECORD.md`.
 - [Next] Codex review under `MERGE_DELEGATION.md`. After merge, verify the integration-push runs of B5 lifecycle (fresh and upgrade), SSR, billing and B50 natural expiry.
 - [Owner/production, not in 3.4] Production's ledger order for the two `20260815*` finance migrations is unverified. Before any release, read it under the read-only scope the owner approves.
+
+---
+
+## C6/C7 checkpoint — integration verification and item 3.4 source receipt, 2026-11-20
+
+PR #100 (courier settlement) and PR #101 (customer debt and day close) are merged to integration at `09089be291a56fd2a76ba8c0943564c30e5a4eb8`. The exact merged financial run 44784220945 passed 9/9, including three synthetic backup/restore legs. The [release and ledger receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) binds the 63 migration files to the saved historical ledger, verifies the ten C6 inputs, and lists both separate C7 migrations. The expected production ledger would contain 64 rows after C6 and C7, conditional on matching the recorded baseline and using the indicated statement format.
+
+Item 3.4 remains open for the scoped acceptance-control decision and testing of the exact lifecycle and expiry consumers. The direct historical inventory still rejects the current source. Next, select the source-bound candidate verification approach while preserving A41 and B50 evidence. No main merge, production query, or production apply in this checkpoint.
 
 ---
 

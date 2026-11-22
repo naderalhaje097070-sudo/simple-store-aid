@@ -110,8 +110,12 @@ restore_c6() {
     test "$(psql_db "$target" -c "select to_regclass('public.orders') is null")" = t
     # Restore the reviewed schema and the archived rows together. The explicit
     # data-only restore preserves sequence values and leaves platform DDL intact.
-    docker exec -i "$target" pg_restore --data-only --no-owner --no-privileges --file=- \
-        <"$work/rehearsal.backup" >"$work/archived-data.sql"
+    # GoTrue already initializes its own ledger. Restore the application ledger
+    # from the archive, and compare the initialized Auth ledger by hash instead.
+    awk '!/ TABLE DATA auth schema_migrations /' "$work/archive.toc" >"$work/restore.toc"
+    docker cp "$work/restore.toc" "$target:/tmp/monjez-restore.toc"
+    docker exec -i "$target" pg_restore --data-only --no-owner --no-privileges \
+        --use-list=/tmp/monjez-restore.toc --file=- <"$work/rehearsal.backup" >"$work/archived-data.sql"
     {
         cat "$work/roles.sql" "$restore/prelude.sql" "$work/schema.sql" "$work/triggers.sql" "$work/ledger-schema.sql"
         printf '\nSET session_replication_role = replica;\n'

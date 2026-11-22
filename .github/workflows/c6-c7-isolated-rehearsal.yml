@@ -1,0 +1,26 @@
+name: C6 and C7 isolated Supabase rehearsal
+on:
+  push:
+    branches: [codex/c6-c7-supabase-rehearsal]
+permissions:
+  contents: read
+concurrency:
+  group: c6-c7-disposable-rehearsal
+  cancel-in-progress: false
+jobs:
+  rehearsal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SUPABASE_TELEMETRY_DISABLED: '1'
+      DO_NOT_TRACK: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: supabase/setup-cli@v2
+        with:
+          version: '2.101.0'
+      - name: Rehearse migration, failure and logical recovery
+        run: bash tests/c6-upgrade/supabase_rehearsal.sh

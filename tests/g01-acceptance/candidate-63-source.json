@@ -1305,6 +1305,11 @@
    "mode": "100644"
   },
   {
+   "path": "src/lib/mcp/account-client.server.ts",
+   "sha": "4ca26b971bdd1e5553e22c3d20655a7c46068638",
+   "mode": "100644"
+  },
+  {
    "path": "src/lib/mcp/index.ts",
    "sha": "3b51435ffacb868c7357d0b340a6f7f0d20fe88d",
    "mode": "100644"
@@ -1316,17 +1321,17 @@
   },
   {
    "path": "src/lib/mcp/tools/list-customers.ts",
-   "sha": "aefb9e1ee5d3ea08570b1da7f02f8c0af953bd29",
+   "sha": "a701883fc69bb0edea37b2d2a8878f38a1dc73e9",
    "mode": "100644"
   },
   {
    "path": "src/lib/mcp/tools/list-products.ts",
-   "sha": "8835e58960be140ab5a301d4527ad526f291eac8",
+   "sha": "b5a8d7e02686f23d1418d7d03a8508b37ee57a83",
    "mode": "100644"
   },
   {
    "path": "src/lib/mcp/tools/list-recent-orders.ts",
-   "sha": "0439a6a23aec4f165965b19a54e1e1473510516f",
+   "sha": "51425847d2618c60dd280105f914591fb0a8866a",
    "mode": "100644"
   },
   {
@@ -2101,7 +2106,12 @@
   },
   {
    "path": "tests/b5-lifecycle/billing_probe.py",
-   "sha": "f5c84ff4f75d94858272031aa89a48cb96f1e247",
+   "sha": "8710f4a6f916418c05730349ffe12e03d1336ad6",
+   "mode": "100644"
+  },
+  {
+   "path": "tests/b5-lifecycle/candidate_evidence.py",
+   "sha": "a33e4eaf3c255c0410bbb75b8a2e8799a368255b",
    "mode": "100644"
   },
   {
@@ -2111,7 +2121,7 @@
   },
   {
    "path": "tests/b5-lifecycle/composed.py",
-   "sha": "18b9b86fec86f7b4d56f8b38abeaba6c895bf498",
+   "sha": "c042de0b1ceaa626baf649992c4f83c1843f1608",
    "mode": "100644"
   },
   {
@@ -2121,12 +2131,12 @@
   },
   {
    "path": "tests/b5-lifecycle/ssr_runtime.py",
-   "sha": "62c69660e213a33544286e5de2ffde8d8c8693fc",
+   "sha": "ffe419b736979eac5f5272e4febb009a0f4b9419",
    "mode": "100644"
   },
   {
    "path": "tests/b5-lifecycle/test_contract.py",
-   "sha": "413b6c7e1d95d99aa5c2c8976c070cc23a8a38ce",
+   "sha": "66fa893acd39582ae4d053c41ecf52e963796b1b",
    "mode": "100644"
   },
   {
@@ -3267,6 +3277,11 @@
   {
    "path": "tests/unit/ip-address-security.test.ts",
    "sha": "ec3f702cfbafa6efa9f1cde03dfba75863a62c49",
+   "mode": "100644"
+  },
+  {
+   "path": "tests/unit/mcp-account-state.test.ts",
+   "sha": "db1fd51170838051d3205d3b314ce9ce01dbe005",
    "mode": "100644"
   },
   {

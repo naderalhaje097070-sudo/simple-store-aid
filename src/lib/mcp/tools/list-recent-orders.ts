@@ -1,13 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
-import { defineTool, type ToolContext } from "@lovable.dev/mcp-js";
+import { defineTool } from "@lovable.dev/mcp-js";
 import { z } from "zod";
-
-function supabaseForUser(ctx: ToolContext) {
-  return createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
-    global: { headers: { Authorization: `Bearer ${ctx.getToken()}` } },
-    auth: { persistSession: false, autoRefreshToken: false },
-  });
-}
+import { authorizeMcpTableRead } from "../account-client.server";
 
 export default defineTool({
   name: "list_recent_orders",
@@ -19,9 +12,9 @@ export default defineTool({
   },
   annotations: { readOnlyHint: true, idempotentHint: true, openWorldHint: false },
   handler: async ({ limit, status }, ctx) => {
-    if (!ctx.isAuthenticated())
-      return { content: [{ type: "text", text: "Not authenticated" }], isError: true };
-    let q = supabaseForUser(ctx)
+    const access = await authorizeMcpTableRead(ctx);
+    if (!access.ok) return access.result;
+    let q = access.supabase
       .from("orders")
       .select(
         "id,number,total,paid,status,delivery,courier_state,customer_id,courier_id,created_at",

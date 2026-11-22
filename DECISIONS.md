@@ -1,3 +1,20 @@
+## 2026-11-22 — Item 3.4 disposition of the shared B50 test probe
+
+Retain the already reviewed Candidate63 sale-selection hook in the composed lifecycle test. On integration `a31e207` the candidate probe blob is `1889d7944e4c403bd19856be393b0ff27f89966a`. The frozen B50 snapshot retains blob `7e42521ffcbe47adab56941f216980d95b803f1f` at `59c8a0c`. Specializing the candidate hook to the base legacy RPC and its identity payload mapping reproduces the frozen file exactly. Historical verification applies to its fixed tree. Candidate63 verifies the current test code and the historical manifests under separate pins.
+
+Independent engineering and finance source review supports this technical disposition. The integrated B5 and B50 runtime runs provide candidate evidence. The [receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) records the limits and the remaining release decisions. This documentation update is subject to review on #102.
+
+---
+
+## 2026-11-20 — B5 billing reference bound to the final ledger definition
+
+Owner direction relayed in the Claude session: proceed with routine implementation and isolated verification of item 3.4.
+- **Billing adapter:** the expected `apply_subscription_webhook` body is now the last ledger definition (`20261110130000`, blob-pinned). It must differ from the historical B4 fixture by exactly the reviewed lock delta, and the B4 fixture must still equal the October definition. `webhook_persistence_probe.py` is unchanged.
+- **Upgrade and SSR:** evidence fields only; no predicate changes.
+- **Open:** whether the billing change is a non-weakening correction under `MERGE_DELEGATION.md` is for the reviewer, or for the owner if disputed.
+
+---
+
 ## 2026-11-20 — Record: #103 merged into integration; post-merge B5/B50 is the acceptance gate
 
 The owner directed, in the Claude session: reconcile #102 with integration `d4616d0` by a normal merge, keep #103's checkpoints, and update #102's conditions historically.

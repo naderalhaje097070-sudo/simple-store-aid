@@ -1,3 +1,35 @@
+## C6/C7 checkpoint — Item 3.4 receipt after #105, 2026-11-22
+
+Integration `a31e2079ee28d0ed130d5b0247e7125cf6bda69c` passed B5 4/4, signed billing 207/207, B50 natural expiry, release-finance 9/9, integrated G0 and B1 on the first attempt. The B5 upgrade artifact records 450 successful closure checks. The SSR traces are complete on this run. The earlier intermittent trace capture failure remains recorded.
+
+The [release receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md) records the exact migration tree with 63 files and the reviewed disposition of the B50 shared probe. Candidate63 retains the stage-specific test adapter while the historical artifacts and verification remain pinned to their original source.
+
+The receipt is pending review and merge in #102. The next release work is to prepare the exact apply-order rehearsal and review the prerequisite inventory in the approved isolated scope. The saved ledger sequence 52 → 62 → 64 remains conditional. Production recheck, backup and isolated restore, release method, main merge, apply and Publish require their own applicable decisions.
+
+---
+
+## C6/C7 checkpoint — Item 3.4 MCP account-state correction, 2026-11-21
+
+The post-#104 integration baseline is `f8bfdf6`. Its B5 billing job passed 207/207; B50 expiry and release-finance passed, with the fresh journey succeeding on a targeted retry. B5 lifecycle upgrade and SSR trace completeness remain open.
+
+Branch `codex/c6-b5-mcp-account-state` reuses the bounded live-account assertion before MCP table reads for products, customers and recent orders. It keeps the existing user-scoped RLS queries and the financial summary RPC. Local verification: 12 mocked handler cases, 109 total unit tests, typecheck, scoped lint and build passed. On the unmodified base the same mocked handler suite passed 3 and failed 9. Native PR checks and post-merge B5 runtime acceptance are separate.
+
+The SSR trace issue and the inherited B50 shared-probe drift remain separate items. Main and production are outside this change.
+
+---
+
+## C6/C7 checkpoint — item 3.4: B5 post-merge corrections (Draft PR into integration), 2026-11-20
+
+- **Failing run:** the first B5 run on integration (44798187106 on `d4616d0`) failed billing, lifecycle upgrade and SSR. Lifecycle fresh, B50 expiry, release-finance 9/9, G0 and B1 passed.
+- **Branch:** `claude/c6-item34-b5-harness-corrections`, test harness only. Record: `docs/reviews/item-3.4/B5_POSTMERGE_CORRECTIONS.md`.
+  - **Billing (confirmed):** the reference is bound to the manifest-pinned final definition, `20261110130000`, with the exact reviewed delta from B4.
+  - **Upgrade and SSR (cause unproven):** evidence-only additions, in candidate-only code (`tests/b5-lifecycle/candidate_evidence.py`): an allowlisted MCP response class and count, and the unfinished-call name and exit. No predicate changed. The shared historical modules are byte-identical to integration `d4616d0` (not to the frozen snapshots; see below). Review correction: a `tool_success` class requires `mcp_probe.tool_success` to accept the response, with `isError` omitted or literally `false`; any other HTTP 200 shape, including a supplied non-boolean `isError`, is `unexpected_shape`.
+  - **Separate work:** the merged #103 changed the B50-pinned `owner_closure_probe.py` (the sale hook). This PR leaves that file at its `d4616d0` bytes.
+- **Pending:** acceptance needs the B5 run on the merge commit. Reviewer judgment is needed on whether the billing reference change is a non-weakening correction.
+- **Not done:** no main merge, production access or deployment.
+
+---
+
 ## C6/C7 checkpoint — #103 merged into integration; #102 receipt updated, 2026-11-20
 
 - #103 is merged into integration at `d4616d06e7a3ccf6541c75af232780bb6011a3ed`: exact head `0a622ce`, 14/14 required checks, Codex and Strix with no open findings. Integration only.

@@ -54,3 +54,26 @@ The saved ledger file has SHA-256 `277292ef2e84ed7c0a2d33c0f8217d2810526a27ee849
 - **Post-merge acceptance is still pending.** The first B5 composed run on `d4616d0` (run 44798187106: lifecycle fresh and upgrade, SSR, billing) and the first B50 natural-expiry run (44798187438) were still in progress when this update was written. Neither is accepted until it is green on that commit.
 - **The 41→63 upgrade evidence in #103 is archival and local.** It is `docs/reviews/item-3.4/upgrade-result.json` and `upgrade-migration-up.txt`, from runs at `60b4411` and `4ead923`. That helper was removed from #103 before merge. The current upgrade acceptance is the CI `lifecycle (upgrade)` job on `d4616d0`.
 - **The ledger expectation is unchanged and still conditional.** 52 → 62 → 64 remains an offline expectation. It holds only if the live ledger matches the recorded 52-row baseline and the indicated statement format is used. It is distinct from Git's 63 source files, and it has not been checked against production.
+
+## Integration evidence after #105 (2026-11-22)
+
+Integration `a31e2079ee28d0ed130d5b0247e7125cf6bda69c` is the evidence source for this update. Its migration tree remains `08d0c94e060d3ea44b23759e41ed193adf979c0e` with 63 files. All 50 `main` migration paths, blob hashes and modes still match. The 52 → 62 → 64 table above remains conditional on a matching production baseline and the documented serialization.
+
+| Check on `a31e207` | Attempt 1 |
+| --- | --- |
+| [B5 composed lifecycle](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44954010580) | 4/4. Lifecycle fresh and upgrade passed. The upgrade artifact records 450 successful closure controls, including the explicit inactive result for MCP product reads. Signed billing passed 207/207. SSR reported complete matching and conflict traces with zero unfinished or unparsed calls. |
+| [B50 natural expiry](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44954010596) | Passed. |
+| [Release financial acceptance](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44954010618) | 9/9, including all three collection modes. |
+| [Integrated G0](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44954010675) and [B1 compatibility](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44954010625) | Passed. |
+
+The [earlier B5 failure](https://github.com/naderalhaje097070-sudo/simple-store-aid/actions/runs/44940318198) remains available for comparison. #105 corrected the account-state check. The SSR harness is the same; one complete run establishes acceptance on this commit and leaves the earlier trace-capture intermittency documented. The #104 and #105 merge receipts record their respective one-time Strix exceptions.
+
+### Disposition of the shared B50 test probe
+
+`tests/account-lifecycle/owner_closure_probe.py` has frozen B50 blob `7e42521ffcbe47adab56941f216980d95b803f1f` and Candidate63 blob `1889d7944e4c403bd19856be393b0ff27f89966a`. #103 introduced a test-only sale RPC and payload selection hook. The historical class defaults to the original RPC and passes the payload through. Specializing the hook to those default values reproduces the frozen source byte-for-byte. The composed Candidate63 subclass chooses the stage RPC and keyed payload explicitly. Independent source review confirmed the fixture and closure assertions still apply.
+
+The historical verifier and both frozen manifests keep their original bytes and semantics. The additive verifier binds the currently reviewed code separately. Candidate63 acceptance uses the candidate verifier; invoking the frozen verifier on the integrated candidate still triggers its historical identity restrictions. This disposition retains the existing candidate hook and the fixed historical artifacts.
+
+### Release boundary
+
+The next preparatory step is to verify the exact reviewed C6 and C7 sequence in a production-shaped isolated rehearsal, including catalogue checks, financial fingerprints and recovery for each committed stage. The recorded production-shape differences and the apply method and ledger writer need reconciliation before that evidence can support a release. Select the authorized write-quiescence or atomic cutover approach before scheduling any real apply. Fresh live ledger and Publish-behavior verification, production backup and isolated restore, the trusted release gate, main merge, production apply, and Publish retain their separate requirements. This receipt records integration and offline evidence only.

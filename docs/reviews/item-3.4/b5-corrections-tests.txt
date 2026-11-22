@@ -1,0 +1,61 @@
+# B5 post-merge corrections — local test log, head a6dd4bd789de635cf227a5d23660a1f28a893ddd, 2026-11-21T18:31:21Z, python 3.13.18, node v22.23.5
+$ historical blob preservation vs d4616d0
+A41 288 pinned; changed by this PR: []
+B50 396 pinned; changed by this PR: ['tests/b5-lifecycle/composed.py', 'tests/b5-lifecycle/ssr_runtime.py', 'tests/b5-lifecycle/test_contract.py']
+shared historical modules byte-identical to d4616d0: True
+frozen manifests unchanged: True
+migrations unchanged: True
+$ python tests/b5-lifecycle/inventory.py (identity)
+{'migration_count': 63, 'protected_blob_count': 600, 'all_protected_blobs_match': True, 'b50_migrations_preserved': True, 'original41_migrations_preserved': True}
+$ python tests/b5-lifecycle/test_contract.py -v
+test_billing_delta_is_exact ... ok
+test_billing_reference_is_pinned_final_definition ... ok
+test_billing_reference_refuses_a_later_redefinition ... ok
+test_billing_reference_refuses_tampering ... ok
+test_composed_attaches_outline_only_to_closure_denials ... ok
+test_exact_ordered_versions_required ... ok
+test_generic_errors_expiry_and_empty_are_not_named_account_denial ... ok
+test_idempotency_ledger_locked ... ok
+test_mcp_denial_requires_explicit_protocol_account_error ... ok
+test_sale_surface_and_keyed_body ... ok
+test_stage_exact_public_surface ... ok
+test_tool_response_outline_is_allowlisted_and_textless ... ok
+test_tool_response_outline_malformed_success_is_unexpected_shape ... ok
+test_unfinished_outline_matches_historical_count_without_detail ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.128s
+
+OK
+$ python tests/g01-acceptance/test_egress_trace.py
+Ran 9 tests in 0.175s
+OK
+$ python tests/g01-acceptance/test_candidate_identity.py
+Ran 39 tests in 4.177s
+OK
+$ (cd tests/g01-acceptance && python test_integrated_identity.py)
+Ran 29 tests in 5.849s
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_mcp_probe.py
+Ran 6 tests in 0.000s
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_owner_closure_probe.py
+Ran 2 tests in 0.000s
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_tanstack_route_probe.py
+Ran 9 tests in 0.005s
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_natural_expiry_probe.py
+Ran 12 tests in 0.001s
+OK
+$ python -m unittest discover -s tests/account-lifecycle -p test_oauth_consent_fixture.py
+Ran 4 tests in 0.001s
+OK
+$ NODE_PATH=<local js-yaml 4> node --test tests/b7-ci-routing/contract.test.cjs
+# tests 17
+# pass 17
+# fail 0
+$ py_compile + SSR import path
+compiled; candidate_evidence.unfinished_outline importable and runs without tests/account-lifecycle
+$ git diff --check
+clean

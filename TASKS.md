@@ -1,3 +1,30 @@
+## C6/C7 checkpoint — Item 3.4 follow-through, 2026-11-22
+
+- [Verified on integration `a31e207`] B5 4/4, B50 expiry, release-finance 9/9, integrated G0 and B1.
+- [Disposition recorded for review] Preserve the frozen A41/B50 verification and retain the reviewed candidate test adapter. The historical probe blob and candidate probe blob remain separately identified in the [receipt](docs/reviews/c6-package/C6_C7_RELEASE_LEDGER_RECEIPT.md).
+- [Draft #102] Reconcile the receipt against `a31e207` and verify the final documentation tree.
+- [Next] Prepare the exact C6→C7 apply order, rollback or forward recovery plan, and evidence from a production-shaped isolated rehearsal. Confirm the scope and release dependencies before advancing.
+- [Owner decisions] Fresh live baseline and publish behavior scope, production backup and recovery readiness, apply method and window, main merge, production apply, and Publish.
+
+---
+
+## C6/C7 checkpoint — Item 3.4 next acceptance, 2026-11-21
+
+- [Implemented locally] MCP read handlers use the current account guard before table reads. Check the draft's exact head and then the B5 upgrade run on integration.
+- [Open] SSR trace completeness. Inspect shutdown and trace collection while preserving the existing completeness assertion.
+- [Open] Resolve or explicitly disposition the historical B50 shared-probe drift inherited from #103.
+- [Verified on `f8bfdf6`] B5 signed billing 207/207, B50 expiry, and release-finance 9/9 after targeted retry.
+
+---
+
+## C6/C7 checkpoint — B5 post-merge corrections, 2026-11-20
+
+- [Draft PR into integration] `claude/c6-item34-b5-harness-corrections`: the billing reference fix plus evidence for the upgrade and SSR failures.
+- [Next] Codex review. After merge, read B5 billing, lifecycle upgrade and SSR on the merge commit, and use the new evidence to choose the upgrade and SSR fixes. Never relax a check.
+- [Gate] Into main: `gov-ok-<sha>` for the `tests/**` changes.
+
+---
+
 ## C6/C7 checkpoint — after #103 merge, 2026-11-20
 
 - [Merged to integration] #103 at `d4616d0`.

@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — C2 legacy check disposition (docs only), 2026-11-26
+
+- `c2-quantity.yml` fails before any database step because `tests/c2-quantity/inventory.py` pins the C2 stage source (388 files, 51 migrations). Verified on run 44784221322; measured on `68893e2`: 37/388 and 3/11 pinned files differ, 63 migrations.
+- Coverage: fresh in `release-finance` `suite (quantity, fresh)`; upgrade deliberately not moved. Recorded in `docs/RELEASE_COVERAGE.md`, matching the C4 disposition.
+- Not changed: the workflow, its manifest and every test. No main, production or deployment.
+
+---
+
 ## C6/C7 checkpoint — Item 3.4 receipt after #105, 2026-11-22
 
 Integration `a31e2079ee28d0ed130d5b0247e7125cf6bda69c` passed B5 4/4, signed billing 207/207, B50 natural expiry, release-finance 9/9, integrated G0 and B1 on the first attempt. The B5 upgrade artifact records 450 successful closure checks. The SSR traces are complete on this run. The earlier intermittent trace capture failure remains recorded.

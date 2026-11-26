@@ -1,3 +1,9 @@
+## C6/C7 checkpoint — C2 legacy check, 2026-11-26
+
+- [Docs PR into integration] Record `c2-quantity.yml` as a stage-pinned legacy check with its release coverage. Never repin its manifest to pass.
+
+---
+
 ## C6/C7 checkpoint — Item 3.4 follow-through, 2026-11-22
 
 - [Verified on integration `a31e207`] B5 4/4, B50 expiry, release-finance 9/9, integrated G0 and B1.

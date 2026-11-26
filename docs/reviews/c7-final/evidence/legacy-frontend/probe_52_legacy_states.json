@@ -1,0 +1,6 @@
+{
+ "legacy courier sale with paid 40": "ACCEPTED: {\"number\": 9, \"success\": true, \"order_id\": \"f0333d25-8b54-4418-88af-c7e181440023\"}",
+ "legacy courier sale paid 0": "ACCEPTED: {\"number\": 10, \"success\": true, \"order_id\": \"10b91a12-1ef2-49ec-865f-5b370725488a\"}",
+ "legacy collect 40 on that pending courier order": "REFUSED settle_courier_first",
+ "pending courier orders with paid>0 now": "0"
+}

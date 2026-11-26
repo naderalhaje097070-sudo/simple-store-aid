@@ -1,0 +1,20 @@
+# Scratch, local lab at 52 (legacy). Can a PENDING courier order carry an in-store payment? Persisted (committed) on the synthetic lab.
+import importlib.util, json, sys
+repo, db = sys.argv[1], sys.argv[2]
+sys.argv = ['harness.py', db, 'none']
+spec = importlib.util.spec_from_file_location('h', f'{repo}/tests/c6-upgrade/harness.py')
+h = importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+s = h.load(); A = h.U['ownerA']
+def call(body):
+    r = h.psql('begin;\n' + h.as_user(A, body) + '\ncommit;', check=False)
+    err = [l.split('ERROR:')[-1].strip() for l in r.stderr.splitlines() if 'ERROR' in l]
+    return ('REFUSED ' + err[-1]) if r.returncode else 'ACCEPTED: ' + (r.stdout.strip().splitlines() or [''])[-1][:200]
+out = {}
+out['legacy courier sale with paid 40'] = call(f"select public.create_sale_with_items('{s['c2']}', 'courier', '{s['k1']}', 40, 'cash', {h.items((s['p1'], 1))});")
+out['legacy courier sale paid 0'] = call(f"select public.create_sale_with_items('{s['c2']}', 'courier', '{s['k1']}', 0, 'cash', {h.items((s['p1'], 1))});")
+oid = h.q("select id from public.orders where delivery='courier' and courier_state='pending' and paid=0 order by created_at desc limit 1;")
+out['legacy collect 40 on that pending courier order'] = call(f"select public.collect_order_debt('{oid}', 40, 'cash');")
+out['pending courier orders with paid>0 now'] = h.q("select count(*) from public.orders where delivery='courier' and courier_state='pending' and paid>0;")
+print(json.dumps(out, ensure_ascii=False, indent=1))
+print(h.q("select json_agg(json_build_object('n',number,'delivery',delivery,'state',courier_state,'total',total,'paid',paid,'custody',collected_by_courier)) from public.orders where number in (9,10);"))
+print(h.q("select json_agg(json_build_object('order',o.number,'amount',p.amount,'method',p.method)) from public.payments p join public.orders o on o.id=p.order_id where o.number in (9,10);"))

@@ -1,0 +1,29 @@
+# Scratch, local lab only. Published-frontend courier call shape after an idempotent courier sale, rolled back.
+import importlib.util, json, sys, uuid
+repo, db = sys.argv[1], sys.argv[2]
+sys.argv = ['harness.py', db, 'none']
+spec = importlib.util.spec_from_file_location('h', f'{repo}/tests/c6-upgrade/harness.py')
+h = importlib.util.module_from_spec(spec); spec.loader.exec_module(h)
+s = h.load(); A = h.U['ownerA']
+def run(name, call):
+    body = f"""do $p$ declare r jsonb; o uuid; begin
+  r := public.create_sale_with_items_idempotent(p_idempotency_key => '{uuid.uuid4()}', p_customer_id => '{s['c2']}', p_delivery => 'courier',
+       p_courier_id => '{s['k1']}', p_paid => 0, p_method => 'cash', p_items => {h.items((s['p1'], 1))}, p_courier_state => 'pending');
+  o := coalesce((r->>'order_id')::uuid, (r->>'id')::uuid);
+  perform set_config('probe.o', o::text, true);
+  perform public.update_courier_order_state(o, 'delivered_none', 0);
+  perform public.collect_order_debt_idempotent(p_idempotency_key => '{uuid.uuid4()}', p_order_id => o, p_amount => 40, p_method => 'cash');
+  raise notice 'before: total=% paid=% state=% custody=%', (select total from public.orders where id=o), (select paid from public.orders where id=o),
+    (select courier_state from public.orders where id=o), (select collected_by_courier from public.orders where id=o);
+end $p$;
+{call}
+select 'after: paid='||paid||' state='||courier_state||' custody='||coalesce(collected_by_courier,0) from public.orders where id=current_setting('probe.o')::uuid;"""
+    r = h.psql('begin;\n' + h.as_user(A, body) + '\nrollback;', check=False)
+    note = [l.split('NOTICE:')[-1].strip() for l in r.stderr.splitlines() if 'NOTICE' in l]
+    err = [l.split('ERROR:')[-1].strip() for l in r.stderr.splitlines() if 'ERROR' in l]
+    after = [l for l in r.stdout.splitlines() if l.startswith('after:')]
+    return {name: {'result': ('REFUSED ' + err[-1]) if r.returncode else 'ACCEPTED', 'before': note[-1] if note else None, 'after': after[-1] if after else None}}
+out = {}
+out.update(run('legacy shape: update_courier_order_state(delivered_full) after 40 paid in store', "select public.update_courier_order_state(current_setting('probe.o')::uuid, 'delivered_full', 100);"))
+out.update(run('legacy shape: update_courier_order_state(delivered_partial, 60) after 40 paid in store', "select public.update_courier_order_state(current_setting('probe.o')::uuid, 'delivered_partial', 60);"))
+print(json.dumps(out, ensure_ascii=False, indent=1))

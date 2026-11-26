@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+R=$1; SB=$2; OUT=$3; mkdir -p "$OUT"
+W=$(mktemp -d); ID=monjez-c7final-compat; DB=supabase_db_$ID
+EXT=realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler
+cleanup() { "$SB" --workdir "$W/stack" stop --no-backup >/dev/null 2>&1 || true; rm -rf -- "$W"; }
+trap cleanup EXIT
+q() { docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq "$@"; }
+mkdir -p "$W/stack"; "$SB" --workdir "$W/stack" init > /dev/null
+sed -i "s/^project_id = .*/project_id = \"$ID\"/" "$W/stack/supabase/config.toml"
+git -C "$R" archive 1c5276fae77cb71f49d868fe71d17d84c5d3c6b3 supabase/migrations | tar -x -C "$W/stack"
+"$SB" --workdir "$W/stack" start -x "$EXT" > "$W/start.log" 2>&1
+E=$(git -C "$R" ls-tree --name-only 183dc50 supabase/migrations/ | grep 20261107214500)
+git -C "$R" show "183dc50:$E" | q -f -
+q -f - < "$R/docs/reviews/c6-apply/replica_drift.sql"; q -f - < "$R/docs/reviews/c6-apply/replica_ledger_set.sql"
+python3 "$R/tests/c6-upgrade/make_replica_ledger.py" "$R" "$W/fixture.sql" "$W/c0.expected" > /dev/null
+q -f - < "$W/fixture.sql"; python3 "$R/tests/c6-upgrade/harness.py" "$DB" seed > /dev/null
+python3 "$(dirname "$0")/probe52.py" "$R" "$DB" > "$OUT/probe52.json"
+cat "$OUT/probe52.json"
+n=$(q -c "select count(*) from public.orders where delivery='courier' and courier_state='pending' and paid>0")
+if [ "$n" -gt 0 ]; then
+  bash "$R/docs/reviews/c6-apply/build_apply_files.sh" "$R" "$W/c0.expected" "$W/c6test" > /dev/null
+  bash "$R/docs/reviews/c7-final/build_c7_final.sh" "$R" "$W/c0.expected" "$W/c7test" > /dev/null
+  q -f - < "$W/c6test/BUNDLE_C1_C10.sql" > /dev/null 2>&1
+  oid=$(q -c "select id from public.orders where delivery='courier' and courier_state='pending' and paid>0 limit 1")
+  A=$(python3 -c "import uuid;print(uuid.uuid5(uuid.UUID('6c2d9a52-0c6b-4a0e-9a1f-0c6000000000'),'ownerA'))")
+  as="set local role authenticated; select set_config('request.jwt.claims', '{\"sub\":\"$A\",\"role\":\"authenticated\",\"aud\":\"authenticated\"}', true); select set_config('request.jwt.claim.sub', '$A', true);"
+  for stage in 62 64; do
+    [ $stage = 64 ] && q -f - < "$W/c7test/BUNDLE_C7_FINAL.sql" > /dev/null
+    echo "$stage: $(q -c "select total||' paid '||paid from public.orders where id='$oid'") -> $(printf 'begin;\n%s\nselect public.update_courier_order_state(%s, %s, 100);\nrollback;\n' "$as" "'$oid'" "'delivered_full'" | docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq 2>&1 | tail -1 | cut -c1-160)" | tee -a "$OUT/probe52.json"
+  done
+fi

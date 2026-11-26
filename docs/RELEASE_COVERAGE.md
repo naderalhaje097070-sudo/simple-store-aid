@@ -50,6 +50,27 @@
 و`exact_fractional_stock_after_three_logical_sales` و`actual_foreign_product_rejected_atomically`.
 لم يُعدَّل `c4-sale.yml` ولم يُضعَف.
 
+### C2 القديم (`c2-quantity.yml`): فحص موروث، والتغطية مثبتة
+
+يفشل الـjobان `quantity (fresh)` و`quantity (upgrade)` في `c2-quantity.yml` في الخطوة
+`Verify preserved source and immutable SQL before credentials`، أي قبل تشغيل أي قاعدة بيانات أو قراءة أي بيانات اعتماد.
+السبب (مُتحقَّق منه في run 44784221322 على `09089be`): `tests/c2-quantity/inventory.py` يثبت مصدر مرحلة C2 نفسها:
+388 ملفًا في `tests/c2-quantity/source.json` بالبايت، و11 ملفًا جديدًا، وعددًا ثابتًا من 51 Migration. أول ملف غير مطابق
+في ذلك التشغيل هو `.github/workflows/b1-composition.yml`.
+
+القياس على `68893e2` (فرع التكامل): 37 من 388 ملفًا و3 من 11 ملفًا جديدًا تغيّرت، وعدد الـMigrations 63 لا 51.
+لذلك لا يمكن أن ينجح هذا الـworkflow على المصدر الحالي، مهما كانت صحة الكود. الخطأ اللاحق في خطوة
+`Cleanup and safe final receipts` (`firewall-before.txt` غير موجود) أثر جانبي: الملف يُكتب في خطوة لم تُنفَّذ.
+فشل التشغيلان السابقان (42312628674 و42314510302، 2026-11-06) في الـjobين نفسيهما، ولم يُتحقَّق هنا من خطوتهما.
+الـjob `frontend` ينجح.
+
+التغطية:
+- **fresh:** في `release-finance.yml`، `suite (quantity, fresh)` (الجدول أعلاه)، وهو ناجح على فرع التكامل.
+- **upgrade:** قرار موثّق بعدم النقل (الجدول أدناه).
+
+**ممنوع:** تعديل `tests/c2-quantity/source.json` أو `inventory.py` ليمر الفحص. ذلك إعادة كتابة لدليل تاريخي.
+لم يُعدَّل `c2-quantity.yml` ولم يُضعَف.
+
 ## ما لم يُستبدل (فجوات معروفة)
 
 | الفحص | السبب | القرار |

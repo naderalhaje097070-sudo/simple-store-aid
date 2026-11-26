@@ -1,3 +1,9 @@
+## C6/C7 checkpoint — courier refusal messages, 2026-11-26
+
+- [Draft PR into integration] Three Arabic messages in `rpcMessage`; Codex review under `MERGE_DELEGATION.md`.
+
+---
+
 ## C6/C7 checkpoint — C2 legacy check, 2026-11-26
 
 - [Docs PR into integration] Record `c2-quantity.yml` as a stage-pinned legacy check with its release coverage. Never repin its manifest to pass.

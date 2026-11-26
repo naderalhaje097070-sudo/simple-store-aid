@@ -1,3 +1,14 @@
+## 2026-11-26 — Arabic messages for three courier refusal codes
+
+The owner approved the NAADF-CMF Gate 0 intake and the exact wording in the Claude session. The scope is three keys in `rpcMessage` (`src/lib/db.ts`) and a unit test. It covers no SQL, no function and no behaviour.
+- `courier_custody_exceeds_remaining`: «المبلغ أكبر من المتبقي على الفاتورة بعد ما دُفع في المتجر»
+- `invalid_transition`: «لا يمكن نقل الطلب إلى هذه الحالة من حالته الحالية»
+- `custody_cannot_decrease`: «لا يمكن إنقاص المبلغ الذي في عهدة المندوب»
+
+The approval does not cover a production read, a merge or Publish.
+
+---
+
 ## 2026-11-22 — Item 3.4 disposition of the shared B50 test probe
 
 Retain the already reviewed Candidate63 sale-selection hook in the composed lifecycle test. On integration `a31e207` the candidate probe blob is `1889d7944e4c403bd19856be393b0ff27f89966a`. The frozen B50 snapshot retains blob `7e42521ffcbe47adab56941f216980d95b803f1f` at `59c8a0c`. Specializing the candidate hook to the base legacy RPC and its identity payload mapping reproduces the frozen file exactly. Historical verification applies to its fixed tree. Candidate63 verifies the current test code and the historical manifests under separate pins.

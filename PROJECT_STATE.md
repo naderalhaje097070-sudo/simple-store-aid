@@ -1,3 +1,11 @@
+## C6/C7 checkpoint — courier refusal messages (Draft PR into integration), 2026-11-26
+
+- Branch `claude/courier-refusal-messages` from integration `1d352c9`. `rpcMessage` maps the three server refusal codes that were unmapped in main and integration, and is exported for the unit test. No logic change.
+- Local: `tests/unit/rpc-messages.test.ts` fails on the old mapping (generic message) and passes with the change; unit 111/111; typecheck, full lint (0 errors), prettier and build (CI env values) passed.
+- Not done: merge, main, Publish, production.
+
+---
+
 ## C6/C7 checkpoint — C2 legacy check disposition (docs only), 2026-11-26
 
 - `c2-quantity.yml` fails before any database step because `tests/c2-quantity/inventory.py` pins the C2 stage source (388 files, 51 migrations). Verified on run 44784221322; measured on `68893e2`: 37/388 and 3/11 pinned files differ, 63 migrations.

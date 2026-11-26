@@ -236,7 +236,7 @@ export function useMyRole(tenantId: string | null | undefined) {
 }
 
 /* ---------- friendly RPC error mapper ---------- */
-function rpcMessage(err: unknown): string {
+export function rpcMessage(err: unknown): string {
   const raw = String((err as { message?: unknown } | null | undefined)?.message ?? err ?? "");
   const map: Record<string, string> = {
     forbidden_tenant: "ليست لديك صلاحية على هذا المتجر",
@@ -260,6 +260,9 @@ function rpcMessage(err: unknown): string {
     cannot_collect_returned_order: "لا يمكن تحصيل مبلغ على فاتورة مُرجَعة",
     cannot_delete_paid_order: "لا يمكن التراجع عن فاتورة مدفوعة أو محصّلة",
     cannot_delete_courier_with_collected_money: "لا يمكن حذف طلب مندوب حُصِّل منه مبلغ",
+    courier_custody_exceeds_remaining: "المبلغ أكبر من المتبقي على الفاتورة بعد ما دُفع في المتجر",
+    invalid_transition: "لا يمكن نقل الطلب إلى هذه الحالة من حالته الحالية",
+    custody_cannot_decrease: "لا يمكن إنقاص المبلغ الذي في عهدة المندوب",
   };
   for (const key of Object.keys(map)) {
     if (raw.includes(key)) return map[key];

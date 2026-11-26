@@ -1,4 +1,4 @@
-C7 final self-test, repo HEAD 1d352c995ba7e729dc86c4787c0a9abe3d06cf6a, 2026-11-26T18:23:35Z
+C7 final self-test, repo HEAD 9c635753b4cbe6f4cf9b1808ec7892f1b05dcd76, 2026-11-26T18:26:42Z
 stack: CLI 2.101.0, public.ecr.aws/supabase/postgres:17.6.1.106
 C0 lab ledger: 52 9235c3834be88ce50dba444bb15b5262 6202580639694c5c2d0bfe36af2079fe
 VERIFY constants (TEST base c0.expected): rows 64, versions a6ca71705682237fc4bc6b93c4f782b5, content 6eae798de82d5ad7d53eb0f85fe2b490
@@ -31,9 +31,9 @@ T4: rerun at 64
 psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
 PASS T4 refused, unchanged
 c0 868009a9ce87211d691066ba4b7dd1cb0edec60571438e17bacb411359a7e23a c0.catalog
-c0 5b75c67449de32e1a03fa8638dc14901bbb322f80fb257309e3280fdb2d7a165 c0.data
+c0 f9910dea237f93912184d12b1a6838eb0dbaed373dfd30c59cf01e589a3fcb76 c0.data
 c6 a45ac9c4b9061961b9b3cbfafb6edcb25cd3b274d80e151d494987edcf01d952 c6.catalog
-c6 0af9d3ec6ba9478f5424cf3720262a78f94c803cc07302d9643ecf46ba562b6d c6.data
+c6 f2ef935776ca4030f3559493bd75f1d19921601fd0235e5413a2f81510b67be7 c6.data
 c7 98166310ac3d8c666e529d8ba7c5cca61de593b9e38e35877649101de8913a21 c7.catalog
-c7 5542dc345949018b83d19677eac660b17fc71094140f1c0458c679e37608f7a5 c7.data
+c7 9f011326eaea4b94694815828827a07bf2abfb8522bde46c2beca7c81c269af5 c7.data
 ALL PASS

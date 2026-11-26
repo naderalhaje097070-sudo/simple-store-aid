@@ -5,6 +5,10 @@
 
 In English: the owner removed the manual approval condition in GitHub, enabled auto-merge, and delegates **routine merges after the required tests and reviews pass**, with no per-PR approval request and no `gov-ok-<SHA>` label. This document is the governance record of that decision, and it takes precedence over older text in conflict with it. It does **not** widen anything beyond routine merges.
 
+## Owner decision — security review provider (2026-11-26)
+
+The owner ended reliance on Strix. Each integration PR requires a separate, exact-head security review recorded in the PR, with the reviewer's identity, scope, evidence and disposition of findings. The reviewer must be independent of the author. For documentation-only changes, the reviewer can record a scope check confirming that no executable behavior, secrets, or acceptance controls change. Changes affecting authorization, finance, release controls, or production exposure require a substantive review using [SECURITY_REVIEW_METHOD.md](SECURITY_REVIEW_METHOD.md), with test evidence appropriate to the change. Missing review evidence or an unresolved blocking finding blocks merging. This decision leaves existing CI assertions and production approval boundaries in force.
+
 ## Scope
 - **Delegated (an agent may merge without asking):** a routine pull request into the integration branch `integration/g0-g1-reconcile-2026-10-18`. That includes product changes, bug fixes, tests, admitted dependency patches, CI maintenance that does not weaken a control, and financial or security fixes that meet the evidence below.
 - **Not delegated; the owner still decides:**
@@ -24,11 +28,10 @@ In English: the owner removed the manual approval condition in GitHub, enabled a
      - `quality` (quality.yml);
      - `compatibility` (b1-composition.yml);
      - `integrated-quality` and `audit` (integration-verification.yml);
-     - the 9 release-finance suites `suite (sale, fresh)`, `suite (sale, populated)`, `suite (sale, upgrade)`, `suite (collection, fresh)`, `suite (collection, populated)`, `suite (collection, upgrade)`, `suite (journey, fresh)`, `suite (journey, upgrade)` and `suite (quantity, fresh)`;
-     - `Strix Security Review`.
-     That is 14 in total.
+     - the 9 release-finance suites `suite (sale, fresh)`, `suite (sale, populated)`, `suite (sale, upgrade)`, `suite (collection, fresh)`, `suite (collection, populated)`, `suite (collection, upgrade)`, `suite (journey, fresh)`, `suite (journey, upgrade)` and `suite (quantity, fresh)`.
+     That is 13 GitHub Actions checks in total. The independent security review is verified separately under condition 4.
    - **Path-filtered workflows** that target the integration branch are also required whenever the diff touches their paths. Today that is only the check run `contract` (mcp-issuer-contract.yml).
-   - **The inventory is re-derived from the base's workflow files on every merge,** using the same rule: a `pull_request` trigger that reaches the integration branch, matched by reported check-run name. A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner. `Strix Security Review` is a GitHub App check, not a workflow file, and is required regardless.
+   - **The inventory is re-derived from the base's workflow files on every merge,** using the same rule: a `pull_request` trigger that reaches the integration branch, matched by reported check-run name. A newly added unfiltered PR workflow joins the list automatically, and a workflow removed from the list is a G change, which needs the owner.
    - **Every required name must be present** with `conclusion=success`, on the latest attempt only. A missing name, any pending, queued, failed, cancelled or `startup_failure` run, or an incomplete or failed retrieval of the check-run list blocks the merge (fail closed).
    - **The base must not have moved** since the checks ran; if it did, the PR is updated and re-verified.
    - **Residual gap: the base check is not atomic with the merge.** The GitHub merge API binds the head (`expectedHeadSha`), not the base, so the agent's check and the merge are two separate steps. The window is reduced as follows:
@@ -41,7 +44,7 @@ In English: the owner removed the manual approval condition in GitHub, enabled a
    - migrations preserved: no applied migration edited, and production-applied files byte-identical (md5);
    - negative controls for new guard rules.
 4. **Reviews on that exact head:**
-   - a Strix check run with `success` and no open findings;
+   - an exact-head independent security review with the required evidence and no open blocking findings;
    - a Codex receipt on that head with no unresolved findings;
    - 0 unresolved review threads;
    - every bot finding answered, either fixed or traced with a reply.
@@ -59,8 +62,10 @@ Until a required check enforces the conditions above (GOV-AUTOMERGE-01), they ar
 - Agents merge explicitly, with `expectedHeadSha`, after verifying.
 
 Owner action to close the gap:
-- require integrated-quality, release-finance (9), quality, compatibility, audit and Strix as required checks on the integration branch;
+- require integrated-quality, release-finance (9), quality, compatibility, audit as required checks on the integration branch;
 - restore a required check on `main`.
+
+The merging agent verifies the security review receipt in the PR until a separate enforceable gate is approved and installed.
 
 ## Rollback
 The owner revokes or narrows this delegation in their own words. Agents then return to asking for every merge.

@@ -1281,7 +1281,7 @@
   },
   {
    "path": "src/lib/db.ts",
-   "sha": "51f04beb964c9afa3f63b974ad7c255df21a1065",
+   "sha": "677e009ba7b133232559288bce3aa29035c1fc8d",
    "mode": "100644"
   },
   {
@@ -3302,6 +3302,11 @@
   {
    "path": "tests/unit/mcp-request-boundary.test.ts",
    "sha": "224282f9d5946c52e8b437aea6ab5563e4945274",
+   "mode": "100644"
+  },
+  {
+   "path": "tests/unit/rpc-messages.test.ts",
+   "sha": "059c0b14b8cb125f270faa89257ced4ce1358314",
    "mode": "100644"
   },
   {

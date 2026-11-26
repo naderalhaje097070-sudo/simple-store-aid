@@ -1,0 +1,5 @@
+seed: {"ro" : "on", "courier_orders" : 1, "pending_with_payment" : 0, "none_with_payment" : 0, "custody_over_remaining" : 0}
+row hashes unchanged by the precheck
+planted [courier_state='pending', paid=1, collected_by_courier=0]: {"ro" : "on", "courier_orders" : 1, "pending_with_payment" : 1, "none_with_payment" : 0, "custody_over_remaining" : 0}
+planted [courier_state='delivered_none', paid=1, collected_by_courier=0]: {"ro" : "on", "courier_orders" : 1, "pending_with_payment" : 0, "none_with_payment" : 1, "custody_over_remaining" : 0}
+planted [courier_state='delivered_partial', paid=total-1, collected_by_courier=2]: {"ro" : "on", "courier_orders" : 1, "pending_with_payment" : 0, "none_with_payment" : 0, "custody_over_remaining" : 1}

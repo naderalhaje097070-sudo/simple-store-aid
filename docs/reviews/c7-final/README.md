@@ -18,6 +18,7 @@
 | `build_c7_final.sh` | المولِّد. يعيد استعمال `docs/reviews/c6-apply/make_stage_c6.py` دون تعديل (sha256 مثبَّت) |
 | `BUNDLE_C7_FINAL.sql` | F1 ثم F2 **في معاملة واحدة**، تُشغَّل بعد اعتماد `BUNDLE_C1_C10.sql`. كل كتلة تتحقق من نسخ السجل ومحتواه بالضبط |
 | `VERIFY_C7_FINAL.sql` | قراءة فقط: 64 صفًا، وبصمتا السجل، ومحتوى صفَّي F1 وF2، وللدوال الثلاث: النص، وSECURITY DEFINER، و`search_path=public`، والمالك postgres، وأن `authenticated` يملك EXECUTE و`anon` وPUBLIC لا يملكانه |
+| `PRECHECK_courier_custody_states.sql` | قراءة فقط، أعداد مجمّعة فقط: طلبات المندوب `pending` التي فيها دفعة، و`delivered_none` التي فيها دفعة، والعهدة الأكبر من المتبقي. **لم يُشغَّل على الإنتاج.** تشغيله على أي قاعدة غير مختبر مؤقت يحتاج موافقة المالك. جُرِّب في المختبر: الأعداد 0 على البيانات المزروعة، وكل حالة مزروعة عمدًا تُعَدّ مرة واحدة، و`ro=on`، وبصمة الصفوف لم تتغير (`evidence/legacy-frontend/precheck_courier_states_lab.txt`) |
 | `LEDGER_FINGERPRINT.sql` | نص SQL الأصلي لحساب البصمة، منسوخ حرفيًا من الحارس و`PRECHECK_target_ledger_read.sql` |
 | `../../../tests/c6-upgrade/c7_final_selftest.sh` | الاختبار الذاتي المحلي ببيانات اصطناعية |
 | `evidence/` | ناتج آخر تشغيل للاختبار الذاتي |

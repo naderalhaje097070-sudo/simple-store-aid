@@ -1,0 +1,39 @@
+C7 final self-test, repo HEAD 1d352c995ba7e729dc86c4787c0a9abe3d06cf6a, 2026-11-26T18:23:35Z
+stack: CLI 2.101.0, public.ecr.aws/supabase/postgres:17.6.1.106
+C0 lab ledger: 52 9235c3834be88ce50dba444bb15b5262 6202580639694c5c2d0bfe36af2079fe
+VERIFY constants (TEST base c0.expected): rows 64, versions a6ca71705682237fc4bc6b93c4f782b5, content 6eae798de82d5ad7d53eb0f85fe2b490
+built in <workdir>/c7test: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql (expected ledger: <workdir>/c0.expected)
+PASS test builds equal committed files except ledger guard constants
+T1a: C7 final test bundle at 52 (before C6)
+psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
+PASS T1a refused, catalog/rows/ledger unchanged
+after C6 (test bundle): 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+PASS VERIFY at 62 reports ledger_rows_ok false
+T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62
+psql:<stdin>:191: ERROR:  LEDGER_CONTENT_MISMATCH before 20261120140000: ledger statements differ from the recorded production ledger
+PASS T1b refused, catalog/rows/ledger unchanged
+T2: failure injected between F1 and F2
+psql:<stdin>:192: ERROR:  INJECTED_BETWEEN_F1_F2
+PASS T2 rolled back to 62: 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+T3: C7 final test bundle at 62
+after C7 final: 64 a6ca71705682237fc4bc6b93c4f782b5 6eae798de82d5ad7d53eb0f85fe2b490
+PASS VERIFY (test constants): 5 ledger checks and 21 function checks true
+PASS VERIFY (production constants) on the lab: content false (5 placeholder rows), versions, rows and all function checks true
+c6->c7: data lines outside the ledger changed: 0; function ACL lines changed: 0; catalog lines changed: 6 (outside the three functions: 0)
+< fn|close_day(text)|dcb95dea9b3821b599ff32a9382b0564
+> fn|close_day(text)|4f558e0054d538b1468186daf582c6c6
+< fn|settle_courier_orders(uuid,uuid[])|aaac49654c6bb7b916cfd2e4ab9620a1
+> fn|settle_courier_orders(uuid,uuid[])|e5002a82cc7e1a344e15ab874b858803
+< fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|6fb1af2addd0dcec
+> fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|c3763b480d95e2a8
+PASS T3 only the three function definitions changed; rows outside the ledger and function ACLs unchanged
+T4: rerun at 64
+psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
+PASS T4 refused, unchanged
+c0 868009a9ce87211d691066ba4b7dd1cb0edec60571438e17bacb411359a7e23a c0.catalog
+c0 5b75c67449de32e1a03fa8638dc14901bbb322f80fb257309e3280fdb2d7a165 c0.data
+c6 a45ac9c4b9061961b9b3cbfafb6edcb25cd3b274d80e151d494987edcf01d952 c6.catalog
+c6 0af9d3ec6ba9478f5424cf3720262a78f94c803cc07302d9643ecf46ba562b6d c6.data
+c7 98166310ac3d8c666e529d8ba7c5cca61de593b9e38e35877649101de8913a21 c7.catalog
+c7 5542dc345949018b83d19677eac660b17fc71094140f1c0458c679e37608f7a5 c7.data
+ALL PASS

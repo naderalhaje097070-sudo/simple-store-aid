@@ -20,6 +20,9 @@
 #   T3 success: 64 rows, version fingerprint a6ca7170... (base-independent), test-constant VERIFY all true,
 #      only the three function definitions change in the catalog, rows unchanged, function ACLs unchanged
 #   T4 rerun refused with no change
+#   T5 C6 checkpoint verifier (VERIFY_C6_CHECKPOINT.sql): false at 52 and at 64, true at 62 with lab constants,
+#      false only on ledger_content_ok with production constants on the lab
+#   T6 the checkpoint verifier rejects a missing object and changed privileges (mutations rolled back, unchanged)
 # The test build differs from the committed files only in ledger guard constant lines (checked).
 #
 # usage: c7_final_selftest.sh <repo-root> <supabase-cli> <out-dir>
@@ -49,6 +52,21 @@ fingerprint() {
   q -c "select count(*)||' '||md5(coalesce(string_agg(version, ',' ORDER BY version), ''))||' '||md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\n')), '-'), ',' ORDER BY version)) from supabase_migrations.schema_migrations"
 }
 nonguard() { grep -vE "LEDGER_(STATE|CONTENT)_MISMATCH|^-- C7 final read-only verification" "$1"; }
+ckpt() {  # ckpt <verify file> [mutation sql]: run the checkpoint verifier, optionally after a mutation in the SAME
+          # transaction, which is then rolled back by the verifier's own final rollback
+  if [ -n "${2:-}" ]; then { printf 'begin;\n%s\n' "$2"; grep -v '^begin transaction read only;$' "$1"; } | q -f -; else q -f - < "$1"; fi
+}
+ckpt_expect() {  # ckpt_expect <label> <json> <ok true|false> [failed name ...]
+  python3 - "$@" <<'PY' | tee -a "$OUT/selftest.txt"
+import json, sys
+label, raw, ok, names = sys.argv[1], sys.argv[2], sys.argv[3] == 'true', sys.argv[4:]
+v = json.loads(raw)
+assert v['checks'] == 37 and isinstance(v['ok'], bool) and v['ok'] is ok, v
+missing = [n for n in names if n not in v['failed']]
+assert not missing, (missing, v['failed'])
+print(f"PASS {label}: ok={str(v['ok']).lower()}, failed={v['failed']}")
+PY
+}
 
 : > "$OUT/selftest.txt"
 log "C7 final self-test, repo HEAD $(git -C "$R" rev-parse HEAD), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -75,18 +93,29 @@ bash "$R/docs/reviews/c6-apply/build_apply_files.sh" "$R" "$W/c0.expected" "$W/c
 bash "$R/docs/reviews/c7-final/build_c7_final.sh" "$R" "$W/c0.expected" "$W/c7test" | tee -a "$OUT/selftest.txt"
 cmp <(nonguard "$W/c6test/BUNDLE_C1_C10.sql") <(nonguard "$R/docs/reviews/c6-apply/BUNDLE_C1_C10.sql")
 cmp <(nonguard "$W/c7test/BUNDLE_C7_FINAL.sql") <(nonguard "$R/docs/reviews/c7-final/BUNDLE_C7_FINAL.sql")
+cmp <(grep -vE "^-- C6 checkpoint|'ledger_content_ok'" "$W/c7test/VERIFY_C6_CHECKPOINT.sql") <(grep -vE "^-- C6 checkpoint|'ledger_content_ok'" "$R/docs/reviews/c7-final/VERIFY_C6_CHECKPOINT.sql")
 log "PASS test builds equal committed files except ledger guard constants"
 T7=$W/c7test/BUNDLE_C7_FINAL.sql
 
 log "T1a: C7 final test bundle at 52 (before C6)"
 refuse "LEDGER_STATE_MISMATCH before 20261120140000" "$T7"
 capture t1a; same c0 t1a; log "PASS T1a refused, catalog/rows/ledger unchanged"
+ckpt_expect "T5a checkpoint at 52 (before C6)" "$(ckpt "$W/c7test/VERIFY_C6_CHECKPOINT.sql")" false ledger_rows_ok keyed_sale_exists legacy_sale_authenticated_withdrawn report_view_is_view
 
 q -f - < "$W/c6test/BUNDLE_C1_C10.sql"
 log "after C6 (test bundle): $(fingerprint)"
 capture c6
 test "$(q -f - < "$W/c7test/VERIFY_C7_FINAL.sql" | python3 -c 'import json,sys;print(json.loads(sys.stdin.read())["ledger_rows_ok"])')" = False
 log "PASS VERIFY at 62 reports ledger_rows_ok false"
+ckpt_expect "T5b checkpoint at 62, lab constants (positive control)" "$(ckpt "$W/c7test/VERIFY_C6_CHECKPOINT.sql")" true
+ckpt_expect "T5c checkpoint at 62, production constants on the lab" "$(ckpt "$R/docs/reviews/c7-final/VERIFY_C6_CHECKPOINT.sql")" false ledger_content_ok
+V=$W/c7test/VERIFY_C6_CHECKPOINT.sql
+ckpt_expect "T6a missing object (report view dropped)" "$(ckpt "$V" 'drop view public.day_close_profit_report;')" false report_view_is_view report_view_authenticated_select
+ckpt_expect "T6b legacy sale re-granted to authenticated" "$(ckpt "$V" 'grant execute on function public.create_sale_with_items(uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb) to authenticated;')" false legacy_sale_authenticated_withdrawn
+ckpt_expect "T6c keyed sale revoked from authenticated" "$(ckpt "$V" 'revoke execute on function public.create_sale_with_items_idempotent(uuid,uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb,public.courier_state) from authenticated;')" false keyed_sale_authenticated_execute
+ckpt_expect "T6d legacy collection granted to anon" "$(ckpt "$V" 'grant execute on function public.collect_order_debt(uuid,numeric,public.payment_method) to anon;')" false legacy_collection_anon_withdrawn
+ckpt_expect "T6e keyed collection dropped (missing object)" "$(ckpt "$V" 'drop function public.collect_order_debt_idempotent(uuid,uuid,numeric,public.payment_method);')" false keyed_collection_exists keyed_collection_authenticated_execute keyed_collection_anon_withdrawn keyed_collection_public_withdrawn
+capture t6; same c6 t6; log "PASS T6 mutations rolled back: catalog/rows/ledger identical to after C6"
 
 log "T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62"
 refuse "LEDGER_CONTENT_MISMATCH before 20261120140000" "$R/docs/reviews/c7-final/BUNDLE_C7_FINAL.sql"
@@ -133,6 +162,7 @@ log "c6->c7: data lines outside the ledger changed: $other_data; function ACL li
 grep -E '^[<>]' "$OUT/catalog_diff_c6_c7.txt" | cut -c1-80 | tee -a "$OUT/selftest.txt" || true
 test "$other_data" = 0 && test "$acl_lines" = 0 && test "$other_cat" = 0 && test "$cat_lines" -gt 0
 log "PASS T3 only the three function definitions changed; rows outside the ledger and function ACLs unchanged"
+ckpt_expect "T5d checkpoint at 64 (after F)" "$(ckpt "$W/c7test/VERIFY_C6_CHECKPOINT.sql")" false ledger_rows_ok
 
 log "T4: rerun at 64"
 refuse "LEDGER_STATE_MISMATCH before 20261120140000" "$T7"

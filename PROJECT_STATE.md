@@ -6,7 +6,8 @@
 - Local synthetic lab (CLI 2.101.0, `supabase/postgres:17.6.1.106`, replica ledger + `harness.py seed`): wrong baseline refused at 52 and with production constants at the lab's 62; failure between F1 and F2 rolled back to 62 with identical catalog, row and ledger hashes; success reached 64 with all verification checks true and only the three function definitions changed; rerun refused. Lab C0/C6 fingerprints equal Codex's #97 rehearsal.
 - Owner-approved production read (2026-11-27, `bf85326`): `PRECHECK_courier_custody_states.sql` byte for byte on `1c38f21a` (published, `1c5276f`): `ro=on`, 3 courier orders, 0 in all three counts. No other production access.
 - Codex review 6086973822: bundle/verifier rebuilt byte for byte, 39/39, saved evidence checked. Follow-up done: `STOP_RESUME.md` (stop/resume at 62, lost-response handling, literal-true VERIFY at 64, approved ledger writer only). Recorded gap: no committed production-valued verifier for the post-C6 conditions.
-- Not done: apply method and ledger writer selection, post-C6 verifier, combined C6+F transaction, merge, Publish.
+- Codex review 6087245488: `VERIFY_C6_CHECKPOINT.sql` (37 read-only checks derived from the pinned C6 sources; missing object or NULL gives false) and `STOP_RESUME.md` §3a (a lost response keeps writes and retries stopped until the original server attempt is proven finished or a serialization guarantee covers it; otherwise stay stopped). Lab: positive control at 62, false at 52/64, rejects a missing view/function and changed grants (rolled back). Catalog-wide fingerprint stays pending.
+- Not done: apply method and ledger writer selection, lab test of the lost-response decision on the chosen transport, combined C6+F transaction, merge, Publish.
 
 ---
 

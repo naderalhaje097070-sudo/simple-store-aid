@@ -108,5 +108,65 @@ select json_build_object(
 rollback;
 """)
 print(f'VERIFY constants ({label}): rows {n}, versions {vmd5}, content {cmd5}')
+
+# STOP_RESUME.md section 2: the 62-row checkpoint after BUNDLE_C1_C10.sql (C6 committed, F not applied).
+# Every expectation below is derived from the pinned C6 sources (183dc50); only the ledger constants
+# depend on the base ledger (production or a lab test base).
+n62, v62, c62 = fp(ledger(base_file) + prior)
+if base_file == prod_file:
+    assert (n62, v62, c62) == (62, '8eec91642011d297ca5504cebda430ef', '1e6c4c7ce50bf9c8f9526de2888df919')
+LEGACY = {  # withdrawn from client roles by C2/C4 (sale) and C5 (collection)
+    'legacy_sale': 'public.create_sale_with_items(uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb)',
+    'legacy_sale_v2': 'public.create_sale_with_items_v2(uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb,public.courier_state)',
+    'legacy_collection': 'public.collect_order_debt(uuid,numeric,public.payment_method)',
+}
+KEYED = {  # granted to authenticated only by C2/C4 (sale) and C5 (collection)
+    'keyed_sale': 'public.create_sale_with_items_idempotent(uuid,uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb,public.courier_state)',
+    'keyed_collection': 'public.collect_order_debt_idempotent(uuid,uuid,numeric,public.payment_method)',
+}
+def pub_exec(expr):
+    return f"exists(select 1 from aclexplode(coalesce((select proacl from pg_proc where oid = {expr}), acldefault('f', (select proowner from pg_proc where oid = {expr})))) a where a.grantee = 0 and a.privilege_type = 'EXECUTE')"
+rows = [
+    ('ledger_rows_ok', f"(select count(*) from supabase_migrations.schema_migrations) = {n62}"),
+    ('ledger_versions_ok', f"(select md5(coalesce(string_agg(version, ',' ORDER BY version), '')) from supabase_migrations.schema_migrations) = '{v62}'"),
+    ('ledger_content_ok', f"(select md5(string_agg(version || ':' || coalesce(md5(array_to_string(statements, E'\\n')), '-'), ',' ORDER BY version)) from supabase_migrations.schema_migrations) = '{c62}'"),
+]
+for v, m in prior:
+    rows.append((f'c6_{v}_content_ok', f"(select md5(array_to_string(statements, E'\\n')) from supabase_migrations.schema_migrations where version = '{v}') = '{m}'"))
+for name, sig in LEGACY.items():
+    o = f"to_regprocedure('{sig}')"
+    rows += [(f'{name}_exists', f"{o} is not null"),
+             (f'{name}_authenticated_withdrawn', f"not has_function_privilege('authenticated', {o}, 'EXECUTE')"),
+             (f'{name}_anon_withdrawn', f"not has_function_privilege('anon', {o}, 'EXECUTE')"),
+             (f'{name}_public_withdrawn', f"{o} is not null and not {pub_exec(o)}")]
+for name, sig in KEYED.items():
+    o = f"to_regprocedure('{sig}')"
+    rows += [(f'{name}_exists', f"{o} is not null"),
+             (f'{name}_authenticated_execute', f"has_function_privilege('authenticated', {o}, 'EXECUTE')"),
+             (f'{name}_anon_withdrawn', f"not has_function_privilege('anon', {o}, 'EXECUTE')"),
+             (f'{name}_public_withdrawn', f"{o} is not null and not {pub_exec(o)}")]
+view = "to_regclass('public.day_close_profit_report')"
+rows += [('report_view_is_view', f"(select relkind from pg_class where oid = {view}) = 'v'"),
+         ('report_view_security_invoker', f"(select 'security_invoker=true' = any(coalesce(reloptions, '{{}}')) from pg_class where oid = {view})"),
+         ('report_view_authenticated_select', f"has_table_privilege('authenticated', {view}, 'SELECT')"),
+         ('report_view_anon_no_select', f"not has_table_privilege('anon', {view}, 'SELECT')")]
+values = ',\n'.join(f"  ('{k}', coalesce(({e}), false))" for k, e in rows)
+open(out.replace('VERIFY_C7_FINAL.sql', 'VERIFY_C6_CHECKPOINT.sql'), 'w').write(f"""-- C6 checkpoint (62 rows: C6 committed, F1/F2 not applied) read-only verification ({label} ledger constants).
+-- Review-only candidate. STOP_RESUME.md section 2. Continue only if "ok" is literally true.
+-- A missing object or a NULL result makes its check false (coalesce), so "ok" is false; "checks" must equal {len(rows)}.
+-- No catalog-wide fingerprint: none has an approved production reference (pending).
+begin transaction read only;
+with c(name, ok) as (values
+{values}
+)
+select json_build_object(
+  'ro', current_setting('transaction_read_only'),
+  'checks', (select count(*) from c),
+  'ok', (select bool_and(ok) from c) and (select count(*) from c) = {len(rows)},
+  'failed', (select coalesce(json_agg(name order by name), '[]'::json) from c where not ok)
+) as c6_checkpoint_verify;
+rollback;
+""")
+print(f'C6 checkpoint constants ({label}): rows {n62}, versions {v62}, content {c62}; {len(rows)} checks')
 PY
-echo "built in $D: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql (expected ledger: $BASE)"
+echo "built in $D: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql, VERIFY_C6_CHECKPOINT.sql (expected ledger: $BASE)"

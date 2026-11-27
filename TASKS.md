@@ -2,7 +2,8 @@
 
 - [Draft PR into integration] Review-only `docs/reviews/c7-final/` bundle and verification for F1/F2 with a local synthetic self-test. Review it; do not apply it anywhere without the owner's apply decision.
 - [Owner] Apply transport and ledger writer, window, separate vs combined C6+F transaction.
-- [Next, SQL] A committed read-only verifier with production values for the post-C6 conditions (STOP_RESUME.md §2); required before any apply.
+- [Done in #108] `VERIFY_C6_CHECKPOINT.sql` for STOP_RESUME.md §2.
+- [After transport choice] Lab test of the lost-response decision (STOP_RESUME.md §3a), including a server request still running while the first read shows 62.
 - [Before apply] Repeat the ledger precheck and PRECHECK_courier_custody_states.sql read-only, with the owner's approval.
 
 ---

@@ -700,8 +700,13 @@
    "mode": "100755"
   },
   {
+   "path": "docs/reviews/c7-final/fence/make_advance.sh",
+   "sha": "9a60608dab96d54ab60f4a5147ae405ba2445108",
+   "mode": "100755"
+  },
+  {
    "path": "docs/reviews/c7-final/fence/make_attempt.sh",
-   "sha": "13bbf72f288301bdd74abdaa1044fb7a83a905b1",
+   "sha": "7f5ec9dc8c59d764a9a47067ff704ab9af563961",
    "mode": "100755"
   },
   {
@@ -2631,7 +2636,7 @@
   },
   {
    "path": "tests/c6-upgrade/c7_final_fence_selftest.sh",
-   "sha": "73db26ee2a9aa4c4cd00e62feaab613107f21a11",
+   "sha": "06525459f45bcfa9e1d77c4fef3a6b5d0dd823db",
    "mode": "100755"
   },
   {

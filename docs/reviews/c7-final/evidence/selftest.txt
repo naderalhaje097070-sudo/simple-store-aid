@@ -1,4 +1,4 @@
-C7 final self-test, repo HEAD e9bddac4c10127606d24297a278022544059997f, 2026-11-27T11:16:07Z
+C7 final self-test, repo HEAD 5e8a0f9ccea044f769a8ac2ac0b030d96a033b32, 2026-11-27T11:51:55Z
 stack: CLI 2.101.0, public.ecr.aws/supabase/postgres:17.6.1.106
 C0 lab ledger: 52 9235c3834be88ce50dba444bb15b5262 6202580639694c5c2d0bfe36af2079fe
 VERIFY constants (TEST base c0.expected): rows 64, versions a6ca71705682237fc4bc6b93c4f782b5, content 6eae798de82d5ad7d53eb0f85fe2b490
@@ -18,6 +18,7 @@ PASS T6b legacy sale re-granted to authenticated: ok=false, failed=['legacy_sale
 PASS T6c keyed sale revoked from authenticated: ok=false, failed=['keyed_sale_authenticated_execute']
 PASS T6d legacy collection granted to anon: ok=false, failed=['legacy_collection_anon_withdrawn']
 PASS T6e keyed collection dropped (missing object): ok=false, failed=['keyed_collection_anon_withdrawn', 'keyed_collection_authenticated_execute', 'keyed_collection_exists', 'keyed_collection_public_withdrawn']
+PASS T6f column-level SELECT granted to anon on the report view: ok=false, failed=['report_view_anon_no_select']
 PASS T6 mutations rolled back: catalog/rows/ledger identical to after C6
 T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62
 psql:<stdin>:191: ERROR:  LEDGER_CONTENT_MISMATCH before 20261120140000: ledger statements differ from the recorded production ledger
@@ -42,9 +43,9 @@ T4: rerun at 64
 psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
 PASS T4 refused, unchanged
 c0 868009a9ce87211d691066ba4b7dd1cb0edec60571438e17bacb411359a7e23a c0.catalog
-c0 f867e85d664c95db2d5e117eb66e1d4f6d841d0e6cbba7b9d0a36a6f1c91b154 c0.data
+c0 c55969f67f78957058b90932ac3ec3a01f4a18f2ffebbd5bd5751d9d665eb6b4 c0.data
 c6 a45ac9c4b9061961b9b3cbfafb6edcb25cd3b274d80e151d494987edcf01d952 c6.catalog
-c6 802bafe9648c42042f095e32bc56b5c23d4fbe1a831c2538e6256f0cead8a999 c6.data
+c6 323479d77c8ef4886dae4dbf5e97af5a1ecbb70bb377462e1417f19ee57a2074 c6.data
 c7 98166310ac3d8c666e529d8ba7c5cca61de593b9e38e35877649101de8913a21 c7.catalog
-c7 b6408d344944a8ed8be8bd028c423cfb5aa512f5afe8c748b352783607c3c729 c7.data
+c7 20934d19975bea957159a4d5d09c5f12464d6c5df50603027dabd57541b5e123 c7.data
 ALL PASS

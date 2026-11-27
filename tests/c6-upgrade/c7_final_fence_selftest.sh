@@ -10,6 +10,11 @@
 #   T7d the current attempt number applies F1/F2: 64, VERIFY_C7_FINAL (lab constants) all true
 #   T7e a repeat of the current attempt at 64 is refused by the ledger guard: unchanged
 #   T7f after FENCE_DROP any attempt is refused with FENCE_MISSING: unchanged
+#   T7g invalidation is compare-and-set: repeating it is a no-op, a delayed old copy is refused (FENCE_UNEXPECTED)
+#   T7h with the session default at REPEATABLE READ the attempt still reads the committed number after the lock
+#       wait (pinned READ COMMITTED) and is refused; red-check: the previous unpinned wrapper passes the fence check
+#       on a stale snapshot (its transaction is rolled back here)
+#   T7i FENCE_DROP is refused at 62; a late FENCE_SETUP is refused at 64 after the drop; FENCE_DROP is idempotent
 #   and no client role (anon, authenticated, service_role) has any privilege on the fence table
 # usage: c7_final_fence_selftest.sh <repo-root> <supabase-cli> <out-dir>
 set -euo pipefail
@@ -34,6 +39,22 @@ refuse() {  # refuse <expected error> <sql file>
   grep -F "$1" "$W/refuse.err" | head -1 | sed 's/^psql:<stdin>:[0-9]*: //' | tee -a "$OUT/fence_selftest.txt"
 }
 attempt() { "$F/make_attempt.sh" "$1" "$W/c7test/BUNDLE_C7_FINAL.sql" > "$W/attempt_$1.sql"; echo "$W/attempt_$1.sql"; }
+advance() { "$F/make_advance.sh" "$1" > "$W/advance_$1.sql"; echo "$W/advance_$1.sql"; }
+current() { q -f - < "$F/FENCE_READ.sql" | python3 -c 'import json,sys; print(json.loads(sys.stdin.read())["current_attempt"])'; }
+hold_advance() {  # hold_advance <from> <to>: a resume that holds the lock 4s, then commits the compare-and-set
+  docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq > "$W/hold.out" 2>&1 <<SQL &
+BEGIN ISOLATION LEVEL READ COMMITTED;
+SELECT pg_advisory_xact_lock(7202611201);
+UPDATE monjez_private.c7_final_fence SET attempt = $2 WHERE attempt = $1;
+SELECT pg_sleep(4);
+COMMIT;
+SQL
+  HOLD=$!
+  for i in $(seq 1 40); do
+    [ "$(q -c "select count(*) from pg_locks where locktype = 'advisory' and granted")" -ge 1 ] && break; sleep 0.2
+  done
+}
+qrr() { docker exec -i -e PGOPTIONS='-c default_transaction_isolation=repeatable\ read' "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq "$@"; }
 
 : > "$OUT/fence_selftest.txt"
 log "C7 final fence self-test, repo HEAD $(git -C "$R" rev-parse HEAD), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -53,44 +74,69 @@ q -f - < "$W/c6test/BUNDLE_C1_C10.sql" > /dev/null 2>&1
 test "$(q -f - < "$W/c7test/VERIFY_C6_CHECKPOINT.sql" | python3 -c 'import json,sys;print(json.loads(sys.stdin.read())["ok"])')" = True
 log "at 62 with the C6 checkpoint ok: $(fingerprint)"
 
+log "T7i(a): FENCE_DROP before F (at 62)"
+refuse "FENCE_DROP_NOT_AT_64" "$F/FENCE_DROP.sql"
 q -f - < "$F/FENCE_SETUP.sql" > /dev/null
 log "fence created: $(q -f - < "$F/FENCE_READ.sql")"
+refuse "FENCE_ALREADY_EXISTS" "$F/FENCE_SETUP.sql"
 privs=$(q -c "select bool_or(has_table_privilege(r, 'monjez_private.c7_final_fence', p)) from unnest(array['anon','authenticated','service_role']) r, unnest(array['SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER']) p")
-test "$privs" = f; log "PASS no client role has any privilege on the fence table"
+test "$privs" = f; log "PASS no client role has any privilege on the fence table; a second setup is refused"
 state > "$W/s62"
 
-log "T7a: invalidate attempt 1, then attempt 1 arrives"
-q -f - < "$F/FENCE_ADVANCE.sql" > /dev/null
+log "T7a: invalidate attempt 1 (1 -> 2), then attempt 1 arrives"
+q -f - < "$(advance 1)" > /dev/null; test "$(current)" = 2
 refuse "STALE_REQUEST attempt 1" "$(attempt 1)"
 state > "$W/t7a"; diff "$W/s62" "$W/t7a"; log "PASS T7a refused before F1, ledger and rows unchanged"
+
+log "T7g: the same invalidation again, then a delayed copy after a later invalidation"
+q -f - < "$W/advance_1.sql" > /dev/null 2> "$W/adv.err"; grep -q FENCE_ALREADY_ADVANCED "$W/adv.err"; test "$(current)" = 2
+log "PASS T7g(a) repeat of 1 -> 2 is a no-op (FENCE_ALREADY_ADVANCED), current still 2"
 
 log "T7b: a future attempt number"
 refuse "STALE_REQUEST attempt 3" "$(attempt 3)"
 state > "$W/t7b"; diff "$W/s62" "$W/t7b"; log "PASS T7b refused, unchanged"
 
-log "T7c: attempt 2 arrives while a resume holds the lock and then commits attempt 3"
+log "T7c+T7h: attempt 2 (session default REPEATABLE READ) arrives while a resume holds the lock and commits 2 -> 3"
 A2=$(attempt 2)
-docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq > "$W/hold.out" 2>&1 <<'SQL' &
-BEGIN;
-SELECT pg_advisory_xact_lock(7202611201);
-UPDATE monjez_private.c7_final_fence SET attempt = attempt + 1;
-SELECT pg_sleep(4);
-COMMIT;
-SQL
-HOLD=$!
-for i in $(seq 1 40); do
-  [ "$(q -c "select count(*) from pg_locks where locktype = 'advisory' and granted")" -ge 1 ] && break; sleep 0.2
-done
+hold_advance 2 3
 start=$(date +%s.%N)
-refuse "STALE_REQUEST attempt 2" "$A2"
+if qrr -f - < "$A2" > "$W/refuse.out" 2> "$W/refuse.err"; then log "FAIL attempt 2 was not refused"; exit 1; fi
+grep -F "STALE_REQUEST attempt 2" "$W/refuse.err" | head -1 | sed 's/^psql:<stdin>:[0-9]*: //' | tee -a "$OUT/fence_selftest.txt"
 waited=$(python3 -c "print(round($(date +%s.%N) - $start, 1))")
-wait "$HOLD"
-python3 -c "import sys; sys.exit(0 if $waited >= 2 else 1)"
+wait "$HOLD"; python3 -c "import sys; sys.exit(0 if $waited >= 2 else 1)"
+test "$(current)" = 3
 state > "$W/t7c"; diff "$W/s62" "$W/t7c"
-log "PASS T7c attempt 2 waited ${waited}s on the lock, then was refused; unchanged; fence now $(q -f - < "$F/FENCE_READ.sql")"
+log "PASS T7c/T7h waited ${waited}s on the lock under a REPEATABLE READ default, read the committed number, refused; unchanged"
 
-log "T7d: the current attempt (3) applies F1/F2"
-q -f - < "$(attempt 3)" > /dev/null
+q -f - < "$W/advance_1.sql" > /dev/null 2> "$W/adv.err" && { log "FAIL delayed 1 -> 2 accepted"; exit 1; }
+grep -F "FENCE_UNEXPECTED" "$W/adv.err" | head -1 | sed 's/^psql:<stdin>:[0-9]*: //' | tee -a "$OUT/fence_selftest.txt"
+test "$(current)" = 3; log "PASS T7g(b) delayed copy of 1 -> 2 after 2 -> 3 refused, current still 3"
+
+log "red-check T7h: the previous unpinned wrapper (BEGIN; without isolation) under REPEATABLE READ, rolled back"
+python3 - "$(attempt 3)" "$W/old_attempt_3.sql" <<'PY'
+import sys
+src = open(sys.argv[1]).read().splitlines()
+out = [l for l in src if 'transaction_isolation' not in l]
+out = ['BEGIN;' if l == 'BEGIN ISOLATION LEVEL READ COMMITTED;' else l for l in out]
+i = max(k for k, l in enumerate(out) if l == 'COMMIT;')
+out[i] = 'ROLLBACK;'
+j = next(k for k, l in enumerate(out) if l.startswith('END $fence$;'))
+out.insert(j + 1, "DO $r$ BEGIN RAISE NOTICE 'RED_PASSED_FENCE_CHECK'; END $r$;")
+open(sys.argv[2], 'w').write('\n'.join(out) + '\n')
+PY
+hold_advance 3 4
+qrr -f - < "$W/old_attempt_3.sql" > "$W/red.out" 2> "$W/red.err" || true
+wait "$HOLD"
+if grep -q RED_PASSED_FENCE_CHECK "$W/red.err"; then
+  log "RED-CHECK: the unpinned wrapper for attempt 3 passed the fence check although 3 -> 4 committed first (stale snapshot); rolled back"
+else
+  log "RED-CHECK: the unpinned wrapper did not pass the fence check here: $(grep -E 'ERROR' "$W/red.err" | head -1)"
+fi
+test "$(current)" = 4
+state > "$W/t7hr"; diff "$W/s62" "$W/t7hr"; log "PASS red-check left ledger and rows unchanged; current 4"
+
+log "T7d: the current attempt (4) applies F1/F2"
+q -f - < "$(attempt 4)" > /dev/null
 test "$(fingerprint | cut -d' ' -f1,2)" = "64 a6ca71705682237fc4bc6b93c4f782b5"
 q -f - < "$W/c7test/VERIFY_C7_FINAL.sql" > "$OUT/fence_verify_c7.json"
 python3 - "$OUT/fence_verify_c7.json" <<'PY' | tee -a "$OUT/fence_selftest.txt"
@@ -105,12 +151,15 @@ PY
 state > "$W/s64"
 
 log "T7e: the same attempt again at 64"
-refuse "LEDGER_STATE_MISMATCH before 20261120140000" "$W/attempt_3.sql"
+refuse "LEDGER_STATE_MISMATCH before 20261120140000" "$W/attempt_4.sql"
 state > "$W/t7e"; diff "$W/s64" "$W/t7e"; log "PASS T7e refused by the ledger guard, unchanged"
 
-log "T7f: after FENCE_DROP"
+log "T7f/T7i: FENCE_DROP (twice), then a late attempt and a late setup"
 q -f - < "$F/FENCE_DROP.sql" > /dev/null
-log "fence after drop: $(q -f - < "$F/FENCE_READ.sql")"
-refuse "FENCE_MISSING" "$W/attempt_3.sql"
-state > "$W/t7f"; diff "$W/s64" "$W/t7f"; log "PASS T7f refused with FENCE_MISSING, unchanged"
+q -f - < "$F/FENCE_DROP.sql" > /dev/null
+log "fence after two drops: $(q -f - < "$F/FENCE_READ.sql")"
+refuse "FENCE_MISSING" "$W/attempt_4.sql"
+refuse "FENCE_SETUP_NOT_AT_62" "$F/FENCE_SETUP.sql"
+test "$(q -c "select to_regclass('monjez_private.c7_final_fence') is null")" = t
+state > "$W/t7f"; diff "$W/s64" "$W/t7f"; log "PASS T7f/T7i drop is idempotent; late attempt FENCE_MISSING; late setup refused, fence not recreated; unchanged"
 log "ALL PASS"

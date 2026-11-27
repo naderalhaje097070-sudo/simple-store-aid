@@ -1,23 +1,34 @@
-C7 final fence self-test, repo HEAD a3896c7c3a7c40c4df2c2cc2bfd549e64624f861, 2026-11-27T14:36:33Z
+C7 final fence self-test, repo HEAD 1e9b3621130626707b44b179d0134878acd368b8, 2026-11-27T15:10:10Z
 at 62 with the C6 checkpoint ok: 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+T7i(a): FENCE_DROP before F (at 62)
+ERROR:  FENCE_DROP_NOT_AT_64
 fence created: {"ro" : "on", "fence_exists" : true, "current_attempt" : 1}
-PASS no client role has any privilege on the fence table
-T7a: invalidate attempt 1, then attempt 1 arrives
+ERROR:  FENCE_ALREADY_EXISTS
+PASS no client role has any privilege on the fence table; a second setup is refused
+T7a: invalidate attempt 1 (1 -> 2), then attempt 1 arrives
 ERROR:  STALE_REQUEST attempt 1
 PASS T7a refused before F1, ledger and rows unchanged
+T7g: the same invalidation again, then a delayed copy after a later invalidation
+PASS T7g(a) repeat of 1 -> 2 is a no-op (FENCE_ALREADY_ADVANCED), current still 2
 T7b: a future attempt number
 ERROR:  STALE_REQUEST attempt 3
 PASS T7b refused, unchanged
-T7c: attempt 2 arrives while a resume holds the lock and then commits attempt 3
+T7c+T7h: attempt 2 (session default REPEATABLE READ) arrives while a resume holds the lock and commits 2 -> 3
 ERROR:  STALE_REQUEST attempt 2
-PASS T7c attempt 2 waited 4.0s on the lock, then was refused; unchanged; fence now {"ro" : "on", "fence_exists" : true, "current_attempt" : 3}
-T7d: the current attempt (3) applies F1/F2
+PASS T7c/T7h waited 3.7s on the lock under a REPEATABLE READ default, read the committed number, refused; unchanged
+ERROR:  FENCE_UNEXPECTED current 3 (expected 1 or 2)
+PASS T7g(b) delayed copy of 1 -> 2 after 2 -> 3 refused, current still 3
+red-check T7h: the previous unpinned wrapper (BEGIN; without isolation) under REPEATABLE READ, rolled back
+RED-CHECK: the unpinned wrapper for attempt 3 passed the fence check although 3 -> 4 committed first (stale snapshot); rolled back
+PASS red-check left ledger and rows unchanged; current 4
+T7d: the current attempt (4) applies F1/F2
 PASS T7d 64 rows; VERIFY_C7_FINAL (lab constants): 5 ledger and 21 function checks true
 T7e: the same attempt again at 64
 ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
 PASS T7e refused by the ledger guard, unchanged
-T7f: after FENCE_DROP
-fence after drop: {"ro" : "on", "fence_exists" : false, "current_attempt" : null}
+T7f/T7i: FENCE_DROP (twice), then a late attempt and a late setup
+fence after two drops: {"ro" : "on", "fence_exists" : false, "current_attempt" : null}
 ERROR:  FENCE_MISSING
-PASS T7f refused with FENCE_MISSING, unchanged
+ERROR:  FENCE_SETUP_NOT_AT_62
+PASS T7f/T7i drop is idempotent; late attempt FENCE_MISSING; late setup refused, fence not recreated; unchanged
 ALL PASS

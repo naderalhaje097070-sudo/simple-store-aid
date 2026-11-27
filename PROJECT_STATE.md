@@ -8,7 +8,8 @@
 - Codex review 6086973822: bundle/verifier rebuilt byte for byte, 39/39, saved evidence checked. Follow-up done: `STOP_RESUME.md` (stop/resume at 62, lost-response handling, literal-true VERIFY at 64, approved ledger writer only). Recorded gap: no committed production-valued verifier for the post-C6 conditions.
 - Codex review 6087245488: `VERIFY_C6_CHECKPOINT.sql` (37 read-only checks derived from the pinned C6 sources; missing object or NULL gives false) and `STOP_RESUME.md` §3a (a lost response keeps writes and retries stopped until the original server attempt is proven finished or a serialization guarantee covers it; otherwise stay stopped). Lab: positive control at 62, false at 52/64, rejects a missing view/function and changed grants (rolled back). Catalog-wide fingerprint stays pending.
 - Codex review 6087682371: `report_view_anon_no_select` now uses `has_any_column_privilege` (a column-level SELECT grant to anon passed the old `has_table_privilege` check: lab red-check `ok=true`; now rejected, T6f).
-- Not done: apply method and ledger writer selection, lab test of the lost-response decision on the chosen transport, combined C6+F transaction, merge, Publish.
+- Owner delegated the transport choice (2026-11-27): `query_database` via Lovable, with the late-request fence (option B: committed attempt number under advisory lock 7202611201). `fence/` files and `c7_final_fence_selftest.sh`: invalidated, future and lock-waiting late attempts refused with STALE_REQUEST before F1; current attempt reaches 64 with VERIFY all true; repeat refused by the guard; after drop FENCE_MISSING. Owner waived the backup; production apply is still not done (it withdraws the legacy sale/collection used by the published frontend, so it needs a window, main merge and Publish).
+- Not done: fence test on the real query_database transport, combined C6+F transaction, merge, Publish, production apply.
 
 ---
 

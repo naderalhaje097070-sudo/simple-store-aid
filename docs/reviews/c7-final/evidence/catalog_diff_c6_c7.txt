@@ -1,0 +1,12 @@
+106c106
+< fn|close_day(text)|dcb95dea9b3821b599ff32a9382b0564
+---
+> fn|close_day(text)|4f558e0054d538b1468186daf582c6c6
+143c143
+< fn|settle_courier_orders(uuid,uuid[])|aaac49654c6bb7b916cfd2e4ab9620a1
+---
+> fn|settle_courier_orders(uuid,uuid[])|e5002a82cc7e1a344e15ab874b858803
+148c148
+< fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|6fb1af2addd0dcec7e0b445e11e0b99c
+---
+> fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|c3763b480d95e2a8b96cdd7faf7288e9

@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+R=$1; SB=$2; OUT=$3; mkdir -p "$OUT"
+W=$(mktemp -d); ID=monjez-c7final-compat; DB=supabase_db_$ID
+EXT=realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler
+cleanup() { "$SB" --workdir "$W/stack" stop --no-backup >/dev/null 2>&1 || true; rm -rf -- "$W"; }
+trap cleanup EXIT
+q() { docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq "$@"; }
+mkdir -p "$W/stack"; "$SB" --workdir "$W/stack" init > /dev/null
+sed -i "s/^project_id = .*/project_id = \"$ID\"/" "$W/stack/supabase/config.toml"
+git -C "$R" archive 1c5276fae77cb71f49d868fe71d17d84c5d3c6b3 supabase/migrations | tar -x -C "$W/stack"
+"$SB" --workdir "$W/stack" start -x "$EXT" > "$W/start.log" 2>&1
+E=$(git -C "$R" ls-tree --name-only 183dc50 supabase/migrations/ | grep 20261107214500)
+git -C "$R" show "183dc50:$E" | q -f -
+q -f - < "$R/docs/reviews/c6-apply/replica_drift.sql"; q -f - < "$R/docs/reviews/c6-apply/replica_ledger_set.sql"
+python3 "$R/tests/c6-upgrade/make_replica_ledger.py" "$R" "$W/fixture.sql" "$W/c0.expected" > /dev/null
+q -f - < "$W/fixture.sql"; python3 "$R/tests/c6-upgrade/harness.py" "$DB" seed > /dev/null
+P=$R/docs/reviews/c7-final/PRECHECK_courier_custody_states.sql
+before=$(q -f - < "$R/tests/release/restore/data_hash.sql" | sha256sum)
+echo "seed: $(q -f - < "$P")" | tee "$OUT/precheck.txt"
+after=$(q -f - < "$R/tests/release/restore/data_hash.sql" | sha256sum)
+[ "$before" = "$after" ] && echo "row hashes unchanged by the precheck" | tee -a "$OUT/precheck.txt"
+# plant each counted state in turn on the lab's courier order (superuser, disposable lab only)
+O=$(q -c "select id from public.orders where delivery='courier' limit 1")
+for case in "courier_state='pending', paid=1, collected_by_courier=0" "courier_state='delivered_none', paid=1, collected_by_courier=0" "courier_state='delivered_partial', paid=total-1, collected_by_courier=2"; do
+  q -c "set session_replication_role = replica; update public.orders set $case where id='$O';"
+  echo "planted [$case]: $(q -f - < "$P")" | tee -a "$OUT/precheck.txt"
+done

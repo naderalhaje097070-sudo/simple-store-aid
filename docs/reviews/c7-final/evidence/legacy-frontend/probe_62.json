@@ -1,0 +1,12 @@
+{
+ "legacy shape: update_courier_order_state(delivered_full) after 40 paid in store": {
+  "result": "ACCEPTED",
+  "before": "before: total=100.00 paid=40.00 state=delivered_none custody=0.00",
+  "after": "after: paid=40.00 state=delivered_full custody=100.00"
+ },
+ "legacy shape: update_courier_order_state(delivered_partial, 60) after 40 paid in store": {
+  "result": "ACCEPTED",
+  "before": "before: total=100.00 paid=40.00 state=delivered_none custody=0.00",
+  "after": "after: paid=40.00 state=delivered_partial custody=60.00"
+ }
+}

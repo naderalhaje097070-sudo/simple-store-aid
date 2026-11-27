@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Scratch local lab: battery + courier probe at 62 (after C6) and 64 (after F1/F2). Synthetic only.
+set -euo pipefail
+R=$1; SB=$2; OUT=$3; mkdir -p "$OUT"
+W=$(mktemp -d); ID=monjez-c7final-compat; DB=supabase_db_$ID
+EXT=realtime,storage,imgproxy,inbucket,mailpit,meta,studio,edge-runtime,functions,analytics,vector,supavisor,pooler
+cleanup() { "$SB" --workdir "$W/stack" stop --no-backup >/dev/null 2>&1 || true; rm -rf -- "$W"; }
+trap cleanup EXIT
+q() { docker exec -i "$DB" psql -X -U postgres -d postgres -v ON_ERROR_STOP=1 -Atq "$@"; }
+mkdir -p "$W/stack"; "$SB" --workdir "$W/stack" init > /dev/null
+sed -i "s/^project_id = .*/project_id = \"$ID\"/" "$W/stack/supabase/config.toml"
+git -C "$R" archive 1c5276fae77cb71f49d868fe71d17d84c5d3c6b3 supabase/migrations | tar -x -C "$W/stack"
+"$SB" --workdir "$W/stack" start -x "$EXT" > "$W/start.log" 2>&1
+E=$(git -C "$R" ls-tree --name-only 183dc50 supabase/migrations/ | grep 20261107214500)
+git -C "$R" show "183dc50:$E" | q -f -
+q -f - < "$R/docs/reviews/c6-apply/replica_drift.sql"; q -f - < "$R/docs/reviews/c6-apply/replica_ledger_set.sql"
+python3 "$R/tests/c6-upgrade/make_replica_ledger.py" "$R" "$W/fixture.sql" "$W/c0.expected" > /dev/null
+q -f - < "$W/fixture.sql"; python3 "$R/tests/c6-upgrade/harness.py" "$DB" seed > /dev/null
+bash "$R/docs/reviews/c6-apply/build_apply_files.sh" "$R" "$W/c0.expected" "$W/c6test" > /dev/null
+bash "$R/docs/reviews/c7-final/build_c7_final.sh" "$R" "$W/c0.expected" "$W/c7test" > /dev/null
+python3 "$R/tests/c6-upgrade/harness.py" "$DB" battery > "$OUT/battery_52.json"
+q -f - < "$W/c6test/BUNDLE_C1_C10.sql" > /dev/null 2>&1
+echo "62: $(q -c 'select count(*) from supabase_migrations.schema_migrations')"
+python3 "$R/tests/c6-upgrade/harness.py" "$DB" battery > "$OUT/battery_62.json"
+python3 "$(dirname "$0")/probe.py" "$R" "$DB" > "$OUT/probe_62.json"
+q -f - < "$W/c7test/BUNDLE_C7_FINAL.sql" > /dev/null
+echo "64: $(q -c 'select count(*) from supabase_migrations.schema_migrations')"
+python3 "$R/tests/c6-upgrade/harness.py" "$DB" battery > "$OUT/battery_64.json"
+python3 "$(dirname "$0")/probe.py" "$R" "$DB" > "$OUT/probe_64.json"
+echo done

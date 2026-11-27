@@ -700,6 +700,11 @@
    "mode": "100755"
   },
   {
+   "path": "docs/reviews/c7-final/fence/make_attempt.sh",
+   "sha": "13bbf72f288301bdd74abdaa1044fb7a83a905b1",
+   "mode": "100755"
+  },
+  {
    "path": "docs/reviews/item-3.4/lab/lab_guard.py",
    "sha": "369b0a465ecbbb93c37dc0946da78bc7bcc37770",
    "mode": "100644"
@@ -2623,6 +2628,11 @@
    "path": "tests/c6-upgrade/c3_lock/time_c3.sql",
    "sha": "2513ed14ab8b62984b8a9521bb17514bb2fda9bc",
    "mode": "100644"
+  },
+  {
+   "path": "tests/c6-upgrade/c7_final_fence_selftest.sh",
+   "sha": "73db26ee2a9aa4c4cd00e62feaab613107f21a11",
+   "mode": "100755"
   },
   {
    "path": "tests/c6-upgrade/c7_final_selftest.sh",

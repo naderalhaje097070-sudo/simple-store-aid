@@ -1,14 +1,24 @@
-C7 final self-test, repo HEAD 9c635753b4cbe6f4cf9b1808ec7892f1b05dcd76, 2026-11-26T18:26:42Z
+C7 final self-test, repo HEAD e9bddac4c10127606d24297a278022544059997f, 2026-11-27T11:16:07Z
 stack: CLI 2.101.0, public.ecr.aws/supabase/postgres:17.6.1.106
 C0 lab ledger: 52 9235c3834be88ce50dba444bb15b5262 6202580639694c5c2d0bfe36af2079fe
 VERIFY constants (TEST base c0.expected): rows 64, versions a6ca71705682237fc4bc6b93c4f782b5, content 6eae798de82d5ad7d53eb0f85fe2b490
-built in <workdir>/c7test: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql (expected ledger: <workdir>/c0.expected)
+C6 checkpoint constants (TEST base c0.expected): rows 62, versions 8eec91642011d297ca5504cebda430ef, content f4a20824ab459cc3a67bdb15e3fd90ce; 37 checks
+built in <workdir>/c7test: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql, VERIFY_C6_CHECKPOINT.sql (expected ledger: <workdir>/c0.expected)
 PASS test builds equal committed files except ledger guard constants
 T1a: C7 final test bundle at 52 (before C6)
 psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
 PASS T1a refused, catalog/rows/ledger unchanged
+PASS T5a checkpoint at 52 (before C6): ok=false, failed=['c6_20260815170000_content_ok', 'c6_20260815171000_content_ok', 'c6_20261028213608_content_ok', 'c6_20261029044024_content_ok', 'c6_20261103060658_content_ok', 'c6_20261106145346_content_ok', 'c6_20261110090000_content_ok', 'c6_20261110130000_content_ok', 'c6_20261110140000_content_ok', 'c6_20261110150000_content_ok', 'keyed_collection_anon_withdrawn', 'keyed_collection_authenticated_execute', 'keyed_collection_exists', 'keyed_collection_public_withdrawn', 'keyed_sale_anon_withdrawn', 'keyed_sale_authenticated_execute', 'keyed_sale_exists', 'keyed_sale_public_withdrawn', 'ledger_content_ok', 'ledger_rows_ok', 'ledger_versions_ok', 'legacy_collection_authenticated_withdrawn', 'legacy_sale_authenticated_withdrawn', 'legacy_sale_v2_anon_withdrawn', 'legacy_sale_v2_authenticated_withdrawn', 'legacy_sale_v2_exists', 'legacy_sale_v2_public_withdrawn', 'report_view_anon_no_select', 'report_view_authenticated_select', 'report_view_is_view', 'report_view_security_invoker']
 after C6 (test bundle): 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
 PASS VERIFY at 62 reports ledger_rows_ok false
+PASS T5b checkpoint at 62, lab constants (positive control): ok=true, failed=[]
+PASS T5c checkpoint at 62, production constants on the lab: ok=false, failed=['ledger_content_ok']
+PASS T6a missing object (report view dropped): ok=false, failed=['report_view_anon_no_select', 'report_view_authenticated_select', 'report_view_is_view', 'report_view_security_invoker']
+PASS T6b legacy sale re-granted to authenticated: ok=false, failed=['legacy_sale_authenticated_withdrawn']
+PASS T6c keyed sale revoked from authenticated: ok=false, failed=['keyed_sale_authenticated_execute']
+PASS T6d legacy collection granted to anon: ok=false, failed=['legacy_collection_anon_withdrawn']
+PASS T6e keyed collection dropped (missing object): ok=false, failed=['keyed_collection_anon_withdrawn', 'keyed_collection_authenticated_execute', 'keyed_collection_exists', 'keyed_collection_public_withdrawn']
+PASS T6 mutations rolled back: catalog/rows/ledger identical to after C6
 T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62
 psql:<stdin>:191: ERROR:  LEDGER_CONTENT_MISMATCH before 20261120140000: ledger statements differ from the recorded production ledger
 PASS T1b refused, catalog/rows/ledger unchanged
@@ -27,13 +37,14 @@ c6->c7: data lines outside the ledger changed: 0; function ACL lines changed: 0;
 < fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|6fb1af2addd0dcec
 > fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|c3763b480d95e2a8
 PASS T3 only the three function definitions changed; rows outside the ledger and function ACLs unchanged
+PASS T5d checkpoint at 64 (after F): ok=false, failed=['ledger_content_ok', 'ledger_rows_ok', 'ledger_versions_ok']
 T4: rerun at 64
 psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
 PASS T4 refused, unchanged
 c0 868009a9ce87211d691066ba4b7dd1cb0edec60571438e17bacb411359a7e23a c0.catalog
-c0 f9910dea237f93912184d12b1a6838eb0dbaed373dfd30c59cf01e589a3fcb76 c0.data
+c0 f867e85d664c95db2d5e117eb66e1d4f6d841d0e6cbba7b9d0a36a6f1c91b154 c0.data
 c6 a45ac9c4b9061961b9b3cbfafb6edcb25cd3b274d80e151d494987edcf01d952 c6.catalog
-c6 f2ef935776ca4030f3559493bd75f1d19921601fd0235e5413a2f81510b67be7 c6.data
+c6 802bafe9648c42042f095e32bc56b5c23d4fbe1a831c2538e6256f0cead8a999 c6.data
 c7 98166310ac3d8c666e529d8ba7c5cca61de593b9e38e35877649101de8913a21 c7.catalog
-c7 9f011326eaea4b94694815828827a07bf2abfb8522bde46c2beca7c81c269af5 c7.data
+c7 b6408d344944a8ed8be8bd028c423cfb5aa512f5afe8c748b352783607c3c729 c7.data
 ALL PASS

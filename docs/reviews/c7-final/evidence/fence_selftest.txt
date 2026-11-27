@@ -1,0 +1,23 @@
+C7 final fence self-test, repo HEAD a3896c7c3a7c40c4df2c2cc2bfd549e64624f861, 2026-11-27T14:36:33Z
+at 62 with the C6 checkpoint ok: 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+fence created: {"ro" : "on", "fence_exists" : true, "current_attempt" : 1}
+PASS no client role has any privilege on the fence table
+T7a: invalidate attempt 1, then attempt 1 arrives
+ERROR:  STALE_REQUEST attempt 1
+PASS T7a refused before F1, ledger and rows unchanged
+T7b: a future attempt number
+ERROR:  STALE_REQUEST attempt 3
+PASS T7b refused, unchanged
+T7c: attempt 2 arrives while a resume holds the lock and then commits attempt 3
+ERROR:  STALE_REQUEST attempt 2
+PASS T7c attempt 2 waited 4.0s on the lock, then was refused; unchanged; fence now {"ro" : "on", "fence_exists" : true, "current_attempt" : 3}
+T7d: the current attempt (3) applies F1/F2
+PASS T7d 64 rows; VERIFY_C7_FINAL (lab constants): 5 ledger and 21 function checks true
+T7e: the same attempt again at 64
+ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
+PASS T7e refused by the ledger guard, unchanged
+T7f: after FENCE_DROP
+fence after drop: {"ro" : "on", "fence_exists" : false, "current_attempt" : null}
+ERROR:  FENCE_MISSING
+PASS T7f refused with FENCE_MISSING, unchanged
+ALL PASS

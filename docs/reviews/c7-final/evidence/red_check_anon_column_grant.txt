@@ -1,0 +1,53 @@
+# Scratch run (not committed script): the committed self-test plus one extra line that runs T6f against the previous has_table_privilege form of report_view_anon_no_select. RED-CHECK shows that form accepted a column-level SELECT grant to anon (ok=true).
+C7 final self-test, repo HEAD 4c0a98a6e7db918a1f3c1b58820205fad6a45421, 2026-11-27T11:50:18Z
+stack: CLI 2.101.0, public.ecr.aws/supabase/postgres:17.6.1.106
+C0 lab ledger: 52 9235c3834be88ce50dba444bb15b5262 6202580639694c5c2d0bfe36af2079fe
+VERIFY constants (TEST base c0.expected): rows 64, versions a6ca71705682237fc4bc6b93c4f782b5, content 6eae798de82d5ad7d53eb0f85fe2b490
+C6 checkpoint constants (TEST base c0.expected): rows 62, versions 8eec91642011d297ca5504cebda430ef, content f4a20824ab459cc3a67bdb15e3fd90ce; 37 checks
+built in <workdir>/c7test: BUNDLE_C7_FINAL.sql, VERIFY_C7_FINAL.sql, VERIFY_C6_CHECKPOINT.sql (expected ledger: <workdir>/c0.expected)
+PASS test builds equal committed files except ledger guard constants
+T1a: C7 final test bundle at 52 (before C6)
+psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
+PASS T1a refused, catalog/rows/ledger unchanged
+PASS T5a checkpoint at 52 (before C6): ok=false, failed=['c6_20260815170000_content_ok', 'c6_20260815171000_content_ok', 'c6_20261028213608_content_ok', 'c6_20261029044024_content_ok', 'c6_20261103060658_content_ok', 'c6_20261106145346_content_ok', 'c6_20261110090000_content_ok', 'c6_20261110130000_content_ok', 'c6_20261110140000_content_ok', 'c6_20261110150000_content_ok', 'keyed_collection_anon_withdrawn', 'keyed_collection_authenticated_execute', 'keyed_collection_exists', 'keyed_collection_public_withdrawn', 'keyed_sale_anon_withdrawn', 'keyed_sale_authenticated_execute', 'keyed_sale_exists', 'keyed_sale_public_withdrawn', 'ledger_content_ok', 'ledger_rows_ok', 'ledger_versions_ok', 'legacy_collection_authenticated_withdrawn', 'legacy_sale_authenticated_withdrawn', 'legacy_sale_v2_anon_withdrawn', 'legacy_sale_v2_authenticated_withdrawn', 'legacy_sale_v2_exists', 'legacy_sale_v2_public_withdrawn', 'report_view_anon_no_select', 'report_view_authenticated_select', 'report_view_is_view', 'report_view_security_invoker']
+after C6 (test bundle): 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+PASS VERIFY at 62 reports ledger_rows_ok false
+PASS T5b checkpoint at 62, lab constants (positive control): ok=true, failed=[]
+PASS T5c checkpoint at 62, production constants on the lab: ok=false, failed=['ledger_content_ok']
+PASS T6a missing object (report view dropped): ok=false, failed=['report_view_anon_no_select', 'report_view_authenticated_select', 'report_view_is_view', 'report_view_security_invoker']
+PASS T6b legacy sale re-granted to authenticated: ok=false, failed=['legacy_sale_authenticated_withdrawn']
+PASS T6c keyed sale revoked from authenticated: ok=false, failed=['keyed_sale_authenticated_execute']
+PASS T6d legacy collection granted to anon: ok=false, failed=['legacy_collection_anon_withdrawn']
+PASS T6e keyed collection dropped (missing object): ok=false, failed=['keyed_collection_anon_withdrawn', 'keyed_collection_authenticated_execute', 'keyed_collection_exists', 'keyed_collection_public_withdrawn']
+RED-CHECK old has_table_privilege verifier with a column grant to anon: {"ro" : "off", "checks" : 37, "ok" : true, "failed" : []}
+PASS T6f column-level SELECT granted to anon on the report view: ok=false, failed=['report_view_anon_no_select']
+PASS T6 mutations rolled back: catalog/rows/ledger identical to after C6
+T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62
+psql:<stdin>:191: ERROR:  LEDGER_CONTENT_MISMATCH before 20261120140000: ledger statements differ from the recorded production ledger
+PASS T1b refused, catalog/rows/ledger unchanged
+T2: failure injected between F1 and F2
+psql:<stdin>:192: ERROR:  INJECTED_BETWEEN_F1_F2
+PASS T2 rolled back to 62: 62 8eec91642011d297ca5504cebda430ef f4a20824ab459cc3a67bdb15e3fd90ce
+T3: C7 final test bundle at 62
+after C7 final: 64 a6ca71705682237fc4bc6b93c4f782b5 6eae798de82d5ad7d53eb0f85fe2b490
+PASS VERIFY (test constants): 5 ledger checks and 21 function checks true
+PASS VERIFY (production constants) on the lab: content false (5 placeholder rows), versions, rows and all function checks true
+c6->c7: data lines outside the ledger changed: 0; function ACL lines changed: 0; catalog lines changed: 6 (outside the three functions: 0)
+< fn|close_day(text)|dcb95dea9b3821b599ff32a9382b0564
+> fn|close_day(text)|4f558e0054d538b1468186daf582c6c6
+< fn|settle_courier_orders(uuid,uuid[])|aaac49654c6bb7b916cfd2e4ab9620a1
+> fn|settle_courier_orders(uuid,uuid[])|e5002a82cc7e1a344e15ab874b858803
+< fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|6fb1af2addd0dcec
+> fn|update_courier_outcome_v2(uuid,courier_state,numeric,uuid)|c3763b480d95e2a8
+PASS T3 only the three function definitions changed; rows outside the ledger and function ACLs unchanged
+PASS T5d checkpoint at 64 (after F): ok=false, failed=['ledger_content_ok', 'ledger_rows_ok', 'ledger_versions_ok']
+T4: rerun at 64
+psql:<stdin>:191: ERROR:  LEDGER_STATE_MISMATCH before 20261120140000: expected exactly 62 known versions
+PASS T4 refused, unchanged
+c0 868009a9ce87211d691066ba4b7dd1cb0edec60571438e17bacb411359a7e23a c0.catalog
+c0 a42a9a54741a37b25514b3efd1f86fc55e1e0f2e010b27047fd951ecf148a623 c0.data
+c6 a45ac9c4b9061961b9b3cbfafb6edcb25cd3b274d80e151d494987edcf01d952 c6.catalog
+c6 1a6b161aeb146102e3b8752b877413443f1fdfbe8948c1b7cf9b570c06b4e200 c6.data
+c7 98166310ac3d8c666e529d8ba7c5cca61de593b9e38e35877649101de8913a21 c7.catalog
+c7 6bbd70f5cc3ca4d8669a7d1e893161a122431786e525bd73543f27da7522e81a c7.data
+ALL PASS

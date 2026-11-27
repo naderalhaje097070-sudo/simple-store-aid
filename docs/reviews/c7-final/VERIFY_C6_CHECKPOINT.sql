@@ -40,7 +40,7 @@ with c(name, ok) as (values
   ('report_view_is_view', coalesce(((select relkind from pg_class where oid = to_regclass('public.day_close_profit_report')) = 'v'), false)),
   ('report_view_security_invoker', coalesce(((select 'security_invoker=true' = any(coalesce(reloptions, '{}')) from pg_class where oid = to_regclass('public.day_close_profit_report'))), false)),
   ('report_view_authenticated_select', coalesce((has_table_privilege('authenticated', to_regclass('public.day_close_profit_report'), 'SELECT')), false)),
-  ('report_view_anon_no_select', coalesce((not has_table_privilege('anon', to_regclass('public.day_close_profit_report'), 'SELECT')), false))
+  ('report_view_anon_no_select', coalesce((not has_any_column_privilege('anon', to_regclass('public.day_close_profit_report'), 'SELECT')), false))
 )
 select json_build_object(
   'ro', current_setting('transaction_read_only'),

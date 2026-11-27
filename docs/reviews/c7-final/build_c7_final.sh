@@ -149,7 +149,7 @@ view = "to_regclass('public.day_close_profit_report')"
 rows += [('report_view_is_view', f"(select relkind from pg_class where oid = {view}) = 'v'"),
          ('report_view_security_invoker', f"(select 'security_invoker=true' = any(coalesce(reloptions, '{{}}')) from pg_class where oid = {view})"),
          ('report_view_authenticated_select', f"has_table_privilege('authenticated', {view}, 'SELECT')"),
-         ('report_view_anon_no_select', f"not has_table_privilege('anon', {view}, 'SELECT')")]
+         ('report_view_anon_no_select', f"not has_any_column_privilege('anon', {view}, 'SELECT')")]
 values = ',\n'.join(f"  ('{k}', coalesce(({e}), false))" for k, e in rows)
 open(out.replace('VERIFY_C7_FINAL.sql', 'VERIFY_C6_CHECKPOINT.sql'), 'w').write(f"""-- C6 checkpoint (62 rows: C6 committed, F1/F2 not applied) read-only verification ({label} ledger constants).
 -- Review-only candidate. STOP_RESUME.md section 2. Continue only if "ok" is literally true.

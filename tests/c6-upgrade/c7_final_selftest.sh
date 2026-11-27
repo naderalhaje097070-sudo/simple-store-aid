@@ -22,7 +22,8 @@
 #   T4 rerun refused with no change
 #   T5 C6 checkpoint verifier (VERIFY_C6_CHECKPOINT.sql): false at 52 and at 64, true at 62 with lab constants,
 #      false only on ledger_content_ok with production constants on the lab
-#   T6 the checkpoint verifier rejects a missing object and changed privileges (mutations rolled back, unchanged)
+#   T6 the checkpoint verifier rejects a missing object and changed privileges, including a column-level
+#      SELECT grant to anon (mutations rolled back, unchanged)
 # The test build differs from the committed files only in ledger guard constant lines (checked).
 #
 # usage: c7_final_selftest.sh <repo-root> <supabase-cli> <out-dir>
@@ -115,6 +116,7 @@ ckpt_expect "T6b legacy sale re-granted to authenticated" "$(ckpt "$V" 'grant ex
 ckpt_expect "T6c keyed sale revoked from authenticated" "$(ckpt "$V" 'revoke execute on function public.create_sale_with_items_idempotent(uuid,uuid,public.delivery_kind,uuid,numeric,public.payment_method,jsonb,public.courier_state) from authenticated;')" false keyed_sale_authenticated_execute
 ckpt_expect "T6d legacy collection granted to anon" "$(ckpt "$V" 'grant execute on function public.collect_order_debt(uuid,numeric,public.payment_method) to anon;')" false legacy_collection_anon_withdrawn
 ckpt_expect "T6e keyed collection dropped (missing object)" "$(ckpt "$V" 'drop function public.collect_order_debt_idempotent(uuid,uuid,numeric,public.payment_method);')" false keyed_collection_exists keyed_collection_authenticated_execute keyed_collection_anon_withdrawn keyed_collection_public_withdrawn
+ckpt_expect "T6f column-level SELECT granted to anon on the report view" "$(ckpt "$V" 'grant select (id) on public.day_close_profit_report to anon;')" false report_view_anon_no_select
 capture t6; same c6 t6; log "PASS T6 mutations rolled back: catalog/rows/ledger identical to after C6"
 
 log "T1b: committed production-constant BUNDLE_C7_FINAL.sql at the lab's 62"
